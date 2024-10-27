@@ -51,7 +51,7 @@ const Post = () => {
   const handlePostText = text => {
     postText.current = text;
   };
-
+  //  vff
   const handlePostLink = text => {
     postLink.current = text;
   };
