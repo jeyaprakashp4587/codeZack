@@ -105,11 +105,13 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+    
 }
 
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+    implementation project(':react-native-vector-icons')
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
@@ -117,3 +119,4 @@ dependencies {
         implementation jscFlavor
     }
 }
+apply plugin: 'com.google.gms.google-services'

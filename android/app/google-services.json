@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1029306297228",
+    "project_id": "codecampus-99fad",
+    "storage_bucket": "codecampus-99fad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029306297228:android:da3020f9538374d5a2c4a9",
+        "android_client_info": {
+          "package_name": "com.codecampus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJyxNkl_mQPR_OzIdHjbgo1P8LWkvME1c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
