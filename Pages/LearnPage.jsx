@@ -8,6 +8,7 @@ import {useData} from '../Context/Contexter';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Skeleton from '../Skeletons/Skeleton';
+import BannerAdd from '../Adds/BannerAdd';
 
 const {width, height} = Dimensions.get('window');
 
@@ -63,6 +64,9 @@ const LearnPage = () => {
         </View>
       </View>
       <View style={{height: height * 0.02}} />
+      {/* add */}
+      <BannerAdd />
+      {/* add */}
       {selectedTechnology?.web ? (
         <WebView
           javaScriptEnabled

@@ -33,6 +33,7 @@ import moment from 'moment';
 import useSocketEmit from '../Socket/useSocketEmit';
 import {SocketData} from '../Socket/SocketContext';
 import {launchImageLibrary} from 'react-native-image-picker';
+import BannerAdd from '../Adds/BannerAdd';
 
 const Post = () => {
   const {user} = useData();
@@ -43,6 +44,7 @@ const Post = () => {
   const [images, setImages] = useState([]);
   const [uploadText, setUploadText] = useState('Upload');
   const [uploadIndi, setUploadIndi] = useState(false);
+  const [uploadImgIndi, setUploadImgIndi] = useState(false);
   const [hostImageIndi, setHostImageIndi] = useState(false);
   const socket = SocketData();
   const [refreshCon, setRefreshCon] = useState(false);
@@ -59,6 +61,7 @@ const Post = () => {
   // Select images from the library using react-native-image-picker
   const selectImage = async () => {
     setHostImageIndi(false);
+    setUploadImgIndi(true);
     const options = {
       mediaType: 'photo',
       selectionLimit: 4,
@@ -74,6 +77,7 @@ const Post = () => {
       );
       setImages(prev => [...prev, ...uploadedImages]);
       setHostImageIndi(true);
+      setUploadImgIndi(false);
     }
   };
 
@@ -146,6 +150,7 @@ const Post = () => {
   return (
     <ScrollView
       style={[pageView, {rowGap: 10}]}
+      showsVerticalScrollIndicator={false}
       refreshControl={
         <RefreshControl
           refreshing={refreshCon}
@@ -153,9 +158,17 @@ const Post = () => {
         />
       }>
       {/* heading Text */}
-      <HeadingText text="Post" />
+      <View style={{paddingHorizontal: 15}}>
+        <HeadingText text="Post" />
+      </View>
       {/* profile */}
-      <View style={{flexDirection: 'row', alignItems: 'center', columnGap: 20}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          columnGap: 20,
+          paddingHorizontal: 15,
+        }}>
         <Image
           source={{
             uri: user?.Images?.profile
@@ -189,7 +202,8 @@ const Post = () => {
       {/* inputs wrapper */}
       <ScrollView
         showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}>
+        showsVerticalScrollIndicator={false}
+        style={{paddingHorizontal: 15}}>
         <View style={{rowGap: 30}}>
           <TextInput
             placeholder="Type Something..."
@@ -226,11 +240,15 @@ const Post = () => {
               height: height * 0.06,
               borderRadius: 10,
             }}>
-            <FontAwesomeIcon
-              icon={faImage}
-              size={width * 0.05}
-              color={Colors.white}
-            />
+            {uploadImgIndi ? (
+              <ActivityIndicator size={15} color={Colors.white} />
+            ) : (
+              <FontAwesomeIcon
+                icon={faImage}
+                size={width * 0.05}
+                color={Colors.white}
+              />
+            )}
             <Text
               style={{
                 fontSize: width * 0.035,
@@ -319,6 +337,8 @@ const Post = () => {
           </Text>
         </Ripple>
       </ScrollView>
+      {/* add */}
+      <BannerAdd />
     </ScrollView>
   );
 };

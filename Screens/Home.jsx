@@ -32,6 +32,7 @@ import {SocketData} from '../Socket/SocketContext';
 // import Carousel from 'react-native-snap-carousel';
 import Carousel from 'react-native-reanimated-carousel';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
+import BannerAdd from '../Adds/BannerAdd';
 // code -----------
 
 const {width, height} = Dimensions.get('window');
@@ -193,7 +194,7 @@ const Home = () => {
   }
   // --------- //
   return (
-    <View style={[pageView, {paddingHorizontal: 15}]}>
+    <View style={pageView}>
       {/* header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.navigate('profile')}>
@@ -244,6 +245,7 @@ const Home = () => {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
+            paddingHorizontal: 15,
           }}>
           <Text
             style={{
@@ -335,7 +337,7 @@ const Home = () => {
         </View>
         {/* carousel  */}
         <Carousel
-          width={Math.round(width * 0.9)}
+          width={Math.round(width * 1)}
           height={Math.round(height * 0.22)}
           style={{marginVertical: 10}}
           data={carouselData}
@@ -382,15 +384,21 @@ const Home = () => {
           autoPlayInterval={2000}
         />
         {/* friends suggestions */}
-        <View style={{display: suggestDisplay ? 'flex' : 'none'}}>
+        <View
+          style={{
+            display: suggestDisplay ? 'flex' : 'none',
+            paddingHorizontal: 15,
+          }}>
           <SuggestionWapper
             trigger={HandlesuggestDisplay}
             refresh={suggestRefresh}
           />
         </View>
+        {/* banner add */}
+        <BannerAdd />
         {/* posts */}
       </ScrollView>
-      <FlatList
+      {/* <FlatList
         data={posts} // Data for FlatList
         keyExtractor={item => item._id} // Key for each post
         renderItem={({item, index}) => (
@@ -402,7 +410,7 @@ const Home = () => {
             // updateLikeCount={updateLikeCount} // Function to update like count
           />
         )}
-      />
+      /> */}
     </View>
   );
 };
@@ -410,26 +418,13 @@ const Home = () => {
 export default React.memo(Home);
 
 const styles = StyleSheet.create({
-  calendar: {
-    position: 'absolute',
-    zIndex: 10,
-    elevation: 5,
-    borderRadius: 5,
-    padding: 10,
-  },
-  activityList: {
-    position: 'absolute',
-    zIndex: 90,
-    backgroundColor: 'white',
-    elevation: 5,
-    alignSelf: 'center',
-  },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingBottom: 15,
     marginTop: 10,
+    paddingHorizontal: 15,
   },
   profileImage: {
     borderRadius: 50,
@@ -455,6 +450,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 5,
+    paddingHorizontal: 15,
     // borderWidth: 1,
   },
   ideaBox: {

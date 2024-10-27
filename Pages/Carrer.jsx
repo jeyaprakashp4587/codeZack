@@ -17,6 +17,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import {Dimensions} from 'react-native';
 import Skeleton from '../Skeletons/Skeleton';
 import {useNavigation} from '@react-navigation/native';
+import BannerAdd from '../Adds/BannerAdd';
 
 const Carrer = () => {
   // courses list
@@ -317,8 +318,10 @@ const Carrer = () => {
   }
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={styles.pageView}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={{backgroundColor: 'white'}}>
+      <View style={{paddingHorizontal: 15}}>
         <Text style={styles.titleText}>Choose Your Learning Carrer</Text>
         <Image
           source={{uri: 'https://i.ibb.co/vDwVGnW/carrer.jpg'}}
@@ -328,25 +331,26 @@ const Carrer = () => {
             height: width * 0.7,
           }}
         />
-        <View style={styles.courseContainer}>
-          {courses.map((item, index) => (
-            <TouchableOpacity
-              onPress={() => {
-                setSelectedCourse(item);
-                navigation.navigate('course');
-              }}
-              key={index}
-              style={{
-                ...styles.courseButton,
-                width: width * 0.9,
-                backgroundColor: item.bgColor,
-              }}>
-              <Text style={styles.courseButtonText}>{item.name}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-        <Text style={styles.footerText}>Other Courses will be added soon!</Text>
       </View>
+      <View style={styles.courseContainer}>
+        {courses.map((item, index) => (
+          <TouchableOpacity
+            onPress={() => {
+              setSelectedCourse(item);
+              navigation.navigate('course');
+            }}
+            key={index}
+            style={{
+              ...styles.courseButton,
+              width: width * 0.9,
+              backgroundColor: item.bgColor,
+            }}>
+            <Text style={styles.courseButtonText}>{item.name}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+      <Text style={styles.footerText}>Other Courses will be added soon!</Text>
+      <BannerAdd />
     </ScrollView>
   );
 };

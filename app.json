@@ -1,4 +1,12 @@
 {
   "name": "codecampus",
-  "displayName": "codecampus"
+  "displayName": "codecampus",
+  "plugins": [
+    [
+      "react-native-google-mobile-ads",
+      {
+        "android_app_id": "ca-app-pub-3257747925516984~2468053761"
+      }
+    ]
+  ]
 }

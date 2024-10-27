@@ -17,6 +17,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCode} from '@fortawesome/free-solid-svg-icons';
 import {ScrollView} from 'react-native';
 import {Dimensions} from 'react-native';
+import BannerAdd from '../Adds/BannerAdd';
 
 const Challenge = ({navigation}) => {
   const {selectedChallengeTopic, setselectedChallengeTopic} = useData();
@@ -60,9 +61,12 @@ const Challenge = ({navigation}) => {
     //   start={[0, 1]}
     //   end={[1, 0]}
     // >
-    <ScrollView style={{paddingHorizontal: 20, backgroundColor: 'white'}}>
-      <HeadingText text="Develop Your Skills Here" />
-      <View style={{borderWidth: 0, paddingVertical: 20}}>
+    <ScrollView style={{backgroundColor: 'white'}}>
+      <View style={{paddingHorizontal: 15}}>
+        <HeadingText text="Develop Your Skills Here" />
+      </View>
+      <View
+        style={{borderWidth: 0, paddingVertical: 20, paddingHorizontal: 15}}>
         {Challenges.map((item, index) => (
           <TouchableOpacity
             onPress={() => HandleSelectChallenges(item)}
@@ -108,7 +112,7 @@ const Challenge = ({navigation}) => {
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: 10,
-            marginBottom: 30,
+            marginBottom: 20,
             elevation: 5,
             flexDirection: 'row',
             columnGap: 20,
@@ -117,6 +121,8 @@ const Challenge = ({navigation}) => {
           <PragraphText text="My Challenges" fsize={19} color={Colors.white} />
         </TouchableOpacity>
       </View>
+      {/* add */}
+      <BannerAdd />
     </ScrollView>
     // </LinearGradient>
   );

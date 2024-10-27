@@ -14,6 +14,7 @@ import TopicsText from '../utils/TopicsText';
 import {Colors} from '../constants/Colors';
 import {useData} from '../Context/Contexter';
 import {useNavigation} from '@react-navigation/native';
+import BannerAdd from '../Adds/BannerAdd';
 
 const Assignments = () => {
   const navigation = useNavigation();
@@ -161,6 +162,7 @@ const Assignments = () => {
           </TouchableOpacity>
         ))}
       </View>
+      <BannerAdd />
     </ScrollView>
   );
 };

@@ -19,6 +19,7 @@ import axios from 'axios';
 import Api from '../Api';
 import Actitivity from '../hooks/ActivityHook';
 import {useNavigation} from '@react-navigation/native';
+import BannerAdd from '../Adds/BannerAdd';
 
 const {width, height} = Dimensions.get('window');
 
@@ -71,7 +72,9 @@ const CourseDetails = () => {
 
   return (
     <View style={styles.container}>
-      <HeadingText text="Course Details" />
+      <View style={{paddingHorizontal: 15}}>
+        <HeadingText text="Course Details" />
+      </View>
       <FlatList
         showsVerticalScrollIndicator={false}
         data={selectedCourse?.technologies}
@@ -106,6 +109,9 @@ const CourseDetails = () => {
           </View>
         )}
       />
+      {/* add */}
+      <BannerAdd />
+      {/* add */}
     </View>
   );
 };
@@ -114,7 +120,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    paddingHorizontal: 20,
+    // paddingHorizontal: ,
   },
   courseItem: {
     marginBottom: 50,
@@ -123,6 +129,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     borderColor: Colors.veryLightGrey,
+    paddingHorizontal: 15,
   },
   iconContainer: {
     alignSelf: 'center',

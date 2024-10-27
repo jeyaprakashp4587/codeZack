@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import PragraphText from '../utils/PragraphText';
 import {Colors} from '../constants/Colors';
+import BannerAdd from '../Adds/BannerAdd';
 
 const AssignmentPlayGround = () => {
   const {assignmentType, user, setUser} = useData();
@@ -144,14 +145,17 @@ const AssignmentPlayGround = () => {
   );
 
   return (
-    <View style={{padding: 20, backgroundColor: 'white', flex: 1}}>
-      <TopicsText text={assignmentType.toUpperCase()} mb={5} />
-      <PragraphText text={'Choose Difficulty'} />
+    <View style={{backgroundColor: 'white', flex: 1}}>
+      <View style={{paddingHorizontal: 15}}>
+        <TopicsText text={assignmentType.toUpperCase()} mb={5} />
+        <PragraphText text={'Choose Difficulty'} />
+      </View>
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
+          paddingHorizontal: 15,
         }}>
         {difficulty.map(item => (
           <Text
@@ -173,6 +177,7 @@ const AssignmentPlayGround = () => {
       <Text
         style={{
           marginVertical: 10,
+          paddingHorizontal: 15,
           color:
             difficultyInfo.toLowerCase() === 'easy'
               ? 'green'
@@ -183,7 +188,7 @@ const AssignmentPlayGround = () => {
         {difficultyInfo.toUpperCase()}
       </Text>
       {currentQuiz && (
-        <View style={{marginTop: 10}}>
+        <View style={{marginTop: 10, paddingHorizontal: 15}}>
           <Text style={{fontSize: width * 0.05}}>
             {currentQuiz[currentQuestionIndex].question_id}.{' '}
             {currentQuiz[currentQuestionIndex].question}
@@ -201,6 +206,7 @@ const AssignmentPlayGround = () => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               marginTop: 20,
+              marginBottom: 20,
             }}>
             <Button
               color={Colors.mildGrey}
@@ -247,6 +253,7 @@ const AssignmentPlayGround = () => {
           </View>
         </View>
       )}
+      <BannerAdd />
     </View>
   );
 };

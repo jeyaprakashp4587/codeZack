@@ -47,7 +47,7 @@ const SelectedCourse = ({navigation}) => {
         // Handle the case where the course couldn't be added (server returned an error message)
 
         ToastAndroid.show(
-          'You are enrolled in this course',
+          'You are already enrolled in this course',
           ToastAndroid.BOTTOM,
         );
         navigation.navigate('courseDetails');

@@ -104,7 +104,7 @@ const ChooseChallenge = ({navigation}) => {
 
   if (loading) {
     return (
-      <View style={pageView}>
+      <View style={[pageView, {paddingHorizontal: 15}]}>
         <Skeleton width="100%" height={height * 0.06} radius={10} mt={10} />
         <Skeleton width="100%" height={height * 0.08} radius={10} mt={10} />
         <Skeleton width="100%" height={height * 0.3} radius={10} mt={10} />
@@ -124,7 +124,9 @@ const ChooseChallenge = ({navigation}) => {
 
   return (
     <View style={styles.pageView}>
-      <HeadingText text={selectedChallengeTopic} />
+      <View style={{paddingHorizontal: 15}}>
+        <HeadingText text={selectedChallengeTopic} />
+      </View>
       <View style={styles.spacing} />
       <View style={styles.header}>
         <TopicsText text="Choose Difficulty Level" fszie={20} mb={1} />
@@ -135,22 +137,28 @@ const ChooseChallenge = ({navigation}) => {
         <Modal
           transparent={true}
           visible={menuVisible}
-          animationType="fade"
+          animationType="slide"
           onRequestClose={closeMenu}>
           <View style={styles.modalOverlay}>
             <View style={styles.dropdownMenu}>
               {Levels.map((level, index) => (
                 <TouchableOpacity
                   key={index}
-                  style={[styles.menuItem, {backgroundColor: level.bgcolor}]}
+                  style={[
+                    styles.menuItem,
+                    {borderBottomWidth: index == Levels.length - 1 ? 0 : 1},
+                  ]}
                   onPress={() => HandleSelectLevel(level.name)}>
-                  <Text style={styles.menuItemText}>{level.name}</Text>
+                  <Text style={[styles.menuItemText, {color: level.bgcolor}]}>
+                    {level.name}
+                  </Text>
                 </TouchableOpacity>
               ))}
             </View>
           </View>
         </Modal>
       </View>
+      {/* challenges list */}
       <FlatList
         data={Challenges}
         showsVerticalScrollIndicator={false}
@@ -215,8 +223,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingHorizontal: 15,
   },
-  flatList: {alignSelf: 'center', width: '100%'},
+  flatList: {alignSelf: 'center', width: '100%', paddingHorizontal: 15},
   challengeContainer: {
     padding: 20,
     backgroundColor: 'white',
@@ -224,6 +233,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     marginTop: 15,
     margin: 5,
+    // paddingHorizontal: 15,
     // borderWidth: 1,
   },
   challengeImage: {width: '100%', height: height * 0.35, borderRadius: 20},
@@ -255,13 +265,13 @@ const styles = StyleSheet.create({
     width: '80%',
     backgroundColor: Colors.white,
     borderRadius: 10,
-    paddingVertical: 20,
+    padding: 30,
   },
   menuItem: {
     paddingVertical: 10,
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: Colors.lightGrey,
+    borderBottomColor: Colors.veryLightGrey,
   },
-  menuItemText: {color: 'white', fontSize: 16},
+  menuItemText: {fontSize: width * 0.038, letterSpacing: 1},
 });

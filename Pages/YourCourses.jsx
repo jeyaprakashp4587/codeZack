@@ -17,6 +17,7 @@ import axios from 'axios';
 import Api from '../Api';
 import {ScrollView} from 'react-native';
 import {RefreshControl} from 'react-native';
+import BannerAdd from '../Adds/BannerAdd';
 
 const {width} = Dimensions.get('window');
 
@@ -67,10 +68,13 @@ const YourCourses = () => {
 
   return (
     <View style={pageView}>
-      <HeadingText text="Your Courses" />
+      <View style={{paddingHorizontal: 15}}>
+        <HeadingText text="Your Courses" />
+      </View>
       {/* wrappers */}
       <ScrollView
         showsVerticalScrollIndicator={false}
+        style={{paddingHorizontal: 15}}
         refreshControl={
           <RefreshControl refreshing={refresh} onRefresh={HandleRefresh} />
         }>
@@ -126,6 +130,8 @@ const YourCourses = () => {
           <Text style={styles.messageSystem}>(Message System)</Text>.
         </Text>
       </ScrollView>
+      {/* add */}
+      <BannerAdd />
     </View>
   );
 };

@@ -1,5 +1,6 @@
 import React, {useEffect, useState, useMemo, useCallback} from 'react';
 import {
+  Button,
   Dimensions,
   FlatList,
   Image,
@@ -19,13 +20,14 @@ import RelativeTime from '../components/RelativeTime';
 import {useNavigation} from '@react-navigation/native';
 import useSocketEmit from '../Socket/useSocketEmit';
 import {SocketData} from '../Socket/SocketContext';
+import VideoAdd from '../Adds/VideoAdd';
 
 const Notifications = () => {
   const {user, setSelectedUser, setselectedPost} = useData();
   const {width, height} = Dimensions.get('window');
   const Navigation = useNavigation();
   const [notificationList, setNotificationList] = useState([]);
-
+  const {showAd, isLoaded} = VideoAdd();
   // Socket handling
   const socket = SocketData();
   const emitevent = useSocketEmit(socket);
@@ -179,6 +181,17 @@ const Notifications = () => {
           )}
         />
       )}
+      {/* show add */}
+      <Button
+        title="Watch Video Ad"
+        onPress={() => {
+          if (isLoaded) {
+            showAd();
+          } else {
+            console.warn('Ad is still loading, please wait...');
+          }
+        }}
+      />
     </View>
   );
 };
