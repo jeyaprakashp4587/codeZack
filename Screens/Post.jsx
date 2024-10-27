@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
   RefreshControl,
+  Text,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
 import HeadingText from '../utils/HeadingText';
@@ -44,7 +45,7 @@ const Post = () => {
   const [uploadIndi, setUploadIndi] = useState(false);
   const [hostImageIndi, setHostImageIndi] = useState(false);
   const socket = SocketData();
-
+  const [refreshCon, setRefreshCon] = useState(false);
   const emitEvent = useSocketEmit(socket);
 
   const handlePostText = text => {
@@ -135,6 +136,8 @@ const Post = () => {
 
   // Refresh input fields
   const refreshFields = () => {
+    setRefreshCon(true);
+    setTimeout(() => setRefreshCon(false), 200);
     inputRef.current.clear();
     setImages([]);
     setUploadText('Upload');
