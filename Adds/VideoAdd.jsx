@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import {
   RewardedAd,
   TestIds,
@@ -7,7 +7,7 @@ import {
 
 const VideoAdd = (adUnitId = TestIds.REWARDED) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [shouldShowAd, setShouldShowAd] = useState(false);
+  const [isCredited, setIsCredited] = useState(false);
   const rewardedAd = useRef(null);
 
   useEffect(() => {
@@ -19,13 +19,14 @@ const VideoAdd = (adUnitId = TestIds.REWARDED) => {
     // Event listeners
     const onAdLoaded = () => {
       setIsLoaded(true);
+      setIsCredited(false);
       console.log('Ad loaded successfully');
-
-      showAd(); // Automatically show ad if the trigger is set
     };
 
     const onAdEarnedReward = () => {
       console.log('User earned reward!');
+      setIsCredited(true);
+      rewardedAd.current.load();
     };
 
     rewardedAd.current.addAdEventListener(
@@ -46,22 +47,24 @@ const VideoAdd = (adUnitId = TestIds.REWARDED) => {
       rewardedAd.current.removeAllListeners();
       rewardedAd.current = null; // Clear reference
     };
-  }, [adUnitId, shouldShowAd]); // Add shouldShowAd to dependencies
+  }, [adUnitId]);
 
-  const showAd = () => {
+  useEffect(() => {
+    // Reload ad when user has earned a reward
+    if (isCredited) {
+      rewardedAd.current?.load();
+      setIsLoaded(false); // Reset state for the next ad
+    }
+  }, [isCredited]);
+
+  const showAd = useCallback(() => {
     if (isLoaded && rewardedAd.current) {
       rewardedAd.current.show();
-      setShouldShowAd(false); // Reset trigger after showing the ad
-    } else {
-      console.warn('Ad not loaded yet');
+      setIsLoaded(false); // Reset to reload the ad after showing
     }
-  };
+  }, [isLoaded]);
 
-  const triggerShowAd = () => {
-    setShouldShowAd(true); // Set trigger to show ad
-  };
-
-  return {isLoaded, showAd: triggerShowAd}; // Expose the trigger function
+  return {isLoaded, showAd, isCredited};
 };
 
 export default VideoAdd;

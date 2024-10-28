@@ -27,7 +27,10 @@ const Notifications = () => {
   const {width, height} = Dimensions.get('window');
   const Navigation = useNavigation();
   const [notificationList, setNotificationList] = useState([]);
-  const {showAd, isLoaded} = VideoAdd();
+
+  const {showAd, isLoaded, isCredited} = VideoAdd();
+  console.log('log form', isCredited);
+
   // Socket handling
   const socket = SocketData();
   const emitevent = useSocketEmit(socket);
@@ -110,10 +113,12 @@ const Notifications = () => {
   // -----
   return (
     <View style={pageView}>
-      {/* heading */}
-      <TopicsText text="Notifications" mb={5} />
-      {/* hr line */}
-      <HrLine margin={1} width="100%" />
+      <View style={{paddingHorizontal: 20}}>
+        {/* heading */}
+        <TopicsText text="Notifications" mb={5} />
+        {/* hr line */}
+        <HrLine margin={1} width="100%" />
+      </View>
 
       {/* Notifications Sections */}
       {!notificationList || notificationList.length <= 0 ? (
@@ -123,6 +128,7 @@ const Notifications = () => {
             color: Colors.violet,
             letterSpacing: 2,
             marginTop: 10,
+            paddingHorizontal: 15,
           }}>
           No Notifications There
         </Text>
@@ -187,11 +193,10 @@ const Notifications = () => {
         onPress={() => {
           if (isLoaded) {
             showAd();
-          } else {
-            console.warn('Ad is still loading, please wait...');
           }
         }}
       />
+      {isCredited && <Text>{isCredited}</Text>}
     </View>
   );
 };

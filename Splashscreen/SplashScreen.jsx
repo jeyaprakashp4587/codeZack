@@ -90,7 +90,7 @@ const SplashScreen = () => {
         {/* progress bar */}
         <View style={{position: 'absolute', bottom: -300}}>
           {activityIndicator && (
-            <ActivityIndicator size={35} color={Colors.mildGrey} />
+            <ActivityIndicator size={50} color={Colors.mildGrey} />
           )}
         </View>
       </View>

@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Button,
 } from 'react-native';
 import {Colors, font, pageView} from '../constants/Colors';
 import {useData} from '../Context/Contexter';
@@ -18,12 +19,15 @@ import {Dimensions} from 'react-native';
 import Skeleton from '../Skeletons/Skeleton';
 import {useNavigation} from '@react-navigation/native';
 import BannerAdd from '../Adds/BannerAdd';
+import VideoAdd from '../Adds/VideoAdd';
 
 const Carrer = () => {
   // courses list
   const navigation = useNavigation();
   const {setSelectedCourse} = useData();
   const {width, height} = Dimensions.get('window');
+
+  const {showAd, isLoaded, isCredited} = VideoAdd();
   const courses = useMemo(
     () => [
       {
@@ -351,6 +355,14 @@ const Carrer = () => {
       </View>
       <Text style={styles.footerText}>Other Courses will be added soon!</Text>
       <BannerAdd />
+      <Button
+        title="Watch Video Ad"
+        onPress={() => {
+          if (isLoaded) {
+            showAd();
+          }
+        }}
+      />
     </ScrollView>
   );
 };
