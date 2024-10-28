@@ -42,7 +42,7 @@ const ChooseChallenge = ({navigation}) => {
     [],
   );
 
-  const {selectedChallengeTopic, setSelectedChallenge} = useData();
+  const {selectedChallengeTopic, setSelectedChallenge, user} = useData();
   const [Challenges, setChallenges] = useState([]);
   const [difficultyInfo, setDifficultyInfo] = useState('Newbie');
   const [menuVisible, setMenuVisible] = useState(false); // Custom dropdown visibility
@@ -98,10 +98,18 @@ const ChooseChallenge = ({navigation}) => {
   useEffect(() => {
     const unsubscribeFocus = navigation.addListener('focus', () => {
       getChallenges(selectedChallengeTopic, difficultyInfo);
+      getCompletedAllChallenges();
     });
     return unsubscribeFocus;
   }, [navigation, selectedChallengeTopic, difficultyInfo, getChallenges]);
-
+  // get completed challlegs from use
+  const [userCompletedChallenges, setUserCompletedChallenges] = useState();
+  const getCompletedAllChallenges = useCallback(() => {
+    const filter = user?.Challenges?.filter(
+      item => item.status === 'completed',
+    );
+    setUserCompletedChallenges(filter);
+  }, []);
   if (loading) {
     return (
       <View style={[pageView, {paddingHorizontal: 15}]}>
@@ -191,7 +199,15 @@ const ChooseChallenge = ({navigation}) => {
                   />
                 ))}
               </View>
-              <Feather name="check-circle" size={20} color={Colors.mildGrey} />
+              <Feather
+                name="check-circle"
+                size={20}
+                color={
+                  userCompletedChallenges?.ChallengeName == item.title
+                    ? 'green'
+                    : Colors.mildGrey
+                }
+              />
             </View>
             <Ripple
               rippleColor="lightgrey"
@@ -241,13 +257,14 @@ const styles = StyleSheet.create({
     color: Colors.veryDarkGrey,
     lineHeight: 24,
     letterSpacing: 1,
+    paddingVertical: 10,
   },
   technologiesContainer: {
     marginVertical: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  technologies: {flexDirection: 'row'},
+  technologies: {flexDirection: 'row', columnGap: 10},
   technologyIcon: {width: width * 0.08, height: width * 0.08},
   linearGradient: {borderRadius: 10, padding: 10, justifyContent: 'center'},
   viewChallengeButtonText: {

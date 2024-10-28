@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   StatusBar,
   ImageBackground,
+  Pressable,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -21,17 +22,15 @@ import {useData} from '../Context/Contexter';
 import {Dimensions, InteractionManager} from 'react-native';
 import {LinearGradient} from 'react-native-linear-gradient';
 import {RefreshControl} from 'react-native';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import axios from 'axios';
 import Api from '../Api';
 import SuggestionWapper from '../components/SuggestionWapper';
 import useSocketOn from '../Socket/useSocketOn';
-import Ripple from 'react-native-material-ripple';
 import Posts from '../components/Posts';
 import {debounce} from 'lodash';
 import {SocketData} from '../Socket/SocketContext';
-// import Carousel from 'react-native-snap-carousel';
 import Carousel from 'react-native-reanimated-carousel';
-import {faSearch} from '@fortawesome/free-solid-svg-icons';
 import BannerAdd from '../Adds/BannerAdd';
 // code -----------
 
@@ -51,7 +50,7 @@ const Home = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoad(true);
-    }, 2000);
+    }, 500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -147,8 +146,6 @@ const Home = () => {
     }
   });
   useSocketOn(socket, 'Noti-test', async data => {
-    // console.log(data);
-    // await sendLocalNotification(data);
     await getNotifications();
   });
 
@@ -221,8 +218,7 @@ const Home = () => {
         <TouchableOpacity
           onPress={() => navigation.navigate('search')}
           style={[styles.searchButton, {flex: 1, marginHorizontal: 10}]}>
-          {/* <EvilIcons name="search" size={30} color={Colors.lightGrey} /> */}
-          <FontAwesomeIcon icon={faSearch} size={20} color={Colors.lightGrey} />
+          <EvilIcons name="search" size={30} color={Colors.lightGrey} />
           <TextInput
             onPress={() => navigation.navigate('search')}
             placeholder="Search"
@@ -259,7 +255,7 @@ const Home = () => {
             {getCurrentGreeting()} {user?.firstName}!
           </Text>
 
-          <Ripple
+          <Pressable
             style={{position: 'relative'}}
             onPress={() => navigation.navigate('notifications')}>
             {/* notificatio badge */}
@@ -282,7 +278,7 @@ const Home = () => {
               {unseenCount}
             </Text>
             <FontAwesomeIcon color="orange" icon={faBell} size={23} />
-          </Ripple>
+          </Pressable>
         </View>
         {/* ideas wrapper */}
         <View style={styles.ideasWrapper}>
@@ -346,8 +342,6 @@ const Home = () => {
               onPress={() => navigation.navigate(item.route)}
               style={{
                 flex: 1,
-                // elevation: 2,
-                borderRadius: 10,
                 overflow: 'hidden',
               }}>
               <LinearGradient

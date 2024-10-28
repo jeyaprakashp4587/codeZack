@@ -37,6 +37,7 @@ import moment from 'moment';
 import useSocket from '../Socket/useSocket';
 import useSocketEmit from '../Socket/useSocketEmit';
 import {useNavigation} from '@react-navigation/native';
+import WebView from 'react-native-webview';
 
 const {width, height} = Dimensions.get('window');
 
