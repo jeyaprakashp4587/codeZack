@@ -217,10 +217,47 @@ const Home = () => {
           />
         </TouchableOpacity>
         <View
-          style={{flexDirection: 'row', alignItems: 'center', columnGap: 10}}>
-          <TouchableOpacity>
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            columnGap: 30,
+          }}>
+          <Text
+            style={{
+              position: 'absolute',
+              backgroundColor: '#e63946',
+              color: 'white',
+              zIndex: 10,
+              borderRadius: 50,
+              padding: 5,
+              fontSize: 7,
+              top: -height * 0.017,
+              right: width * 0.13,
+              paddingHorizontal: 8,
+            }}>
+            20
+          </Text>
+          <TouchableOpacity
+            style={{position: 'relative'}}
+            onPress={() => navigation.navigate('Wallet')}>
             <SimpleLineIcons name="wallet" size={25} color={Colors.mildGrey} />
           </TouchableOpacity>
+          <Text
+            style={{
+              position: 'absolute',
+              backgroundColor: '#e63946',
+              color: 'white',
+              zIndex: 10,
+              borderRadius: 50,
+              fontSize: 7,
+              top: -height * 0.017,
+              right: -width * 0.009,
+              padding: 5,
+              paddingHorizontal: 8,
+              // textAlign: 'center',
+            }}>
+            1
+          </Text>
           <TouchableOpacity onPress={() => navigation.navigate('message')}>
             <FontAwesomeIcon
               icon={faMessage}
