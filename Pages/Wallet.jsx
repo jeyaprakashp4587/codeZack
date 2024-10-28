@@ -1,5 +1,6 @@
 import {
   Dimensions,
+  FlatList,
   Image,
   Modal,
   ScrollView,
@@ -28,12 +29,16 @@ const Wallet = () => {
   const {user, setUser} = useData();
   const {width, height} = Dimensions.get('window');
   const strategies = [
-    {text: 'Daily check in', price: 1},
-    {text: 'Enrolled any one course', price: 2},
-    {text: 'Complete any one challenge', price: 1},
-    {text: 'Spend 45 minutes in Study center', price: 1},
-    {text: 'Take one assignment and complete with pass mark', price: 1},
-    {text: '', price: 1},
+    {text: 'Daily check in', price: 1, route: 'youractivities'},
+    {text: 'Enrolled any one course', price: 2, route: 'youractivities'},
+    {text: 'Complete any one challenge', price: 2, route: 'youractivities'},
+    {
+      text: 'Spend 45 minutes in Study center',
+      price: 5,
+      route: 'youractivities',
+    },
+    {text: 'Take one assignment and pass', price: 5, route: 'youractivities'},
+    {text: 'Refer Your Friends', price: 5, route: 'youractivities'},
   ];
 
   // const change gpay details
@@ -63,7 +68,7 @@ const Wallet = () => {
       style={{flex: 1, backgroundColor: 'white'}}
       showsVerticalScrollIndicator={false}>
       <View style={{paddingHorizontal: 15}}>
-        <TopicsText text="Your Wallet" />
+        <TopicsText text="Your Wallet" mb={10} />
       </View>
       {/* user profile */}
       <LinearGradient
@@ -252,7 +257,45 @@ const Wallet = () => {
         <Text style={{fontSize: width * 0.05, letterSpacing: 2}}>
           Money earning strategies
         </Text>
+        {/* unlock add */}
         <View
+          style={{
+            borderWidth: 0,
+            // height: height * 0.3,
+            borderRadius: 10,
+            backgroundColor: 'white',
+            elevation: 2,
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            rowGap: 10,
+            padding: 10,
+          }}>
+          <FlatList
+            data={strategies}
+            renderItem={({item}) => (
+              <View
+                style={{
+                  marginBottom: 10,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  columnGap: 3,
+                  padding: 10,
+                  borderBottomWidth: 1,
+                  borderColor: Colors.veryLightGrey,
+                  backgroundColor: '#edf2fb',
+                  borderRadius: 5,
+                }}>
+                <Text style={{letterSpacing: 1, color: Colors.mildGrey}}>
+                  {item.text}:
+                </Text>
+                <Fontawesome name="rupee" />
+                <Text style={{color: '#22223b'}}>{item.price}</Text>
+              </View>
+            )}
+          />
+        </View>
+        {/* <View
           style={{
             borderWidth: 0,
             height: height * 0.3,
@@ -271,7 +314,7 @@ const Wallet = () => {
               Watch add to unlock
             </Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
     </ScrollView>
   );
