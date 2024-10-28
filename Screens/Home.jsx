@@ -11,6 +11,7 @@ import {
   Pressable,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
+import Fontawesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import HomeSkeleton from '../Skeletons/HomeSkeleton';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -85,6 +86,7 @@ const Home = () => {
     if (currentHour < 12) return 'Good Morning';
     if (currentHour < 17) return 'Good Afternoon';
     if (currentHour < 20) return 'Good Evening';
+    return 'Good Evening';
   }, []);
 
   const refreshUser = useCallback(async () => {
@@ -223,6 +225,7 @@ const Home = () => {
             columnGap: 30,
           }}>
           <Text
+            onPress={() => navigation.navigate('Wallet')}
             style={{
               position: 'absolute',
               backgroundColor: '#e63946',
@@ -232,9 +235,10 @@ const Home = () => {
               padding: 5,
               fontSize: 7,
               top: -height * 0.017,
-              right: width * 0.13,
+              right: width * 0.1,
               paddingHorizontal: 8,
             }}>
+            <Fontawesome name="rupee" color="white" size={10} />
             20
           </Text>
           <TouchableOpacity
@@ -243,6 +247,7 @@ const Home = () => {
             <SimpleLineIcons name="wallet" size={25} color={Colors.mildGrey} />
           </TouchableOpacity>
           <Text
+            onPress={() => navigation.navigate('message')}
             style={{
               position: 'absolute',
               backgroundColor: '#e63946',
