@@ -233,13 +233,13 @@ const Home = () => {
               zIndex: 10,
               borderRadius: 50,
               padding: 5,
-              fontSize: 7,
+              fontSize: 8,
               top: -height * 0.017,
               right: width * 0.1,
               paddingHorizontal: 8,
             }}>
-            <Fontawesome name="rupee" color="white" size={10} />
-            20
+            <Fontawesome name="rupee" color="white" size={8} />
+            {user?.Wallet?.TotalWallet}
           </Text>
           <TouchableOpacity
             style={{position: 'relative'}}

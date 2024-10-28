@@ -1,13 +1,16 @@
 import {
   Dimensions,
   Image,
+  Modal,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import TopicsText from '../utils/TopicsText';
 import {useData} from '../Context/Contexter';
 import LinearGradient from 'react-native-linear-gradient';
@@ -17,9 +20,12 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faGooglePay} from '@fortawesome/free-brands-svg-icons/faGooglePay';
 import Ripple from 'react-native-material-ripple';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import axios from 'axios';
+import Api from '../Api';
+import {faTimes} from '@fortawesome/free-solid-svg-icons';
 
 const Wallet = () => {
-  const {user} = useData();
+  const {user, setUser} = useData();
   const {width, height} = Dimensions.get('window');
   const strategies = [
     {text: 'Daily check in', price: 1},
@@ -29,9 +35,33 @@ const Wallet = () => {
     {text: 'Take one assignment and complete with pass mark', price: 1},
     {text: '', price: 1},
   ];
-  const io = 1;
+
+  // const change gpay details
+  const [GpayAccountName, setGpayAccountName] = useState();
+  const [GpayUpiId, setGpayUpiId] = useState();
+  const [updateModelShow, setUpdateModelShow] = useState(false);
+  const ChangeGpayDetails = useCallback(async () => {
+    // console.log(GpayAccountName);
+    if (GpayAccountName && GpayUpiId) {
+      const res = await axios.post(
+        `${Api}/Wallet/ChangeGpayDetails/${user?._id}`,
+        {
+          GpayAccountName,
+          GpayUpiId,
+        },
+      );
+      if (res.status === 200) {
+        setUser(res.data);
+        setUpdateModelShow(false);
+      }
+    } else {
+      ToastAndroid.show('Fill the all Fields', ToastAndroid.BOTTOM);
+    }
+  }, [GpayAccountName, GpayUpiId]);
   return (
-    <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
+    <ScrollView
+      style={{flex: 1, backgroundColor: 'white'}}
+      showsVerticalScrollIndicator={false}>
       <View style={{paddingHorizontal: 15}}>
         <TopicsText text="Your Wallet" />
       </View>
@@ -76,17 +106,20 @@ const Wallet = () => {
             <Text style={{color: 'black', letterSpacing: 2}}>
               Your Wallet:{' '}
             </Text>
-            <Fontawesome name="rupee" color="black" /> 200 /-
+            <Fontawesome name="rupee" color="black" />{' '}
+            {user?.Wallet?.TotalWallet}
+            /-
           </Text>
           <View style={{flexDirection: 'column', rowGap: 10}}>
             <FontAwesomeIcon icon={faGooglePay} size={40} color="#051923" />
             <Text style={{fontSize: width * 0.03, letterSpacing: 2}}>
-              Account Name: Not found
+              Account Name: {user?.Wallet?.GpayAccount?.GpayAccountName}
             </Text>
             <Text style={{fontSize: width * 0.03, letterSpacing: 2}}>
-              UPI ID or Number: Not found
+              UPI ID or Number: {user?.Wallet?.GpayAccount?.GpayUpiId}
             </Text>
             <Ripple
+              onPress={() => setUpdateModelShow(true)}
               style={{backgroundColor: 'white', padding: 10, borderRadius: 10}}>
               <Text
                 style={{
@@ -99,6 +132,64 @@ const Wallet = () => {
             </Ripple>
           </View>
         </View>
+        {/* model view  */}
+        <Modal style={{flex: 1}} transparent={true} visible={updateModelShow}>
+          <View
+            style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              flex: 1,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <View
+              style={{
+                backgroundColor: 'white',
+                width: '70%',
+                padding: 20,
+                flexDirection: 'column',
+                rowGap: 10,
+              }}>
+              <TouchableOpacity onPress={() => setUpdateModelShow(false)}>
+                <FontAwesomeIcon
+                  icon={faTimes}
+                  style={{alignSelf: 'flex-end'}}
+                  color={Colors.mildGrey}
+                />
+              </TouchableOpacity>
+              <TextInput
+                style={{
+                  padding: 10,
+                  borderWidth: 1,
+                  borderColor: Colors.veryLightGrey,
+                }}
+                placeholder="Enter GPay Account Name"
+                onChangeText={text => setGpayAccountName(text)}
+              />
+              <TextInput
+                style={{
+                  padding: 10,
+                  borderWidth: 1,
+                  borderColor: Colors.veryLightGrey,
+                }}
+                placeholder="Enter GPay UPI Id"
+                onChangeText={text => setGpayUpiId(text)}
+              />
+              <Ripple
+                onPress={() => ChangeGpayDetails()}
+                style={{backgroundColor: '#3d405b', padding: 10}}>
+                <Text
+                  style={{
+                    color: 'white',
+                    textAlign: 'center',
+                    letterSpacing: 2,
+                  }}>
+                  Update
+                </Text>
+              </Ripple>
+            </View>
+          </View>
+        </Modal>
       </LinearGradient>
       {/* with draw */}
       <View
@@ -122,19 +213,20 @@ const Wallet = () => {
               position: 'absolute',
               zIndex: 10,
               top: -height * 0.03,
-              left: `${io}%`,
+              left: `${user.Wallet.TotalWallet}%`,
             }}>
             <Fontawesome name="rupee" />
-            {io}
+            {user.Wallet.TotalWallet}
           </Text>
           <View
             style={{
               height: 15,
-              width: `${io}%`,
+              width: `${user.Wallet.TotalWallet}%`,
               backgroundColor:
-                io <= 20
+                user.Wallet.TotalWallet <= 20
                   ? '#ed6a5a'
-                  : io >= 21 && io <= 50
+                  : user.Wallet.TotalWallet >= 21 &&
+                    user.Wallet.TotalWallet <= 50
                   ? '#ffc43d'
                   : '#06d6a0',
               borderRadius: 20,
@@ -142,7 +234,7 @@ const Wallet = () => {
           />
         </View>
         <TouchableOpacity
-          disabled={true}
+          disabled={user.Wallet.TotalWallet >= 100 ? true : false}
           style={{backgroundColor: '#1a659e', padding: 15, borderRadius: 10}}>
           <Text style={{color: 'white', letterSpacing: 2, textAlign: 'center'}}>
             WithDraw
