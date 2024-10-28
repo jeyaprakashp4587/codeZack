@@ -176,7 +176,9 @@ const SearchScreen = ({navigation}) => {
   // ------------------------- //
   return (
     <View style={pageView}>
-      <HeadingText text="Search" />
+      <View style={{paddingHorizontal: 15}}>
+        <HeadingText text="Search" />
+      </View>
       {/* search button */}
       <TouchableOpacity
         style={{
@@ -187,6 +189,7 @@ const SearchScreen = ({navigation}) => {
           // padding: 10,
           paddingHorizontal: 10,
           borderRadius: 7,
+          marginHorizontal: 15,
         }}>
         <FontAwesomeIcon icon={faSearch} size={20} color={Colors.lightGrey} />
         <TextInput
@@ -205,7 +208,7 @@ const SearchScreen = ({navigation}) => {
       </TouchableOpacity>
       {/* show history list */}
       {history.length > 0 && (
-        <View style={{marginTop: 10}}>
+        <View style={{marginTop: 10, paddingHorizontal: 15}}>
           {/* Recent Search */}
           <View
             style={{
@@ -247,6 +250,7 @@ const SearchScreen = ({navigation}) => {
                 alignItems: 'center',
                 borderBottomWidth: 1,
                 paddingBottom: 10,
+                marginHorizontal: 15,
                 borderColor: Colors.veryLightGrey,
                 // justifyContent: "center",
               }}>
@@ -281,7 +285,9 @@ const SearchScreen = ({navigation}) => {
         </View>
       )}
       {/* usersList */}
-      <ResultRender />
+      <View style={{paddingHorizontal: 15}}>
+        <ResultRender />
+      </View>
       {loading ||
         (userName?.current?.length <= 1 && (
           <View>

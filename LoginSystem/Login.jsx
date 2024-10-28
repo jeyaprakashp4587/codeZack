@@ -87,7 +87,7 @@ const Login = () => {
   }, [form, validateForm, setUser, navigation]);
 
   return (
-    <ScrollView style={styles.pageView}>
+    <ScrollView style={styles.pageView} showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
         <Text style={styles.headerText}>Log In</Text>
         <View style={styles.imageContainer}>
@@ -102,6 +102,7 @@ const Login = () => {
 
         <View style={styles.inputsWrapper}>
           <TextInput
+            spellCheck={true}
             style={styles.textInput}
             placeholder="Email"
             placeholderTextColor={Colors.mildGrey}

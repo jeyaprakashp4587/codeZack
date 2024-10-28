@@ -8,21 +8,21 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  StatusBar,
-  ImageBackground,
   Pressable,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import Feather from 'react-native-vector-icons/Feather';
 import HomeSkeleton from '../Skeletons/HomeSkeleton';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faBell, faTimesCircle} from '@fortawesome/free-regular-svg-icons';
+import {faBell, faMessage} from '@fortawesome/free-regular-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
 import {Dimensions, InteractionManager} from 'react-native';
 import {LinearGradient} from 'react-native-linear-gradient';
 import {RefreshControl} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import axios from 'axios';
 import Api from '../Api';
 import SuggestionWapper from '../components/SuggestionWapper';
@@ -32,6 +32,8 @@ import {debounce} from 'lodash';
 import {SocketData} from '../Socket/SocketContext';
 import Carousel from 'react-native-reanimated-carousel';
 import BannerAdd from '../Adds/BannerAdd';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+
 // code -----------
 
 const {width, height} = Dimensions.get('window');
@@ -83,7 +85,6 @@ const Home = () => {
     if (currentHour < 12) return 'Good Morning';
     if (currentHour < 17) return 'Good Afternoon';
     if (currentHour < 20) return 'Good Evening';
-    return 'Good Night';
   }, []);
 
   const refreshUser = useCallback(async () => {
@@ -206,28 +207,28 @@ const Home = () => {
             style={[
               styles.profileImage,
               {
-                width: width * 0.12,
-                height: width * 0.12,
+                width: width * 0.13,
+                height: width * 0.13,
                 borderRadius: 50,
-                borderWidth: 1,
-                // borderColor: "#404040",
+                borderWidth: 2,
+                borderColor: Colors.mildGrey,
               },
             ]}
           />
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('search')}
-          style={[styles.searchButton, {flex: 1, marginHorizontal: 10}]}>
-          <EvilIcons name="search" size={30} color={Colors.lightGrey} />
-          <TextInput
-            onPress={() => navigation.navigate('search')}
-            placeholder="Search"
-            style={styles.searchInput}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('message')}>
-          <AntDesign name="message1" size={24} color={Colors.lightGrey} />
-        </TouchableOpacity>
+        <View
+          style={{flexDirection: 'row', alignItems: 'center', columnGap: 10}}>
+          <TouchableOpacity>
+            <SimpleLineIcons name="wallet" size={25} color={Colors.mildGrey} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('message')}>
+            <FontAwesomeIcon
+              icon={faMessage}
+              size={25}
+              color={Colors.mildGrey}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
       {/*  header*/}
       <ScrollView
@@ -280,13 +281,21 @@ const Home = () => {
             <FontAwesomeIcon color="orange" icon={faBell} size={23} />
           </Pressable>
         </View>
+        {/* seacrch bar */}
+        <TouchableOpacity
+          onPress={() => navigation.navigate('search')}
+          style={[styles.searchButton, {marginHorizontal: 10}]}>
+          <EvilIcons name="search" size={30} color={Colors.lightGrey} />
+          <TextInput
+            onPress={() => navigation.navigate('search')}
+            placeholder="Search"
+            style={styles.searchInput}
+          />
+        </TouchableOpacity>
         {/* ideas wrapper */}
         <View style={styles.ideasWrapper}>
           <TouchableOpacity style={styles.ideaBox} onPress={carrerNav}>
-            <Image
-              source={{uri: 'https://i.ibb.co/pX2r3T0/carrer.png'}}
-              style={[styles.icon, {tintColor: '#ff9999'}]}
-            />
+            <SimpleLineIcons name="book-open" size={25} color="#264653" />
             <Text
               style={[styles.ideaText, {fontSize: width * 0.02}]}
               numberOfLines={1}>
@@ -294,25 +303,15 @@ const Home = () => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={courseNav} style={styles.ideaBox}>
-            <Image
-              source={{uri: 'https://i.ibb.co/QcnJZSz/learning.png'}}
-              style={[styles.icon, {tintColor: '#8600b3'}]}
-            />
+            <AntDesign name="laptop" size={25} color="#2a9d8f" />
             <Text
               numberOfLines={1}
               style={[styles.ideaText, {fontSize: width * 0.02}]}>
               Your Course
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={assignmentNav}
-            style={styles.ideaBox}
-            // onPress={() => userSuggestions()}
-          >
-            <Image
-              source={{uri: 'https://i.ibb.co/5n0FQH4/submit.png'}}
-              style={[styles.icon, {tintColor: '#006622'}]}
-            />
+          <TouchableOpacity onPress={assignmentNav} style={styles.ideaBox}>
+            <SimpleLineIcons name="notebook" size={25} color="#e9c46a" />
             <Text
               numberOfLines={1}
               style={[styles.ideaText, {fontSize: width * 0.02}]}>
@@ -320,10 +319,7 @@ const Home = () => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.ideaBox} onPress={activityNav}>
-            <Image
-              source={{uri: 'https://i.ibb.co/dtmzjnb/calendar.png'}}
-              style={[styles.icon, {tintColor: '#0077b3'}]}
-            />
+            <Fontisto name="date" size={25} color="#e76f51" />
             <Text
               style={[styles.ideaText, {fontSize: width * 0.02}]}
               numberOfLines={1}>
@@ -389,7 +385,7 @@ const Home = () => {
           />
         </View>
         {/* banner add */}
-        <BannerAdd />
+        {/* <BannerAdd /> */}
         {/* posts */}
       </ScrollView>
       {/* <FlatList
@@ -428,9 +424,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Colors.white,
     paddingHorizontal: 10,
-    borderRadius: 13,
+    borderRadius: 20,
     borderWidth: 1,
     borderColor: Colors.veryLightGrey,
+    overflow: 'hidden',
+    marginVertical: 5,
   },
   searchInput: {
     color: Colors.lightGrey,
@@ -458,14 +456,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 10,
     rowGap: 7,
+    // borderWidth: 0.1,
   },
   icon: {
     width: 35,
     height: 35,
   },
   ideaText: {
-    color: Colors.veryDarkGrey,
     letterSpacing: 0.5,
-    // fontSize: 20,
+    color: 'black',
+    // fontWeight: '600',
   },
 });

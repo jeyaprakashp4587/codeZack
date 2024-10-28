@@ -56,7 +56,7 @@ const TabNavigation = () => {
         tabBarIconStyle: {
           color: Colors.lightGrey,
         },
-        tabBarActiveTintColor: '#3385ff',
+        tabBarActiveTintColor: '#3a6ea5',
         tabBarInactiveTintColor: Colors.lightGrey,
         tabBarStyle: {
           height: height * 0.1,
@@ -107,7 +107,7 @@ const TabNavigation = () => {
             />
           ),
           tabBarIconStyle: {
-            backgroundColor: '#3385ff',
+            backgroundColor: '#3a6ea5',
             width: 70,
             height: 70,
             borderRadius: 40,

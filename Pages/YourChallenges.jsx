@@ -14,6 +14,7 @@ import ParagraphText from '../utils/PragraphText';
 import Skeleton from '../Skeletons/Skeleton';
 import {TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import BannerAdd from '../Adds/BannerAdd';
 
 const YourChallenges = props => {
   const navigation = useNavigation();
@@ -100,7 +101,9 @@ const YourChallenges = props => {
   return (
     <View style={[pageView, {borderWidth: 0}]}>
       {/* header options */}
-      <HeadingText text="Your Challenges" mb={1} />
+      <View style={{paddingHorizontal: 15}}>
+        <HeadingText text="Your Challenges" mb={1} />
+      </View>
       <View
         style={{
           marginTop: 10,
@@ -111,6 +114,7 @@ const YourChallenges = props => {
           marginBottom: 5,
           marginHorizontal: 5,
           columnGap: 20,
+          paddingHorizontal: 15,
         }}>
         <Ripple
           onPress={() => HandleOption('All')}
@@ -166,12 +170,14 @@ const YourChallenges = props => {
           </Text>
         </Ripple>
       </View>
+      {/* add banner */}
+      <BannerAdd />
+      {/* add banner */}
       <HrLine width="100%" />
       {/* list challenges */}
-
       {challenges?.length <= 0 ? (
         !skLoad ? (
-          <View style={{rowGap: 10}}>
+          <View style={{rowGap: 10, paddingHorizontal: 15}}>
             <Skeleton width="100%" height={200} radius={10} />
             <Skeleton width="100%" height={200} radius={10} />
             <Skeleton width="100%" height={200} radius={10} />
@@ -262,7 +268,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     elevation: 2,
     marginTop: 5,
-    marginHorizontal: 5,
+    marginHorizontal: 15,
     marginBottom: 10,
   },
   challengeHeader: {

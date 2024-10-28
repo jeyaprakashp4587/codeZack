@@ -15,15 +15,30 @@ import {useData} from '../Context/Contexter';
 import Api from '../Api';
 import axios from 'axios';
 import TopicsText from '../utils/TopicsText';
+import moment from 'moment';
 import Skeleton from '../Skeletons/Skeleton';
+import BannerAdd from '../Adds/BannerAdd';
+import {useNavigation} from '@react-navigation/native';
 
 const YourActivity = () => {
   const {width, height} = Dimensions.get('window');
   const {user} = useData();
-
+  const Navigation = useNavigation();
   useEffect(() => {
-    InteractionManager.runAfterInteractions(() => getAllActivityDates());
+    InteractionManager.runAfterInteractions(() => {
+      getAllActivityDates();
+      getParticularDateActivities(moment().format('YYYY-MM-DD'));
+    });
   }, []);
+  useEffect(() => {
+    Navigation.addListener('focus', () => {
+      getAllActivityDates();
+      getParticularDateActivities(moment().format('YYYY-MM-DD'));
+    });
+    return () => {
+      Navigation.addListener('blur', () => null);
+    };
+  }, [Navigation]);
 
   // state to store activity dates and activities list
   const [dates, setDates] = useState({});
@@ -55,6 +70,7 @@ const YourActivity = () => {
   // Fetch activities for a particular date
   const getParticularDateActivities = async date => {
     setSelectedDate(date);
+
     try {
       const res = await axios.post(
         `${Api}/Activity/getParticularDateActivities/${user?._id}`,
@@ -67,8 +83,6 @@ const YourActivity = () => {
       }
     } catch (error) {
       setActivitiesList([]);
-      console.error('Error fetching activities for the date:', error);
-      Alert.alert('Error', 'Failed to fetch activities for the selected date.');
     }
   };
 
@@ -80,7 +94,7 @@ const YourActivity = () => {
   const [loading, setLoading] = useState(false);
   if (!loading) {
     return (
-      <View style={pageView}>
+      <View style={[pageView, {paddingHorizontal: 15}]}>
         <Skeleton width="100%" height={height * 0.1} radius={10} mt={10} />
         <Skeleton width="100%" height={height * 0.5} radius={10} mt={10} />
         <Skeleton width="100%" height={height * 0.1} radius={10} mt={10} />
@@ -90,35 +104,44 @@ const YourActivity = () => {
 
   return (
     <View style={pageView}>
-      {/* heading text */}
-      <HeadingText text="Your Activities" />
-      {/* calender preview */}
-      <Calendar
-        style={{borderWidth: 0, width: '100%', height: 'auto'}}
-        markedDates={dates}
-        onDayPress={selectedDateFun}
-      />
-      {/* list Activities */}
-      <HrLine width="100%" />
-      <TopicsText text={selectedDate ? selectedDate : ''} />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {activitiesList.map((item, index) => (
-          <Text
-            style={{
-              // borderWidth: 1,
-              padding: width * 0.03,
-              fontSize: width * 0.04,
-              color: Colors.white,
-              marginBottom: 20,
-              borderRadius: 5,
-              backgroundColor: Colors.violet,
-              letterSpacing: 1,
-            }}
-            key={index}>
-            {index + 1}. {item.activityName}
-          </Text>
-        ))}
-      </ScrollView>
+      <View style={{paddingHorizontal: 15}}>
+        {/* heading text */}
+        <HeadingText text="Your Activities" />
+        {/* calender preview */}
+        <Calendar
+          style={{borderWidth: 0, width: '100%', height: 'auto'}}
+          markedDates={dates}
+          onDayPress={selectedDateFun}
+        />
+        {/* list Activities */}
+        <HrLine width="100%" />
+        <TopicsText text={selectedDate ? selectedDate : ''} />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {activitiesList.length > 0 ? (
+            activitiesList.map((item, index) => (
+              <Text
+                style={{
+                  // borderWidth: 1,
+                  padding: width * 0.03,
+                  fontSize: width * 0.04,
+                  color: Colors.white,
+                  marginBottom: 20,
+                  borderRadius: 5,
+                  backgroundColor: Colors.violet,
+                  letterSpacing: 1,
+                }}
+                key={index}>
+                {index + 1}. {item.activityName}
+              </Text>
+            ))
+          ) : (
+            <Text style={{letterSpacing: 1, color: Colors.mildGrey}}>
+              No Activities there in this date
+            </Text>
+          )}
+        </ScrollView>
+      </View>
+      <BannerAdd />
     </View>
   );
 };

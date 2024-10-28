@@ -11,6 +11,8 @@ import {
   Alert,
   ActivityIndicator,
   RefreshControl,
+  FlatList,
+  ToastAndroid,
 } from 'react-native';
 import Skeleton from '../Skeletons/Skeleton';
 import {Colors, pageView} from '../constants/Colors';
@@ -30,19 +32,19 @@ import {
   updateMetadata,
   uploadBytes,
 } from 'firebase/storage';
-import {launchImageLibrary} from 'react-native-image-picker'; // Use react-native-image-picker
+import {launchImageLibrary} from 'react-native-image-picker';
 import {storage} from '../Firebase/Firebase';
-import {LinearGradient} from 'react-native-linear-gradient';
 import moment from 'moment';
 import useSocket from '../Socket/useSocket';
 import useSocketEmit from '../Socket/useSocketEmit';
 import {useNavigation} from '@react-navigation/native';
 import WebView from 'react-native-webview';
+import Actitivity from '../hooks/ActivityHook';
 
 const {width, height} = Dimensions.get('window');
 
 const ChallengeDetail = () => {
-  const {selectedChallenge, user, setUser, setSelectedChallenge} = useData();
+  const {selectedChallenge, user, setSelectedChallenge} = useData();
   const navigation = useNavigation();
   const [uploadTut, setUploadTut] = useState(false);
   const [ChallengeStatus, setChallengeStatus] = useState('');
@@ -52,7 +54,21 @@ const ChallengeDetail = () => {
   const [images, setImages] = useState([]);
   const socket = useSocket();
   const emitEvent = useSocketEmit(socket);
-
+  const postText = useMemo(
+    () => [
+      `Thrilled to announce that I’ve just completed a challenging ${selectedChallenge?.ChallengeType} project! The task was ${selectedChallenge?.ChallengeName}. Check out the details in the link below!`,
+      `Excited to share that I’ve finished a new ${selectedChallenge?.ChallengeType} challenge! It was called ${selectedChallenge?.ChallengeName}. Check out more info below!`,
+      `Happy to say I’ve completed another ${selectedChallenge?.ChallengeType} project! The challenge was ${selectedChallenge?.ChallengeName}. Here’s the link to know more!`,
+      `Proud to announce that I’ve finished the ${selectedChallenge?.ChallengeName} challenge, which was a ${selectedChallenge?.ChallengeType} project! Check the link below!`,
+      `Just wrapped up an amazing ${selectedChallenge?.ChallengeType} project called ${selectedChallenge?.ChallengeName}! Take a look at the details below!`,
+      `Completed a fantastic ${selectedChallenge?.ChallengeType} challenge today! The project was ${selectedChallenge?.ChallengeName}. Check out more below!`,
+      `Feeling accomplished! I’ve just completed the ${selectedChallenge?.ChallengeType} project named ${selectedChallenge?.ChallengeName}. Have a look at the details below!`,
+      `Done with another challenging ${selectedChallenge?.ChallengeType} project! It was called ${selectedChallenge?.ChallengeName}. Check the link below!`,
+      `Finished a tricky ${selectedChallenge?.ChallengeType} challenge named ${selectedChallenge?.ChallengeName}. Check out the details below!`,
+      `Successfully completed the ${selectedChallenge?.ChallengeName} project, which was part of a challenging ${selectedChallenge?.ChallengeType}. Check out the link below!`,
+    ],
+    [],
+  );
   const checkChallengeStatus = useCallback(async () => {
     try {
       const res = await axios.post(
@@ -151,6 +167,7 @@ const ChallengeDetail = () => {
         );
         if (res.data === 'completed') {
           setChallengeStatus('completed');
+          ToastAndroid.show('Wow!, You Finished');
           await handleUploadPost();
           Actitivity(
             user?._id,
@@ -163,7 +180,7 @@ const ChallengeDetail = () => {
         console.error('Error uploading challenge:', error);
       }
     } else {
-      Alert.alert('Please fill in all fields and select images');
+      ToastAndroid.show('Please fill in all fields and select images');
     }
   };
 
@@ -181,7 +198,6 @@ const ChallengeDetail = () => {
           Time: moment().format('YYYY-MM-DDTHH:mm:ss'),
           postId: res.data?.postId,
         });
-        Alert.alert('Uploaded Successfully');
         refreshFields();
       } else {
         Alert.alert('Something went wrong. Please try again.');
@@ -465,7 +481,7 @@ const ChallengeDetail = () => {
                 borderWidth: 1,
                 borderColor: Colors.mildGrey,
                 borderRadius: 5,
-                padding: 15,
+                padding: 10,
               }}>
               {imgLoad ? (
                 <ActivityIndicator
@@ -482,18 +498,23 @@ const ChallengeDetail = () => {
               <PragraphText text="Upload Snapshot" padding={1} fsize={15} />
             </TouchableOpacity>
             {/* show oupload image */}
-            {images.length > 0
-              ? images.map(item => (
+            {images.length > 0 ? (
+              <FlatList
+                horizontal
+                data={images}
+                renderItem={({item}) => (
                   <Image
                     source={{uri: item}}
                     style={{
-                      width: '100%',
+                      width: width * 0.3,
                       height: height * 0.3,
-                      resizeMode: 'contain',
+                      marginRight: 10,
+                      // resizeMode: 'contain',
                     }}
                   />
-                ))
-              : null}
+                )}
+              />
+            ) : null}
             {/*  */}
             <Ripple
               onPress={HandleUpload}

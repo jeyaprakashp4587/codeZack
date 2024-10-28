@@ -75,7 +75,7 @@ export default HomeSkeleton;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: width * 0.05,
+    paddingHorizontal: 15,
   },
   row: {
     flexDirection: 'row',
