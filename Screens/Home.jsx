@@ -9,6 +9,7 @@ import {
   TextInput,
   TouchableOpacity,
   Pressable,
+  ToastAndroid,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
 import Fontawesome from 'react-native-vector-icons/FontAwesome';
@@ -34,7 +35,10 @@ import {SocketData} from '../Socket/SocketContext';
 import Carousel from 'react-native-reanimated-carousel';
 import BannerAdd from '../Adds/BannerAdd';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-
+import Ripple from 'react-native-material-ripple';
+import moment from 'moment';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import AddWallet from '../hooks/AddWallet';
 // code -----------
 
 const {width, height} = Dimensions.get('window');
@@ -140,6 +144,7 @@ const Home = () => {
   useEffect(() => {
     navigation.addListener('focus', () => {
       getNotifications();
+      checkButtonStatus();
     });
   }, [navigation]);
   useSocketOn(socket, 'updateNoti', async data => {
@@ -157,6 +162,7 @@ const Home = () => {
       await getConnectionPosts();
       await getNotifications();
       await setProfilePic();
+      checkButtonStatus();
     });
   }, [getConnectionPosts, getNotifications]);
 
@@ -188,6 +194,43 @@ const Home = () => {
   const assignmentNav = useCallback(() => {
     debounceNavigation('Assignments');
   }, []);
+  // daily check in---
+  const [isDisabled, setIsDisabled] = useState(false);
+  const checkButtonStatus = async () => {
+    const lastCheckIn = await AsyncStorage.getItem('lastCheckIn');
+    if (lastCheckIn) {
+      const lastCheckInDate = moment(lastCheckIn);
+      const now = moment();
+      const isSameDay = lastCheckInDate.isSame(now, 'day');
+      setIsDisabled(isSameDay);
+    }
+  };
+  const handleCheckIn = async () => {
+    if (!isDisabled) {
+      try {
+        const now = moment().toISOString();
+        await AsyncStorage.setItem('lastCheckIn', now);
+
+        const result = await AddWallet(user?._id, 1, setUser);
+        if (result === 'ok') {
+          ToastAndroid.show('You earned 1 rupee', ToastAndroid.SHORT);
+          setIsDisabled(true);
+        } else {
+          ToastAndroid.show('Failed to add to wallet', ToastAndroid.SHORT);
+        }
+      } catch (error) {
+        ToastAndroid.show(
+          'Error checking in. Please try again.',
+          ToastAndroid.SHORT,
+        );
+      }
+    } else {
+      ToastAndroid.show(
+        'You have already checked in today',
+        ToastAndroid.SHORT,
+      );
+    }
+  };
   // -----------//
   if (!load) {
     return <HomeSkeleton />;
@@ -285,6 +328,7 @@ const Home = () => {
             alignItems: 'center',
             justifyContent: 'space-between',
             paddingHorizontal: 15,
+            flexWrap: 'wrap',
           }}>
           <Text
             style={{
@@ -297,31 +341,60 @@ const Home = () => {
             }}>
             {getCurrentGreeting()} {user?.firstName}!
           </Text>
-
-          <Pressable
-            style={{position: 'relative'}}
-            onPress={() => navigation.navigate('notifications')}>
-            {/* notificatio badge */}
-            <Text
+          <View
+            style={{flexDirection: 'row', alignItems: 'center', columnGap: 10}}>
+            <Ripple
+              onPress={() => handleCheckIn()}
               style={{
-                display: unseenCount > 0 ? 'flex' : 'none',
-                position: 'absolute',
-                top: -height * 0.016,
-                right: -width * 0.0,
-                // height: height * 0.018,
-                width: width * 0.04,
-                fontSize: width * 0.026,
-                textAlign: 'center',
-                color: 'white',
-                backgroundColor: 'red',
-                // padding: 5,
-                borderRadius: 50,
-                zIndex: 10,
+                // backgroundColor: '#457b9d',
+                borderRadius: 10,
+                flexDirection: 'row',
+                alignItems: 'center',
+                columnGap: 5,
+                borderWidth: 1,
+                borderColor: '#3d405b',
+                height: height * 0.03,
+                paddingHorizontal: 10,
               }}>
-              {unseenCount}
-            </Text>
-            <FontAwesomeIcon color="orange" icon={faBell} size={23} />
-          </Pressable>
+              <Text
+                style={{
+                  color: '#14213d',
+                  letterSpacing: 2,
+                  fontSize: width * 0.02,
+                }}>
+                Daily Check in
+              </Text>
+              {isDisabled ? (
+                <Feather name="check" color="#3d405b" />
+              ) : (
+                <Text></Text>
+              )}
+            </Ripple>
+            <Pressable
+              style={{position: 'relative'}}
+              onPress={() => navigation.navigate('notifications')}>
+              {/* notificatio badge */}
+              <Text
+                style={{
+                  display: unseenCount > 0 ? 'flex' : 'none',
+                  position: 'absolute',
+                  top: -height * 0.016,
+                  right: -width * 0.0,
+                  // height: height * 0.018,
+                  width: width * 0.04,
+                  fontSize: width * 0.026,
+                  textAlign: 'center',
+                  color: 'white',
+                  backgroundColor: 'red',
+                  // padding: 5,
+                  borderRadius: 50,
+                  zIndex: 10,
+                }}>
+                {unseenCount}
+              </Text>
+              <FontAwesomeIcon color="orange" icon={faBell} size={23} />
+            </Pressable>
+          </View>
         </View>
         {/* seacrch bar */}
         <TouchableOpacity

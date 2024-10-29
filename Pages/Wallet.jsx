@@ -29,16 +29,15 @@ const Wallet = () => {
   const {user, setUser} = useData();
   const {width, height} = Dimensions.get('window');
   const strategies = [
-    {text: 'Daily check in', price: 1, route: 'youractivities'},
-    {text: 'Enrolled any one course', price: 2, route: 'youractivities'},
-    {text: 'Complete any one challenge', price: 2, route: 'youractivities'},
+    {text: 'Daily check in', price: 1},
+    {text: 'Enrolled any one course', price: 2},
+    {text: 'Complete any one challenge', price: 2},
     {
       text: 'Spend 45 minutes in Study center',
       price: 5,
-      route: 'youractivities',
     },
-    {text: 'Take one assignment and pass', price: 5, route: 'youractivities'},
-    {text: 'Refer Your Friends', price: 5, route: 'youractivities'},
+    {text: 'Take one assignment and pass', price: 5},
+    {text: 'Refer Your Friends', price: 5},
   ];
 
   // const change gpay details
