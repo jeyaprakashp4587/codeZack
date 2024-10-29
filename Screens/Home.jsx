@@ -10,6 +10,8 @@ import {
   TouchableOpacity,
   Pressable,
   ToastAndroid,
+  Modal,
+  Animated,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
 import Fontawesome from 'react-native-vector-icons/FontAwesome';
@@ -39,6 +41,7 @@ import Ripple from 'react-native-material-ripple';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddWallet from '../hooks/AddWallet';
+import useShakeAnimation from '../hooks/useShakeAnimation';
 // code -----------
 
 const {width, height} = Dimensions.get('window');
@@ -50,6 +53,7 @@ const Home = () => {
   const [suggestRefresh, setSuggestRefresh] = useState(false);
   const [posts, setPosts] = useState([]);
   const [unseenCount, setUnseenCount] = useState(0);
+  const shakeInterpolation = useShakeAnimation(3000);
   // const { sendLocalNotification } = NotificationsHook();
   const socket = SocketData();
   const [refresh, setRefresh] = useState(false);
@@ -145,6 +149,8 @@ const Home = () => {
     navigation.addListener('focus', () => {
       getNotifications();
       checkButtonStatus();
+      checkButtonStatus();
+      checkFirstLogin();
     });
   }, [navigation]);
   useSocketOn(socket, 'updateNoti', async data => {
@@ -156,13 +162,20 @@ const Home = () => {
   useSocketOn(socket, 'Noti-test', async data => {
     await getNotifications();
   });
-
+  // check first login--
+  const [showEarnTutorial, setShowEarnTutorial] = useState(false);
+  const checkFirstLogin = async () => {
+    const hasExecuted = await AsyncStorage.getItem('hasExecutedTutorial');
+    if (hasExecuted === null) {
+      setShowEarnTutorial(true);
+      // await AsyncStorage.setItem('hasExecutedTutorial', 'true');
+    }
+  };
   useEffect(() => {
     InteractionManager.runAfterInteractions(async () => {
       await getConnectionPosts();
       await getNotifications();
       await setProfilePic();
-      checkButtonStatus();
     });
   }, [getConnectionPosts, getNotifications]);
 
@@ -210,7 +223,6 @@ const Home = () => {
       try {
         const now = moment().toISOString();
         await AsyncStorage.setItem('lastCheckIn', now);
-
         const result = await AddWallet(user?._id, 1, setUser);
         if (result === 'ok') {
           ToastAndroid.show('You earned 1 rupee', ToastAndroid.SHORT);
@@ -284,11 +296,25 @@ const Home = () => {
             <Fontawesome name="rupee" color="white" size={8} />
             {user?.Wallet?.TotalWallet}
           </Text>
-          <TouchableOpacity
-            style={{position: 'relative'}}
-            onPress={() => navigation.navigate('Wallet')}>
-            <SimpleLineIcons name="wallet" size={25} color={Colors.mildGrey} />
-          </TouchableOpacity>
+          <Animated.View
+            style={{
+              transform: [
+                {
+                  translateX:
+                    user?.Wallet?.TotalWallet >= 1 ? shakeInterpolation : 0,
+                },
+              ],
+            }}>
+            <TouchableOpacity
+              style={{position: 'relative'}}
+              onPress={() => navigation.navigate('Wallet')}>
+              <SimpleLineIcons
+                name="wallet"
+                size={25}
+                color={Colors.mildGrey}
+              />
+            </TouchableOpacity>
+          </Animated.View>
           <Text
             onPress={() => navigation.navigate('message')}
             style={{
@@ -315,6 +341,94 @@ const Home = () => {
           </TouchableOpacity>
         </View>
       </View>
+      {/* model for show earn detail */}
+      <Modal transparent={true} visible={showEarnTutorial} animationType="fade">
+        <View
+          style={{
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            flex: 1,
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              width: '70%',
+              backgroundColor: 'white',
+              padding: 20,
+              height: '70%',
+            }}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <Text style={styles.modalContent}>
+                Welcome to CodeCampus, where learning to code is not only
+                rewarding but also pays off! Here’s how our unique earning
+                feature works:
+              </Text>
+              <Text style={styles.modalSubheading}>
+                1. Complete Coding Challenges:
+              </Text>
+              <Text style={styles.modalContent}>
+                Participate in a variety of coding challenges tailored to
+                different skill levels—beginner to advanced. Each challenge is
+                designed to test your knowledge and improve your skills.
+              </Text>
+              <Text style={styles.modalSubheading}>
+                2. Earn Points for Your Achievements:
+              </Text>
+              <Text style={styles.modalContent}>
+                As you successfully complete challenges, you earn points. Points
+                can be accumulated over time and are redeemable for cash
+                rewards, gift cards, or other exciting prizes.
+              </Text>
+              <Text style={styles.modalSubheading}>4. Skill Development:</Text>
+              <Text style={styles.modalContent}>
+                Not only do you earn money, but you also build a strong
+                foundation in programming. Our platform offers tutorials and
+                resources to help you understand coding concepts thoroughly.
+              </Text>
+              <Text style={styles.modalSubheading}>
+                5. Cash Out Your Earnings:
+              </Text>
+              <Text style={styles.modalContent}>
+                Once you've accumulated enough points, you can easily cash them
+                out through our secure payment system. Options include direct
+                bank transfers, PayPal, or popular e-wallets.
+              </Text>
+              <Text style={styles.modalSubheading}>6. Referral Program:</Text>
+              <Text style={styles.modalContent}>
+                Invite friends to join CodeCampus and earn bonus points for each
+                successful referral. Share your learning journey and help others
+                while boosting your earnings!
+              </Text>
+              <Text style={styles.modalSubheading}>
+                7. Feedback and Growth:
+              </Text>
+              <Text style={styles.modalContent}>
+                We value your input! Provide feedback on challenges and
+                tutorials, and earn additional points for your contributions.
+                Your feedback helps us enhance the learning experience for
+                everyone.
+              </Text>
+              <TouchableOpacity
+                onPress={() => setShowEarnTutorial(false)}
+                style={{
+                  backgroundColor: Colors.violet,
+                  padding: 10,
+                  borderRadius: 10,
+                }}>
+                <Text
+                  style={{
+                    letterSpacing: 1,
+                    textAlign: 'center',
+                    color: 'white',
+                  }}>
+                  Ok
+                </Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
       {/*  header*/}
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -343,33 +457,39 @@ const Home = () => {
           </Text>
           <View
             style={{flexDirection: 'row', alignItems: 'center', columnGap: 10}}>
-            <Ripple
-              onPress={() => handleCheckIn()}
+            <Animated.View
               style={{
-                // backgroundColor: '#457b9d',
-                borderRadius: 10,
-                flexDirection: 'row',
-                alignItems: 'center',
-                columnGap: 5,
-                borderWidth: 1,
-                borderColor: '#3d405b',
-                height: height * 0.03,
-                paddingHorizontal: 10,
+                transform: [{translateX: isDisabled ? 0 : shakeInterpolation}],
               }}>
-              <Text
+              <Ripple
+                onPress={() => handleCheckIn()}
                 style={{
-                  color: '#14213d',
-                  letterSpacing: 2,
-                  fontSize: width * 0.02,
+                  // backgroundColor: '#457b9d',
+                  borderRadius: 10,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  columnGap: 5,
+                  borderWidth: 1,
+                  borderColor: '#3d405b',
+                  height: height * 0.03,
+                  paddingHorizontal: 10,
                 }}>
-                Daily Check in
-              </Text>
-              {isDisabled ? (
-                <Feather name="check" color="#3d405b" />
-              ) : (
-                <Text></Text>
-              )}
-            </Ripple>
+                <Text
+                  style={{
+                    color: '#14213d',
+                    letterSpacing: 2,
+                    fontSize: width * 0.02,
+                  }}>
+                  Daily Check in
+                </Text>
+                {isDisabled ? (
+                  <Feather name="check" color="#3d405b" />
+                ) : (
+                  <Text></Text>
+                )}
+              </Ripple>
+            </Animated.View>
+
             <Pressable
               style={{position: 'relative'}}
               onPress={() => navigation.navigate('notifications')}>
@@ -581,5 +701,19 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
     color: 'black',
     // fontWeight: '600',
+  },
+  modalSubheading: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginVertical: 5,
+    textAlign: 'left',
+    color: Colors.mildGrey,
+    letterSpacing: 1.5,
+  },
+  modalContent: {
+    marginVertical: 10,
+    textAlign: 'left',
+    color: Colors.lightGrey,
+    letterSpacing: 1.5,
   },
 });

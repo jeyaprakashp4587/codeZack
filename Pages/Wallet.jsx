@@ -24,9 +24,11 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import axios from 'axios';
 import Api from '../Api';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
+import {useNavigation} from '@react-navigation/native';
 
 const Wallet = () => {
   const {user, setUser} = useData();
+  const Navigation = useNavigation();
   const {width, height} = Dimensions.get('window');
   const strategies = [
     {text: 'Daily check in', price: 1},
@@ -39,6 +41,49 @@ const Wallet = () => {
     {text: 'Take one assignment and pass', price: 5},
     {text: 'Refer Your Friends', price: 5},
   ];
+  // withDraw
+  const [withdrawAmount, setWitharawAmout] = useState();
+
+  const HandleWithdraw = async () => {
+    // Check if the withdrawal amount is valid
+    // if (user?.Wallet?.TotalWallet < 100) {
+    //   ToastAndroid.show(
+    //     'Insufficient balance. You need at least 100 to withdraw.',
+    //     ToastAndroid.LONG,
+    //   );
+    //   return;
+    // } else if (user?.Wallet?.TotalWallet < withdrawAmount) {
+    //   ToastAndroid.show(
+    //     'Your balance is insufficient for the requested amount.',
+    //     ToastAndroid.LONG,
+    //   );
+    //   return;
+    // }
+    try {
+      const response = await axios.post(`${Api}/Wallet/withdrawal`, {
+        userId: user?._id,
+        userName: `${user?.firstName} ${user?.LastName}`,
+        accountName: user?.Wallet?.GpayAccount?.GpayAccountName,
+        upiId: user?.Wallet?.GpayAccount?.GpayUpiId,
+        amount: withdrawAmount,
+      });
+
+      if (response.status === 200) {
+        ToastAndroid.show(
+          'Withdrawal request sent successfully.',
+          ToastAndroid.SHORT,
+        );
+      }
+    } catch (error) {
+      console.error('Error during withdrawal:', error);
+
+      // Use a single catch block to handle all errors
+      const errorMessage =
+        error.response?.data?.message ||
+        'Failed to process withdrawal. Please try again.';
+      ToastAndroid.show(errorMessage, ToastAndroid.SHORT);
+    }
+  };
 
   // const change gpay details
   const [GpayAccountName, setGpayAccountName] = useState();
@@ -237,8 +282,54 @@ const Wallet = () => {
             }}
           />
         </View>
+        {/* withdraw textipnut */}
+        <View style={{flexDirection: 'column', rowGap: 10}}>
+          <Text
+            style={{
+              letterSpacing: 2,
+              color: Colors.mildGrey,
+              fontSize: width * 0.04,
+            }}>
+            Withdrawal Rules:
+          </Text>
+          <Text
+            style={{
+              letterSpacing: 2,
+              color: Colors.mildGrey,
+              fontSize: width * 0.03,
+            }}>
+            • Minimum balance required: 100
+          </Text>
+          <Text
+            style={{
+              letterSpacing: 2,
+              color: Colors.mildGrey,
+              fontSize: width * 0.03,
+            }}>
+            • Requested amount should not exceed your balance
+          </Text>
+          <Text
+            style={{
+              letterSpacing: 2,
+              color: Colors.mildGrey,
+              fontSize: width * 0.03,
+            }}>
+            • We will process your withdrawal within 2 days
+          </Text>
+        </View>
+        <TextInput
+          placeholder="Enter amount"
+          style={{
+            borderWidth: 1,
+            padding: 10,
+            borderColor: Colors.veryLightGrey,
+            color: Colors.mildGrey,
+          }}
+          keyboardType="numeric"
+          onChangeText={setWitharawAmout}
+        />
         <TouchableOpacity
-          disabled={user.Wallet.TotalWallet >= 100 ? true : false}
+          onPress={HandleWithdraw}
           style={{backgroundColor: '#1a659e', padding: 15, borderRadius: 10}}>
           <Text style={{color: 'white', letterSpacing: 2, textAlign: 'center'}}>
             WithDraw

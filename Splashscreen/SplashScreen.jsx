@@ -52,8 +52,11 @@ const SplashScreen = () => {
   }, [nav, setUser]);
 
   useEffect(() => {
-    validLogin(); // Call auto login on component mount
-  }, [validLogin]);
+    nav.addListener('focus', () => {
+      validLogin();
+    });
+    // Call auto login on component mount
+  }, [validLogin, nav]);
 
   return (
     <View

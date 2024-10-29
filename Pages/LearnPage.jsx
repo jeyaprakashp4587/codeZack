@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, Dimensions} from 'react-native';
+import {StyleSheet, Text, View, Dimensions, ToastAndroid} from 'react-native';
 
 import {WebView} from 'react-native-webview';
 import {Colors, pageView} from '../constants/Colors';
@@ -9,11 +9,12 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Skeleton from '../Skeletons/Skeleton';
 import BannerAdd from '../Adds/BannerAdd';
+import AddWallet from '../hooks/AddWallet';
 
 const {width, height} = Dimensions.get('window');
 
 const LearnPage = () => {
-  const {selectedTechnology} = useData();
+  const {selectedTechnology, user, setUser} = useData();
   // time
   const [hours, setHours] = useState(1);
   const [minutes, setMinutes] = useState(0);
@@ -33,6 +34,11 @@ const LearnPage = () => {
           setHours(hours - 1);
           setMinutes(59);
           setSeconds(59);
+        }
+        if (minutes <= 15) {
+          AddWallet(user?._id, 5, setUser).then(() =>
+            ToastAndroid.show('congrats you earned Rs:5'),
+          );
         }
       }, 1000);
     }

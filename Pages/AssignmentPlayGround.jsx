@@ -10,10 +10,13 @@ import {
   Alert,
   Dimensions,
   TouchableOpacity,
+  ToastAndroid,
 } from 'react-native';
 import PragraphText from '../utils/PragraphText';
 import {Colors} from '../constants/Colors';
 import BannerAdd from '../Adds/BannerAdd';
+import Actitivity from '../hooks/ActivityHook';
+import AddWallet from '../hooks/AddWallet';
 
 const AssignmentPlayGround = () => {
   const {assignmentType, user, setUser} = useData();
@@ -107,7 +110,16 @@ const AssignmentPlayGround = () => {
       );
       if (res.data.Email) {
         setUser(res.data);
-        Alert.alert('Congratulations!', 'You passed the quiz!');
+        Actitivity(
+          user?._id,
+          `Finished ${difficultyInfo} Level ${assignmentType} assignment`,
+        );
+        await AddWallet(user?._id, 5, setUser).then(() =>
+          ToastAndroid.show(
+            'Congratulations!',
+            'You passed the quiz! and earned Rs:5',
+          ),
+        );
       }
     } else {
       Alert.alert('Try Again!', `You did not pass. Score: ${score}`);

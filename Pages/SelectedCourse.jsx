@@ -20,6 +20,7 @@ import PragraphText from '../utils/PragraphText';
 import Api from '../Api';
 import axios from 'axios';
 import Actitivity from '../hooks/ActivityHook';
+import AddWallet from '../hooks/AddWallet';
 
 const {width, height} = Dimensions.get('window');
 
@@ -37,15 +38,14 @@ const SelectedCourse = ({navigation}) => {
       // Check if the response contains user data (Email field presence indicates success)
       if (res.data.Email) {
         // Update user data and show success alert
+        await AddWallet(user?._id, 2, setUser);
+        ToastAndroid.show('Course added sucessfully and earned Rs:2');
         setUser(res.data);
-
         Actitivity(user?._id, `${selectedCourse.name} Added`);
-
         // Navigate to course details screen
         navigation.navigate('courseDetails');
       } else if (res.data == 'Enrolled') {
         // Handle the case where the course couldn't be added (server returned an error message)
-
         ToastAndroid.show(
           'You are already enrolled in this course',
           ToastAndroid.BOTTOM,
