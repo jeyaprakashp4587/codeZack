@@ -620,10 +620,10 @@ const Home = () => {
           />
         </View>
         {/* banner add */}
-        {/* <BannerAdd /> */}
+        <BannerAdd />
         {/* posts */}
       </ScrollView>
-      {/* <FlatList
+      <FlatList
         data={posts} // Data for FlatList
         keyExtractor={item => item._id} // Key for each post
         renderItem={({item, index}) => (
@@ -635,7 +635,7 @@ const Home = () => {
             // updateLikeCount={updateLikeCount} // Function to update like count
           />
         )}
-      /> */}
+      />
     </View>
   );
 };

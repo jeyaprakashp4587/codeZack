@@ -69,21 +69,21 @@ const SplashScreen = () => {
           alignItems: 'center',
           rowGap: 100,
         }}>
-        {/* <Image
-          source={require("../assets/images/splash.png")}
+        <Image
+          source={{uri: 'https://i.ibb.co/6PFwjrf/ic-launcher.png'}}
           style={{
             width: 400,
             height: 400,
           }}
-        /> */}
+        />
 
-        <Text
+        {/* <Text
           style={{
             // fontFamily: "PopIns-Regular",
             fontSize: 40,
           }}>
           Code Campus
-        </Text>
+        </Text> */}
         <FontAwesomeIcon
           icon={faCode}
           size={300}
