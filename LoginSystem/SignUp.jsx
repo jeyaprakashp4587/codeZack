@@ -77,7 +77,7 @@ const SignUp = ({navigation}) => {
         );
       } else {
         refs[key].current.setNativeProps({
-          style: {borderColor: Colors.veryLightGrey, borderWidth: 0},
+          style: {borderColor: Colors.veryLightGrey, borderWidth: 1},
         });
       }
     }

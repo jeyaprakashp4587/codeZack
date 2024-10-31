@@ -92,6 +92,13 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            // Configure the release keystore
+            storeFile file('my-release-key.keystore') // Replace with the name of your keystore file
+            storePassword 'codecampus'                        // Keystore password
+            keyAlias 'my-key-alias'                             // Key alias
+            keyPassword 'codecampus'                          // Key password
+        }
     }
     buildTypes {
         debug {

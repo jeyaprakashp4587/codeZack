@@ -117,7 +117,7 @@ const Login = () => {
           />
           <TouchableOpacity onPress={HandleLogin} style={styles.loginButton}>
             {activityIndi && (
-              <ActivityIndicator size="small" color={Colors.violet} />
+              <ActivityIndicator size="small" color={Colors.mildGrey} />
             )}
             <Text style={styles.loginText}>Log In</Text>
           </TouchableOpacity>

@@ -70,28 +70,17 @@ const SplashScreen = () => {
           rowGap: 100,
         }}>
         <Image
-          source={{uri: 'https://i.ibb.co/6PFwjrf/ic-launcher.png'}}
+          source={{
+            uri: 'https://i.ibb.co/MVMBJRM/ic-launcher-removebg-preview.png',
+          }}
           style={{
-            width: 400,
-            height: 400,
+            width: width * 0.9,
+            height: height * 0.5,
           }}
         />
 
-        {/* <Text
-          style={{
-            // fontFamily: "PopIns-Regular",
-            fontSize: 40,
-          }}>
-          Code Campus
-        </Text> */}
-        <FontAwesomeIcon
-          icon={faCode}
-          size={300}
-          color={Colors.veryLightGrey}
-          style={{position: 'absolute', zIndex: -10, top: -120}}
-        />
         {/* progress bar */}
-        <View style={{position: 'absolute', bottom: -300}}>
+        <View style={{position: 'absolute', bottom: -height * 0.08}}>
           {activityIndicator && (
             <ActivityIndicator size={50} color={Colors.mildGrey} />
           )}

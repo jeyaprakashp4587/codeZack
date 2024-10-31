@@ -59,6 +59,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         });
         if (res.data) {
           setUser(res.data);
+
         }
       } catch (err) {
         // console.log(err);

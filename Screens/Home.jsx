@@ -4,66 +4,42 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
   Image,
-  TextInput,
   TouchableOpacity,
-  Pressable,
   ToastAndroid,
   Modal,
   Animated,
+  Dimensions,
+  RefreshControl,
 } from 'react-native';
-import {Colors, pageView} from '../constants/Colors';
 import Fontawesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import HomeSkeleton from '../Skeletons/HomeSkeleton';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBell, faMessage} from '@fortawesome/free-regular-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
-import {Dimensions, InteractionManager} from 'react-native';
-import {LinearGradient} from 'react-native-linear-gradient';
-import {RefreshControl} from 'react-native';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Fontisto from 'react-native-vector-icons/Fontisto';
+import {debounce} from 'lodash';
 import axios from 'axios';
 import Api from '../Api';
-import SuggestionWapper from '../components/SuggestionWapper';
 import useSocketOn from '../Socket/useSocketOn';
-import Posts from '../components/Posts';
-import {debounce} from 'lodash';
-import {SocketData} from '../Socket/SocketContext';
-import Carousel from 'react-native-reanimated-carousel';
-import BannerAdd from '../Adds/BannerAdd';
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import Ripple from 'react-native-material-ripple';
-import moment from 'moment';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddWallet from '../hooks/AddWallet';
 import useShakeAnimation from '../hooks/useShakeAnimation';
-// code -----------
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment';
 
 const {width, height} = Dimensions.get('window');
+
 const Home = () => {
   const navigation = useNavigation();
   const {user, setUser} = useData();
   const [load, setLoad] = useState(false);
-  const [suggestDisplay, setSuggestDisplay] = useState(true);
-  const [suggestRefresh, setSuggestRefresh] = useState(false);
   const [posts, setPosts] = useState([]);
   const [unseenCount, setUnseenCount] = useState(0);
-  const shakeInterpolation = useShakeAnimation(3000);
-  // const { sendLocalNotification } = NotificationsHook();
-  const socket = SocketData();
+  const [showEarnTutorial, setShowEarnTutorial] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [refresh, setRefresh] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoad(true);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, []);
+  const shakeInterpolation = useShakeAnimation(3000);
 
   const carouselData = useMemo(
     () => [
@@ -91,24 +67,21 @@ const Home = () => {
 
   const getCurrentGreeting = useCallback(() => {
     const currentHour = new Date().getHours();
-    if (currentHour < 12) return 'Good Morning';
-    if (currentHour < 17) return 'Good Afternoon';
-    if (currentHour < 20) return 'Good Evening';
-    return 'Good Evening';
+    return currentHour < 12
+      ? 'Good Morning'
+      : currentHour < 17
+      ? 'Good Afternoon'
+      : 'Good Evening';
   }, []);
 
   const refreshUser = useCallback(async () => {
     setRefresh(true);
     try {
-      setSuggestRefresh(true);
-      const res = await axios.post(`${Api}/Login/getUser`, {
-        userId: user?._id,
-      });
+      const res = await axios.post(`${Api}/Login/getUser`, {userId: user?._id});
       if (res.data) {
         setUser(res.data);
         setRefresh(false);
-        await getConnectionPosts();
-        await getNotifications();
+        await Promise.all([getConnectionPosts(), getNotifications()]);
       }
     } catch (error) {
       console.error('Failed to refresh user:', error);
@@ -120,10 +93,7 @@ const Home = () => {
       const res = await axios.get(
         `${Api}/Post/getConnectionPosts/${user?._id}`,
       );
-      if (res.status === 200) {
-        // console.log(res.data);
-        setPosts(res.data);
-      }
+      if (res.status === 200) setPosts(res.data);
     } catch (error) {
       console.error('Failed to fetch posts:', error);
     }
@@ -131,93 +101,41 @@ const Home = () => {
 
   const getNotifications = useCallback(async () => {
     try {
-      if (user?.Notifications.length < 0) {
-        // console.log(user?.Notifications.length);
-      }
       const res = await axios.get(
         `${Api}/Notifications/getNotifications/${user?._id}`,
       );
-      if (res.status == 200) {
+      if (res.status === 200) {
         const unseen = res?.data?.filter(notification => !notification.seen);
         setUnseenCount(unseen.length);
       }
     } catch (error) {
       console.error('Failed to fetch notifications:', error);
     }
-  }, [user?._id, useSocketOn]);
+  }, [user?._id]);
+
   useEffect(() => {
     navigation.addListener('focus', () => {
       getNotifications();
-      checkButtonStatus();
-      checkButtonStatus();
       checkFirstLogin();
     });
   }, [navigation]);
-  useSocketOn(socket, 'updateNoti', async data => {
-    console.log(data);
-    if (data) {
-      getNotifications();
-    }
-  });
-  useSocketOn(socket, 'Noti-test', async data => {
-    await getNotifications();
-  });
-  // check first login--
-  const [showEarnTutorial, setShowEarnTutorial] = useState(false);
+
   const checkFirstLogin = async () => {
     const hasExecuted = await AsyncStorage.getItem('hasExecutedTutorial');
-    if (hasExecuted === null) {
-      setShowEarnTutorial(true);
-      // await AsyncStorage.setItem('hasExecutedTutorial', 'true');
-    }
+    if (!hasExecuted) setShowEarnTutorial(true);
   };
-  useEffect(() => {
-    InteractionManager.runAfterInteractions(async () => {
-      await getConnectionPosts();
-      await getNotifications();
-      await setProfilePic();
-    });
-  }, [getConnectionPosts, getNotifications]);
 
-  const setProfilePic = useCallback(async () => {
-    try {
-      const res = await axios.post(`${Api}/Profile/setProfile/${user?._id}`);
-      if (res.data) {
-        setUser(res.data);
-      }
-    } catch (error) {
-      console.error('Failed to set profile picture:', error);
-    }
-  }, [user?._id, setUser]);
-  // -- //
-  const HandlesuggestDisplay = data => {
-    setSuggestDisplay(data);
-  };
-  // ideas warapper navigations
   const debounceNavigation = useCallback(
     debounce(route => navigation.navigate(route), 100),
     [],
   );
-  const carrerNav = useCallback(() => debounceNavigation('carrerScreen'), []);
-  const courseNav = useCallback(() => debounceNavigation('yourcourse'), []);
-  const activityNav = useCallback(
-    () => debounceNavigation('youractivities'),
-    [],
-  );
-  const assignmentNav = useCallback(() => {
-    debounceNavigation('Assignments');
-  }, []);
-  // daily check in---
-  const [isDisabled, setIsDisabled] = useState(false);
+
   const checkButtonStatus = async () => {
     const lastCheckIn = await AsyncStorage.getItem('lastCheckIn');
-    if (lastCheckIn) {
-      const lastCheckInDate = moment(lastCheckIn);
-      const now = moment();
-      const isSameDay = lastCheckInDate.isSame(now, 'day');
-      setIsDisabled(isSameDay);
-    }
+    if (lastCheckIn && moment(lastCheckIn).isSame(moment(), 'day'))
+      setIsDisabled(true);
   };
+
   const handleCheckIn = async () => {
     if (!isDisabled) {
       try {
@@ -243,10 +161,13 @@ const Home = () => {
       );
     }
   };
-  // -----------//
-  if (!load) {
-    return <HomeSkeleton />;
-  }
+  useEffect(() => {
+    setTimeout(() => {
+      setLoad(true);
+    }, 100);
+  }, []);
+  if (!load) return <HomeSkeleton />;
+
   // --------- //
   return (
     <View style={pageView}>
@@ -257,7 +178,7 @@ const Home = () => {
             source={{
               uri: user?.Images?.profile
                 ? user?.Images?.profile
-                : user?.Gender == 'Male'
+                : user?.Gender == 'male'
                 ? 'https://i.ibb.co/3T4mNMm/man.png'
                 : 'https://i.ibb.co/3mCcQp9/woman.png',
             }}
