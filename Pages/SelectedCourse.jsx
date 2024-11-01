@@ -39,7 +39,10 @@ const SelectedCourse = ({navigation}) => {
       if (res.data.Email) {
         // Update user data and show success alert
         await AddWallet(user?._id, 2, setUser);
-        ToastAndroid.show('Course added sucessfully and earned Rs:2');
+        ToastAndroid.show(
+          'Course added sucessfully and earned Rs:2',
+          ToastAndroid.SHORT,
+        );
         setUser(res.data);
         Actitivity(user?._id, `${selectedCourse.name} Added`);
         // Navigate to course details screen

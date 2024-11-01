@@ -265,7 +265,7 @@ const Profile = ({navigation}) => {
               source={{
                 uri: user?.Images?.profile
                   ? user?.Images?.profile
-                  : user?.Gender == 'Male'
+                  : user?.Gender == 'male'
                   ? 'https://i.ibb.co/3T4mNMm/man.png'
                   : 'https://i.ibb.co/3mCcQp9/woman.png',
               }}

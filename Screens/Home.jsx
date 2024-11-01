@@ -4,42 +4,70 @@ import {
   StyleSheet,
   Text,
   View,
+  ScrollView,
   Image,
+  TextInput,
   TouchableOpacity,
+  Pressable,
   ToastAndroid,
   Modal,
   Animated,
   Dimensions,
+  InteractionManager,
   RefreshControl,
 } from 'react-native';
+import {Colors, pageView} from '../constants/Colors';
 import Fontawesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import HomeSkeleton from '../Skeletons/HomeSkeleton';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBell, faMessage} from '@fortawesome/free-regular-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
-import {debounce} from 'lodash';
+import {LinearGradient} from 'react-native-linear-gradient';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import axios from 'axios';
 import Api from '../Api';
+import SuggestionWapper from '../components/SuggestionWapper';
 import useSocketOn from '../Socket/useSocketOn';
+import Posts from '../components/Posts';
+import {debounce} from 'lodash';
+import {SocketData} from '../Socket/SocketContext';
+import Carousel from 'react-native-reanimated-carousel';
+import BannerAdd from '../Adds/BannerAdd';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import Ripple from 'react-native-material-ripple';
+import moment from 'moment';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddWallet from '../hooks/AddWallet';
 import useShakeAnimation from '../hooks/useShakeAnimation';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import moment from 'moment';
 
+// Dimensions for layout
 const {width, height} = Dimensions.get('window');
 
 const Home = () => {
   const navigation = useNavigation();
   const {user, setUser} = useData();
   const [load, setLoad] = useState(false);
+  const [suggestDisplay, setSuggestDisplay] = useState(true);
+  const [suggestRefresh, setSuggestRefresh] = useState(false);
   const [posts, setPosts] = useState([]);
   const [unseenCount, setUnseenCount] = useState(0);
+  const shakeInterpolation = useShakeAnimation(3000);
+  const socket = SocketData();
+  const [refresh, setRefresh] = useState(false);
   const [showEarnTutorial, setShowEarnTutorial] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
-  const [refresh, setRefresh] = useState(false);
-  const shakeInterpolation = useShakeAnimation(3000);
+
+  // Load effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoad(true);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const carouselData = useMemo(
     () => [
@@ -67,21 +95,21 @@ const Home = () => {
 
   const getCurrentGreeting = useCallback(() => {
     const currentHour = new Date().getHours();
-    return currentHour < 12
-      ? 'Good Morning'
-      : currentHour < 17
-      ? 'Good Afternoon'
-      : 'Good Evening';
+    if (currentHour < 12) return 'Good Morning';
+    if (currentHour < 17) return 'Good Afternoon';
+    return 'Good Evening';
   }, []);
 
   const refreshUser = useCallback(async () => {
     setRefresh(true);
     try {
+      setSuggestRefresh(true);
       const res = await axios.post(`${Api}/Login/getUser`, {userId: user?._id});
       if (res.data) {
         setUser(res.data);
         setRefresh(false);
-        await Promise.all([getConnectionPosts(), getNotifications()]);
+        await getConnectionPosts();
+        await getNotifications();
       }
     } catch (error) {
       console.error('Failed to refresh user:', error);
@@ -93,7 +121,9 @@ const Home = () => {
       const res = await axios.get(
         `${Api}/Post/getConnectionPosts/${user?._id}`,
       );
-      if (res.status === 200) setPosts(res.data);
+      if (res.status === 200) {
+        setPosts(res.data);
+      }
     } catch (error) {
       console.error('Failed to fetch posts:', error);
     }
@@ -105,35 +135,77 @@ const Home = () => {
         `${Api}/Notifications/getNotifications/${user?._id}`,
       );
       if (res.status === 200) {
-        const unseen = res?.data?.filter(notification => !notification.seen);
+        const unseen = res.data.filter(notification => !notification.seen);
         setUnseenCount(unseen.length);
       }
     } catch (error) {
       console.error('Failed to fetch notifications:', error);
     }
-  }, [user?._id]);
+  }, [user?._id, useSocketOn]);
 
   useEffect(() => {
     navigation.addListener('focus', () => {
       getNotifications();
+      checkButtonStatus();
       checkFirstLogin();
     });
   }, [navigation]);
 
+  useSocketOn(socket, 'updateNoti', async data => {
+    if (data) getNotifications();
+  });
+
+  useSocketOn(socket, 'Noti-test', async () => {
+    await getNotifications();
+  });
+
   const checkFirstLogin = async () => {
     const hasExecuted = await AsyncStorage.getItem('hasExecutedTutorial');
-    if (!hasExecuted) setShowEarnTutorial(true);
+    if (hasExecuted === null) setShowEarnTutorial(true);
   };
 
+  useEffect(() => {
+    InteractionManager.runAfterInteractions(async () => {
+      await getConnectionPosts();
+      await getNotifications();
+      await setProfilePic();
+    });
+  }, [getConnectionPosts, getNotifications]);
+
+  const setProfilePic = useCallback(async () => {
+    try {
+      const res = await axios.post(`${Api}/Profile/setProfile/${user?._id}`);
+      if (res.data) setUser(res.data);
+    } catch (error) {
+      console.error('Failed to set profile picture:', error);
+    }
+  }, [user?._id, setUser]);
+
+  const HandlesuggestDisplay = data => {
+    setSuggestDisplay(data);
+  };
+  // ideas wrapper naivagtions
   const debounceNavigation = useCallback(
     debounce(route => navigation.navigate(route), 100),
     [],
   );
+  const carrerNav = useCallback(() => debounceNavigation('carrerScreen'), []);
+  const courseNav = useCallback(() => debounceNavigation('yourcourse'), []);
+  const activityNav = useCallback(
+    () => debounceNavigation('youractivities'),
+    [],
+  );
+  const assignmentNav = useCallback(() => {
+    debounceNavigation('Assignments');
+  }, []);
 
   const checkButtonStatus = async () => {
     const lastCheckIn = await AsyncStorage.getItem('lastCheckIn');
-    if (lastCheckIn && moment(lastCheckIn).isSame(moment(), 'day'))
-      setIsDisabled(true);
+    if (lastCheckIn) {
+      const lastCheckInDate = moment(lastCheckIn);
+      const now = moment();
+      setIsDisabled(lastCheckInDate.isSame(now, 'day'));
+    }
   };
 
   const handleCheckIn = async () => {
@@ -161,14 +233,9 @@ const Home = () => {
       );
     }
   };
-  useEffect(() => {
-    setTimeout(() => {
-      setLoad(true);
-    }, 100);
-  }, []);
+
   if (!load) return <HomeSkeleton />;
 
-  // --------- //
   return (
     <View style={pageView}>
       {/* header */}
@@ -440,12 +507,27 @@ const Home = () => {
         {/* seacrch bar */}
         <TouchableOpacity
           onPress={() => navigation.navigate('search')}
-          style={[styles.searchButton, {marginHorizontal: 10}]}>
-          <EvilIcons name="search" size={30} color={Colors.lightGrey} />
+          style={{
+            borderWidth: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            marginHorizontal: 15,
+            borderRadius: 20,
+            paddingHorizontal: 10,
+            borderColor: Colors.veryLightGrey,
+            marginVertical: 10,
+          }}>
+          <EvilIcons name="search" size={25} color={Colors.lightGrey} />
           <TextInput
             onPress={() => navigation.navigate('search')}
             placeholder="Search"
-            style={styles.searchInput}
+            style={
+              {
+                // borderWidth: 1,
+                // width: '80%',
+              }
+            }
           />
         </TouchableOpacity>
         {/* ideas wrapper */}
@@ -561,45 +643,43 @@ const Home = () => {
   );
 };
 
-export default React.memo(Home);
-
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingBottom: 15,
-    marginTop: 10,
-    paddingHorizontal: 15,
-  },
-  profileImage: {
-    borderRadius: 50,
-  },
-  searchButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.white,
-    paddingHorizontal: 10,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: Colors.veryLightGrey,
-    overflow: 'hidden',
-    marginVertical: 5,
-  },
-  searchInput: {
-    color: Colors.lightGrey,
-    fontSize: 16,
-    paddingHorizontal: 10,
-    flex: 1,
     padding: 10,
-    backgroundColor: 'white',
+    alignItems: 'center',
   },
+  profileImage: {resizeMode: 'cover'},
+  headerIcons: {flexDirection: 'row', gap: 10},
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContentWrapper: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    width: '90%',
+  },
+  modalContent: {fontSize: 16, lineHeight: 22, marginBottom: 10},
+  closeButton: {
+    backgroundColor: Colors.primary,
+    borderRadius: 5,
+    padding: 10,
+    marginTop: 20,
+  },
+  closeButtonText: {color: 'white', textAlign: 'center', fontSize: 16},
+  carouselImage: {width: '80%', height: '80%', resizeMode: 'contain'},
+  carouselText: {fontSize: 18, marginTop: 10, fontWeight: 'bold'},
   ideasWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 5,
-    paddingHorizontal: 15,
     // borderWidth: 1,
+    marginHorizontal: 15,
   },
   ideaBox: {
     width: width * 0.2,
@@ -612,29 +692,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 10,
     rowGap: 7,
-    // borderWidth: 0.1,
   },
   icon: {
     width: 35,
     height: 35,
   },
   ideaText: {
+    color: Colors.veryDarkGrey,
     letterSpacing: 0.5,
-    color: 'black',
-    // fontWeight: '600',
-  },
-  modalSubheading: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginVertical: 5,
-    textAlign: 'left',
-    color: Colors.mildGrey,
-    letterSpacing: 1.5,
-  },
-  modalContent: {
-    marginVertical: 10,
-    textAlign: 'left',
-    color: Colors.lightGrey,
-    letterSpacing: 1.5,
+    // fontSize: 20,
   },
 });
+
+export default Home;

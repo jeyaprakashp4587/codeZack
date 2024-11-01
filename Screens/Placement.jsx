@@ -1,7 +1,5 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-
-import TopicsText from '../utils/TopicsText';
 import HeadingText from '../utils/HeadingText';
 import {Colors, pageView} from '../constants/Colors';
 import Moment from 'moment';
@@ -13,7 +11,7 @@ const Placement = () => {
       {/* header */}
       <HeadingText text="Placement" />
       {/* jobs lists */}
-      <Text>We will meet on another date bye dude :)</Text>
+      {/* <Text>We will meet on another date bye dude :)</Text> */}
     </View>
   );
 };
