@@ -49,30 +49,32 @@ const Profile = ({navigation}) => {
   // function to pick images from the library
   const HandleChangeProfile = useCallback(
     async imageType => {
-      const options = {
-        mediaType: 'photo',
-        maxWidth: 800,
-        maxHeight: 800,
-        quality: 1,
-        selectionLimit: 1,
-      };
-
-      launchImageLibrary(options, response => {
-        if (response.didCancel) {
-          console.log('User cancelled image picker');
-        } else if (response.error) {
-          console.error('ImagePicker Error: ', response.error);
-        } else {
-          const uri = response.assets[0]?.uri;
-          if (uri) {
-            hostImage(uri, imageType)
-              .then(imageUri => {
-                upload(imageUri, imageType);
-              })
-              .catch(err => setUploadIndicator(false));
+      launchImageLibrary(
+        {
+          mediaType: 'photo',
+          maxHeight: 400,
+          maxWidth: 400,
+          includeExtra: true,
+          quality: 1,
+          selectionLimit: 1,
+        },
+        response => {
+          if (response.didCancel) {
+            console.log('User cancelled image picker');
+          } else if (response.error) {
+            console.error('ImagePicker Error: ', response.error);
+          } else {
+            const uri = response.assets[0]?.uri;
+            if (uri) {
+              hostImage(uri, imageType)
+                .then(imageUri => {
+                  upload(imageUri, imageType);
+                })
+                .catch(err => setUploadIndicator(false));
+            }
           }
-        }
-      });
+        },
+      );
     },
     [Image],
   );

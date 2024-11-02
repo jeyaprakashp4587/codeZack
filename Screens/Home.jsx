@@ -43,6 +43,7 @@ import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddWallet from '../hooks/AddWallet';
 import useShakeAnimation from '../hooks/useShakeAnimation';
+import OneSignal from 'react-native-onesignal';
 
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
@@ -92,6 +93,12 @@ const Home = () => {
     ],
     [],
   );
+  useEffect(() => {
+    OneSignal.setAppId('861087e8-fa92-422a-9185-a129ca3e86d2');
+    OneSignal.setNotificationOpenedHandler(notification => {
+      console.log('Notification opened:', notification);
+    });
+  }, []);
 
   const getCurrentGreeting = useCallback(() => {
     const currentHour = new Date().getHours();
@@ -154,7 +161,7 @@ const Home = () => {
   const checkFirstLogin = async () => {
     try {
       const hasExecuted = await AsyncStorage.getItem('hasExecutedTutorial');
-      console.log('hasExecuted:', hasExecuted); // Check what the function retrieves
+      // console.log('hasExecuted:', hasExecuted); // Check what the function retrieves
       if (hasExecuted === null) {
         // console.log('First login detected');
         setShowEarnTutorial(true);
