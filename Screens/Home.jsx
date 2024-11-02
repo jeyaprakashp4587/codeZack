@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo, useCallback} from 'react';
+import React, {useState, useEffect, useMemo, useCallback, usFo} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -22,7 +22,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import HomeSkeleton from '../Skeletons/HomeSkeleton';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBell, faMessage} from '@fortawesome/free-regular-svg-icons';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
 import {LinearGradient} from 'react-native-linear-gradient';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
@@ -143,14 +143,6 @@ const Home = () => {
     }
   }, [user?._id, useSocketOn]);
 
-  useEffect(() => {
-    navigation.addListener('focus', () => {
-      getNotifications();
-      checkButtonStatus();
-      checkFirstLogin();
-    });
-  }, [navigation]);
-
   useSocketOn(socket, 'updateNoti', async data => {
     if (data) getNotifications();
   });
@@ -160,8 +152,17 @@ const Home = () => {
   });
 
   const checkFirstLogin = async () => {
-    const hasExecuted = await AsyncStorage.getItem('hasExecutedTutorial');
-    if (hasExecuted === null) setShowEarnTutorial(true);
+    try {
+      const hasExecuted = await AsyncStorage.getItem('hasExecutedTutorial');
+      console.log('hasExecuted:', hasExecuted); // Check what the function retrieves
+      if (hasExecuted === null) {
+        // console.log('First login detected');
+        setShowEarnTutorial(true);
+        await AsyncStorage.setItem('hasExecutedTutorial', 'true');
+      }
+    } catch (error) {
+      console.error('Error accessing AsyncStorage:', error);
+    }
   };
 
   useEffect(() => {
@@ -169,8 +170,21 @@ const Home = () => {
       await getConnectionPosts();
       await getNotifications();
       await setProfilePic();
+      await checkFirstLogin();
+      checkButtonStatus();
     });
   }, [getConnectionPosts, getNotifications]);
+  // ---
+  const debouncedFunctions = useCallback(
+    debounce(() => {
+      getNotifications();
+      checkButtonStatus();
+      checkFirstLogin();
+    }, 300), // 300 ms debounce delay, adjust as needed
+    [],
+  );
+
+  useFocusEffect(debouncedFunctions);
 
   const setProfilePic = useCallback(async () => {
     try {
@@ -635,7 +649,6 @@ const Home = () => {
             senderDetails={item.SenderDetails}
             index={index} // Pass index
             admin={false} // Optionally pass if the user is admin
-            // updateLikeCount={updateLikeCount} // Function to update like count
           />
         )}
       />
@@ -664,7 +677,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '90%',
   },
-  modalContent: {fontSize: 16, lineHeight: 22, marginBottom: 10},
+  modalSubheading: {
+    color: Colors.mildGrey,
+    letterSpacing: 2,
+    fontSize: width * 0.04,
+  },
+  modalContent: {
+    fontSize: width * 0.03,
+    letterSpacing: 2,
+    color: Colors.lightGrey,
+    paddingVertical: 10,
+  },
   closeButton: {
     backgroundColor: Colors.primary,
     borderRadius: 5,

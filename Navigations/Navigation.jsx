@@ -50,7 +50,6 @@ const Tab = createBottomTabNavigator();
 const TabNavigation = () => {
   return (
     <Tab.Navigator
-      detachInactiveScreens={true}
       initialRouteName="Home"
       screenOptions={{
         headerShown: false,

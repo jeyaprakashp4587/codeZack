@@ -11,6 +11,8 @@ import {
   ActivityIndicator,
   ScrollView,
   ToastAndroid,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import {Colors} from '../constants/Colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -87,76 +89,80 @@ const Login = () => {
   }, [form, validateForm, setUser, navigation]);
 
   return (
-    <ScrollView style={styles.pageView} showsVerticalScrollIndicator={false}>
-      <View style={styles.container}>
-        <Text style={styles.headerText}>Log In</Text>
-        <View style={styles.imageContainer}>
-          <Image
-            source={{uri: 'https://i.ibb.co/P5s1nZ5/loginbg.png'}}
-            style={styles.image}
-          />
-          <Text style={styles.welcomeText}>
-            Welcome To Code Campus, Growth Your Career From Here
-          </Text>
-        </View>
-
-        <View style={styles.inputsWrapper}>
-          <TextInput
-            spellCheck={true}
-            style={styles.textInput}
-            placeholder="Email"
-            placeholderTextColor={Colors.mildGrey}
-            onChangeText={text => handleEmail('Email', text)}
-          />
-          <TextInput
-            style={styles.textInput}
-            placeholder="Password"
-            placeholderTextColor={Colors.mildGrey}
-            secureTextEntry={true}
-            onChangeText={text => handlePassword('Password', text)}
-          />
-          <TouchableOpacity onPress={HandleLogin} style={styles.loginButton}>
-            {activityIndi && (
-              <ActivityIndicator size="small" color={Colors.mildGrey} />
-            )}
-            <Text style={styles.loginText}>Log In</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.indicator}>
-          <Text style={styles.indicatorText}>OR</Text>
-        </View>
-
-        <View style={styles.loginOptions}>
-          <TouchableOpacity>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{flex: 1}}>
+      <ScrollView style={styles.pageView} showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <Text style={styles.headerText}>Log In</Text>
+          <View style={styles.imageContainer}>
             <Image
-              source={{uri: 'https://i.ibb.co/zQC87X0/search.png'}}
-              style={styles.icon}
+              source={{uri: 'https://i.ibb.co/P5s1nZ5/loginbg.png'}}
+              style={styles.image}
             />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Image
-              source={{uri: 'https://i.ibb.co/Ypbh3dM/facebook.png'}}
-              style={styles.icon}
+            <Text style={styles.welcomeText}>
+              Welcome To Code Campus, Growth Your Career From Here
+            </Text>
+          </View>
+
+          <View style={styles.inputsWrapper}>
+            <TextInput
+              spellCheck={true}
+              style={styles.textInput}
+              placeholder="Email"
+              placeholderTextColor={Colors.mildGrey}
+              onChangeText={text => handleEmail('Email', text)}
             />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Image
-              source={{uri: 'https://i.ibb.co/xDZP0Lx/github.png'}}
-              style={styles.icon}
+            <TextInput
+              style={styles.textInput}
+              placeholder="Password"
+              placeholderTextColor={Colors.mildGrey}
+              secureTextEntry={true}
+              onChangeText={text => handlePassword('Password', text)}
             />
-          </TouchableOpacity>
+            <TouchableOpacity onPress={HandleLogin} style={styles.loginButton}>
+              {activityIndi && (
+                <ActivityIndicator size="small" color={Colors.mildGrey} />
+              )}
+              <Text style={styles.loginText}>Log In</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.indicator}>
+            <Text style={styles.indicatorText}>OR</Text>
+          </View>
+
+          <View style={styles.loginOptions}>
+            <TouchableOpacity>
+              <Image
+                source={{uri: 'https://i.ibb.co/zQC87X0/search.png'}}
+                style={styles.icon}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Image
+                source={{uri: 'https://i.ibb.co/Ypbh3dM/facebook.png'}}
+                style={styles.icon}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Image
+                source={{uri: 'https://i.ibb.co/xDZP0Lx/github.png'}}
+                style={styles.icon}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.signUpContainer}>
+            <Text style={{color: Colors.mildGrey, fontWeight: '700'}}>
+              Create New account
+            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('signup')}>
+              <Text style={styles.signUpLink}>Sign up</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.signUpContainer}>
-          <Text style={{color: Colors.mildGrey, fontWeight: '700'}}>
-            Create New account
-          </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('signup')}>
-            <Text style={styles.signUpLink}>Sign up</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

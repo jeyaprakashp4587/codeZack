@@ -494,6 +494,7 @@ const Profile = ({navigation}) => {
           <FontAwesomeIcon icon={faBook} size={20} color={Colors.violet} />
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={() => navigation.navigate('Wallet')}
           style={{
             backgroundColor: Colors.veryLightGrey,
             padding: 15,
@@ -509,7 +510,7 @@ const Profile = ({navigation}) => {
               letterSpacing: 1,
               fontSize: 16,
             }}>
-            Rewards
+            Wallet
           </Text>
           <FontAwesomeIcon icon={faAward} size={20} color="#595959" />
         </TouchableOpacity>
