@@ -45,20 +45,19 @@ const Wallet = () => {
   const [withdrawAmount, setWitharawAmout] = useState();
 
   const HandleWithdraw = async () => {
-    // Check if the withdrawal amount is valid
-    // if (user?.Wallet?.TotalWallet < 100) {
-    //   ToastAndroid.show(
-    //     'Insufficient balance. You need at least 100 to withdraw.',
-    //     ToastAndroid.LONG,
-    //   );
-    //   return;
-    // } else if (user?.Wallet?.TotalWallet < withdrawAmount) {
-    //   ToastAndroid.show(
-    //     'Your balance is insufficient for the requested amount.',
-    //     ToastAndroid.LONG,
-    //   );
-    //   return;
-    // }
+    if (user?.Wallet?.TotalWallet < 100) {
+      ToastAndroid.show(
+        'Insufficient balance. You need at least 100 to withdraw.',
+        ToastAndroid.LONG,
+      );
+      return;
+    } else if (user?.Wallet?.TotalWallet < withdrawAmount) {
+      ToastAndroid.show(
+        'Your balance is insufficient for the requested amount.',
+        ToastAndroid.LONG,
+      );
+      return;
+    }
     try {
       const response = await axios.post(`${Api}/Wallet/withdrawal`, {
         userId: user?._id,
@@ -69,6 +68,7 @@ const Wallet = () => {
       });
 
       if (response.status === 200) {
+        setUser(response.data);
         ToastAndroid.show(
           'Withdrawal request sent successfully.',
           ToastAndroid.SHORT,
@@ -246,7 +246,7 @@ const Wallet = () => {
         <Text style={{letterSpacing: 2, lineHeight: 35}}>
           After you first earn{' '}
           <Text style={{fontWeight: '600', color: '#f94144'}}>100</Text> or more
-          then you can withdraw your money
+          than you can withdraw your money
         </Text>
         {/* radio */}
         <View
@@ -262,7 +262,11 @@ const Wallet = () => {
               position: 'absolute',
               zIndex: 10,
               top: -height * 0.03,
-              left: `${user.Wallet.TotalWallet}%`,
+              left: `${
+                user.Wallet.TotalWallet >= 100
+                  ? width * 0.24
+                  : user.Wallet.TotalWallet
+              }%`,
             }}>
             <Fontawesome name="rupee" />
             {user.Wallet.TotalWallet}
@@ -270,7 +274,9 @@ const Wallet = () => {
           <View
             style={{
               height: 15,
-              width: `${user.Wallet.TotalWallet}%`,
+              width: `${
+                user.Wallet.TotalWallet >= 100 ? 100 : user.Wallet.TotalWallet
+              }%`,
               backgroundColor:
                 user.Wallet.TotalWallet <= 20
                   ? '#ed6a5a'
@@ -336,6 +342,32 @@ const Wallet = () => {
           </Text>
         </TouchableOpacity>
       </View>
+      {/* withdraw history */}
+      {user?.Wallet?.WithdrawHistory.length > 0 && (
+        <View style={{paddingHorizontal: 15, marginVertical: 10}}>
+          <TopicsText text="Withdraw History" />
+
+          <FlatList
+            data={user?.Wallet?.WithdrawHistory}
+            renderItem={({item}) => (
+              <TouchableOpacity style={{marginBottom: 10}}>
+                <Text style={{letterSpacing: 2, color: Colors.mildGrey}}>
+                  Withdraw Amount:{' '}
+                  <Text style={{color: 'red'}}>{item?.WithdrawAmount}</Text>
+                </Text>
+                <Text style={{letterSpacing: 2, color: Colors.mildGrey}}>
+                  Withdraw status:{' '}
+                  <Text style={{color: 'green'}}>{item?.status}</Text>
+                </Text>
+                <Text style={{letterSpacing: 2, color: Colors.mildGrey}}>
+                  Time:
+                  <Text style={{color: 'orange'}}>{item?.Time} </Text>
+                </Text>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
+      )}
       {/* strategies */}
       <View
         style={{
