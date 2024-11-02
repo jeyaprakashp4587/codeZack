@@ -290,7 +290,7 @@ const SearchScreen = ({navigation}) => {
       </View>
       {loading ||
         (userName?.current?.length <= 1 && (
-          <View>
+          <View style={{marginHorizontal: 15}}>
             <Skeleton width="100%" height={height * 0.07} radius={5} mt={10} />
             <Skeleton width="100%" height={height * 0.07} radius={5} mt={10} />
             <Skeleton width="100%" height={height * 0.07} radius={5} mt={10} />

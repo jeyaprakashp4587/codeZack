@@ -131,27 +131,6 @@ const Login = () => {
           <View style={styles.indicator}>
             <Text style={styles.indicatorText}>OR</Text>
           </View>
-
-          <View style={styles.loginOptions}>
-            <TouchableOpacity>
-              <Image
-                source={{uri: 'https://i.ibb.co/zQC87X0/search.png'}}
-                style={styles.icon}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image
-                source={{uri: 'https://i.ibb.co/Ypbh3dM/facebook.png'}}
-                style={styles.icon}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image
-                source={{uri: 'https://i.ibb.co/xDZP0Lx/github.png'}}
-                style={styles.icon}
-              />
-            </TouchableOpacity>
-          </View>
           <View style={styles.signUpContainer}>
             <Text style={{color: Colors.mildGrey, fontWeight: '700'}}>
               Create New account
@@ -195,6 +174,7 @@ const styles = StyleSheet.create({
     fontSize: width * 0.045,
     lineHeight: height * 0.04,
     color: Colors.veryDarkGrey,
+    letterSpacing: 1,
   },
   inputsWrapper: {
     flexDirection: 'column',
@@ -217,6 +197,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
     flexDirection: 'row',
+    columnGap: 10,
   },
   loginText: {
     fontWeight: '400',
@@ -239,16 +220,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignSelf: 'center',
   },
-  loginOptions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    columnGap: width * 0.05, // Dynamic gap
-  },
-  icon: {
-    width: width * 0.1, // Dynamic icon size
-    height: width * 0.1,
-  },
+
   signUpContainer: {
     flexDirection: 'row',
     alignSelf: 'center',

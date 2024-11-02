@@ -142,7 +142,7 @@ const UserProfile = () => {
           source={{
             uri: selectedUser?.Images?.coverImg
               ? selectedUser?.Images?.coverImg
-              : 'https://i.ibb.co/wwGDt0t/2151133955.jpg',
+              : 'https://i.ibb.co/Fh1fwGm/2151777507.jpg',
           }}
           style={{width: '100%', height: 220, resizeMode: 'cover'}}
         />
@@ -159,7 +159,7 @@ const UserProfile = () => {
             source={{
               uri: selectedUser?.Images?.profile
                 ? selectedUser?.Images?.profile
-                : selectedUser?.Gender === 'Male'
+                : selectedUser?.Gender === 'male'
                 ? 'https://i.ibb.co/3T4mNMm/man.png'
                 : 'https://i.ibb.co/3mCcQp9/woman.png',
             }}
@@ -234,6 +234,7 @@ const UserProfile = () => {
                 padding: width * 0.03,
                 borderRadius: 5,
                 columnGap: 10,
+                width: width * 0.4,
               }}>
               <SimpleLineIcons name="user-following" size={20} color="white" />
               <Text
@@ -256,6 +257,7 @@ const UserProfile = () => {
                 padding: width * 0.03,
                 borderRadius: 5,
                 columnGap: 10,
+                width: width * 0.4,
               }}>
               <SimpleLineIcons name="user-follow" size={20} color="white" />
               <Text
