@@ -17,6 +17,7 @@ import {Colors} from '../constants/Colors';
 import BannerAdd from '../Adds/BannerAdd';
 import Actitivity from '../hooks/ActivityHook';
 import AddWallet from '../hooks/AddWallet';
+import Skeleton from '../Skeletons/Skeleton';
 
 const AssignmentPlayGround = () => {
   const {assignmentType, user, setUser} = useData();
@@ -27,17 +28,47 @@ const AssignmentPlayGround = () => {
 
   const HandleSetDifficulty = level => {
     setDifficultyInfo(level);
-    getAssignment(assignmentType, level);
-    const existsLevel = checkExistsLevel();
-    c;
+    const existsLevel = checkExistsLevel(level);
+    if (!existsLevel) {
+      getAssignment(assignmentType, level);
+    } else {
+      Alert.alert('You already passed this assignment level, try next levels');
+      // Get the next available difficulty level to try
+      const nextLevel = getNextAvailableLevel(level);
+      if (nextLevel) {
+        setDifficultyInfo(nextLevel); // Update difficultyInfo to the next level
+        getAssignment(assignmentType, nextLevel);
+      } else {
+        // If no next level exists, handle accordingly (e.g., alert or log)
+        Alert.alert('Congratulations! You have completed all levels.');
+      }
+    }
   };
 
-  const checkExistsLevel = useCallback(() => {
-    const findAssignment = user?.Assignments?.find(
-      item => item.AssignmentType.toLowerCase() == assignmentType.toLowerCase(),
-    );
-    return findAssignment;
-  }, [user, difficultyInfo]);
+  const checkExistsLevel = useCallback(
+    level => {
+      const findAssignment = user?.Assignments?.find(
+        item =>
+          item.AssignmentType.toLowerCase() === assignmentType.toLowerCase(),
+      );
+      if (findAssignment) {
+        const final = findAssignment.AssignmentLevel.find(
+          item => item.LevelType === level,
+        );
+        return Boolean(final); // Returns true if the level exists, otherwise false
+      }
+      return false;
+    },
+    [user, assignmentType], // Removed difficultyInfo from dependencies
+  );
+
+  const getNextAvailableLevel = level => {
+    const currentIndex = difficulty.indexOf(level);
+    if (currentIndex >= 0 && currentIndex < difficulty.length - 1) {
+      return difficulty[currentIndex + 1]; // Returns the next level
+    }
+    return null; // No next level
+  };
 
   const getAssignment = useCallback(
     async (ChallengeTopic, level) => {
@@ -57,6 +88,8 @@ const AssignmentPlayGround = () => {
             case 'hard':
               setCurrentQuiz([...hard]);
               break;
+            default:
+              break;
           }
         }
       } catch (err) {
@@ -64,12 +97,18 @@ const AssignmentPlayGround = () => {
         console.error('Error fetching challenges:', err);
       }
     },
-    [difficultyInfo],
+    [], // Removed difficultyInfo from dependencies
   );
 
   useEffect(() => {
-    getAssignment(assignmentType, 'easy');
-  }, []);
+    const unfinishedLevel = difficulty.find(level => !checkExistsLevel(level));
+    if (unfinishedLevel) {
+      setDifficultyInfo(unfinishedLevel); // Set the difficultyInfo to the first unfinished level
+      getAssignment(assignmentType, unfinishedLevel);
+    } else {
+      Alert.alert('You have completed all assignment levels!');
+    }
+  }, [assignmentType, getAssignment]); // Added assignmentType to dependencies
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState(
@@ -204,7 +243,7 @@ const AssignmentPlayGround = () => {
         }}>
         {difficultyInfo.toUpperCase()}
       </Text>
-      {currentQuiz && (
+      {currentQuiz ? (
         <View style={{marginTop: 10, paddingHorizontal: 15}}>
           <Text style={{fontSize: width * 0.05}}>
             {currentQuiz[currentQuestionIndex].question_id}.{' '}
@@ -268,6 +307,14 @@ const AssignmentPlayGround = () => {
               </TouchableOpacity>
             )}
           </View>
+        </View>
+      ) : (
+        <View style={{margin: 10, flexDirection: 'column', rowGap: 10}}>
+          <Skeleton width={'100%'} height={20} radius={20} />
+          <Skeleton width={'100%'} height={50} radius={20} />
+          <Skeleton width={'100%'} height={30} radius={20} />
+          <Skeleton width={'100%'} height={30} radius={20} />
+          <Skeleton width={'100%'} height={30} radius={20} />
         </View>
       )}
       <BannerAdd />

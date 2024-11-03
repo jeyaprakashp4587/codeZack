@@ -19,15 +19,21 @@ import {Dimensions} from 'react-native';
 import Skeleton from '../Skeletons/Skeleton';
 import {useNavigation} from '@react-navigation/native';
 import BannerAdd from '../Adds/BannerAdd';
-import VideoAdd from '../Adds/VideoAdd';
+import useInterstitialAd from '../Adds/useInterstitialAd';
 
 const Carrer = () => {
   // courses list
   const navigation = useNavigation();
   const {setSelectedCourse} = useData();
   const {width, height} = Dimensions.get('window');
-
-  const {showAd, isLoaded, isCredited} = VideoAdd();
+  const {showAd, isLoaded} = useInterstitialAd();
+  // const handleShowAd = async () => {
+  //   if (isLoaded) {
+  //     await showAd(); // Call the function to show the ad
+  //   } else {
+  //     console.log('Ad not loaded yet'); // Optional: Handle the case where the ad is not loaded
+  //   }
+  // };
   const courses = useMemo(
     () => [
       {
@@ -355,14 +361,6 @@ const Carrer = () => {
       </View>
       <Text style={styles.footerText}>Other Courses will be added soon!</Text>
       <BannerAdd />
-      <Button
-        title="Watch Video Ad"
-        onPress={() => {
-          if (isLoaded) {
-            showAd();
-          }
-        }}
-      />
     </ScrollView>
   );
 };

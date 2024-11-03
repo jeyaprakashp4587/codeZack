@@ -20,7 +20,7 @@ import RelativeTime from '../components/RelativeTime';
 import {useNavigation} from '@react-navigation/native';
 import useSocketEmit from '../Socket/useSocketEmit';
 import {SocketData} from '../Socket/SocketContext';
-import VideoAdd from '../Adds/VideoAdd';
+import IntrestialAdd from '../Adds/useInterstitialAd';
 
 const Notifications = () => {
   const {user, setSelectedUser, setselectedPost} = useData();
@@ -28,7 +28,6 @@ const Notifications = () => {
   const Navigation = useNavigation();
   const [notificationList, setNotificationList] = useState([]);
 
-  const {showAd, isLoaded, isCredited} = VideoAdd();
   console.log('log form', isCredited);
 
   // Socket handling
@@ -187,16 +186,6 @@ const Notifications = () => {
           )}
         />
       )}
-      {/* show add */}
-      <Button
-        title="Watch Video Ad"
-        onPress={() => {
-          if (isLoaded) {
-            showAd();
-          }
-        }}
-      />
-      {isCredited && <Text>{isCredited}</Text>}
     </View>
   );
 };
