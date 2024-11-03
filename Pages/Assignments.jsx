@@ -10,15 +10,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import TopicsText from '../utils/TopicsText';
 import {Colors} from '../constants/Colors';
 import {useData} from '../Context/Contexter';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import BannerAdd from '../Adds/BannerAdd';
 
 const Assignments = () => {
   const navigation = useNavigation();
-  const {user, assignmentType, setAssignmentType} = useData();
+  const {user, setAssignmentType} = useData();
   const {width, height} = Dimensions.get('window');
   const [userTools, setUserTools] = useState();
   // datas
@@ -40,7 +39,7 @@ const Assignments = () => {
         img: 'https://img.icons8.com/fluency/48/express-js.png',
       },
       {
-        name: 'MongodB',
+        name: 'Mongodb',
         img: 'https://i.ibb.co/7XhNKtL/1012822-code-development-logo-mongodb-programming-icon.png',
       },
       {name: 'C++', img: 'https://i.ibb.co/GQ8V1VZ/icons8-c-240.png'},
@@ -58,22 +57,26 @@ const Assignments = () => {
     ],
     [],
   );
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      const existsTool = user?.Courses?.flatMap(course =>
-        course.Technologies.map(tool => tool.TechName),
-      );
-      if (existsTool) setUserTools(existsTool);
-    });
+  // find exixts tool
+  const existsTool = useCallback(() => {
+    const tools = user?.Courses?.flatMap(course =>
+      course.Technologies.map(tool => tool.TechName),
+    );
+    if (tools) {
+      setUserTools(tools);
+    }
+  }, [user]); // Make sure dependencies are correctly specified
 
-    return unsubscribe; // Cleanup listener when the component unmounts
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      existsTool();
+    }, [existsTool]), // Correctly wrap and pass only one argument to useFocusEffect
+  );
   // fetch the user Course tools
   //
   const HandleSelectAssignment = useCallback(
     Tool => {
       // console.log(Tool.toLowerCase()); // Use the new Tool value directly
-
       const findTool = userTools?.find(
         i => i.toLowerCase() == Tool.toLowerCase(), // Compare with the current Tool, not the previous selectedTool state
       );

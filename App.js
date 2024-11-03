@@ -16,7 +16,6 @@ import {
   configureReanimatedLogger,
   ReanimatedLogLevel,
 } from 'react-native-reanimated';
-import PushNotification from 'react-native-push-notification';
 
 const {width} = Dimensions.get('window');
 configureReanimatedLogger({

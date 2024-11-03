@@ -28,18 +28,16 @@ const AssignmentPlayGround = () => {
   const HandleSetDifficulty = level => {
     setDifficultyInfo(level);
     getAssignment(assignmentType, level);
-    checkExistsLevel();
+    const existsLevel = checkExistsLevel();
+    c;
   };
 
-  const checkExistsLevel = useCallback(
-    level => {
-      const findAssignment = user?.Assignments?.find(
-        item =>
-          item.AssignmentType.toLowerCase() == assignmentType.toLowerCase(),
-      );
-    },
-    [user, difficultyInfo],
-  );
+  const checkExistsLevel = useCallback(() => {
+    const findAssignment = user?.Assignments?.find(
+      item => item.AssignmentType.toLowerCase() == assignmentType.toLowerCase(),
+    );
+    return findAssignment;
+  }, [user, difficultyInfo]);
 
   const getAssignment = useCallback(
     async (ChallengeTopic, level) => {
@@ -109,15 +107,22 @@ const AssignmentPlayGround = () => {
         {AssignmentType: assignmentType, point: score, level: difficultyInfo},
       );
       if (res.data.Email) {
+        // console.log(res.data);
         setUser(res.data);
         Actitivity(
           user?._id,
           `Finished ${difficultyInfo} Level ${assignmentType} assignment`,
         );
-        await AddWallet(user?._id, 5, setUser).then(() =>
+        AddWallet(
+          user?._id,
+          difficulty == 'easy' ? 2 : difficulty == 'medium' ? 3 : 5,
+          setUser,
+        ).then(() =>
           ToastAndroid.show(
-            'Congratulations!',
-            'You passed the quiz! and earned Rs:5',
+            `Congratulations!,You passed the quiz! and earned Rs:${
+              difficulty == 'easy' ? 2 : difficulty == 'medium' ? 3 : 5
+            }`,
+            ToastAndroid.LONG,
           ),
         );
       }
@@ -155,7 +160,7 @@ const AssignmentPlayGround = () => {
       <Text style={{color: Colors.mildGrey, flexShrink: 1}}>{option}</Text>
     </TouchableOpacity>
   );
-
+  // main wrapper
   return (
     <View style={{backgroundColor: 'white', flex: 1}}>
       <View style={{paddingHorizontal: 15}}>
