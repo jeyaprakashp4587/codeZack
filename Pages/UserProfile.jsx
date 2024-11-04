@@ -128,6 +128,7 @@ const UserProfile = () => {
   }, [selectedUser, findExistsFollower]);
   // get user networks members
   const [netWorksList, setNetworksList] = useState();
+  const [showNetWorkModel]
   const getNetworksList = useCallback(async () => {
     if (selectedUser?.Connections?.length > 0) {
       const res = await axios.get(
@@ -369,7 +370,7 @@ const UserProfile = () => {
       <Modal
         transparent={true}
         visible={true}
-        animationType="slide"
+        // animationType="slide"
         style={{
           flex: 1,
         }}>
@@ -380,7 +381,8 @@ const UserProfile = () => {
             bottom: 0,
             height: '50%',
           }}>
-          <FlatList
+          <Text>cdg</Text>
+          {/* <FlatList
             data={netWorksList}
             renderItem={({item}) => (
               <TouchableOpacity
@@ -420,7 +422,7 @@ const UserProfile = () => {
                 </Text>
               </TouchableOpacity>
             )}
-          />
+          /> */}
         </View>
       </Modal>
     </ScrollView>
