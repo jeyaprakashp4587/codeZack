@@ -21,6 +21,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faSearch, faTimes} from '@fortawesome/free-solid-svg-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Skeleton from '../Skeletons/Skeleton';
+import SuggestionWapper from '../components/SuggestionWapper';
 
 const SearchScreen = ({navigation}) => {
   // -------------- //
@@ -185,7 +186,7 @@ const SearchScreen = ({navigation}) => {
           flexDirection: 'row',
           alignItems: 'center',
           backgroundColor: Colors.veryLightGrey,
-          width: '100%',
+          // width: '100%',
           // padding: 10,
           paddingHorizontal: 10,
           borderRadius: 7,
@@ -288,6 +289,7 @@ const SearchScreen = ({navigation}) => {
       <View style={{paddingHorizontal: 15}}>
         <ResultRender />
       </View>
+
       {loading ||
         (userName?.current?.length <= 1 && (
           <View style={{marginHorizontal: 15}}>
@@ -297,6 +299,13 @@ const SearchScreen = ({navigation}) => {
             <Skeleton width="100%" height={height * 0.07} radius={5} mt={10} />
           </View>
         ))}
+      <View
+        style={{
+          // display: suggestDisplay ? 'flex' : 'none',
+          paddingHorizontal: 15,
+        }}>
+        <SuggestionWapper />
+      </View>
     </View>
   );
 };

@@ -18,7 +18,7 @@ import {
   RefreshControl,
   Dimensions,
 } from 'react-native';
-
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import {Colors, pageView} from '../constants/Colors';
 import HeadingText from '../utils/HeadingText';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -477,12 +477,13 @@ const Profile = ({navigation}) => {
         <TouchableOpacity
           onPress={() => navigation.navigate('yourcourse')}
           style={{
-            backgroundColor: Colors.veryLightGrey,
+            // backgroundColor: Co,
             padding: 15,
             borderRadius: 15,
             flexDirection: 'row',
             justifyContent: 'space-between',
             width: width * 0.9,
+            borderWidth: 0.3,
           }}>
           <Text
             style={{
@@ -498,12 +499,13 @@ const Profile = ({navigation}) => {
         <TouchableOpacity
           onPress={() => navigation.navigate('Wallet')}
           style={{
-            backgroundColor: Colors.veryLightGrey,
+            // backgroundColor: Colors.veryLightGrey,
             padding: 15,
             borderRadius: 15,
             flexDirection: 'row',
             justifyContent: 'space-between',
             width: width * 0.9,
+            borderWidth: 0.3,
           }}>
           <Text
             style={{
@@ -514,7 +516,7 @@ const Profile = ({navigation}) => {
             }}>
             Wallet
           </Text>
-          <FontAwesomeIcon icon={faAward} size={20} color="#595959" />
+          <SimpleLineIcons name="wallet" size={25} color={Colors.mildGrey} />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
@@ -522,12 +524,13 @@ const Profile = ({navigation}) => {
             navigation.navigate('login');
           }}
           style={{
-            backgroundColor: Colors.veryLightGrey,
+            // backgroundColor: Colors.veryLightGrey,
             padding: 15,
             borderRadius: 15,
             flexDirection: 'row',
             justifyContent: 'space-between',
             width: width * 0.9,
+            borderWidth: 0.3,
           }}>
           <Text
             style={{

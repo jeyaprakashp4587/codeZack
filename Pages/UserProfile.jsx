@@ -25,7 +25,9 @@ import useSocketEmit from '../Socket/useSocketEmit';
 import moment from 'moment';
 import {SocketData} from '../Socket/SocketContext';
 import Skeleton from '../Skeletons/Skeleton';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faL, faTimes} from '@fortawesome/free-solid-svg-icons';
 
 const UserProfile = () => {
   const {width, height} = Dimensions.get('window');
@@ -113,13 +115,13 @@ const UserProfile = () => {
   }, [selectedUser, user]);
 
   // Fetch user data only once when the component is mounted
-  useEffect(() => {
-    if (!selectedUser?.firstName) {
-      getSelectedUser();
-      // getNetworksList();
-    }
-  }, [selectedUser, getSelectedUser]);
-
+  useFocusEffect(
+    useCallback(() => {
+      if (!selectedUser?.firstName) {
+        getSelectedUser();
+      }
+    }, [selectedUser]),
+  );
   // Check if the user is a follower when the selected user changes
   useEffect(() => {
     if (selectedUser?._id) {
@@ -128,17 +130,19 @@ const UserProfile = () => {
   }, [selectedUser, findExistsFollower]);
   // get user networks members
   const [netWorksList, setNetworksList] = useState();
-  const [showNetWorkModel]
+  const [showNetWorkModel, setShowNetWorkModel] = useState(false);
   const getNetworksList = useCallback(async () => {
+    setShowNetWorkModel(true);
     if (selectedUser?.Connections?.length > 0) {
       const res = await axios.get(
         `${Api}/Following/getNetworks/${selectedUser?._id}`,
       );
       if (res.status == 200) {
         setNetworksList(res.data);
+        console.log(res.data);
       }
     }
-  }, []);
+  }, [showNetWorkModel]);
 
   if (!loading) {
     <View style={pageView}>
@@ -369,8 +373,8 @@ const UserProfile = () => {
       {/* model for show networks list */}
       <Modal
         transparent={true}
-        visible={true}
-        // animationType="slide"
+        visible={showNetWorkModel}
+        animationType="slide"
         style={{
           flex: 1,
         }}>
@@ -380,49 +384,73 @@ const UserProfile = () => {
             position: 'absolute',
             bottom: 0,
             height: '50%',
+            borderTopRightRadius: 10,
+            borderTopLeftRadius: 10,
+            width: '100%',
+            backgroundColor: 'white',
+            borderColor: Colors.lightGrey,
+            padding: 20,
           }}>
-          <Text>cdg</Text>
-          {/* <FlatList
-            data={netWorksList}
-            renderItem={({item}) => (
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('userprofile');
-                  setSelectedUser(item._id);
-                }}
-                key={index}
-                style={{
-                  flexDirection: 'row',
-                  columnGap: 15,
-                  alignItems: 'center',
-                  borderBottomWidth: 1,
-                  paddingBottom: 10,
-                  marginHorizontal: 15,
-                  borderColor: Colors.veryLightGrey,
-                  // justifyContent: "center",
-                }}>
-                <Image
-                  source={{uri: item.Images?.profile}}
-                  style={{
-                    width: width * 0.14,
-                    height: height * 0.07,
-                    borderRadius: 50,
-                    resizeMode: 'cover',
+          {/* close button */}
+          <TouchableOpacity
+            onPress={() => setShowNetWorkModel(false)}
+            style={{
+              position: 'absolute',
+              right: width * 0.1,
+              top: height * 0.025,
+              zIndex: 20,
+            }}>
+            <FontAwesomeIcon icon={faTimes} size={20} color={Colors.mildGrey} />
+          </TouchableOpacity>
+          {selectedUser?.Connections?.length > 0 ? (
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              data={netWorksList}
+              renderItem={({item, index}) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('userprofile');
+                    setSelectedUser(item.id);
                   }}
-                />
-
-                <Text
+                  key={index}
                   style={{
-                    letterSpacing: 1,
-                    color: Colors.mildGrey,
-                    flex: 1,
-                    // borderWidth: 1,
+                    flexDirection: 'row',
+                    columnGap: 15,
+                    alignItems: 'center',
+                    borderBottomWidth: 1,
+                    paddingBottom: 10,
+                    marginHorizontal: 15,
+                    borderColor: Colors.veryLightGrey,
+                    // justifyContent: "center",
                   }}>
-                  {item.firstName} {item.LastName}
-                </Text>
-              </TouchableOpacity>
-            )}
-          /> */}
+                  <Image
+                    source={{uri: item?.profileImg}}
+                    style={{
+                      width: width * 0.14,
+                      height: height * 0.07,
+                      borderRadius: 50,
+                      resizeMode: 'cover',
+                    }}
+                  />
+
+                  <Text
+                    style={{
+                      letterSpacing: 1,
+                      color: Colors.mildGrey,
+                      flex: 1,
+                      // borderWidth: 1,
+                    }}>
+                    {item?.firstName} {item?.lastName}
+                  </Text>
+                </TouchableOpacity>
+              )}
+            />
+          ) : (
+            <Text
+              style={{color: Colors.mildGrey, fontSize: 20, letterSpacing: 2}}>
+              No Connetions
+            </Text>
+          )}
         </View>
       </Modal>
     </ScrollView>

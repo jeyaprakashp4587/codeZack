@@ -264,7 +264,7 @@ const Wallet = () => {
               top: -height * 0.03,
               left: `${
                 user.Wallet.TotalWallet >= 100
-                  ? width * 0.24
+                  ? width * 0.22
                   : user.Wallet.TotalWallet
               }%`,
             }}>
@@ -388,10 +388,8 @@ const Wallet = () => {
             backgroundColor: 'white',
             elevation: 2,
             flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
             rowGap: 10,
-            padding: 10,
+            padding: 15,
           }}>
           <FlatList
             data={strategies}
@@ -407,6 +405,7 @@ const Wallet = () => {
                   borderColor: Colors.veryLightGrey,
                   backgroundColor: '#edf2fb',
                   borderRadius: 5,
+                  borderWidth: 1,
                 }}>
                 <Text style={{letterSpacing: 1, color: Colors.mildGrey}}>
                   {item.text}:
