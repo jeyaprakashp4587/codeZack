@@ -7,12 +7,15 @@ import {
   Text,
   View,
   RefreshControl,
+  Modal,
+  TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import {useData} from '../Context/Contexter';
 import HeadingText from '../utils/HeadingText';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Ripple from 'react-native-material-ripple';
-import {Colors} from '../constants/Colors';
+import {Colors, pageView} from '../constants/Colors';
 import Posts from '../components/Posts';
 import HrLine from '../utils/HrLine';
 import axios from 'axios';
@@ -21,14 +24,16 @@ import Api from '../Api';
 import useSocketEmit from '../Socket/useSocketEmit';
 import moment from 'moment';
 import {SocketData} from '../Socket/SocketContext';
+import Skeleton from '../Skeletons/Skeleton';
+import {useNavigation} from '@react-navigation/native';
 
 const UserProfile = () => {
   const {width, height} = Dimensions.get('window');
   const {selectedUser, user, setSelectedUser} = useData();
+  const navigation = useNavigation();
   // console.log(selectedUser);
   const socket = SocketData();
   const emitSocketEvent = useSocketEmit(socket);
-  const [render, setRender] = useState(false);
   const [existsFollower, setExistsFollower] = useState(false);
   const [loading, setLoading] = useState(false); // Add loading state for API calls
 
@@ -45,11 +50,13 @@ const UserProfile = () => {
 
   // Fetch selected user data
   const getSelectedUser = useCallback(async () => {
+    setLoading(false);
     try {
       const res = await axios.post(`${Api}/Login/getUser`, {
         userId: selectedUser,
       });
       if (res.data) {
+        setLoading(true);
         setSelectedUser(res.data);
       }
     } catch (error) {
@@ -109,6 +116,7 @@ const UserProfile = () => {
   useEffect(() => {
     if (!selectedUser?.firstName) {
       getSelectedUser();
+      // getNetworksList();
     }
   }, [selectedUser, getSelectedUser]);
 
@@ -118,13 +126,41 @@ const UserProfile = () => {
       findExistsFollower();
     }
   }, [selectedUser, findExistsFollower]);
-  // refresh control
-  // Render check
-  useEffect(() => {
-    setTimeout(() => setLoading(true), 300);
+  // get user networks members
+  const [netWorksList, setNetworksList] = useState();
+  const getNetworksList = useCallback(async () => {
+    if (selectedUser?.Connections?.length > 0) {
+      const res = await axios.get(
+        `${Api}/Following/getNetworks/${selectedUser?._id}`,
+      );
+      if (res.status == 200) {
+        setNetworksList(res.data);
+      }
+    }
   }, []);
+
   if (!loading) {
-    return null;
+    <View style={pageView}>
+      <Skeleton width="100%" height={height * 0.3} radius={10} mt={10} />
+      <View
+        style={{
+          position: 'absolute',
+          top: height * 0.22,
+          zIndex: 10,
+          left: width * 0.11,
+        }}>
+        <Skeleton
+          width={width * 0.26}
+          height={height * 0.13}
+          radius={50}
+          mt={10}
+        />
+      </View>
+      <Skeleton width="100%" height={height * 0.2} radius={10} mt={10} />
+      <Skeleton width="100%" height={height * 0.11} radius={10} mt={10} />
+      <Skeleton width="100%" height={height * 0.11} radius={10} mt={10} />
+      <Skeleton width="100%" height={height * 0.11} radius={10} mt={10} />
+    </View>;
   }
   //
   return (
@@ -271,7 +307,7 @@ const UserProfile = () => {
             </Ripple>
           )}
         </View>
-        <View>
+        <Ripple onPress={() => getNetworksList()}>
           <Text
             style={{
               fontWeight: '600',
@@ -289,7 +325,7 @@ const UserProfile = () => {
             }}>
             {selectedUser?.Connections?.length}
           </Text>
-        </View>
+        </Ripple>
         <View>
           <Text
             style={{
@@ -329,6 +365,64 @@ const UserProfile = () => {
           <Posts post={post} index={index} />
         ))}
       </View>
+      {/* model for show networks list */}
+      <Modal
+        transparent={true}
+        visible={true}
+        animationType="slide"
+        style={{
+          flex: 1,
+        }}>
+        <View
+          style={{
+            borderWidth: 1,
+            position: 'absolute',
+            bottom: 0,
+            height: '50%',
+          }}>
+          <FlatList
+            data={netWorksList}
+            renderItem={({item}) => (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('userprofile');
+                  setSelectedUser(item._id);
+                }}
+                key={index}
+                style={{
+                  flexDirection: 'row',
+                  columnGap: 15,
+                  alignItems: 'center',
+                  borderBottomWidth: 1,
+                  paddingBottom: 10,
+                  marginHorizontal: 15,
+                  borderColor: Colors.veryLightGrey,
+                  // justifyContent: "center",
+                }}>
+                <Image
+                  source={{uri: item.Images?.profile}}
+                  style={{
+                    width: width * 0.14,
+                    height: height * 0.07,
+                    borderRadius: 50,
+                    resizeMode: 'cover',
+                  }}
+                />
+
+                <Text
+                  style={{
+                    letterSpacing: 1,
+                    color: Colors.mildGrey,
+                    flex: 1,
+                    // borderWidth: 1,
+                  }}>
+                  {item.firstName} {item.LastName}
+                </Text>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
+      </Modal>
     </ScrollView>
   );
 };

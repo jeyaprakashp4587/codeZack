@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
 import {Colors, pageView} from '../constants/Colors';
 import TopicsText from '../utils/TopicsText';
 import HrLine from '../utils/HrLine';
@@ -20,15 +19,12 @@ import RelativeTime from '../components/RelativeTime';
 import {useNavigation} from '@react-navigation/native';
 import useSocketEmit from '../Socket/useSocketEmit';
 import {SocketData} from '../Socket/SocketContext';
-import IntrestialAdd from '../Adds/useInterstitialAd';
 
 const Notifications = () => {
   const {user, setSelectedUser, setselectedPost} = useData();
   const {width, height} = Dimensions.get('window');
   const Navigation = useNavigation();
   const [notificationList, setNotificationList] = useState([]);
-
-  console.log('log form', isCredited);
 
   // Socket handling
   const socket = SocketData();
