@@ -8,7 +8,7 @@ import {
   StatusBar,
   ImageBackground,
 } from 'react-native';
-
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import {Colors, pageView} from '../constants/Colors';
 import HeadingText from '../utils/HeadingText';
 import PragraphText from '../utils/PragraphText';
@@ -20,25 +20,22 @@ import {Dimensions} from 'react-native';
 import BannerAdd from '../Adds/BannerAdd';
 
 const Challenge = ({navigation}) => {
-  const {selectedChallengeTopic, setselectedChallengeTopic} = useData();
+  const {setselectedChallengeTopic} = useData();
   const {width, height} = Dimensions.get('window');
   // Memoize the challenge data to avoid recalculating the array on every render
   const Challenges = useMemo(
     () => [
       {
         ChallengeName: 'Web Development',
-        bgColor: '#7575a3',
-        img: 'https://i.ibb.co/qn5dFQL/data.png',
+        bgColor: '#284b63',
       },
       {
         ChallengeName: 'App Development',
-        bgColor: '#8cb3d9',
-        img: 'https://i.ibb.co/WcPBv7x/app.png',
+        bgColor: '#6b9080',
       },
     ],
     [],
   );
-
   // Memoize the handler to prevent re-creation on every render
   const HandleSelectChallenges = useCallback(
     item => {
@@ -51,80 +48,140 @@ const Challenge = ({navigation}) => {
   // State for toggling challenges, initialize with a proper default value
   const [chToggle, setChaToggle] = useState(null);
   return (
-    // <LinearGradient
-    //   colors={["hsl(200, 100%, 96%)", "white", "white", "hsl(336, 100%, 97%)"]}
-    //   style={{
-    //     backgroundColor: "white",
-    //     flex: 1,
-    //     paddingHorizontal: width * 0.03,
-    //   }}
-    //   start={[0, 1]}
-    //   end={[1, 0]}
-    // >
     <ScrollView style={{backgroundColor: 'white'}}>
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text="Develop Your Skills Here" />
       </View>
       <View
-        style={{borderWidth: 0, paddingVertical: 20, paddingHorizontal: 15}}>
+        style={{
+          borderWidth: 0,
+          paddingVertical: 20,
+          paddingHorizontal: 15,
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          rowGap: 15,
+        }}>
         {Challenges.map((item, index) => (
           <TouchableOpacity
             onPress={() => HandleSelectChallenges(item)}
             key={index}
             style={{
-              width: '100%',
-              backgroundColor: item.bgColor,
+              width: '45%',
+              backgroundColor: 'white',
+              borderWidth: 1,
+              borderColor: item.bgColor,
               height: 100,
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: 10,
-              marginBottom: 30,
               elevation: 5,
               flexDirection: 'row',
-              columnGap: 20,
+              padding: 10,
             }}>
-            <Image
-              source={{uri: item.img}}
-              style={{
-                width: 40,
-                height: 40,
-                tintColor: Colors.veryLightGrey,
-              }}
-            />
             <PragraphText
               text={item.ChallengeName}
-              fsize={19}
-              color={Colors.veryLightGrey}
+              fsize={width * 0.03}
+              color={item.bgColor}
             />
           </TouchableOpacity>
         ))}
+        {/* java */}
+        <TouchableOpacity
+          onPress={() => {
+            setChaToggle(!chToggle);
+            setselectedChallengeTopic('Java');
+            navigation.navigate('CoreChallenge');
+          }}
+          style={{
+            width: '45%',
+            backgroundColor: 'white',
+            borderWidth: 1,
+            borderColor: '#f4a261',
+            height: 100,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 10,
+            elevation: 5,
+            flexDirection: 'row',
+            padding: 10,
+          }}>
+          <PragraphText text="Java" fsize={width * 0.03} color={'#f4a261'} />
+        </TouchableOpacity>
+        {/* ptyhon */}
+        <TouchableOpacity
+          onPress={() => {
+            setChaToggle(!chToggle);
+            setselectedChallengeTopic('Python');
+            navigation.navigate('CoreChallenge');
+          }}
+          style={{
+            // width: width * 0.4,
+            width: '45%',
+            backgroundColor: 'white',
+            borderWidth: 1,
+            borderColor: '#2a9d8f',
+            height: 100,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 10,
+            elevation: 5,
+            flexDirection: 'row',
+            padding: 10,
+          }}>
+          <PragraphText text="Python" fsize={width * 0.03} color={'#2a9d8f'} />
+        </TouchableOpacity>
+        {/* c++ */}
+        <TouchableOpacity
+          onPress={() => {
+            setChaToggle(!chToggle);
+            setselectedChallengeTopic('C++');
+            navigation.navigate('CoreChallenge');
+          }}
+          style={{
+            width: '45%',
+            backgroundColor: 'white',
+            borderWidth: 1,
+            borderColor: '#264653',
+            height: 100,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 10,
+            elevation: 5,
+            flexDirection: 'row',
+            padding: 10,
+          }}>
+          <PragraphText text="C++" fsize={width * 0.03} color={'#264653'} />
+        </TouchableOpacity>
         {/* user challenges list */}
-
         <TouchableOpacity
           onPress={() => {
             setChaToggle(!chToggle);
             navigation.navigate('yourchallenges');
           }}
           style={{
-            width: '100%',
-            backgroundColor: '#009999',
+            width: '45%',
+            backgroundColor: 'white',
+            borderWidth: 1,
+            borderColor: '#457b9d',
             height: 100,
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: 10,
-            marginBottom: 20,
             elevation: 5,
             flexDirection: 'row',
-            columnGap: 20,
+            padding: 10,
           }}>
-          <FontAwesomeIcon icon={faCode} size={40} color="white" />
-          <PragraphText text="My Challenges" fsize={19} color={Colors.white} />
+          <PragraphText
+            text="My Challenges"
+            fsize={width * 0.03}
+            color={'#457b9d'}
+          />
         </TouchableOpacity>
       </View>
       {/* add */}
       <BannerAdd />
     </ScrollView>
-    // </LinearGradient>
   );
 };
 

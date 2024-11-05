@@ -41,6 +41,7 @@ import ChallengeViewer from '../Pages/ChallengeViewer';
 import AssignmentPlayGround from '../Pages/AssignmentPlayGround';
 import {faUser} from '@fortawesome/free-regular-svg-icons';
 import Wallet from '../Pages/Wallet';
+import CoreChallenges from '../Pages/CoreChallenges';
 
 // Tab navigations
 const {width, height} = Dimensions.get('window');
@@ -279,6 +280,11 @@ const StackNavigations = () => {
       <Stack.Screen
         name="Wallet"
         component={Wallet}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="CoreChallenge"
+        component={CoreChallenges}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
