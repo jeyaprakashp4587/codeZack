@@ -7,6 +7,7 @@ import {
   Image,
   StatusBar,
   ImageBackground,
+  FlatList,
 } from 'react-native';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {Colors, pageView} from '../constants/Colors';
@@ -36,11 +37,28 @@ const Challenge = ({navigation}) => {
     ],
     [],
   );
+  const CoreChallenges = useMemo(() => [
+    {
+      challengeName: 'Java',
+      color: '#f4a261',
+      web: '',
+    },
+    {
+      challengeName: 'Python',
+      color: '#2a9d8f',
+      web: '',
+    },
+    {
+      challengeName: 'C++',
+      color: '#264653',
+      web: '',
+    },
+  ]);
   // Memoize the handler to prevent re-creation on every render
   const HandleSelectChallenges = useCallback(
     item => {
       navigation.navigate('chooseChallenge');
-      setselectedChallengeTopic(item.ChallengeName);
+      setselectedChallengeTopic(item?.ChallengeName);
     },
     [navigation, setselectedChallengeTopic],
   );
@@ -48,7 +66,9 @@ const Challenge = ({navigation}) => {
   // State for toggling challenges, initialize with a proper default value
   const [chToggle, setChaToggle] = useState(null);
   return (
-    <ScrollView style={{backgroundColor: 'white'}}>
+    <ScrollView
+      style={{backgroundColor: 'white'}}
+      showsVerticalScrollIndicator={false}>
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text="Develop Your Skills Here" />
       </View>
@@ -57,9 +77,7 @@ const Challenge = ({navigation}) => {
           borderWidth: 0,
           paddingVertical: 20,
           paddingHorizontal: 15,
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
+          flexDirection: 'column',
           rowGap: 15,
         }}>
         {Challenges.map((item, index) => (
@@ -67,7 +85,7 @@ const Challenge = ({navigation}) => {
             onPress={() => HandleSelectChallenges(item)}
             key={index}
             style={{
-              width: '45%',
+              width: '100%',
               backgroundColor: 'white',
               borderWidth: 1,
               borderColor: item.bgColor,
@@ -75,7 +93,7 @@ const Challenge = ({navigation}) => {
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: 10,
-              elevation: 5,
+              elevation: 2,
               flexDirection: 'row',
               padding: 10,
             }}>
@@ -86,99 +104,75 @@ const Challenge = ({navigation}) => {
             />
           </TouchableOpacity>
         ))}
-        {/* java */}
-        <TouchableOpacity
-          onPress={() => {
-            setChaToggle(!chToggle);
-            setselectedChallengeTopic('Java');
-            navigation.navigate('CoreChallenge');
-          }}
-          style={{
-            width: '45%',
-            backgroundColor: 'white',
-            borderWidth: 1,
-            borderColor: '#f4a261',
-            height: 100,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: 10,
-            elevation: 5,
-            flexDirection: 'row',
-            padding: 10,
-          }}>
-          <PragraphText text="Java" fsize={width * 0.03} color={'#f4a261'} />
-        </TouchableOpacity>
-        {/* ptyhon */}
-        <TouchableOpacity
-          onPress={() => {
-            setChaToggle(!chToggle);
-            setselectedChallengeTopic('Python');
-            navigation.navigate('CoreChallenge');
-          }}
-          style={{
-            // width: width * 0.4,
-            width: '45%',
-            backgroundColor: 'white',
-            borderWidth: 1,
-            borderColor: '#2a9d8f',
-            height: 100,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: 10,
-            elevation: 5,
-            flexDirection: 'row',
-            padding: 10,
-          }}>
-          <PragraphText text="Python" fsize={width * 0.03} color={'#2a9d8f'} />
-        </TouchableOpacity>
-        {/* c++ */}
-        <TouchableOpacity
-          onPress={() => {
-            setChaToggle(!chToggle);
-            setselectedChallengeTopic('C++');
-            navigation.navigate('CoreChallenge');
-          }}
-          style={{
-            width: '45%',
-            backgroundColor: 'white',
-            borderWidth: 1,
-            borderColor: '#264653',
-            height: 100,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: 10,
-            elevation: 5,
-            flexDirection: 'row',
-            padding: 10,
-          }}>
-          <PragraphText text="C++" fsize={width * 0.03} color={'#264653'} />
-        </TouchableOpacity>
-        {/* user challenges list */}
-        <TouchableOpacity
-          onPress={() => {
-            setChaToggle(!chToggle);
-            navigation.navigate('yourchallenges');
-          }}
-          style={{
-            width: '45%',
-            backgroundColor: 'white',
-            borderWidth: 1,
-            borderColor: '#457b9d',
-            height: 100,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: 10,
-            elevation: 5,
-            flexDirection: 'row',
-            padding: 10,
-          }}>
-          <PragraphText
-            text="My Challenges"
-            fsize={width * 0.03}
-            color={'#457b9d'}
-          />
-        </TouchableOpacity>
       </View>
+      {/* core challenges */}
+      <View
+        style={{
+          borderWidth: 0,
+          paddingVertical: 20,
+          paddingHorizontal: 15,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
+        <FlatList
+          data={CoreChallenges}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={item => item.challengeName}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              onPress={() => {
+                setChaToggle(!chToggle);
+                setselectedChallengeTopic(item);
+                navigation.navigate('CoreChallenge');
+              }}
+              style={{
+                width: '100%',
+                backgroundColor: 'white',
+                borderWidth: 1,
+                borderColor: item.color,
+                height: 100,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 10,
+                elevation: 2,
+                flexDirection: 'row',
+                padding: 10,
+                marginBottom: 15,
+              }}>
+              <PragraphText
+                text={item.challengeName}
+                fsize={width * 0.03}
+                color={item.color}
+              />
+            </TouchableOpacity>
+          )}
+        />
+      </View>
+      {/* user challenges list */}
+      <TouchableOpacity
+        onPress={() => {
+          setChaToggle(!chToggle);
+          navigation.navigate('yourchallenges');
+        }}
+        style={{
+          backgroundColor: 'white',
+          borderWidth: 1,
+          borderColor: '#457b9d',
+          height: 100,
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 10,
+          elevation: 2,
+          flexDirection: 'row',
+          padding: 10,
+          marginHorizontal: 15,
+        }}>
+        <PragraphText
+          text="My Challenges"
+          fsize={width * 0.03}
+          color={'#457b9d'}
+        />
+      </TouchableOpacity>
       {/* add */}
       <BannerAdd />
     </ScrollView>
