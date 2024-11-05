@@ -356,22 +356,22 @@ const UserProfile = () => {
       <BannerAdd />
       {/* post */}
       <HrLine />
-      {selectedUser?.Posts?.length > 0 && (
+      {selectedUser?.Posts?.length > 0 ? (
+        <FlatList
+          data={selectedUser?.Posts}
+          renderItem={({post, index}) => <Posts post={post} index={index} />}
+          keyExtractor={item => item._id}
+        />
+      ) : (
         <Text
           style={{
             color: Colors.mildGrey,
-            fontSize: width * 0.06,
-            letterSpacing: 1,
-            paddingHorizontal: 20,
+            textAlign: 'center',
+            fontSize: width * 0.04,
           }}>
-          Posts
+          No Posts Yet
         </Text>
       )}
-      <View>
-        {selectedUser?.Posts?.map((post, index) => (
-          <Posts post={post} index={index} />
-        ))}
-      </View>
       {/* model for show networks list */}
       <Modal
         transparent={true}

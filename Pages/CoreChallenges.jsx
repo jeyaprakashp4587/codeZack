@@ -14,6 +14,7 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import Api from '../Api';
 import Skeleton from '../Skeletons/Skeleton';
+import {debounce} from 'lodash';
 
 const CoreChallenges = () => {
   const {selectedChallengeTopic, setSelectedChallenge} = useData();
@@ -30,7 +31,7 @@ const CoreChallenges = () => {
         ChallengeTopic: selectedChallengeTopic?.challengeName,
       });
       if (res.data) {
-        console.log(res.data);
+        // console.log(res.data);
         setLoading(false);
         setChallenges(res.data);
       }
@@ -40,6 +41,13 @@ const CoreChallenges = () => {
     }
   }, [selectedChallengeTopic]);
 
+  const handleSelectChallenge = useCallback(
+    debounce(item => {
+      setSelectedChallenge(item);
+      navigation.navigate('CoreChallengeViewer');
+    }, 200),
+    [],
+  );
   useFocusEffect(
     useCallback(() => {
       getChallenges();
@@ -77,21 +85,22 @@ const CoreChallenges = () => {
       <Text style={{color: '#ee6c4d', letterSpacing: 1}}>
         <Text>Output: </Text> {item?.output_example}
       </Text>
-      <Text
-        onPress={() => {
-          navigation.navigate('CoreChallengeViewer');
-          setSelectedChallenge(item);
-        }}
+      <TouchableOpacity
+        onPress={() => handleSelectChallenge(item)}
         style={{
-          color: 'white',
           padding: 10,
           backgroundColor: Colors.violet,
-          textAlign: 'center',
-          letterSpacing: 1,
           borderRadius: 10,
         }}>
-        Take a Look
-      </Text>
+        <Text
+          style={{
+            color: 'white',
+            textAlign: 'center',
+            letterSpacing: 1,
+          }}>
+          Take a Look
+        </Text>
+      </TouchableOpacity>
     </TouchableOpacity>
   ));
   // loadinf skeletom

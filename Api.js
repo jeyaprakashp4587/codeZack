@@ -1,4 +1,4 @@
-const Api = 'http://192.168.175.90:8080';
+const Api = 'http://192.168.43.90:8080';
 module.exports = Api;
 // https://codecampusserver-r6gw.onrender.com
 // 192.168.10.90  redmi 10 ip

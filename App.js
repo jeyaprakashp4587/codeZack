@@ -16,7 +16,7 @@ import {
   configureReanimatedLogger,
   ReanimatedLogLevel,
 } from 'react-native-reanimated';
-
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 const {width} = Dimensions.get('window');
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
@@ -25,16 +25,18 @@ configureReanimatedLogger({
 
 const App = () => {
   return (
-    <ContextProvider>
-      <SocketProvider>
-        <View style={styles.cn}>
-          <SafeAreaView style={{flex: 1}}>
-            <AppNavigator />
-            <StatusBar backgroundColor="white" barStyle="dark-content" />
-          </SafeAreaView>
-        </View>
-      </SocketProvider>
-    </ContextProvider>
+    <GestureHandlerRootView>
+      <ContextProvider>
+        <SocketProvider>
+          <View style={styles.cn}>
+            <SafeAreaView style={{flex: 1}}>
+              <AppNavigator />
+              <StatusBar backgroundColor="white" barStyle="dark-content" />
+            </SafeAreaView>
+          </View>
+        </SocketProvider>
+      </ContextProvider>
+    </GestureHandlerRootView>
   );
 };
 

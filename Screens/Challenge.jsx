@@ -41,19 +41,23 @@ const Challenge = ({navigation}) => {
     {
       challengeName: 'Java',
       color: '#f4a261',
-      web: '',
+      web: 'https://www.programiz.com/java-programming/online-compiler/',
     },
     {
       challengeName: 'Python',
       color: '#2a9d8f',
-      web: '',
+      web: 'https://www.programiz.com/python-programming/online-compiler/',
     },
     {
       challengeName: 'C++',
       color: '#264653',
-      web: '',
+      web: 'https://www.programiz.com/cpp-programming/online-compiler/',
     },
   ]);
+  const handleCoreChallenge = useCallback(item => {
+    setselectedChallengeTopic(item);
+    navigation.navigate('CoreChallenge');
+  });
   // Memoize the handler to prevent re-creation on every render
   const HandleSelectChallenges = useCallback(
     item => {
@@ -105,6 +109,8 @@ const Challenge = ({navigation}) => {
           </TouchableOpacity>
         ))}
       </View>
+      {/* add */}
+      <BannerAdd />
       {/* core challenges */}
       <View
         style={{
@@ -120,11 +126,7 @@ const Challenge = ({navigation}) => {
           keyExtractor={item => item.challengeName}
           renderItem={({item}) => (
             <TouchableOpacity
-              onPress={() => {
-                setChaToggle(!chToggle);
-                setselectedChallengeTopic(item);
-                navigation.navigate('CoreChallenge');
-              }}
+              onPress={() => handleCoreChallenge(item)}
               style={{
                 width: '100%',
                 backgroundColor: 'white',
@@ -173,8 +175,6 @@ const Challenge = ({navigation}) => {
           color={'#457b9d'}
         />
       </TouchableOpacity>
-      {/* add */}
-      <BannerAdd />
     </ScrollView>
   );
 };
