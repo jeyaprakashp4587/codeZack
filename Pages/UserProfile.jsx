@@ -28,6 +28,7 @@ import Skeleton from '../Skeletons/Skeleton';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faL, faTimes} from '@fortawesome/free-solid-svg-icons';
+import BannerAdd from '../Adds/BannerAdd';
 
 const UserProfile = () => {
   const {width, height} = Dimensions.get('window');
@@ -139,7 +140,7 @@ const UserProfile = () => {
       );
       if (res.status == 200) {
         setNetworksList(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       }
     }
   }, [showNetWorkModel]);
@@ -351,8 +352,9 @@ const UserProfile = () => {
           </Text>
         </View>
       </View>
+      {/* banner */}
+      <BannerAdd />
       {/* post */}
-      {/* H */}
       <HrLine />
       {selectedUser?.Posts?.length > 0 && (
         <Text

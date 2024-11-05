@@ -13,10 +13,6 @@ const useInterstitialAd = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const interstitialAd = InterstitialAd.createForAdRequest(adUnitId);
 
-  // State to manage impressions and timing
-  const [impressionCount, setImpressionCount] = useState(0);
-  const [firstImpressionTime, setFirstImpressionTime] = useState(null);
-
   const loadAd = () => {
     const requestOptions = {
       requestNonPersonalizedAdsOnly: true,
@@ -36,10 +32,11 @@ const useInterstitialAd = () => {
     const unsubscribeClosed = interstitialAd.addAdEventListener(
       AdEventType.CLOSED,
       () => {
-        loadAd();
         setIsLoaded(false);
+        loadAd(); // Load a new ad after it is closed
       },
     );
+
     loadAd();
     return () => {
       unsubscribeLoaded();
@@ -48,29 +45,15 @@ const useInterstitialAd = () => {
   }, [interstitialAd]);
 
   const showAd = async () => {
-    const currentTime = new Date().getTime();
-
-    // Reset count if more than 1 minute has passed since the first impression
-    if (firstImpressionTime && currentTime - firstImpressionTime > 60000) {
-      console.log('Resetting impression count');
-      setImpressionCount(0);
-      setFirstImpressionTime(null); // Reset the time as well
-    }
-
-    // Show the ad if under the limit
-    if (isLoaded && impressionCount < 5) {
-      // Change to 10 for your requirement
-      // console.log(`Showing ad - Current Count: ${impressionCount + 1}`);
-      await interstitialAd.show();
-      setImpressionCount(prevCount => {
-        if (prevCount === 0) {
-          setFirstImpressionTime(currentTime); // Set the first impression time
-        }
-        return prevCount + 1; // Increment the count
-      });
-      loadAd(); // Load a new ad after showing
+    if (isLoaded) {
+      try {
+        await interstitialAd.show();
+        return {success: true, message: 'Ad shown successfully'};
+      } catch (error) {
+        return {success: false, message: 'Failed to show ad', error};
+      }
     } else {
-      // console.log('Ad limit reached or not loaded');
+      return {success: false, message: 'Ad not loaded yet'};
     }
   };
 

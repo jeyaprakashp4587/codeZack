@@ -84,6 +84,12 @@ const Home = () => {
         route: 'Challenges',
       },
       {
+        name: 'Earning',
+        img: 'https://i.ibb.co/qnM4QT0/file.png',
+        bgColor: '#b3b3ff',
+        route: 'Wallet',
+      },
+      {
         name: 'Achieve',
         img: 'https://i.ibb.co/6mt33RQ/achieve.png',
         bgColor: '#b3ffb3',
@@ -593,7 +599,7 @@ const Home = () => {
                 overflow: 'hidden',
               }}>
               <LinearGradient
-                colors={['white', 'white', item.bgColor]}
+                colors={['white', 'white', 'white', item.bgColor]}
                 style={{
                   flexDirection: 'row',
                   flex: 1,

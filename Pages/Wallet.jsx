@@ -1,4 +1,5 @@
 import {
+  Alert,
   Dimensions,
   FlatList,
   Image,
@@ -25,11 +26,30 @@ import axios from 'axios';
 import Api from '../Api';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
+import useInterstitialAd from '../Adds/useInterstitialAd';
+import BannerAdd from '../Adds/BannerAdd';
 
 const Wallet = () => {
   const {user, setUser} = useData();
   const Navigation = useNavigation();
   const {width, height} = Dimensions.get('window');
+  // show add
+  const [addViewed, setAddViewed] = useState(false);
+  const {showAd, isLoaded} = useInterstitialAd();
+  const handleShowAd = async () => {
+    const result = await showAd();
+    if (result.success) {
+      // Alert.alert('Ad Status', 'Ad was shown successfully');
+      setAddViewed(true);
+    } else {
+      Alert.alert(
+        'Ad Status',
+        result.message,
+        result.error ? {error: result.error.toString()} : {},
+      );
+    }
+  };
+  // stategies
   const strategies = [
     {text: 'Daily check in', price: 1},
     {text: 'Enrolled any one course', price: 2},
@@ -240,6 +260,8 @@ const Wallet = () => {
           </View>
         </Modal>
       </LinearGradient>
+      {/* banner */}
+      <BannerAdd />
       {/* with draw */}
       <View
         style={{paddingHorizontal: 15, flexDirection: 'column', rowGap: 15}}>
@@ -380,62 +402,70 @@ const Wallet = () => {
           Money earning strategies
         </Text>
         {/* unlock add */}
-        <View
-          style={{
-            borderWidth: 0,
-            // height: height * 0.3,
-            borderRadius: 10,
-            backgroundColor: 'white',
-            elevation: 2,
-            flexDirection: 'column',
-            rowGap: 10,
-            padding: 15,
-          }}>
-          <FlatList
-            data={strategies}
-            renderItem={({item}) => (
-              <View
-                style={{
-                  marginBottom: 10,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  columnGap: 3,
-                  padding: 10,
-                  borderBottomWidth: 1,
-                  borderColor: Colors.veryLightGrey,
-                  backgroundColor: '#edf2fb',
-                  borderRadius: 5,
-                  borderWidth: 1,
-                }}>
-                <Text style={{letterSpacing: 1, color: Colors.mildGrey}}>
-                  {item.text}:
-                </Text>
-                <Fontawesome name="rupee" />
-                <Text style={{color: '#22223b'}}>{item.price}</Text>
-              </View>
-            )}
-          />
-        </View>
-        {/* <View
-          style={{
-            borderWidth: 0,
-            height: height * 0.3,
-            borderRadius: 10,
-            backgroundColor: 'white',
-            elevation: 2,
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            rowGap: 10,
-          }}>
-          <SimpleLineIcons name="lock" color="#ffd100" size={45} />
-          <TouchableOpacity
-            style={{backgroundColor: '#577399', padding: 10, borderRadius: 10}}>
-            <Text style={{color: 'white', letterSpacing: 2}}>
-              Watch add to unlock
-            </Text>
-          </TouchableOpacity>
-        </View> */}
+        {addViewed ? (
+          <View
+            style={{
+              borderWidth: 0,
+              // height: height * 0.3,
+              borderRadius: 10,
+              backgroundColor: 'white',
+              elevation: 2,
+              flexDirection: 'column',
+              rowGap: 10,
+              padding: 15,
+            }}>
+            <FlatList
+              data={strategies}
+              renderItem={({item}) => (
+                <View
+                  style={{
+                    marginBottom: 10,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    columnGap: 3,
+                    padding: 10,
+                    borderBottomWidth: 1,
+                    borderColor: Colors.veryLightGrey,
+                    backgroundColor: '#edf2fb',
+                    borderRadius: 5,
+                    borderWidth: 1,
+                  }}>
+                  <Text style={{letterSpacing: 1, color: Colors.mildGrey}}>
+                    {item.text}:
+                  </Text>
+                  <Fontawesome name="rupee" />
+                  <Text style={{color: '#22223b'}}>{item.price}</Text>
+                </View>
+              )}
+            />
+          </View>
+        ) : (
+          <View
+            style={{
+              borderWidth: 0,
+              height: height * 0.3,
+              borderRadius: 10,
+              backgroundColor: 'white',
+              elevation: 2,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              rowGap: 10,
+            }}>
+            <SimpleLineIcons name="lock" color="#ffd100" size={45} />
+            <TouchableOpacity
+              onPress={() => handleShowAd()}
+              style={{
+                backgroundColor: '#577399',
+                padding: 10,
+                borderRadius: 10,
+              }}>
+              <Text style={{color: 'white', letterSpacing: 2}}>
+                Watch add to unlock
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </ScrollView>
   );

@@ -19,14 +19,12 @@ import {Dimensions} from 'react-native';
 import Skeleton from '../Skeletons/Skeleton';
 import {useNavigation} from '@react-navigation/native';
 import BannerAdd from '../Adds/BannerAdd';
-import useInterstitialAd from '../Adds/useInterstitialAd';
 
 const Carrer = () => {
   // courses list
   const navigation = useNavigation();
   const {setSelectedCourse} = useData();
   const {width, height} = Dimensions.get('window');
-  const {showAd, isLoaded} = useInterstitialAd();
   // const handleShowAd = async () => {
   //   if (isLoaded) {
   //     await showAd(); // Call the function to show the ad
