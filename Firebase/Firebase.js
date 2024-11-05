@@ -1,8 +1,6 @@
 import {initializeApp} from 'firebase/app';
-import {getAnalytics} from 'firebase/analytics';
+
 import {getStorage} from 'firebase/storage';
-import {getMessaging} from 'firebase/messaging';
-import firebase from 'firebase/app';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBhsaau-Xa0qe6QCMOvxUKqh2ety4mC6H0',
@@ -18,5 +16,4 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 const storage = getStorage();
-const messaging = getMessaging();
-export {storage, messaging};
+export {storage};

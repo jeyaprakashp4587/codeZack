@@ -9,13 +9,9 @@ import {
   ImageBackground,
   FlatList,
 } from 'react-native';
-import Fontisto from 'react-native-vector-icons/Fontisto';
-import {Colors, pageView} from '../constants/Colors';
 import HeadingText from '../utils/HeadingText';
 import PragraphText from '../utils/PragraphText';
 import {useData} from '../Context/Contexter';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCode} from '@fortawesome/free-solid-svg-icons';
 import {ScrollView} from 'react-native';
 import {Dimensions} from 'react-native';
 import BannerAdd from '../Adds/BannerAdd';

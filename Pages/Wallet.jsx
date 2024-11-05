@@ -284,10 +284,9 @@ const Wallet = () => {
               position: 'absolute',
               zIndex: 10,
               top: -height * 0.03,
+              right: `${user?.Wallet?.TotalWallet >= 100 && 0}`,
               left: `${
-                user.Wallet.TotalWallet >= 100
-                  ? width * 0.22
-                  : user.Wallet.TotalWallet
+                user?.Wallet?.TotalWallet < 100 && user?.Wallet?.TotalWallet
               }%`,
             }}>
             <Fontawesome name="rupee" />

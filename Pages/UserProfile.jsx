@@ -34,7 +34,6 @@ const UserProfile = () => {
   const {width, height} = Dimensions.get('window');
   const {selectedUser, user, setSelectedUser} = useData();
   const navigation = useNavigation();
-  // console.log(selectedUser);
   const socket = SocketData();
   const emitSocketEvent = useSocketEmit(socket);
   const [existsFollower, setExistsFollower] = useState(false);
@@ -357,11 +356,20 @@ const UserProfile = () => {
       {/* post */}
       <HrLine />
       {selectedUser?.Posts?.length > 0 ? (
-        <FlatList
-          data={selectedUser?.Posts}
-          renderItem={({post, index}) => <Posts post={post} index={index} />}
-          keyExtractor={item => item._id}
-        />
+        selectedUser?.Posts?.map((post, index) => (
+          <Posts
+            post={post}
+            index={index}
+            senderDetails={{
+              firstName: selectedUser?.firstName,
+              LastName: selectedUser?.LastName,
+              InstitudeName: selectedUser?.InstitudeName,
+              Images: {
+                profile: selectedUser?.Images?.profile,
+              },
+            }}
+          />
+        ))
       ) : (
         <Text
           style={{

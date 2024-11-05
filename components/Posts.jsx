@@ -28,7 +28,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const {user, setUser, setSelectedUser} = useData();
   const navigation = useNavigation();
   const wordThreshold = 10;
-  // console.log(post);
+  console.log();
   const [expanded, setExpanded] = useState(false);
   const [deldisplay, setDeldisplay] = useState(false);
   const [likeCount, setLikeCount] = useState(Number(post?.Like));
@@ -59,7 +59,6 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         });
         if (res.data) {
           setUser(res.data);
-
         }
       } catch (err) {
         // console.log(err);
@@ -219,7 +218,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         </TouchableOpacity>
       )}
       <Text style={{color: Colors.violet}}>{post?.PostLink}</Text>
-
+      {/* post images */}
       {post?.Images && (
         <FlatList
           showsHorizontalScrollIndicator={false}
@@ -238,7 +237,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           )}
         />
       )}
-
+      {/* options */}
       <View
         style={{
           flexDirection: 'row',
@@ -248,7 +247,13 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         }}>
         <TouchableOpacity
           onPress={handleLikeToggle}
-          style={{flexDirection: 'row', alignItems: 'center', columnGap: 5}}>
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            columnGap: 5,
+            // borderWidth: 1,
+            width: width * 0.2,
+          }}>
           <Text style={{fontFamily: font.poppins, fontSize: width * 0.048}}>
             {likeCount}
           </Text>
@@ -260,7 +265,13 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={handleShowComments} // Open modal to display comments
-          style={{flexDirection: 'row', alignItems: 'center', columnGap: 5}}>
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            columnGap: 5,
+            // borderWidth: 1,
+            width: width * 0.2,
+          }}>
           <Text style={{fontFamily: font.poppins, fontSize: width * 0.048}}>
             {comments.length}
           </Text>
@@ -270,7 +281,9 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             color={Colors.mildGrey}
           />
         </TouchableOpacity>
-        <RelativeTime time={post?.Time} fsize={width * 0.033} />
+        <View style={{borderWidth: 0}}>
+          <RelativeTime time={post?.Time} fsize={width * 0.033} />
+        </View>
       </View>
 
       {/* Add New Comment */}
@@ -329,6 +342,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
               <FontAwesomeIcon icon={faTimes} color={Colors.mildGrey} />
             </TouchableOpacity>
           </View>
+          {/* show likes and comments */}
           {modalContentType === 'likes' ? (
             likedUsers?.length > 0 ? (
               <FlatList
@@ -436,7 +450,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
   );
 };
 
-export default Posts;
+export default React.memo(Posts);
 
 const styles = StyleSheet.create({
   userName: {
@@ -459,10 +473,12 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   postText: {
-    marginVertical: 10,
+    marginVertical: 5,
+    color: Colors.veryDarkGrey,
+    letterSpacing: 1,
   },
   showMore: {
-    marginVertical: 10,
+    marginVertical: 5,
   },
   likeBtn: {
     marginVertical: 10,

@@ -37,7 +37,7 @@ import {storage} from '../Firebase/Firebase';
 import moment from 'moment';
 import useSocket from '../Socket/useSocket';
 import useSocketEmit from '../Socket/useSocketEmit';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import WebView from 'react-native-webview';
 import Actitivity from '../hooks/ActivityHook';
 
@@ -167,7 +167,11 @@ const ChallengeDetail = () => {
         );
         if (res.data === 'completed') {
           setChallengeStatus('completed');
-          ToastAndroid.show('Wow!, You Finished');
+          console.log('suces');
+          ToastAndroid.show(
+            'Wow!, You Finished and earn Rs:1',
+            ToastAndroid.SHORT,
+          );
           await handleUploadPost();
           Actitivity(
             user?._id,
@@ -180,7 +184,10 @@ const ChallengeDetail = () => {
         console.error('Error uploading challenge:', error);
       }
     } else {
-      ToastAndroid.show('Please fill in all fields and select images');
+      ToastAndroid.show(
+        'Please fill in all fields and select images',
+        ToastAndroid.SHORT,
+      );
     }
   };
 
@@ -198,7 +205,6 @@ const ChallengeDetail = () => {
           Time: moment().format('YYYY-MM-DDTHH:mm:ss'),
           postId: res.data?.postId,
         });
-        refreshFields();
       } else {
         Alert.alert('Something went wrong. Please try again.');
       }
@@ -228,14 +234,12 @@ const ChallengeDetail = () => {
     }
   };
 
-  useEffect(() => {
-    const unsubscribeFocus = navigation.addListener('focus', () => {
+  useFocusEffect(
+    useCallback(() => {
       getParticularChallenge();
       checkChallengeStatus();
-    });
-
-    return unsubscribeFocus;
-  }, [navigation, checkChallengeStatus, getParticularChallenge]);
+    }, []),
+  );
 
   const HandleText = (name, text) => {
     setUploadForm(prev => ({...prev, [name]: text}));
@@ -244,11 +248,14 @@ const ChallengeDetail = () => {
   const [refreshing, setRefreshing] = useState(false);
   const HandleRefresh = () => {
     setRefreshing(true);
-    Promise.all([getParticularChallenge()]).then(() => setRefreshing(false));
+    Promise.all([getParticularChallenge()]).then(data => {
+      setRefreshing(false);
+      console.log(data);
+    });
   };
   // ------
   return (
-    <View style={{backgroundColor: 'white', flex: 1, paddingHorizontal: 20}}>
+    <View style={{backgroundColor: 'white', flex: 1, paddingHorizontal: 15}}>
       <HeadingText text="Challenge Details" />
       <ScrollView
         style={{flex: 1, marginBottom: 20}}

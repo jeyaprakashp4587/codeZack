@@ -20,7 +20,10 @@ const ChallengeViewer = () => {
   const {width, height} = Dimensions.get('window');
   const {user, selectedChallenge} = useData();
   const [challenge, setChallenge] = useState();
-  console.log(selectedChallenge);
+  const [webViewSource, setWebViewSource] = useState({
+    uri: challenge?.LiveLink,
+  });
+  const fallbackURL = {uri: 'https://example.com'}; // Replace with your dummy URL
   const getChallenge = async () => {
     const res = await axios.get(
       `${Api}/Challenges/getCompletedChallenge/${user?._id}/${selectedChallenge?.title}`,
@@ -113,8 +116,9 @@ const ChallengeViewer = () => {
           javaScriptEnabled={true}
           scrollEnabled={true}
           nestedScrollEnabled
-          source={{uri: challenge?.LiveLink}}
+          source={{uri: webViewSource}}
           style={{borderWidth: 1, height: height * 0.8}}
+          onError={() => setWebViewSource(fallbackURL)}
         />
       </View>
     </ScrollView>
