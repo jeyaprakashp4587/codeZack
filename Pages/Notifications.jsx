@@ -36,7 +36,7 @@ const Notifications = () => {
         `${Api}/Notifications/getNotifications/${user?._id}`,
       );
       if (res.data) {
-        console.log(res.data);
+        // console.log(res.data);
         setNotificationList(res.data);
       } else {
         setNotificationList([]);
@@ -107,8 +107,8 @@ const Notifications = () => {
 
   // -----
   return (
-    <View style={pageView}>
-      <View style={{paddingHorizontal: 20}}>
+    <View style={[pageView, {paddingHorizontal: 15}]}>
+      <View style={{paddingHorizontal: 0}}>
         {/* heading */}
         <TopicsText text="Notifications" mb={5} />
         {/* hr line */}

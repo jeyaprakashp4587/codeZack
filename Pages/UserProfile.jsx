@@ -132,6 +132,7 @@ const UserProfile = () => {
   const [netWorksList, setNetworksList] = useState();
   const [showNetWorkModel, setShowNetWorkModel] = useState(false);
   const getNetworksList = useCallback(async () => {
+    cd;
     setShowNetWorkModel(true);
     if (selectedUser?.Connections?.length > 0) {
       const res = await axios.get(
