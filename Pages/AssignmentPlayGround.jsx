@@ -123,7 +123,7 @@ const AssignmentPlayGround = () => {
     },
     [currentQuestionIndex, selectedAnswers],
   );
-
+  // const submit assignmenet and check answer
   const checkAnswers = useCallback(async () => {
     let score = 0;
     currentQuiz?.forEach((item, index) => {
