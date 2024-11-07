@@ -52,7 +52,10 @@ const CourseDetails = () => {
         // Check the response
         if (res.data.Email) {
           setUser(res.data);
-          ToastAndroid.show('Course Added Successfully', ToastAndroid.BOTTOM);
+          ToastAndroid.show(
+            'Technology Added Successfully',
+            ToastAndroid.BOTTOM,
+          );
           // Log the activity if course is successfully added
           Actitivity(user?._id, `${selectedCourse.name} Successfully Added.`);
         } else if (res.data == 'Enrolled') {

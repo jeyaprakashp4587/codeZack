@@ -151,7 +151,13 @@ const Wallet = () => {
         <View
           style={{flexDirection: 'row', alignItems: 'center', columnGap: 10}}>
           <Image
-            source={{uri: user?.Images?.profile}}
+            source={{
+              uri: user?.Images?.profile
+                ? user?.Images?.profile
+                : user?.Gender == 'male'
+                ? 'https://i.ibb.co/3T4mNMm/man.png'
+                : 'https://i.ibb.co/3mCcQp9/woman.png',
+            }}
             style={{
               width: 55,
               height: 55,

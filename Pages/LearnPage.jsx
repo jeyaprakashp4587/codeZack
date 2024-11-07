@@ -19,26 +19,27 @@ const LearnPage = () => {
   const [hours, setHours] = useState(1);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
-
   useEffect(() => {
     let interval = null;
 
     if (hours > 0 || minutes > 0 || seconds > 0) {
       interval = setInterval(() => {
         if (seconds > 0) {
-          setSeconds(seconds - 1);
+          setSeconds(prevSeconds => prevSeconds - 1);
         } else if (minutes > 0) {
-          setMinutes(minutes - 1);
+          setMinutes(prevMinutes => prevMinutes - 1);
           setSeconds(59);
         } else if (hours > 0) {
-          setHours(hours - 1);
+          setHours(prevHours => prevHours - 1);
           setMinutes(59);
           setSeconds(59);
         }
-        if (minutes <= 15) {
-          AddWallet(user?._id, 5, setUser).then(() =>
-            ToastAndroid.show('congrats you earned Rs:5'),
-          );
+
+        // Check if the timer has just gone below 15 minutes
+        if (minutes === 15 && seconds === 0) {
+          AddWallet(user?._id, 5, setUser).then(() => {
+            ToastAndroid.show('Congrats! You earned Rs:5', ToastAndroid.SHORT);
+          });
         }
       }, 1000);
     }

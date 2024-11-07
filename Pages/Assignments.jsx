@@ -113,6 +113,8 @@ const Assignments = () => {
         }}>
         Assignments
       </Text>
+      {/* Banner add */}
+      <BannerAdd />
       {/* list assignments */}
       <View
         style={{
@@ -165,7 +167,6 @@ const Assignments = () => {
           </TouchableOpacity>
         ))}
       </View>
-      <BannerAdd />
     </ScrollView>
   );
 };

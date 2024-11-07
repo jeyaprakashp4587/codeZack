@@ -173,11 +173,11 @@ const Post = () => {
           source={{
             uri: user?.Images?.profile
               ? user?.Images?.profile
-              : user?.Gender == 'Male'
+              : user?.Gender == 'male'
               ? 'https://i.ibb.co/3T4mNMm/man.png'
               : 'https://i.ibb.co/3mCcQp9/woman.png',
           }}
-          style={{width: 60, height: 60, borderRadius: 50}}
+          style={{width: 60, height: 60, borderRadius: 50, borderWidth: 2}}
         />
         <Text
           style={{

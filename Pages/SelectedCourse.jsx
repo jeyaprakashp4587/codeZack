@@ -9,6 +9,7 @@ import {
   Alert,
   Dimensions,
   ToastAndroid,
+  ActivityIndicator,
 } from 'react-native';
 
 import {useData} from '../Context/Contexter';
@@ -21,13 +22,16 @@ import Api from '../Api';
 import axios from 'axios';
 import Actitivity from '../hooks/ActivityHook';
 import AddWallet from '../hooks/AddWallet';
+import BannerAdd from '../Adds/BannerAdd';
+import {faL} from '@fortawesome/free-solid-svg-icons';
 
 const {width, height} = Dimensions.get('window');
 
 const SelectedCourse = ({navigation}) => {
   const {selectedCourse, user, setUser} = useData();
-
+  const [loading, setLoading] = useState(false);
   const HandleAddCourse = async () => {
+    setLoading(true);
     try {
       // Send request to add course
       const res = await axios.post(`${Api}/Courses/addCourse`, {
@@ -38,6 +42,7 @@ const SelectedCourse = ({navigation}) => {
       // Check if the response contains user data (Email field presence indicates success)
       if (res.data.Email) {
         // Update user data and show success alert
+        setLoading(false);
         await AddWallet(user?._id, 2, setUser);
         ToastAndroid.show(
           'Course added sucessfully and earned Rs:2',
@@ -48,6 +53,7 @@ const SelectedCourse = ({navigation}) => {
         // Navigate to course details screen
         navigation.navigate('courseDetails');
       } else if (res.data == 'Enrolled') {
+        setLoading(false);
         // Handle the case where the course couldn't be added (server returned an error message)
         ToastAndroid.show(
           'You are already enrolled in this course',
@@ -56,6 +62,7 @@ const SelectedCourse = ({navigation}) => {
         navigation.navigate('courseDetails');
       }
     } catch (error) {
+      setLoading(false);
       // Handle network errors or other unforeseen issues
       console.error('Error adding course:', error);
       Alert.alert(
@@ -77,7 +84,10 @@ const SelectedCourse = ({navigation}) => {
         <TopicsText text="Course Intro" mb={2} />
         <PragraphText text={selectedCourse?.introduction} />
       </View>
-      <View style={styles.section}>
+      {/* Banner add */}
+      <BannerAdd />
+      {/* Banner */}
+      <View style={{paddingHorizontal: 15, marginTop: 10}}>
         <TopicsText text="Technologies" mb={20} />
         <View style={styles.technologiesContainer}>
           {selectedCourse?.technologies.map((icon, index) => (
@@ -91,6 +101,7 @@ const SelectedCourse = ({navigation}) => {
         style={styles.button}
         onPress={HandleAddCourse}>
         <Text style={styles.buttonText}>Let's Begin</Text>
+        {loading && <ActivityIndicator color={Colors.mildGrey} size={17} />}
       </Ripple>
     </ScrollView>
   );
@@ -101,7 +112,7 @@ export default React.memo(SelectedCourse);
 const styles = StyleSheet.create({
   pageView: {
     flex: 1,
-    paddingHorizontal: width * 0.05,
+    // paddingHorizontal: width * 0.05,
     backgroundColor: '#fff',
   },
   courseName: {
@@ -109,6 +120,7 @@ const styles = StyleSheet.create({
     color: Colors.mildGrey,
     fontFamily: font.poppins,
     marginBottom: height * 0.02,
+    paddingHorizontal: 15,
   },
   courseImage: {
     width: '90%',
@@ -119,6 +131,7 @@ const styles = StyleSheet.create({
   },
   section: {
     marginVertical: height * 0.015,
+    paddingHorizontal: 15,
   },
   sectionTitle: {
     color: Colors.mildGrey,
@@ -147,19 +160,21 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   button: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     padding: height * 0.015,
     borderRadius: 5,
     borderColor: '#004080',
     elevation: 2,
-    width: width * 0.5,
     alignSelf: 'center',
     backgroundColor: 'white',
     borderWidth: 1,
     marginTop: height * 0.03,
     marginBottom: height * 0.03,
+    // paddingHorizontal: 25,
+    columnGap: 10,
+    width: width * 0.5,
   },
   buttonText: {
     color: Colors.mildGrey,

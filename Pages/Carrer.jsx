@@ -340,6 +340,9 @@ const Carrer = () => {
           }}
         />
       </View>
+      {/* Banner */}
+      <BannerAdd />
+      {/* Banner */}
       <View style={styles.courseContainer}>
         {courses.map((item, index) => (
           <TouchableOpacity
@@ -358,7 +361,6 @@ const Carrer = () => {
         ))}
       </View>
       <Text style={styles.footerText}>Other Courses will be added soon!</Text>
-      <BannerAdd />
     </ScrollView>
   );
 };

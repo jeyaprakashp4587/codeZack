@@ -555,7 +555,7 @@ const Home = () => {
           <TouchableOpacity style={styles.ideaBox} onPress={carrerNav}>
             <SimpleLineIcons name="book-open" size={25} color="#264653" />
             <Text
-              style={[styles.ideaText, {fontSize: width * 0.02}]}
+              style={[styles.ideaText, {fontSize: width * 0.017}]}
               numberOfLines={1}>
               Career
             </Text>
@@ -564,24 +564,24 @@ const Home = () => {
             <AntDesign name="laptop" size={25} color="#2a9d8f" />
             <Text
               numberOfLines={1}
-              style={[styles.ideaText, {fontSize: width * 0.02}]}>
-              Your Course
+              style={[styles.ideaText, {fontSize: width * 0.017}]}>
+              Your Courses
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={assignmentNav} style={styles.ideaBox}>
             <SimpleLineIcons name="notebook" size={25} color="#e9c46a" />
             <Text
               numberOfLines={1}
-              style={[styles.ideaText, {fontSize: width * 0.02}]}>
-              Assignment
+              style={[styles.ideaText, {fontSize: width * 0.017}]}>
+              Assignments
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.ideaBox} onPress={activityNav}>
             <Fontisto name="date" size={25} color="#e76f51" />
             <Text
-              style={[styles.ideaText, {fontSize: width * 0.02}]}
+              style={[styles.ideaText, {fontSize: width * 0.017}]}
               numberOfLines={1}>
-              Your Activity
+              Your Activities
             </Text>
           </TouchableOpacity>
         </View>
