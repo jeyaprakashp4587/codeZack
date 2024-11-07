@@ -13,6 +13,7 @@ import {
   RefreshControl,
   FlatList,
   ToastAndroid,
+  Linking,
 } from 'react-native';
 import Skeleton from '../Skeletons/Skeleton';
 import {Colors, pageView} from '../constants/Colors';
@@ -23,7 +24,6 @@ import Button from '../utils/Button';
 import PragraphText from '../utils/PragraphText';
 import axios from 'axios';
 import Api from '../Api';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faImage} from '@fortawesome/free-regular-svg-icons';
 import Ripple from 'react-native-material-ripple';
 import {
@@ -40,6 +40,8 @@ import useSocketEmit from '../Socket/useSocketEmit';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import WebView from 'react-native-webview';
 import Actitivity from '../hooks/ActivityHook';
+import BannerAdd from '../Adds/BannerAdd';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const {width, height} = Dimensions.get('window');
 
@@ -244,7 +246,33 @@ const ChallengeDetail = () => {
   const HandleText = (name, text) => {
     setUploadForm(prev => ({...prev, [name]: text}));
   };
+  // ask help
+  const sendWhatsAppMessage = () => {
+    const phoneNumber = '9025167302'; // Replace with your WhatsApp number
+    const message = `Hello! My name is ${
+      user?.firstName + user?.LastName
+    } I need help with the "${
+      selectedChallenge?.ChallengeName || selectedChallenge?.title
+    }" challenge.`;
+    const whatsappURL = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(
+      message,
+    )}`;
 
+    // Check if WhatsApp is installed
+    Linking.canOpenURL(whatsappURL)
+      .then(supported => {
+        if (supported) {
+          Linking.openURL(whatsappURL);
+        } else {
+          Alert.alert(
+            'WhatsApp not installed',
+            'Please install WhatsApp to contact support.',
+          );
+        }
+      })
+      .catch(error => console.error('Error opening WhatsApp:', error));
+  };
+  // ask help
   const [refreshing, setRefreshing] = useState(false);
   const HandleRefresh = () => {
     setRefreshing(true);
@@ -310,6 +338,9 @@ const ChallengeDetail = () => {
                 {selectedChallenge?.level}
               </Text>
             </View>
+            {/* Banner add */}
+            <BannerAdd />
+            {/* Banner  add*/}
             <View style={{flexDirection: 'row', columnGap: 20}}>
               {selectedChallenge?.technologies?.map((i, index) => (
                 <Image
@@ -333,6 +364,49 @@ const ChallengeDetail = () => {
                 />
               ))}
             </View>
+            {/* support wrapper */}
+            <View
+              style={{
+                flexDirection: 'column',
+                rowGap: 20,
+                borderWidth: 1,
+                padding: 20,
+                borderRadius: 5,
+                borderColor: Colors.veryLightGrey,
+              }}>
+              <Text
+                style={{
+                  color: '#354f52',
+                  fontSize: width * 0.04,
+                  letterSpacing: 2,
+                  lineHeight: 27,
+                }}>
+                "Need Help with a Coding Error or Anything Else? Contact Our
+                Technical Engineer on WhatsApp!"
+              </Text>
+              <Ripple
+                onPress={sendWhatsAppMessage}
+                style={{
+                  backgroundColor: '#52b788',
+                  padding: 10,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  columnGap: 10,
+                  borderRadius: 5,
+                }}>
+                <FontAwesome name="whatsapp" color="white" size={15} />
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    color: 'white',
+                    letterSpacing: 1,
+                  }}>
+                  Feel Free to ask
+                </Text>
+              </Ripple>
+            </View>
+            {/* support wrapper */}
             {statusButtonToggle ? (
               <Button
                 text={ChallengeStatus}

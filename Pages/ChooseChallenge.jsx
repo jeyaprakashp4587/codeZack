@@ -28,6 +28,7 @@ import axios from 'axios';
 import Api from '../Api';
 import Skeleton from '../Skeletons/Skeleton';
 import Ripple from 'react-native-material-ripple';
+import {useFocusEffect} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('window');
 
@@ -49,39 +50,42 @@ const ChooseChallenge = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const getChallenges = useCallback(async (ChallengeTopic, level) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await axios.post(`${Api}/Challenges/getChallenges`, {
-        ChallengeTopic: ChallengeTopic,
-      });
-      if (res.data) {
-        const {newbieLevel, juniorLevel, expertLevel, legendLevel} = res.data;
-        switch (level) {
-          case 'Newbie':
-            setChallenges([...newbieLevel]);
-            break;
-          case 'Junior':
-            setChallenges([...juniorLevel]);
-            break;
-          case 'Expert':
-            setChallenges([...expertLevel]);
-            break;
-          case 'Legend':
-            setChallenges([...legendLevel]);
-            break;
-          default:
-            setChallenges([]);
+  const getChallenges = useCallback(
+    async (ChallengeTopic, level) => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await axios.post(`${Api}/Challenges/getChallenges`, {
+          ChallengeTopic: ChallengeTopic,
+        });
+        if (res.data) {
+          const {newbieLevel, juniorLevel, expertLevel, legendLevel} = res.data;
+          switch (level) {
+            case 'Newbie':
+              setChallenges([...newbieLevel]);
+              break;
+            case 'Junior':
+              setChallenges([...juniorLevel]);
+              break;
+            case 'Expert':
+              setChallenges([...expertLevel]);
+              break;
+            case 'Legend':
+              setChallenges([...legendLevel]);
+              break;
+            default:
+              setChallenges([]);
+          }
         }
+      } catch (err) {
+        setError('Failed to load challenges. Please try again.');
+        console.error('Error fetching challenges:', err);
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      setError('Failed to load challenges. Please try again.');
-      console.error('Error fetching challenges:', err);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+    },
+    [difficultyInfo],
+  );
 
   const HandleSelectLevel = useCallback(
     levelName => {
@@ -95,21 +99,26 @@ const ChooseChallenge = ({navigation}) => {
   const openMenu = () => setMenuVisible(true);
   const closeMenu = () => setMenuVisible(false);
 
-  useEffect(() => {
-    const unsubscribeFocus = navigation.addListener('focus', () => {
+  useFocusEffect(
+    useCallback(() => {
       getChallenges(selectedChallengeTopic, difficultyInfo);
       getCompletedAllChallenges();
-    });
-    return unsubscribeFocus;
-  }, [navigation, selectedChallengeTopic, difficultyInfo, getChallenges]);
+    }, [
+      selectedChallengeTopic,
+      difficultyInfo,
+      getChallenges,
+      getCompletedAllChallenges,
+    ]),
+  );
   // get completed challlegs from use
-  const [userCompletedChallenges, setUserCompletedChallenges] = useState();
+  const [userCompletedChallenges, setUserCompletedChallenges] = useState([]);
   const getCompletedAllChallenges = useCallback(() => {
-    const filter = user?.Challenges?.filter(
-      item => item.status === 'completed',
-    );
-    setUserCompletedChallenges(filter);
-  }, []);
+    const filter = user?.Challenges?.filter(item => item.status == 'completed');
+    if (filter) {
+      setUserCompletedChallenges(filter);
+    }
+  }, [user]);
+  // render loading
   if (loading) {
     return (
       <View style={[pageView, {paddingHorizontal: 15}]}>
@@ -199,15 +208,34 @@ const ChooseChallenge = ({navigation}) => {
                   />
                 ))}
               </View>
-              <Feather
-                name="check-circle"
-                size={20}
-                color={
-                  userCompletedChallenges?.ChallengeName == item.title
-                    ? 'green'
-                    : Colors.mildGrey
-                }
-              />
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  columnGap: 10,
+                }}>
+                {userCompletedChallenges.some(
+                  completedChallenge =>
+                    completedChallenge.ChallengeName === item.title,
+                ) && (
+                  <Text style={{letterSpacing: 2, color: Colors.mildGrey}}>
+                    Finished!
+                  </Text>
+                )}
+
+                <Feather
+                  name="check-circle"
+                  size={20}
+                  color={
+                    userCompletedChallenges.some(
+                      completedChallenge =>
+                        completedChallenge.ChallengeName === item.title,
+                    )
+                      ? 'green'
+                      : Colors.mildGrey
+                  }
+                />
+              </View>
             </View>
             <Ripple
               rippleColor="lightgrey"
@@ -260,7 +288,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   technologiesContainer: {
-    marginVertical: 10,
+    marginVertical: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

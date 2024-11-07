@@ -132,7 +132,7 @@ const Challenge = ({navigation}) => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 10,
-                elevation: 2,
+                // elevation: 2,
                 flexDirection: 'row',
                 padding: 10,
                 marginBottom: 15,
