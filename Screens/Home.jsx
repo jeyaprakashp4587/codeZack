@@ -650,19 +650,19 @@ const Home = () => {
         {/* banner add */}
         <BannerAdd />
         {/* posts */}
+        <FlatList
+          data={posts} // Data for FlatList
+          keyExtractor={item => item._id} // Key for each post
+          renderItem={({item, index}) => (
+            <Posts
+              post={item.Posts} // Pass post data as props
+              senderDetails={item.SenderDetails}
+              index={index} // Pass index
+              admin={false} // Optionally pass if the user is admin
+            />
+          )}
+        />
       </ScrollView>
-      <FlatList
-        data={posts} // Data for FlatList
-        keyExtractor={item => item._id} // Key for each post
-        renderItem={({item, index}) => (
-          <Posts
-            post={item.Posts} // Pass post data as props
-            senderDetails={item.SenderDetails}
-            index={index} // Pass index
-            admin={false} // Optionally pass if the user is admin
-          />
-        )}
-      />
     </View>
   );
 };

@@ -8,7 +8,7 @@ import {
   Modal,
   TextInput,
 } from 'react-native';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Colors, font} from '../constants/Colors';
 import {faComments, faHeart} from '@fortawesome/free-regular-svg-icons';
 import {Dimensions} from 'react-native';
@@ -27,10 +27,17 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const initialText = post?.PostText;
   const {user, setUser, setSelectedUser} = useData();
   const navigation = useNavigation();
+  console.log(post?.Like);
+
   const wordThreshold = 10;
   const [expanded, setExpanded] = useState(false);
   const [deldisplay, setDeldisplay] = useState(false);
-  const [likeCount, setLikeCount] = useState(Number(post?.Like));
+  const [likeCount, setLikeCount] = useState(post?.Like);
+  useEffect(() => {
+    if (post?.Like !== undefined && post?.Like !== null) {
+      setLikeCount(post.Like);
+    }
+  }, [post?.Like]);
   const [comments, setComments] = useState(post?.Comments || []); // List of comments
   const [newComment, setNewComment] = useState(''); // Track new comment
   const [liked, setLiked] = useState(
@@ -120,7 +127,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
       });
 
       if (res.status === 200) {
-        console.log(res.data.comment);
+        // console.log(res.data.comment);
         setComments([...comments, res.data.comment]);
         setNewComment('');
       }
@@ -159,10 +166,12 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
       style={{
         marginTop: 20,
         padding: 20,
-        borderRadius: 10,
+        borderRadius: 0,
         backgroundColor: 'white',
         marginBottom: 10,
-        elevation: elevation ? 0 : 3,
+        // elevation: elevation ? 0 : 3,
+        borderWidth: 0.4,
+        borderColor: Colors.veryLightGrey,
         // marginHorizontal: 5,
       }}>
       {/* Post Content */}
@@ -203,7 +212,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           </TouchableOpacity>
         )}
       </View>
-
+      <Text>{post?.Like}</Text>
       <Text style={styles.postText}>
         {expanded
           ? initialText
@@ -293,25 +302,24 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           marginVertical: 5,
           borderBottomWidth: 1,
           borderColor: Colors.veryLightGrey,
+          alignItems: 'center',
         }}>
         <TextInput
           value={newComment}
-          onChangeText={text => {
-            setNewComment(text);
-          }}
+          onChangeText={setNewComment}
           placeholder="Add a comment..."
-          style={styles.commentInput}
+          style={{borderWidth: 0, flex: 1}}
         />
         <TouchableOpacity
           onPress={handleSubmitComment}
           style={styles.commentBtn}>
-          <FontAwesome name="send-o" size={17} color={Colors.mildGrey} />
+          <FontAwesome name="send-o" size={20} color={Colors.mildGrey} />
         </TouchableOpacity>
       </View>
 
       {/* Show Liked Users Button */}
       <TouchableOpacity onPress={handleShowLikedUsers} style={styles.likeBtn}>
-        <Text>Show Likes</Text>
+        <Text style={{letterSpacing: 2}}>Show Likes</Text>
       </TouchableOpacity>
 
       {/* Modal for displaying liked users or comments */}
