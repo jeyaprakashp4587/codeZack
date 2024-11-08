@@ -11,6 +11,7 @@ import {
   View,
   RefreshControl,
   Text,
+  ToastAndroid,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
 import HeadingText from '../utils/HeadingText';
@@ -118,12 +119,15 @@ const Post = () => {
             Time: moment().format('YYYY-MM-DDTHH:mm:ss'),
             postId: res.data?.postId,
           });
-          Alert.alert('Uploaded Successfully');
+          ToastAndroid.show('Uploaded Successfully', ToastAndroid.SHORT);
+
           refreshFields();
         } else {
+          setUploadText('upload');
           Alert.alert('Something went wrong. Please try again.');
         }
       } catch (error) {
+        setUploadText('upload');
         console.error(
           'Upload error:',
           error.response ? error.response.data : error.message,

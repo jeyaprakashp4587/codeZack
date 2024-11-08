@@ -43,6 +43,7 @@ import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddWallet from '../hooks/AddWallet';
 import useShakeAnimation from '../hooks/useShakeAnimation';
+import useInterstitialAd from '../Adds/useInterstitialAd';
 
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
@@ -57,6 +58,7 @@ const Home = () => {
   const [unseenCount, setUnseenCount] = useState(0);
   const shakeInterpolation = useShakeAnimation(3000);
   const socket = SocketData();
+  const {showAd, isLoaded, loadAd} = useInterstitialAd();
   const [refresh, setRefresh] = useState(false);
   const [showEarnTutorial, setShowEarnTutorial] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -65,6 +67,7 @@ const Home = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoad(true);
+      load();
     }, 500);
     return () => clearTimeout(timer);
   }, []);
@@ -236,14 +239,17 @@ const Home = () => {
   const handleCheckIn = async () => {
     if (!isDisabled) {
       try {
-        const now = moment().toISOString();
-        await AsyncStorage.setItem('lastCheckIn', now);
-        const result = await AddWallet(user?._id, 1, setUser);
-        if (result === 'ok') {
-          ToastAndroid.show('You earned 1 rupee', ToastAndroid.SHORT);
-          setIsDisabled(true);
-        } else {
-          ToastAndroid.show('Failed to add to wallet', ToastAndroid.SHORT);
+        const addResult = await showAd();
+        if (addResult.success) {
+          const now = moment().toISOString();
+          await AsyncStorage.setItem('lastCheckIn', now);
+          const result = await AddWallet(user?._id, 1, setUser);
+          if (result === 'ok') {
+            ToastAndroid.show('You earned 1 rupee', ToastAndroid.SHORT);
+            setIsDisabled(true);
+          } else {
+            ToastAndroid.show('Failed to add to wallet', ToastAndroid.SHORT);
+          }
         }
       } catch (error) {
         ToastAndroid.show(

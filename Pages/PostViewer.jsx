@@ -13,7 +13,6 @@ const PostViewer = () => {
   const getPostDetail = useCallback(async () => {
     const res = await axios.get(`${Api}/Post/getPostDetails/${selectedPost}`);
     if (res.data) {
-      console.log(res.data);
       setPost(res.data);
       // console.log(post);
     }

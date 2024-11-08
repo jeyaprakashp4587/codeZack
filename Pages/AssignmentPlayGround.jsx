@@ -18,12 +18,16 @@ import BannerAdd from '../Adds/BannerAdd';
 import Actitivity from '../hooks/ActivityHook';
 import AddWallet from '../hooks/AddWallet';
 import Skeleton from '../Skeletons/Skeleton';
+import useInterstitialAd from '../Adds/useInterstitialAd';
 
 const AssignmentPlayGround = () => {
   const {assignmentType, user, setUser} = useData();
+  console.log(assignmentType);
+
   const {width, height} = Dimensions.get('window');
   const [currentQuiz, setCurrentQuiz] = useState();
   const difficulty = ['easy', 'medium', 'hard'];
+  const {showAd, isLoaded} = useInterstitialAd();
   const [difficultyInfo, setDifficultyInfo] = useState('easy');
 
   const HandleSetDifficulty = level => {
@@ -125,50 +129,84 @@ const AssignmentPlayGround = () => {
   );
   // const submit assignmenet and check answer
   const checkAnswers = useCallback(async () => {
-    let score = 0;
-    currentQuiz?.forEach((item, index) => {
-      if (item.answer === selectedAnswers[index]) {
-        score += 1;
-      }
-    });
-
-    if (
-      score >=
-        (difficultyInfo.toLowerCase() === 'easy'
-          ? 8
-          : difficultyInfo.toLowerCase() === 'medium'
-          ? 15
-          : 15) &&
-      score != 0
-    ) {
-      const res = await axios.post(
-        `${Api}/Assignment/saveAssignment/${user?._id}`,
-        {AssignmentType: assignmentType, point: score, level: difficultyInfo},
-      );
-      if (res.data.Email) {
-        // console.log(res.data);
-        setUser(res.data);
-        Actitivity(
-          user?._id,
-          `Finished ${difficultyInfo} Level ${assignmentType} assignment`,
-        );
-        AddWallet(
-          user?._id,
-          difficulty == 'easy' ? 2 : difficulty == 'medium' ? 3 : 5,
-          setUser,
-        ).then(() =>
-          ToastAndroid.show(
-            `Congratulations!,You passed the quiz! and earned Rs:${
-              difficulty == 'easy' ? 2 : difficulty == 'medium' ? 3 : 5
-            }`,
-            ToastAndroid.LONG,
-          ),
-        );
+    loadAd();
+    const adResult = await showAd();
+    if (adResult.success) {
+      // Only proceed with checking answers if the ad was shown successfully
+      let score = 0;
+      currentQuiz?.forEach((item, index) => {
+        if (item.answer === selectedAnswers[index]) {
+          score += 1;
+        }
+      });
+      if (
+        score >=
+          (difficultyInfo.toLowerCase() === 'easy'
+            ? 8
+            : difficultyInfo.toLowerCase() === 'medium'
+            ? 15
+            : 15) &&
+        score !== 0
+      ) {
+        try {
+          const res = await axios.post(
+            `${Api}/Assignment/saveAssignment/${user?._id}`,
+            {
+              AssignmentType: assignmentType,
+              point: score,
+              level: difficultyInfo,
+            },
+          );
+          if (res.data.Email) {
+            setUser(res.data);
+            Actitivity(
+              user?._id,
+              `Finished ${difficultyInfo} Level ${assignmentType} assignment`,
+            );
+            AddWallet(
+              user?._id,
+              difficultyInfo.toLowerCase() === 'easy'
+                ? 2
+                : difficultyInfo.toLowerCase() === 'medium'
+                ? 3
+                : 5,
+              setUser,
+            ).then(() =>
+              ToastAndroid.show(
+                `Congratulations! You passed the quiz mark ${score} and earned Rs: ${
+                  difficultyInfo.toLowerCase() === 'easy'
+                    ? 2
+                    : difficultyInfo.toLowerCase() === 'medium'
+                    ? 3
+                    : 5
+                }`,
+                ToastAndroid.LONG,
+              ),
+            );
+          }
+        } catch (error) {
+          console.error('Error submitting assignment:', error);
+          Alert.alert(
+            'Error',
+            'Something went wrong while submitting your assignment. Please try again.',
+          );
+        }
+      } else {
+        Alert.alert('Try Again!', `You did not pass. Score: ${score}`);
       }
     } else {
-      Alert.alert('Try Again!', `You did not pass. Score: ${score}`);
+      Alert.alert('Ad Error', adResult.message || 'Failed to show ad');
     }
-  }, [selectedAnswers]);
+  }, [
+    selectedAnswers,
+    showAd,
+    currentQuiz,
+    difficultyInfo,
+    assignmentType,
+    setUser,
+    user,
+  ]);
+  // go next question
 
   const nextQuestion = () => {
     if (currentQuestionIndex < currentQuiz?.length - 1) {
@@ -295,6 +333,7 @@ const AssignmentPlayGround = () => {
                   padding: 10,
                   backgroundColor: Colors.violet,
                   width: width * 0.2,
+                  borderRadius: 5,
                 }}>
                 <Text
                   style={{

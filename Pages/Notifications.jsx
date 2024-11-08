@@ -36,7 +36,7 @@ const Notifications = () => {
         `${Api}/Notifications/getNotifications/${user?._id}`,
       );
       if (res.data) {
-        // console.log(res.data);
+        console.log(res.data.Time);
         setNotificationList(res.data);
       } else {
         setNotificationList([]);
@@ -114,7 +114,6 @@ const Notifications = () => {
         {/* hr line */}
         <HrLine margin={1} width="100%" />
       </View>
-
       {/* Notifications Sections */}
       {!notificationList || notificationList.length <= 0 ? (
         <Text

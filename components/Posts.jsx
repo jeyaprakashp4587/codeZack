@@ -27,7 +27,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const initialText = post?.PostText;
   const {user, setUser, setSelectedUser} = useData();
   const navigation = useNavigation();
-  console.log(post?.Like);
+  // console.log(post?.Time);
 
   const wordThreshold = 10;
   const [expanded, setExpanded] = useState(false);
@@ -289,6 +289,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             color={Colors.mildGrey}
           />
         </TouchableOpacity>
+
         <View style={{borderWidth: 0}}>
           <RelativeTime time={post?.Time} fsize={width * 0.033} />
         </View>
