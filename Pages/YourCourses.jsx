@@ -58,6 +58,7 @@ const YourCourses = () => {
   );
 
   const [refresh, setRefresh] = useState(false);
+  // console.log(user?.Courses[0]?.Technologies);
 
   const HandleRefresh = useCallback(() => {
     setRefresh(true);
@@ -100,7 +101,7 @@ const YourCourses = () => {
                     <View key={index} style={styles.techWrapper}>
                       <Text style={styles.techName}>{tech.TechName}</Text>
                       <Text style={styles.techPoints}>
-                        Points( {tech.Points} / 10 )
+                        Points( {tech?.Points} / 10 )
                       </Text>
                     </View>
                   ))}

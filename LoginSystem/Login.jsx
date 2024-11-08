@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   },
   inputsWrapper: {
     flexDirection: 'column',
-    rowGap: height * 0.01, // Dynamic gap
+    // rowGap: , // Dynamic gap
     marginVertical: height * 0.025,
   },
   textInput: {
@@ -187,6 +187,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: width * 0.025, // Dynamic padding
     borderColor: Colors.veryLightGrey,
     borderWidth: 1,
+    paddingVertical: 15,
     color: Colors.veryDarkGrey,
     marginVertical: height * 0.01, // Dynamic margin
   },
@@ -198,6 +199,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flexDirection: 'row',
     columnGap: 10,
+    marginTop: 10,
   },
   loginText: {
     fontWeight: '400',

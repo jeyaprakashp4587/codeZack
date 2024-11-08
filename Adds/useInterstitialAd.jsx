@@ -48,9 +48,14 @@ const useInterstitialAd = () => {
     if (isLoaded) {
       try {
         await interstitialAd.show();
+        loadAd();
         return {success: true, message: 'Ad shown successfully'};
       } catch (error) {
-        return {success: false, message: 'Failed to show ad', error};
+        return {
+          success: false,
+          message: 'Failed to show add , try again',
+          error,
+        };
       }
     } else {
       return {success: false, message: 'Ad not loaded yet'};

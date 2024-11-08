@@ -22,7 +22,7 @@ import useInterstitialAd from '../Adds/useInterstitialAd';
 
 const AssignmentPlayGround = () => {
   const {assignmentType, user, setUser} = useData();
-  console.log(assignmentType);
+  // console.log(assignmentType);
 
   const {width, height} = Dimensions.get('window');
   const [currentQuiz, setCurrentQuiz] = useState();
@@ -30,7 +30,7 @@ const AssignmentPlayGround = () => {
   const {showAd, isLoaded} = useInterstitialAd();
   const [difficultyInfo, setDifficultyInfo] = useState('easy');
 
-  const HandleSetDifficulty = level => {
+  const HandleSetDifficulty = useCallback(level => {
     setDifficultyInfo(level);
     const existsLevel = checkExistsLevel(level);
     if (!existsLevel) {
@@ -47,7 +47,7 @@ const AssignmentPlayGround = () => {
         Alert.alert('Congratulations! You have completed all levels.');
       }
     }
-  };
+  }, []);
 
   const checkExistsLevel = useCallback(
     level => {
@@ -129,73 +129,74 @@ const AssignmentPlayGround = () => {
   );
   // const submit assignmenet and check answer
   const checkAnswers = useCallback(async () => {
-    loadAd();
+    // console.log('Starting checkAnswers function');
+
     const adResult = await showAd();
-    if (adResult.success) {
-      // Only proceed with checking answers if the ad was shown successfully
-      let score = 0;
-      currentQuiz?.forEach((item, index) => {
-        if (item.answer === selectedAnswers[index]) {
-          score += 1;
-        }
-      });
-      if (
-        score >=
-          (difficultyInfo.toLowerCase() === 'easy'
-            ? 8
-            : difficultyInfo.toLowerCase() === 'medium'
-            ? 15
-            : 15) &&
-        score !== 0
-      ) {
-        try {
-          const res = await axios.post(
-            `${Api}/Assignment/saveAssignment/${user?._id}`,
-            {
-              AssignmentType: assignmentType,
-              point: score,
-              level: difficultyInfo,
-            },
-          );
-          if (res.data.Email) {
-            setUser(res.data);
-            Actitivity(
-              user?._id,
-              `Finished ${difficultyInfo} Level ${assignmentType} assignment`,
-            );
-            AddWallet(
-              user?._id,
-              difficultyInfo.toLowerCase() === 'easy'
-                ? 2
-                : difficultyInfo.toLowerCase() === 'medium'
-                ? 3
-                : 5,
-              setUser,
-            ).then(() =>
-              ToastAndroid.show(
-                `Congratulations! You passed the quiz mark ${score} and earned Rs: ${
-                  difficultyInfo.toLowerCase() === 'easy'
-                    ? 2
-                    : difficultyInfo.toLowerCase() === 'medium'
-                    ? 3
-                    : 5
-                }`,
-                ToastAndroid.LONG,
-              ),
-            );
-          }
-        } catch (error) {
-          console.error('Error submitting assignment:', error);
-          Alert.alert(
-            'Error',
-            'Something went wrong while submitting your assignment. Please try again.',
-          );
-        }
-      } else {
-        Alert.alert('Try Again!', `You did not pass. Score: ${score}`);
-      }
-    } else {
+    // console.log('Ad result:', adResult);
+
+    if (!adResult.success) {
       Alert.alert('Ad Error', adResult.message || 'Failed to show ad');
+      return;
+    }
+
+    // Ad was shown successfully, proceed with checking answers
+    // console.log('Ad shown successfully, proceeding with answer checking');
+
+    let score = 0;
+    currentQuiz?.forEach((item, index) => {
+      if (item.answer === selectedAnswers[index]) {
+        score += 1;
+      }
+    });
+
+    // console.log('Score calculated:', score);
+
+    const passingScore = difficultyInfo.toLowerCase() === 'easy' ? 5 : 15;
+    if (score < passingScore || score === 0) {
+      Alert.alert('Try Again!', `You did not pass. Score: ${score}`);
+      return;
+    }
+
+    // console.log('Passing score achieved, making API call');
+
+    try {
+      const res = await axios.post(
+        `${Api}/Assignment/saveAssignment/${user?._id}`,
+        {
+          AssignmentType: assignmentType,
+          point: score,
+          level: difficultyInfo,
+        },
+      );
+
+      // console.log('API response:', res.data);
+
+      if (res.data.Email) {
+        setUser(res.data);
+        Actitivity(
+          user?._id,
+          `Finished ${difficultyInfo} Level ${assignmentType} assignment`,
+        );
+
+        const rewardPoints =
+          difficultyInfo.toLowerCase() === 'easy'
+            ? 2
+            : difficultyInfo.toLowerCase() === 'medium'
+            ? 3
+            : 5;
+        AddWallet(user?._id, rewardPoints, setUser).then(() =>
+          ToastAndroid.show(
+            `Congratulations! You passed the quiz with ${score} and earned Rs:${rewardPoints}`,
+            ToastAndroid.LONG,
+          ),
+        );
+      }
+    } catch (error) {
+      console.error('Error submitting assignment:', error);
+      Alert.alert(
+        'Error',
+        'Something went wrong while submitting your assignment. Please try again.',
+      );
     }
   }, [
     selectedAnswers,
@@ -206,6 +207,7 @@ const AssignmentPlayGround = () => {
     setUser,
     user,
   ]);
+
   // go next question
 
   const nextQuestion = () => {

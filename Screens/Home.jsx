@@ -44,6 +44,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddWallet from '../hooks/AddWallet';
 import useShakeAnimation from '../hooks/useShakeAnimation';
 import useInterstitialAd from '../Adds/useInterstitialAd';
+import PragraphText from '../utils/PragraphText';
 
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
@@ -67,7 +68,6 @@ const Home = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoad(true);
-      load();
     }, 500);
     return () => clearTimeout(timer);
   }, []);
@@ -334,7 +334,8 @@ const Home = () => {
               />
             </TouchableOpacity>
           </Animated.View>
-          <Text
+          {/* message batch */}
+          {/* <Text
             onPress={() => navigation.navigate('message')}
             style={{
               position: 'absolute',
@@ -350,7 +351,7 @@ const Home = () => {
               // textAlign: 'center',
             }}>
             1
-          </Text>
+          </Text> */}
           <TouchableOpacity onPress={() => navigation.navigate('message')}>
             <FontAwesomeIcon
               icon={faMessage}
@@ -642,6 +643,56 @@ const Home = () => {
           autoPlay={true}
           autoPlayInterval={2000}
         />
+        {/* interviews and video tutorials */}
+        <View style={{paddingHorizontal: 15}}>
+          <PragraphText text="Videos & Preparations" />
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingHorizontal: 15,
+            columnGap: 20,
+            borderWidth: 0,
+            marginVertical: 15,
+          }}>
+          {/* video tutorials */}
+          <LinearGradient
+            colors={[Colors.veryLightGrey, 'white']}
+            style={{
+              flex: 1,
+              padding: 15,
+              borderRadius: 10,
+              flexDirection: 'column',
+              rowGap: 10,
+            }}>
+            <EvilIcons name="play" size={50} />
+            <Text style={{letterSpacing: 2, color: Colors.mildGrey}}>
+              Watch Tutorials
+            </Text>
+          </LinearGradient>
+          <View
+            style={{
+              flex: 1,
+              borderWidth: 1,
+              borderColor: Colors.veryLightGrey,
+              padding: 15,
+              borderRadius: 10,
+              flexDirection: 'column',
+              rowGap: 5,
+              backgroundColor: 'white',
+              // elevation: 2,
+            }}>
+            <Image
+              source={{uri: 'https://i.ibb.co/hYsbpf3/zoho.png'}}
+              style={{width: 85, height: 50}}
+            />
+            <Text style={{letterSpacing: 2, color: Colors.mildGrey}}>
+              Prepare For Zoho
+            </Text>
+          </View>
+          {/* video tutorials */}
+        </View>
         {/* friends suggestions */}
         <View
           style={{
@@ -656,7 +707,7 @@ const Home = () => {
         {/* banner add */}
         <BannerAdd />
         {/* posts */}
-        <FlatList
+        {/* <FlatList
           data={posts} // Data for FlatList
           keyExtractor={item => item._id} // Key for each post
           renderItem={({item, index}) => (
@@ -667,7 +718,7 @@ const Home = () => {
               admin={false} // Optionally pass if the user is admin
             />
           )}
-        />
+        /> */}
       </ScrollView>
     </View>
   );
