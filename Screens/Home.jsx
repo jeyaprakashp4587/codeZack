@@ -194,8 +194,13 @@ const Home = () => {
 
   const setProfilePic = useCallback(async () => {
     try {
-      const res = await axios.post(`${Api}/Profile/setProfile/${user?._id}`);
-      if (res.data) setUser(res.data);
+      if (!user?.Images || !user?.Images?.profile) {
+        const res = await axios.post(`${Api}/Profile/setProfile/${user?._id}`);
+        if (res.data) {
+          setUser(res.data);
+          // console.log(res.data);
+        }
+      }
     } catch (error) {
       console.error('Failed to set profile picture:', error);
     }

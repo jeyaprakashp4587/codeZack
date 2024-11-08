@@ -153,8 +153,8 @@ const Notifications = () => {
               <Image
                 source={{uri: item?.senderProfileImage}}
                 style={{
-                  width: width * 0.14,
-                  height: height * 0.07,
+                  width: 30,
+                  height: 30,
                   borderRadius: 50,
                 }}
               />
