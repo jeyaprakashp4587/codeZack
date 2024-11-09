@@ -17,12 +17,15 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import PragraphText from '../utils/PragraphText';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
+import BannerAdd from '../Adds/BannerAdd';
+import useInterstitialAd from '../Adds/useInterstitialAd';
 
 const VideoTutorials = () => {
   const [allTutorials, setAllTutorials] = useState([]);
   const [showModel, setShowModel] = useState(false);
   const [tools, setTools] = useState([]);
   const [selectedTool, setSelectedTool] = useState();
+  const {showAd, loadAd, isLoaded} = useInterstitialAd();
   //
   const getAllTutorials = useCallback(async () => {
     const res = await axios.get(`${Api}/Challenges/getAllTutorials`);
@@ -50,8 +53,10 @@ const VideoTutorials = () => {
       <View style={{paddingHorizontal: 15}}>
         <TopicsText text="Video Tutorials" />
       </View>
+      {/* banner add */}
+      <BannerAdd />
       {/* toutorila list */}
-      <View style={{paddingHorizontal: 15}}>
+      <View style={{paddingHorizontal: 15, marginTop: 15}}>
         <FlatList
           data={allTutorials}
           // horizontal
@@ -149,11 +154,17 @@ const VideoTutorials = () => {
             {tools.map((i, index) => (
               <TouchableOpacity
                 onPress={() => {
+                  if (loadAd) {
+                    showAd();
+                  }
                   setSelectedTool(i);
                   setShowModel(false);
                 }}
+                style={{borderWidth: 0, paddingVertical: 5}}
                 key={index}>
-                <Text>{i?.Tool}</Text>
+                <Text style={{letterSpacing: 2, color: Colors.mildGrey}}>
+                  {i?.Tool}
+                </Text>
               </TouchableOpacity>
             ))}
           </View>
@@ -168,6 +179,8 @@ const VideoTutorials = () => {
           videoId={selectedTool?.Video[0]?.Tamil}
         />
       )}
+      {/* banner add */}
+      <BannerAdd />
     </ScrollView>
   );
 };

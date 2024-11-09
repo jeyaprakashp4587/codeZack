@@ -45,6 +45,7 @@ import AddWallet from '../hooks/AddWallet';
 import useShakeAnimation from '../hooks/useShakeAnimation';
 import useInterstitialAd from '../Adds/useInterstitialAd';
 import PragraphText from '../utils/PragraphText';
+import Companies from '../components/Companies';
 
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
@@ -649,7 +650,7 @@ const Home = () => {
         </View>
         <View
           style={{
-            flexDirection: 'row',
+            flexDirection: 'column',
             justifyContent: 'space-between',
             paddingHorizontal: 15,
             columnGap: 20,
@@ -673,27 +674,8 @@ const Home = () => {
               </Text>
             </TouchableOpacity>
           </LinearGradient>
-          <View
-            style={{
-              flex: 1,
-              borderWidth: 1,
-              borderColor: Colors.veryLightGrey,
-              padding: 15,
-              borderRadius: 10,
-              flexDirection: 'column',
-              rowGap: 5,
-              backgroundColor: 'white',
-              // elevation: 2,
-            }}>
-            <Image
-              source={{uri: 'https://i.ibb.co/hYsbpf3/zoho.png'}}
-              style={{width: 85, height: 50}}
-            />
-            <Text style={{letterSpacing: 2, color: Colors.mildGrey}}>
-              Prepare For Zoho
-            </Text>
-          </View>
-          {/* video tutorials */}
+          {/* interviews & company */}
+          <Companies />
         </View>
         {/* friends suggestions */}
         <View

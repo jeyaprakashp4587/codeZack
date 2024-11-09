@@ -44,6 +44,7 @@ import Wallet from '../Pages/Wallet';
 import CoreChallenges from '../Pages/CoreChallenges';
 import CoreChallengeViewer from '../Pages/CoreChallengeViewer';
 import VideoTutorials from '../Pages/VideoTutorials';
+import InterViewDetails from '../Pages/InterViewDetails';
 
 // Tab navigations
 const {width, height} = Dimensions.get('window');
@@ -297,6 +298,11 @@ const StackNavigations = () => {
       <Stack.Screen
         name="VideoTutorial"
         component={VideoTutorials}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="InterviewDetail"
+        component={InterViewDetails}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
