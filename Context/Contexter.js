@@ -10,6 +10,7 @@ export const ContextProvider = ({children}) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedPost, setselectedPost] = useState(null);
   const [assignmentType, setAssignmentType] = useState(null);
+  const [selectedCompany, setSelectedCompany] = useState();
   return (
     <Contexter.Provider
       value={{
@@ -29,6 +30,8 @@ export const ContextProvider = ({children}) => {
         setSelectedUser,
         assignmentType,
         setAssignmentType,
+        selectedCompany,
+        setSelectedCompany,
       }}>
       {children}
     </Contexter.Provider>
