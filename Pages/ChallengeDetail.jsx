@@ -42,6 +42,7 @@ import WebView from 'react-native-webview';
 import Actitivity from '../hooks/ActivityHook';
 import BannerAdd from '../Adds/BannerAdd';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 
 const {width, height} = Dimensions.get('window');
 

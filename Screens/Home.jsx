@@ -663,13 +663,15 @@ const Home = () => {
               flex: 1,
               padding: 15,
               borderRadius: 10,
-              flexDirection: 'column',
-              rowGap: 10,
             }}>
-            <EvilIcons name="play" size={50} />
-            <Text style={{letterSpacing: 2, color: Colors.mildGrey}}>
-              Watch Tutorials
-            </Text>
+            <TouchableOpacity
+              style={{flexDirection: 'column', rowGap: 10}}
+              onPress={() => navigation.navigate('VideoTutorial')}>
+              <EvilIcons name="play" size={50} />
+              <Text style={{letterSpacing: 2, color: Colors.mildGrey}}>
+                Watch Tutorials
+              </Text>
+            </TouchableOpacity>
           </LinearGradient>
           <View
             style={{
