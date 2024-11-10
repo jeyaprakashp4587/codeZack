@@ -43,6 +43,8 @@ const InterviewPrep = () => {
         week => week.week == userMile?.currentWeek,
       );
       if (findWeek) {
+        console.log('find week', findWeek);
+
         setCurrentWeek(findWeek);
       }
     }
@@ -68,43 +70,23 @@ const InterviewPrep = () => {
     }
   };
   // submit task
-
   const submitTask = useCallback(async () => {
     try {
       const response = await axios.post(`${Api}/InterView/submitTask`, {
         userId: user?._id,
-        addWeek: 1,
-        companyName: selectedCompany?.company_name,
+        companyName: selectedCompany?.company_name || selectedCompany,
       });
-      // Check if the response was successful
-      if (response.status === 200) {
-        setUser(response.data.user);
+      if (response.data) {
+        console.log(response.data);
+        setCurrentWeek(response.data);
       } else {
         throw new Error('Unexpected response from the server');
       }
     } catch (error) {
-      // Handle different types of errors
-      if (error.response) {
-        // Server returned a response with an error status code
-        console.error('Server error:', error.response.data.message);
-        Alert.alert(
-          'Error',
-          error.response.data.message || 'Server error occurred',
-        );
-      } else if (error.request) {
-        // No response from server
-        console.error('No response received:', error.request);
-        Alert.alert(
-          'Error',
-          'No response from server. Please try again later.',
-        );
-      } else {
-        // Other errors
-        console.error('Request error:', error.message);
-        Alert.alert('Error', 'An error occurred. Please try again.');
-      }
+      console.log(error);
     }
-  }, [user]);
+  }, [user, selectedCompany]);
+
   return (
     <View style={pageView}>
       {/* Header */}

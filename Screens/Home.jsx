@@ -468,7 +468,7 @@ const Home = () => {
           <Text
             style={{
               color: Colors.mildGrey,
-              fontSize: width * 0.04,
+              fontSize: width * 0.03,
               lineHeight: 30,
               letterSpacing: 1,
               paddingVertical: 10,
@@ -659,11 +659,13 @@ const Home = () => {
           }}>
           {/* video tutorials */}
           <LinearGradient
-            colors={[Colors.veryLightGrey, 'white']}
+            colors={['white', 'white']}
             style={{
               flex: 1,
               padding: 15,
               borderRadius: 10,
+              borderWidth: 1,
+              borderColor: Colors.veryLightGrey,
             }}>
             <TouchableOpacity
               style={{flexDirection: 'column', rowGap: 10}}
