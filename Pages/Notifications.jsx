@@ -138,7 +138,7 @@ const Notifications = () => {
                 // borderWidth: 1,
                 padding: width * 0.06,
                 borderRadius: 7,
-                marginTop: 15,
+                // marginTop: 15,
                 marginBottom: 10,
                 position: 'relative',
                 flexDirection: 'row',

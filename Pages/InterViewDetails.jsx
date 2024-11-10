@@ -12,13 +12,26 @@ import {Colors, pageView} from '../constants/Colors';
 import {useData} from '../Context/Contexter';
 import axios from 'axios';
 import Api from '../Api';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import TopicsText from '../utils/TopicsText';
 
 const InterViewDetails = () => {
   const {selectedCompany, setSelectedCompany, user, setUser} = useData();
   const {width, height} = Dimensions.get('window');
   const [loading, setLoading] = useState(false);
+  const navigation = useNavigation();
+  // check company is lresy exists
+  const checkCompanyExists = () => {
+    const existingInterview = user?.InterView?.some(
+      interview =>
+        interview.companyName === selectedCompany ||
+        selectedCompany?.company_name,
+    );
+    if (existingInterview) {
+      // Navigate to the desired screen if the company exists
+      navigation.navigate('InterviewPreparation');
+    }
+  };
   // get particular company
   const [company, setCompany] = useState();
   const getParticularCompany = useCallback(async () => {
@@ -33,6 +46,7 @@ const InterViewDetails = () => {
   useEffect(
     useCallback(() => {
       getParticularCompany();
+      checkCompanyExists();
     }, [company]),
     [],
   );
@@ -47,7 +61,8 @@ const InterViewDetails = () => {
 
       if (res.status === 200) {
         setUser(res.data.User);
-        console.log(res.data.message); // Success message
+        navigation.navigate('InterviewPreparation');
+        // console.log(res.data.message); // Success message
       } else if (res.status === 400 && res.data.message === 'Exists') {
         console.log('Company interview entry already exists.');
       }

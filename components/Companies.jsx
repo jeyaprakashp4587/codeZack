@@ -40,6 +40,7 @@ const Companies = () => {
     <View style={{flexDirection: 'row', columnGap: 10, marginTop: 10}}>
       {companies.map((comp, index) => (
         <TouchableOpacity
+          key={index}
           onPress={() => handleSetInterView(comp?.company_name)}
           style={{
             flex: 1,
