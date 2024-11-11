@@ -37,14 +37,14 @@ const InterviewPrep = () => {
     }
   };
   // Set the current week based on user milestone
-  const setWeek = () => {
+  const setWeek = weekIndex => {
     if (userMile) {
       const findWeek = selectedCompany?.weeks?.find(
-        week => week.week == userMile?.currentWeek,
+        week => week.week == weekIndex,
       );
       if (findWeek) {
+        console.log(weekIndex);
         console.log('find week', findWeek);
-
         setCurrentWeek(findWeek);
       }
     }
@@ -55,7 +55,7 @@ const InterviewPrep = () => {
   }, [selectedCompany, user]);
   // Set current week whenever `userMile` updates
   useEffect(() => {
-    setWeek();
+    setWeek(userMile?.currentWeek);
   }, [userMile]);
   // show hint
   const showHint = () => {
@@ -78,7 +78,8 @@ const InterviewPrep = () => {
       });
       if (response.data) {
         console.log(response.data);
-        setCurrentWeek(response.data);
+        setWeek(response.data);
+        setCurrentQuestion(0);
       } else {
         throw new Error('Unexpected response from the server');
       }
@@ -218,7 +219,7 @@ const InterviewPrep = () => {
                   fontWeight: '600',
                   display: isShowHint ? 'flex' : 'none',
                 }}>
-                code: {currentWeek?.sample_questions[currentQuestion].code}
+                code: {currentWeek?.sample_questions[currentQuestion]?.code}
               </Text>
             )}
             {/* button */}
