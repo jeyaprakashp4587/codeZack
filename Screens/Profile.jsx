@@ -472,7 +472,7 @@ const Profile = ({navigation}) => {
           alignItems: 'center',
           rowGap: 10,
           marginVertical: 10,
-          marginBottom: 50,
+          marginBottom: 30,
         }}>
         <TouchableOpacity
           onPress={() => navigation.navigate('yourcourse')}
@@ -521,7 +521,7 @@ const Profile = ({navigation}) => {
         <TouchableOpacity
           onPress={() => {
             AsyncStorage.removeItem('Email');
-            navigation.navigate('login');
+            navigation.replace('login');
           }}
           style={{
             // backgroundColor: Colors.veryLightGrey,

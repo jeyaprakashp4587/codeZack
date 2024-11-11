@@ -36,6 +36,7 @@ const InterViewDetails = () => {
   const [company, setCompany] = useState();
   const getParticularCompany = useCallback(async () => {
     const res = await axios.post(`${Api}/InterView/getParticularCompany`, {
+      // selectedcompany in initlaly have company name then its have whole compant data
       companyName: selectedCompany || selectedCompany?.company_name,
     });
     if (res.status == 200) {
@@ -64,7 +65,8 @@ const InterViewDetails = () => {
         navigation.navigate('InterviewPreparation');
         // console.log(res.data.message); // Success message
       } else if (res.status === 400 && res.data.message === 'Exists') {
-        console.log('Company interview entry already exists.');
+        navigation.navigate('InterviewPreparation');
+        // console.log('Company interview entry already exists.');
       }
     } catch (error) {
       if (
@@ -72,7 +74,8 @@ const InterViewDetails = () => {
         error.response.status === 400 &&
         error.response.data.message === 'Exists'
       ) {
-        console.log('Company interview entry already exists.');
+        // console.log('Company interview entry already exists.');
+        navigation.navigate('InterviewPreparation');
       } else {
         console.error('An error occurred:', error.message);
       }

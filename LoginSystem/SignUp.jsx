@@ -19,6 +19,8 @@ import axios from 'axios';
 import Ripple from 'react-native-material-ripple';
 import Api from '../Api';
 import {Colors, font, pageView} from '../constants/Colors';
+import {useData} from '../Context/Contexter';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {width, height} = Dimensions.get('window');
 
@@ -56,7 +58,7 @@ const SignUp = ({navigation}) => {
 
   const [showGenderModal, setShowGenderModal] = useState(false);
   const [actiloading, setActiloading] = useState(false);
-
+  const {setUser} = useData();
   const handleInput = useCallback((name, value) => {
     setFormData(prev => ({...prev, [name]: value}));
   }, []);
@@ -77,7 +79,7 @@ const SignUp = ({navigation}) => {
         );
       } else {
         refs[key].current.setNativeProps({
-          style: {borderColor: Colors.veryLightGrey, borderWidth: 1},
+          style: {borderColor: Colors.mildGrey, borderWidth: 1},
         });
       }
     }
@@ -106,9 +108,11 @@ const SignUp = ({navigation}) => {
     if (validateForm()) {
       try {
         const response = await axios.post(`${Api}/LogIn/signUp`, formData);
-        if (response.data == 'SignUp Sucessfully') {
+        if (response.data.message == 'SignUp Sucessfully') {
           ToastAndroid.show('Signup Successfully', ToastAndroid.BOTTOM);
-          navigation.navigate('login');
+          await AsyncStorage.setItem('Email', response.data.user.Email);
+          navigation.navigate('Tab');
+          setUser(response.data.user);
         } else if (response.data === 'Email has Already Taken') {
           // Alert.alert();
           ToastAndroid.show(

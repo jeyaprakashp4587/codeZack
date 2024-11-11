@@ -43,8 +43,6 @@ const InterviewPrep = () => {
         week => week.week == weekIndex,
       );
       if (findWeek) {
-        console.log(weekIndex);
-        console.log('find week', findWeek);
         setCurrentWeek(findWeek);
       }
     }
@@ -71,14 +69,22 @@ const InterviewPrep = () => {
   };
   // submit task
   const submitTask = useCallback(async () => {
+    if (userMile?.currentWeek >= 6) {
+      ToastAndroid.show(
+        'Congrats!, you finished your all preparations',
+        ToastAndroid.SHORT,
+      );
+      return;
+    }
     try {
       const response = await axios.post(`${Api}/InterView/submitTask`, {
         userId: user?._id,
         companyName: selectedCompany?.company_name || selectedCompany,
       });
       if (response.data) {
-        console.log(response.data);
-        setWeek(response.data);
+        // console.log(response.data);
+        setWeek(response.data.week);
+        setUser(response.data.user);
         setCurrentQuestion(0);
       } else {
         throw new Error('Unexpected response from the server');

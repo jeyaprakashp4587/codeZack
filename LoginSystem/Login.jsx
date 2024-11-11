@@ -20,12 +20,13 @@ import axios from 'axios';
 import {useData} from '../Context/Contexter';
 import {useNavigation} from '@react-navigation/native';
 import Api from '../Api';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 const {width, height} = Dimensions.get('window');
 
 const Login = () => {
   const {setUser} = useData();
   const navigation = useNavigation();
-
+  const [hidePassword, setHidePassword] = useState(true);
   const [form, setForm] = useState({
     Email: '',
     Password: '',
@@ -113,13 +114,32 @@ const Login = () => {
               placeholderTextColor={Colors.mildGrey}
               onChangeText={text => handleEmail('Email', text)}
             />
-            <TextInput
-              style={styles.textInput}
-              placeholder="Password"
-              placeholderTextColor={Colors.mildGrey}
-              // secureTextEntry={true}
-              onChangeText={text => handlePassword('Password', text)}
-            />
+            <View
+              style={{
+                flexDirection: 'row',
+                borderWidth: 1,
+                borderColor: Colors.veryLightGrey,
+                borderRadius: 5,
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                columnGap: 10,
+                // paddingHorizontal: 10,
+                paddingRight: 10,
+              }}>
+              <TextInput
+                style={{borderWidth: 0, flex: 1, paddingLeft: 10}}
+                placeholder="Password"
+                placeholderTextColor={Colors.mildGrey}
+                secureTextEntry={hidePassword}
+                onChangeText={text => handlePassword('Password', text)}
+              />
+              <TouchableOpacity onPress={() => setHidePassword(!hidePassword)}>
+                <Ionicons
+                  name={hidePassword ? 'eye-outline' : 'eye-off-outline'}
+                  size={20}
+                />
+              </TouchableOpacity>
+            </View>
             <TouchableOpacity onPress={HandleLogin} style={styles.loginButton}>
               {activityIndi && (
                 <ActivityIndicator size="small" color={Colors.mildGrey} />

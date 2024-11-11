@@ -73,7 +73,11 @@ const SuggestionWapper = ({trigger, refresh}) => {
                 setSelectedUser(user.item._id);
               }}>
               <Image
-                source={{uri: user.item?.Images?.profile}}
+                source={{
+                  uri:
+                    user.item?.Images?.profile ??
+                    'https://i.ibb.co/3T4mNMm/man.png',
+                }}
                 style={{
                   width: width * 0.15,
                   height: height * 0.07,
