@@ -187,7 +187,6 @@ const Home = () => {
   // ---
   const debouncedFunctions = useCallback(
     debounce(() => {
-      getNotifications();
       checkButtonStatus();
       checkFirstLogin();
     }, 300), // 300 ms debounce delay, adjust as needed
