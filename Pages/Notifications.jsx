@@ -130,13 +130,14 @@ const Notifications = () => {
         <FlatList
           showsVerticalScrollIndicator={false}
           data={notificationList}
+          style={{marginTop: 10}}
           renderItem={({item, index}) => (
             <TouchableOpacity
               onPress={() => handleNotificationClick(item)}
               key={index}
               style={{
                 // borderWidth: 1,
-                padding: width * 0.06,
+                padding: 15,
                 borderRadius: 7,
                 // marginTop: 15,
                 marginBottom: 10,
@@ -163,7 +164,7 @@ const Notifications = () => {
                   color: Colors.mildGrey,
                   letterSpacing: 1,
                   fontSize: width * 0.033,
-                  maxWidth: 250,
+                  maxWidth: 180,
                   lineHeight: 22,
                 }}>
                 {item?.NotificationText}

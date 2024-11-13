@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: width * 0.025, // Dynamic padding
     borderColor: Colors.veryLightGrey,
     borderWidth: 1,
-    paddingVertical: 15,
+    paddingVertical: 10,
     color: Colors.veryDarkGrey,
     marginVertical: height * 0.01, // Dynamic margin
   },

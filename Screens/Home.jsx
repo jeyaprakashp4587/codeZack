@@ -183,7 +183,7 @@ const Home = () => {
       await checkFirstLogin();
       checkButtonStatus();
     });
-  }, [getConnectionPosts, getNotifications]);
+  }, []);
   // ---
   const debouncedFunctions = useCallback(
     debounce(() => {
@@ -692,7 +692,7 @@ const Home = () => {
         {/* banner add */}
         <BannerAdd />
         {/* posts */}
-        {/* <FlatList
+        <FlatList
           data={posts} // Data for FlatList
           keyExtractor={item => item._id} // Key for each post
           renderItem={({item, index}) => (
@@ -703,7 +703,7 @@ const Home = () => {
               admin={false} // Optionally pass if the user is admin
             />
           )}
-        /> */}
+        />
       </ScrollView>
     </View>
   );

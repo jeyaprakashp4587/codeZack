@@ -21,13 +21,16 @@ import moment from 'moment';
 import {useNavigation} from '@react-navigation/native';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import useSocket from '../Socket/useSocket';
+import useSocketEmit from '../Socket/useSocketEmit';
 const {width, height} = Dimensions.get('window');
 
 const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const initialText = post?.PostText;
   const {user, setUser, setSelectedUser} = useData();
   const navigation = useNavigation();
-  // console.log(post?.Time);
+  const socket = useSocket();
+  const emitEvent = useSocketEmit(socket);
 
   const wordThreshold = 10;
   const [expanded, setExpanded] = useState(false);
@@ -91,6 +94,11 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         });
         if (response.status === 200) {
           setLikeCount(prev => prev + 1);
+          emitEvent('LikeNotiToUploader', {
+            Time: moment().format('YYYY-MM-DDTHH:mm:ss'),
+            postId: post?._id,
+            senderId: senderDetails?._id,
+          });
         }
       } catch (error) {
         setLiked(false);
@@ -130,6 +138,11 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         // console.log(res.data.comment);
         setComments([...comments, res.data.comment]);
         setNewComment('');
+        emitEvent('CommentNotiToUploader', {
+          Time: moment().format('YYYY-MM-DDTHH:mm:ss'),
+          postId: post?._id,
+          senderId: senderDetails?._id,
+        });
       }
     } catch (error) {
       // console.error("Error submitting comment:", error);
@@ -212,7 +225,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           </TouchableOpacity>
         )}
       </View>
-      <Text>{post?.Like}</Text>
+
       <Text style={styles.postText}>
         {expanded
           ? initialText

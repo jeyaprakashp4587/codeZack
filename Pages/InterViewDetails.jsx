@@ -14,6 +14,7 @@ import axios from 'axios';
 import Api from '../Api';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import TopicsText from '../utils/TopicsText';
+import Skeleton from '../Skeletons/Skeleton';
 
 const InterViewDetails = () => {
   const {selectedCompany, setSelectedCompany, user, setUser} = useData();
@@ -41,6 +42,8 @@ const InterViewDetails = () => {
     });
     if (res.status == 200) {
       setCompany(res.data);
+      setLoad(false);
+      console.log(res.data);
       setSelectedCompany(res.data);
     }
   }, []);
@@ -83,7 +86,21 @@ const InterViewDetails = () => {
       setLoading(false);
     }
   }, [selectedCompany, user?._id]);
-
+  // load skeleton
+  const [load, setLoad] = useState(true);
+  if (load) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <ActivityIndicator color={Colors.mildGrey} size={20} />
+      </View>
+    );
+  }
   //
   return (
     <View

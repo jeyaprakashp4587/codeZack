@@ -279,7 +279,8 @@ const Post = () => {
                 style={{
                   width: width * 0.5,
                   height: height * 0.3,
-                  marginLeft: 10,
+                  marginRight: 10,
+                  marginBottom: 10,
                 }}
                 key={index}>
                 <Image
@@ -322,7 +323,7 @@ const Post = () => {
             justifyContent: 'center',
             height: height * 0.06,
             borderRadius: 10,
-            marginTop: 20,
+            // marginTop: 20,
             marginBottom: 50,
           }}>
           <ActivityIndicator
