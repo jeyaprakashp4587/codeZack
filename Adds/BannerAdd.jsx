@@ -7,7 +7,7 @@ const BannerAdd = () => {
     <View style={{marginTop: 10}}>
       <BannerAd
         unitId={
-          __DEV__ ? TestIds.BANNER : 'ca-app-pub-3257747925516984/5222339498'
+          __DEV__ ? TestIds.BANNER : 'ca-app-pub-3257747925516984/6510098916'
         }
         size={BannerAdSize.FULL_BANNER}
         requestOptions={{
