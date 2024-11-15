@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Alert,
   Dimensions,
   FlatList,
@@ -35,28 +36,26 @@ const Wallet = () => {
   const {width, height} = Dimensions.get('window');
   // show add
   const [addViewed, setAddViewed] = useState(false);
-  const {showAd, isLoaded, loadAd} = useInterstitialAd();
+  const {showAd, isLoaded, isLoading} = useInterstitialAd();
   const handleShowAd = async () => {
     if (isLoaded) {
+      setAdLoadingVisible(true); // Show loading indicator
       const result = await showAd();
-      if (result.success) {
-        // Alert.alert('Ad Status', 'Ad was shown successfully');
-        setAddViewed(true);
-      } else {
-        Alert.alert(
-          'Ad Status',
-          result.message,
-          result.error ? {error: result.error.toString()} : {},
-        );
+      setAdLoadingVisible(false); // Hide loading indicator
+
+      if (!result.success) {
+        ToastAndroid.show(`Ad Status, ${result.message}`, ToastAndroid.LONG);
       }
     } else {
-      console.log('not loaded');
+      // If ad is not loaded yet, trigger load and inform the user
+      if (!isLoading) showAd(); // Try to load the ad if not already loading
+      Alert.alert(
+        'Ad Loading',
+        'Ad is not ready yet, please wait while it loads.',
+      );
     }
   };
-  // load add
-  useEffect(() => {
-    loadAd();
-  }, []);
+
   // stategies
   const strategies = [
     {text: 'Daily check in', price: 1},
@@ -477,6 +476,9 @@ const Wallet = () => {
                 Watch add to unlock
               </Text>
             </TouchableOpacity>
+            {adLoadingVisible && (
+              <ActivityIndicator size="large" color="#0000ff" />
+            )}
           </View>
         )}
       </View>

@@ -29,7 +29,6 @@
       android:name="com.google.android.gms.ads.APPLICATION_ID"  
       android:value="ca-app-pub-3257747925516984~1169765027"
       tools:replace="android:value"/>
-   
-  
+   \
     </application>
 </manifest>
