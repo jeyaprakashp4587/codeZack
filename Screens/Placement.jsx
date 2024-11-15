@@ -9,7 +9,9 @@ const Placement = () => {
   return (
     <View style={pageView}>
       {/* header */}
+
       <HeadingText text="Placement" />
+
       {/* jobs lists */}
       {/* <Text>We will meet on another date bye dude :)</Text> */}
     </View>
