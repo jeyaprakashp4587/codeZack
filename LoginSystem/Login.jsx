@@ -127,7 +127,12 @@ const Login = () => {
                 paddingRight: 10,
               }}>
               <TextInput
-                style={{borderWidth: 0, flex: 1, paddingLeft: 10}}
+                style={{
+                  borderWidth: 0,
+                  flex: 1,
+                  paddingLeft: 10,
+                  color: Colors.veryDarkGrey,
+                }}
                 placeholder="Password"
                 placeholderTextColor={Colors.mildGrey}
                 secureTextEntry={hidePassword}

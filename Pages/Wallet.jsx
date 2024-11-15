@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import TopicsText from '../utils/TopicsText';
 import {useData} from '../Context/Contexter';
 import LinearGradient from 'react-native-linear-gradient';
@@ -35,20 +35,28 @@ const Wallet = () => {
   const {width, height} = Dimensions.get('window');
   // show add
   const [addViewed, setAddViewed] = useState(false);
-  const {showAd, isLoaded} = useInterstitialAd();
+  const {showAd, isLoaded, loadAd} = useInterstitialAd();
   const handleShowAd = async () => {
-    const result = await showAd();
-    if (result.success) {
-      // Alert.alert('Ad Status', 'Ad was shown successfully');
-      setAddViewed(true);
+    if (isLoaded) {
+      const result = await showAd();
+      if (result.success) {
+        // Alert.alert('Ad Status', 'Ad was shown successfully');
+        setAddViewed(true);
+      } else {
+        Alert.alert(
+          'Ad Status',
+          result.message,
+          result.error ? {error: result.error.toString()} : {},
+        );
+      }
     } else {
-      Alert.alert(
-        'Ad Status',
-        result.message,
-        result.error ? {error: result.error.toString()} : {},
-      );
+      console.log('not loaded');
     }
   };
+  // load add
+  useEffect(() => {
+    loadAd();
+  }, []);
   // stategies
   const strategies = [
     {text: 'Daily check in', price: 1},

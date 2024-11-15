@@ -69,6 +69,7 @@ const Home = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoad(true);
+      loadAd();
     }, 500);
     return () => clearTimeout(timer);
   }, []);
