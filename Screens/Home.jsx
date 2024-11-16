@@ -15,6 +15,7 @@ import {
   Dimensions,
   InteractionManager,
   RefreshControl,
+  ActivityIndicator,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
 import Fontawesome from 'react-native-vector-icons/FontAwesome';
@@ -46,6 +47,7 @@ import useShakeAnimation from '../hooks/useShakeAnimation';
 import useInterstitialAd from '../Adds/useInterstitialAd';
 import PragraphText from '../utils/PragraphText';
 import Companies from '../components/Companies';
+import AddModel from '../Adds/AddModel';
 
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
@@ -64,7 +66,8 @@ const Home = () => {
   const [refresh, setRefresh] = useState(false);
   const [showEarnTutorial, setShowEarnTutorial] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
-
+  // this loading for indicate load add
+  const [loading, setLoading] = useState(false);
   // Load effect
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -236,31 +239,55 @@ const Home = () => {
       setIsDisabled(lastCheckInDate.isSame(now, 'day'));
     }
   };
-
   const handleCheckIn = async () => {
     if (!isDisabled) {
-      try {
-        const addResult = await showAd();
-        if (addResult.success) {
-          const now = moment().toISOString();
-          await AsyncStorage.setItem('lastCheckIn', now);
-          const result = await AddWallet(user?._id, 1, setUser);
-          if (result === 'ok') {
-            ToastAndroid.show('You earned 1 rupee', ToastAndroid.SHORT);
-            setIsDisabled(true);
-          } else {
-            ToastAndroid.show('Failed to add to wallet', ToastAndroid.SHORT);
-          }
+      setLoading(true);
+      const checkAdLoaded = setInterval(() => {
+        if (isLoaded) {
+          clearInterval(checkAdLoaded);
+          showAd()
+            .then(async adResult => {
+              if (adResult.success) {
+                const now = moment().toISOString();
+                await AsyncStorage.setItem('lastCheckIn', now);
+                const result = await AddWallet(user?._id, 1, setUser);
+                if (result === 'ok') {
+                  ToastAndroid.show('You earned 1 rupee!', ToastAndroid.SHORT);
+                  setIsDisabled(true);
+                } else {
+                  ToastAndroid.show(
+                    'Failed to add to wallet.',
+                    ToastAndroid.SHORT,
+                  );
+                }
+              } else {
+                ToastAndroid.show(
+                  'Ad failed to show. Try again.',
+                  ToastAndroid.SHORT,
+                );
+              }
+            })
+            .catch(() => {
+              ToastAndroid.show(
+                'Error showing the ad. Try again.',
+                ToastAndroid.SHORT,
+              );
+            });
         }
-      } catch (error) {
-        ToastAndroid.show(
-          'Error checking in. Please try again.',
-          ToastAndroid.SHORT,
-        );
-      }
+      }, 100);
+      setTimeout(() => {
+        clearInterval(checkAdLoaded);
+        if (!isLoaded) {
+          setLoading(false);
+          ToastAndroid.show(
+            'Ad is not ready yet. Please try again later.',
+            ToastAndroid.SHORT,
+          );
+        }
+      }, 10000);
     } else {
       ToastAndroid.show(
-        'You have already checked in today',
+        'You have already checked in today.',
         ToastAndroid.SHORT,
       );
     }
@@ -705,6 +732,8 @@ const Home = () => {
             />
           )}
         />
+        {/* model load aadd */}
+        <AddModel loading={loading} />
       </ScrollView>
     </View>
   );

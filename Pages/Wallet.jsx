@@ -29,6 +29,7 @@ import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 import useInterstitialAd from '../Adds/useInterstitialAd';
 import BannerAdd from '../Adds/BannerAdd';
+import AddModel from '../Adds/AddModel';
 
 const Wallet = () => {
   const {user, setUser} = useData();
@@ -36,26 +37,30 @@ const Wallet = () => {
   const {width, height} = Dimensions.get('window');
   // show add
   const [addViewed, setAddViewed] = useState(false);
-  const {showAd, isLoaded, isLoading} = useInterstitialAd();
-  const handleShowAd = async () => {
-    if (isLoaded) {
-      setAdLoadingVisible(true); // Show loading indicator
-      const result = await showAd();
-      setAdLoadingVisible(false); // Hide loading indicator
+  const {showAd, isLoaded, loadAd} = useInterstitialAd();
+  const [loading, setLoading] = useState(false);
+  // handle show add
+  useEffect(() => {
+    loadAd();
+  }, []);
+  // handle show add
 
-      if (!result.success) {
-        ToastAndroid.show(`Ad Status, ${result.message}`, ToastAndroid.LONG);
+  const handleShowAd = useCallback(() => {
+    setLoading(true);
+    const interval = setInterval(() => {
+      if (isLoaded) {
+        clearInterval(interval);
+        setLoading(false);
+        showAd()
+          .then(response => {
+            if (!response.success) {
+              ToastAndroid.show(response.message, ToastAndroid.SHORT);
+            } else setAddViewed(true);
+          })
+          .catch(error => console.error('Error showing ad:', error));
       }
-    } else {
-      // If ad is not loaded yet, trigger load and inform the user
-      if (!isLoading) showAd(); // Try to load the ad if not already loading
-      Alert.alert(
-        'Ad Loading',
-        'Ad is not ready yet, please wait while it loads.',
-      );
-    }
-  };
-
+    }, 100); // Check every 100ms
+  }, [isLoaded, showAd]);
   // stategies
   const strategies = [
     {text: 'Daily check in', price: 1},
@@ -476,12 +481,11 @@ const Wallet = () => {
                 Watch add to unlock
               </Text>
             </TouchableOpacity>
-            {adLoadingVisible && (
-              <ActivityIndicator size="large" color="#0000ff" />
-            )}
           </View>
         )}
       </View>
+      {/* Loading Modal */}
+      <AddModel loading={loading} />
     </ScrollView>
   );
 };

@@ -21,10 +21,10 @@ const BannerAdd = () => {
           requestOptions={{
             requestNonPersonalizedAdsOnly: true,
           }}
-          onAdFailedToLoad={error =>
-            console.log('Banner Ad Failed to Load:', error)
-          }
-          onAdLoaded={() => console.log('Banner Ad Loaded Successfully')}
+          // onAdFailedToLoad={error =>
+          //   // console.log('Banner Ad Failed to Load:', error)
+          // }
+          // onAdLoaded={() => console.log('Banner Ad Loaded Successfully')}
         />
       ) : (
         <Text>Loading Banner...</Text>

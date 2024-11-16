@@ -51,17 +51,17 @@ const HomeSkeleton = () => {
         </View>
         <View style={styles.column}>
           <Skeleton
-            width={width * 0.9}
+            width={'100%'}
             height={height * 0.3}
             radius={width * 0.025}
           />
           <Skeleton
-            width={width * 0.9}
+            width={'100%'}
             height={height * 0.3}
             radius={width * 0.025}
           />
           <Skeleton
-            width={width * 0.9}
+            width={'100%'}
             height={height * 0.3}
             radius={width * 0.025}
           />
