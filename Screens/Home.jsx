@@ -48,6 +48,7 @@ import useInterstitialAd from '../Adds/useInterstitialAd';
 import PragraphText from '../utils/PragraphText';
 import Companies from '../components/Companies';
 import AddModel from '../Adds/AddModel';
+import useAppOpenAd from '../Adds/useAppOpenAd';
 
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
@@ -66,6 +67,8 @@ const Home = () => {
   const [refresh, setRefresh] = useState(false);
   const [showEarnTutorial, setShowEarnTutorial] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
+  // shoe app load add
+  useAppOpenAd();
   // this loading for indicate load add
   const [loading, setLoading] = useState(false);
   // Load effect

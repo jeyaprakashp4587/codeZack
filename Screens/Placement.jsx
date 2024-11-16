@@ -6,6 +6,8 @@ import Moment from 'moment';
 
 const Placement = () => {
   const {width, height} = Dimensions.get('window');
+  console.log(typeof 2);
+
   return (
     <View style={pageView}>
       {/* header */}

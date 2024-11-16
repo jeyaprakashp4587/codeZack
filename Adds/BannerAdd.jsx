@@ -3,33 +3,28 @@ import React, {useEffect, useState} from 'react';
 import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
 
 const BannerAdd = () => {
-  const [isAdLoading, setIsAdLoading] = useState(true);
   const bannerId = __DEV__
     ? TestIds.BANNER
     : 'ca-app-pub-3257747925516984/6303091060';
-  useEffect(() => {
-    const timer = setTimeout(() => setIsAdLoading(false), 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
+  const [addInfo, setAddInfo] = useState();
   return (
     <View style={styles.bannerContainer}>
-      {isAdLoading ? (
-        <Text>Loading Banner...</Text>
-      ) : (
-        <BannerAd
-          unitId={bannerId}
-          size={BannerAdSize.BANNER}
-          requestOptions={{
-            requestNonPersonalizedAdsOnly: true,
-          }}
-          onAdLoaded={() => setIsAdLoading(false)}
-          onAdFailedToLoad={error => {
-            console.error('Banner Ad Failed to Load:', error);
-            setIsAdLoading(false);
-          }}
-        />
-      )}
+      <BannerAd
+        unitId={bannerId}
+        size={BannerAdSize.BANNER}
+        requestOptions={{
+          requestNonPersonalizedAdsOnly: true,
+        }}
+        onAdLoaded={() => {
+          // console.log('Banner Ad Loaded');
+          setAddInfo('Banner Ad Loaded');
+        }}
+        onAdFailedToLoad={error => {
+          // console.error('Banner Ad Failed to Load:', error);
+          setAddInfo('Banner Ad Failed to Load:', error);
+        }}
+      />
+      <Text>{addInfo}</Text>
     </View>
   );
 };
@@ -37,8 +32,9 @@ const BannerAdd = () => {
 const styles = StyleSheet.create({
   bannerContainer: {
     marginTop: 10,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
