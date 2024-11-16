@@ -6,7 +6,7 @@ const AddModel = ({loading}) => {
   return (
     <View style={{flex: 1}}>
       {/* Loading Modal */}
-      <Modal transparent={true} visible={true} animationType="fade">
+      <Modal transparent={true} visible={loading} animationType="fade">
         <View
           style={{
             flex: 1,

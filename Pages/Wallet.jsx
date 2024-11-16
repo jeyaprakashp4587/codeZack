@@ -48,19 +48,29 @@ const Wallet = () => {
   const handleShowAd = useCallback(() => {
     setLoading(true);
     const interval = setInterval(() => {
-      if (isLoaded) {
+      if (!isLoaded) {
+        loadAd();
+      } else {
         clearInterval(interval);
-        setLoading(false);
         showAd()
           .then(response => {
-            if (!response.success) {
+            if (response.success) {
+              setAddViewed(true);
+            } else {
               ToastAndroid.show(response.message, ToastAndroid.SHORT);
-            } else setAddViewed(true);
+            }
           })
-          .catch(error => console.error('Error showing ad:', error));
+          .catch(error => {
+            console.error('Error showing ad:', error);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
       }
-    }, 100); // Check every 100ms
-  }, [isLoaded, showAd]);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [isLoaded, loadAd, showAd]);
+
   // stategies
   const strategies = [
     {text: 'Daily check in', price: 1},
@@ -139,6 +149,7 @@ const Wallet = () => {
       ToastAndroid.show('Fill the all Fields', ToastAndroid.BOTTOM);
     }
   }, [GpayAccountName, GpayUpiId]);
+  // -----------
   return (
     <ScrollView
       style={{flex: 1, backgroundColor: 'white'}}

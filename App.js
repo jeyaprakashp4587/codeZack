@@ -17,6 +17,7 @@ import {
   ReanimatedLogLevel,
 } from 'react-native-reanimated';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import MobileAds from 'react-native-google-mobile-ads';
 const {width} = Dimensions.get('window');
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
@@ -26,6 +27,13 @@ configureReanimatedLogger({
 // -------------- //
 
 const App = () => {
+  useEffect(() => {
+    MobileAds()
+      .initialize()
+      .then(() => {
+        console.log('Google Mobile Ads initialized');
+      });
+  }, []);
   return (
     <GestureHandlerRootView>
       <ContextProvider>

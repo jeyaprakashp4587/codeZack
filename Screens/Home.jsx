@@ -239,59 +239,69 @@ const Home = () => {
       setIsDisabled(lastCheckInDate.isSame(now, 'day'));
     }
   };
-  const handleCheckIn = async () => {
-    if (!isDisabled) {
-      setLoading(true);
-      const checkAdLoaded = setInterval(() => {
-        if (isLoaded) {
-          clearInterval(checkAdLoaded);
-          showAd()
-            .then(async adResult => {
-              if (adResult.success) {
-                const now = moment().toISOString();
-                await AsyncStorage.setItem('lastCheckIn', now);
-                const result = await AddWallet(user?._id, 1, setUser);
-                if (result === 'ok') {
-                  ToastAndroid.show('You earned 1 rupee!', ToastAndroid.SHORT);
-                  setIsDisabled(true);
-                } else {
-                  ToastAndroid.show(
-                    'Failed to add to wallet.',
-                    ToastAndroid.SHORT,
-                  );
-                }
-              } else {
-                ToastAndroid.show(
-                  'Ad failed to show. Try again.',
-                  ToastAndroid.SHORT,
-                );
-              }
-            })
-            .catch(() => {
-              ToastAndroid.show(
-                'Error showing the ad. Try again.',
-                ToastAndroid.SHORT,
-              );
-            });
-        }
-      }, 100);
-      setTimeout(() => {
-        clearInterval(checkAdLoaded);
-        if (!isLoaded) {
-          setLoading(false);
-          ToastAndroid.show(
-            'Ad is not ready yet. Please try again later.',
-            ToastAndroid.SHORT,
-          );
-        }
-      }, 10000);
-    } else {
+  // handle daily check in
+  const handleCheckIn = useCallback(async () => {
+    if (isDisabled) {
       ToastAndroid.show(
         'You have already checked in today.',
         ToastAndroid.SHORT,
       );
+      return;
     }
-  };
+    setLoading(true);
+    const checkAdLoaded = setInterval(() => {
+      if (!isLoaded) {
+        loadAd();
+      } else {
+        clearInterval(checkAdLoaded);
+        showAd()
+          .then(async adResult => {
+            if (adResult.success) {
+              const now = moment().toISOString();
+              await AsyncStorage.setItem('lastCheckIn', now);
+              const result = await AddWallet(user?._id, 1, setUser);
+              if (result === 'ok') {
+                ToastAndroid.show('You earned 1 rupee!', ToastAndroid.SHORT);
+                setIsDisabled(true);
+              } else {
+                ToastAndroid.show(
+                  'Failed to add to wallet.',
+                  ToastAndroid.SHORT,
+                );
+              }
+            } else {
+              ToastAndroid.show(
+                'Ad failed to show. Try again.',
+                ToastAndroid.SHORT,
+              );
+            }
+          })
+          .catch(() => {
+            ToastAndroid.show(
+              'Error showing the ad. Try again.',
+              ToastAndroid.SHORT,
+            );
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      }
+    }, 100);
+    const timeoutId = setTimeout(() => {
+      clearInterval(checkAdLoaded);
+      if (!isLoaded) {
+        setLoading(false);
+        ToastAndroid.show(
+          'Ad is not ready yet. Please try again later.',
+          ToastAndroid.SHORT,
+        );
+      }
+    }, 10000);
+    return () => {
+      clearInterval(checkAdLoaded);
+      clearTimeout(timeoutId);
+    };
+  }, [isDisabled, isLoaded, loadAd, showAd, user, setUser]);
 
   if (!load) return <HomeSkeleton />;
 
