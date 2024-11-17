@@ -9,7 +9,7 @@ import {
 const useInterstitialAd = () => {
   const adUnitId = __DEV__
     ? TestIds.INTERSTITIAL
-    : 'ca-app-pub-3257747925516984/7444179704';
+    : 'ca-app-pub-3257747925516984/2804627935';
   const [isLoaded, setIsLoaded] = useState(false);
   const interstitialAd = InterstitialAd.createForAdRequest(adUnitId);
 
