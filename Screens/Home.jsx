@@ -80,9 +80,12 @@ const Home = () => {
       setLoad(true);
       loadAd();
     }, 500);
-    const rewardAdInterval = setInterval(() => {
-      showRewardAd(); // Show reward ad every 5 minutes
-    }, 5 * 60 * 1000);
+    const rewardAdInterval = setInterval(
+      () => {
+        showRewardAd(); // Show reward ad every 5 minutes
+      },
+      __DEV__ ? null : 5 * 60 * 1000,
+    );
     return () => {
       clearTimeout(timer, rewardAdInterval);
     };
@@ -590,6 +593,7 @@ const Home = () => {
               numberOfLines={1}>
               Career
             </Text>
+            cd
           </TouchableOpacity>
           <TouchableOpacity onPress={courseNav} style={styles.ideaBox}>
             <AntDesign name="laptop" size={25} color="#2a9d8f" />

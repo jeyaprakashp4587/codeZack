@@ -54,7 +54,6 @@ const useRewardedAd = () => {
       try {
         console.log('ready to show');
         await rewardAd.show();
-
         return {success: true, message: 'Ad shown successfully'};
       } catch (error) {
         console.error('Error showing ad:', error);
