@@ -1,74 +1,70 @@
-import {useEffect, useState, useRef} from 'react';
+import {useEffect, useState} from 'react';
 import {
-  RewardedInterstitialAd,
-  TestIds,
+  RewardedAd,
   RewardedAdEventType,
+  TestIds,
 } from 'react-native-google-mobile-ads';
 
-export const useRewardedAd = () => {
-  const [isAdLoaded, setIsAdLoaded] = useState(false);
-  const [isAdShowing, setIsAdShowing] = useState(false);
+const useRewardedAd = () => {
+  const unitId = __DEV__
+    ? TestIds.REWARDED
+    : 'ca-app-pub-3257747925516984/5831080677';
 
-  const rewardedAdUnitId = __DEV__
-    ? TestIds.REWARDED_INTERSTITIAL
-    : 'ca-app-pub-3257747925516984/2118232229';
+  const rewardAd = RewardedAd.createForAdRequest(unitId);
+  const [isRewardLoaded, setIsLoaded] = useState(false);
 
-  const rewardedAd = useRef(
-    RewardedInterstitialAd.createForAdRequest(rewardedAdUnitId, {
-      requestNonPersonalizedAdsOnly: true,
-    }),
-  ).current;
-  // load ad
   const loadAd = () => {
-    console.log('Loading rewarded ad...');
-    rewardedAd.load();
+    rewardAd.load({
+      requestNonPersonalizedAdsOnly: true,
+    });
   };
-  loadAd();
-  useEffect(() => {
-    // Load the ad and log the steps
 
+  useEffect(() => {
+    // Listener for ad loaded
+    const loadedListener = rewardAd.addAdEventListener(
+      RewardedAdEventType.LOADED,
+      () => {
+        console.log('Ad Loaded');
+        setIsLoaded(true);
+      },
+    );
+
+    // Listener for ad reward earned
+    const rewardListener = rewardAd.addAdEventListener(
+      RewardedAdEventType.EARNED_REWARD,
+      () => {
+        console.log('Ad Reward Earned');
+        setIsLoaded(false); // Reset state
+        loadAd(); // Reload ad
+      },
+    );
+
+    // Load the ad initially
     loadAd();
 
-    // Define event listener to handle ad events
-    const onAdEvent = type => {
-      console.log(`Ad event type: ${type}`);
-      if (type === RewardedAdEventType.LOADED) {
-        setIsAdLoaded(true);
-        console.log('Ad loaded successfully!');
-      } else if (type === RewardedAdEventType.EARNED_REWARD) {
-        console.log('User earned reward!');
-      }
-    };
-
-    // Add event listeners to track ad events
-    rewardedAd.addAdEventListener(RewardedAdEventType.LOADED, () => {
-      console.log('Ad is loaded!');
-      onAdEvent(RewardedAdEventType.LOADED);
-    });
-    rewardedAd.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => {
-      onAdEvent(RewardedAdEventType.EARNED_REWARD);
-    });
-
-    // Cleanup event listeners on unmount
     return () => {
-      rewardedAd.removeAllListeners();
+      // Clean up listeners
+      rewardAd.removeAllListeners();
+      loadedListener();
+      rewardListener();
     };
-  }, [rewardedAd]);
+  }, []);
 
-  useEffect(() => {
-    // Show the ad after 5 seconds if it's loaded and not showing yet
-    const timer = setTimeout(() => {
-      if (isAdLoaded && !isAdShowing) {
-        setIsAdShowing(true);
-        rewardedAd.show().catch(error => {
-          console.log('Error showing ad:', error); // Catch any error that happens while showing the ad
-        });
-        setIsAdShowing(false); // Reset the flag after the ad is shown
+  const showRewardAd = async () => {
+    if (isRewardLoaded && rewardAd.loaded) {
+      try {
+        await rewardAd.show();
+        return {success: true, message: 'Ad shown successfully'};
+      } catch (error) {
+        console.error('Error showing ad:', error);
+        return {success: false, message: 'Error showing ad'};
       }
-    }, 5000); // 5 seconds
+    } else {
+      return {success: false, message: 'Ad not loaded yet'};
+    }
+  };
 
-    return () => clearTimeout(timer);
-  }, [isAdLoaded, isAdShowing]);
-
-  return {isAdLoaded, isAdShowing};
+  return {showRewardAd, isRewardLoaded};
 };
+
+export default useRewardedAd;

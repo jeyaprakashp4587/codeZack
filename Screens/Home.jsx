@@ -49,7 +49,7 @@ import PragraphText from '../utils/PragraphText';
 import Companies from '../components/Companies';
 import AddModel from '../Adds/AddModel';
 import useAppOpenAd from '../Adds/useAppOpenAd';
-import {useRewardedAd} from '../Adds/useRewardedAd';
+import useRewardedAd from '../Adds/useRewardedAd';
 
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
@@ -69,8 +69,9 @@ const Home = () => {
   const [showEarnTutorial, setShowEarnTutorial] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   // shoe app load add
+  const {showRewardAd, isRewardLoaded} = useRewardedAd();
   useAppOpenAd();
-  const {isAdLoaded, isAdShowing} = useRewardedAd();
+  // const {isAdLoaded, isAdShowing} = useRewardedAd();
   // this loading for indicate load add
   const [loading, setLoading] = useState(false);
   // Load effect
@@ -79,9 +80,7 @@ const Home = () => {
       setLoad(true);
       loadAd();
     }, 500);
-    if (isAdLoaded) {
-      console.log('add not loaded');
-    }
+
     return () => clearTimeout(timer);
   }, []);
 
