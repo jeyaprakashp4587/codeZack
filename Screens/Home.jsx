@@ -80,39 +80,13 @@ const Home = () => {
       setLoad(true);
       loadAd();
     }, 500);
-
-    return () => clearTimeout(timer);
+    const rewardAdInterval = setInterval(() => {
+      showRewardAd(); // Show reward ad every 5 minutes
+    }, 5 * 60 * 1000);
+    return () => {
+      clearTimeout(timer, rewardAdInterval);
+    };
   }, []);
-
-  const carouselData = useMemo(
-    () => [
-      {
-        name: 'Learning',
-        img: 'https://i.ibb.co/R2YnF4F/learn.png',
-        bgColor: '#ffcccc',
-        route: 'carrerScreen',
-      },
-      {
-        name: 'Practice',
-        img: 'https://i.ibb.co/8mjYHzc/practice.png',
-        bgColor: '#cce6ff',
-        route: 'Challenges',
-      },
-      {
-        name: 'Earning',
-        img: 'https://i.ibb.co/qnM4QT0/file.png',
-        bgColor: '#b3b3ff',
-        route: 'Wallet',
-      },
-      {
-        name: 'Achieve',
-        img: 'https://i.ibb.co/6mt33RQ/achieve.png',
-        bgColor: '#b3ffb3',
-        route: 'Post',
-      },
-    ],
-    [],
-  );
 
   const getCurrentGreeting = useCallback(() => {
     const currentHour = new Date().getHours();
@@ -642,52 +616,6 @@ const Home = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        {/* carousel  */}
-        <Carousel
-          width={Math.round(width * 1)}
-          height={Math.round(height * 0.22)}
-          style={{marginVertical: 10}}
-          data={carouselData}
-          renderItem={({item}) => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate(item.route)}
-              style={{
-                flex: 1,
-                overflow: 'hidden',
-              }}>
-              <LinearGradient
-                colors={['white', 'white', 'white', item.bgColor]}
-                style={{
-                  flexDirection: 'row',
-                  flex: 1,
-                  alignItems: 'flex-end',
-                  justifyContent: 'space-between',
-                  overflow: 'hidden',
-                }}
-                start={{x: 1, y: 0}}
-                end={{x: 0, y: 1}}>
-                <Text
-                  style={{
-                    fontSize: Math.round(width * 0.06),
-                    textTransform: 'capitalize',
-                    color: Colors.mildGrey,
-                    letterSpacing: 3,
-                    paddingLeft: 20,
-                    paddingBottom: 20,
-                    opacity: 0.7,
-                  }}>
-                  {item.name}
-                </Text>
-                <Image
-                  source={{uri: item.img}}
-                  style={{width: '80%', height: '100%'}}
-                />
-              </LinearGradient>
-            </TouchableOpacity>
-          )}
-          autoPlay={true}
-          autoPlayInterval={2000}
-        />
         {/* interviews and video tutorials */}
         <View style={{paddingHorizontal: 15}}>
           <PragraphText text="Videos & Preparations" />
@@ -737,18 +665,18 @@ const Home = () => {
         {/* banner add */}
         <BannerAdd />
         {/* posts */}
-        <FlatList
-          data={posts} // Data for FlatList
-          keyExtractor={item => item._id} // Key for each post
+        {/* <FlatList
+          data={posts}
+          keyExtractor={item => item._id}
           renderItem={({item, index}) => (
             <Posts
-              post={item.Posts} // Pass post data as props
+              post={item.Posts}
               senderDetails={item.SenderDetails}
-              index={index} // Pass index
-              admin={false} // Optionally pass if the user is admin
+              index={index}
+              admin={false}
             />
           )}
-        />
+        /> */}
         {/* model load aadd */}
         <AddModel loading={loading} />
       </ScrollView>

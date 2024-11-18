@@ -11,12 +11,12 @@ const useRewardedAd = () => {
     : 'ca-app-pub-3257747925516984/5831080677';
 
   const rewardAd = RewardedAd.createForAdRequest(unitId);
-  const [isRewardLoaded, setIsLoaded] = useState(false);
 
   const loadAd = () => {
     rewardAd.load({
       requestNonPersonalizedAdsOnly: true,
     });
+    // console.log('trigger to load');
   };
 
   useEffect(() => {
@@ -24,8 +24,7 @@ const useRewardedAd = () => {
     const loadedListener = rewardAd.addAdEventListener(
       RewardedAdEventType.LOADED,
       () => {
-        console.log('Ad Loaded');
-        setIsLoaded(true);
+        // console.log('Ad Loaded from rewared video add');
       },
     );
 
@@ -34,7 +33,7 @@ const useRewardedAd = () => {
       RewardedAdEventType.EARNED_REWARD,
       () => {
         console.log('Ad Reward Earned');
-        setIsLoaded(false); // Reset state
+
         loadAd(); // Reload ad
       },
     );
@@ -51,9 +50,11 @@ const useRewardedAd = () => {
   }, []);
 
   const showRewardAd = async () => {
-    if (isRewardLoaded && rewardAd.loaded) {
+    if (rewardAd.loaded) {
       try {
+        console.log('ready to show');
         await rewardAd.show();
+
         return {success: true, message: 'Ad shown successfully'};
       } catch (error) {
         console.error('Error showing ad:', error);
@@ -64,7 +65,7 @@ const useRewardedAd = () => {
     }
   };
 
-  return {showRewardAd, isRewardLoaded};
+  return {showRewardAd};
 };
 
 export default useRewardedAd;

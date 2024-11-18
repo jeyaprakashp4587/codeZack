@@ -43,7 +43,7 @@ const InterViewDetails = () => {
     if (res.status == 200) {
       setCompany(res.data);
       setLoad(false);
-      console.log(res.data);
+      // console.log(res.data);
       setSelectedCompany(res.data);
     }
   }, []);

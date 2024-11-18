@@ -18,6 +18,7 @@ import WebView from 'react-native-webview';
 import BannerAdd from '../Adds/BannerAdd';
 import axios from 'axios';
 import Api from '../Api';
+import Actitivity from '../hooks/ActivityHook';
 
 const InterviewPrep = () => {
   const {selectedCompany, user, setUser} = useData();
@@ -50,6 +51,7 @@ const InterviewPrep = () => {
   // Fetch user milestone when `selectedCompany` or `user` changes
   useEffect(() => {
     findCompanyName();
+    loadAd();
   }, [selectedCompany, user]);
   // Set current week whenever `userMile` updates
   useEffect(() => {
@@ -57,23 +59,32 @@ const InterviewPrep = () => {
   }, [userMile]);
   // show hint
   const showHint = () => {
-    if (isLoaded) {
-      showAd().then(data => {
-        if (data.success) {
-          setIsShowHind(true);
-        } else {
-          ToastAndroid.show(data.message, ToastAndroid.SHORT);
-        }
-      });
-    }
+    showAd().then(data => {
+      if (data.success) {
+        setIsShowHind(true);
+      } else {
+        ToastAndroid.show(data.message, ToastAndroid.SHORT);
+      }
+    });
   };
   // submit task
   const submitTask = useCallback(async () => {
-    if (userMile?.currentWeek >= 6) {
+    if (userMile?.currentWeek - 1 >= 6) {
+      console.log('Current Week:', userMile?.currentWeek);
       ToastAndroid.show(
         'Congrats!, you finished your all preparations',
         ToastAndroid.SHORT,
       );
+      try {
+        await Actitivity(
+          user?._id,
+          `Finished ${
+            selectedCompany?.company_name || selectedCompany
+          } Prepations`,
+        );
+      } catch (error) {
+        console.error('Error calling Actitivity:', error);
+      }
       return;
     }
     try {
