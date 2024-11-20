@@ -10,13 +10,17 @@ const useRewardedAd = () => {
     ? TestIds.REWARDED
     : 'ca-app-pub-3257747925516984/5831080677';
 
+  const [isRequesting, setIsRequesting] = useState(false); // State to prevent multiple requests
   const rewardAd = RewardedAd.createForAdRequest(unitId);
 
+  // Load ad function with protection against multiple requests
   const loadAd = () => {
+    if (isRequesting) return; // Prevent multiple requests
+
+    setIsRequesting(true); // Set requesting state to true while loading
     rewardAd.load({
       requestNonPersonalizedAdsOnly: true,
     });
-    // console.log('trigger to load');
   };
 
   useEffect(() => {
@@ -24,7 +28,7 @@ const useRewardedAd = () => {
     const loadedListener = rewardAd.addAdEventListener(
       RewardedAdEventType.LOADED,
       () => {
-        // console.log('Ad Loaded from rewared video add');
+        setIsRequesting(false); // Reset requesting state when the ad is loaded
       },
     );
 
@@ -33,8 +37,7 @@ const useRewardedAd = () => {
       RewardedAdEventType.EARNED_REWARD,
       () => {
         console.log('Ad Reward Earned');
-
-        loadAd(); // Reload ad
+        loadAd(); // Reload the ad after the reward is earned
       },
     );
 
@@ -42,7 +45,7 @@ const useRewardedAd = () => {
     loadAd();
 
     return () => {
-      // Clean up listeners
+      // Cleanup listeners when the component unmounts
       rewardAd.removeAllListeners();
       loadedListener();
       rewardListener();

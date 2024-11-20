@@ -36,7 +36,6 @@ import useSocketOn from '../Socket/useSocketOn';
 import Posts from '../components/Posts';
 import {debounce} from 'lodash';
 import {SocketData} from '../Socket/SocketContext';
-import Carousel from 'react-native-reanimated-carousel';
 import BannerAdd from '../Adds/BannerAdd';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Ripple from 'react-native-material-ripple';
@@ -50,6 +49,7 @@ import Companies from '../components/Companies';
 import AddModel from '../Adds/AddModel';
 import useAppOpenAd from '../Adds/useAppOpenAd';
 import useRewardedAd from '../Adds/useRewardedAd';
+import Journey from '../components/Journey';
 
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
@@ -620,6 +620,8 @@ const Home = () => {
             </Text>
           </TouchableOpacity>
         </View>
+        {/* Journey */}
+        <Journey />
         {/* interviews and video tutorials */}
         <View style={{paddingHorizontal: 15}}>
           <PragraphText text="Videos & Preparations" />
