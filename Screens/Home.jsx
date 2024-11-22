@@ -47,7 +47,7 @@ import useShakeAnimation from '../hooks/useShakeAnimation';
 import PragraphText from '../utils/PragraphText';
 import Companies from '../components/Companies';
 import AddModel from '../Adds/AddModel';
-import Journey from '../components/Journey';
+import Carousel from 'react-native-reanimated-carousel';
 // import usehook for show adds
 import {
   useInterstitialAd,
@@ -101,18 +101,22 @@ const Home = () => {
     loadAppOpen();
   }, [loadAppOpen]);
   useEffect(() => {
-    const handleAppStateChange = state => {
-      if (state === 'active') {
-        showAppopen();
-      }
-    };
-    const appStateListener = AppState.addEventListener(
-      'change',
-      handleAppStateChange,
-    );
-    return () => {
-      appStateListener.remove();
-    };
+    try {
+      const handleAppStateChange = state => {
+        if (state === 'active' && loadedAppOpen) {
+          showAppopen();
+        }
+      };
+      const appStateListener = AppState.addEventListener(
+        'change',
+        handleAppStateChange,
+      );
+      return () => {
+        appStateListener.remove();
+      };
+    } catch (err) {
+      throw new Error(err);
+    }
   }, [loadedAppOpen, showAppopen]);
   useEffect(() => {
     if (closedAppOpen) {
@@ -126,7 +130,30 @@ const Home = () => {
       // load add
     }, 500);
   }, []);
-
+  // carousel data
+  const carouselData = useMemo(
+    () => [
+      {
+        name: 'Learning',
+        img: 'https://i.ibb.co/R2YnF4F/learn.png',
+        bgColor: '#ffcccc',
+        route: 'carrerScreen',
+      },
+      {
+        name: 'Practice',
+        img: 'https://i.ibb.co/8mjYHzc/practice.png',
+        bgColor: '#cce6ff',
+        route: 'Challenges',
+      },
+      {
+        name: 'Achieve',
+        img: 'https://i.ibb.co/6mt33RQ/achieve.png',
+        bgColor: '#b3ffb3',
+        route: 'Post',
+      },
+    ],
+    [],
+  );
   const getCurrentGreeting = useCallback(() => {
     const currentHour = new Date().getHours();
     if (currentHour < 12) return 'Good Morning';
@@ -263,14 +290,6 @@ const Home = () => {
   useEffect(() => {
     loadIntrestAdd();
   }, [loadIntrestAdd]);
-  useEffect(() => {
-    if (loadedIntrestAdd) {
-    }
-  }, [loadedIntrestAdd]);
-  useEffect(() => {
-    if (showingIntrestAdd) {
-    }
-  }, [showingIntrestAdd]);
   useEffect(() => {
     if (closedIntrestAdd) {
       // setLoading(false);
@@ -633,8 +652,56 @@ const Home = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        {/* Journey */}
-        <Journey />
+        {/* carosel data */}
+        {/* carousel  */}
+        <Carousel
+          style={{margin: 'auto', marginVertical: 10}}
+          width={width * 0.9}
+          height={height * 0.22}
+          data={carouselData}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate(item.route)}
+              style={{
+                flex: 1,
+                elevation: 2,
+                borderRadius: 10,
+                overflow: 'hidden',
+              }}>
+              <LinearGradient
+                colors={['white', 'white', item.bgColor]}
+                style={{
+                  flexDirection: 'row',
+                  flex: 1,
+                  alignItems: 'flex-end',
+                  justifyContent: 'space-between',
+                  overflow: 'hidden',
+                }}
+                start={{x: 1, y: 0}}
+                end={{x: 0, y: 1}}>
+                <Text
+                  style={{
+                    fontSize: width * 0.06,
+                    textTransform: 'capitalize',
+                    color: Colors.mildGrey,
+                    letterSpacing: 3,
+                    paddingLeft: 20,
+                    paddingBottom: 20,
+                    opacity: 0.7,
+                  }}>
+                  {item.name}
+                </Text>
+                <Image
+                  source={{uri: item.img}}
+                  style={{width: '80%', height: '100%'}}
+                />
+              </LinearGradient>
+            </TouchableOpacity>
+          )}
+          autoPlay={true}
+          autoPlayInterval={2000}
+          // vertical={true}
+        />
         {/* interviews and video tutorials */}
         <View style={{paddingHorizontal: 15}}>
           <PragraphText text="Videos & Preparations" />
