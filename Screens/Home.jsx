@@ -53,6 +53,7 @@ import {
   useInterstitialAd,
   TestIds,
   useAppOpenAd,
+  useRewardedAd,
 } from 'react-native-google-mobile-ads';
 
 // Dimensions for layout
@@ -73,6 +74,17 @@ const Home = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   // this loading for indicate load add
   const [loading, setLoading] = useState(false);
+  // config reward add for every three mintes
+  const {
+    show: showReward,
+    isLoaded: loadedReward,
+    load: loadReward,
+    isClosed: closedReward,
+  } = useRewardedAd();
+  // show reward add
+  useEffect(() => {
+    loadReward();
+  }, [loadReward]);
   // config intrestial add
   const {
     show: showIntrestAdd,
@@ -98,21 +110,23 @@ const Home = () => {
       requestNonPersonalizedAdsOnly: true,
     },
   );
+
+  //  load add
   useEffect(() => {
-    loadAppOpen();
-  }, [loadAppOpen]);
-  //  loa add
-  useEffect(() => {
-    const handleAppStateChange = state => {
+    const handleAppStateChange = async state => {
       console.log(`AppState changed to: ${state}`);
       console.log(`Ad Loaded: ${loadedAppOpen}`);
       if (state === 'active') {
         if (loadedAppOpen) {
-          console.log('Ad is loaded. Attempting to show the ad...');
-          showAppopen();
+          try {
+            console.log('Ad is loaded. Attempting to show the ad...');
+            showAppopen();
+          } catch (error) {
+            console.error('Error showing AppOpenAd:', error);
+          }
         } else {
           console.log('Ad not loaded. Reloading the ad...');
-          loadAppOpen();
+          loadAppOpen(); // Reload the ad
         }
       }
     };
@@ -128,7 +142,7 @@ const Home = () => {
     if (closedAppOpen) {
       loadAppOpen();
     }
-  }, [closedAppOpen, loadAppOpen]);
+  }, [closedAppOpen]);
   // Loading ui effect
   useEffect(() => {
     setTimeout(() => {
@@ -304,10 +318,9 @@ const Home = () => {
   }, [closedIntrestAdd]);
   //
   const handleCheckIn = useCallback(async () => {
-    loadAppOpen();
+    showIntrestAdd();
     // setLoading(true);
     if (isDisabled) {
-      showIntrestAdd();
       ToastAndroid.show(
         'You have already checked in today.',
         ToastAndroid.SHORT,
@@ -369,7 +382,7 @@ const Home = () => {
               padding: 5,
               fontSize: 8,
               top: -height * 0.017,
-              right: width * 0.1,
+              right: width * 0.12,
               paddingHorizontal: 8,
             }}>
             <Fontawesome name="rupee" color="white" size={8} />
@@ -705,7 +718,7 @@ const Home = () => {
                 </Text>
                 <Image
                   source={{uri: item.img}}
-                  style={{width: '80%', height: '100%'}}
+                  style={{width: '55%', height: '100%'}}
                 />
               </LinearGradient>
             </TouchableOpacity>

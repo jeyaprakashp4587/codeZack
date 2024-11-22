@@ -1,12 +1,14 @@
+import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
 import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
 
 const BannerAdd = () => {
   const bannerId = __DEV__
-    ? TestIds.BANNER
-    : 'ca-app-pub-3257747925516984/6303091060';
-  const [addInfo, setAddInfo] = useState();
+    ? TestIds.BANNER // Use test ad unit in development
+    : 'ca-app-pub-3257747925516984/6303091060'; // Use your AdMob unit ID in production
+
+  const [adInfo, setAdInfo] = useState('');
+
   return (
     <View style={styles.bannerContainer}>
       <BannerAd
@@ -15,16 +17,12 @@ const BannerAdd = () => {
         requestOptions={{
           requestNonPersonalizedAdsOnly: true,
         }}
-        onAdLoaded={() => {
-          // console.log('Banner Ad Loaded');
-          setAddInfo('Banner Ad Loaded');
-        }}
-        onAdFailedToLoad={error => {
-          // console.error('Banner Ad Failed to Load:', error);
-          setAddInfo('Banner Ad Failed to Load:', error);
-        }}
+        onAdLoaded={() => setAdInfo('Ad Loaded Successfully')}
+        onAdFailedToLoad={error =>
+          setAdInfo(`Ad Load Failed: ${error.message}`)
+        }
       />
-      <Text>{addInfo}</Text>
+      <Text>{adInfo}</Text>
     </View>
   );
 };
