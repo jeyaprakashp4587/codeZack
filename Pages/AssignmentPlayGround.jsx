@@ -18,7 +18,6 @@ import BannerAdd from '../Adds/BannerAdd';
 import Actitivity from '../hooks/ActivityHook';
 import AddWallet from '../hooks/AddWallet';
 import Skeleton from '../Skeletons/Skeleton';
-import useInterstitialAd from '../Adds/useInterstitialAd';
 
 const AssignmentPlayGround = () => {
   const {assignmentType, user, setUser} = useData();
@@ -27,7 +26,6 @@ const AssignmentPlayGround = () => {
   const {width, height} = Dimensions.get('window');
   const [currentQuiz, setCurrentQuiz] = useState();
   const difficulty = ['easy', 'medium', 'hard'];
-  const {showAd, isLoaded} = useInterstitialAd();
   const [difficultyInfo, setDifficultyInfo] = useState('easy');
 
   const HandleSetDifficulty = useCallback(level => {
@@ -129,9 +127,6 @@ const AssignmentPlayGround = () => {
   );
   // const submit assignmenet and check answer
   const checkAnswers = useCallback(async () => {
-    // console.log('Starting checkAnswers function');
-
-    const adResult = await showAd();
     // console.log('Ad result:', adResult);
 
     if (!adResult.success) {
@@ -200,7 +195,7 @@ const AssignmentPlayGround = () => {
     }
   }, [
     selectedAnswers,
-    showAd,
+
     currentQuiz,
     difficultyInfo,
     assignmentType,

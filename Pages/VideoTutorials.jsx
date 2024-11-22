@@ -18,14 +18,12 @@ import PragraphText from '../utils/PragraphText';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import BannerAdd from '../Adds/BannerAdd';
-import useInterstitialAd from '../Adds/useInterstitialAd';
 
 const VideoTutorials = () => {
   const [allTutorials, setAllTutorials] = useState([]);
   const [showModel, setShowModel] = useState(false);
   const [tools, setTools] = useState([]);
   const [selectedTool, setSelectedTool] = useState();
-  const {showAd, loadAd, isLoaded} = useInterstitialAd();
   //
   const getAllTutorials = useCallback(async () => {
     const res = await axios.get(`${Api}/Challenges/getAllTutorials`);

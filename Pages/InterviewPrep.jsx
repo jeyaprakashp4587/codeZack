@@ -13,7 +13,6 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {useData} from '../Context/Contexter';
 import {Colors, pageView} from '../constants/Colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import useInterstitialAd from '../Adds/useInterstitialAd';
 import WebView from 'react-native-webview';
 import BannerAdd from '../Adds/BannerAdd';
 import axios from 'axios';
@@ -27,7 +26,6 @@ const InterviewPrep = () => {
   const [currentWeek, setCurrentWeek] = useState();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [isShowHint, setIsShowHind] = useState(false);
-  const {isLoaded, loadAd, showAd} = useInterstitialAd();
   // Find user milestone for the selected company
   const findCompanyName = async () => {
     const companyName = user?.InterView?.find(
@@ -51,7 +49,6 @@ const InterviewPrep = () => {
   // Fetch user milestone when `selectedCompany` or `user` changes
   useEffect(() => {
     findCompanyName();
-    loadAd();
   }, [selectedCompany, user]);
   // Set current week whenever `userMile` updates
   useEffect(() => {
@@ -59,13 +56,7 @@ const InterviewPrep = () => {
   }, [userMile]);
   // show hint
   const showHint = () => {
-    showAd().then(data => {
-      if (data.success) {
-        setIsShowHind(true);
-      } else {
-        ToastAndroid.show(data.message, ToastAndroid.SHORT);
-      }
-    });
+    setIsShowHind(true);
   };
   // submit task
   const submitTask = useCallback(async () => {

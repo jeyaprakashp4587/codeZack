@@ -27,7 +27,6 @@ import axios from 'axios';
 import Api from '../Api';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
-import useInterstitialAd from '../Adds/useInterstitialAd';
 import BannerAdd from '../Adds/BannerAdd';
 import AddModel from '../Adds/AddModel';
 
@@ -37,39 +36,11 @@ const Wallet = () => {
   const {width, height} = Dimensions.get('window');
   // show add
   const [addViewed, setAddViewed] = useState(false);
-  const {showAd, isLoaded, loadAd} = useInterstitialAd();
   const [loading, setLoading] = useState(false);
-  // handle show add
-  useEffect(() => {
-    loadAd();
-  }, []);
-  // handle show add
 
   const handleShowAd = useCallback(() => {
-    setLoading(true);
-    const interval = setInterval(() => {
-      if (!isLoaded) {
-        loadAd();
-      } else {
-        clearInterval(interval);
-        showAd()
-          .then(response => {
-            if (response.success) {
-              setAddViewed(true);
-            } else {
-              ToastAndroid.show(response.message, ToastAndroid.SHORT);
-            }
-          })
-          .catch(error => {
-            console.error('Error showing ad:', error);
-          })
-          .finally(() => {
-            setLoading(false);
-          });
-      }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [isLoaded, loadAd, showAd]);
+    setAddViewed(true);
+  }, []);
 
   // stategies
   const strategies = [

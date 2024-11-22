@@ -30,7 +30,7 @@ const App = () => {
   useEffect(() => {
     MobileAds()
       .initialize()
-      .then(() => {
+      .then(adapter => {
         console.log('Google Mobile Ads initialized');
       });
   }, []);

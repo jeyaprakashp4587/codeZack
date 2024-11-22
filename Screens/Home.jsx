@@ -16,6 +16,7 @@ import {
   InteractionManager,
   RefreshControl,
   ActivityIndicator,
+  AppState,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
 import Fontawesome from 'react-native-vector-icons/FontAwesome';
@@ -43,52 +44,87 @@ import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddWallet from '../hooks/AddWallet';
 import useShakeAnimation from '../hooks/useShakeAnimation';
-import useInterstitialAd from '../Adds/useInterstitialAd';
 import PragraphText from '../utils/PragraphText';
 import Companies from '../components/Companies';
 import AddModel from '../Adds/AddModel';
-import useAppOpenAd from '../Adds/useAppOpenAd';
-import useRewardedAd from '../Adds/useRewardedAd';
 import Journey from '../components/Journey';
-
+// import usehook for show adds
+import {
+  useInterstitialAd,
+  TestIds,
+  useAppOpenAd,
+} from 'react-native-google-mobile-ads';
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
 
 const Home = () => {
   const navigation = useNavigation();
   const {user, setUser} = useData();
-  const [load, setLoad] = useState(false);
+  const [UiLoading, setUiLoading] = useState(false);
   const [suggestDisplay, setSuggestDisplay] = useState(true);
   const [suggestRefresh, setSuggestRefresh] = useState(false);
   const [posts, setPosts] = useState([]);
   const [unseenCount, setUnseenCount] = useState(0);
   const shakeInterpolation = useShakeAnimation(3000);
   const socket = SocketData();
-  const {showAd, isLoaded, loadAd} = useInterstitialAd();
   const [refresh, setRefresh] = useState(false);
   const [showEarnTutorial, setShowEarnTutorial] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
-  // shoe app load add
-  const {showRewardAd, isRewardLoaded} = useRewardedAd();
-  useAppOpenAd();
-  // const {isAdLoaded, isAdShowing} = useRewardedAd();
   // this loading for indicate load add
   const [loading, setLoading] = useState(false);
-  // Load effect
+  // config intrestial add
+  const {
+    show: showIntrestAdd,
+    isLoaded: loadedIntrestAdd,
+    load: loadIntrestAdd,
+    isClosed: closedIntrestAdd,
+    isShowing: showingIntrestAdd,
+  } = useInterstitialAd(
+    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/2804627935',
+    {
+      requestNonPersonalizedAdsOnly: true,
+    },
+  );
+  // Hook to manage app open ad state
+  const {
+    show: showAppopen,
+    isLoaded: loadedAppOpen,
+    isClosed: closedAppOpen,
+    load: loadAppOpen,
+  } = useAppOpenAd(
+    __DEV__ ? TestIds.APP_OPEN : 'ca-app-pub-3257747925516984/6520210341',
+    {
+      requestNonPersonalizedAdsOnly: true,
+    },
+  );
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoad(true);
-      loadAd();
-    }, 500);
-    const rewardAdInterval = setInterval(
-      () => {
-        showRewardAd(); // Show reward ad every 5 minutes
-      },
-      __DEV__ ? null : 5 * 60 * 1000,
+    loadAppOpen();
+  }, [loadAppOpen]);
+  useEffect(() => {
+    const handleAppStateChange = state => {
+      if (state === 'active') {
+        showAppopen();
+      }
+    };
+    const appStateListener = AppState.addEventListener(
+      'change',
+      handleAppStateChange,
     );
     return () => {
-      clearTimeout(timer, rewardAdInterval);
+      appStateListener.remove();
     };
+  }, [loadedAppOpen, showAppopen]);
+  useEffect(() => {
+    if (closedAppOpen) {
+      loadAppOpen();
+    }
+  }, [closedAppOpen, loadAppOpen]);
+  // Loading ui effect
+  useEffect(() => {
+    setTimeout(() => {
+      setUiLoading(true);
+      // load add
+    }, 500);
   }, []);
 
   const getCurrentGreeting = useCallback(() => {
@@ -223,71 +259,48 @@ const Home = () => {
       setIsDisabled(lastCheckInDate.isSame(now, 'day'));
     }
   };
-  // handle daily check in
+  // implement intrestitial add
+  useEffect(() => {
+    loadIntrestAdd();
+  }, [loadIntrestAdd]);
+  useEffect(() => {
+    if (loadedIntrestAdd) {
+    }
+  }, [loadedIntrestAdd]);
+  useEffect(() => {
+    if (showingIntrestAdd) {
+    }
+  }, [showingIntrestAdd]);
+  useEffect(() => {
+    if (closedIntrestAdd) {
+      // setLoading(false);
+      loadIntrestAdd();
+    }
+  }, [closedIntrestAdd]);
+  //
   const handleCheckIn = useCallback(async () => {
+    loadAppOpen();
+    // setLoading(true);
     if (isDisabled) {
+      showIntrestAdd();
       ToastAndroid.show(
         'You have already checked in today.',
         ToastAndroid.SHORT,
       );
       return;
     }
-    setLoading(true);
-    const checkAdLoaded = setInterval(() => {
-      if (!isLoaded) {
-        loadAd();
-      } else {
-        clearInterval(checkAdLoaded);
-        showAd()
-          .then(async adResult => {
-            if (adResult.success) {
-              const now = moment().toISOString();
-              await AsyncStorage.setItem('lastCheckIn', now);
-              const result = await AddWallet(user?._id, 1, setUser);
-              if (result === 'ok') {
-                ToastAndroid.show('You earned 1 rupee!', ToastAndroid.SHORT);
-                setIsDisabled(true);
-              } else {
-                ToastAndroid.show(
-                  'Failed to add to wallet.',
-                  ToastAndroid.SHORT,
-                );
-              }
-            } else {
-              ToastAndroid.show(
-                'Ad failed to show. Try again.',
-                ToastAndroid.SHORT,
-              );
-            }
-          })
-          .catch(() => {
-            ToastAndroid.show(
-              'Error showing the ad. Try again.',
-              ToastAndroid.SHORT,
-            );
-          })
-          .finally(() => {
-            setLoading(false);
-          });
-      }
-    }, 100);
-    const timeoutId = setTimeout(() => {
-      clearInterval(checkAdLoaded);
-      if (!isLoaded) {
-        setLoading(false);
-        ToastAndroid.show(
-          'Ad is not ready yet. Please try again later.',
-          ToastAndroid.SHORT,
-        );
-      }
-    }, 10000);
-    return () => {
-      clearInterval(checkAdLoaded);
-      clearTimeout(timeoutId);
-    };
-  }, [isDisabled, isLoaded, loadAd, showAd, user, setUser]);
+    const now = moment().toISOString();
+    await AsyncStorage.setItem('lastCheckIn', now);
+    const result = await AddWallet(user?._id, 1, setUser);
+    if (result === 'ok') {
+      ToastAndroid.show('You earned 1 rupee!', ToastAndroid.SHORT);
+      setIsDisabled(true);
+    } else {
+      ToastAndroid.show('Failed to add to wallet.', ToastAndroid.SHORT);
+    }
+  }, [isDisabled, user, setUser]);
 
-  if (!load) return <HomeSkeleton />;
+  if (!UiLoading) return <HomeSkeleton />;
 
   return (
     <View style={pageView}>
@@ -486,6 +499,7 @@ const Home = () => {
             paddingHorizontal: 15,
             flexWrap: 'wrap',
           }}>
+          <Text>Ad Status: {loadedIntrestAdd ? 'Loaded' : 'Not Loaded'}</Text>
           <Text
             style={{
               color: Colors.mildGrey,
@@ -593,7 +607,6 @@ const Home = () => {
               numberOfLines={1}>
               Career
             </Text>
-            cd
           </TouchableOpacity>
           <TouchableOpacity onPress={courseNav} style={styles.ideaBox}>
             <AntDesign name="laptop" size={25} color="#2a9d8f" />
