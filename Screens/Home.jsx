@@ -54,6 +54,7 @@ import {
   TestIds,
   useAppOpenAd,
 } from 'react-native-google-mobile-ads';
+
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
 
@@ -100,24 +101,29 @@ const Home = () => {
   useEffect(() => {
     loadAppOpen();
   }, [loadAppOpen]);
+  //  loa add
   useEffect(() => {
-    try {
-      const handleAppStateChange = state => {
-        if (state === 'active' && loadedAppOpen) {
+    const handleAppStateChange = state => {
+      console.log(`AppState changed to: ${state}`);
+      console.log(`Ad Loaded: ${loadedAppOpen}`);
+      if (state === 'active') {
+        if (loadedAppOpen) {
+          console.log('Ad is loaded. Attempting to show the ad...');
           showAppopen();
+        } else {
+          console.log('Ad not loaded. Reloading the ad...');
+          loadAppOpen();
         }
-      };
-      const appStateListener = AppState.addEventListener(
-        'change',
-        handleAppStateChange,
-      );
-      return () => {
-        appStateListener.remove();
-      };
-    } catch (err) {
-      throw new Error(err);
-    }
-  }, [loadedAppOpen, showAppopen]);
+      }
+    };
+    const appStateListener = AppState.addEventListener(
+      'change',
+      handleAppStateChange,
+    );
+    return () => {
+      appStateListener.remove();
+    };
+  }, [loadedAppOpen, showAppopen, loadAppOpen]);
   useEffect(() => {
     if (closedAppOpen) {
       loadAppOpen();
@@ -277,7 +283,6 @@ const Home = () => {
   const assignmentNav = useCallback(() => {
     debounceNavigation('Assignments');
   }, []);
-
   const checkButtonStatus = async () => {
     const lastCheckIn = await AsyncStorage.getItem('lastCheckIn');
     if (lastCheckIn) {
@@ -289,11 +294,12 @@ const Home = () => {
   // implement intrestitial add
   useEffect(() => {
     loadIntrestAdd();
+    // console.log('loading add');
   }, [loadIntrestAdd]);
   useEffect(() => {
     if (closedIntrestAdd) {
-      // setLoading(false);
       loadIntrestAdd();
+      // console.log('loading next add');
     }
   }, [closedIntrestAdd]);
   //
@@ -518,7 +524,12 @@ const Home = () => {
             paddingHorizontal: 15,
             flexWrap: 'wrap',
           }}>
-          <Text>Ad Status: {loadedIntrestAdd ? 'Loaded' : 'Not Loaded'}</Text>
+          <Text>
+            Intrest Ad Status: {loadedIntrestAdd ? 'Loaded' : 'Not Loaded'}
+          </Text>
+          <Text>
+            AppOpen Ad Status: {loadedAppOpen ? 'Loaded' : 'Not Loaded'}
+          </Text>
           <Text
             style={{
               color: Colors.mildGrey,
@@ -655,7 +666,7 @@ const Home = () => {
         {/* carosel data */}
         {/* carousel  */}
         <Carousel
-          style={{margin: 'auto', marginVertical: 10}}
+          style={{margin: 'auto'}}
           width={width * 0.9}
           height={height * 0.22}
           data={carouselData}
@@ -667,6 +678,7 @@ const Home = () => {
                 elevation: 2,
                 borderRadius: 10,
                 overflow: 'hidden',
+                margin: 3,
               }}>
               <LinearGradient
                 colors={['white', 'white', item.bgColor]}
