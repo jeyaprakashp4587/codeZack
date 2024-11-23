@@ -100,7 +100,7 @@ const Home = () => {
   useEffect(() => {
     const showInterval = setInterval(() => {
       if (loadedReward) {
-        // showReward();
+        showReward();
       }
     }, 3 * 60 * 1000); // 3 minutes
 
