@@ -72,19 +72,36 @@ const Home = () => {
   const [refresh, setRefresh] = useState(false);
   const [showEarnTutorial, setShowEarnTutorial] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
-  // this loading for indicate load add
-  const [loading, setLoading] = useState(false);
   // config reward add for every three mintes
   const {
     show: showReward,
     isLoaded: loadedReward,
     load: loadReward,
     isClosed: closedReward,
-  } = useRewardedAd();
-  // show reward add
+  } = useRewardedAd(
+    __DEV__ ? TestIds.REWARDED : 'ca-app-pub-3257747925516984/5831080677',
+  );
+  // load reward add
   useEffect(() => {
     loadReward();
+    // console.log('loading reward add');
   }, [loadReward]);
+  // show reward add every 3 minutes
+  useEffect(() => {
+    const ShowInterval = setInterval(() => {
+      // console.log(loadedReward);
+      showReward();
+      return () => {
+        clearInterval(ShowInterval);
+      };
+    }, 100000);
+  }, []);
+  // load next add
+  useEffect(() => {
+    if (closedReward) {
+      loadReward();
+    }
+  }, [closedReward]);
   // config intrestial add
   const {
     show: showIntrestAdd,
@@ -110,22 +127,24 @@ const Home = () => {
       requestNonPersonalizedAdsOnly: true,
     },
   );
-
+  useEffect(() => {
+    loadAppOpen();
+  }, [loadAppOpen]);
   //  load add
   useEffect(() => {
     const handleAppStateChange = async state => {
-      console.log(`AppState changed to: ${state}`);
-      console.log(`Ad Loaded: ${loadedAppOpen}`);
+      // console.log(`AppState changed to: ${state}`);
+      // console.log(`Ad Loaded: ${loadedAppOpen}`);
       if (state === 'active') {
         if (loadedAppOpen) {
           try {
-            console.log('Ad is loaded. Attempting to show the ad...');
+            // console.log('Ad is loaded. Attempting to show the ad...');
             showAppopen();
           } catch (error) {
-            console.error('Error showing AppOpenAd:', error);
+            // console.error('Error showing AppOpenAd:', error);
           }
         } else {
-          console.log('Ad not loaded. Reloading the ad...');
+          // console.log('Ad not loaded. Reloading the ad...');
           loadAppOpen(); // Reload the ad
         }
       }
@@ -543,6 +562,9 @@ const Home = () => {
           <Text>
             AppOpen Ad Status: {loadedAppOpen ? 'Loaded' : 'Not Loaded'}
           </Text>
+          <Text>
+            Reward Ad Status: {loadedReward ? 'Loaded' : 'Not Loaded'}
+          </Text>
           <Text
             style={{
               color: Colors.mildGrey,
@@ -679,7 +701,7 @@ const Home = () => {
         {/* carosel data */}
         {/* carousel  */}
         <Carousel
-          style={{margin: 'auto'}}
+          style={{margin: 'auto', marginTop: 10}}
           width={width * 0.9}
           height={height * 0.22}
           data={carouselData}
@@ -789,7 +811,6 @@ const Home = () => {
           )}
         /> */}
         {/* model load aadd */}
-        <AddModel loading={loading} />
       </ScrollView>
     </View>
   );
