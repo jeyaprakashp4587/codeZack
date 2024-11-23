@@ -9,8 +9,10 @@ import {
 import React from 'react';
 import FastImage from 'react-native-fast-image';
 import {Colors} from '../constants/Colors';
+import {useNavigation} from '@react-navigation/native';
 const {width, height} = Dimensions.get('window');
 const Tasks = () => {
+  const navigation = useNavigation();
   return (
     <View style={{paddingHorizontal: 15, marginVertical: 15}}>
       <View
@@ -33,10 +35,11 @@ const Tasks = () => {
             rowGap: 10,
           }}>
           <Text style={{lineHeight: 25, letterSpacing: 1.5}}>
-            Complete All Tasks and get Money
+            Complete Tasks and get Money
           </Text>
           {/* button */}
           <TouchableOpacity
+            onPress={() => navigation.navigate('taskScreen')}
             style={{
               backgroundColor: Colors.violet,
               padding: 5,

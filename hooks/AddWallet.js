@@ -7,7 +7,13 @@ const AddWallet = async (userId, price, setUser) => {
       Price: price,
     });
     if (res.status === 200) {
-      setUser(res.data);
+      setUser(prev => ({
+        ...prev,
+        Wallet: {
+          ...prev.Wallet,
+          TotalWallet: res.data,
+        },
+      }));
       return 'ok';
     }
   } catch (error) {

@@ -46,6 +46,7 @@ import CoreChallengeViewer from '../Pages/CoreChallengeViewer';
 import VideoTutorials from '../Pages/VideoTutorials';
 import InterViewDetails from '../Pages/InterViewDetails';
 import InterviewPrep from '../Pages/InterviewPrep';
+import Task from '../Pages/Task';
 
 // Tab navigations
 const {width, height} = Dimensions.get('window');
@@ -309,6 +310,11 @@ const StackNavigations = () => {
       <Stack.Screen
         name="InterviewPreparation"
         component={InterviewPrep}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="taskScreen"
+        component={Task}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
