@@ -89,7 +89,7 @@ const Home = () => {
   useEffect(() => {
     const showInterval = setInterval(() => {
       if (loadedReward) {
-        showReward();
+        // showReward();
       }
     }, 3 * 60 * 1000); // 3 minutes
 
@@ -265,7 +265,6 @@ const Home = () => {
   const debouncedFunctions = useCallback(
     debounce(() => {
       checkButtonStatus();
-      checkFirstLogin();
     }, 300), // 300 ms debounce delay, adjust as needed
     [],
   );
@@ -345,6 +344,19 @@ const Home = () => {
       ToastAndroid.show('Failed to add to wallet.', ToastAndroid.SHORT);
     }
   }, [isDisabled, user, setUser]);
+  // ---- Task ----
+  const Tasks = useMemo(
+    () => [
+      {Content: 'Claim Daily Check In', Status: 'pending'},
+      {Content: 'Enroll any 2 courses', Status: 'pending'},
+      {Content: 'Enroll any ony technology', Status: 'pending'},
+      {Content: 'Spend 45 minutes in study area', Status: 'pending'},
+      {Content: 'Connect 5 friends with you', Status: 'pending'},
+      {Content: 'Complete 10 Challenges', Status: 'pending'},
+      {Content: 'Select one interview preparation', Status: 'pending'},
+    ],
+    [],
+  );
   // render ui after load
   if (!UiLoading) return <HomeSkeleton />;
 
