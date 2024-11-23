@@ -37,7 +37,7 @@ const Companies = () => {
   }, []);
   //
   return (
-    <View style={{flexDirection: 'row', columnGap: 10, marginTop: 10}}>
+    <View style={{flexDirection: 'row', columnGap: 10, marginBottom: 10}}>
       {companies.map((comp, index) => (
         <TouchableOpacity
           key={index}

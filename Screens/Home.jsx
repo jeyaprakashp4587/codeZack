@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo, useCallback} from 'react';
+import React, {useState, useEffect, useMemo, useCallback, useRef} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -72,6 +72,16 @@ const Home = () => {
   const socket = SocketData();
   const [refresh, setRefresh] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
+  // scroll to top
+  const scrollViewRef = useRef(null);
+  const [scrollToTop, setScrollToTop] = useState(false);
+  const handleScroll = event => {
+    const offsetY = event.nativeEvent.contentOffset.y;
+    setScrollToTop(offsetY > 400);
+  };
+  const handleScrollToTop = () => {
+    scrollViewRef.current?.scrollTo({y: 0, animated: true});
+  };
   // config reward add for every three mintes
   const {
     show: showReward,
@@ -90,7 +100,7 @@ const Home = () => {
   useEffect(() => {
     const showInterval = setInterval(() => {
       if (loadedReward) {
-        // showReward();
+        showReward();
       }
     }, 3 * 60 * 1000); // 3 minutes
 
@@ -457,6 +467,9 @@ const Home = () => {
       </View>
       {/*  header*/}
       <ScrollView
+        ref={scrollViewRef}
+        onScroll={event => handleScroll(event)}
+        scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refresh} onRefresh={refreshUser} />
@@ -564,6 +577,7 @@ const Home = () => {
             paddingHorizontal: 10,
             borderColor: Colors.veryLightGrey,
             marginVertical: 10,
+            marginBottom: 5,
           }}>
           <EvilIcons name="search" size={25} color={Colors.lightGrey} />
           <TextInput
@@ -577,8 +591,6 @@ const Home = () => {
             }
           />
         </TouchableOpacity>
-        {/* tasks */}
-        <Tasks />
         {/* ideas wrapper */}
         <View style={styles.ideasWrapper}>
           <TouchableOpacity style={styles.ideaBox} onPress={carrerNav}>
@@ -614,10 +626,12 @@ const Home = () => {
             </Text>
           </TouchableOpacity>
         </View>
+        {/* tasks */}
+        <Tasks />
         {/* carousel  */}
         <Carousel
-          style={{margin: 'auto', marginTop: 10}}
-          width={width * 0.9}
+          style={{marginTop: 10, alignSelf: 'center', borderWidth: 0}}
+          width={width * 0.92}
           height={height * 0.22}
           data={carouselData}
           renderItem={({item}) => (
@@ -662,7 +676,6 @@ const Home = () => {
           )}
           autoPlay={true}
           autoPlayInterval={2000}
-          // vertical={true}
         />
         {/* interviews and video tutorials */}
         <View style={{paddingHorizontal: 15}}>
@@ -677,6 +690,8 @@ const Home = () => {
             borderWidth: 0,
             marginVertical: 15,
           }}>
+          {/* interviews & company */}
+          <Companies />
           {/* video tutorials */}
           <LinearGradient
             colors={['white', 'white']}
@@ -696,8 +711,6 @@ const Home = () => {
               </Text>
             </TouchableOpacity>
           </LinearGradient>
-          {/* interviews & company */}
-          <Companies />
         </View>
         {/* friends suggestions */}
         <View
@@ -727,6 +740,32 @@ const Home = () => {
         /> */}
         {/* model load aadd */}
       </ScrollView>
+      {/* scroll to top button */}
+      {scrollToTop && (
+        <Animated.View
+          style={{
+            position: 'absolute',
+            bottom: height * 0.05,
+            zIndex: 100,
+            right: width * 0.035,
+          }}>
+          <TouchableOpacity
+            onPress={() => handleScrollToTop()}
+            style={{
+              backgroundColor: Colors.violet,
+              width: width * 0.18,
+              height: height * 0.08,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 50,
+              borderWidth: 5,
+              borderColor: 'white',
+            }}>
+            <AntDesign name="totop" size={15} color="white" />
+          </TouchableOpacity>
+        </Animated.View>
+      )}
     </View>
   );
 };
