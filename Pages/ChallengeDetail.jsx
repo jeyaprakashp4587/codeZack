@@ -176,12 +176,16 @@ const ChallengeDetail = () => {
             ToastAndroid.SHORT,
           );
           await handleUploadPost();
-          Actitivity(
-            user?._id,
-            `${
-              selectedChallenge?.title || selectedChallenge?.ChallengeName
-            } Completed`,
-          );
+          try {
+            Actitivity(
+              user?._id,
+              `${
+                selectedChallenge?.title || selectedChallenge?.ChallengeName
+              } Completed`,
+            );
+          } catch (error) {
+            console.log(error, 'while do activity ');
+          }
         }
       } catch (error) {
         console.error('Error uploading challenge:', error);

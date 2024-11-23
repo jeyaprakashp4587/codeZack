@@ -57,7 +57,11 @@ const CourseDetails = () => {
             ToastAndroid.BOTTOM,
           );
           // Log the activity if course is successfully added
-          Actitivity(user?._id, `${selectedCourse.name} Successfully Added.`);
+          try {
+            Actitivity(user?._id, `${selectedCourse.name} Successfully Added.`);
+          } catch (error) {
+            console.log(error);
+          }
         } else if (res.data == 'Enrolled') {
           ToastAndroid.show(
             'You are already enrolled in this Tool',

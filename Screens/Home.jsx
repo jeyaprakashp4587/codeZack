@@ -70,7 +70,6 @@ const Home = () => {
   const shakeInterpolation = useShakeAnimation(3000);
   const socket = SocketData();
   const [refresh, setRefresh] = useState(false);
-  const [showEarnTutorial, setShowEarnTutorial] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   // config reward add for every three mintes
   const {
@@ -88,20 +87,23 @@ const Home = () => {
   }, [loadReward]);
   // show reward add every 3 minutes
   useEffect(() => {
-    const ShowInterval = setInterval(() => {
-      // console.log(loadedReward);
-      showReward();
-      return () => {
-        clearInterval(ShowInterval);
-      };
-    }, 100000);
-  }, []);
-  // load next add
+    const showInterval = setInterval(() => {
+      if (loadedReward) {
+        showReward();
+      }
+    }, 3 * 60 * 1000); // 3 minutes
+
+    // Cleanup interval on component unmount
+    return () => {
+      clearInterval(showInterval);
+    };
+  }, [loadedReward, showReward]);
+  // Load the next ad when the current one is closed
   useEffect(() => {
     if (closedReward) {
       loadReward();
     }
-  }, [closedReward]);
+  }, [closedReward, loadReward]);
   // config intrestial add
   const {
     show: showIntrestAdd,
@@ -251,26 +253,11 @@ const Home = () => {
     await getNotifications();
   });
 
-  const checkFirstLogin = async () => {
-    try {
-      const hasExecuted = await AsyncStorage.getItem('hasExecutedTutorial');
-      // console.log('hasExecuted:', hasExecuted); // Check what the function retrieves
-      if (hasExecuted === null) {
-        // console.log('First login detected');
-        setShowEarnTutorial(true);
-        await AsyncStorage.setItem('hasExecutedTutorial', 'true');
-      }
-    } catch (error) {
-      console.error('Error accessing AsyncStorage:', error);
-    }
-  };
-
   useEffect(() => {
     InteractionManager.runAfterInteractions(async () => {
       await getConnectionPosts();
       await getNotifications();
       await setProfilePic();
-      await checkFirstLogin();
       checkButtonStatus();
     });
   }, []);
@@ -316,6 +303,7 @@ const Home = () => {
   const assignmentNav = useCallback(() => {
     debounceNavigation('Assignments');
   }, []);
+  // this is for check day
   const checkButtonStatus = async () => {
     const lastCheckIn = await AsyncStorage.getItem('lastCheckIn');
     if (lastCheckIn) {
@@ -337,15 +325,16 @@ const Home = () => {
   }, [closedIntrestAdd]);
   //
   const handleCheckIn = useCallback(async () => {
-    showIntrestAdd();
     // setLoading(true);
     if (isDisabled) {
+      showIntrestAdd();
       ToastAndroid.show(
         'You have already checked in today.',
         ToastAndroid.SHORT,
       );
       return;
     }
+    showIntrestAdd();
     const now = moment().toISOString();
     await AsyncStorage.setItem('lastCheckIn', now);
     const result = await AddWallet(user?._id, 1, setUser);
@@ -356,7 +345,7 @@ const Home = () => {
       ToastAndroid.show('Failed to add to wallet.', ToastAndroid.SHORT);
     }
   }, [isDisabled, user, setUser]);
-
+  // render ui after load
   if (!UiLoading) return <HomeSkeleton />;
 
   return (
@@ -453,94 +442,6 @@ const Home = () => {
           </TouchableOpacity>
         </View>
       </View>
-      {/* model for show earn detail */}
-      <Modal transparent={true} visible={showEarnTutorial} animationType="fade">
-        <View
-          style={{
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            flex: 1,
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <View
-            style={{
-              width: '70%',
-              backgroundColor: 'white',
-              padding: 20,
-              height: '70%',
-            }}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <Text style={styles.modalContent}>
-                Welcome to CodeCampus, where learning to code is not only
-                rewarding but also pays off! Here’s how our unique earning
-                feature works:
-              </Text>
-              <Text style={styles.modalSubheading}>
-                1. Complete Coding Challenges:
-              </Text>
-              <Text style={styles.modalContent}>
-                Participate in a variety of coding challenges tailored to
-                different skill levels—beginner to advanced. Each challenge is
-                designed to test your knowledge and improve your skills.
-              </Text>
-              <Text style={styles.modalSubheading}>
-                2. Earn Points for Your Achievements:
-              </Text>
-              <Text style={styles.modalContent}>
-                As you successfully complete challenges, you earn points. Points
-                can be accumulated over time and are redeemable for cash
-                rewards, gift cards, or other exciting prizes.
-              </Text>
-              <Text style={styles.modalSubheading}>4. Skill Development:</Text>
-              <Text style={styles.modalContent}>
-                Not only do you earn money, but you also build a strong
-                foundation in programming. Our platform offers tutorials and
-                resources to help you understand coding concepts thoroughly.
-              </Text>
-              <Text style={styles.modalSubheading}>
-                5. Cash Out Your Earnings:
-              </Text>
-              <Text style={styles.modalContent}>
-                Once you've accumulated enough points, you can easily cash them
-                out through our secure payment system. Options include direct
-                bank transfers, PayPal, or popular e-wallets.
-              </Text>
-              <Text style={styles.modalSubheading}>6. Referral Program:</Text>
-              <Text style={styles.modalContent}>
-                Invite friends to join CodeCampus and earn bonus points for each
-                successful referral. Share your learning journey and help others
-                while boosting your earnings!
-              </Text>
-              <Text style={styles.modalSubheading}>
-                7. Feedback and Growth:
-              </Text>
-              <Text style={styles.modalContent}>
-                We value your input! Provide feedback on challenges and
-                tutorials, and earn additional points for your contributions.
-                Your feedback helps us enhance the learning experience for
-                everyone.
-              </Text>
-              <TouchableOpacity
-                onPress={() => setShowEarnTutorial(false)}
-                style={{
-                  backgroundColor: Colors.violet,
-                  padding: 10,
-                  borderRadius: 10,
-                }}>
-                <Text
-                  style={{
-                    letterSpacing: 1,
-                    textAlign: 'center',
-                    color: 'white',
-                  }}>
-                  Ok
-                </Text>
-              </TouchableOpacity>
-            </ScrollView>
-          </View>
-        </View>
-      </Modal>
       {/*  header*/}
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -556,7 +457,7 @@ const Home = () => {
             paddingHorizontal: 15,
             flexWrap: 'wrap',
           }}>
-          <Text>
+          {/* <Text>
             Intrest Ad Status: {loadedIntrestAdd ? 'Loaded' : 'Not Loaded'}
           </Text>
           <Text>
@@ -564,7 +465,7 @@ const Home = () => {
           </Text>
           <Text>
             Reward Ad Status: {loadedReward ? 'Loaded' : 'Not Loaded'}
-          </Text>
+          </Text> */}
           <Text
             style={{
               color: Colors.mildGrey,
@@ -698,7 +599,6 @@ const Home = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        {/* carosel data */}
         {/* carousel  */}
         <Carousel
           style={{margin: 'auto', marginTop: 10}}

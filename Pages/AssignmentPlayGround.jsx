@@ -168,10 +168,14 @@ const AssignmentPlayGround = () => {
 
       if (res.data.Email) {
         setUser(res.data);
-        Actitivity(
-          user?._id,
-          `Finished ${difficultyInfo} Level ${assignmentType} assignment`,
-        );
+        try {
+          Actitivity(
+            user?._id,
+            `Finished ${difficultyInfo} Level ${assignmentType} assignment`,
+          );
+        } catch (error) {
+          console.log(error);
+        }
 
         const rewardPoints =
           difficultyInfo.toLowerCase() === 'easy'

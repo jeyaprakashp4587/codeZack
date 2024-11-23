@@ -49,7 +49,12 @@ const SelectedCourse = ({navigation}) => {
           ToastAndroid.SHORT,
         );
         setUser(res.data);
-        Actitivity(user?._id, `${selectedCourse.name} Added`);
+        try {
+          Actitivity(user?._id, `${selectedCourse.name} Added`);
+        } catch (error) {
+          console.log(error);
+        }
+
         // Navigate to course details screen
         navigation.navigate('courseDetails');
       } else if (res.data == 'Enrolled') {
