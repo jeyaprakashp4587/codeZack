@@ -47,6 +47,7 @@ import useShakeAnimation from '../hooks/useShakeAnimation';
 import PragraphText from '../utils/PragraphText';
 import Companies from '../components/Companies';
 import AddModel from '../Adds/AddModel';
+import Tasks from '../components/Tasks';
 import Carousel from 'react-native-reanimated-carousel';
 // import usehook for show adds
 import {
@@ -345,7 +346,7 @@ const Home = () => {
     }
   }, [isDisabled, user, setUser]);
   // ---- Task ----
-  const Tasks = useMemo(
+  const TasksData = useMemo(
     () => [
       {Content: 'Claim Daily Check In', Status: 'pending'},
       {Content: 'Enroll any 2 courses', Status: 'pending'},
@@ -576,6 +577,8 @@ const Home = () => {
             }
           />
         </TouchableOpacity>
+        {/* tasks */}
+        <Tasks />
         {/* ideas wrapper */}
         <View style={styles.ideasWrapper}>
           <TouchableOpacity style={styles.ideaBox} onPress={carrerNav}>
