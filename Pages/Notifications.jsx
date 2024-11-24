@@ -36,7 +36,6 @@ const Notifications = () => {
         `${Api}/Notifications/getNotifications/${user?._id}`,
       );
       if (res.data) {
-        console.log(res.data.Time);
         setNotificationList(res.data);
       } else {
         setNotificationList([]);

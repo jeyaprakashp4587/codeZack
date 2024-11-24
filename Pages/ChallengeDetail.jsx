@@ -23,7 +23,7 @@ import TopicsText from '../utils/TopicsText';
 import Button from '../utils/Button';
 import PragraphText from '../utils/PragraphText';
 import axios from 'axios';
-import {functionApi} from '../Api';
+import {Api} from '../Api';
 import {faImage} from '@fortawesome/free-regular-svg-icons';
 import Ripple from 'react-native-material-ripple';
 import {
@@ -43,6 +43,8 @@ import Actitivity from '../hooks/ActivityHook';
 import BannerAdd from '../Adds/BannerAdd';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {useRewardedAd} from 'react-native-google-mobile-ads';
+import {SocketData} from '../Socket/SocketContext';
 
 const {width, height} = Dimensions.get('window');
 
@@ -55,7 +57,9 @@ const ChallengeDetail = () => {
   const [uploadForm, setUploadForm] = useState({GitRepo: '', LiveLink: ''});
   const [imgLoad, setImageLoad] = useState(false);
   const [images, setImages] = useState([]);
-  const socket = useSocket();
+  const socket = SocketData();
+  // show reward add
+  const {show} = useRewardedAd();
   const emitEvent = useSocketEmit(socket);
   const postText = useMemo(
     () => [
@@ -75,7 +79,7 @@ const ChallengeDetail = () => {
   const checkChallengeStatus = useCallback(async () => {
     try {
       const res = await axios.post(
-        `${functionApi}/Challenges/checkChallengeStatus/${user?._id}`,
+        `${Api}/Challenges/checkChallengeStatus/${user?._id}`,
         {
           ChallengeName:
             selectedChallenge?.ChallengeName || selectedChallenge?.title,
@@ -93,7 +97,7 @@ const ChallengeDetail = () => {
   const getParticularChallenge = useCallback(async () => {
     try {
       const res = await axios.post(
-        `${functionApi}/Challenges/getParticularChallenge/${user?._id}`,
+        `${Api}/Challenges/getParticularChallenge/${user?._id}`,
         {
           ChallengeName:
             selectedChallenge?.ChallengeName || selectedChallenge?.title,
@@ -159,7 +163,7 @@ const ChallengeDetail = () => {
     if (uploadForm.GitRepo && uploadForm.LiveLink && images.length > 0) {
       try {
         const res = await axios.post(
-          `${functionApi}/Challenges/uploadChallenge/${user?._id}`,
+          `${Api}/Challenges/uploadChallenge/${user?._id}`,
           {
             GitRepo: uploadForm.GitRepo,
             LiveLink: uploadForm.LiveLink,
@@ -200,7 +204,7 @@ const ChallengeDetail = () => {
 
   const handleUploadPost = async () => {
     try {
-      const res = await axios.post(`${functionApi}/Post/uploadPost`, {
+      const res = await axios.post(`${Api}/Post/uploadPost`, {
         userId: user?._id,
         Images: images,
         postText: postText[Math.floor(Math.random() * postText.length)],
@@ -226,9 +230,10 @@ const ChallengeDetail = () => {
 
   const HandleStart = async chName => {
     setStatusButtonToggle(true);
+    show();
     setChallengeStatus('pending');
     try {
-      const res = await axios.post(`${functionApi}/Challenges/addChallenge`, {
+      const res = await axios.post(`${Api}/Challenges/addChallenge`, {
         userId: user._id,
         ChallengeName: chName,
         ChallengeType: selectedChallenge.technologies[0].name,

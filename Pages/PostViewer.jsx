@@ -4,17 +4,20 @@ import {StyleSheet, Text, View} from 'react-native';
 import Posts from '../components/Posts';
 import {useEffect} from 'react';
 import axios from 'axios';
-import {Api} from '../Api';
+import {profileApi} from '../Api';
 import {useData} from '../Context/Contexter';
 
 const PostViewer = () => {
   const {selectedPost} = useData();
+  console.log(selectedPost);
   const [post, setPost] = useState();
   const getPostDetail = useCallback(async () => {
-    const res = await axios.get(`${Api}/Post/getPostDetails/${selectedPost}`);
+    const res = await axios.get(
+      `${profileApi}/Post/getPostDetails/${selectedPost}`,
+    );
     if (res.data) {
       setPost(res.data);
-      // console.log(post);
+      console.log(post);
     }
   }, [selectedPost]);
   useEffect(() => {

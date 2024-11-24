@@ -23,13 +23,14 @@ import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import useSocket from '../Socket/useSocket';
 import useSocketEmit from '../Socket/useSocketEmit';
+import {SocketData} from '../Socket/SocketContext';
 const {width, height} = Dimensions.get('window');
 
 const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const initialText = post?.PostText;
   const {user, setUser, setSelectedUser} = useData();
   const navigation = useNavigation();
-  const socket = useSocket();
+  const socket = SocketData();
   const emitEvent = useSocketEmit(socket);
 
   const wordThreshold = 10;
