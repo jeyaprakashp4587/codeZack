@@ -4,7 +4,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import Posts from '../components/Posts';
 import {useEffect} from 'react';
 import axios from 'axios';
-import Api from '../Api';
+import {Api} from '../Api';
 import {useData} from '../Context/Contexter';
 
 const PostViewer = () => {

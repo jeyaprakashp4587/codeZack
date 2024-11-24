@@ -9,7 +9,7 @@ import {
 import React, {useCallback, useEffect, useState} from 'react';
 import {Colors} from '../constants/Colors';
 import axios from 'axios';
-import Api from '../Api';
+import {profileApi} from '../Api';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
 
@@ -25,7 +25,7 @@ const Companies = () => {
   // get all companies name and logo
   const [companies, setCompanies] = useState([]);
   const getCompanyDetails = useCallback(async () => {
-    const res = await axios.get(`${Api}/InterView/getCompanyDetails`);
+    const res = await axios.get(`${profileApi}/InterView/getCompanyDetails`);
     if (res.status == 200) {
       //   console.log(res.data);
       setCompanies(res.data);

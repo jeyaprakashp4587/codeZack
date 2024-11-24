@@ -16,7 +16,7 @@ import axios from 'axios';
 import {useData} from '../Context/Contexter';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import RelativeTime from './RelativeTime';
-import Api from '../Api';
+import {Api} from '../Api';
 import moment from 'moment';
 import {useNavigation} from '@react-navigation/native';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';

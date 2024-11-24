@@ -28,7 +28,7 @@ import {
 } from 'firebase/storage';
 import {storage} from '../Firebase/Firebase';
 import axios from 'axios';
-import Api from '../Api';
+import {profileApi} from '../Api';
 
 import moment from 'moment';
 import useSocketEmit from '../Socket/useSocketEmit';
@@ -105,7 +105,7 @@ const Post = () => {
     setUploadIndi(true);
     if (postLink.current && postText.current) {
       try {
-        const res = await axios.post(`${Api}/Post/uploadPost`, {
+        const res = await axios.post(`${profileApi}/Post/uploadPost`, {
           userId: user?._id,
           Images: images,
           postText: postText.current,

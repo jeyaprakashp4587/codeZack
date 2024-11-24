@@ -31,7 +31,7 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import axios from 'axios';
-import Api from '../Api';
+import {loginApi} from '../Api';
 import SuggestionWapper from '../components/SuggestionWapper';
 import useSocketOn from '../Socket/useSocketOn';
 import Posts from '../components/Posts';
@@ -217,7 +217,9 @@ const Home = () => {
     setRefresh(true);
     try {
       setSuggestRefresh(true);
-      const res = await axios.post(`${Api}/Login/getUser`, {userId: user?._id});
+      const res = await axios.post(`${loginApi}/Login/getUser`, {
+        userId: user?._id,
+      });
       if (res.data) {
         setUser(res.data);
         setRefresh(false);
@@ -232,7 +234,7 @@ const Home = () => {
   const getConnectionPosts = useCallback(async () => {
     try {
       const res = await axios.get(
-        `${Api}/Post/getConnectionPosts/${user?._id}`,
+        `${loginApi}/Post/getConnectionPosts/${user?._id}`,
       );
       if (res.status === 200) {
         setPosts(res.data);
@@ -245,7 +247,7 @@ const Home = () => {
   const getNotifications = useCallback(async () => {
     try {
       const res = await axios.get(
-        `${Api}/Notifications/getNotifications/${user?._id}`,
+        `${loginApi}/Notifications/getNotifications/${user?._id}`,
       );
       if (res.status === 200) {
         const unseen = res.data.filter(notification => !notification.seen);
@@ -285,7 +287,9 @@ const Home = () => {
   const setProfilePic = useCallback(async () => {
     try {
       if (!user?.Images || !user?.Images?.profile) {
-        const res = await axios.post(`${Api}/Profile/setProfile/${user?._id}`);
+        const res = await axios.post(
+          `${loginApi}/Profile/setProfile/${user?._id}`,
+        );
         if (res.data) {
           setUser(res.data);
           // console.log(res.data);
@@ -335,9 +339,8 @@ const Home = () => {
   }, [closedIntrestAdd]);
   //
   const handleCheckIn = useCallback(async () => {
-    // setLoading(true);
+    showIntrestAdd();
     if (isDisabled) {
-      showIntrestAdd();
       ToastAndroid.show(
         'You have already checked in today.',
         ToastAndroid.SHORT,
@@ -471,7 +474,7 @@ const Home = () => {
             paddingHorizontal: 15,
             flexWrap: 'wrap',
           }}>
-          {/* <Text>
+          <Text>
             Intrest Ad Status: {loadedIntrestAdd ? 'Loaded' : 'Not Loaded'}
           </Text>
           <Text>
@@ -479,7 +482,7 @@ const Home = () => {
           </Text>
           <Text>
             Reward Ad Status: {loadedReward ? 'Loaded' : 'Not Loaded'}
-          </Text> */}
+          </Text>
           <Text
             style={{
               color: Colors.mildGrey,
@@ -592,7 +595,7 @@ const Home = () => {
             <Text
               style={[styles.ideaText, {fontSize: width * 0.017}]}
               numberOfLines={1}>
-              Career
+              Courses
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={courseNav} style={styles.ideaBox}>

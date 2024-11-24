@@ -25,7 +25,7 @@ import {
   faListDots,
 } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import Api from '../Api';
+import {functionApi} from '../Api';
 import Skeleton from '../Skeletons/Skeleton';
 import Ripple from 'react-native-material-ripple';
 import {useFocusEffect} from '@react-navigation/native';
@@ -56,9 +56,12 @@ const ChooseChallenge = ({navigation}) => {
       setLoading(true);
       setError(null);
       try {
-        const res = await axios.post(`${Api}/Challenges/getChallenges`, {
-          ChallengeTopic: ChallengeTopic,
-        });
+        const res = await axios.post(
+          `${functionApi}/Challenges/getChallenges`,
+          {
+            ChallengeTopic: ChallengeTopic,
+          },
+        );
         if (res.data) {
           const {newbieLevel, juniorLevel, expertLevel, legendLevel} = res.data;
           switch (level) {

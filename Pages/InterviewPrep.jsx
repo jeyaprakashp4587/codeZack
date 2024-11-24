@@ -16,7 +16,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import WebView from 'react-native-webview';
 import BannerAdd from '../Adds/BannerAdd';
 import axios from 'axios';
-import Api from '../Api';
+import {loginApi} from '../Api';
 import Actitivity from '../hooks/ActivityHook';
 
 const InterviewPrep = () => {
@@ -79,7 +79,7 @@ const InterviewPrep = () => {
       return;
     }
     try {
-      const response = await axios.post(`${Api}/InterView/submitTask`, {
+      const response = await axios.post(`${loginApi}/InterView/submitTask`, {
         userId: user?._id,
         companyName: selectedCompany?.company_name || selectedCompany,
       });

@@ -23,7 +23,7 @@ import TopicsText from '../utils/TopicsText';
 import Button from '../utils/Button';
 import PragraphText from '../utils/PragraphText';
 import axios from 'axios';
-import Api from '../Api';
+import {functionApi} from '../Api';
 import {faImage} from '@fortawesome/free-regular-svg-icons';
 import Ripple from 'react-native-material-ripple';
 import {
@@ -75,7 +75,7 @@ const ChallengeDetail = () => {
   const checkChallengeStatus = useCallback(async () => {
     try {
       const res = await axios.post(
-        `${Api}/Challenges/checkChallengeStatus/${user?._id}`,
+        `${functionApi}/Challenges/checkChallengeStatus/${user?._id}`,
         {
           ChallengeName:
             selectedChallenge?.ChallengeName || selectedChallenge?.title,
@@ -93,7 +93,7 @@ const ChallengeDetail = () => {
   const getParticularChallenge = useCallback(async () => {
     try {
       const res = await axios.post(
-        `${Api}/Challenges/getParticularChallenge/${user?._id}`,
+        `${functionApi}/Challenges/getParticularChallenge/${user?._id}`,
         {
           ChallengeName:
             selectedChallenge?.ChallengeName || selectedChallenge?.title,
@@ -159,7 +159,7 @@ const ChallengeDetail = () => {
     if (uploadForm.GitRepo && uploadForm.LiveLink && images.length > 0) {
       try {
         const res = await axios.post(
-          `${Api}/Challenges/uploadChallenge/${user?._id}`,
+          `${functionApi}/Challenges/uploadChallenge/${user?._id}`,
           {
             GitRepo: uploadForm.GitRepo,
             LiveLink: uploadForm.LiveLink,
@@ -200,7 +200,7 @@ const ChallengeDetail = () => {
 
   const handleUploadPost = async () => {
     try {
-      const res = await axios.post(`${Api}/Post/uploadPost`, {
+      const res = await axios.post(`${functionApi}/Post/uploadPost`, {
         userId: user?._id,
         Images: images,
         postText: postText[Math.floor(Math.random() * postText.length)],
@@ -228,7 +228,7 @@ const ChallengeDetail = () => {
     setStatusButtonToggle(true);
     setChallengeStatus('pending');
     try {
-      const res = await axios.post(`${Api}/Challenges/addChallenge`, {
+      const res = await axios.post(`${functionApi}/Challenges/addChallenge`, {
         userId: user._id,
         ChallengeName: chName,
         ChallengeType: selectedChallenge.technologies[0].name,

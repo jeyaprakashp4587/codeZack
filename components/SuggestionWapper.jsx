@@ -7,7 +7,7 @@ import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {faEye} from '@fortawesome/free-regular-svg-icons';
 import {LinearGradient} from 'react-native-linear-gradient';
 import ParagraphText from '../utils/PragraphText';
-import Api from '../Api';
+import {loginApi} from '../Api';
 import axios from 'axios';
 import {FlatList} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
@@ -21,7 +21,7 @@ const SuggestionWapper = ({trigger, refresh}) => {
   const {setSelectedUser, user} = useData();
   // show suggestion users
   async function userSuggestions() {
-    const res = await axios.get(`${Api}/Suggestions/users/${user._id}`);
+    const res = await axios.get(`${loginApi}/Suggestions/users/${user._id}`);
     if (res.data) setProfiles(res.data);
   }
   //

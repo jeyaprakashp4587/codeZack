@@ -19,7 +19,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {useData} from '../Context/Contexter';
 import {useNavigation} from '@react-navigation/native';
-import Api from '../Api';
+import {loginApi} from '../Api';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 const {width, height} = Dimensions.get('window');
 
@@ -59,7 +59,7 @@ const Login = () => {
     }
     return true;
   }, [form]);
-//update
+  //update
   const HandleLogin = useCallback(async () => {
     setActivityIndi(true);
     if (!validateForm()) {
@@ -68,7 +68,7 @@ const Login = () => {
     }
 
     try {
-      const {data} = await axios.post(`${Api}/LogIn/signIn`, form);
+      const {data} = await axios.post(`${loginApi}/LogIn/signIn`, form);
 
       if (data?.firstName) {
         await AsyncStorage.setItem('Email', data.Email);

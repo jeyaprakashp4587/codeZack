@@ -17,7 +17,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCode} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Ripple from 'react-native-material-ripple';
-import Api from '../Api';
+import {loginApi} from '../Api';
 import {Colors, font, pageView} from '../constants/Colors';
 import {useData} from '../Context/Contexter';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -107,7 +107,7 @@ const SignUp = ({navigation}) => {
     setActiloading(true);
     if (validateForm()) {
       try {
-        const response = await axios.post(`${Api}/LogIn/signUp`, formData);
+        const response = await axios.post(`${loginApi}/LogIn/signUp`, formData);
         if (response.data.message == 'SignUp Sucessfully') {
           ToastAndroid.show('Signup Successfully', ToastAndroid.BOTTOM);
           await AsyncStorage.setItem('Email', response.data.user.Email);

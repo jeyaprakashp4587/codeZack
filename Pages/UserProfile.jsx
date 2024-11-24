@@ -20,7 +20,7 @@ import Posts from '../components/Posts';
 import HrLine from '../utils/HrLine';
 import axios from 'axios';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import Api from '../Api';
+import {profileApi} from '../Api';
 import useSocketEmit from '../Socket/useSocketEmit';
 import moment from 'moment';
 import {SocketData} from '../Socket/SocketContext';
@@ -54,7 +54,7 @@ const UserProfile = () => {
   const getSelectedUser = useCallback(async () => {
     setLoading(false);
     try {
-      const res = await axios.post(`${Api}/Login/getUser`, {
+      const res = await axios.post(`${profileApi}/Login/getUser`, {
         userId: selectedUser,
       });
       if (res.data) {
@@ -71,10 +71,13 @@ const UserProfile = () => {
   // Find if the user is already a follower
   const findExistsFollower = useCallback(async () => {
     try {
-      const res = await axios.post(`${Api}/Following/findExistsConnection`, {
-        ConnectionId: selectedUser?._id,
-        userId: user?._id,
-      });
+      const res = await axios.post(
+        `${profileApi}/Following/findExistsConnection`,
+        {
+          ConnectionId: selectedUser?._id,
+          userId: user?._id,
+        },
+      );
       setExistsFollower(res.data === 'Yes');
     } catch (error) {
       console.error('Error checking follower:', error);
@@ -84,7 +87,7 @@ const UserProfile = () => {
   // Add follower
   const addFollower = useCallback(async () => {
     try {
-      const res = await axios.post(`${Api}/Following/addConnection`, {
+      const res = await axios.post(`${profileApi}/Following/addConnection`, {
         ConnectionId: selectedUser?._id,
         userId: user?._id,
       });
@@ -136,7 +139,7 @@ const UserProfile = () => {
     setShowNetWorkModel(true);
     if (selectedUser?.Connections?.length > 0) {
       const res = await axios.get(
-        `${Api}/Following/getNetworks/${selectedUser?._id}`,
+        `${profileApi}/Following/getNetworks/${selectedUser?._id}`,
       );
       if (res.status == 200) {
         setNetworksList(res.data);

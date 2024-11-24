@@ -12,7 +12,7 @@ import {
 import {Colors, pageView} from '../constants/Colors';
 import TopicsText from '../utils/TopicsText';
 import HrLine from '../utils/HrLine';
-import Api from '../Api';
+import {Api} from '../Api';
 import axios from 'axios';
 import {useData} from '../Context/Contexter';
 import RelativeTime from '../components/RelativeTime';

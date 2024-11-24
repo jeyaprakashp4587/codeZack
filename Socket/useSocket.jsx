@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import io from 'socket.io-client';
-import Api from '../Api';
+import {SocketApi} from '../Api';
 import {useData} from '../Context/Contexter';
 
 const useSocket = () => {
@@ -10,7 +10,7 @@ const useSocket = () => {
   useEffect(() => {
     if (!user || !user?._id) return; // Ensure user is available
 
-    const newSocket = io(Api, {query: {userId: user?._id}});
+    const newSocket = io(SocketApi, {query: {userId: user?._id}});
 
     setSocket(newSocket);
 

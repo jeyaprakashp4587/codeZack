@@ -14,7 +14,7 @@ import {LinearGradient} from 'react-native-linear-gradient';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCode} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import Api from '../Api';
+import {profileApi} from '../Api';
 import {ScrollView} from 'react-native';
 import {RefreshControl} from 'react-native';
 import BannerAdd from '../Adds/BannerAdd';
@@ -41,7 +41,7 @@ const YourCourses = () => {
   const HandleRemoveCourse = useCallback(
     async crName => {
       try {
-        const res = await axios.post(`${Api}/Courses/removeCourse`, {
+        const res = await axios.post(`${profileApi}/Courses/removeCourse`, {
           userId: user?._id,
           CourseName: crName,
         });

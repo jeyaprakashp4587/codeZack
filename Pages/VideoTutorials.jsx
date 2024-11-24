@@ -12,7 +12,7 @@ import {Colors, pageView} from '../constants/Colors';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import TopicsText from '../utils/TopicsText';
 import axios from 'axios';
-import Api from '../Api';
+import {Api} from '../Api';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import PragraphText from '../utils/PragraphText';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';

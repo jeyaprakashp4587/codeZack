@@ -37,7 +37,7 @@ import {
   uploadBytes,
 } from 'firebase/storage';
 import axios from 'axios';
-import Api from '../Api';
+import {profileApi} from '../Api';
 import Skeleton from '../Skeletons/Skeleton';
 import Posts from '../components/Posts';
 
@@ -103,7 +103,7 @@ const Profile = ({navigation}) => {
   );
   // upload to server
   const upload = useCallback(async (ImageUrl, ImageType) => {
-    const res = await axios.post(`${Api}/Profile/updateProfileImages`, {
+    const res = await axios.post(`${profileApi}/Profile/updateProfileImages`, {
       ImageUri: ImageUrl,
       ImageType: ImageType,
       userId: user?._id,
@@ -118,7 +118,9 @@ const Profile = ({navigation}) => {
   const refreshUser = async () => {
     setUploadIndicator(false);
     setRefControl(true);
-    const res = await axios.post(`${Api}/Login/getUser`, {userId: user?._id});
+    const res = await axios.post(`${profileApi}/Login/getUser`, {
+      userId: user?._id,
+    });
     if (res.data) {
       setUser(res.data);
       setRefControl(false);
@@ -150,7 +152,7 @@ const Profile = ({navigation}) => {
     setUploadActivityIndi(true);
     try {
       const response = await axios.post(
-        `${Api}/Profile/updateProfileData/${user?._id}`,
+        `${profileApi}/Profile/updateProfileData/${user?._id}`,
         {
           FirstName: firstName,
           LastName: lastName,

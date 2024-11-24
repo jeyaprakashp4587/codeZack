@@ -16,7 +16,7 @@ import HeadingText from '../utils/HeadingText';
 import TopicsText from '../utils/TopicsText';
 import PragraphText from '../utils/PragraphText';
 import axios from 'axios';
-import Api from '../Api';
+import {functionApi} from '../Api';
 import Actitivity from '../hooks/ActivityHook';
 import {useNavigation} from '@react-navigation/native';
 import BannerAdd from '../Adds/BannerAdd';
@@ -43,7 +43,7 @@ const CourseDetails = () => {
         navigation.navigate('learn');
 
         // Make the API request to add the course technology
-        const res = await axios.post(`${Api}/Courses/addTech`, {
+        const res = await axios.post(`${functionApi}/Courses/addTech`, {
           TechName: item.name,
           CourseName: selectedCourse.name,
           UserId: user?._id,

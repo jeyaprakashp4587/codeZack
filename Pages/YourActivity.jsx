@@ -12,7 +12,7 @@ import HeadingText from '../utils/HeadingText';
 import HrLine from '../utils/HrLine';
 import {Calendar} from 'react-native-calendars';
 import {useData} from '../Context/Contexter';
-import Api from '../Api';
+import {functionApi} from '../Api';
 import axios from 'axios';
 import TopicsText from '../utils/TopicsText';
 import moment from 'moment';
@@ -49,7 +49,7 @@ const YourActivity = () => {
   const getAllActivityDates = async () => {
     try {
       const res = await axios.post(
-        `${Api}/Activity/getAllActivityDates/${user?._id}`,
+        `${functionApi}/Activity/getAllActivityDates/${user?._id}`,
       );
       if (res.data) {
         setLoading(true);
@@ -73,7 +73,7 @@ const YourActivity = () => {
 
     try {
       const res = await axios.post(
-        `${Api}/Activity/getParticularDateActivities/${user?._id}`,
+        `${functionApi}/Activity/getParticularDateActivities/${user?._id}`,
         {Date: date},
       );
       if (res.data) {

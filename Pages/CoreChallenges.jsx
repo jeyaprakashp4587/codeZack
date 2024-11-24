@@ -12,7 +12,7 @@ import {useData} from '../Context/Contexter';
 import {Colors, pageView} from '../constants/Colors';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-import Api from '../Api';
+import {functionApi} from '../Api';
 import Skeleton from '../Skeletons/Skeleton';
 import {debounce} from 'lodash';
 import BannerAdd from '../Adds/BannerAdd';
@@ -28,7 +28,7 @@ const CoreChallenges = () => {
 
   const getChallenges = useCallback(async () => {
     try {
-      const res = await axios.post(`${Api}/Challenges/getChallenges`, {
+      const res = await axios.post(`${functionApi}/Challenges/getChallenges`, {
         ChallengeTopic: selectedChallengeTopic?.challengeName,
       });
       if (res.data) {

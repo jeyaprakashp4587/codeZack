@@ -24,7 +24,7 @@ import {faGooglePay} from '@fortawesome/free-brands-svg-icons/faGooglePay';
 import Ripple from 'react-native-material-ripple';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import axios from 'axios';
-import Api from '../Api';
+import {Api} from '../Api';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 import BannerAdd from '../Adds/BannerAdd';

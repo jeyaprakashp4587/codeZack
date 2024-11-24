@@ -12,7 +12,7 @@ import {Colors, pageView} from '../constants/Colors';
 import HeadingText from '../utils/HeadingText';
 import axios from 'axios';
 import {debounce} from 'lodash';
-import Api from '../Api';
+import {Api} from '../Api';
 import {FlatList} from 'react-native';
 import {Dimensions} from 'react-native';
 import Ripple from 'react-native-material-ripple';

@@ -11,7 +11,7 @@ import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Colors, pageView} from '../constants/Colors';
 import {useData} from '../Context/Contexter';
 import axios from 'axios';
-import Api from '../Api';
+import {loginApi} from '../Api';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import TopicsText from '../utils/TopicsText';
 import Skeleton from '../Skeletons/Skeleton';
@@ -36,7 +36,7 @@ const InterViewDetails = () => {
   // get particular company
   const [company, setCompany] = useState();
   const getParticularCompany = useCallback(async () => {
-    const res = await axios.post(`${Api}/InterView/getParticularCompany`, {
+    const res = await axios.post(`${loginApi}/InterView/getParticularCompany`, {
       // selectedcompany in initlaly have company name then its have whole compant data
       companyName: selectedCompany || selectedCompany?.company_name,
     });
@@ -58,7 +58,7 @@ const InterViewDetails = () => {
   const handleAddInterview = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await axios.post(`${Api}/InterView/addInterView`, {
+      const res = await axios.post(`${loginApi}/InterView/addInterView`, {
         companyName: selectedCompany?.company_name || selectedCompany,
         userId: user?._id,
       });

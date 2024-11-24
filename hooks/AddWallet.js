@@ -2,7 +2,6 @@ import axios from 'axios';
 import Api from '../Api';
 
 const AddWallet = async (userId, price, setUser) => {
-  console.log(userId, price);
   try {
     const res = await axios.post(`${Api}/Wallet/AddWallet/${userId}`, {
       Price: price,

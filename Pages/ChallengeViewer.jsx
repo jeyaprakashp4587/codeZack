@@ -11,7 +11,7 @@ import {
 
 import {useData} from '../Context/Contexter';
 import axios from 'axios';
-import Api from '../Api';
+import {functionApi} from '../Api';
 import TopicsText from '../utils/TopicsText';
 import {Colors, pageView} from '../constants/Colors';
 import WebView from 'react-native-webview';
@@ -26,7 +26,7 @@ const ChallengeViewer = () => {
   const fallbackURL = {uri: 'https://example.com'}; // Replace with your dummy URL
   const getChallenge = async () => {
     const res = await axios.get(
-      `${Api}/Challenges/getCompletedChallenge/${user?._id}/${selectedChallenge?.title}`,
+      `${functionApi}/Challenges/getCompletedChallenge/${user?._id}/${selectedChallenge?.title}`,
     );
     if (res.data) {
       setChallenge(res.data);

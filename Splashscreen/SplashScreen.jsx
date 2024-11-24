@@ -16,7 +16,7 @@ import {useEffect} from 'react';
 import {useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import Api from '../Api';
+import {loginApi} from '../Api';
 import {useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
 
@@ -31,7 +31,7 @@ const SplashScreen = () => {
     try {
       const email = await AsyncStorage.getItem('Email');
       if (email) {
-        const response = await axios.post(`${Api}/LogIn/splash`, {
+        const response = await axios.post(`${loginApi}/LogIn/splash`, {
           Email: email,
         });
 

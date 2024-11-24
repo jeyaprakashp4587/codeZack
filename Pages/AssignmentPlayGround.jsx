@@ -1,6 +1,6 @@
 import React, {useState, useMemo, useCallback, useEffect} from 'react';
 import TopicsText from '../utils/TopicsText';
-import Api from '../Api';
+import {functionApi} from '../Api';
 import {useData} from '../Context/Contexter';
 import axios from 'axios';
 import {
@@ -76,7 +76,7 @@ const AssignmentPlayGround = () => {
     async (ChallengeTopic, level) => {
       try {
         const res = await axios.get(
-          `${Api}/Assignment/getAssignments/${ChallengeTopic}`,
+          `${functionApi}/Assignment/getAssignments/${ChallengeTopic}`,
         );
         if (res.data) {
           const {easy, medium, hard} = res.data;
@@ -156,7 +156,7 @@ const AssignmentPlayGround = () => {
 
     try {
       const res = await axios.post(
-        `${Api}/Assignment/saveAssignment/${user?._id}`,
+        `${functionApi}/Assignment/saveAssignment/${user?._id}`,
         {
           AssignmentType: assignmentType,
           point: score,
