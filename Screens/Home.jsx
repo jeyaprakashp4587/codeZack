@@ -348,7 +348,7 @@ const Home = () => {
     const now = moment().toISOString();
     await AsyncStorage.setItem('lastCheckIn', now);
     const result = await AddWallet(user?._id, 1, setUser);
-    if (result === 'ok') {
+    if (result == 'ok') {
       ToastAndroid.show('You earned 1 rupee!', ToastAndroid.SHORT);
       setIsDisabled(true);
     } else {
@@ -500,7 +500,6 @@ const Home = () => {
               <Ripple
                 onPress={() => handleCheckIn()}
                 style={{
-                  // backgroundColor: '#457b9d',
                   borderRadius: 10,
                   flexDirection: 'row',
                   alignItems: 'center',
@@ -509,6 +508,7 @@ const Home = () => {
                   borderColor: '#3d405b',
                   height: height * 0.03,
                   paddingHorizontal: 10,
+                  justifyContent: 'center',
                 }}>
                 <Text
                   style={{
@@ -521,7 +521,13 @@ const Home = () => {
                 {isDisabled ? (
                   <Feather name="check" color="#3d405b" />
                 ) : (
-                  <Text></Text>
+                  <View
+                    style={{
+                      width: 5,
+                      height: 5,
+                      backgroundColor: 'red',
+                      borderRadius: 10,
+                    }}></View>
                 )}
               </Ripple>
             </Animated.View>
@@ -741,13 +747,13 @@ const Home = () => {
             onPress={() => handleScrollToTop()}
             style={{
               backgroundColor: Colors.violet,
-              width: width * 0.18,
+              width: width * 0.16,
               height: height * 0.08,
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: 50,
-              borderWidth: 5,
+              borderWidth: 3,
               borderColor: 'white',
             }}>
             <AntDesign name="totop" size={15} color="white" />
