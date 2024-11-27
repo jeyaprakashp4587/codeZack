@@ -40,7 +40,7 @@ const SelectedCourse = ({navigation}) => {
       });
 
       // Check if the response contains user data (Email field presence indicates success)
-      if (res.data.Email) {
+      if (res.status === 200) {
         // Update user data and show success alert
         setLoading(false);
         await AddWallet(user?._id, 2, setUser);
@@ -48,7 +48,7 @@ const SelectedCourse = ({navigation}) => {
           'Course added sucessfully and earned Rs:2',
           ToastAndroid.SHORT,
         );
-        setUser(res.data);
+        setUser(prev => ({...prev, Courses: res.data.courses}));
         try {
           Actitivity(user?._id, `${selectedCourse.name} Added`);
         } catch (error) {

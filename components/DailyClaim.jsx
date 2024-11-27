@@ -11,12 +11,12 @@ import AddWallet from '../hooks/AddWallet';
 import {useData} from '../Context/Contexter';
 import {Colors} from '../constants/Colors';
 import {debounce} from 'lodash';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const DailyClaim = () => {
   const {width, height} = Dimensions.get('window');
   const {user, setUser} = useData();
   const shakeInterpolation = useShakeAnimation(3000);
-
   // States for timer and button
   const [isDisabled, setIsDisabled] = useState(false); // Initially disabled
   const [timer, setTimer] = useState(30); // 30-second timer on mount
@@ -53,9 +53,6 @@ const DailyClaim = () => {
       interval = setInterval(() => {
         setTimer(prev => prev - 1);
       }, 1000);
-    } else {
-      setIsDisabled(true); // Enable the button when timer ends
-      clearInterval(interval);
     }
     return () => clearInterval(interval);
   }, [timer]);
@@ -78,12 +75,17 @@ const DailyClaim = () => {
   useFocusEffect(debouncedFunctions);
   // Handle claim action
   const handleCheckIn = useCallback(async () => {
-    await showIntrestAdd();
+    // return the timer is loading
+    if (timer > 0) {
+      ToastAndroid.show('Please wait time is loading', ToastAndroid.SHORT);
+      return;
+    }
+    showIntrestAdd();
+    // reutn the add, if user alrady cjecked in today
     if (isDisabled) {
       ToastAndroid.show('You have already checked', ToastAndroid.SHORT);
       return;
     }
-
     if (!loadedIntrestAdd) {
       ToastAndroid.show(
         'Ad is still loading. Please wait.',
@@ -91,10 +93,8 @@ const DailyClaim = () => {
       );
       return;
     }
-
     const now = moment().toISOString();
     await AsyncStorage.setItem('lastCheckIn', now);
-
     const result = await AddWallet(user?._id, 1, setUser);
     if (result === 'ok') {
       await showIntrestAdd();
@@ -112,7 +112,6 @@ const DailyClaim = () => {
       }}>
       <Ripple
         onPress={handleCheckIn}
-        disabled={!isDisabled}
         style={{
           borderRadius: 10,
           flexDirection: 'row',
@@ -123,7 +122,7 @@ const DailyClaim = () => {
           height: height * 0.03,
           paddingHorizontal: 10,
           justifyContent: 'center',
-          backgroundColor: !isDisabled ? Colors.veryLightGrey : '#fff',
+          backgroundColor: 'white',
         }}>
         <Text
           style={{
@@ -131,13 +130,10 @@ const DailyClaim = () => {
             letterSpacing: 2,
             fontSize: width * 0.02,
           }}>
-          {!isDisabled ? `Daily Check In (Wait ${timer}s)` : 'Daily Check In'}
+          Daily check in {!isDisabled && timer > 0 ? timer : ''}
         </Text>
-        {!isDisabled ? (
-          <Feather name="clock" color="red" />
-        ) : (
-          <Feather name="check" color="#3d405b" />
-        )}
+        {isDisabled && <Feather name={'check'} color={Colors.mildGrey} />}
+        {!isDisabled && <Entypo name={'dot-single'} color="red" size={20} />}
       </Ripple>
     </Animated.View>
   );

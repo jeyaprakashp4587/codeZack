@@ -50,8 +50,8 @@ const CourseDetails = () => {
         });
 
         // Check the response
-        if (res.data.Email) {
-          setUser(res.data);
+        if (res.status === 200) {
+          setUser(prev => ({...prev, Courses: res.data.Tech}));
           ToastAndroid.show(
             'Technology Added Successfully',
             ToastAndroid.BOTTOM,

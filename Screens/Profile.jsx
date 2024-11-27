@@ -108,8 +108,11 @@ const Profile = ({navigation}) => {
       ImageType: ImageType,
       userId: user?._id,
     });
-    if (res.data.Email) {
-      setUser(res.data);
+    if (res.data === 200) {
+      setUser(prev => ({
+        ...prev,
+        Images: res.data.data, // Update only the Images part in your state
+      }));
       setUploadIndicator(false);
     }
   }, []);
@@ -159,8 +162,13 @@ const Profile = ({navigation}) => {
           Bio: bio,
         },
       );
-      if (response.data) {
-        setUser(response.data);
+      if (response.status == 200) {
+        setUser(prev => ({
+          ...prev,
+          firstName: response.data.firstName,
+          LastName: response.data.LastName,
+          Bio: response.data.Bio,
+        }));
         setAboutUpdate(false); // close the modal after update
       }
     } catch (error) {

@@ -1,50 +1,79 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Dimensions, ToastAndroid} from 'react-native';
-
 import {WebView} from 'react-native-webview';
-import {Colors, pageView} from '../constants/Colors';
+import {Colors} from '../constants/Colors';
 import HeadingText from '../utils/HeadingText';
 import {useData} from '../Context/Contexter';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Skeleton from '../Skeletons/Skeleton';
 import BannerAdd from '../Adds/BannerAdd';
 import AddWallet from '../hooks/AddWallet';
+import {useIsFocused} from '@react-navigation/native';
+import axios from 'axios';
+import {profileApi} from '../Api';
 
 const {width, height} = Dimensions.get('window');
 
 const LearnPage = () => {
   const {selectedTechnology, user, setUser} = useData();
-  // time
-  const [hours, setHours] = useState(1);
+
+  // Timer states
+  const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
+
+  // Timer logic
   useEffect(() => {
-    let interval = null;
-
-    if (hours > 0 || minutes > 0 || seconds > 0) {
-      interval = setInterval(() => {
-        if (seconds > 0) {
-          setSeconds(prevSeconds => prevSeconds - 1);
-        } else if (minutes > 0) {
-          setMinutes(prevMinutes => prevMinutes - 1);
-          setSeconds(59);
-        } else if (hours > 0) {
-          setHours(prevHours => prevHours - 1);
-          setMinutes(59);
-          setSeconds(59);
-        }
-
-        // Check if the timer has just gone below 15 minutes
-        if (minutes === 15 && seconds === 0) {
-          AddWallet(user?._id, 5, setUser).then(() => {
-            ToastAndroid.show('Congrats! You earned Rs:5', ToastAndroid.SHORT);
+    const interval = setInterval(() => {
+      setSeconds(prevSeconds => {
+        if (prevSeconds === 59) {
+          setMinutes(prevMinutes => {
+            if (prevMinutes === 59) {
+              setHours(prevHours => prevHours + 1);
+              return 0;
+            }
+            return prevMinutes + 1;
           });
+          return 0;
         }
-      }, 1000);
-    }
+        return prevSeconds + 1;
+      });
 
-    return () => clearInterval(interval);
+      // Reward logic: Reward user every 15 minutes
+      if (minutes === 15 && seconds === 0) {
+        AddWallet(user?._id, 5, setUser).then(() => {
+          ToastAndroid.show('Congrats! You earned Rs:5', ToastAndroid.SHORT);
+        });
+      }
+    }, 1000);
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
+  }, [minutes, seconds]);
+
+  // Detect when the screen becomes inactive
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    if (!isFocused) {
+      sendSpendTime(); // Send time to the server
+    }
+  }, [isFocused]);
+
+  // Function to send total time (in minutes) to the server
+  const sendSpendTime = useCallback(async () => {
+    const totalMinutes = hours * 60 + minutes + Math.floor(seconds / 60); // Convert time to total minutes
+    try {
+      const res = await axios.post(`${profileApi}/Wallet/saveSpendTime`, {
+        userId: user?._id,
+        Time: totalMinutes,
+      });
+      if (res.status == 200) {
+        res.status(200).json({data: user?.TotalStudyTime});
+        setUser(prev => ({...prev, TotalStudyTime: res.data.data}));
+      }
+      // console.log('Time sent to server:', totalMinutes, res.data);
+    } catch (error) {
+      // console.error('Error sending time to server:', error);
+    }
   }, [hours, minutes, seconds]);
 
   return (
@@ -58,13 +87,9 @@ const LearnPage = () => {
             color={Colors.mildGrey}
           />
           <View style={styles.timerContainer}>
-            <MaterialCommunityIcons
-              name="timer-outline"
-              size={width * 0.06}
-              color={Colors.mildGrey}
-            />
             <Text style={styles.timerText}>
-              {hours}:{minutes < 10 ? `0${minutes}` : minutes}:
+              {hours < 10 ? `0${hours}` : hours}:
+              {minutes < 10 ? `0${minutes}` : minutes}:
               {seconds < 10 ? `0${seconds}` : seconds}
             </Text>
           </View>
@@ -91,7 +116,6 @@ export default React.memo(LearnPage);
 
 const styles = StyleSheet.create({
   container: {
-    // paddingHorizontal: width * 0.05,
     backgroundColor: 'white',
     flex: 1,
   },

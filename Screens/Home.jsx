@@ -95,7 +95,7 @@ const Home = () => {
   useEffect(() => {
     const showInterval = setInterval(() => {
       if (loadedReward) {
-        showReward();
+        // showReward();/
       }
     }, 3 * 60 * 1000); // 3 minutes
 
@@ -265,9 +265,8 @@ const Home = () => {
         const res = await axios.post(
           `${loginApi}/Profile/setProfile/${user?._id}`,
         );
-        if (res.data) {
-          setUser(res.data);
-          // console.log(res.data);
+        if (res.status === 200) {
+          setUser(prev => ({...prev, Images: res.data.Images}));
         }
       }
     } catch (error) {

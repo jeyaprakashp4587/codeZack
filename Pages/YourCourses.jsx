@@ -46,8 +46,8 @@ const YourCourses = () => {
           CourseName: crName,
         });
 
-        if (res.data.Email) {
-          setUser(res.data);
+        if (res.status === 200) {
+          setUser(prev => ({...prev, Courses: res.data.course}));
         }
       } catch (error) {
         console.error('Error removing course:', error);

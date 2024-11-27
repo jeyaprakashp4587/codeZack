@@ -15,32 +15,92 @@ import {useData} from '../Context/Contexter';
 import AddWallet from '../hooks/AddWallet';
 
 const Task = () => {
-  // Memoized array of tasks with default status as 'pending'
+  const {user, setUser} = useData();
+  // Memoized array of tasks with default Process as 'pending'
   const TasksData = useMemo(
     () => [
-      {Content: 'Claim Daily Check In for 7 Days', Status: 'pending'},
-      {Content: 'Enroll any 3 courses', Status: 'pending'},
-      {Content: 'Enroll 4 technologies', Status: 'pending'},
-      {Content: 'Spend 45 minutes in study area', Status: 'pending'},
-      {Content: 'Connect 20 friends with you', Status: 'pending'},
-      {Content: 'Complete 15 Challenges', Status: 'pending'},
-      {Content: 'Complete & Pass 2 Assignments', Status: 'pending'},
+      {
+        Content: `Claim Daily Check In for 15 Days`,
+        Status: 'pending',
+        Process: {
+          endLine: 15,
+          Process: user?.DailyCalimStreak,
+        },
+      },
+      {
+        Content: 'Enroll any 3 courses',
+        Status: 'pending',
+        Process: {
+          endLine: 3,
+          Process: user?.Courses?.length,
+        },
+      },
+      {
+        Content: 'Enroll 4 technologies',
+        Status: 'pending',
+        Process: {
+          endLine: 4,
+          Process: user?.Courses?.length,
+        },
+      },
+      {
+        Content: 'Spend 100 minutes in study area',
+        Status: 'pending',
+        Process: {
+          endLine: 100,
+          Process: user?.TotalStudyTime,
+        },
+      },
+      {
+        Content: 'Connect 20 friends with you',
+        Status: 'pending',
+        Process: {
+          endLine: 20,
+          Process: user?.Connections?.length,
+        },
+      },
+      {
+        Content: 'Complete 15 Challenges',
+        Status: 'pending',
+        Process: {
+          endLine: 15,
+          Process: user?.DailyCalimStreak,
+        },
+      },
+      {
+        Content: 'Complete & Pass 2 Assignments',
+        Status: 'pending',
+        Process: {
+          endLine: 5,
+          Process: user?.Assignments?.flatMap(assignMent =>
+            assignMent.AssignmentLevel.filter(level => level.point >= 10),
+          )?.length,
+        },
+      },
       {
         Content: 'Select one interview preparation and complete it',
         Status: 'pending',
+        Process: {
+          endLine: 1,
+          Process: user?.InterView?.filter(comp => comp.currentWeek >= 6)
+            ?.length,
+        },
       },
     ],
     [], // No dependencies, so the array is only initialized once
   );
 
   // Retrieve user data (assumed to contain information about the user's progress)
-  const {user, setUser} = useData();
 
   // A boolean flag to determine if all validations pass
   let valid = true;
 
   // Function to validate all tasks based on user data
   const validAllTasks = () => {
+    // check if user has claimed 15 days
+    if (user?.DailyCalimStreak > 14) {
+      TasksData[0].Status = 'completed';
+    }
     // Check if the user has enrolled in at least 3 courses
     if (user?.Courses.length >= 3) {
       TasksData[1].Status = 'completed'; // Update task 2 to 'completed'
@@ -48,12 +108,17 @@ const Task = () => {
     } else {
       valid = false; // Mark as invalid if the condition is not met
     }
-
+    // check if user has reach study time of  task time
+    if (user?.TotalStudyTime >= 100) {
+      TasksData[3].Status = 'completed';
+    } else {
+      valid = false;
+    }
     // Check if the user has completed at least 15 challenges
     if (user?.Challenges >= 15) {
       // Filter challenges to find those that are not 'pending'
       const completedChallenge = user?.Challenges?.filter(
-        ch => ch?.status !== 'pending',
+        ch => ch?.Process !== 'pending',
       );
       if (completedChallenge?.length >= 15) {
         TasksData[5].Status = 'completed'; // Update task 6 to 'completed'
@@ -147,7 +212,9 @@ const Task = () => {
         </Text>
       </View>
       {/* Task list */}
-      <ScrollView style={{paddingHorizontal: 15}}>
+      <ScrollView
+        style={{paddingHorizontal: 15, paddingTop: 20}}
+        showsVerticalScrollIndicator={false}>
         {TasksData.map((item, index) => (
           <View
             key={index}
@@ -158,20 +225,30 @@ const Task = () => {
               elevation: 2,
               backgroundColor: 'white',
               borderRadius: 5,
-              flexDirection: 'row',
               borderWidth: 1,
               borderColor: 'white',
-              alignItems: 'center',
-              justifyContent: 'space-between',
             }}>
-            <Text style={{color: Colors.mildGrey, letterSpacing: 1.5}}>
-              {item.Content}
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+              }}>
+              <Text style={{color: Colors.mildGrey, letterSpacing: 1.5}}>
+                {item.Content}
+              </Text>
+              <Feather
+                name="check-circle"
+                size={20}
+                color={item.Status == 'pending' ? Colors.lightGrey : 'green'}
+              />
+            </View>
+            <Text style={{textAlign: 'right', letterSpacing: 2}}>
+              {item.Process.Process}/
+              <Text style={{color: Colors.violet, fontWeight: '600'}}>
+                {item.Process.endLine}
+              </Text>
             </Text>
-            <Feather
-              name="check-circle"
-              size={20}
-              color={item.Status == 'pending' ? Colors.veryDarkGrey : 'green'}
-            />
           </View>
         ))}
         {/* claim button */}
@@ -184,6 +261,7 @@ const Task = () => {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
+            marginBottom: 20,
           }}>
           <Text style={{textAlign: 'center', letterSpacing: 2, color: 'white'}}>
             Claim Reward

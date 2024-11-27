@@ -163,11 +163,8 @@ const AssignmentPlayGround = () => {
           level: difficultyInfo,
         },
       );
-
-      // console.log('API response:', res.data);
-
-      if (res.data.Email) {
-        setUser(res.data);
+      if (res.status === 200) {
+        setUser(prev => ({...prev, Assignments: res.data.Assignments}));
         try {
           Actitivity(
             user?._id,
