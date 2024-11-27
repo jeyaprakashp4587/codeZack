@@ -24,7 +24,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import HomeSkeleton from '../Skeletons/HomeSkeleton';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBell, faMessage} from '@fortawesome/free-regular-svg-icons';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
 import {LinearGradient} from 'react-native-linear-gradient';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
@@ -39,19 +39,14 @@ import {debounce} from 'lodash';
 import {SocketData} from '../Socket/SocketContext';
 import BannerAdd from '../Adds/BannerAdd';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import Ripple from 'react-native-material-ripple';
-import moment from 'moment';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import AddWallet from '../hooks/AddWallet';
 import useShakeAnimation from '../hooks/useShakeAnimation';
 import PragraphText from '../utils/PragraphText';
 import Companies from '../components/Companies';
-import AddModel from '../Adds/AddModel';
 import Tasks from '../components/Tasks';
 import Carousel from 'react-native-reanimated-carousel';
+import DailyClaim from '../components/DailyClaim';
 // import usehook for show adds
 import {
-  useInterstitialAd,
   TestIds,
   useAppOpenAd,
   useRewardedAd,
@@ -71,7 +66,7 @@ const Home = () => {
   const shakeInterpolation = useShakeAnimation(3000);
   const socket = SocketData();
   const [refresh, setRefresh] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
+
   // scroll to top
   const scrollViewRef = useRef(null);
   const [scrollToTop, setScrollToTop] = useState(false);
@@ -115,19 +110,7 @@ const Home = () => {
       loadReward();
     }
   }, [closedReward, loadReward]);
-  // config intrestial add
-  const {
-    show: showIntrestAdd,
-    isLoaded: loadedIntrestAdd,
-    load: loadIntrestAdd,
-    isClosed: closedIntrestAdd,
-    isShowing: showingIntrestAdd,
-  } = useInterstitialAd(
-    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/2804627935',
-    {
-      requestNonPersonalizedAdsOnly: true,
-    },
-  );
+
   // Hook to manage app open ad state
   const {
     show: showAppopen,
@@ -275,14 +258,6 @@ const Home = () => {
     });
   }, []);
   // ---
-  const debouncedFunctions = useCallback(
-    debounce(() => {
-      checkButtonStatus();
-    }, 300), // 300 ms debounce delay, adjust as needed
-    [],
-  );
-
-  useFocusEffect(debouncedFunctions);
 
   const setProfilePic = useCallback(async () => {
     try {
@@ -317,61 +292,6 @@ const Home = () => {
   const assignmentNav = useCallback(() => {
     debounceNavigation('Assignments');
   }, []);
-  // this is for check day
-  const checkButtonStatus = async () => {
-    const lastCheckIn = await AsyncStorage.getItem('lastCheckIn');
-    if (lastCheckIn) {
-      const lastCheckInDate = moment(lastCheckIn);
-      const now = moment();
-      setIsDisabled(lastCheckInDate.isSame(now, 'day'));
-    }
-  };
-  // implement intrestitial add
-  useEffect(() => {
-    loadIntrestAdd();
-    // console.log('loading add');
-  }, [loadIntrestAdd]);
-  useEffect(() => {
-    if (closedIntrestAdd) {
-      loadIntrestAdd();
-      // console.log('loading next add');
-    }
-  }, [closedIntrestAdd]);
-  //
-  const handleCheckIn = useCallback(async () => {
-    await showIntrestAdd();
-    //
-    //  close
-    if (isDisabled) {
-      ToastAndroid.show(
-        'You have already checked in today.',
-        ToastAndroid.SHORT,
-      );
-      return;
-    }
-    const now = moment().toISOString();
-    await AsyncStorage.setItem('lastCheckIn', now);
-    const result = await AddWallet(user?._id, 1, setUser);
-    if (result == 'ok') {
-      showIntrestAdd();
-      ToastAndroid.show('You earned 1 rupee!', ToastAndroid.SHORT);
-      const response = await axios.post(
-        `${profileApi}/Wallet/increaseClaimstreak`,
-        {
-          userId: user?._id,
-        },
-      );
-      if (response.status == 200) {
-        setUser(prev => ({
-          ...prev,
-          DailyCalimStreak: response?.data?.dailyStreak,
-        }));
-      }
-      setIsDisabled(true);
-    } else {
-      ToastAndroid.show('Failed to add to wallet.', ToastAndroid.SHORT);
-    }
-  }, [isDisabled, user, setUser]);
 
   // render ui after load
   if (!UiLoading) return <HomeSkeleton />;
@@ -488,18 +408,6 @@ const Home = () => {
             paddingHorizontal: 15,
             flexWrap: 'wrap',
           }}>
-          <View>
-            <Text>{user?.DailyCalimStreak}</Text>
-            <Text style={{fontSize: width * 0.01}}>
-              Intrest Ad Status: {loadedIntrestAdd ? 'Loaded' : 'Not Loaded'}
-            </Text>
-            <Text style={{fontSize: width * 0.01}}>
-              AppOpen Ad Status: {loadedAppOpen ? 'Loaded' : 'Not Loaded'}
-            </Text>
-            <Text style={{fontSize: width * 0.01}}>
-              Reward Ad Status: {loadedReward ? 'Loaded' : 'Not Loaded'}
-            </Text>
-          </View>
           <Text
             style={{
               color: Colors.mildGrey,
@@ -513,45 +421,7 @@ const Home = () => {
           </Text>
           <View
             style={{flexDirection: 'row', alignItems: 'center', columnGap: 10}}>
-            <Animated.View
-              style={{
-                transform: [{translateX: isDisabled ? 0 : shakeInterpolation}],
-              }}>
-              <Ripple
-                onPress={() => handleCheckIn()}
-                style={{
-                  borderRadius: 10,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  columnGap: 5,
-                  borderWidth: 1,
-                  borderColor: '#3d405b',
-                  height: height * 0.03,
-                  paddingHorizontal: 10,
-                  justifyContent: 'center',
-                }}>
-                <Text
-                  style={{
-                    color: '#14213d',
-                    letterSpacing: 2,
-                    fontSize: width * 0.02,
-                  }}>
-                  Daily Check in
-                </Text>
-                {isDisabled ? (
-                  <Feather name="check" color="#3d405b" />
-                ) : (
-                  <View
-                    style={{
-                      width: 5,
-                      height: 5,
-                      backgroundColor: 'red',
-                      borderRadius: 10,
-                    }}></View>
-                )}
-              </Ripple>
-            </Animated.View>
-
+            <DailyClaim />
             <Pressable
               style={{position: 'relative'}}
               onPress={() => navigation.navigate('notifications')}>
