@@ -24,11 +24,11 @@ const Challenge = ({navigation}) => {
     () => [
       {
         ChallengeName: 'Web Development',
-        bgColor: '#284b63',
+        bgColor: '#22c1c3',
       },
       {
         ChallengeName: 'App Development',
-        bgColor: '#6b9080',
+        bgColor: '#e15c5c',
       },
     ],
     [],
@@ -36,17 +36,17 @@ const Challenge = ({navigation}) => {
   const CoreChallenges = useMemo(() => [
     {
       challengeName: 'Java',
-      color: '#f4a261',
+      color: '#ff6600',
       web: 'https://www.programiz.com/java-programming/online-compiler/',
     },
     {
       challengeName: 'Python',
-      color: '#2a9d8f',
+      color: '#3399ff',
       web: 'https://www.programiz.com/python-programming/online-compiler/',
     },
     {
       challengeName: 'C++',
-      color: '#264653',
+      color: '#0066ff',
       web: 'https://www.programiz.com/cpp-programming/online-compiler/',
     },
   ]);
@@ -86,7 +86,7 @@ const Challenge = ({navigation}) => {
             key={index}
             style={{
               width: '100%',
-              backgroundColor: 'white',
+              backgroundColor: item.bgColor,
               borderWidth: 1,
               borderColor: item.bgColor,
               height: 100,
@@ -99,8 +99,9 @@ const Challenge = ({navigation}) => {
             }}>
             <PragraphText
               text={item.ChallengeName}
-              fsize={width * 0.03}
-              color={item.bgColor}
+              fsize={width * 0.04}
+              color="white"
+              fweight={600}
             />
           </TouchableOpacity>
         ))}
@@ -125,7 +126,7 @@ const Challenge = ({navigation}) => {
               onPress={() => handleCoreChallenge(item)}
               style={{
                 width: '100%',
-                backgroundColor: 'white',
+                backgroundColor: item.color,
                 borderWidth: 1,
                 borderColor: item.color,
                 height: 100,
@@ -140,7 +141,8 @@ const Challenge = ({navigation}) => {
               <PragraphText
                 text={item.challengeName}
                 fsize={width * 0.03}
-                color={item.color}
+                color="white"
+                fweight={600}
               />
             </TouchableOpacity>
           )}
@@ -153,9 +155,9 @@ const Challenge = ({navigation}) => {
           navigation.navigate('yourchallenges');
         }}
         style={{
-          backgroundColor: 'white',
+          backgroundColor: '#f1f1f1',
           borderWidth: 1,
-          borderColor: '#457b9d',
+          borderColor: '#f1f1f1',
           height: 100,
           justifyContent: 'center',
           alignItems: 'center',
