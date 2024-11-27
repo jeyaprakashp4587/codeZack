@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Api from '../Api';
+import {Api} from '../Api';
 
 const AddWallet = async (userId, price, setUser) => {
   try {

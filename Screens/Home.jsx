@@ -31,7 +31,7 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import axios from 'axios';
-import {loginApi} from '../Api';
+import {loginApi, profileApi} from '../Api';
 import SuggestionWapper from '../components/SuggestionWapper';
 import useSocketOn from '../Socket/useSocketOn';
 import Posts from '../components/Posts';
@@ -339,7 +339,9 @@ const Home = () => {
   }, [closedIntrestAdd]);
   //
   const handleCheckIn = useCallback(async () => {
-    showIntrestAdd();
+    await showIntrestAdd();
+    //
+    //  close
     if (isDisabled) {
       ToastAndroid.show(
         'You have already checked in today.',
@@ -347,12 +349,24 @@ const Home = () => {
       );
       return;
     }
-    showIntrestAdd();
     const now = moment().toISOString();
     await AsyncStorage.setItem('lastCheckIn', now);
     const result = await AddWallet(user?._id, 1, setUser);
     if (result == 'ok') {
+      showIntrestAdd();
       ToastAndroid.show('You earned 1 rupee!', ToastAndroid.SHORT);
+      const response = await axios.post(
+        `${profileApi}/Wallet/increaseClaimstreak`,
+        {
+          userId: user?._id,
+        },
+      );
+      if (response.status == 200) {
+        setUser(prev => ({
+          ...prev,
+          DailyCalimStreak: response?.data?.dailyStreak,
+        }));
+      }
       setIsDisabled(true);
     } else {
       ToastAndroid.show('Failed to add to wallet.', ToastAndroid.SHORT);
@@ -474,15 +488,18 @@ const Home = () => {
             paddingHorizontal: 15,
             flexWrap: 'wrap',
           }}>
-          <Text>
-            Intrest Ad Status: {loadedIntrestAdd ? 'Loaded' : 'Not Loaded'}
-          </Text>
-          <Text>
-            AppOpen Ad Status: {loadedAppOpen ? 'Loaded' : 'Not Loaded'}
-          </Text>
-          <Text>
-            Reward Ad Status: {loadedReward ? 'Loaded' : 'Not Loaded'}
-          </Text>
+          <View>
+            <Text>{user?.DailyCalimStreak}</Text>
+            <Text style={{fontSize: width * 0.01}}>
+              Intrest Ad Status: {loadedIntrestAdd ? 'Loaded' : 'Not Loaded'}
+            </Text>
+            <Text style={{fontSize: width * 0.01}}>
+              AppOpen Ad Status: {loadedAppOpen ? 'Loaded' : 'Not Loaded'}
+            </Text>
+            <Text style={{fontSize: width * 0.01}}>
+              Reward Ad Status: {loadedReward ? 'Loaded' : 'Not Loaded'}
+            </Text>
+          </View>
           <Text
             style={{
               color: Colors.mildGrey,

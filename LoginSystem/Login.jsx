@@ -21,6 +21,7 @@ import {useData} from '../Context/Contexter';
 import {useNavigation} from '@react-navigation/native';
 import {loginApi} from '../Api';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import FastImage from 'react-native-fast-image';
 const {width, height} = Dimensions.get('window');
 
 const Login = () => {
@@ -105,7 +106,6 @@ const Login = () => {
               Welcome To Code Campus, Growth Your Career From Here
             </Text>
           </View>
-
           <View style={styles.inputsWrapper}>
             <TextInput
               spellCheck={true}
