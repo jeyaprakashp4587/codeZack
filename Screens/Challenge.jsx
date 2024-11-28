@@ -24,11 +24,11 @@ const Challenge = ({navigation}) => {
     () => [
       {
         ChallengeName: 'Web Development',
-        bgColor: '#22c1c3',
+        bgColor: '#233d4d',
       },
       {
         ChallengeName: 'App Development',
-        bgColor: '#e15c5c',
+        bgColor: '#619b8a',
       },
     ],
     [],
@@ -36,17 +36,17 @@ const Challenge = ({navigation}) => {
   const CoreChallenges = useMemo(() => [
     {
       challengeName: 'Java',
-      color: '#ff6600',
+      color: '#55828b',
       web: 'https://www.programiz.com/java-programming/online-compiler/',
     },
     {
       challengeName: 'Python',
-      color: '#3399ff',
+      color: '#797d62',
       web: 'https://www.programiz.com/python-programming/online-compiler/',
     },
     {
       challengeName: 'C++',
-      color: '#0066ff',
+      color: '#748cab',
       web: 'https://www.programiz.com/cpp-programming/online-compiler/',
     },
   ]);
@@ -140,7 +140,7 @@ const Challenge = ({navigation}) => {
               }}>
               <PragraphText
                 text={item.challengeName}
-                fsize={width * 0.03}
+                fsize={width * 0.04}
                 color="white"
                 fweight={600}
               />
@@ -155,7 +155,7 @@ const Challenge = ({navigation}) => {
           navigation.navigate('yourchallenges');
         }}
         style={{
-          backgroundColor: '#f1f1f1',
+          backgroundColor: '#b5e2fa',
           borderWidth: 1,
           borderColor: '#f1f1f1',
           height: 100,
@@ -166,6 +166,7 @@ const Challenge = ({navigation}) => {
           flexDirection: 'row',
           padding: 10,
           marginHorizontal: 15,
+          marginBottom: 40,
         }}>
         <PragraphText
           text="My Challenges"

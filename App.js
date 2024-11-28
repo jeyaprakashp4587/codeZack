@@ -18,21 +18,34 @@ import {
 } from 'react-native-reanimated';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import MobileAds from 'react-native-google-mobile-ads';
+import {OneSignal, LogLevel} from 'react-native-onesignal';
+import axios from 'axios';
+import {loginApi} from './Api';
+// --- //
 const {width} = Dimensions.get('window');
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
   strict: false,
 });
 
-// -------------- //
-
 const App = () => {
+  // inintialze google admob
   useEffect(() => {
     MobileAds()
       .initialize()
       .then(adapter => {
         console.log('Google Mobile Ads initialized');
       });
+  }, []);
+  // config onesignal
+  useEffect(() => {
+    OneSignal.Debug.setLogLevel(LogLevel.Debug);
+    OneSignal.initialize('861087e8-fa92-422a-9185-a129ca3e86d2');
+    OneSignal.Notifications.requestPermission(true);
+    OneSignal.Notifications.addEventListener('click', event => {
+      console.log('Notification clicked:', event);
+      Alert.alert('Notification Clicked', JSON.stringify(event));
+    });
   }, []);
   return (
     <GestureHandlerRootView>

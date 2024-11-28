@@ -51,6 +51,7 @@ import {
   useAppOpenAd,
   useRewardedAd,
 } from 'react-native-google-mobile-ads';
+import {OneSignal} from 'react-native-onesignal';
 
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
@@ -66,7 +67,17 @@ const Home = () => {
   const shakeInterpolation = useShakeAnimation(3000);
   const socket = SocketData();
   const [refresh, setRefresh] = useState(false);
-
+  // setOneSgianlId
+  // get user Onsignal ig
+  const setOneSignalId = useCallback(() => {
+    OneSignal.User.getOnesignalId().then(async id => {
+      console.log(id);
+      const res = await axios.post(`${loginApi}/LogIn/setOneSignalId`, {
+        userId: user,
+        OneSignalId: id,
+      });
+    });
+  }, []);
   // scroll to top
   const scrollViewRef = useRef(null);
   const [scrollToTop, setScrollToTop] = useState(false);
@@ -87,7 +98,20 @@ const Home = () => {
     __DEV__ ? TestIds.REWARDED : 'ca-app-pub-3257747925516984/5831080677',
   );
   // load reward add
+  // send
+  const sendNoti = useCallback(async () => {
+    const res = await axios.post(`${loginApi}/send-notification`, {
+      playerId: ' ca7eea7f-02ae-4830-8c51-53ee53fed762',
+      message: 'hii',
+    });
+    if (res.status == 200 || res.status == 500) {
+      console.log(res.status);
+    }
+  }, []);
   useEffect(() => {
+    // test
+    setOneSignalId();
+    sendNoti();
     loadReward();
     // console.log('loading reward add');
   }, [loadReward]);

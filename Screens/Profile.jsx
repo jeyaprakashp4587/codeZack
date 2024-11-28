@@ -108,7 +108,7 @@ const Profile = ({navigation}) => {
       ImageType: ImageType,
       userId: user?._id,
     });
-    if (res.data === 200) {
+    if (res.status === 200) {
       setUser(prev => ({
         ...prev,
         Images: res.data.data, // Update only the Images part in your state

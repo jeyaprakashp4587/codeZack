@@ -6,13 +6,16 @@ import {
   Image,
   TouchableOpacity,
   ToastAndroid,
+  RefreshControl,
 } from 'react-native';
-import React, {useCallback, useEffect, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Colors, pageView} from '../constants/Colors';
 import Feather from 'react-native-vector-icons/Feather';
 import HeadingText from '../utils/HeadingText';
 import {useData} from '../Context/Contexter';
 import AddWallet from '../hooks/AddWallet';
+import axios from 'axios';
+import {loginApi} from '../Api';
 
 const Task = () => {
   const {user, setUser} = useData();
@@ -182,6 +185,18 @@ const Task = () => {
       }
     }
   }, []);
+  // refersh
+  const [refresh, setRefresh] = useState(false);
+  const handleRefresh = useCallback(async () => {
+    setRefresh(true);
+    const res = await axios.post(`${loginApi}/Login/getUser`, {
+      userId: user?._id,
+    });
+    if (res.data) {
+      setRefresh(false);
+      setUser(res.data);
+    }
+  }, []);
   // -----
   return (
     <View style={pageView}>
@@ -213,6 +228,9 @@ const Task = () => {
       </View>
       {/* Task list */}
       <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={handleRefresh} />
+        }
         style={{paddingHorizontal: 15, paddingTop: 20}}
         showsVerticalScrollIndicator={false}>
         {TasksData.map((item, index) => (
@@ -256,12 +274,12 @@ const Task = () => {
           onPress={handleClaimAward}
           style={{
             backgroundColor: Colors.violet,
-            padding: 10,
+            padding: 15,
             borderRadius: 5,
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            marginBottom: 20,
+            marginBottom: 40,
           }}>
           <Text style={{textAlign: 'center', letterSpacing: 2, color: 'white'}}>
             Claim Reward

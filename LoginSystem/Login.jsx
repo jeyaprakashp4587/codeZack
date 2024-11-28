@@ -230,12 +230,12 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     letterSpacing: 1,
     fontSize: width * 0.035, // Dynamic font size
-    color: Colors.mildGrey,
+    color: 'white',
   },
   indicator: {
     width: '100%',
     height: height * 0.002, // Dynamic height for indicator line
-    backgroundColor: Colors.veryLightGrey,
+    backgroundColor: Colors.violet,
     marginVertical: height * 0.025, // Dynamic margin
     position: 'relative',
   },

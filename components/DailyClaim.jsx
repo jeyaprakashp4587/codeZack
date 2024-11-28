@@ -75,11 +75,14 @@ const DailyClaim = () => {
   useFocusEffect(debouncedFunctions);
   // Handle claim action
   const handleCheckIn = useCallback(async () => {
-    // return the timer is loading
     if (timer > 0) {
-      ToastAndroid.show('Please wait time is loading', ToastAndroid.SHORT);
+      ToastAndroid.show(
+        `Please wait for the timer to finish: ${timer} seconds left.`,
+        ToastAndroid.SHORT,
+      );
       return;
     }
+
     showIntrestAdd();
     // reutn the add, if user alrady cjecked in today
     if (isDisabled) {
@@ -103,7 +106,7 @@ const DailyClaim = () => {
     } else {
       ToastAndroid.show('Failed to add to wallet.', ToastAndroid.SHORT);
     }
-  }, [isDisabled, user, setUser, loadedIntrestAdd]);
+  }, [isDisabled, user, setUser, loadedIntrestAdd, timer]);
 
   return (
     <Animated.View

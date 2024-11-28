@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: height * 0.015,
     borderRadius: 10,
-    backgroundColor: 'orange',
+    backgroundColor: Colors.violet,
     elevation: 2,
     width: '100%',
     alignSelf: 'center',
