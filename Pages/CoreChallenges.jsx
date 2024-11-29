@@ -19,6 +19,8 @@ import BannerAdd from '../Adds/BannerAdd';
 
 const CoreChallenges = () => {
   const {selectedChallengeTopic, setSelectedChallenge} = useData();
+  console.log(selectedChallengeTopic);
+
   const [challenges, setChallenges] = useState([]);
   const {width, height} = Dimensions.get('window');
   const [loading, setLoading] = useState(true);
@@ -29,7 +31,7 @@ const CoreChallenges = () => {
   const getChallenges = useCallback(async () => {
     try {
       const res = await axios.post(`${functionApi}/Challenges/getChallenges`, {
-        ChallengeTopic: selectedChallengeTopic?.challengeName,
+        ChallengeTopic: selectedChallengeTopic?.ChallengeName,
       });
       if (res.data) {
         // console.log(res.data);

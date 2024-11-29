@@ -21,36 +21,84 @@ const Challenge = ({navigation}) => {
   const {setselectedChallengeTopic} = useData();
   const {width, height} = Dimensions.get('window');
   // Memoize the challenge data to avoid recalculating the array on every render
-  const Challenges = useMemo(
+  // right wrapper
+  //   "https://i.ibb.co/6DzKrYd/icons8-swift-240.png"
+  // "https://i.ibb.co/xfCGvhK/icons8-react-native-480.png"
+  // "https://i.ibb.co/X2jw9bT/icons8-kotlin-480.png"
+  // "https://i.ibb.co/HxY5tgj/icons8-javascript-240.png"
+  // "https://i.ibb.co/gVV6xx5/icons8-java-480.png"
+  // "https://i.ibb.co/vB0Z46W/icons8-html-240.png"
+  // "https://i.ibb.co/wpRyJ9Q/icons8-c-240.png"
+  // "https://i.ibb.co/hmFKgGc/icons8-bootstrap-480.png"
+  // "https://i.ibb.co/1ZK8nFT/css-3.png"
+  const rightWrapper = useMemo(() => [
+    {
+      ChallengeName: 'Your Challenge',
+      bgColor: '#f8f5ed',
+      route: 'yourchallenges',
+      content: 'Create and customize your own challenges!',
+      Images: [],
+    },
+    {
+      ChallengeName: 'Web Development',
+      bgColor: '#f7f2ed',
+      route: 'chooseChallenge',
+      content:
+        'Learn to build stunning static and dynamic websites using modern web technologies.',
+      Images: [
+        'https://i.ibb.co/vB0Z46W/icons8-html-240.png',
+        'https://i.ibb.co/1ZK8nFT/css-3.png',
+        'https://i.ibb.co/HxY5tgj/icons8-javascript-240.png',
+        'https://i.ibb.co/xfCGvhK/icons8-react-native-480.png',
+        'https://i.ibb.co/hmFKgGc/icons8-bootstrap-480.png',
+      ],
+    },
+    {
+      ChallengeName: 'App Development',
+      bgColor: '#f0f2f4',
+      route: 'chooseChallenge',
+      content:
+        'Discover the world of mobile app development! Create cross-platform apps for Android and iOS using technologies like React Native, Kotlin, and Swift.',
+      Images: [
+        'https://i.ibb.co/xfCGvhK/icons8-react-native-480.png',
+        'https://i.ibb.co/X2jw9bT/icons8-kotlin-480.png',
+        'https://i.ibb.co/6DzKrYd/icons8-swift-240.png',
+      ],
+    },
+  ]);
+  const leftWrapper = useMemo(
     () => [
       {
-        ChallengeName: 'Web Development',
-        bgColor: '#ede0d4',
+        ChallengeName: 'Java',
+        bgColor: '#f7f1ee',
+        web: 'https://www.programiz.com/java-programming/online-compiler/',
+        route: 'CoreChallenge',
+        content:
+          'Master Java programming by solving real-world challenges. Explore key concepts such as object-oriented programming, data structures, and algorithms.',
+        Images: ['https://i.ibb.co/gVV6xx5/icons8-java-480.png'],
       },
       {
-        ChallengeName: 'App Development',
-        bgColor: '#ced4da',
+        ChallengeName: 'Python',
+        bgColor: '#ecf8f8',
+        web: 'https://www.programiz.com/python-programming/online-compiler/',
+        route: 'CoreChallenge',
+        content:
+          'Learn Python, a versatile programming language! Solve challenges in automation, data science, web development, and more.',
+        Images: ['https://i.ibb.co/SyM2kSR/python.png'],
+      },
+      {
+        ChallengeName: 'C++',
+        bgColor: '#f4f3f0',
+        web: 'https://www.programiz.com/cpp-programming/online-compiler/',
+        route: 'CoreChallenge',
+        content:
+          'Sharpen your C++ skills with challenges focusing on competitive programming and system-level development.',
+        Images: ['https://i.ibb.co/wpRyJ9Q/icons8-c-240.png'],
       },
     ],
     [],
   );
-  const CoreChallenges = useMemo(() => [
-    {
-      challengeName: 'Java',
-      color: '#55828b',
-      web: 'https://www.programiz.com/java-programming/online-compiler/',
-    },
-    {
-      challengeName: 'Python',
-      color: '#797d62',
-      web: 'https://www.programiz.com/python-programming/online-compiler/',
-    },
-    {
-      challengeName: 'C++',
-      color: '#748cab',
-      web: 'https://www.programiz.com/cpp-programming/online-compiler/',
-    },
-  ]);
+
   const handleCoreChallenge = useCallback(item => {
     setselectedChallengeTopic(item);
     navigation.navigate('CoreChallenge');
@@ -63,120 +111,16 @@ const Challenge = ({navigation}) => {
     },
     [navigation, setselectedChallengeTopic],
   );
-
-  // State for toggling challenges, initialize with a proper default value
-  const [chToggle, setChaToggle] = useState(null);
   return (
     <ScrollView
       style={{backgroundColor: 'white'}}
       showsVerticalScrollIndicator={false}>
       <View style={{paddingHorizontal: 15}}>
-        <HeadingText text="Develop Your Skills Here" />
+        <HeadingText
+          text="Develop Your Skills Here"
+          color={Colors.veryDarkGrey}
+        />
       </View>
-      {/* chal */}
-      {/* <View
-        style={{
-          borderWidth: 0,
-          paddingVertical: 20,
-          paddingHorizontal: 15,
-          flexDirection: 'column',
-          rowGap: 15,
-        }}>
-        {Challenges.map((item, index) => (
-          <TouchableOpacity
-            onPress={() => HandleSelectChallenges(item)}
-            key={index}
-            style={{
-              width: '100%',
-              backgroundColor: item.bgColor,
-              borderWidth: 1,
-              borderColor: item.bgColor,
-              height: 100,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 10,
-              elevation: 2,
-              flexDirection: 'row',
-              padding: 10,
-            }}>
-            <PragraphText
-              text={item.ChallengeName}
-              fsize={width * 0.04}
-              color="white"
-              fweight={600}
-            />
-          </TouchableOpacity>
-        ))}
-      </View> */}
-      {/* add */}
-      {/* <BannerAdd /> */}
-      {/* core challenges */}
-      {/* <View
-        style={{
-          borderWidth: 0,
-          paddingVertical: 20,
-          paddingHorizontal: 15,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}>
-        <FlatList
-          data={CoreChallenges}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={item => item.challengeName}
-          renderItem={({item}) => (
-            <TouchableOpacity
-              onPress={() => handleCoreChallenge(item)}
-              style={{
-                width: '100%',
-                backgroundColor: item.color,
-                borderWidth: 1,
-                borderColor: item.color,
-                height: 100,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: 10,
-                // elevation: 2,
-                flexDirection: 'row',
-                padding: 10,
-                marginBottom: 15,
-              }}>
-              <PragraphText
-                text={item.challengeName}
-                fsize={width * 0.04}
-                color="white"
-                fweight={600}
-              />
-            </TouchableOpacity>
-          )}
-        />
-      </View> */}
-      {/* user challenges list */}
-      {/* <TouchableOpacity
-        onPress={() => {
-          setChaToggle(!chToggle);
-          navigation.navigate('yourchallenges');
-        }}
-        style={{
-          backgroundColor: '#b5e2fa',
-          borderWidth: 1,
-          borderColor: '#f1f1f1',
-          height: 100,
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: 10,
-          elevation: 2,
-          flexDirection: 'row',
-          padding: 10,
-          marginHorizontal: 15,
-          marginBottom: 40,
-        }}>
-        <PragraphText
-          text="My Challenges"
-          fsize={width * 0.03}
-          color={'#457b9d'}
-        />
-      </TouchableOpacity> */}
-      {/* new ui */}
       {/* Tech chalenege */}
       <View
         style={{
@@ -185,37 +129,97 @@ const Challenge = ({navigation}) => {
           flex: 1,
           height: '100%',
           flexDirection: 'row',
-          columnGap: 20,
+          gap: 15,
         }}>
-        {Challenges.map((ch, index) => (
-          <TouchableOpacity
-            style={{
-              borderWidth: 0,
-              backgroundColor: ch.bgColor,
-              height: index == 0 ? 250 : 200,
-              borderRadius: 30,
-              flex: 1,
-              padding: 20,
-            }}>
-            <Text
+        {/* left wrapper */}
+        <View style={{flex: 1}}>
+          {leftWrapper.map((ch, index) => (
+            <TouchableOpacity
+              onPress={() => handleCoreChallenge(ch)}
               style={{
-                fontWeight: '600',
-                letterSpacing: 2,
-                paddingVertical: 20,
-                paddingTop: 0,
+                borderWidth: 0,
+                backgroundColor: ch.bgColor,
+                borderRadius: 30,
+                padding: 20,
+                width: '100%',
+                marginBottom: 10,
+                // height: '30%',
               }}>
-              Web Development
-            </Text>
-            <Text
+              <Text
+                style={{
+                  fontWeight: '600',
+                  letterSpacing: 2,
+                  paddingBottom: 10,
+                }}>
+                {ch.ChallengeName}
+              </Text>
+              <Text
+                style={{
+                  letterSpacing: 1,
+                  bgColor: Colors.mildGrey,
+                  lineHeight: 20,
+                  fontSize: width * 0.03,
+                }}>
+                {ch.content}
+              </Text>
+              {ch.Images.map(img => (
+                <Image
+                  source={{uri: img}}
+                  style={{width: 20, height: 20, marginVertical: 10}}
+                />
+              ))}
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {/* right wrapper */}
+        <View style={{flex: 1}}>
+          {rightWrapper.map((ch, index) => (
+            <TouchableOpacity
+              onPress={
+                index == 0
+                  ? () => navigation.navigate(ch.route)
+                  : () => HandleSelectChallenges(ch)
+              }
               style={{
-                letterSpacing: 1,
-                color: Colors.mildGrey,
-                lineHeight: 25,
+                borderWidth: 0,
+                backgroundColor: ch.bgColor,
+                borderRadius: 30,
+                padding: 20,
+                width: '100%',
+                // height: '30%',
+                marginBottom: 10,
               }}>
-              Create a static & dynamic sites using new technologies
-            </Text>
-          </TouchableOpacity>
-        ))}
+              <Text
+                style={{
+                  fontWeight: '600',
+                  letterSpacing: 2,
+                  paddingBottom: 10,
+                }}>
+                {ch.ChallengeName}
+              </Text>
+              <Text
+                style={{
+                  letterSpacing: 1,
+                  bgColor: Colors.mildGrey,
+                  lineHeight: 20,
+                  fontSize: width * 0.03,
+                }}>
+                {ch.content}
+              </Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  columnGap: 8,
+                  marginVertical: 10,
+                }}>
+                {ch.Images.map(img => (
+                  <Image source={{uri: img}} style={{width: 20, height: 20}} />
+                ))}
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
     </ScrollView>
   );

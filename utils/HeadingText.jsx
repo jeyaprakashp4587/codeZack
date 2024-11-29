@@ -7,7 +7,7 @@ const HeadingText = props => {
   return (
     <Text
       style={{
-        color: Colors.mildGrey,
+        color: props.color ?? Colors.mildGrey,
         fontSize: 25,
         paddingVertical: 10,
         letterSpacing: 1,

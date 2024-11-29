@@ -490,7 +490,7 @@ const Home = () => {
         <View style={styles.ideasWrapper}>
           <TouchableOpacity style={styles.ideaBox} onPress={carrerNav}>
             <Image
-              style={{width: 40, height: 40}}
+              style={{width: 40, height: 40, opacity: 0.7}}
               source={{uri: 'https://i.ibb.co/gddf19J/programming.png'}}
             />
             {/* <SimpleLineIcons name="book-open" size={25} color="#264653" /> */}
@@ -502,7 +502,7 @@ const Home = () => {
           </TouchableOpacity>
           <TouchableOpacity onPress={courseNav} style={styles.ideaBox}>
             <Image
-              style={{width: 40, height: 40}}
+              style={{width: 40, height: 40, opacity: 0.7}}
               source={{uri: 'https://i.ibb.co/NmNqJpx/certificate.png'}}
             />
             {/* <AntDesign name="laptop" size={25} color="#2a9d8f" /> */}
@@ -515,7 +515,7 @@ const Home = () => {
           <TouchableOpacity onPress={assignmentNav} style={styles.ideaBox}>
             {/* <SimpleLineIcons name="notebook" size={25} color="#e9c46a" /> */}
             <Image
-              style={{width: 40, height: 40}}
+              style={{width: 40, height: 40, opacity: 0.7}}
               source={{uri: 'https://i.ibb.co/N19pNf3/assignment.png'}}
             />
             <Text
@@ -527,7 +527,7 @@ const Home = () => {
           <TouchableOpacity style={styles.ideaBox} onPress={activityNav}>
             {/* <Fontisto name="date" size={25} color="#e76f51" /> */}
             <Image
-              style={{width: 40, height: 40}}
+              style={{width: 40, height: 40, opacity: 0.7}}
               source={{uri: 'https://i.ibb.co/B3CdkDM/calendar.png'}}
             />
             <Text
@@ -728,6 +728,7 @@ const styles = StyleSheet.create({
     padding: 5,
     // borderWidth: 1,
     marginHorizontal: 15,
+    marginTop: 5,
   },
   ideaBox: {
     width: width * 0.2,
