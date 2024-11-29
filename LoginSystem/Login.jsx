@@ -147,9 +147,9 @@ const Login = () => {
             </View>
             <TouchableOpacity onPress={HandleLogin} style={styles.loginButton}>
               {activityIndi && (
-                <ActivityIndicator size="small" color={Colors.mildGrey} />
+                <ActivityIndicator size="small" color={Colors.white} />
               )}
-              <Text style={styles.loginText}>Log In</Text>
+              <Text style={styles.loginText}>Login</Text>
             </TouchableOpacity>
           </View>
 
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     marginVertical: height * 0.01, // Dynamic margin
   },
   loginButton: {
-    backgroundColor: Colors.veryLightGrey,
+    backgroundColor: Colors.violet,
     padding: height * 0.02, // Dynamic padding
     justifyContent: 'center',
     alignItems: 'center',
@@ -228,14 +228,14 @@ const styles = StyleSheet.create({
   },
   loginText: {
     fontWeight: '400',
-    letterSpacing: 1,
+    letterSpacing: 2,
     fontSize: width * 0.035, // Dynamic font size
     color: 'white',
   },
   indicator: {
     width: '100%',
     height: height * 0.002, // Dynamic height for indicator line
-    backgroundColor: Colors.violet,
+    backgroundColor: Colors.veryLightGrey,
     marginVertical: height * 0.025, // Dynamic margin
     position: 'relative',
   },

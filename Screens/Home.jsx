@@ -46,13 +46,14 @@ import Companies from '../components/Companies';
 import Tasks from '../components/Tasks';
 import Carousel from 'react-native-reanimated-carousel';
 import DailyClaim from '../components/DailyClaim';
+import {getMessaging, getToken} from 'firebase/messaging';
 // import usehook for show adds
 import {
   TestIds,
   useAppOpenAd,
   useRewardedAd,
 } from 'react-native-google-mobile-ads';
-import {OneSignal} from 'react-native-onesignal';
+import {LogLevel, OneSignal} from 'react-native-onesignal';
 
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
@@ -68,17 +69,7 @@ const Home = () => {
   const shakeInterpolation = useShakeAnimation(3000);
   const socket = SocketData();
   const [refresh, setRefresh] = useState(false);
-  // setOneSgianlId
-  // get user Onsignal ig
-  const setOneSignalId = useCallback(() => {
-    OneSignal.User.getOnesignalId().then(async id => {
-      console.log(id);
-      const res = await axios.post(`${loginApi}/LogIn/setOneSignalId`, {
-        userId: user,
-        OneSignalId: id,
-      });
-    });
-  }, []);
+  // ----
   // scroll to top
   const scrollViewRef = useRef(null);
   const [scrollToTop, setScrollToTop] = useState(false);
@@ -88,6 +79,14 @@ const Home = () => {
   };
   const handleScrollToTop = () => {
     scrollViewRef.current?.scrollTo({y: 0, animated: true});
+  };
+  // config oneSignal notification
+  const setUpOneSignal = () => {
+    OneSignal.Debug.setLogLevel(LogLevel.Verbose);
+    OneSignal.User.addEmail(user?._Email);
+    OneSignal.initialize('861087e8-fa92-422a-9185-a129ca3e86d2');
+    OneSignal.User.pushSubscription.getIdAsync().then(id => console.log(id));
+    OneSignal.User.getOnesignalId().then(id => console.log('user id', id));
   };
   // config reward add for every three mintes
   const {
@@ -100,6 +99,7 @@ const Home = () => {
   );
   // load reward add
   useEffect(() => {
+    setUpOneSignal();
     loadReward();
     // console.log('loading reward add');
   }, [loadReward]);
@@ -489,7 +489,11 @@ const Home = () => {
         {/* ideas wrapper */}
         <View style={styles.ideasWrapper}>
           <TouchableOpacity style={styles.ideaBox} onPress={carrerNav}>
-            <SimpleLineIcons name="book-open" size={25} color="#264653" />
+            <Image
+              style={{width: 40, height: 40}}
+              source={{uri: 'https://i.ibb.co/gddf19J/programming.png'}}
+            />
+            {/* <SimpleLineIcons name="book-open" size={25} color="#264653" /> */}
             <Text
               style={[styles.ideaText, {fontSize: width * 0.017}]}
               numberOfLines={1}>
@@ -497,7 +501,11 @@ const Home = () => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={courseNav} style={styles.ideaBox}>
-            <AntDesign name="laptop" size={25} color="#2a9d8f" />
+            <Image
+              style={{width: 40, height: 40}}
+              source={{uri: 'https://i.ibb.co/NmNqJpx/certificate.png'}}
+            />
+            {/* <AntDesign name="laptop" size={25} color="#2a9d8f" /> */}
             <Text
               numberOfLines={1}
               style={[styles.ideaText, {fontSize: width * 0.017}]}>
@@ -505,7 +513,11 @@ const Home = () => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={assignmentNav} style={styles.ideaBox}>
-            <SimpleLineIcons name="notebook" size={25} color="#e9c46a" />
+            {/* <SimpleLineIcons name="notebook" size={25} color="#e9c46a" /> */}
+            <Image
+              style={{width: 40, height: 40}}
+              source={{uri: 'https://i.ibb.co/N19pNf3/assignment.png'}}
+            />
             <Text
               numberOfLines={1}
               style={[styles.ideaText, {fontSize: width * 0.017}]}>
@@ -513,7 +525,11 @@ const Home = () => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.ideaBox} onPress={activityNav}>
-            <Fontisto name="date" size={25} color="#e76f51" />
+            {/* <Fontisto name="date" size={25} color="#e76f51" /> */}
+            <Image
+              style={{width: 40, height: 40}}
+              source={{uri: 'https://i.ibb.co/B3CdkDM/calendar.png'}}
+            />
             <Text
               style={[styles.ideaText, {fontSize: width * 0.017}]}
               numberOfLines={1}>

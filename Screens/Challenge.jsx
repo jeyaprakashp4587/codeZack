@@ -15,6 +15,7 @@ import {useData} from '../Context/Contexter';
 import {ScrollView} from 'react-native';
 import {Dimensions} from 'react-native';
 import BannerAdd from '../Adds/BannerAdd';
+import {Colors} from '../constants/Colors';
 
 const Challenge = ({navigation}) => {
   const {setselectedChallengeTopic} = useData();
@@ -24,11 +25,11 @@ const Challenge = ({navigation}) => {
     () => [
       {
         ChallengeName: 'Web Development',
-        bgColor: '#233d4d',
+        bgColor: '#ede0d4',
       },
       {
         ChallengeName: 'App Development',
-        bgColor: '#619b8a',
+        bgColor: '#ced4da',
       },
     ],
     [],
@@ -72,7 +73,8 @@ const Challenge = ({navigation}) => {
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text="Develop Your Skills Here" />
       </View>
-      <View
+      {/* chal */}
+      {/* <View
         style={{
           borderWidth: 0,
           paddingVertical: 20,
@@ -105,11 +107,11 @@ const Challenge = ({navigation}) => {
             />
           </TouchableOpacity>
         ))}
-      </View>
+      </View> */}
       {/* add */}
-      <BannerAdd />
+      {/* <BannerAdd /> */}
       {/* core challenges */}
-      <View
+      {/* <View
         style={{
           borderWidth: 0,
           paddingVertical: 20,
@@ -147,9 +149,9 @@ const Challenge = ({navigation}) => {
             </TouchableOpacity>
           )}
         />
-      </View>
+      </View> */}
       {/* user challenges list */}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => {
           setChaToggle(!chToggle);
           navigation.navigate('yourchallenges');
@@ -173,7 +175,48 @@ const Challenge = ({navigation}) => {
           fsize={width * 0.03}
           color={'#457b9d'}
         />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+      {/* new ui */}
+      {/* Tech chalenege */}
+      <View
+        style={{
+          borderWidth: 0,
+          paddingHorizontal: 15,
+          flex: 1,
+          height: '100%',
+          flexDirection: 'row',
+          columnGap: 20,
+        }}>
+        {Challenges.map((ch, index) => (
+          <TouchableOpacity
+            style={{
+              borderWidth: 0,
+              backgroundColor: ch.bgColor,
+              height: index == 0 ? 250 : 200,
+              borderRadius: 30,
+              flex: 1,
+              padding: 20,
+            }}>
+            <Text
+              style={{
+                fontWeight: '600',
+                letterSpacing: 2,
+                paddingVertical: 20,
+                paddingTop: 0,
+              }}>
+              Web Development
+            </Text>
+            <Text
+              style={{
+                letterSpacing: 1,
+                color: Colors.mildGrey,
+                lineHeight: 25,
+              }}>
+              Create a static & dynamic sites using new technologies
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
     </ScrollView>
   );
 };
