@@ -17,6 +17,7 @@ import {
   RefreshControl,
   ActivityIndicator,
   AppState,
+  PermissionsAndroid,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
 import Fontawesome from 'react-native-vector-icons/FontAwesome';
@@ -98,20 +99,7 @@ const Home = () => {
     __DEV__ ? TestIds.REWARDED : 'ca-app-pub-3257747925516984/5831080677',
   );
   // load reward add
-  // send
-  const sendNoti = useCallback(async () => {
-    const res = await axios.post(`${loginApi}/send-notification`, {
-      playerId: ' ca7eea7f-02ae-4830-8c51-53ee53fed762',
-      message: 'hii',
-    });
-    if (res.status == 200 || res.status == 500) {
-      console.log(res.status);
-    }
-  }, []);
   useEffect(() => {
-    // test
-    setOneSignalId();
-    sendNoti();
     loadReward();
     // console.log('loading reward add');
   }, [loadReward]);

@@ -37,16 +37,7 @@ const App = () => {
         console.log('Google Mobile Ads initialized');
       });
   }, []);
-  // config onesignal
-  useEffect(() => {
-    OneSignal.Debug.setLogLevel(LogLevel.Debug);
-    OneSignal.initialize('861087e8-fa92-422a-9185-a129ca3e86d2');
-    OneSignal.Notifications.requestPermission(true);
-    OneSignal.Notifications.addEventListener('click', event => {
-      console.log('Notification clicked:', event);
-      Alert.alert('Notification Clicked', JSON.stringify(event));
-    });
-  }, []);
+
   return (
     <GestureHandlerRootView>
       <ContextProvider>
