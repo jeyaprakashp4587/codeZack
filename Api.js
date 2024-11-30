@@ -1,5 +1,5 @@
 //
-const dev = true;
+const dev = false;
 
 const Api = dev
   ? 'http://192.168.43.90:8080'

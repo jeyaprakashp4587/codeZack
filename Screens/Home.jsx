@@ -46,14 +46,14 @@ import Companies from '../components/Companies';
 import Tasks from '../components/Tasks';
 import Carousel from 'react-native-reanimated-carousel';
 import DailyClaim from '../components/DailyClaim';
-import {getMessaging, getToken} from 'firebase/messaging';
+import messaging from '@react-native-firebase/messaging';
 // import usehook for show adds
 import {
   TestIds,
   useAppOpenAd,
   useRewardedAd,
 } from 'react-native-google-mobile-ads';
-import {LogLevel, OneSignal} from 'react-native-onesignal';
+import useSocketEmit from '../Socket/useSocketEmit';
 
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
@@ -70,6 +70,28 @@ const Home = () => {
   const socket = SocketData();
   const [refresh, setRefresh] = useState(false);
   // ----
+  // get fcm tocken
+  const getTokenAndSave = async () => {
+    try {
+      // Request user permission for notifications
+      const authStatus = await messaging().requestPermission();
+      if (
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL
+      ) {
+        // console.log('Notification permission granted.');
+        // Get FCM token
+        const token = await messaging().getToken();
+        // send the data to db
+        await axios.post(`${profileApi}/Profile/saveFcmToken`, {
+          userId: user?._id,
+          FcmToken: token,
+        });
+      }
+    } catch (error) {
+      console.error('Error getting FCM token:', error);
+    }
+  };
   // scroll to top
   const scrollViewRef = useRef(null);
   const [scrollToTop, setScrollToTop] = useState(false);
@@ -81,13 +103,6 @@ const Home = () => {
     scrollViewRef.current?.scrollTo({y: 0, animated: true});
   };
   // config oneSignal notification
-  const setUpOneSignal = () => {
-    OneSignal.Debug.setLogLevel(LogLevel.Verbose);
-    OneSignal.User.addEmail(user?._Email);
-    OneSignal.initialize('861087e8-fa92-422a-9185-a129ca3e86d2');
-    OneSignal.User.pushSubscription.getIdAsync().then(id => console.log(id));
-    OneSignal.User.getOnesignalId().then(id => console.log('user id', id));
-  };
   // config reward add for every three mintes
   const {
     show: showReward,
@@ -99,7 +114,8 @@ const Home = () => {
   );
   // load reward add
   useEffect(() => {
-    setUpOneSignal();
+    // setUpOneSignal();
+    getTokenAndSave();
     loadReward();
     // console.log('loading reward add');
   }, [loadReward]);
@@ -260,7 +276,6 @@ const Home = () => {
   useSocketOn(socket, 'Noti-test', async () => {
     await getNotifications();
   });
-
   useEffect(() => {
     InteractionManager.runAfterInteractions(async () => {
       await getConnectionPosts();
@@ -303,7 +318,40 @@ const Home = () => {
   const assignmentNav = useCallback(() => {
     debounceNavigation('Assignments');
   }, []);
+  // check noti
+  const emitSocketEvent = useSocketEmit(socket);
+  useEffect(() => {
+    messaging()
+      .hasPermission()
+      .then(permission => {
+        if (permission === messaging.AuthorizationStatus.NOT_DETERMINED) {
+          messaging()
+            .requestPermission()
+            .then(authStatus => {
+              if (authStatus === messaging.AuthorizationStatus.AUTHORIZED) {
+                console.log('Notification permission granted.');
+              }
+            });
+        }
+      });
+    setTimeout(() => {
+      console.log(user?.FcmId);
+      emitSocketEvent('Fb', {
+        token: user?.FcmId,
+        msg: 'hii',
+      });
+    }, 20000);
+  }, []);
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      console.log('Notification in foreground:', remoteMessage);
+    });
 
+    return unsubscribe;
+  }, []);
+  messaging().setBackgroundMessageHandler(async remoteMessage => {
+    console.log('Message in background:', remoteMessage);
+  });
   // render ui after load
   if (!UiLoading) return <HomeSkeleton />;
 
