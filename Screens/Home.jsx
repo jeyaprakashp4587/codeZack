@@ -71,6 +71,7 @@ const Home = () => {
   const [refresh, setRefresh] = useState(false);
   // ----
   // get fcm tocken
+
   const getTokenAndSave = async () => {
     try {
       // Request user permission for notifications
@@ -319,39 +320,6 @@ const Home = () => {
     debounceNavigation('Assignments');
   }, []);
   // check noti
-  const emitSocketEvent = useSocketEmit(socket);
-  useEffect(() => {
-    messaging()
-      .hasPermission()
-      .then(permission => {
-        if (permission === messaging.AuthorizationStatus.NOT_DETERMINED) {
-          messaging()
-            .requestPermission()
-            .then(authStatus => {
-              if (authStatus === messaging.AuthorizationStatus.AUTHORIZED) {
-                console.log('Notification permission granted.');
-              }
-            });
-        }
-      });
-    setTimeout(() => {
-      console.log(user?.FcmId);
-      emitSocketEvent('Fb', {
-        token: user?.FcmId,
-        msg: 'hii',
-      });
-    }, 20000);
-  }, []);
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('Notification in foreground:', remoteMessage);
-    });
-
-    return unsubscribe;
-  }, []);
-  messaging().setBackgroundMessageHandler(async remoteMessage => {
-    console.log('Message in background:', remoteMessage);
-  });
   // render ui after load
   if (!UiLoading) return <HomeSkeleton />;
 
