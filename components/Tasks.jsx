@@ -32,9 +32,14 @@ const Tasks = () => {
             justifyContent: 'center',
             alignItems: 'flex-start',
             padding: 15,
-            rowGap: 10,
+            rowGap: height * 0.02,
           }}>
-          <Text style={{lineHeight: 25, letterSpacing: 1.5}}>
+          <Text
+            style={{
+              lineHeight: 25,
+              letterSpacing: 2,
+              fontSize: width * 0.042,
+            }}>
             Complete Tasks and get Money
           </Text>
           {/* button */}
@@ -42,8 +47,8 @@ const Tasks = () => {
             onPress={() => navigation.navigate('taskScreen')}
             style={{
               backgroundColor: Colors.violet,
-              padding: 5,
-              paddingHorizontal: 15,
+              padding: width * 0.02,
+              paddingHorizontal: width * 0.05,
               borderRadius: 10,
             }}>
             <Text style={{letterSpacing: 2, color: 'white'}}>Try it out!</Text>

@@ -71,8 +71,7 @@ const Home = () => {
   const [refresh, setRefresh] = useState(false);
   // ----
   // get fcm tocken
-
-  const getTokenAndSave = async () => {
+  const getTokenAndSave = useCallback(async () => {
     try {
       // Request user permission for notifications
       const authStatus = await messaging().requestPermission();
@@ -84,6 +83,8 @@ const Home = () => {
         // Get FCM token
         const token = await messaging().getToken();
         // send the data to db
+        // console.log(token);
+
         await axios.post(`${profileApi}/Profile/saveFcmToken`, {
           userId: user?._id,
           FcmToken: token,
@@ -92,7 +93,34 @@ const Home = () => {
     } catch (error) {
       console.error('Error getting FCM token:', error);
     }
-  };
+  }, []);
+  useEffect(() => {
+    const checkPermission = async () => {
+      const authStatus = await messaging().requestPermission();
+      const enabled =
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+      if (enabled) {
+        // console.log('Notification permission granted');
+      } else {
+        // console.log('Notification permission denied');
+      }
+    };
+
+    checkPermission();
+
+    // Save FCM token
+    getTokenAndSave();
+    // Foreground messages
+    const unsubscribeOnMessage = messaging().onMessage(async remoteMessage => {
+      console.log('Notification received in foreground:', remoteMessage);
+      // Handle foreground notification
+    });
+
+    return unsubscribeOnMessage;
+  }, []);
+
   // scroll to top
   const scrollViewRef = useRef(null);
   const [scrollToTop, setScrollToTop] = useState(false);
@@ -115,8 +143,7 @@ const Home = () => {
   );
   // load reward add
   useEffect(() => {
-    // setUpOneSignal();
-    getTokenAndSave();
+    // setUpOneSignal()
     loadReward();
     // console.log('loading reward add');
   }, [loadReward]);
@@ -164,7 +191,7 @@ const Home = () => {
         if (loadedAppOpen) {
           try {
             // console.log('Ad is loaded. Attempting to show the ad...');
-            showAppopen();
+            // showAppopen();
           } catch (error) {
             // console.error('Error showing AppOpenAd:', error);
           }
@@ -188,11 +215,16 @@ const Home = () => {
     }
   }, [closedAppOpen]);
   // Loading ui effect
+  const emitSocketEvent = useSocketEmit(socket);
   useEffect(() => {
     setTimeout(() => {
       setUiLoading(true);
       // load add
     }, 500);
+    emitSocketEvent('bb', {
+      token: user?.FcmId,
+      msg: 'hii',
+    });
   }, []);
   // carousel data
   const carouselData = useMemo(
@@ -320,6 +352,8 @@ const Home = () => {
     debounceNavigation('Assignments');
   }, []);
   // check noti
+  PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
+
   // render ui after load
   if (!UiLoading) return <HomeSkeleton />;
 
@@ -457,9 +491,9 @@ const Home = () => {
                 style={{
                   display: unseenCount > 0 ? 'flex' : 'none',
                   position: 'absolute',
-                  top: -height * 0.016,
+                  top: -height * 0.01,
                   right: -width * 0.0,
-                  // height: height * 0.018,
+                  height: height * 0.018,
                   width: width * 0.04,
                   fontSize: width * 0.026,
                   textAlign: 'center',
@@ -467,7 +501,9 @@ const Home = () => {
                   backgroundColor: 'red',
                   // padding: 5,
                   borderRadius: 50,
-                  zIndex: 10,
+                  zIndex: 100,
+                  borderColor: 'white',
+                  borderWidth: 1,
                 }}>
                 {unseenCount}
               </Text>
@@ -475,7 +511,7 @@ const Home = () => {
             </Pressable>
           </View>
         </View>
-        {/* seacrch bar */}
+        {/* search bar */}
         <TouchableOpacity
           onPress={() => navigation.navigate('search')}
           style={{
@@ -484,22 +520,21 @@ const Home = () => {
             alignItems: 'center',
             justifyContent: 'flex-start',
             marginHorizontal: 15,
-            borderRadius: 20,
+            borderRadius: 25,
             paddingHorizontal: 10,
             borderColor: Colors.veryLightGrey,
             marginVertical: 10,
             marginBottom: 5,
+            height: height * 0.07,
           }}>
-          <EvilIcons name="search" size={25} color={Colors.lightGrey} />
+          <EvilIcons
+            name="search"
+            size={width * 0.07}
+            color={Colors.lightGrey}
+          />
           <TextInput
             onPress={() => navigation.navigate('search')}
             placeholder="Search"
-            style={
-              {
-                // borderWidth: 1,
-                // width: '80%',
-              }
-            }
           />
         </TouchableOpacity>
         {/* ideas wrapper */}

@@ -65,7 +65,7 @@ const TabNavigation = () => {
         tabBarActiveTintColor: '#3a6ea5',
         tabBarInactiveTintColor: Colors.lightGrey,
         tabBarStyle: {
-          height: height * 0.1,
+          height: 80,
           paddingBottom: 10,
           borderTopWidth: 0,
         },
@@ -78,6 +78,7 @@ const TabNavigation = () => {
           letterSpacing: 1,
         },
         tabBarHideOnKeyboard: true,
+        // tabBarShowLabel: false,
       }}>
       <Tab.Screen
         name="Home"

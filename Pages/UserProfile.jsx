@@ -148,7 +148,7 @@ const UserProfile = () => {
     }
   }, [showNetWorkModel]);
 
-  if (!loading) {
+  if (!selectedUser) {
     <View style={pageView}>
       <Skeleton width="100%" height={height * 0.3} radius={10} mt={10} />
       <View

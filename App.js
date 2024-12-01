@@ -21,6 +21,7 @@ import MobileAds from 'react-native-google-mobile-ads';
 import {OneSignal, LogLevel} from 'react-native-onesignal';
 import axios from 'axios';
 import {loginApi} from './Api';
+import messaging from '@react-native-firebase/messaging';
 // --- //
 const {width} = Dimensions.get('window');
 configureReanimatedLogger({

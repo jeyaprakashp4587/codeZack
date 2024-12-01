@@ -46,15 +46,22 @@ const Companies = () => {
             flex: 1,
             borderWidth: 1,
             borderColor: Colors.veryLightGrey,
-            padding: 15,
+            padding: width * 0.04,
             borderRadius: 10,
             flexDirection: 'column',
             rowGap: 15,
             backgroundColor: 'white',
+            // height: height * 0.15,
+            alignItems: 'center',
             // elevation: 2,
           }}>
           <View
-            style={{borderWidth: 0, width: width * 0.3, height: height * 0.05}}>
+            style={{
+              borderWidth: 0,
+              width: width * 0.3,
+              height: height * 0.05,
+              // flex: 1.5,
+            }}>
             <Image
               source={{uri: comp?.companyLogo}}
               style={{
@@ -64,7 +71,13 @@ const Companies = () => {
               }}
             />
           </View>
-          <Text style={{letterSpacing: 2, color: Colors.mildGrey}}>
+          <Text
+            style={{
+              // flex: 1,
+              letterSpacing: 2,
+              color: Colors.mildGrey,
+              textAlign: 'center',
+            }}>
             Prepare For {comp?.company_name}
           </Text>
         </TouchableOpacity>
