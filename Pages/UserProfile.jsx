@@ -104,7 +104,7 @@ const UserProfile = () => {
   const removeConnection = useCallback(async () => {
     try {
       const res = await axios.post(
-        `${Api}/Following/removeConnection/${user?._id}`,
+        `${profileApi}/Following/removeConnection/${user?._id}`,
         {
           ConnectionId: selectedUser?._id,
         },

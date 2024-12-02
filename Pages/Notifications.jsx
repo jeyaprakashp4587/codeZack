@@ -102,9 +102,9 @@ const Notifications = () => {
   useEffect(() => {
     getNotifications();
     // console.log(notificationList);
+    setNotificationList(user?.Notifications);
   }, []);
 
-  // -----
   return (
     <View style={[pageView, {paddingHorizontal: 15}]}>
       <View style={{paddingHorizontal: 0}}>
@@ -150,7 +150,11 @@ const Notifications = () => {
                 marginHorizontal: 5,
               }}>
               <Image
-                source={{uri: item?.senderProfileImage}}
+                source={{
+                  uri:
+                    item?.senderProfileImage ??
+                    'https://i.ibb.co/3T4mNMm/man.png',
+                }}
                 style={{
                   width: 50,
                   height: 50,
