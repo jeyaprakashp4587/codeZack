@@ -33,7 +33,7 @@ const SignUp = ({navigation}) => {
     Password: React.createRef(),
     Confirm_Password: React.createRef(),
     Gender: React.createRef(),
-    Date_Of_Birth: React.createRef(),
+    DOB: React.createRef(),
     Degree_name: React.createRef(),
     Institute_Name: React.createRef(),
     State: React.createRef(),
@@ -48,7 +48,7 @@ const SignUp = ({navigation}) => {
     Password: '',
     Confirm_Password: '',
     Gender: '',
-    Date_Of_Birth: '',
+    DOB: '',
     Degree_name: '',
     Institute_Name: '',
     State: '',
@@ -142,7 +142,7 @@ const SignUp = ({navigation}) => {
         pageView,
         {paddingHorizontal: width * 0.05, paddingBottom: height * 0.02},
       ]}>
-      <Text style={styles.headerText}>Sign Up</Text>
+      {/* <Text style={styles.headerText}>Sign Up</Text> */}
       <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
         <View style={styles.imageContainer}>
           <Image
@@ -222,7 +222,6 @@ export default React.memo(SignUp);
 
 const styles = StyleSheet.create({
   headerText: {
-    textAlign: 'center',
     fontSize: width * 0.09,
     color: 'hsl(0, 0%, 50%)',
     paddingBottom: height * 0.01,
@@ -231,18 +230,20 @@ const styles = StyleSheet.create({
     paddingBottom: height * 0.02,
   },
   image: {
-    width: width * 0.5,
-    height: height * 0.3,
+    width: width * 0.7,
+    height: height * 0.4,
     alignSelf: 'center',
   },
   subText: {
     textAlign: 'center',
-    color: Colors.lightGrey,
+    color: Colors.veryDarkGrey,
+    fontWeight: '600',
+    letterSpacing: 1,
   },
   input: {
     marginTop: height * 0.005,
     backgroundColor: 'white',
-    borderRadius: 10,
+    borderRadius: 5,
     paddingHorizontal: width * 0.03,
     paddingVertical: height * 0.015,
   },

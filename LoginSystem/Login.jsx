@@ -13,6 +13,7 @@ import {
   ToastAndroid,
   KeyboardAvoidingView,
   Platform,
+  Keyboard,
 } from 'react-native';
 import {Colors} from '../constants/Colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -91,82 +92,97 @@ const Login = () => {
   }, [form, validateForm, setUser, navigation]);
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{flex: 1}}>
-      <ScrollView style={styles.pageView} showsVerticalScrollIndicator={false}>
-        <View style={styles.container}>
-          <Text style={styles.headerText}>Log In</Text>
-          <View style={styles.imageContainer}>
-            <Image
-              source={{uri: 'https://i.ibb.co/P5s1nZ5/loginbg.png'}}
-              style={styles.image}
-            />
-            <Text style={styles.welcomeText}>
-              Welcome To Code Campus, Growth Your Career From Here
-            </Text>
-          </View>
-          <View style={styles.inputsWrapper}>
-            <TextInput
-              spellCheck={true}
-              style={styles.textInput}
-              placeholder="Email"
-              placeholderTextColor={Colors.mildGrey}
-              onChangeText={text => handleEmail('Email', text)}
-            />
-            <View
-              style={{
-                flexDirection: 'row',
-                borderWidth: 1,
-                borderColor: Colors.veryLightGrey,
-                borderRadius: 5,
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                columnGap: 10,
-                // paddingHorizontal: 10,
-                paddingRight: 10,
-              }}>
-              <TextInput
-                style={{
-                  borderWidth: 0,
-                  flex: 1,
-                  paddingLeft: 10,
-                  color: Colors.veryDarkGrey,
-                }}
-                placeholder="Password"
-                placeholderTextColor={Colors.mildGrey}
-                secureTextEntry={hidePassword}
-                onChangeText={text => handlePassword('Password', text)}
-              />
-              <TouchableOpacity onPress={() => setHidePassword(!hidePassword)}>
-                <Ionicons
-                  name={hidePassword ? 'eye-outline' : 'eye-off-outline'}
-                  size={20}
-                />
-              </TouchableOpacity>
-            </View>
-            <TouchableOpacity onPress={HandleLogin} style={styles.loginButton}>
-              {activityIndi && (
-                <ActivityIndicator size="small" color={Colors.white} />
-              )}
-              <Text style={styles.loginText}>Login</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.indicator}>
-            <Text style={styles.indicatorText}>OR</Text>
-          </View>
-          <View style={styles.signUpContainer}>
-            <Text style={{color: Colors.mildGrey, fontWeight: '700'}}>
-              Create New account
-            </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('signup')}>
-              <Text style={styles.signUpLink}>Sign up</Text>
-            </TouchableOpacity>
-          </View>
+    <ScrollView style={styles.pageView} showsVerticalScrollIndicator={false}>
+      <View style={styles.container}>
+        {/* <Text style={styles.headerText}>Log In</Text> */}
+        <View style={styles.imageContainer}>
+          <Image
+            source={{uri: 'https://i.ibb.co/P5s1nZ5/loginbg.png'}}
+            style={styles.image}
+          />
+          <Text style={styles.welcomeText}>
+            Welcome To Code Campus, Growth Your Career From Here
+          </Text>
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+        <View style={styles.inputsWrapper}>
+          <TextInput
+            spellCheck={true}
+            style={styles.textInput}
+            placeholder="Email"
+            placeholderTextColor={Colors.mildGrey}
+            onChangeText={text => handleEmail('Email', text)}
+          />
+          <View
+            style={{
+              flexDirection: 'row',
+              borderWidth: 1,
+              borderColor: Colors.veryLightGrey,
+              borderRadius: 5,
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              columnGap: 10,
+              // paddingHorizontal: 10,
+              paddingRight: 10,
+            }}>
+            <TextInput
+              style={{
+                borderWidth: 0,
+                flex: 1,
+                paddingLeft: 10,
+                color: Colors.veryDarkGrey,
+              }}
+              placeholder="Password"
+              placeholderTextColor={Colors.mildGrey}
+              secureTextEntry={hidePassword}
+              onChangeText={text => handlePassword('Password', text)}
+            />
+            <TouchableOpacity onPress={() => setHidePassword(!hidePassword)}>
+              <Ionicons
+                name={hidePassword ? 'eye-outline' : 'eye-off-outline'}
+                size={20}
+              />
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity onPress={HandleLogin} style={styles.loginButton}>
+            {activityIndi && (
+              <ActivityIndicator size="small" color={Colors.white} />
+            )}
+            <Text style={styles.loginText}>Login</Text>
+          </TouchableOpacity>
+        </View>
+        {/* forgot password */}
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+          }}>
+          <TouchableOpacity>
+            <Text
+              onPress={() => navigation.navigate('passwordReset')}
+              style={{
+                color: Colors.violet,
+                letterSpacing: 1,
+                textAlign: 'right',
+              }}>
+              Forgot Password?
+            </Text>
+          </TouchableOpacity>
+        </View>
+        {/* forgot password */}
+        <View style={styles.indicator}>
+          <Text style={styles.indicatorText}>OR</Text>
+        </View>
+        <View style={styles.signUpContainer}>
+          <Text style={{color: Colors.mildGrey, fontWeight: '700'}}>
+            Create New account
+          </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('signup')}>
+            <Text style={styles.signUpLink}>Sign up</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </ScrollView>
   );
 };
 
