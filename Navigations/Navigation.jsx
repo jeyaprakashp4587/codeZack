@@ -47,6 +47,7 @@ import VideoTutorials from '../Pages/VideoTutorials';
 import InterViewDetails from '../Pages/InterViewDetails';
 import InterviewPrep from '../Pages/InterviewPrep';
 import Task from '../Pages/Task';
+import HeadingText from '../utils/HeadingText';
 
 // Tab navigations
 const {width, height} = Dimensions.get('window');
@@ -316,6 +317,12 @@ const StackNavigations = () => {
       <Stack.Screen
         name="taskScreen"
         component={Task}
+        options={{headerShown: false}}
+      />
+      {/* go back operator */}
+      <Stack.Screen
+        name="goBack"
+        component={HeadingText}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

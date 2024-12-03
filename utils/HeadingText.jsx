@@ -1,19 +1,40 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Colors} from '../constants/Colors';
+import {useNavigation} from '@react-navigation/native';
 
 const HeadingText = props => {
+  const {widht} = Dimensions.get('window');
+  const nav = useNavigation();
   return (
-    <Text
+    <View
       style={{
-        color: props.color ?? Colors.mildGrey,
-        fontSize: 25,
-        paddingVertical: 10,
-        letterSpacing: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        columnGap: 15,
+        // paddingHorizontal: 15,
       }}>
-      {props.text}
-    </Text>
+      <TouchableOpacity onPress={() => nav.goBack()}>
+        <AntDesign name="arrowleft" size={20} color={Colors.mildGrey} />
+      </TouchableOpacity>
+      <Text
+        style={{
+          color: props.color ?? Colors.mildGrey,
+          fontSize: 20,
+          paddingVertical: 10,
+          letterSpacing: 1,
+        }}>
+        {props.text}
+      </Text>
+    </View>
   );
 };
 

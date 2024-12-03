@@ -18,6 +18,7 @@ import {profileApi} from '../Api';
 import {ScrollView} from 'react-native';
 import {RefreshControl} from 'react-native';
 import BannerAdd from '../Adds/BannerAdd';
+import PragraphText from '../utils/PragraphText';
 
 const {width} = Dimensions.get('window');
 
@@ -116,7 +117,7 @@ const YourCourses = () => {
           ))
         )}
         {/* tutorials */}
-        <HeadingText text="Tutorials" />
+        <PragraphText text="Tutorials" fsize={20} />
         <Text style={styles.infoText}>
           <Text style={styles.infoHighlight}>*</Text> Long press the course
           wrapper to remove the course

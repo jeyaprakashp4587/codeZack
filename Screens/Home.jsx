@@ -353,7 +353,13 @@ const Home = () => {
   }, []);
   // check noti
   PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
-
+  useEffect(() => {
+    try {
+      emitSocketEvent('bb', {token: user?.FcmId, msg: 'hii'});
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
   // render ui after load
   if (!UiLoading) return <HomeSkeleton />;
 
@@ -525,7 +531,7 @@ const Home = () => {
             borderColor: Colors.veryLightGrey,
             marginVertical: 10,
             marginBottom: 5,
-            height: height * 0.07,
+            height: height * 0.06,
           }}>
           <EvilIcons
             name="search"

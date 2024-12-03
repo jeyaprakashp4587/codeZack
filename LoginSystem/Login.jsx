@@ -218,10 +218,10 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     backgroundColor: Colors.violet,
-    padding: height * 0.02, // Dynamic padding
+    padding: height * 0.015, // Dynamic padding
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 5,
     flexDirection: 'row',
     columnGap: 10,
     marginTop: 10,
