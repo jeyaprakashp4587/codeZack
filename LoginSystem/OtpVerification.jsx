@@ -68,6 +68,7 @@ const OtpVerification = () => {
     // Check with the user data OTP
     if (enteredOtp === mainOtp) {
       Alert.alert('Success', 'OTP is valid!');
+      nav.navigate('setPassword', {email});
     } else {
       Alert.alert('Invalid OTP', 'The entered OTP is incorrect.');
     }
@@ -130,7 +131,7 @@ const OtpVerification = () => {
           width: '80%',
           rowGap: 10,
         }}>
-        <TouchableOpacity onPress={() => nav.navigate('setPassword', {email})}>
+        <TouchableOpacity>
           <Ionicons
             name="mail-open-outline"
             size={50}

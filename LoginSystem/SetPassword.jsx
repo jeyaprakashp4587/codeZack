@@ -3,18 +3,70 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {Colors} from '../constants/Colors';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import axios from 'axios';
+import {loginApi} from '../Api';
 
 const SetPassword = () => {
   const {width} = Dimensions.get('window');
   const {email} = useRoute().params;
-  console.log(email);
+  const nav = useNavigation();
+
+  const passwordRef = useRef('');
+  const confirmPasswordRef = useRef('');
+  const [errors, setErrors] = useState({
+    password: false,
+    confirmPassword: false,
+  });
+
+  const handleResetPassword = useCallback(async () => {
+    // Reset errors
+    setErrors({password: false, confirmPassword: false});
+
+    // Get values from refs
+    const password = passwordRef.current;
+    const confirmPassword = confirmPasswordRef.current;
+
+    // Validation checks
+    let isValid = true;
+
+    if (password.length < 6) {
+      setErrors(prev => ({...prev, password: true}));
+      isValid = false;
+    }
+
+    if (password !== confirmPassword) {
+      setErrors(prev => ({...prev, confirmPassword: true}));
+      isValid = false;
+    }
+
+    if (!isValid) {
+      return;
+    }
+    // Simulate server response
+    try {
+      const response = await axios.post(`${loginApi}/LogIn/resetNewPassword`, {
+        email: email.trim(),
+        password,
+      });
+      if (response.status == 200 && response.data.msg == 'ok') {
+        ToastAndroid.show('Password reset sucessfully.', ToastAndroid.SHORT);
+        nav.navigate('login'); // Redirect to login
+      } else {
+        alert(result.message || 'Failed to reset password. Try again later.');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [email, nav]);
 
   return (
     <View
@@ -31,8 +83,6 @@ const SetPassword = () => {
           justifyContent: 'center',
           alignItems: 'center',
           flex: 1,
-          borderWidth: 1,
-          borderColor: 'white',
           width: '80%',
           rowGap: 10,
         }}>
@@ -45,7 +95,7 @@ const SetPassword = () => {
             fontSize: width * 0.053,
             width: '100%',
             textAlign: 'center',
-            marginBottom: 10,
+            marginBottom: 5,
           }}>
           Set new password
         </Text>
@@ -55,46 +105,60 @@ const SetPassword = () => {
             color: Colors.mildGrey,
             fontSize: width * 0.03,
           }}>
-          Must be atleast 6 characters
+          Must be at least 6 characters
         </Text>
         <View style={{width: '100%'}}>
           <Text
-            style={{textAlign: 'left', width: '100%', color: Colors.mildGrey}}>
+            style={{
+              textAlign: 'left',
+              width: '100%',
+              color: Colors.mildGrey,
+              letterSpacing: 1.4,
+              fontSize: width * 0.03,
+            }}>
             Password
           </Text>
           <TextInput
-            placeholder="password"
+            placeholder="Password"
             style={{
               borderWidth: 0.6,
-              borderColor: Colors.lightGrey,
+              borderColor: errors.password ? 'red' : Colors.lightGrey,
               borderRadius: 5,
               width: '100%',
               paddingHorizontal: 10,
-              marginBottom: 20,
+              marginBottom: 10,
             }}
-            // onChangeText={text => handleEmail(text)}
+            secureTextEntry
+            onChangeText={text => (passwordRef.current = text)}
           />
         </View>
         <View style={{width: '100%'}}>
           <Text
-            style={{textAlign: 'left', width: '100%', color: Colors.mildGrey}}>
+            style={{
+              textAlign: 'left',
+              width: '100%',
+              color: Colors.mildGrey,
+              letterSpacing: 1.4,
+              fontSize: width * 0.03,
+            }}>
             Confirm Password
           </Text>
           <TextInput
-            placeholder="confirm password"
+            placeholder="Confirm Password"
             style={{
               borderWidth: 0.6,
-              borderColor: Colors.lightGrey,
+              borderColor: errors.confirmPassword ? 'red' : Colors.lightGrey,
               borderRadius: 5,
               width: '100%',
               paddingHorizontal: 10,
-              marginBottom: 20,
+              marginBottom: 10,
             }}
-            // onChangeText={text => handleEmail(text)}
+            secureTextEntry
+            onChangeText={text => (confirmPasswordRef.current = text)}
           />
         </View>
         <TouchableOpacity
-          // onPress={() => sendOtp()}
+          onPress={handleResetPassword}
           style={{
             backgroundColor: Colors.violet,
             width: '100%',
@@ -107,11 +171,20 @@ const SetPassword = () => {
             Reset Password
           </Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => nav.goBack()}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            columnGap: 10,
+            marginBottom: 20,
+          }}>
+          <AntDesign name="arrowleft" size={20} color={Colors.lightGrey} />
+          <Text style={{color: Colors.lightGrey}}>Back To Login</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
 
 export default SetPassword;
-
-const styles = StyleSheet.create({});
