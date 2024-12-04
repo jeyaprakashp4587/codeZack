@@ -1,31 +1,218 @@
-import React from 'react';
-import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {
+  Dimensions,
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Linking,
+} from 'react-native';
 import HeadingText from '../utils/HeadingText';
 import {Colors, pageView} from '../constants/Colors';
 import Moment from 'moment';
+import axios from 'axios';
+import {functionApi} from '../Api';
+import {useNavigation} from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
 
 const Placement = () => {
   const {width, height} = Dimensions.get('window');
-  console.log(typeof 2);
-
+  const [jobs, setjobs] = useState();
+  const nav = useNavigation();
+  const getAllJobs = useCallback(async () => {
+    const res = await axios.get(`${functionApi}/Jobs/getAllJobs`);
+    if (res.status == 200) {
+      // console.log(res.data.jobs[0]?.Jobs);
+      setjobs(res.data.jobs[0]?.Jobs);
+    }
+  }, []);
+  useEffect(() => {
+    getAllJobs();
+  }, [getAllJobs]);
   return (
     <View style={pageView}>
       {/* header */}
       <View style={{paddingHorizontal: 15}}>
-        <HeadingText text="Placement" />
-        <Text style={{color: Colors.mildGrey, letterSpacing: 2}}>
-          We are working on it :)
-        </Text>
-        <Image
-          source={{uri: 'https://i.ibb.co/fQhgqVz/rb-2148817994.png'}}
-          style={{
-            width: width * 0.7,
-            height: height * 0.3,
-            alignSelf: 'center',
-            marginTop: height * 0.2,
-          }}
-        />
+        <HeadingText text="Jobs" />
       </View>
+      <View
+        style={{
+          paddingHorizontal: 15,
+          flexDirection: 'row',
+          borderWidth: 1,
+          borderColor: 'white',
+          alignItems: 'center',
+        }}>
+        <Text
+          style={{
+            fontSize: width * 0.05,
+            fontWeight: '600',
+            color: Colors.veryDarkGrey,
+            letterSpacing: 1,
+          }}>
+          Recommended Jobs{' '}
+        </Text>
+        <Text
+          style={{
+            borderColor: Colors.mildGrey,
+            paddingHorizontal: 15,
+            textAlign: 'center',
+            borderRadius: 10,
+            borderWidth: 1,
+          }}>
+          {jobs?.length}
+        </Text>
+      </View>
+      {/* job lists */}
+      {/* <View style={{paddingHorizontal: 15, marginVertical: 30}}> */}
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={jobs}
+        renderItem={({item, index}) => (
+          <View
+            key={index}
+            style={{
+              // borderWidth: 1,
+              padding: 10,
+              borderColor: Colors.lightGrey,
+              borderRadius: 10,
+              flexDirection: 'column',
+              rowGap: 20,
+              margin: 15,
+              elevation: 3,
+              backgroundColor: 'white',
+            }}>
+            <LinearGradient
+              colors={[item?.BgColor, 'white']}
+              start={{x: 1, y: 0}}
+              end={{x: 0, y: 1}}
+              style={{
+                backgroundColor: item?.BgColor,
+                borderRadius: 10,
+                padding: 10,
+                flexDirection: 'column',
+                rowGap: 15,
+                borderColor: item?.BgColor,
+              }}>
+              {/* head */}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'flex-start',
+                  borderWidth: 1,
+                  borderColor: item?.BgColor,
+                }}>
+                <Text
+                  style={{
+                    backgroundColor: 'white',
+                    textAlign: 'center',
+                    // width: '40%',
+                    padding: 5,
+                    borderRadius: 20,
+                    letterSpacing: 2,
+                    paddingHorizontal: 10,
+                  }}>
+                  {item?.Date}
+                </Text>
+              </View>
+              {/* company details */}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  borderWidth: 1,
+                  justifyContent: 'space-between',
+                  borderColor: item?.BgColor,
+                  alignItems: 'center',
+                }}>
+                <View>
+                  <Text style={{fontSize: width * 0.04}}>
+                    {item?.CompanyName}
+                  </Text>
+                  <Text style={{fontWeight: '400', fontSize: width * 0.045}}>
+                    {item?.JobTitle}
+                  </Text>
+                </View>
+                <View>
+                  <Image
+                    source={{uri: item?.CompanyLogo}}
+                    style={{width: 50, height: 50, resizeMode: 'contain'}}
+                  />
+                </View>
+              </View>
+              {/* job types */}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  borderWidth: 1,
+                  columnGap: 10,
+                  borderColor: item?.BgColor,
+                }}>
+                {item?.JobType?.map((i, index) => (
+                  <Text
+                    key={index}
+                    style={{
+                      // borderWidth: 1,
+                      borderRadius: 20,
+                      borderColor: Colors.mildGrey,
+                      // paddingHorizontal: 10,
+                      paddingVertical: 2,
+                      color: Colors.mildGrey,
+                    }}>
+                    {i}
+                  </Text>
+                ))}
+              </View>
+
+              {/* location */}
+              <Text
+                style={{
+                  fontWeight: '400',
+                  fontSize: width * 0.035,
+                  // color: Colors.mildGrey,
+                }}>
+                {item?.JobLocation}
+              </Text>
+            </LinearGradient>
+
+            {/* bottom wrapper */}
+            <TouchableOpacity
+              style={{
+                // backgroundColor: 'black',
+                padding: 15,
+                borderRadius: 10,
+                borderColor: Colors.lightGrey,
+                // borderWidth: 1,
+              }}>
+              <Text
+                style={{
+                  // color: 'white',
+                  textAlign: 'center',
+                  fontWeight: '600',
+                  letterSpacing: 1,
+                  fontSize: width * 0.032,
+                  // textDecorationLine: 'underline',
+                  textDecorationColor: 'red',
+                }}>
+                Apply Now
+              </Text>
+              <View
+                style={{
+                  width: width * 0.16,
+                  backgroundColor: item?.BgColor,
+                  height: 10,
+                  position: 'absolute',
+                  top: height * 0.03,
+                  alignSelf: 'center',
+                  zIndex: -10,
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+        )}
+      />
+      {/* </View> */}
     </View>
   );
 };

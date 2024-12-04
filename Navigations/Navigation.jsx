@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions, Image} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -66,8 +66,8 @@ const TabNavigation = () => {
         tabBarIconStyle: {
           color: Colors.lightGrey,
         },
-        tabBarActiveTintColor: '#3a6ea5',
-        tabBarInactiveTintColor: Colors.lightGrey,
+        tabBarActiveTintColor: Colors.violet,
+        tabBarInactiveTintColor: Colors.mildGrey,
         tabBarStyle: {
           height: 80,
           paddingBottom: 10,
@@ -78,7 +78,7 @@ const TabNavigation = () => {
           marginTop: -15,
           marginBottom: 5,
           fontFamily: font.poppins,
-          color: Colors.veryDarkGrey,
+          color: Colors.mildGrey,
           letterSpacing: 1,
         },
         tabBarHideOnKeyboard: true,
@@ -89,7 +89,16 @@ const TabNavigation = () => {
         component={Home}
         options={{
           tabBarIcon: ({color}) => (
-            <FontAwesomeIcon icon={faHome} color={color} size={width * 0.06} />
+            // <FontAwesomeIcon icon={faHome} color={color} size={width * 0.06} />
+            <Image
+              source={{uri: 'https://i.ibb.co/DD0gmYp/home.png'}}
+              style={{
+                width: width * 0.07,
+                height: width * 0.07,
+                tintColor: color, // This will apply a tint to your image if needed
+              }}
+              resizeMode="contain"
+            />
           ),
         }}
       />
@@ -98,10 +107,19 @@ const TabNavigation = () => {
         component={Challenge}
         options={{
           tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons
-              name="sword-cross"
-              size={width * 0.06}
-              color={color}
+            // <MaterialCommunityIcons
+            //   name="sword-cross"
+            //   size={width * 0.06}
+            //   color={color}
+            // />
+            <Image
+              source={{uri: 'https://i.ibb.co/FYLw2bP/sword.png'}}
+              style={{
+                width: width * 0.07,
+                height: width * 0.07,
+                tintColor: color, // This will apply a tint to your image if needed
+              }}
+              resizeMode="contain"
             />
           ),
         }}
@@ -135,10 +153,19 @@ const TabNavigation = () => {
         component={Placement}
         options={{
           tabBarIcon: ({color}) => (
-            <FontAwesomeIcon
-              icon={faSuitcase}
-              color={color}
-              size={width * 0.06}
+            // <FontAwesomeIcon
+            //   icon={faSuitcase}
+            //   color={color}
+            //   size={width * 0.06}
+            // />
+            <Image
+              source={{uri: 'https://i.ibb.co/Cv25P24/suitcase.png'}}
+              style={{
+                width: width * 0.07,
+                height: width * 0.07,
+                tintColor: color, // This will apply a tint to your image if needed
+              }}
+              resizeMode="contain"
             />
           ),
         }}
@@ -148,14 +175,28 @@ const TabNavigation = () => {
         component={Profile}
         options={{
           tabBarIcon: ({color}) => (
-            <FontAwesomeIcon icon={faUser} color={color} size={width * 0.06} />
+            // <FontAwesomeIcon icon={faUser} color={color} size={width * 0.06} />
+
+            <Image
+              source={{uri: 'https://i.ibb.co/9Vck1rW/people.png'}}
+              style={{
+                width: width * 0.07,
+                height: width * 0.07,
+                tintColor: color, // This will apply a tint to your image if needed
+              }}
+              resizeMode="contain"
+            />
           ),
         }}
       />
     </Tab.Navigator>
   );
 };
-
+{
+  /* <a href="https://imgbb.com/"><img src="https://i.ibb.co/FYLw2bP/sword.png" alt="sword" border="0"></a>
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/Cv25P24/suitcase.png" alt="suitcase" border="0"></a>
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/DD0gmYp/home.png" alt="home" border="0"></a> */
+}
 // Stack navigations
 const Stack = createNativeStackNavigator();
 

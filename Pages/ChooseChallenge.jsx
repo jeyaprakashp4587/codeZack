@@ -225,7 +225,13 @@ const ChooseChallenge = ({navigation}) => {
                   completedChallenge =>
                     completedChallenge.ChallengeName === item.title,
                 ) && (
-                  <Text style={{letterSpacing: 2, color: Colors.mildGrey}}>
+                  <Text
+                    style={{
+                      letterSpacing: 2,
+                      color: Colors.mildGrey,
+                      fontSize: width * 0.02,
+                      fontWeight: '600',
+                    }}>
                     Finished!
                   </Text>
                 )}

@@ -92,8 +92,8 @@ const Login = () => {
   }, [form, validateForm, setUser, navigation]);
 
   return (
-    <ScrollView style={styles.pageView} showsVerticalScrollIndicator={false}>
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {/* <Text style={styles.headerText}>Log In</Text> */}
         <View style={styles.imageContainer}>
           <Image
@@ -181,16 +181,12 @@ const Login = () => {
             <Text style={styles.signUpLink}>Sign up</Text>
           </TouchableOpacity>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  pageView: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
   headerText: {
     textAlign: 'center',
     fontSize: width * 0.09, // Dynamic font size
@@ -201,6 +197,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: width * 0.08,
     flexDirection: 'column',
     justifyContent: 'space-around',
+    alignItems: 'center',
+    // borderWidth: 1,
+    backgroundColor: 'white',
+    flex: 1,
+    // alignSelf: 'center',
   },
   imageContainer: {
     alignItems: 'center',
