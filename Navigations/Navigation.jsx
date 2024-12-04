@@ -50,6 +50,7 @@ import Task from '../Pages/Task';
 import HeadingText from '../utils/HeadingText';
 import PasswordReset from '../LoginSystem/PasswordReset';
 import OtpVerification from '../LoginSystem/OtpVerification';
+import SetPassword from '../LoginSystem/SetPassword';
 
 // Tab navigations
 const {width, height} = Dimensions.get('window');
@@ -329,6 +330,11 @@ const StackNavigations = () => {
       <Stack.Screen
         name="otpVerification"
         component={OtpVerification}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="setPassword"
+        component={SetPassword}
         options={{headerShown: false}}
       />
       {/* go back operator */}

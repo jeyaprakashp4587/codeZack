@@ -7,23 +7,25 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect, useCallback} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Colors} from '../constants/Colors';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import axios from 'axios';
+import {loginApi} from '../Api';
 const OtpVerification = () => {
   const {width} = Dimensions.get('window');
+  const {email} = useRoute().params;
   const nav = useNavigation();
   const [otp, setOtp] = useState(['', '', '', '']); // Store OTP digits
   const inputs = useRef([]); // Store references to input boxes
   const [focusedIndex, setFocusedIndex] = useState(null);
-
+  const [mainOtp, setMainOtp] = useState();
   const handleFocus = index => {
     setFocusedIndex(index);
   };
   // Simulated user OTP from the database
-  const userDataOtp = 3453;
 
   // Handle input change
   const handleChange = (text, index) => {
@@ -64,7 +66,7 @@ const OtpVerification = () => {
     const enteredOtp = parseInt(otpString, 10); // Convert to integer
 
     // Check with the user data OTP
-    if (enteredOtp === userDataOtp) {
+    if (enteredOtp === mainOtp) {
       Alert.alert('Success', 'OTP is valid!');
     } else {
       Alert.alert('Invalid OTP', 'The entered OTP is incorrect.');
@@ -80,6 +82,33 @@ const OtpVerification = () => {
       return () => clearInterval(interval);
     }
   }, [timeLimit]);
+  // -------
+  const generateAndSendOtp = useCallback(async () => {
+    // Generate a new OTP
+    const otp = Math.floor(1000 + Math.random() * 9000); // Ensures a 4-digit OTP
+    setMainOtp(otp);
+
+    try {
+      // Send OTP to server
+      await axios.post(`${loginApi}/LogIn/sendReserPassOtp`, {
+        email,
+        otp,
+      });
+      console.log('OTP sent successfully');
+    } catch (error) {
+      console.error('Error sending OTP:', error);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Call generateAndSendOtp when the component mounts
+    generateAndSendOtp();
+  }, [generateAndSendOtp]);
+
+  // Resend OTP handler
+  const handleResendOtp = () => {
+    generateAndSendOtp(); // Reuse the same function for resending OTP
+  };
 
   return (
     <View
@@ -101,7 +130,13 @@ const OtpVerification = () => {
           width: '80%',
           rowGap: 10,
         }}>
-        <Ionicons name="mail-open-outline" size={50} color={Colors.lightGrey} />
+        <TouchableOpacity onPress={() => nav.navigate('setPassword', {email})}>
+          <Ionicons
+            name="mail-open-outline"
+            size={50}
+            color={Colors.lightGrey}
+          />
+        </TouchableOpacity>
         <Text
           style={{
             color: Colors.veryDarkGrey,
@@ -114,10 +149,15 @@ const OtpVerification = () => {
           }}>
           Enter OTP
         </Text>
-        <Text style={{letterSpacing: 1, color: Colors.mildGrey}}>
+        <Text
+          style={{
+            letterSpacing: 1,
+            color: Colors.mildGrey,
+            fontSize: width * 0.03,
+          }}>
           We send a otp to{' '}
           <Text style={{color: Colors.veryDarkGrey, fontWeight: '600'}}>
-            Jp@gmail.com
+            {email}
           </Text>
         </Text>
         {/* otps */}
@@ -153,21 +193,6 @@ const OtpVerification = () => {
             />
           ))}
         </View>
-        {/*  */}
-        <TouchableOpacity
-          onPress={() => sendOtp()}
-          style={{
-            backgroundColor: Colors.violet,
-            width: '100%',
-            padding: 10,
-            borderRadius: 5,
-            marginBottom: 20,
-          }}>
-          <Text
-            style={{textAlign: 'center', color: 'white', fontWeight: '600'}}>
-            Verify
-          </Text>
-        </TouchableOpacity>
         {/* resend otp */}
         <View
           style={{
@@ -177,19 +202,21 @@ const OtpVerification = () => {
             alignItems: 'center',
           }}>
           <Text
+            onPress={() => handleResendOtp()}
             style={{
               textAlign: 'right',
               fontWeight: '600',
-              color: timeLimit <= 0 ? Colors.lightGrey : Colors.violet,
+              color: !timeLimit <= 0 ? Colors.lightGrey : Colors.violet,
             }}>
-            <Text
-              style={{
-                color: Colors.lightGrey,
-                marginRight: 20,
-                display: timeLimit <= 0 ? 'none' : 'flex',
-              }}>
-              {timeLimit}
-            </Text>
+            {timeLimit > 0 && (
+              <Text
+                style={{
+                  color: Colors.lightGrey,
+                  marginRight: 20,
+                }}>
+                {timeLimit}
+              </Text>
+            )}
             Resend OTP?
           </Text>
         </View>

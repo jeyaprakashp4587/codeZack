@@ -12,6 +12,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Colors} from '../constants/Colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
+import {loginApi} from '../Api';
 
 const PasswordReset = () => {
   const {width} = Dimensions.get('window');
@@ -24,18 +26,52 @@ const PasswordReset = () => {
   };
   // Handle sending OTP
   const sendOtp = useCallback(async () => {
-    // console.log(email);
     if (!isEmailValid(email.trim())) {
       ToastAndroid.show('Invalid email format.', ToastAndroid.SHORT);
       return false;
     }
+
     try {
-      nav.navigate('otpVerification');
+      const emailExists = await checkEmail(); // Await checkEmail response
+      console.log('Email exists:', emailExists); // Debugging log
+
+      if (emailExists) {
+        console.log('Email verified. Navigating to OTP Verification.');
+        nav.navigate('otpVerification', {email: email.toLowerCase()});
+      } else {
+        console.log("Email doesn't exist.");
+        ToastAndroid.show(
+          "Email doesn't exist, try another email",
+          ToastAndroid.SHORT,
+        );
+      }
     } catch (error) {
-      console.log(error);
+      //   console.error('Error in sendOtp:', error.message);
+      ToastAndroid.show(
+        'Something went wrong. Please try again.',
+        ToastAndroid.LONG,
+      );
     }
-  }, [email]);
-  //
+  }, [email, nav]);
+
+  const checkEmail = useCallback(async () => {
+    try {
+      console.log('Sending email verification request...');
+      const res = await axios.post(`${loginApi}/LogIn/splash`, {
+        Email: email.toLowerCase().trim(),
+      });
+      if (res.status == 200) {
+        // console.log(res.data);
+        return true; // Email exists
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.log('Error in checkEmail:', error.message);
+      return false;
+    }
+  }, [loginApi, email]);
+
   return (
     <View
       style={{
@@ -57,6 +93,7 @@ const PasswordReset = () => {
           //   rowGap: 10,
         }}>
         <MaterialIcons name="fingerprint" size={60} color={Colors.lightGrey} />
+
         <Text
           style={{
             color: Colors.veryDarkGrey,

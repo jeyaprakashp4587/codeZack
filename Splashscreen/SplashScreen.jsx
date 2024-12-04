@@ -35,9 +35,9 @@ const SplashScreen = () => {
           Email: email,
         });
 
-        if (response.data.Email) {
+        if (response.status == 200) {
           setActivityIndicator(false);
-          setUser(response.data);
+          setUser(response.data.user);
           nav.navigate('Tab'); // Navigate to the main app if login is valid
         } else {
           setActivityIndicator(false);
