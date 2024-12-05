@@ -597,7 +597,7 @@ const Home = () => {
         {/* tasks */}
         <Tasks />
         {/* carousel  */}
-        <Carousel
+        {/* <Carousel
           style={{marginTop: 10, alignSelf: 'center', borderWidth: 0}}
           width={width * 0.92}
           height={height * 0.22}
@@ -644,7 +644,7 @@ const Home = () => {
           )}
           autoPlay={true}
           autoPlayInterval={2000}
-        />
+        /> */}
         {/* interviews and video tutorials */}
         <View style={{paddingHorizontal: 15}}>
           <PragraphText text="Videos & Preparations" />

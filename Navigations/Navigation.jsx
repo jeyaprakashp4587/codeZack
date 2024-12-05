@@ -51,6 +51,7 @@ import HeadingText from '../utils/HeadingText';
 import PasswordReset from '../LoginSystem/PasswordReset';
 import OtpVerification from '../LoginSystem/OtpVerification';
 import SetPassword from '../LoginSystem/SetPassword';
+import {BlurView} from '@react-native-community/blur';
 
 // Tab navigations
 const {width, height} = Dimensions.get('window');
@@ -80,6 +81,7 @@ const TabNavigation = () => {
           fontFamily: font.poppins,
           color: Colors.mildGrey,
           letterSpacing: 1,
+          backgroundColor: 'transparent',
         },
         tabBarHideOnKeyboard: true,
         // tabBarShowLabel: false,
@@ -93,8 +95,8 @@ const TabNavigation = () => {
             <Image
               source={{uri: 'https://i.ibb.co/DD0gmYp/home.png'}}
               style={{
-                width: width * 0.07,
-                height: width * 0.07,
+                width: width * 0.06,
+                height: width * 0.06,
                 tintColor: color, // This will apply a tint to your image if needed
               }}
               resizeMode="contain"
@@ -113,7 +115,9 @@ const TabNavigation = () => {
             //   color={color}
             // />
             <Image
-              source={{uri: 'https://i.ibb.co/FYLw2bP/sword.png'}}
+              source={{
+                uri: 'https://img.icons8.com/parakeet-line/96/source-code.png',
+              }}
               style={{
                 width: width * 0.07,
                 height: width * 0.07,
@@ -132,7 +136,7 @@ const TabNavigation = () => {
             <FontAwesomeIcon
               icon={faPlus}
               color={Colors.white}
-              size={width * 0.06}
+              size={width * 0.07}
             />
           ),
           tabBarIconStyle: {
@@ -159,7 +163,9 @@ const TabNavigation = () => {
             //   size={width * 0.06}
             // />
             <Image
-              source={{uri: 'https://i.ibb.co/Cv25P24/suitcase.png'}}
+              source={{
+                uri: 'https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/50/external-suitcase-interface-kiranshastry-lineal-kiranshastry-1.png',
+              }}
               style={{
                 width: width * 0.07,
                 height: width * 0.07,

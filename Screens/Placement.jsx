@@ -16,6 +16,7 @@ import axios from 'axios';
 import {functionApi} from '../Api';
 import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
+import Skeleton from '../Skeletons/Skeleton';
 
 const Placement = () => {
   const {width, height} = Dimensions.get('window');
@@ -31,6 +32,58 @@ const Placement = () => {
   useEffect(() => {
     getAllJobs();
   }, [getAllJobs]);
+
+  const openURL = async url => {
+    const supported = await Linking.canOpenURL(url);
+    if (supported) {
+      await Linking.openURL(url);
+    } else {
+      console.log(`Cannot open URL: ${url}`);
+    }
+  };
+  // render skeleon
+  if (!jobs) {
+    return (
+      <View style={{backgroundColor: 'white', flex: 1}}>
+        <View style={{paddingHorizontal: 15}}>
+          <HeadingText text="Jobs" />
+        </View>
+        <View
+          style={{
+            paddingHorizontal: 15,
+            flexDirection: 'row',
+            borderWidth: 1,
+            borderColor: 'white',
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{
+              fontSize: width * 0.05,
+              fontWeight: '600',
+              color: Colors.veryDarkGrey,
+              letterSpacing: 1,
+            }}>
+            Recommended Jobs{' '}
+          </Text>
+          <Text
+            style={{
+              borderColor: Colors.mildGrey,
+              paddingHorizontal: 15,
+              textAlign: 'center',
+              borderRadius: 10,
+              borderWidth: 1,
+            }}>
+            {jobs?.length}
+          </Text>
+        </View>
+        <View style={{flexDirection: 'column', rowGap: 10, margin: 15}}>
+          <Skeleton width="100%" height={height * 0.3} radius={20} />
+          <Skeleton width="100%" height={height * 0.3} radius={20} />
+          <Skeleton width="100%" height={height * 0.3} radius={20} />
+        </View>
+      </View>
+    );
+  }
   return (
     <View style={pageView}>
       {/* header */}
@@ -80,14 +133,15 @@ const Placement = () => {
               borderRadius: 10,
               flexDirection: 'column',
               rowGap: 20,
-              margin: 15,
+              marginHorizontal: 15,
               elevation: 3,
               backgroundColor: 'white',
+              marginVertical: 8,
             }}>
             <LinearGradient
               colors={[item?.BgColor, 'white']}
-              start={{x: 1, y: 0}}
-              end={{x: 0, y: 1}}
+              start={{x: 0, y: 1}}
+              end={{x: 1, y: 0}}
               style={{
                 backgroundColor: item?.BgColor,
                 borderRadius: 10,
@@ -95,13 +149,14 @@ const Placement = () => {
                 flexDirection: 'column',
                 rowGap: 15,
                 borderColor: item?.BgColor,
+                // elevation: 4,
               }}>
               {/* head */}
               <View
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'flex-start',
-                  borderWidth: 1,
+                  // borderWidth: 1,
                   borderColor: item?.BgColor,
                 }}>
                 <Text
@@ -121,7 +176,7 @@ const Placement = () => {
               <View
                 style={{
                   flexDirection: 'row',
-                  borderWidth: 1,
+                  // borderWidth: 1,
                   justifyContent: 'space-between',
                   borderColor: item?.BgColor,
                   alignItems: 'center',
@@ -145,7 +200,7 @@ const Placement = () => {
               <View
                 style={{
                   flexDirection: 'row',
-                  borderWidth: 1,
+                  // borderWidth: 1,
                   columnGap: 10,
                   borderColor: item?.BgColor,
                 }}>
@@ -178,6 +233,7 @@ const Placement = () => {
 
             {/* bottom wrapper */}
             <TouchableOpacity
+              onPress={() => openURL(item?.url)}
               style={{
                 // backgroundColor: 'black',
                 padding: 15,

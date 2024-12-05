@@ -23,11 +23,11 @@ const HeadingText = props => {
         // paddingHorizontal: 15,
       }}>
       <TouchableOpacity onPress={() => nav.goBack()}>
-        <AntDesign name="arrowleft" size={20} color={Colors.mildGrey} />
+        <AntDesign name="arrowleft" size={20} />
       </TouchableOpacity>
       <Text
         style={{
-          color: props.color ?? Colors.mildGrey,
+          color: props.color ?? 'black',
           fontSize: 20,
           paddingVertical: 10,
           letterSpacing: 1,

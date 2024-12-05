@@ -16,10 +16,11 @@ import {functionApi} from '../Api';
 import Skeleton from '../Skeletons/Skeleton';
 import {debounce} from 'lodash';
 import BannerAdd from '../Adds/BannerAdd';
+import HeadingText from '../utils/HeadingText';
 
 const CoreChallenges = () => {
   const {selectedChallengeTopic, setSelectedChallenge} = useData();
-  console.log(selectedChallengeTopic);
+  // console.log(selectedChallengeTopic);
 
   const [challenges, setChallenges] = useState([]);
   const {width, height} = Dimensions.get('window');
@@ -123,7 +124,8 @@ const CoreChallenges = () => {
     <View style={pageView}>
       {/* header */}
       <View style={{paddingHorizontal: 15}}>
-        <PragraphText text={selectedChallengeTopic?.challengeName} fsize={28} />
+        <HeadingText text="Challenges" />
+        <PragraphText text={selectedChallengeTopic?.ChallengeName} fsize={24} />
       </View>
       {/* Banner add*/}
       <BannerAdd />
