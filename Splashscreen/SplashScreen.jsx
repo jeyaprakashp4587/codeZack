@@ -71,19 +71,18 @@ const SplashScreen = () => {
           rowGap: 100,
         }}>
         <Image
-          source={{
-            uri: 'https://i.ibb.co/MVMBJRM/ic-launcher-removebg-preview.png',
-          }}
+          source={require('../assets/CC.png')}
           style={{
             width: width * 0.9,
             height: height * 0.5,
+            borderRadius: 50,
           }}
         />
 
         {/* progress bar */}
         <View style={{position: 'absolute', bottom: -height * 0.08}}>
           {activityIndicator && (
-            <ActivityIndicator size={50} color={Colors.mildGrey} />
+            <ActivityIndicator size={80} color={Colors.mildGrey} />
           )}
         </View>
       </View>

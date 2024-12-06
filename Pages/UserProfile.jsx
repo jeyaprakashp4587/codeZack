@@ -152,33 +152,32 @@ const UserProfile = () => {
       const res = await axios.get(
         `${profileApi}/Following/getNetworks/${selectedUser?._id}`,
       );
-      if (res.status == 200) {
-        setNetworksList(res.data);
-        console.log('ckd');
+      if (res.status === 200) {
+        setNetworksList(res.data.users);
       }
+      return res.data.users;
     }
-  }, []);
-  const [mutualFriend, setMutualFriend] = useState([]);
-  useEffect(() => {
-    const fetchNetworks = async () => {
-      await getAllNetworks(); // Wait for networks to load
-      if (netWorksList && user?.Connections) {
-        console.log('work');
+    return [];
+  }, [selectedUser]);
 
-        // Filter mutual friends
-        const findMutuals = netWorksList?.filter(mufrnd =>
+  const [mutualFriend, setMutualFriend] = useState([]);
+
+  useEffect(() => {
+    const fetchMutualFriends = async () => {
+      const users = await getAllNetworks();
+      if (users?.length > 0 && user?.Connections?.length > 0) {
+        const findMutuals = users.filter(mufrnd =>
           user.Connections.some(
             connection => mufrnd?.id === connection?.ConnectionsdId,
           ),
         );
-        // Limit to the first 3 mutual friends
-        const firstThreeMutuals = findMutuals?.slice(0, 3);
-        // console.log(firstThreeMutuals);
-        setMutualFriend(firstThreeMutuals || []);
+        const firstThreeMutuals = findMutuals.slice(0, 3);
+        setMutualFriend(firstThreeMutuals);
       }
     };
-    fetchNetworks(); // Call the async function
-  }, [user?.Connections]); // Dependencies for useEffect
+    fetchMutualFriends();
+  }, [getAllNetworks, user?.Connections]);
+  // render ui
   if (!selectedUser) {
     <View style={pageView}>
       <Skeleton width="100%" height={height * 0.3} radius={10} mt={10} />
@@ -399,8 +398,8 @@ const UserProfile = () => {
             <Image
               source={{uri: item?.profileImg}}
               style={{
-                width: 50,
-                height: 50,
+                width: width * 0.1,
+                height: height * 0.05,
                 borderRadius: 50,
                 borderWidth: 2,
                 borderColor: 'white',
@@ -426,20 +425,23 @@ const UserProfile = () => {
       {/* post */}
       <HrLine />
       {selectedUser?.Posts?.length > 0 ? (
-        selectedUser?.Posts?.map((post, index) => (
-          <Posts
-            post={post}
-            index={index}
-            senderDetails={{
-              firstName: selectedUser?.firstName,
-              LastName: selectedUser?.LastName,
-              InstitudeName: selectedUser?.InstitudeName,
-              Images: {
-                profile: selectedUser?.Images?.profile,
-              },
-            }}
-          />
-        ))
+        <FlatList
+          data={selectedUser?.Posts}
+          renderItem={({item, index}) => (
+            <Posts
+              post={item}
+              index={index}
+              senderDetails={{
+                firstName: selectedUser?.firstName,
+                LastName: selectedUser?.LastName,
+                InstitudeName: selectedUser?.InstitudeName,
+                Images: {
+                  profile: selectedUser?.Images?.profile,
+                },
+              }}
+            />
+          )}
+        />
       ) : (
         <Text
           style={{
