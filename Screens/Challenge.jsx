@@ -33,7 +33,7 @@ const Challenge = ({navigation}) => {
   // "https://i.ibb.co/1ZK8nFT/css-3.png"
   const rightWrapper = useMemo(() => [
     {
-      ChallengeName: 'Your Challenge',
+      ChallengeName: 'Your Challenges',
       bgColor: '#f8f5ed',
       route: 'yourchallenges',
       content: 'Create and customize your own challenges!',

@@ -1,4 +1,11 @@
-import React, {useState, useEffect, useMemo, useCallback, useRef} from 'react';
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+  Suspense,
+} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -30,21 +37,21 @@ import {useData} from '../Context/Contexter';
 import {LinearGradient} from 'react-native-linear-gradient';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Fontisto from 'react-native-vector-icons/Fontisto';
 import axios from 'axios';
 import {loginApi, profileApi} from '../Api';
-import SuggestionWapper from '../components/SuggestionWapper';
+const SuggestionWapper = React.lazy(() =>
+  import('../components/SuggestionWapper'),
+);
+// import  from '../components/SuggestionWapper';
 import useSocketOn from '../Socket/useSocketOn';
-import Posts from '../components/Posts';
 import {debounce} from 'lodash';
 import {SocketData} from '../Socket/SocketContext';
 import BannerAdd from '../Adds/BannerAdd';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import useShakeAnimation from '../hooks/useShakeAnimation';
 import PragraphText from '../utils/PragraphText';
-import Companies from '../components/Companies';
-import Tasks from '../components/Tasks';
-import Carousel from 'react-native-reanimated-carousel';
+const Companies = React.lazy(() => import('../components/Companies'));
+const Tasks = React.lazy(() => import('../components/Tasks'));
 import DailyClaim from '../components/DailyClaim';
 import messaging from '@react-native-firebase/messaging';
 // import usehook for show adds
@@ -54,6 +61,9 @@ import {
   useRewardedAd,
 } from 'react-native-google-mobile-ads';
 import useSocketEmit from '../Socket/useSocketEmit';
+import Skeleton from '../Skeletons/Skeleton';
+// import PostFeed from '../components/PostFeed';
+const PostFeed = React.lazy(() => import('../components/PostFeed'));
 
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
@@ -64,7 +74,7 @@ const Home = () => {
   const [UiLoading, setUiLoading] = useState(false);
   const [suggestDisplay, setSuggestDisplay] = useState(true);
   const [suggestRefresh, setSuggestRefresh] = useState(false);
-  const [posts, setPosts] = useState([]);
+
   const [unseenCount, setUnseenCount] = useState(0);
   const shakeInterpolation = useShakeAnimation(3000);
   const socket = SocketData();
@@ -267,26 +277,12 @@ const Home = () => {
       if (res.data) {
         setUser(res.data);
         setRefresh(false);
-        await getConnectionPosts();
         await getNotifications();
       }
     } catch (error) {
       console.error('Failed to refresh user:', error);
     }
   }, [user?._id, setUser]);
-
-  const getConnectionPosts = useCallback(async () => {
-    try {
-      const res = await axios.get(
-        `${loginApi}/Post/getConnectionPosts/${user?._id}`,
-      );
-      if (res.status === 200) {
-        setPosts(res.data);
-      }
-    } catch (error) {
-      console.error('Failed to fetch posts:', error);
-    }
-  }, [user?._id]);
 
   const getNotifications = useCallback(async () => {
     try {
@@ -311,7 +307,6 @@ const Home = () => {
   });
   useEffect(() => {
     InteractionManager.runAfterInteractions(async () => {
-      await getConnectionPosts();
       await getNotifications();
       await setProfilePic();
       checkButtonStatus();
@@ -547,7 +542,7 @@ const Home = () => {
         <View style={styles.ideasWrapper}>
           <TouchableOpacity style={styles.ideaBox} onPress={carrerNav}>
             <Image
-              style={{width: 40, height: 40, opacity: 0.7}}
+              style={{width: 40, height: 40, opacity: 0.73}}
               source={{uri: 'https://i.ibb.co/gddf19J/programming.png'}}
             />
             {/* <SimpleLineIcons name="book-open" size={25} color="#264653" /> */}
@@ -559,7 +554,7 @@ const Home = () => {
           </TouchableOpacity>
           <TouchableOpacity onPress={courseNav} style={styles.ideaBox}>
             <Image
-              style={{width: 40, height: 40, opacity: 0.7}}
+              style={{width: 40, height: 40, opacity: 0.73}}
               source={{uri: 'https://i.ibb.co/NmNqJpx/certificate.png'}}
             />
             {/* <AntDesign name="laptop" size={25} color="#2a9d8f" /> */}
@@ -572,7 +567,7 @@ const Home = () => {
           <TouchableOpacity onPress={assignmentNav} style={styles.ideaBox}>
             {/* <SimpleLineIcons name="notebook" size={25} color="#e9c46a" /> */}
             <Image
-              style={{width: 40, height: 40, opacity: 0.7}}
+              style={{width: 40, height: 40, opacity: 0.73}}
               source={{uri: 'https://i.ibb.co/N19pNf3/assignment.png'}}
             />
             <Text
@@ -584,7 +579,7 @@ const Home = () => {
           <TouchableOpacity style={styles.ideaBox} onPress={activityNav}>
             {/* <Fontisto name="date" size={25} color="#e76f51" /> */}
             <Image
-              style={{width: 40, height: 40, opacity: 0.7}}
+              style={{width: 40, height: 40, opacity: 0.73}}
               source={{uri: 'https://i.ibb.co/B3CdkDM/calendar.png'}}
             />
             <Text
@@ -595,117 +590,85 @@ const Home = () => {
           </TouchableOpacity>
         </View>
         {/* tasks */}
-        <Tasks />
-        {/* carousel  */}
-        {/* <Carousel
-          style={{marginTop: 10, alignSelf: 'center', borderWidth: 0}}
-          width={width * 0.92}
-          height={height * 0.22}
-          data={carouselData}
-          renderItem={({item}) => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate(item.route)}
+        <Suspense
+          fallback={
+            <View style={{margin: 15}}>
+              <Skeleton width="100%" height={height * 0.2} radius={10} />
+            </View>
+          }>
+          <Tasks />
+        </Suspense>
+        {/* companies */}
+        <Suspense
+          fallback={
+            <View style={{margin: 15}}>
+              <Skeleton width="100%" height={height * 0.3} radius={10} />
+            </View>
+          }>
+          <View style={{paddingHorizontal: 15}}>
+            <PragraphText text="Videos & Preparations" />
+          </View>
+          <View
+            style={{
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              paddingHorizontal: 15,
+              columnGap: 20,
+              borderWidth: 0,
+              marginVertical: 15,
+            }}>
+            {/* interviews & company */}
+            <Companies />
+            {/* video tutorials */}
+            <LinearGradient
+              colors={['white', 'white']}
               style={{
                 flex: 1,
-                elevation: 2,
+                padding: 15,
                 borderRadius: 10,
-                overflow: 'hidden',
-                margin: 3,
+                borderWidth: 1,
+                borderColor: Colors.veryLightGrey,
               }}>
-              <LinearGradient
-                colors={['white', 'white', item.bgColor]}
-                style={{
-                  flexDirection: 'row',
-                  flex: 1,
-                  alignItems: 'flex-end',
-                  justifyContent: 'space-between',
-                  overflow: 'hidden',
-                }}
-                start={{x: 1, y: 0}}
-                end={{x: 0, y: 1}}>
-                <Text
-                  style={{
-                    fontSize: width * 0.06,
-                    textTransform: 'capitalize',
-                    color: Colors.mildGrey,
-                    letterSpacing: 3,
-                    paddingLeft: 20,
-                    paddingBottom: 20,
-                    opacity: 0.7,
-                  }}>
-                  {item.name}
+              <TouchableOpacity
+                style={{flexDirection: 'column', rowGap: 10}}
+                onPress={() => navigation.navigate('VideoTutorial')}>
+                <EvilIcons name="play" size={50} />
+                <Text style={{letterSpacing: 2, color: Colors.mildGrey}}>
+                  Watch Tutorials
                 </Text>
-                <Image
-                  source={{uri: item.img}}
-                  style={{width: '55%', height: '100%'}}
-                />
-              </LinearGradient>
-            </TouchableOpacity>
-          )}
-          autoPlay={true}
-          autoPlayInterval={2000}
-        /> */}
-        {/* interviews and video tutorials */}
-        <View style={{paddingHorizontal: 15}}>
-          <PragraphText text="Videos & Preparations" />
-        </View>
-        <View
-          style={{
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            paddingHorizontal: 15,
-            columnGap: 20,
-            borderWidth: 0,
-            marginVertical: 15,
-          }}>
-          {/* interviews & company */}
-          <Companies />
-          {/* video tutorials */}
-          <LinearGradient
-            colors={['white', 'white']}
-            style={{
-              flex: 1,
-              padding: 15,
-              borderRadius: 10,
-              borderWidth: 1,
-              borderColor: Colors.veryLightGrey,
-            }}>
-            <TouchableOpacity
-              style={{flexDirection: 'column', rowGap: 10}}
-              onPress={() => navigation.navigate('VideoTutorial')}>
-              <EvilIcons name="play" size={50} />
-              <Text style={{letterSpacing: 2, color: Colors.mildGrey}}>
-                Watch Tutorials
-              </Text>
-            </TouchableOpacity>
-          </LinearGradient>
-        </View>
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
+        </Suspense>
         {/* friends suggestions */}
-        <View
-          style={{
-            display: suggestDisplay ? 'flex' : 'none',
-            paddingHorizontal: 15,
-          }}>
-          <SuggestionWapper
-            trigger={HandlesuggestDisplay}
-            refresh={suggestRefresh}
-          />
-        </View>
+        <Suspense
+          fallback={
+            <View style={{margin: 15}}>
+              <Skeleton width="100%" height={height * 0.3} radius={10} />
+            </View>
+          }>
+          <View
+            style={{
+              display: suggestDisplay ? 'flex' : 'none',
+              paddingHorizontal: 15,
+            }}>
+            <SuggestionWapper
+              trigger={HandlesuggestDisplay}
+              refresh={suggestRefresh}
+            />
+          </View>
+        </Suspense>
         {/* banner add */}
         <BannerAdd />
         {/* posts */}
-        {/* <FlatList
-          data={posts}
-          keyExtractor={item => item._id}
-          renderItem={({item, index}) => (
-            <Posts
-              post={item.Posts}
-              senderDetails={item.SenderDetails}
-              index={index}
-              admin={false}
-            />
-          )}
-        /> */}
+        <Suspense
+          fallback={
+            <View style={{margin: 15}}>
+              <Skeleton width="100%" height={height * 0.3} radius={10} />
+            </View>
+          }>
+          <PostFeed />
+        </Suspense>
         {/* model load aadd */}
       </ScrollView>
       {/* scroll to top button */}

@@ -94,13 +94,15 @@ const Placement = () => {
         style={{
           paddingHorizontal: 15,
           flexDirection: 'row',
-          borderWidth: 1,
-          borderColor: 'white',
+          // borderWidth: 1,
+          // borderColor: 'white',
           alignItems: 'center',
+          justifyContent: 'flex-start',
+          padding: 10,
         }}>
         <Text
           style={{
-            fontSize: width * 0.05,
+            fontSize: width * 0.045,
             fontWeight: '600',
             color: Colors.veryDarkGrey,
             letterSpacing: 1,
@@ -114,6 +116,7 @@ const Placement = () => {
             textAlign: 'center',
             borderRadius: 10,
             borderWidth: 1,
+            fontSize: width * 0.035,
           }}>
           {jobs?.length}
         </Text>
@@ -225,6 +228,7 @@ const Placement = () => {
                 style={{
                   fontWeight: '400',
                   fontSize: width * 0.035,
+                  letterSpacing: 1,
                   // color: Colors.mildGrey,
                 }}>
                 {item?.JobLocation}

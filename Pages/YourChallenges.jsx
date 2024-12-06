@@ -185,7 +185,7 @@ const YourChallenges = props => {
             <Skeleton width="100%" height={200} radius={10} />
           </View>
         ) : (
-          <Text style={{fontSize: 20, letterSpacing: 1}}>
+          <Text style={{fontSize: 20, letterSpacing: 1, paddingHorizontal: 15}}>
             Nothing Is There!
           </Text>
         )

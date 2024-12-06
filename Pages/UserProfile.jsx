@@ -135,7 +135,6 @@ const UserProfile = () => {
   const [netWorksList, setNetworksList] = useState();
   const [showNetWorkModel, setShowNetWorkModel] = useState(false);
   const getNetworksList = useCallback(async () => {
-    cd;
     setShowNetWorkModel(true);
     if (selectedUser?.Connections?.length > 0) {
       const res = await axios.get(
@@ -147,7 +146,39 @@ const UserProfile = () => {
       }
     }
   }, [showNetWorkModel]);
+  // get all connection
+  const getAllNetworks = useCallback(async () => {
+    if (selectedUser?.Connections?.length > 0) {
+      const res = await axios.get(
+        `${profileApi}/Following/getNetworks/${selectedUser?._id}`,
+      );
+      if (res.status == 200) {
+        setNetworksList(res.data);
+        console.log('ckd');
+      }
+    }
+  }, []);
+  const [mutualFriend, setMutualFriend] = useState([]);
+  useEffect(() => {
+    const fetchNetworks = async () => {
+      await getAllNetworks(); // Wait for networks to load
+      if (netWorksList && user?.Connections) {
+        console.log('work');
 
+        // Filter mutual friends
+        const findMutuals = netWorksList?.filter(mufrnd =>
+          user.Connections.some(
+            connection => mufrnd?.id === connection?.ConnectionsdId,
+          ),
+        );
+        // Limit to the first 3 mutual friends
+        const firstThreeMutuals = findMutuals?.slice(0, 3);
+        // console.log(firstThreeMutuals);
+        setMutualFriend(firstThreeMutuals || []);
+      }
+    };
+    fetchNetworks(); // Call the async function
+  }, [user?.Connections]); // Dependencies for useEffect
   if (!selectedUser) {
     <View style={pageView}>
       <Skeleton width="100%" height={height * 0.3} radius={10} mt={10} />
@@ -355,6 +386,41 @@ const UserProfile = () => {
           </Text>
         </View>
       </View>
+      {/* show mutuals */}
+      <View style={{paddingHorizontal: 15}}>
+        {/* <Text>{mutualFriend?.length}</Text> */}
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginVertical: 10,
+          }}>
+          {mutualFriend?.map((item, index) => (
+            <Image
+              source={{uri: item?.profileImg}}
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 50,
+                borderWidth: 2,
+                borderColor: 'white',
+                marginLeft: index != 0 ? -20 : 0,
+                // resizeMode: 'contain',
+              }}
+            />
+          ))}
+          <Text>
+            {mutualFriend?.length > 0
+              ? `You have ${mutualFriend.length} mutual ${
+                  mutualFriend.length === 1 ? 'friend' : 'friends'
+                }: ${mutualFriend
+                  .map(friend => friend.firstName)
+                  .slice(0, 3)
+                  .join(', ')}${mutualFriend.length > 3 ? ' and others' : ''}.`
+              : 'No mutual friends to show.'}
+          </Text>
+        </View>
+      </View>
       {/* banner */}
       <BannerAdd />
       {/* post */}
@@ -416,6 +482,15 @@ const UserProfile = () => {
             }}>
             <FontAwesomeIcon icon={faTimes} size={20} color={Colors.mildGrey} />
           </TouchableOpacity>
+          <Text
+            style={{
+              fontSize: width * 0.04,
+              letterSpacing: 1,
+              paddingTop: 10,
+              paddingBottom: 10,
+            }}>
+            NetWorks
+          </Text>
           {selectedUser?.Connections?.length > 0 ? (
             <FlatList
               showsVerticalScrollIndicator={false}
@@ -433,9 +508,10 @@ const UserProfile = () => {
                     alignItems: 'center',
                     borderBottomWidth: 1,
                     paddingBottom: 10,
-                    marginHorizontal: 15,
+                    // marginHorizontal: 15,
                     borderColor: Colors.veryLightGrey,
                     // justifyContent: "center",
+                    marginVertical: 10,
                   }}>
                   <Image
                     source={{uri: item?.profileImg}}

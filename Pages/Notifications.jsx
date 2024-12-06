@@ -19,6 +19,7 @@ import RelativeTime from '../components/RelativeTime';
 import {useNavigation} from '@react-navigation/native';
 import useSocketEmit from '../Socket/useSocketEmit';
 import {SocketData} from '../Socket/SocketContext';
+import HeadingText from '../utils/HeadingText';
 
 const Notifications = () => {
   const {user, setSelectedUser, setselectedPost} = useData();
@@ -109,7 +110,8 @@ const Notifications = () => {
     <View style={[pageView, {paddingHorizontal: 15}]}>
       <View style={{paddingHorizontal: 0}}>
         {/* heading */}
-        <TopicsText text="Notifications" mb={5} />
+        <HeadingText text="Notifications" mb={5} />
+
         {/* hr line */}
         <HrLine margin={1} width="100%" />
       </View>

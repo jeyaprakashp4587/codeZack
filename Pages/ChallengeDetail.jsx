@@ -50,6 +50,7 @@ const {width, height} = Dimensions.get('window');
 
 const ChallengeDetail = () => {
   const {selectedChallenge, user, setSelectedChallenge} = useData();
+  // console.log(selectedChallenge);
   const navigation = useNavigation();
   const [uploadTut, setUploadTut] = useState(false);
   const [ChallengeStatus, setChallengeStatus] = useState('');
@@ -85,7 +86,7 @@ const ChallengeDetail = () => {
             selectedChallenge?.ChallengeName || selectedChallenge?.title,
         },
       );
-      if (res.data === 'pending' || res.data === 'completed') {
+      if (res.data == 'pending' || res.data == 'completed') {
         setStatusButtonToggle(true);
         setChallengeStatus(res.data);
       }
@@ -108,9 +109,10 @@ const ChallengeDetail = () => {
             selectedChallenge?.ChallengeLevel || selectedChallenge?.level,
         },
       );
-      if (res.data) {
-        setSelectedChallenge(res.data);
+      if (res.data && res.status == 200) {
+        setSelectedChallenge(res.data.challenge);
         checkChallengeStatus();
+        // console.log(res.data.challenge);
       }
     } catch (error) {
       console.error('Error fetching particular challenge:', error);
@@ -172,7 +174,7 @@ const ChallengeDetail = () => {
               selectedChallenge?.title || selectedChallenge?.ChallengeName,
           },
         );
-        if (res.data === 'completed') {
+        if (res.data == 'completed') {
           setChallengeStatus('completed');
           console.log('suces');
           ToastAndroid.show(
