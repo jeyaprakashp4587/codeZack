@@ -77,9 +77,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.codecampus"
+    namespace "com.codezack"
     defaultConfig {
-        applicationId "com.codecampus"
+        applicationId "com.codezack"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -95,9 +95,9 @@ android {
         release {
             // Configure the release keystore
             storeFile file('my-release-key.keystore') // Replace with the name of your keystore file
-            storePassword 'codecampus'                        // Keystore password
+            storePassword 'prakash4587'                        // Keystore password
             keyAlias 'my-key-alias'                             // Key alias
-            keyPassword 'codecampus'                          // Key password
+            keyPassword 'prakash4587'                          // Key password
         }
     }
     buildTypes {

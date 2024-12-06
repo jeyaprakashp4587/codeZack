@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "1029306297228",
-    "project_id": "codecampus-99fad",
-    "storage_bucket": "codecampus-99fad.appspot.com"
+    "project_number": "132569783886",
+    "project_id": "codezack-83869",
+    "storage_bucket": "codezack-83869.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1029306297228:android:da3020f9538374d5a2c4a9",
+        "mobilesdk_app_id": "1:132569783886:android:5b7b5dfed2c165b09c2d1f",
         "android_client_info": {
-          "package_name": "com.codecampus"
+          "package_name": "com.codezack"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCJyxNkl_mQPR_OzIdHjbgo1P8LWkvME1c"
+          "current_key": "AIzaSyAAi5dpTX7b8zRZMXUL8_nhb9Bm-d6GplU"
         }
       ],
       "services": {
