@@ -200,19 +200,8 @@ const Task = () => {
   // -----
   return (
     <View style={pageView}>
-      {/* BackGroung Image */}
-      <Image
-        source={{uri: 'https://i.ibb.co/qsbcvfy/rb-171636.png'}}
-        style={{
-          width: '90%',
-          height: '90%',
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-        }}
-      />
       <View style={{paddingHorizontal: 15}}>
-        <HeadingText text="Task" />
+        <HeadingText text="Tasks" />
       </View>
       {/* text info */}
       <View style={{paddingHorizontal: 15, marginVertical: 15}}>
