@@ -25,6 +25,7 @@ import {
   ActivityIndicator,
   AppState,
   PermissionsAndroid,
+  Vibration,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
 import Fontawesome from 'react-native-vector-icons/FontAwesome';
@@ -245,6 +246,7 @@ const Home = () => {
       console.error('Failed to fetch notifications:', error);
     }
   }, [user?._id, useSocketOn]);
+  // socket
 
   useSocketOn(socket, 'updateNoti', async data => {
     if (data) getNotifications();
@@ -252,16 +254,18 @@ const Home = () => {
 
   useSocketOn(socket, 'Receive-Noti', async () => {
     await getNotifications();
+    // Vibration.vibrate({});
   });
+
   useEffect(() => {
     InteractionManager.runAfterInteractions(async () => {
+      Vibration.vibrate([0, 200, 100, 200]);
       await getNotifications();
       await setProfilePic();
       checkButtonStatus();
     });
   }, []);
-  // ---
-
+  // --- set profile
   const setProfilePic = useCallback(async () => {
     try {
       if (!user?.Images || !user?.Images?.profile) {
