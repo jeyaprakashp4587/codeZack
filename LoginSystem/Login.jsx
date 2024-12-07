@@ -101,7 +101,7 @@ const Login = () => {
             style={styles.image}
           />
           <Text style={styles.welcomeText}>
-            Welcome To Code Campus, Growth Your Career From Here
+            Welcome To CodeZack, Growth Your Career From Here
           </Text>
         </View>
         <View style={styles.inputsWrapper}>

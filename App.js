@@ -18,10 +18,7 @@ import {
 } from 'react-native-reanimated';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import MobileAds from 'react-native-google-mobile-ads';
-import {OneSignal, LogLevel} from 'react-native-onesignal';
-import axios from 'axios';
-import {loginApi} from './Api';
-import messaging from '@react-native-firebase/messaging';
+
 // --- //
 const {width} = Dimensions.get('window');
 configureReanimatedLogger({
@@ -32,6 +29,7 @@ configureReanimatedLogger({
 const App = () => {
   // inintialze google admob
   useEffect(() => {
+    // createNotificationChannel();
     MobileAds()
       .initialize()
       .then(adapter => {

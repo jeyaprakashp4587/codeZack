@@ -18,6 +18,7 @@ import PragraphText from '../utils/PragraphText';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import BannerAdd from '../Adds/BannerAdd';
+import HeadingText from '../utils/HeadingText';
 
 const VideoTutorials = () => {
   const [allTutorials, setAllTutorials] = useState([]);
@@ -49,7 +50,7 @@ const VideoTutorials = () => {
     <ScrollView style={pageView} showsVerticalScrollIndicator={false}>
       {/* header */}
       <View style={{paddingHorizontal: 15}}>
-        <TopicsText text="Video Tutorials" />
+        <HeadingText text="Video Tutorials" />
       </View>
       {/* banner add */}
       <BannerAdd />
@@ -152,9 +153,6 @@ const VideoTutorials = () => {
             {tools.map((i, index) => (
               <TouchableOpacity
                 onPress={() => {
-                  if (loadAd) {
-                    showAd();
-                  }
                   setSelectedTool(i);
                   setShowModel(false);
                 }}

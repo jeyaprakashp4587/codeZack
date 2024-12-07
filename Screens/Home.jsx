@@ -62,6 +62,7 @@ import {
 } from 'react-native-google-mobile-ads';
 import useSocketEmit from '../Socket/useSocketEmit';
 import Skeleton from '../Skeletons/Skeleton';
+import useFCMToken from '../hooks/useFCMToken';
 // import PostFeed from '../components/PostFeed';
 const PostFeed = React.lazy(() => import('../components/PostFeed'));
 
@@ -79,57 +80,8 @@ const Home = () => {
   const shakeInterpolation = useShakeAnimation(3000);
   const socket = SocketData();
   const [refresh, setRefresh] = useState(false);
-  // ----
-  // get fcm tocken
-  const getTokenAndSave = useCallback(async () => {
-    try {
-      // Request user permission for notifications
-      const authStatus = await messaging().requestPermission();
-      if (
-        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-        authStatus === messaging.AuthorizationStatus.PROVISIONAL
-      ) {
-        // console.log('Notification permission granted.');
-        // Get FCM token
-        const token = await messaging().getToken();
-        // send the data to db
-        // console.log(token);
-
-        await axios.post(`${profileApi}/Profile/saveFcmToken`, {
-          userId: user?._id,
-          FcmToken: token,
-        });
-      }
-    } catch (error) {
-      console.error('Error getting FCM token:', error);
-    }
-  }, []);
-  useEffect(() => {
-    const checkPermission = async () => {
-      const authStatus = await messaging().requestPermission();
-      const enabled =
-        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-      if (enabled) {
-        // console.log('Notification permission granted');
-      } else {
-        // console.log('Notification permission denied');
-      }
-    };
-
-    checkPermission();
-
-    // Save FCM token
-    getTokenAndSave();
-    // Foreground messages
-    const unsubscribeOnMessage = messaging().onMessage(async remoteMessage => {
-      console.log('Notification received in foreground:', remoteMessage);
-      // Handle foreground notification
-    });
-
-    return unsubscribeOnMessage;
-  }, []);
+  // init firebase notification
+  useFCMToken();
 
   // scroll to top
   const scrollViewRef = useRef(null);
@@ -231,10 +183,6 @@ const Home = () => {
       setUiLoading(true);
       // load add
     }, 500);
-    emitSocketEvent('bb', {
-      token: user?.FcmId,
-      msg: 'hii',
-    });
   }, []);
   // carousel data
   const carouselData = useMemo(
@@ -302,7 +250,7 @@ const Home = () => {
     if (data) getNotifications();
   });
 
-  useSocketOn(socket, 'Noti-test', async () => {
+  useSocketOn(socket, 'Receive-Noti', async () => {
     await getNotifications();
   });
   useEffect(() => {

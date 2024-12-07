@@ -3,13 +3,13 @@ import {getMessaging} from 'firebase/messaging';
 import {getStorage} from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDCTmSaOOdCOpAAgbZ2L6182v3_Oe6nz94',
-  authDomain: 'codezack-83869.firebaseapp.com',
-  projectId: 'codezack-83869',
-  storageBucket: 'codezack-83869.firebasestorage.app',
-  messagingSenderId: '132569783886',
-  appId: '1:132569783886:web:dca9c6bd318248db9c2d1f',
-  measurementId: 'G-FM1PMLTFNE',
+  apiKey: 'AIzaSyDWmzv0JQULc_gwpsv_9TvJFyAk6DpDqcw',
+  authDomain: 'loanbuddy-aa9c3.firebaseapp.com',
+  projectId: 'loanbuddy-aa9c3',
+  storageBucket: 'loanbuddy-aa9c3.appspot.com',
+  messagingSenderId: '90097907920',
+  appId: '1:90097907920:web:af78327435a7ff678d46d5',
+  measurementId: 'G-SST4SBPRNW',
 };
 
 // Initialize Firebase
