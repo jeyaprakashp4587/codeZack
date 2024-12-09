@@ -21,6 +21,7 @@ import {loginApi} from '../Api';
 import {Colors, font, pageView} from '../constants/Colors';
 import {useData} from '../Context/Contexter';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import LinearGradient from 'react-native-linear-gradient';
 
 const {width, height} = Dimensions.get('window');
 
@@ -137,11 +138,15 @@ const SignUp = ({navigation}) => {
   };
 
   return (
-    <View
-      style={[
-        pageView,
-        {paddingHorizontal: width * 0.05, paddingBottom: height * 0.02},
-      ]}>
+    <LinearGradient
+      style={{
+        paddingHorizontal: width * 0.05,
+        paddingBottom: height * 0.02,
+        flex: 1,
+      }}
+      colors={['#fff9f3', '#eef7fe']}
+      start={{x: 0, y: 1}}
+      end={{x: 1, y: 1}}>
       {/* <Text style={styles.headerText}>Sign Up</Text> */}
       <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
         <View style={styles.imageContainer}>
@@ -214,7 +219,7 @@ const SignUp = ({navigation}) => {
           </View>
         </View>
       </Modal>
-    </View>
+    </LinearGradient>
   );
 };
 

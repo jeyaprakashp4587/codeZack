@@ -13,30 +13,53 @@ import {useData} from '../Context/Contexter';
 import axios from 'axios';
 import {functionApi} from '../Api';
 import TopicsText from '../utils/TopicsText';
-import {Colors, pageView} from '../constants/Colors';
+import {Colors} from '../constants/Colors';
 import WebView from 'react-native-webview';
 
 const ChallengeViewer = () => {
   const {width, height} = Dimensions.get('window');
   const {user, selectedChallenge} = useData();
   const [challenge, setChallenge] = useState();
-  const [webViewSource, setWebViewSource] = useState({
-    uri: challenge?.LiveLink,
-  });
-  const fallbackURL = {uri: 'https://example.com'}; // Replace with your dummy URL
-  const getChallenge = async () => {
-    const res = await axios.get(
-      `${functionApi}/Challenges/getCompletedChallenge/${user?._id}/${selectedChallenge?.title}`,
+  const [webViewSource, setWebViewSource] = useState('');
+  const [webViewError, setWebViewError] = useState(false); // Track errors in WebView
+  const fallbackURL = 'https://example.com'; // Replace with your dummy fallback URL
+
+  const isValidURL = url => {
+    const urlPattern = new RegExp(
+      '^(https?:\\/\\/)?' + // protocol
+        '((([a-zA-Z\\d]([a-zA-Z\\d-]*[a-zA-Z\\d])*)\\.?)+[a-zA-Z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-zA-Z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-zA-Z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-zA-Z\\d_]*)?$', // fragment locator
+      'i',
     );
-    if (res.data) {
-      setChallenge(res.data);
-      // console.log(res.data);
+    return !!urlPattern.test(url);
+  };
+
+  const getChallenge = async () => {
+    try {
+      const res = await axios.get(
+        `${functionApi}/Challenges/getCompletedChallenge/${user?._id}/${selectedChallenge?.title}`,
+      );
+      if (res.data) {
+        setChallenge(res.data);
+        if (isValidURL(res.data?.LiveLink)) {
+          setWebViewSource(res.data.LiveLink);
+        } else {
+          setWebViewError(true);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching challenge:', error);
+      setWebViewError(true);
     }
   };
-  console.log(challenge);
+
   useEffect(() => {
     getChallenge();
   }, []);
+
   return (
     <ScrollView style={{backgroundColor: 'white'}}>
       <View style={{flex: 1, paddingHorizontal: 20}}>
@@ -71,7 +94,6 @@ const ChallengeViewer = () => {
           }}>
           {challenge?.LiveLink}
         </Text>
-        {/*  */}
         <Text
           style={{
             fontSize: width * 0.05,
@@ -88,13 +110,13 @@ const ChallengeViewer = () => {
               width: '100%',
               height: 200,
               resizeMode: 'contain',
-              // borderWidth: 1,
               marginVertical: 10,
             }}
           />
         )}
       </View>
-      {/* webview */}
+
+      {/* WebView */}
       <Text
         style={{
           fontSize: width * 0.05,
@@ -112,19 +134,40 @@ const ChallengeViewer = () => {
           borderRadius: 10,
           marginBottom: 10,
         }}>
-        <WebView
-          javaScriptEnabled={true}
-          scrollEnabled={true}
-          nestedScrollEnabled
-          source={{uri: webViewSource}}
-          style={{borderWidth: 1, height: height * 0.8}}
-          onError={() => setWebViewSource(fallbackURL)}
-        />
+        {webViewError || !webViewSource ? (
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorText}>
+              Unable to load the content. Please check the URL or try again
+              later.
+            </Text>
+          </View>
+        ) : (
+          <WebView
+            javaScriptEnabled={true}
+            scrollEnabled={true}
+            nestedScrollEnabled
+            source={{uri: webViewSource}}
+            style={{borderWidth: 1, height: height * 0.8}}
+            onError={() => setWebViewError(true)}
+          />
+        )}
       </View>
     </ScrollView>
   );
 };
 
-export default ChallengeViewer;
+const styles = StyleSheet.create({
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 200,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+});
 
-const styles = StyleSheet.create({});
+export default ChallengeViewer;

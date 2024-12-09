@@ -220,6 +220,7 @@ const Post = () => {
             }}
             ref={inputRef}
             onChangeText={handlePostText}
+            placeholderTextColor={Colors.lightGrey}
           />
           <TextInput
             ref={inputRef}
@@ -232,6 +233,7 @@ const Post = () => {
               padding: 10,
               borderColor: Colors.lightGrey,
             }}
+            placeholderTextColor={Colors.lightGrey}
           />
           <TouchableOpacity
             onPress={selectImage}

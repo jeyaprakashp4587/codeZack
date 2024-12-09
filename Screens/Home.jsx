@@ -45,7 +45,6 @@ const SuggestionWapper = React.lazy(() =>
 );
 // import  from '../components/SuggestionWapper';
 import useSocketOn from '../Socket/useSocketOn';
-import {debounce} from 'lodash';
 import {SocketData} from '../Socket/SocketContext';
 import BannerAdd from '../Adds/BannerAdd';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -54,7 +53,6 @@ import PragraphText from '../utils/PragraphText';
 const Companies = React.lazy(() => import('../components/Companies'));
 const Tasks = React.lazy(() => import('../components/Tasks'));
 import DailyClaim from '../components/DailyClaim';
-import messaging from '@react-native-firebase/messaging';
 // import usehook for show adds
 import {
   TestIds,
@@ -64,7 +62,7 @@ import {
 import useSocketEmit from '../Socket/useSocketEmit';
 import Skeleton from '../Skeletons/Skeleton';
 import useFCMToken from '../hooks/useFCMToken';
-import Ripple from 'react-native-material-ripple';
+import IdeasWrapper from '../components/IdeasWrapper';
 // import PostFeed from '../components/PostFeed';
 const PostFeed = React.lazy(() => import('../components/PostFeed'));
 
@@ -186,30 +184,6 @@ const Home = () => {
       // load add
     }, 500);
   }, []);
-  // carousel data
-  const carouselData = useMemo(
-    () => [
-      {
-        name: 'Learning',
-        img: 'https://i.ibb.co/R2YnF4F/learn.png',
-        bgColor: '#ffcccc',
-        route: 'carrerScreen',
-      },
-      {
-        name: 'Practice',
-        img: 'https://i.ibb.co/8mjYHzc/practice.png',
-        bgColor: '#cce6ff',
-        route: 'Challenges',
-      },
-      {
-        name: 'Achieve',
-        img: 'https://i.ibb.co/6mt33RQ/achieve.png',
-        bgColor: '#b3ffb3',
-        route: 'Post',
-      },
-    ],
-    [],
-  );
   const getCurrentGreeting = useCallback(() => {
     const currentHour = new Date().getHours();
     if (currentHour < 12) return 'Good Morning';
@@ -285,29 +259,6 @@ const Home = () => {
   const HandlesuggestDisplay = data => {
     setSuggestDisplay(data);
   };
-  // ideas wrapper naivagtions
-  const debounceNavigation = useCallback(
-    debounce(route => navigation.navigate(route), 100),
-    [],
-  );
-  const carrerNav = useCallback(() => debounceNavigation('carrerScreen'), []);
-  const courseNav = useCallback(() => debounceNavigation('yourcourse'), []);
-  const activityNav = useCallback(
-    () => debounceNavigation('youractivities'),
-    [],
-  );
-  const assignmentNav = useCallback(() => {
-    debounceNavigation('Assignments');
-  }, []);
-  // check noti
-  PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
-  useEffect(() => {
-    try {
-      emitSocketEvent('bb', {token: user?.FcmId, msg: 'hii'});
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
   // render ui after load
   if (!UiLoading) return <HomeSkeleton />;
 
@@ -489,62 +440,12 @@ const Home = () => {
           <TextInput
             onPress={() => navigation.navigate('search')}
             placeholder="Search"
+            placeholderTextColor={Colors.lightGrey}
+            style={{letterSpacing: 1}}
           />
         </TouchableOpacity>
-        {/* ideas wrapper */}
-        <View style={styles.ideasWrapper}>
-          <Ripple onPress={carrerNav} style={{backgroundColor: 'white'}}>
-            <View style={styles.ideaBox}>
-              <Image
-                style={styles.icon}
-                source={{uri: 'https://i.ibb.co/gddf19J/programming.png'}}
-              />
-            </View>
-
-            {/* <SimpleLineIcons name="book-open" size={25} color="#264653" /> */}
-            <Text style={styles.ideaText} numberOfLines={1}>
-              Courses
-            </Text>
-          </Ripple>
-          <Ripple onPress={courseNav} style={{backgroundColor: 'white'}}>
-            <View style={styles.ideaBox}>
-              <Image
-                style={styles.icon}
-                source={{uri: 'https://i.ibb.co/NmNqJpx/certificate.png'}}
-              />
-            </View>
-
-            {/* <AntDesign name="laptop" size={25} color="#2a9d8f" /> */}
-            <Text numberOfLines={1} style={styles.ideaText}>
-              Your Courses
-            </Text>
-          </Ripple>
-          <Ripple onPress={assignmentNav}>
-            {/* <SimpleLineIcons name="notebook" size={25} color="#e9c46a" /> */}
-            <View style={styles.ideaBox}>
-              <Image
-                style={styles.icon}
-                source={{uri: 'https://i.ibb.co/N19pNf3/assignment.png'}}
-              />
-            </View>
-
-            <Text numberOfLines={1} style={styles.ideaText}>
-              Assignments
-            </Text>
-          </Ripple>
-          <Ripple onPress={activityNav}>
-            {/* <Fontisto name="date" size={25} color="#e76f51" /> */}
-            <View style={styles.ideaBox}>
-              <Image
-                style={styles.icon}
-                source={{uri: 'https://i.ibb.co/B3CdkDM/calendar.png'}}
-              />
-            </View>
-            <Text style={styles.ideaText} numberOfLines={1}>
-              Your Activities
-            </Text>
-          </Ripple>
-        </View>
+        {/* Ideas wrapper */}
+        <IdeasWrapper />
         {/* tasks */}
         <Suspense
           fallback={
@@ -694,43 +595,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginTop: 20,
-  },
-  closeButtonText: {color: 'white', textAlign: 'center', fontSize: 16},
-  carouselImage: {width: '80%', height: '80%', resizeMode: 'contain'},
-  carouselText: {fontSize: 18, marginTop: 10, fontWeight: 'bold'},
-  ideasWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 5,
-    // borderWidth: 1,
-    marginHorizontal: 15,
-    marginTop: 5,
-  },
-  ideaBox: {
-    width: width * 0.2,
-    height: height * 0.1,
-    borderRadius: 10,
-    elevation: 2,
-    backgroundColor: 'white',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 10,
-    rowGap: 10,
-  },
-  icon: {
-    width: '70%',
-    height: '70%',
-    opacity: 0.78,
-  },
-  ideaText: {
-    color: Colors.mildGrey,
-    letterSpacing: 0.5,
-    // fontSize: 20,
-    textAlign: 'center',
-    marginTop: height * 0.01,
-    fontSize: width * 0.025,
-    fontWeight: '400',
   },
 });
 

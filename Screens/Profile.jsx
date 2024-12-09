@@ -361,6 +361,7 @@ const Profile = ({navigation}) => {
                   opacity: uploadActivityIndi ? 0.3 : 1,
                   paddingHorizontal: 15,
                 }}
+                placeholderTextColor={Colors.lightGrey}
                 onChangeText={text => HandleAboutInput('FirstName', text)}
               />
               <TextInput
@@ -375,6 +376,7 @@ const Profile = ({navigation}) => {
                   opacity: uploadActivityIndi ? 0.3 : 1,
                   paddingHorizontal: 15,
                 }}
+                placeholderTextColor={Colors.lightGrey}
                 onChangeText={text => HandleAboutInput('LastName', text)}
               />
               <TextInput
@@ -389,6 +391,7 @@ const Profile = ({navigation}) => {
                   letterSpacing: 1,
                   opacity: uploadActivityIndi ? 0.3 : 1,
                 }}
+                placeholderTextColor={Colors.lightGrey}
                 onChangeText={text => HandleAboutInput('Bio', text)}
               />
               <TouchableOpacity

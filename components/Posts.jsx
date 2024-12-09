@@ -320,6 +320,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           alignItems: 'center',
         }}>
         <TextInput
+          placeholderTextColor={Colors.lightGrey}
           value={newComment}
           onChangeText={setNewComment}
           placeholder="Add a comment..."

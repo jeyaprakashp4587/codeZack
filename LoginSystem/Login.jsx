@@ -20,12 +20,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {useData} from '../Context/Contexter';
 import {useNavigation} from '@react-navigation/native';
-import {loginApi} from '../Api';
+import {functionApi, loginApi} from '../Api';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FastImage from 'react-native-fast-image';
+import LinearGradient from 'react-native-linear-gradient';
 const {width, height} = Dimensions.get('window');
 
 const Login = () => {
+  console.log(loginApi);
+
   const {setUser} = useData();
   const navigation = useNavigation();
   const [hidePassword, setHidePassword] = useState(true);
@@ -70,8 +73,7 @@ const Login = () => {
     }
 
     try {
-      const {data} = await axios.post(`${loginApi}/LogIn/signIn`, form);
-
+      const {data} = await axios.post(`${functionApi}/LogIn/signIn`, form);
       if (data?.firstName) {
         await AsyncStorage.setItem('Email', data.Email);
         setUser(data);
@@ -92,7 +94,11 @@ const Login = () => {
   }, [form, validateForm, setUser, navigation]);
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      style={styles.container}
+      colors={['#fff9f3', '#eef7fe']}
+      start={{x: 0, y: 1}}
+      end={{x: 1, y: 1}}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* <Text style={styles.headerText}>Log In</Text> */}
         <View style={styles.imageContainer}>
@@ -123,6 +129,7 @@ const Login = () => {
               columnGap: 10,
               // paddingHorizontal: 10,
               paddingRight: 10,
+              backgroundColor: 'white',
             }}>
             <TextInput
               style={{
@@ -130,6 +137,7 @@ const Login = () => {
                 flex: 1,
                 paddingLeft: 10,
                 color: Colors.veryDarkGrey,
+                paddingVertical: 20,
               }}
               placeholder="Password"
               placeholderTextColor={Colors.mildGrey}
@@ -182,7 +190,7 @@ const Login = () => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -199,7 +207,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     // borderWidth: 1,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     flex: 1,
     // alignSelf: 'center',
   },
@@ -226,10 +234,10 @@ const styles = StyleSheet.create({
   textInput: {
     backgroundColor: 'white',
     borderRadius: 5,
-    paddingHorizontal: width * 0.025, // Dynamic padding
+    paddingHorizontal: width * 0.035, // Dynamic padding
     borderColor: Colors.veryLightGrey,
     borderWidth: 1,
-    paddingVertical: 10,
+    // paddingVertical: height * 0.017,
     color: Colors.veryDarkGrey,
     marginVertical: height * 0.01, // Dynamic margin
   },
@@ -258,11 +266,12 @@ const styles = StyleSheet.create({
   },
   indicatorText: {
     position: 'absolute',
-    color: Colors.lightGrey,
-    backgroundColor: 'white',
+    color: Colors.mildGrey,
+    // backgroundColor: 'white',
     top: -height * 0.012, // Dynamic position adjustment
     textAlign: 'center',
     alignSelf: 'center',
+    zIndex: 10,
   },
 
   signUpContainer: {

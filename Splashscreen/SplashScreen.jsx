@@ -19,6 +19,7 @@ import axios from 'axios';
 import {loginApi} from '../Api';
 import {useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
+import FastImage from 'react-native-fast-image';
 
 const SplashScreen = () => {
   const {user, setUser} = useData();
@@ -70,7 +71,7 @@ const SplashScreen = () => {
           alignItems: 'center',
           rowGap: 100,
         }}>
-        <Image
+        <FastImage
           source={require('../assets/CC.png')}
           style={{
             width: width * 0.9,
