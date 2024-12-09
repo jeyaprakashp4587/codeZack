@@ -14,6 +14,7 @@ import {Colors} from '../constants/Colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
 import {loginApi} from '../Api';
+import LinearGradient from 'react-native-linear-gradient';
 
 const SetPassword = () => {
   const {width} = Dimensions.get('window');
@@ -69,14 +70,16 @@ const SetPassword = () => {
   }, [email, nav]);
 
   return (
-    <View
+    <LinearGradient
       style={{
-        backgroundColor: 'white',
         flex: 1,
         justifyContent: 'center',
         flexDirection: 'column',
         alignItems: 'center',
-      }}>
+      }}
+      colors={['#fff9f3', '#eef7fe']}
+      start={{x: 0, y: 1}}
+      end={{x: 1, y: 1}}>
       <View
         style={{
           flexDirection: 'column',
@@ -183,7 +186,7 @@ const SetPassword = () => {
           <Text style={{color: Colors.lightGrey}}>Back To Login</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 

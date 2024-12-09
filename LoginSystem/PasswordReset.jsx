@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Dimensions,
   StyleSheet,
   Text,
@@ -14,11 +15,13 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {loginApi} from '../Api';
+import LinearGradient from 'react-native-linear-gradient';
 
 const PasswordReset = () => {
   const {width} = Dimensions.get('window');
   const [email, setEmail] = useState('');
   const nav = useNavigation();
+  const [loading, setLoading] = useState(false);
   const isEmailValid = email => /\S+@\S+\.\S+/.test(email);
   // Update the email ref
   const handleEmail = text => {
@@ -26,16 +29,18 @@ const PasswordReset = () => {
   };
   // Handle sending OTP
   const sendOtp = useCallback(async () => {
+    setLoading(true);
     if (!isEmailValid(email.trim())) {
       ToastAndroid.show('Invalid email format.', ToastAndroid.SHORT);
+      setLoading(false);
       return false;
     }
 
     try {
       const emailExists = await checkEmail(); // Await checkEmail response
       console.log('Email exists:', emailExists); // Debugging log
-
       if (emailExists) {
+        setLoading(false);
         console.log('Email verified. Navigating to OTP Verification.');
         nav.navigate('otpVerification', {email: email.toLowerCase()});
       } else {
@@ -73,21 +78,23 @@ const PasswordReset = () => {
   }, [loginApi, email]);
 
   return (
-    <View
+    <LinearGradient
       style={{
-        backgroundColor: 'white',
         flex: 1,
         justifyContent: 'center',
         flexDirection: 'column',
         alignItems: 'center',
-      }}>
+      }}
+      colors={['#fff9f3', '#eef7fe']}
+      start={{x: 0, y: 1}}
+      end={{x: 1, y: 1}}>
       <View
         style={{
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
           flex: 1,
-          borderWidth: 1,
+          // borderWidth: 1,
           borderColor: 'white',
           width: '80%',
           //   rowGap: 10,
@@ -117,7 +124,12 @@ const PasswordReset = () => {
           No worries, we'll send you reset instructions.
         </Text>
         <Text
-          style={{textAlign: 'left', width: '100%', color: Colors.mildGrey}}>
+          style={{
+            textAlign: 'left',
+            width: '100%',
+            color: Colors.mildGrey,
+            fontSize: width * 0.027,
+          }}>
           Email
         </Text>
         <TextInput
@@ -140,11 +152,13 @@ const PasswordReset = () => {
             padding: 10,
             borderRadius: 5,
             marginBottom: 20,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            columnGap: 5,
+            // borderWidth: 1,
           }}>
-          <Text
-            style={{textAlign: 'center', color: 'white', fontWeight: '600'}}>
-            Send OTP
-          </Text>
+          <Text style={{color: 'white', fontWeight: '600'}}>Send OTP</Text>
+          {loading && <ActivityIndicator color={Colors.white} size={20} />}
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => nav.goBack()}
@@ -158,7 +172,7 @@ const PasswordReset = () => {
           <Text style={{color: Colors.lightGrey}}>Back To Login</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 

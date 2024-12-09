@@ -137,7 +137,7 @@ const Login = () => {
                 flex: 1,
                 paddingLeft: 10,
                 color: Colors.veryDarkGrey,
-                paddingVertical: 20,
+                // paddingVertical: height * 0.08,
               }}
               placeholder="Password"
               placeholderTextColor={Colors.mildGrey}
@@ -152,10 +152,10 @@ const Login = () => {
             </TouchableOpacity>
           </View>
           <TouchableOpacity onPress={HandleLogin} style={styles.loginButton}>
+            <Text style={styles.loginText}>Login</Text>
             {activityIndi && (
               <ActivityIndicator size="small" color={Colors.white} />
             )}
-            <Text style={styles.loginText}>Login</Text>
           </TouchableOpacity>
         </View>
         {/* forgot password */}

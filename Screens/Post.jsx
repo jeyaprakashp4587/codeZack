@@ -262,7 +262,7 @@ const Post = () => {
                 letterSpacing: 1,
                 fontWeight: '700',
               }}>
-              Select Image or Video
+              Select Images
             </Text>
           </TouchableOpacity>
         </View>

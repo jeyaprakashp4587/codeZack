@@ -22,6 +22,7 @@ import {Colors, font, pageView} from '../constants/Colors';
 import {useData} from '../Context/Contexter';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
+import HeadingText from '../utils/HeadingText';
 
 const {width, height} = Dimensions.get('window');
 
@@ -148,17 +149,10 @@ const SignUp = ({navigation}) => {
       start={{x: 0, y: 1}}
       end={{x: 1, y: 1}}>
       {/* <Text style={styles.headerText}>Sign Up</Text> */}
+      <View>
+        <HeadingText text="sign up" />
+      </View>
       <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
-        <View style={styles.imageContainer}>
-          <Image
-            source={{uri: 'https://i.ibb.co/Njft952/signbg.jpg'}}
-            style={styles.image}
-          />
-          <Text style={styles.subText}>
-            {'<'} Skills Will Speak Louder Than Papers /{'>'}
-          </Text>
-        </View>
-
         <View
           style={{
             flexDirection: 'column',
@@ -169,7 +163,7 @@ const SignUp = ({navigation}) => {
             <TextInput
               style={[
                 styles.input,
-                {borderColor: Colors.mildGrey, borderWidth: 1},
+                {borderColor: Colors.lightGrey, borderWidth: 1},
               ]}
               key={key}
               placeholder={key.replace('_', ' ')}

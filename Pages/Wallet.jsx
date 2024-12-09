@@ -58,9 +58,9 @@ const Wallet = () => {
   const [withdrawAmount, setWitharawAmout] = useState();
 
   const HandleWithdraw = async () => {
-    if (user?.Wallet?.TotalWallet < 100) {
+    if (user?.Wallet?.TotalWallet < 500) {
       ToastAndroid.show(
-        'Insufficient balance. You need at least 100 to withdraw.',
+        'Insufficient balance. You need at least 500 to withdraw.',
         ToastAndroid.LONG,
       );
       return;
@@ -267,7 +267,7 @@ const Wallet = () => {
         style={{paddingHorizontal: 15, flexDirection: 'column', rowGap: 15}}>
         <Text style={{letterSpacing: 2, lineHeight: 35}}>
           After you first earn{' '}
-          <Text style={{fontWeight: '600', color: '#f94144'}}>100</Text> or more
+          <Text style={{fontWeight: '600', color: '#f94144'}}>500</Text> or more
           than you can withdraw your money
         </Text>
         {/* radio */}
@@ -284,9 +284,9 @@ const Wallet = () => {
               position: 'absolute',
               zIndex: 10,
               top: -height * 0.03,
-              right: `${user?.Wallet?.TotalWallet >= 100 && 0}`,
+              right: `${user?.Wallet?.TotalWallet >= 500 && 0}`,
               left: `${
-                user?.Wallet?.TotalWallet < 100 && user?.Wallet?.TotalWallet
+                user?.Wallet?.TotalWallet < 500 && user?.Wallet?.TotalWallet
               }%`,
             }}>
             <Fontawesome name="rupee" />
@@ -296,7 +296,7 @@ const Wallet = () => {
             style={{
               height: 15,
               width: `${
-                user.Wallet.TotalWallet >= 100 ? 100 : user.Wallet.TotalWallet
+                user.Wallet.TotalWallet >= 500 ? 500 : user.Wallet.TotalWallet
               }%`,
               backgroundColor:
                 user.Wallet.TotalWallet <= 20
@@ -325,7 +325,7 @@ const Wallet = () => {
               color: Colors.mildGrey,
               fontSize: width * 0.03,
             }}>
-            • Minimum balance required: 100
+            • Minimum balance required: 500
           </Text>
           <Text
             style={{

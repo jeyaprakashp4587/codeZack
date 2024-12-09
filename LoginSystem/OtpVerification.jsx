@@ -14,6 +14,7 @@ import {Colors} from '../constants/Colors';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import axios from 'axios';
 import {loginApi} from '../Api';
+import LinearGradient from 'react-native-linear-gradient';
 const OtpVerification = () => {
   const {width} = Dimensions.get('window');
   const {email} = useRoute().params;
@@ -112,21 +113,23 @@ const OtpVerification = () => {
   };
 
   return (
-    <View
+    <LinearGradient
       style={{
-        backgroundColor: 'white',
         flex: 1,
         justifyContent: 'center',
         flexDirection: 'column',
         alignItems: 'center',
-      }}>
+      }}
+      colors={['#fff9f3', '#eef7fe']}
+      start={{x: 0, y: 1}}
+      end={{x: 1, y: 1}}>
       <View
         style={{
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
           flex: 1,
-          borderWidth: 1,
+          // borderWidth: 1,
           borderColor: 'white',
           width: '80%',
           rowGap: 10,
@@ -233,7 +236,7 @@ const OtpVerification = () => {
           <Text style={{color: Colors.lightGrey}}>Back To Login</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 
