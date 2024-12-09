@@ -64,6 +64,7 @@ import {
 import useSocketEmit from '../Socket/useSocketEmit';
 import Skeleton from '../Skeletons/Skeleton';
 import useFCMToken from '../hooks/useFCMToken';
+import Ripple from 'react-native-material-ripple';
 // import PostFeed from '../components/PostFeed';
 const PostFeed = React.lazy(() => import('../components/PostFeed'));
 
@@ -255,11 +256,11 @@ const Home = () => {
   useSocketOn(socket, 'Receive-Noti', async () => {
     await getNotifications();
     // Vibration.vibrate({});
+    Vibration.vibrate([0, 200, 100, 200]);
   });
 
   useEffect(() => {
     InteractionManager.runAfterInteractions(async () => {
-      Vibration.vibrate([0, 200, 100, 200]);
       await getNotifications();
       await setProfilePic();
       checkButtonStatus();
@@ -492,54 +493,57 @@ const Home = () => {
         </TouchableOpacity>
         {/* ideas wrapper */}
         <View style={styles.ideasWrapper}>
-          <TouchableOpacity style={styles.ideaBox} onPress={carrerNav}>
-            <Image
-              style={{width: 40, height: 40, opacity: 0.73}}
-              source={{uri: 'https://i.ibb.co/gddf19J/programming.png'}}
-            />
+          <Ripple onPress={carrerNav} style={{backgroundColor: 'white'}}>
+            <View style={styles.ideaBox}>
+              <Image
+                style={styles.icon}
+                source={{uri: 'https://i.ibb.co/gddf19J/programming.png'}}
+              />
+            </View>
+
             {/* <SimpleLineIcons name="book-open" size={25} color="#264653" /> */}
-            <Text
-              style={[styles.ideaText, {fontSize: width * 0.017}]}
-              numberOfLines={1}>
+            <Text style={styles.ideaText} numberOfLines={1}>
               Courses
             </Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={courseNav} style={styles.ideaBox}>
-            <Image
-              style={{width: 40, height: 40, opacity: 0.73}}
-              source={{uri: 'https://i.ibb.co/NmNqJpx/certificate.png'}}
-            />
+          </Ripple>
+          <Ripple onPress={courseNav} style={{backgroundColor: 'white'}}>
+            <View style={styles.ideaBox}>
+              <Image
+                style={styles.icon}
+                source={{uri: 'https://i.ibb.co/NmNqJpx/certificate.png'}}
+              />
+            </View>
+
             {/* <AntDesign name="laptop" size={25} color="#2a9d8f" /> */}
-            <Text
-              numberOfLines={1}
-              style={[styles.ideaText, {fontSize: width * 0.017}]}>
+            <Text numberOfLines={1} style={styles.ideaText}>
               Your Courses
             </Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={assignmentNav} style={styles.ideaBox}>
+          </Ripple>
+          <Ripple onPress={assignmentNav}>
             {/* <SimpleLineIcons name="notebook" size={25} color="#e9c46a" /> */}
-            <Image
-              style={{width: 40, height: 40, opacity: 0.73}}
-              source={{uri: 'https://i.ibb.co/N19pNf3/assignment.png'}}
-            />
-            <Text
-              numberOfLines={1}
-              style={[styles.ideaText, {fontSize: width * 0.017}]}>
+            <View style={styles.ideaBox}>
+              <Image
+                style={styles.icon}
+                source={{uri: 'https://i.ibb.co/N19pNf3/assignment.png'}}
+              />
+            </View>
+
+            <Text numberOfLines={1} style={styles.ideaText}>
               Assignments
             </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.ideaBox} onPress={activityNav}>
+          </Ripple>
+          <Ripple onPress={activityNav}>
             {/* <Fontisto name="date" size={25} color="#e76f51" /> */}
-            <Image
-              style={{width: 40, height: 40, opacity: 0.73}}
-              source={{uri: 'https://i.ibb.co/B3CdkDM/calendar.png'}}
-            />
-            <Text
-              style={[styles.ideaText, {fontSize: width * 0.017}]}
-              numberOfLines={1}>
+            <View style={styles.ideaBox}>
+              <Image
+                style={styles.icon}
+                source={{uri: 'https://i.ibb.co/B3CdkDM/calendar.png'}}
+              />
+            </View>
+            <Text style={styles.ideaText} numberOfLines={1}>
               Your Activities
             </Text>
-          </TouchableOpacity>
+          </Ripple>
         </View>
         {/* tasks */}
         <Suspense
@@ -712,16 +716,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
-    rowGap: 7,
+    rowGap: 10,
   },
   icon: {
-    width: 35,
-    height: 35,
+    width: '70%',
+    height: '70%',
+    opacity: 0.78,
   },
   ideaText: {
-    color: Colors.veryDarkGrey,
+    color: Colors.mildGrey,
     letterSpacing: 0.5,
     // fontSize: 20,
+    textAlign: 'center',
+    marginTop: height * 0.01,
+    fontSize: width * 0.025,
+    fontWeight: '400',
   },
 });
 

@@ -18,6 +18,8 @@ import BannerAdd from '../Adds/BannerAdd';
 import axios from 'axios';
 import {loginApi} from '../Api';
 import Actitivity from '../hooks/ActivityHook';
+import Skeleton from '../Skeletons/Skeleton';
+import HeadingText from '../utils/HeadingText';
 
 const InterviewPrep = () => {
   const {selectedCompany, user, setUser} = useData();
@@ -95,10 +97,32 @@ const InterviewPrep = () => {
       console.log(error);
     }
   }, [user, selectedCompany]);
-
+  // render ui
+  if (!currentWeek) {
+    return (
+      <View
+        style={{
+          flexDirection: 'column',
+          rowGap: 10,
+          paddingHorizontal: 15,
+          backgroundColor: 'white',
+          flex: 1,
+        }}>
+        <Skeleton width="100%" height={50} radius={10} />
+        <Skeleton width="100%" height={30} radius={10} />
+        <Skeleton width="100%" height={80} radius={10} />
+        <Skeleton width="100%" height={height * 0.4} radius={10} />
+        <Skeleton width="100%" height={height * 0.4} radius={10} />
+      </View>
+    );
+  }
+  // --
   return (
     <View style={pageView}>
       {/* Header */}
+      <View style={{paddingHorizontal: 15}}>
+        <HeadingText text="Preparation" />
+      </View>
       <View
         style={{
           paddingHorizontal: 15,

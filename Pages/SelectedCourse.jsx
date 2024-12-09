@@ -24,6 +24,7 @@ import Actitivity from '../hooks/ActivityHook';
 import AddWallet from '../hooks/AddWallet';
 import BannerAdd from '../Adds/BannerAdd';
 import {faL} from '@fortawesome/free-solid-svg-icons';
+import HeadingText from '../utils/HeadingText';
 
 const {width, height} = Dimensions.get('window');
 
@@ -79,21 +80,34 @@ const SelectedCourse = ({navigation}) => {
 
   return (
     <ScrollView style={styles.pageView} showsVerticalScrollIndicator={false}>
-      <Text style={styles.courseName}>{selectedCourse?.name}</Text>
+      <View style={{paddingHorizontal: 15}}>
+        <HeadingText text={selectedCourse?.name} />
+      </View>
+
       {selectedCourse?.img ? (
         <Image source={{uri: selectedCourse?.img}} style={styles.courseImage} />
       ) : (
         <Skeleton width={width * 0.9} height={250} />
       )}
       <View style={styles.section}>
-        <TopicsText text="Course Intro" mb={2} />
+        <TopicsText
+          text="Course Intro"
+          mb={2}
+          color="black"
+          fszie={height * 0.028}
+        />
         <PragraphText text={selectedCourse?.introduction} />
       </View>
       {/* Banner add */}
       <BannerAdd />
       {/* Banner */}
       <View style={{paddingHorizontal: 15, marginTop: 10}}>
-        <TopicsText text="Technologies" mb={20} />
+        <TopicsText
+          text="Technologies"
+          mb={20}
+          color="black"
+          fszie={height * 0.028}
+        />
         <View style={styles.technologiesContainer}>
           {selectedCourse?.technologies.map((icon, index) => (
             <TouchableOpacity key={index}>{icon.icon}</TouchableOpacity>

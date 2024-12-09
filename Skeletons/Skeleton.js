@@ -25,7 +25,7 @@ const Skeleton = props => {
           opacity: opacityInterpolate,
           width: props.width,
           height: props.height,
-          backgroundColor: '#E0E0E0',
+          backgroundColor: Colors.veryLightGrey,
           borderRadius: props.radius,
           marginTop: props.mt ? props.mt : 1,
         }}

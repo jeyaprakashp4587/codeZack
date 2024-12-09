@@ -19,12 +19,13 @@ import {Dimensions} from 'react-native';
 import Skeleton from '../Skeletons/Skeleton';
 import {useNavigation} from '@react-navigation/native';
 import BannerAdd from '../Adds/BannerAdd';
-
+import HeadingText from '../utils/HeadingText';
+const {width, height} = Dimensions.get('window');
 const Carrer = () => {
   // courses list
   const navigation = useNavigation();
   const {setSelectedCourse} = useData();
-  const {width, height} = Dimensions.get('window');
+
   // const handleShowAd = async () => {
   //   if (isLoaded) {
   //     await showAd(); // Call the function to show the ad
@@ -32,6 +33,7 @@ const Carrer = () => {
   //     console.log('Ad not loaded yet'); // Optional: Handle the case where the ad is not loaded
   //   }
   // };
+
   const courses = useMemo(
     () => [
       {
@@ -111,7 +113,7 @@ const Carrer = () => {
         img: 'https://i.ibb.co/vzxBjQM/webdevelopment.jpg',
         guidance:
           '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/s6156ZBcfGk?si=iCIRRTcLVqOJ-mNp&amp;start=60" title="YouTube video player" frameborder="0" borderradius="10" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
-        bgColor: '#b8b894',
+        bgColor: '#264653',
         platform: [],
       },
       {
@@ -173,7 +175,7 @@ const Carrer = () => {
         img: 'https://i.ibb.co/frB3LrD/11668623-20945227.jpg',
         guidance:
           '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/G-EAVcMHEko?si=h-WzoTp5lCQ7idun" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
-        bgColor: '#008080',
+        bgColor: '#2a9d8f',
       },
       {
         name: 'App Development',
@@ -263,7 +265,7 @@ const Carrer = () => {
         img: 'https://i.ibb.co/2h2hz0h/icons8-java-480.png',
         guidance:
           '<iframe width="100%" height="100%"src="https://www.youtube.com/embed/vgm6AJLu6F4?si=1Oxz5wM2q8RNw7a5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
-        bgColor: '#b3b3ff',
+        bgColor: '#4a4e69',
       },
       {
         name: 'C++',
@@ -300,7 +302,7 @@ const Carrer = () => {
         img: 'https://i.ibb.co/fQ7bqp8/icons8-c-240.png',
         guidance:
           '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/x0xjvTIvmT4?si=D5w0dGGvYHI0k8fS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
-        bgColor: '#ff6666',
+        bgColor: '#457b9d',
       },
     ],
     [],
@@ -330,7 +332,7 @@ const Carrer = () => {
       showsVerticalScrollIndicator={false}
       style={{backgroundColor: 'white'}}>
       <View style={{paddingHorizontal: 15}}>
-        <Text style={styles.titleText}>Choose Your Learning Carrer</Text>
+        <HeadingText text="Choose Your Learning Carrer" />
         <Image
           source={{uri: 'https://i.ibb.co/vDwVGnW/carrer.jpg'}}
           style={{
@@ -405,8 +407,8 @@ const styles = StyleSheet.create({
     fontFamily: font.poppins,
     color: 'white',
     textAlign: 'center',
-    fontSize: 16,
-    letterSpacing: 0.9,
+    fontSize: width * 0.04,
+    letterSpacing: 1.3,
   },
   footerText: {
     textAlign: 'center',
