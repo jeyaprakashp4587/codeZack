@@ -264,73 +264,81 @@ const Home = () => {
 
   return (
     <View style={pageView}>
-      {/* header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.navigate('profile')}>
-          <Image
-            source={{
-              uri: user?.Images?.profile
-                ? user?.Images?.profile
-                : user?.Gender == 'male'
-                ? 'https://i.ibb.co/3T4mNMm/man.png'
-                : 'https://i.ibb.co/3mCcQp9/woman.png',
-            }}
-            style={[
-              styles.profileImage,
-              {
-                width: width * 0.13,
-                height: width * 0.13,
-                borderRadius: 50,
-                borderWidth: 2,
-                borderColor: Colors.mildGrey,
-              },
-            ]}
-          />
-        </TouchableOpacity>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            columnGap: 30,
-          }}>
-          <Text
-            onPress={() => navigation.navigate('Wallet')}
-            style={{
-              position: 'absolute',
-              backgroundColor: '#e63946',
-              color: 'white',
-              zIndex: 10,
-              borderRadius: 50,
-              padding: 5,
-              fontSize: 8,
-              top: -height * 0.017,
-              right: width * 0.12,
-              paddingHorizontal: 8,
-            }}>
-            <Fontawesome name="rupee" color="white" size={8} />
-            {user?.Wallet?.TotalWallet}
-          </Text>
-          <Animated.View
-            style={{
-              transform: [
+      <ScrollView
+        ref={scrollViewRef}
+        onScroll={event => handleScroll(event)}
+        scrollEventThrottle={16}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={refreshUser} />
+        }>
+        {/* header */}
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.navigate('profile')}>
+            <Image
+              source={{
+                uri: user?.Images?.profile
+                  ? user?.Images?.profile
+                  : user?.Gender == 'male'
+                  ? 'https://i.ibb.co/3T4mNMm/man.png'
+                  : 'https://i.ibb.co/3mCcQp9/woman.png',
+              }}
+              style={[
+                styles.profileImage,
                 {
-                  translateX:
-                    user?.Wallet?.TotalWallet >= 1 ? shakeInterpolation : 0,
+                  width: width * 0.13,
+                  height: width * 0.13,
+                  borderRadius: 50,
+                  borderWidth: 2,
+                  borderColor: Colors.mildGrey,
                 },
-              ],
+              ]}
+            />
+          </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              columnGap: 30,
             }}>
-            <TouchableOpacity
-              style={{position: 'relative'}}
-              onPress={() => navigation.navigate('Wallet')}>
-              <SimpleLineIcons
-                name="wallet"
-                size={25}
-                color={Colors.mildGrey}
-              />
-            </TouchableOpacity>
-          </Animated.View>
-          {/* message batch */}
-          {/* <Text
+            <Text
+              onPress={() => navigation.navigate('Wallet')}
+              style={{
+                position: 'absolute',
+                backgroundColor: '#e63946',
+                color: 'white',
+                zIndex: 10,
+                borderRadius: 50,
+                padding: 5,
+                fontSize: 8,
+                top: -height * 0.017,
+                right: width * 0.12,
+                paddingHorizontal: 8,
+              }}>
+              <Fontawesome name="rupee" color="white" size={8} />
+              {user?.Wallet?.TotalWallet}
+            </Text>
+            <Animated.View
+              style={{
+                transform: [
+                  {
+                    translateX:
+                      user?.Wallet?.TotalWallet >= 1 ? shakeInterpolation : 0,
+                  },
+                ],
+              }}>
+              <TouchableOpacity
+                style={{position: 'relative'}}
+                onPress={() => navigation.navigate('Wallet')}>
+                <SimpleLineIcons
+                  name="wallet"
+                  size={25}
+                  color={Colors.mildGrey}
+                />
+              </TouchableOpacity>
+            </Animated.View>
+            {/* message batch */}
+            {/* <Text
             onPress={() => navigation.navigate('message')}
             style={{
               position: 'absolute',
@@ -347,24 +355,16 @@ const Home = () => {
             }}>
             1
           </Text> */}
-          <TouchableOpacity onPress={() => navigation.navigate('message')}>
-            <FontAwesomeIcon
-              icon={faMessage}
-              size={25}
-              color={Colors.mildGrey}
-            />
-          </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('message')}>
+              <FontAwesomeIcon
+                icon={faMessage}
+                size={25}
+                color={Colors.mildGrey}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-      {/*  header*/}
-      <ScrollView
-        ref={scrollViewRef}
-        onScroll={event => handleScroll(event)}
-        scrollEventThrottle={16}
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl refreshing={refresh} onRefresh={refreshUser} />
-        }>
+        {/*  header*/}
         {/* greeding and notification */}
         <View
           style={{

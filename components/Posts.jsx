@@ -7,6 +7,7 @@ import {
   FlatList,
   Modal,
   TextInput,
+  Pressable,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {Colors, font} from '../constants/Colors';
@@ -189,7 +190,12 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         // marginHorizontal: 5,
       }}>
       {/* Post Content */}
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+      <Pressable
+        onPress={() => {
+          setSelectedUser(senderDetails?._id);
+          navigation.navigate('userprofile');
+        }}
+        style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <Image
           source={{
             uri: senderDetails?.Images
@@ -225,7 +231,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             <Text style={styles.deleteText}>Delete</Text>
           </TouchableOpacity>
         )}
-      </View>
+      </Pressable>
 
       <Text style={styles.postText}>
         {expanded
