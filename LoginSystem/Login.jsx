@@ -24,6 +24,7 @@ import {functionApi, loginApi} from '../Api';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
+import TypingEffect from '../utils/TypingEffect';
 const {width, height} = Dimensions.get('window');
 
 const Login = () => {
@@ -106,9 +107,7 @@ const Login = () => {
             source={{uri: 'https://i.ibb.co/P5s1nZ5/loginbg.png'}}
             style={styles.image}
           />
-          <Text style={styles.welcomeText}>
-            Welcome To CodeZack, Growth Your Career From Here
-          </Text>
+          <TypingEffect />
         </View>
         <View style={styles.inputsWrapper}>
           <TextInput
@@ -182,7 +181,7 @@ const Login = () => {
           <Text style={styles.indicatorText}>OR</Text>
         </View>
         <View style={styles.signUpContainer}>
-          <Text style={{color: Colors.mildGrey, fontWeight: '700'}}>
+          <Text style={{color: Colors.mildGrey, fontWeight: '400'}}>
             Create New account
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate('signup')}>
@@ -225,6 +224,7 @@ const styles = StyleSheet.create({
     lineHeight: height * 0.04,
     color: Colors.veryDarkGrey,
     letterSpacing: 1,
+    fontWeight: '600',
   },
   inputsWrapper: {
     flexDirection: 'column',
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
     color: 'orange',
     textDecorationLine: 'underline',
     paddingHorizontal: width * 0.025,
-    fontWeight: '600', // Dynamic padding
+    fontWeight: '400', // Dynamic padding
   },
 });
 
