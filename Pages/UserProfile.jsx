@@ -141,8 +141,8 @@ const UserProfile = () => {
         `${profileApi}/Following/getNetworks/${selectedUser?._id}`,
       );
       if (res.status == 200) {
-        setNetworksList(res.data);
-        // console.log(res.data);
+        setNetworksList(res.data.users);
+        console.log(res.data);
       }
     }
   }, [showNetWorkModel]);
@@ -154,6 +154,7 @@ const UserProfile = () => {
       );
       if (res.status === 200) {
         setNetworksList(res.data.users);
+        console.log(res.data.users);
       }
       return res.data.users;
     }

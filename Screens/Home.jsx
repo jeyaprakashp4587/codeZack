@@ -63,7 +63,6 @@ import useSocketEmit from '../Socket/useSocketEmit';
 import Skeleton from '../Skeletons/Skeleton';
 import useFCMToken from '../hooks/useFCMToken';
 import IdeasWrapper from '../components/IdeasWrapper';
-// import PostFeed from '../components/PostFeed';
 const PostFeed = React.lazy(() => import('../components/PostFeed'));
 
 // Dimensions for layout
@@ -355,7 +354,10 @@ const Home = () => {
             }}>
             1
           </Text> */}
-            <TouchableOpacity onPress={() => navigation.navigate('message')}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('message');
+              }}>
               <FontAwesomeIcon
                 icon={faMessage}
                 size={25}

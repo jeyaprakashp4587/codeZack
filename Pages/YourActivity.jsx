@@ -48,7 +48,7 @@ const YourActivity = () => {
   // Fetch all activity dates
   const getAllActivityDates = async () => {
     try {
-      const res = await axios.post(
+      const res = await axios.get(
         `${functionApi}/Activity/getAllActivityDates/${user?._id}`,
       );
       if (res.data) {

@@ -17,6 +17,7 @@ import {
   InteractionManager,
   RefreshControl,
   Dimensions,
+  FlatList,
 } from 'react-native';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import {Colors, pageView} from '../constants/Colors';
@@ -40,12 +41,14 @@ import axios from 'axios';
 import {profileApi} from '../Api';
 import Skeleton from '../Skeletons/Skeleton';
 import Posts from '../components/Posts';
+import RBSheet from 'react-native-raw-bottom-sheet';
 
 const Profile = ({navigation}) => {
   const {user, setUser} = useData();
   const {width, height} = Dimensions.get('window');
   const [aboutUpdate, setAboutUpdate] = useState(false);
   const [uploadActivityIndi, setUploadActivityIndi] = useState(false);
+  const RBSheetRef = useRef();
   // function to pick images from the library
   const HandleChangeProfile = useCallback(
     async imageType => {
@@ -177,6 +180,16 @@ const Profile = ({navigation}) => {
       setUploadActivityIndi(false);
     }
   };
+  // fetch connections lists
+  const [netWorksList, setNetworksList] = useState();
+  const getNetworksList = useCallback(async () => {
+    const res = await axios.get(
+      `${profileApi}/Following/getNetworks/${user?._id}`,
+    );
+    if (res.status == 200) {
+      setNetworksList(res.data.users);
+    }
+  }, []);
   // render skeleton
   useEffect(() => {
     setTimeout(() => setLoading(true), 300);
@@ -437,7 +450,11 @@ const Profile = ({navigation}) => {
           marginVertical: height * -0.02,
           marginBottom: 5,
         }}>
-        <View>
+        <TouchableOpacity
+          onPress={() => {
+            RBSheetRef.current.open();
+            getNetworksList();
+          }}>
           <Text
             style={{
               fontWeight: '600',
@@ -455,7 +472,7 @@ const Profile = ({navigation}) => {
             }}>
             {user?.Connections?.length}
           </Text>
-        </View>
+        </TouchableOpacity>
         <View>
           <Text
             style={{
@@ -564,6 +581,49 @@ const Profile = ({navigation}) => {
           <Posts post={post} index={index} admin={true} />
         ))}
       </View>
+      {/* RBSheet for show user connection */}
+      <RBSheet
+        ref={RBSheetRef}
+        height={300} // Specify the desired height in pixels
+        useNativeDriver={true}
+        customStyles={{
+          container: {
+            borderTopLeftRadius: 20, // Optional for rounded corners
+            borderTopRightRadius: 20,
+            height: 500, // Alternatively, you can set the height here
+          },
+          wrapper: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+          },
+          draggableIcon: {
+            backgroundColor: '#cccccc',
+          },
+        }}
+        customModalProps={{
+          animationType: 'slide',
+          statusBarTranslucent: true,
+        }}>
+        {/* render */}
+        {netWorksList ? (
+          <Text>vfk</Text>
+        ) : (
+          <FlatList
+            data={netWorksList}
+            renderItem={({item}) => (
+              <TouchableOpacity style={{flexDirection: 'row'}}>
+                <Image
+                  source={{uri: item?.profileImg}}
+                  style={{width: width * 0.04, height: height * 0.02}}
+                />
+                <View>
+                  <Text>{item?.firstName}</Text>
+                  <Text>{item?.lastName}</Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
+        )}
+      </RBSheet>
     </ScrollView>
   );
 };
