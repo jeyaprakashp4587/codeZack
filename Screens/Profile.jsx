@@ -44,7 +44,7 @@ import Posts from '../components/Posts';
 import RBSheet from 'react-native-raw-bottom-sheet';
 
 const Profile = ({navigation}) => {
-  const {user, setUser} = useData();
+  const {user, setUser, setSelectedUser} = useData();
   const {width, height} = Dimensions.get('window');
   const [aboutUpdate, setAboutUpdate] = useState(false);
   const [uploadActivityIndi, setUploadActivityIndi] = useState(false);
@@ -188,6 +188,7 @@ const Profile = ({navigation}) => {
     );
     if (res.status == 200) {
       setNetworksList(res.data.users);
+      // console.log(res.data.users);
     }
   }, []);
   // render skeleton
@@ -603,26 +604,59 @@ const Profile = ({navigation}) => {
           animationType: 'slide',
           statusBarTranslucent: true,
         }}>
-        {/* render */}
-        {netWorksList ? (
-          <Text>vfk</Text>
-        ) : (
-          <FlatList
-            data={netWorksList}
-            renderItem={({item}) => (
-              <TouchableOpacity style={{flexDirection: 'row'}}>
-                <Image
-                  source={{uri: item?.profileImg}}
-                  style={{width: width * 0.04, height: height * 0.02}}
-                />
-                <View>
-                  <Text>{item?.firstName}</Text>
-                  <Text>{item?.lastName}</Text>
-                </View>
-              </TouchableOpacity>
-            )}
-          />
-        )}
+        <View style={{padding: 20}}>
+          {/* render */}
+          <Text
+            style={{
+              fontSize: width * 0.045,
+              marginBottom: height * 0.03,
+              letterSpacing: 2,
+            }}>
+            Connections
+          </Text>
+          {!netWorksList ? (
+            <View style={{flexDirection: 'column', rowGap: 10}}>
+              <Skeleton width="95%" height={40} radius={30} />
+              <Skeleton width="95%" height={40} radius={30} />
+              <Skeleton width="95%" height={40} radius={30} />
+              <Skeleton width="95%" height={40} radius={30} />
+            </View>
+          ) : (
+            <FlatList
+              data={netWorksList}
+              renderItem={({item}) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('userprofile');
+                    setSelectedUser(item.id);
+                  }}
+                  style={{
+                    flexDirection: 'row',
+                    marginTop: 10,
+                    alignItems: 'center',
+                    columnGap: 15,
+                  }}>
+                  <Image
+                    source={{uri: item?.profileImg}}
+                    style={{
+                      width: width * 0.13,
+                      height: height * 0.06,
+                      borderRadius: 50,
+                    }}
+                  />
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Text style={{letterSpacing: 2, fontSize: width * 0.03}}>
+                      {item?.firstName}
+                    </Text>
+                    <Text style={{letterSpacing: 2, fontSize: width * 0.03}}>
+                      {item?.lastName}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              )}
+            />
+          )}
+        </View>
       </RBSheet>
     </ScrollView>
   );

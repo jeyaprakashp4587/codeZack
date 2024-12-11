@@ -15,6 +15,7 @@ import Skeleton from '../Skeletons/Skeleton';
 import {TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import BannerAdd from '../Adds/BannerAdd';
+import LinearGradient from 'react-native-linear-gradient';
 
 const YourChallenges = props => {
   const navigation = useNavigation();
@@ -65,6 +66,27 @@ const YourChallenges = props => {
     setSkLoad(false); // Reset loading state
     getChallenges(option); // Fetch challenges based on the selected option
   };
+  // const challenges oprion
+  const options = useMemo(
+    () => [
+      {
+        Name: 'All',
+        route: 'All',
+        color: '#a2d2ff',
+      },
+      {
+        Name: 'Pending',
+        route: 'Pending',
+        color: '#fcd5ce',
+      },
+      {
+        Name: 'Completed',
+        route: 'Complete',
+        color: '#e9ecef',
+      },
+    ],
+    [],
+  );
   // render skeleton
   const [loading, setLoading] = useState(false);
   if (!loading) {
@@ -116,59 +138,31 @@ const YourChallenges = props => {
           columnGap: 20,
           paddingHorizontal: 15,
         }}>
-        <Ripple
-          onPress={() => HandleOption('All')}
-          style={{
-            padding: 10,
-            elevation: 3,
-            // borderWidth: 1,
-            backgroundColor: 'white',
-            borderRadius: 5,
-          }}>
-          <Text
+        {options.map(item => (
+          <LinearGradient
+            colors={['white', item.color]}
+            start={{x: 1, y: 0}}
+            end={{x: 0, y: 1}}
             style={{
-              fontWeight: '700',
-              fontSize: width * 0.03,
-              letterSpacing: 1,
+              borderRadius: 10,
+              // height: height * 0.035,
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              elevation: 3,
+              width: '30%',
             }}>
-            All Challenges
-          </Text>
-        </Ripple>
-        <Ripple
-          onPress={() => HandleOption('Complete')}
-          style={{
-            padding: 10,
-            elevation: 3,
-            // borderWidth: 1,
-            backgroundColor: 'white',
-            borderRadius: 5,
-          }}>
-          <Text
-            style={{
-              fontWeight: '700',
-              fontSize: width * 0.03,
-              letterSpacing: 1,
-            }}>
-            Completed
-          </Text>
-        </Ripple>
-        <Ripple
-          onPress={() => HandleOption('Pending')}
-          style={{
-            padding: 10,
-            elevation: 3,
-            backgroundColor: 'white',
-            borderRadius: 5,
-          }}>
-          <Text
-            style={{
-              fontWeight: '700',
-              fontSize: width * 0.03,
-              letterSpacing: 1,
-            }}>
-            In Progress
-          </Text>
-        </Ripple>
+            <Text
+              style={{
+                letterSpacing: 1,
+                fontSize: width * 0.03,
+                paddingVertical: 5,
+                paddingHorizontal: 15,
+              }}>
+              {item.Name}
+            </Text>
+          </LinearGradient>
+        ))}
       </View>
       {/* add banner */}
       <BannerAdd />

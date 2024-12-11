@@ -7,7 +7,6 @@ import {
   View,
   TouchableOpacity,
   Dimensions,
-  ActivityIndicator,
   Modal,
 } from 'react-native';
 
@@ -16,20 +15,15 @@ import {useData} from '../Context/Contexter';
 import HeadingText from '../utils/HeadingText';
 import TopicsText from '../utils/TopicsText';
 import ParagraphText from '../utils/PragraphText';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import Feather from 'react-native-vector-icons/Feather';
 import {LinearGradient} from 'react-native-linear-gradient';
-import {
-  faBars,
-  faHandDots,
-  faListDots,
-} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import {functionApi} from '../Api';
 import Skeleton from '../Skeletons/Skeleton';
 import Ripple from 'react-native-material-ripple';
 import {useFocusEffect} from '@react-navigation/native';
 import BannerAdd from '../Adds/BannerAdd';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const {width, height} = Dimensions.get('window');
 
@@ -150,9 +144,18 @@ const ChooseChallenge = ({navigation}) => {
       </View>
       <View style={styles.spacing} />
       <View style={styles.header}>
-        <TopicsText text="Choose Difficulty Level" fszie={20} mb={1} />
+        <TopicsText
+          text="Choose Difficulty Level"
+          fszie={width * 0.043}
+          mb={1}
+        />
         <TouchableOpacity onPress={openMenu}>
-          <FontAwesomeIcon icon={faBars} color={Colors.mildGrey} size={20} />
+          {/* <FontAwesomeIcon icon={faD} color={Colors.mildGrey} size={20} /> */}
+          <Entypo
+            name="dots-three-vertical"
+            color={Colors.lightGrey}
+            size={18}
+          />
         </TouchableOpacity>
         {/* Custom Dropdown Modal */}
         <Modal

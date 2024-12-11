@@ -179,7 +179,7 @@ const UserProfile = () => {
     fetchMutualFriends();
   }, [getAllNetworks, user?.Connections]);
   // render ui
-  if (!selectedUser) {
+  if (!selectedUser?.firstName || !selectedUser?.State) {
     <View style={pageView}>
       <Skeleton width="100%" height={height * 0.3} radius={10} mt={10} />
       <View
