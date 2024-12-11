@@ -179,7 +179,9 @@ const SignUp = ({navigation}) => {
         <View style={{height: height * 0.02}} />
 
         <Ripple onPress={handleSignUp} style={styles.signUpButton}>
-          {actiloading && <ActivityIndicator size={22} color={Colors.white} />}
+          {actiloading && (
+            <ActivityIndicator size={22} color={Colors.mildGrey} />
+          )}
           <Text style={styles.signUpText}>Sign Up</Text>
         </Ripple>
       </ScrollView>
@@ -250,17 +252,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: height * 0.015,
+    padding: height * 0.01,
     borderRadius: 10,
-    backgroundColor: Colors.violet,
-    elevation: 2,
+    // backgroundColor: Colors.violet,
+    // elevation: 2,
     width: '100%',
     alignSelf: 'center',
     marginBottom: 10,
+    borderWidth: 0.4,
+    borderColor: Colors.lightGrey,
   },
   signUpText: {
     fontSize: width * 0.045,
-    color: 'white',
+    color: Colors.mildGrey,
     fontWeight: '400',
     letterSpacing: 1,
   },

@@ -36,7 +36,7 @@ const Challenge = ({navigation}) => {
       ChallengeName: 'Your Challenges',
       bgColor: '#f8f5ed',
       route: 'yourchallenges',
-      content: 'Create and customize your own challenges!',
+      content: 'View your challenges!',
       Images: [],
     },
     {

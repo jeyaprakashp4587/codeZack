@@ -63,6 +63,8 @@ const YourChallenges = props => {
 
   // Handle option change
   const HandleOption = option => {
+    // console.log(option);
+
     setSkLoad(false); // Reset loading state
     getChallenges(option); // Fetch challenges based on the selected option
   };
@@ -152,15 +154,17 @@ const YourChallenges = props => {
               elevation: 3,
               width: '30%',
             }}>
-            <Text
-              style={{
-                letterSpacing: 1,
-                fontSize: width * 0.03,
-                paddingVertical: 5,
-                paddingHorizontal: 15,
-              }}>
-              {item.Name}
-            </Text>
+            <TouchableOpacity onPress={() => HandleOption(item.route)}>
+              <Text
+                style={{
+                  letterSpacing: 1,
+                  fontSize: width * 0.025,
+                  paddingVertical: 5,
+                  paddingHorizontal: 15,
+                }}>
+                {item.Name}
+              </Text>
+            </TouchableOpacity>
           </LinearGradient>
         ))}
       </View>
@@ -179,7 +183,13 @@ const YourChallenges = props => {
             <Skeleton width="100%" height={200} radius={10} />
           </View>
         ) : (
-          <Text style={{fontSize: 20, letterSpacing: 1, paddingHorizontal: 15}}>
+          <Text
+            style={{
+              letterSpacing: 2,
+              paddingHorizontal: 15,
+              fontSize: width * 0.05,
+              color: Colors.mildGrey,
+            }}>
             Nothing Is There!
           </Text>
         )

@@ -1,6 +1,7 @@
 import {
   Dimensions,
   Image,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -37,7 +38,13 @@ const Companies = () => {
   }, []);
   //
   return (
-    <View style={{flexDirection: 'row', columnGap: 10, marginBottom: 10}}>
+    <ScrollView
+      style={{
+        marginBottom: 10,
+        paddingLeft: 15,
+      }}
+      horizontal={true}
+      showsHorizontalScrollIndicator={false}>
       {companies.map((comp, index) => (
         <TouchableOpacity
           key={index}
@@ -51,9 +58,8 @@ const Companies = () => {
             flexDirection: 'column',
             rowGap: 15,
             backgroundColor: 'white',
-            // height: height * 0.15,
             alignItems: 'center',
-            // elevation: 2,
+            marginRight: 15,
           }}>
           <View
             style={{
@@ -82,7 +88,7 @@ const Companies = () => {
           </Text>
         </TouchableOpacity>
       ))}
-    </View>
+    </ScrollView>
   );
 };
 

@@ -409,7 +409,7 @@ const UserProfile = () => {
               }}
             />
           ))}
-          <Text>
+          <Text style={{fontSize: width * 0.023, marginLeft: 10}}>
             {mutualFriend?.length > 0
               ? `You have ${mutualFriend.length} mutual ${
                   mutualFriend.length === 1 ? 'friend' : 'friends'

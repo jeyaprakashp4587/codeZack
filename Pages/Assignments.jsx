@@ -14,6 +14,7 @@ import {Colors} from '../constants/Colors';
 import {useData} from '../Context/Contexter';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import BannerAdd from '../Adds/BannerAdd';
+import HeadingText from '../utils/HeadingText';
 
 const Assignments = () => {
   const navigation = useNavigation();
@@ -95,24 +96,18 @@ const Assignments = () => {
     <ScrollView
       style={{flex: 1, backgroundColor: 'white'}}
       showsVerticalScrollIndicator={false}>
+      <View style={{paddingHorizontal: 15}}>
+        <HeadingText text="Assignments" />
+      </View>
       <Image
         source={{uri: 'https://i.ibb.co/qLSFp14/22378291-6567453.jpg'}}
         style={{
-          width: width * 0.9,
-          height: height * 0.5,
+          width: width * 0.7,
+          height: height * 0.4,
           alignSelf: 'center',
         }}
       />
-      {/* text */}
-      <Text
-        style={{
-          color: Colors.mildGrey,
-          fontSize: width * 0.07,
-          textAlign: 'center',
-          letterSpacing: 2,
-        }}>
-        Assignments
-      </Text>
+
       {/* Banner add */}
       <BannerAdd />
       {/* list assignments */}

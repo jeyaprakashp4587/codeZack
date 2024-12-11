@@ -112,7 +112,7 @@ const Home = () => {
   useEffect(() => {
     const showInterval = setInterval(() => {
       if (loadedReward) {
-        // showReward();/
+        // showReward();
       }
     }, 3 * 60 * 1000); // 3 minutes
 
@@ -152,7 +152,7 @@ const Home = () => {
         if (loadedAppOpen) {
           try {
             // console.log('Ad is loaded. Attempting to show the ad...');
-            // showAppopen();
+            showAppopen();
           } catch (error) {
             // console.error('Error showing AppOpenAd:', error);
           }
@@ -219,7 +219,7 @@ const Home = () => {
     } catch (error) {
       console.error('Failed to fetch notifications:', error);
     }
-  }, [user?._id, useSocketOn]);
+  }, [user?._id]);
   // socket
 
   useSocketOn(socket, 'updateNoti', async data => {
@@ -471,7 +471,7 @@ const Home = () => {
             style={{
               flexDirection: 'column',
               justifyContent: 'space-between',
-              paddingHorizontal: 15,
+              // paddingHorizontal: 15,
               columnGap: 20,
               borderWidth: 0,
               marginVertical: 15,
@@ -487,6 +487,8 @@ const Home = () => {
                 borderRadius: 10,
                 borderWidth: 1,
                 borderColor: Colors.veryLightGrey,
+                // paddingHorizontal: 15,
+                marginHorizontal: 15,
               }}>
               <TouchableOpacity
                 style={{flexDirection: 'column', rowGap: 10}}
