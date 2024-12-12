@@ -40,8 +40,8 @@ const SplashScreen = () => {
           setActivityIndicator(false);
           console.log(response.data.user);
           setUser(response.data.user);
-          // nav.navigate('Tab');
-          nav.navigate('login'); // Navigate to the main app if login is valid
+          nav.navigate('Tab');
+          // nav.navigate('login'); // Navigate to the main app if login is valid
         } else {
           setActivityIndicator(false);
           nav.navigate('login'); // Navigate to login screen if email not found

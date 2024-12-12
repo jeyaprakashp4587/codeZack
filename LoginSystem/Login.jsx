@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     marginVertical: height * 0.01, // Dynamic margin
   },
   loginButton: {
-    // backgroundColor: Colors.violet,
+    backgroundColor: '#415a77',
     padding: height * 0.015, // Dynamic padding
     justifyContent: 'center',
     alignItems: 'center',
@@ -251,13 +251,13 @@ const styles = StyleSheet.create({
     columnGap: 10,
     marginTop: 10,
     borderWidth: 0.4,
-    borderColor: Colors.lightGrey,
+    borderColor: Colors.veryDarkGrey,
   },
   loginText: {
     fontWeight: '800',
     letterSpacing: 2,
     fontSize: width * 0.035, // Dynamic font size
-    color: Colors.mildGrey,
+    color: Colors.white,
   },
   indicator: {
     width: '100%',

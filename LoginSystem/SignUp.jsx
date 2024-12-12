@@ -261,10 +261,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderWidth: 0.4,
     borderColor: Colors.lightGrey,
+    backgroundColor: '#415a77',
   },
   signUpText: {
     fontSize: width * 0.045,
-    color: Colors.mildGrey,
+    color: Colors.white,
     fontWeight: '400',
     letterSpacing: 1,
   },
