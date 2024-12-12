@@ -6,10 +6,12 @@ import {useEffect} from 'react';
 import axios from 'axios';
 import {profileApi} from '../Api';
 import {useData} from '../Context/Contexter';
+import HeadingText from '../utils/HeadingText';
+import Skeleton from '../Skeletons/Skeleton';
+import BannerAdd from '../Adds/BannerAdd';
 
 const PostViewer = () => {
   const {selectedPost} = useData();
-  console.log(selectedPost);
   const [post, setPost] = useState();
   const getPostDetail = useCallback(async () => {
     const res = await axios.get(
@@ -17,7 +19,7 @@ const PostViewer = () => {
     );
     if (res.data) {
       setPost(res.data);
-      console.log(post);
+      console.log(post?.SenderDetails);
     }
   }, [selectedPost]);
   useEffect(() => {
@@ -25,14 +27,28 @@ const PostViewer = () => {
   }, []);
   return (
     <View style={{backgroundColor: 'white', flex: 1}}>
-      <Posts
-        post={post?.Posts} // Pass post data as props
-        senderDetails={post?.SenderDetails}
-        index={0} // Pass index
-        admin={false}
-        elevation={true} // Optionally pass if the user is admin
-        // updateLikeCount={updateLikeCount} // Function to update like count
-      />
+      <View style={{paddingHorizontal: 15}}>
+        <HeadingText text="Post" />
+      </View>
+      {post ? (
+        <Posts
+          post={post?.Posts} // Pass post data as props
+          senderDetails={post?.SenderDetails}
+          index={0} // Pass index
+          admin={false}
+          elevation={true} // Optionally pass if the user is admin
+          // updateLikeCount={updateLikeCount} // Function to update like count
+        />
+      ) : (
+        <View
+          style={{paddingHorizontal: 15, flexDirection: 'column', rowGap: 10}}>
+          <Skeleton width="95%" height={30} radius={20} />
+          <Skeleton width="95%" height={100} radius={20} />
+          <Skeleton width="95%" height={150} radius={20} />
+        </View>
+      )}
+      //banner add
+      <BannerAdd />
     </View>
   );
 };

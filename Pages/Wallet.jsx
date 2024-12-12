@@ -29,6 +29,7 @@ import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 import BannerAdd from '../Adds/BannerAdd';
 import AddModel from '../Adds/AddModel';
+import HeadingText from '../utils/HeadingText';
 
 const Wallet = () => {
   const {user, setUser} = useData();
@@ -126,7 +127,7 @@ const Wallet = () => {
       style={{flex: 1, backgroundColor: 'white'}}
       showsVerticalScrollIndicator={false}>
       <View style={{paddingHorizontal: 15}}>
-        <TopicsText text="Your Wallet" mb={10} />
+        <HeadingText text="Your Wallet" />
       </View>
       {/* user profile */}
       <LinearGradient
@@ -165,7 +166,7 @@ const Wallet = () => {
               letterSpacing: 2,
               color: 'white',
               // fontWeight: '600',
-              fontSize: width * 0.06,
+              fontSize: width * 0.05,
             }}>
             {user?.firstName} {user?.LastName}
           </Text>

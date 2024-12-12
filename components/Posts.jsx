@@ -174,7 +174,8 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
       setComments(res.data.comments);
     }
   }, [comments, post]);
-
+  //
+  const [showImageModel, setShowImageModel] = useState(false);
   return (
     <View
       key={index}
@@ -192,7 +193,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
       {/* Post Content */}
       <Pressable
         onPress={() => {
-          setSelectedUser(senderDetails?._id);
+          setSelectedUser(senderDetails?._id || senderDetails?.id);
           navigation.navigate('userprofile');
         }}
         style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -232,7 +233,6 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           </TouchableOpacity>
         )}
       </Pressable>
-
       <Text style={styles.postText}>
         {expanded
           ? initialText
@@ -253,15 +253,17 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           data={post?.Images}
           horizontal
           renderItem={({item, index}) => (
-            <Image
-              key={index}
-              source={{uri: item}}
-              style={{
-                width: post?.Images.length === 1 ? width * 0.84 : width * 0.8,
-                height: height * 0.3,
-                resizeMode: 'contain',
-              }}
-            />
+            <TouchableOpacity onPress={() => setShowImageModel(true)}>
+              <Image
+                key={index}
+                source={{uri: item}}
+                style={{
+                  width: post?.Images.length === 1 ? width * 0.84 : width * 0.8,
+                  height: height * 0.3,
+                  resizeMode: 'contain',
+                }}
+              />
+            </TouchableOpacity>
           )}
         />
       )}
@@ -473,6 +475,51 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           ) : (
             <Text>No Comments</Text>
           )}
+        </View>
+      </Modal>
+      {/* model for show images */}
+      <Modal
+        visible={showImageModel}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setShowImageModel(false)}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)', // Semi-transparent background
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+          }}>
+          {/* Close Icon */}
+          <TouchableOpacity
+            style={{
+              position: 'absolute',
+              top: 40,
+              right: 20,
+              zIndex: 1,
+            }}
+            onPress={() => setShowImageModel(false)}>
+            <FontAwesomeIcon icon={faTimes} size={30} color="white" />
+          </TouchableOpacity>
+
+          {/* Image List */}
+          <FlatList
+            showsHorizontalScrollIndicator={false}
+            data={post?.Images}
+            horizontal
+            pagingEnabled
+            renderItem={({item}) => (
+              <Image
+                source={{uri: item}}
+                style={{
+                  width: width * 0.6,
+                  resizeMode: 'contain',
+                  borderRadius: 60,
+                }}
+              />
+            )}
+          />
         </View>
       </Modal>
     </View>

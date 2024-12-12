@@ -63,6 +63,7 @@ import useSocketEmit from '../Socket/useSocketEmit';
 import Skeleton from '../Skeletons/Skeleton';
 import useFCMToken from '../hooks/useFCMToken';
 import IdeasWrapper from '../components/IdeasWrapper';
+import NotesFeed from '../components/NotesFeed';
 const PostFeed = React.lazy(() => import('../components/PostFeed'));
 
 // Dimensions for layout
@@ -418,6 +419,8 @@ const Home = () => {
             </Pressable>
           </View>
         </View>
+        {/* notesFeed */}
+        <NotesFeed />
         {/* search bar */}
         <TouchableOpacity
           onPress={() => navigation.navigate('search')}

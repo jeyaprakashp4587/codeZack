@@ -107,11 +107,10 @@ const Notifications = () => {
   }, []);
 
   return (
-    <View style={[pageView, {paddingHorizontal: 15}]}>
-      <View style={{paddingHorizontal: 0}}>
+    <View style={pageView}>
+      <View style={{paddingHorizontal: 15}}>
         {/* heading */}
         <HeadingText text="Notifications" mb={5} />
-
         {/* hr line */}
         <HrLine margin={1} width="100%" />
       </View>
@@ -139,7 +138,7 @@ const Notifications = () => {
               style={{
                 // borderWidth: 1,
                 padding: 15,
-                borderRadius: 7,
+                // borderRadius: 7,
                 // marginTop: 15,
                 marginBottom: 10,
                 position: 'relative',
@@ -147,9 +146,11 @@ const Notifications = () => {
                 alignItems: 'center',
                 columnGap: 20,
                 backgroundColor: item?.seen ? 'white' : Colors.veryLightGrey,
+                borderBottomWidth: 1,
+                borderColor: Colors.lightGrey,
                 // flexWrap: "wrap",
-                elevation: 3,
-                marginHorizontal: 5,
+                // elevation: 3,
+                // marginHorizontal: 5,
               }}>
               <Image
                 source={{
