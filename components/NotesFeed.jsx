@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   TextInput,
   ToastAndroid,
+  ActivityIndicator,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Colors} from '../constants/Colors';
@@ -21,6 +22,9 @@ import {BlurView} from '@react-native-community/blur';
 import {profileApi} from '../Api';
 import axios from 'axios';
 import {useData} from '../Context/Contexter';
+import Skeleton from '../Skeletons/Skeleton';
+import moment from 'moment';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const NotesFeed = () => {
   const {user} = useData();
@@ -59,28 +63,42 @@ const NotesFeed = () => {
 
   // Upload note
   const [uploadIndi, setUploadIndi] = useState(false);
-
   const uploadNote = useCallback(async () => {
     if (!noteText.trim()) {
       ToastAndroid.show('Notes are empty', ToastAndroid.SHORT);
       return;
     }
-
-    setUploadIndi(true);
+    const todayDateKey = moment().format('YYYY-MM-DD');
     try {
+      const lastUploadDate = await AsyncStorage.getItem('lastUploadDate');
+      // Check if the user has already posted today
+      if (lastUploadDate === todayDateKey) {
+        console.log('data not valid');
+        ToastAndroid.show(
+          'You can only upload one note per day. Try again tomorrow!',
+          ToastAndroid.SHORT,
+        );
+        return;
+      }
+      setUploadIndi(true);
       const response = await axios.post(`${profileApi}/Post/uploadNote`, {
         userId: user?._id,
         noteText,
       });
       if (response.data.success) {
+        // Save today's date as the last upload date
+        await AsyncStorage.setItem('lastUploadDate', todayDateKey);
         ToastAndroid.show('Note uploaded successfully!', ToastAndroid.SHORT);
-        setUploadIndi(false);
       } else {
-        setUploadIndi(false);
         ToastAndroid.show('Failed to upload note', ToastAndroid.SHORT);
       }
     } catch (error) {
       console.error('Error uploading note:', error);
+      ToastAndroid.show(
+        'An error occurred. Please try again later.',
+        ToastAndroid.SHORT,
+      );
+    } finally {
       setUploadIndi(false);
     }
   }, [noteText, user]);
@@ -94,7 +112,7 @@ const NotesFeed = () => {
       );
       if (response.data.success) {
         setNotes(response.data.notes);
-        console.log('Fetched connection notes:', response.data.data);
+        console.log('Fetched connection notes:', response.data.notes);
       } else {
         console.error('Failed to fetch notes:', response.data.message);
       }
@@ -141,73 +159,103 @@ const NotesFeed = () => {
           <FontAwesomeIcon icon={faPlus} size={17} color={Colors.lightGrey} />
         </TouchableOpacity>
       </Ripple>
-
-      <FlatList
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={notes}
-        renderItem={({item, index}) => (
-          <View
-            style={{
-              marginRight: 15,
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <LinearGradient
-              colors={['#99ccff', '#ffb3b3', '#99ccff', '#ffb3b3']}
-              style={{
-                padding: 3,
-                borderRadius: 50,
-              }}>
-              <TouchableOpacity
-                onPress={() => {
-                  setShowNotesModel(true);
-                  setSelectedNote(item);
-                }}>
-                <View
-                  style={{
-                    borderRadius: 50,
-                    backgroundColor: '#fff',
-                    borderWidth: 0,
-                  }}>
-                  <Image
-                    source={{uri: item?.NotesSenderProfile}}
-                    style={{
-                      height: height * 0.07,
-                      aspectRatio: 1,
-                      borderRadius: 50,
-                    }}
-                  />
-                </View>
-              </TouchableOpacity>
-            </LinearGradient>
+      {notes.length <= 0 ? (
+        <View>
+          <FlatList
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            data={new Array(5)}
+            renderItem={({item, index}) => (
+              <View style={{marginRight: 10}}>
+                <Skeleton
+                  width={width * 0.16}
+                  height={height * 0.08}
+                  radius={50}
+                />
+              </View>
+            )}
+          />
+        </View>
+      ) : (
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={notes}
+          renderItem={({item, index}) => (
             <View
+              key={index}
               style={{
-                width: containerWidth,
-                overflow: 'hidden',
+                marginRight: 15,
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}>
-              <Animated.Text
-                numberOfLines={1}
-                onLayout={event => {
-                  const {width: actualTextWidth} = event.nativeEvent.layout;
-                  setTextWidth(actualTextWidth);
-                  setShouldScroll(actualTextWidth > containerWidth); // Enable scrolling only if text overflows
-                }}
+              <LinearGradient
+                colors={['#99ccff', '#ffb3b3', '#99ccff', '#ffb3b3']}
                 style={{
-                  transform: shouldScroll ? [{translateX}] : [],
-                  fontSize: 12,
-                  color: Colors.mildGrey,
-                  textAlign: 'center',
-                  whiteSpace: 'nowrap',
-                  letterSpacing: 1.3,
+                  padding: 3,
+                  borderRadius: 50,
                 }}>
-                {item?.NotesText}
-              </Animated.Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    setShowNotesModel(true);
+                    setSelectedNote(item);
+                  }}>
+                  <View
+                    style={{
+                      borderRadius: 50,
+                      backgroundColor: '#fff',
+                      borderWidth: 0,
+                    }}>
+                    <Image
+                      source={{uri: item?.NotesSenderProfile}}
+                      style={{
+                        height: height * 0.07,
+                        aspectRatio: 1,
+                        borderRadius: 50,
+                      }}
+                    />
+                  </View>
+                </TouchableOpacity>
+              </LinearGradient>
+              <View
+                style={{
+                  width: containerWidth,
+                  overflow: 'hidden',
+                }}>
+                {/* <Animated.Text
+                  numberOfLines={1}
+                  onLayout={event => {
+                    const {width: actualTextWidth} = event.nativeEvent.layout;
+                    setTextWidth(actualTextWidth);
+                    setShouldScroll(actualTextWidth > containerWidth); // Enable scrolling only if text overflows
+                  }}
+                  style={{
+                    transform: shouldScroll ? [{translateX}] : [],
+                    fontSize: 12,
+                    color: Colors.mildGrey,
+                    textAlign: 'center',
+                    whiteSpace: 'nowrap',
+                    letterSpacing: 1.3,
+                  }}>
+                  {item?.NotesText}
+                </Animated.Text> */}
+                <Text
+                  style={{
+                    // transform: shouldScroll ? [{translateX}] : [],
+                    fontSize: 12,
+                    color: Colors.mildGrey,
+                    textAlign: 'center',
+                    whiteSpace: 'nowrap',
+                    letterSpacing: 1.3,
+                  }}>
+                  {item?.NotesText}
+                </Text>
+              </View>
             </View>
-          </View>
-        )}
-      />
+          )}
+        />
+      )}
 
       {/* Show notes modal */}
       <Modal
@@ -235,12 +283,11 @@ const NotesFeed = () => {
             }}>
             <FontAwesomeIcon icon={faTimes} size={20} />
           </TouchableOpacity>
-
           <View
             style={{
               width: '80%',
               backgroundColor: 'white',
-              padding: 10,
+              padding: 20,
               borderRadius: 10,
               elevation: 4,
               rowGap: 10,
@@ -254,8 +301,8 @@ const NotesFeed = () => {
               <Image
                 source={{uri: selectedNote?.NotesSenderProfile}}
                 style={{
-                  width: width * 0.15,
-                  height: height * 0.07,
+                  width: width * 0.13,
+                  // height: height * 0.0,
                   aspectRatio: 1,
                   borderRadius: 50,
                 }}
@@ -280,7 +327,14 @@ const NotesFeed = () => {
                 </Text>
               </View>
             </View>
-            <Text style={{letterSpacing: 2}}>{selectedNote?.NotesText}</Text>
+            <Text
+              style={{
+                letterSpacing: 2,
+                fontSize: width * 0.04,
+                // textAlign: 'center',
+              }}>
+              {selectedNote?.NotesText}
+            </Text>
           </View>
         </BlurView>
       </Modal>
@@ -336,6 +390,9 @@ const NotesFeed = () => {
                 }}>
                 Upload Note
               </Text>
+              {uploadIndi && (
+                <ActivityIndicator size={20} color={Colors.white} />
+              )}
             </Ripple>
           </View>
         </BlurView>
