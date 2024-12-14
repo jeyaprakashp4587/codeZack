@@ -233,7 +233,6 @@ const Profile = ({navigation}) => {
       <View style={{paddingHorizontal: width * 0.05}}>
         <HeadingText text="Profile" />
       </View>
-
       {/* About Section */}
       <View style={{borderWidth: 0}}>
         {/* Cover Photo Edit Icon */}
@@ -442,7 +441,6 @@ const Profile = ({navigation}) => {
           </Text>
         </View>
       </View>
-
       {/* Following Info */}
       <View
         style={{
@@ -494,6 +492,7 @@ const Profile = ({navigation}) => {
           </Text>
         </View>
       </View>
+      {/* Refer code & qr code */}
       <HrLine />
       {/* Category Cards */}
       <View
