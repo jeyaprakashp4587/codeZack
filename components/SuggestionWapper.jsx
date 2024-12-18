@@ -1,5 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {
+  Dimensions,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {Colors} from '../constants/Colors';
 import Ripple from 'react-native-material-ripple';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -19,11 +26,12 @@ const SuggestionWapper = ({trigger, refresh}) => {
   const [profiles, setProfiles] = useState();
   const Navigation = useNavigation();
   const {setSelectedUser, user} = useData();
-  // show suggestion users
-  async function userSuggestions() {
+  const userSuggestions = useCallback(async () => {
     const res = await axios.get(`${loginApi}/Suggestions/users/${user._id}`);
-    if (res.data) setProfiles(res.data);
-  }
+    if (res.data) {
+      setProfiles(res.data);
+    }
+  }, []);
   //
   useEffect(() => {
     userSuggestions();
@@ -54,55 +62,79 @@ const SuggestionWapper = ({trigger, refresh}) => {
         data={profiles}
         showsHorizontalScrollIndicator={false}
         renderItem={user => (
-          <LinearGradient
-            colors={['white', 'white', '#f2f2f2']}
-            style={{elevation: 2, margin: 5, borderRadius: 5}}
-            start={{x: 0, y: 1}}
-            end={{x: 1, y: 1}}>
-            <Ripple
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                width: width * 0.8,
-                height: height * 0.1,
-                paddingHorizontal: 15,
-                columnGap: 10,
-              }}
-              onPress={() => {
-                Navigation.navigate('userprofile');
-                setSelectedUser(user.item._id);
-              }}>
-              <Image
-                source={{
-                  uri:
-                    user.item?.Images?.profile ??
-                    'https://i.ibb.co/3T4mNMm/man.png',
-                }}
+          <ImageBackground
+            source={{uri: user.item?.Images?.coverImg}}
+            style={{
+              // marginRight: 10,
+              borderRadius: 7,
+              overflow: 'hidden',
+              elevation: 2,
+              margin: 2,
+              marginRight: 10,
+            }}>
+            <LinearGradient
+              colors={['rgba(0,0,0,.1)', '#f2f2f2', Colors.white]}
+              // style={{elevation: 2, borderRadius: 5}}
+              start={{x: 0, y: 0}}
+              end={{x: 0, y: 1}}>
+              <TouchableOpacity
                 style={{
-                  width: width * 0.15,
-                  height: height * 0.07,
-                  borderRadius: 50,
-                  // borderWidth: 1,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: width * 0.8,
+                  height: height * 0.1,
+                  paddingHorizontal: 15,
+                  columnGap: 10,
                 }}
-              />
-              <View style={{borderWidth: 0, flex: 1}}>
-                <Text
+                onPress={() => {
+                  Navigation.navigate('userprofile');
+                  setSelectedUser(user.item._id);
+                }}>
+                <Image
+                  source={{
+                    uri: user.item?.Images?.profile
+                      ? user.item?.Images?.profile
+                      : 'https://i.ibb.co/3T4mNMm/man.png',
+                  }}
                   style={{
-                    fontSize: width * 0.04,
-                    color: Colors.veryDarkGrey,
-                    textTransform: 'capitalize',
-                  }}>
-                  {user.item?.firstName} {user.item?.LastName}
-                </Text>
-                <Text style={{fontSize: width * 0.03, color: Colors.mildGrey}}>
-                  {user.item?.InstitudeName}
-                </Text>
-              </View>
-              <Ripple>
-                <FontAwesomeIcon icon={faEye} color={Colors.violet} size={23} />
-              </Ripple>
-            </Ripple>
-          </LinearGradient>
+                    width: width * 0.14,
+                    height: height * 0.07,
+                    borderRadius: 50,
+                    // borderWidth: 1,
+                    // resizeMode: 'contain',
+                  }}
+                />
+                <View style={{borderWidth: 0, flex: 1}}>
+                  <Text
+                    style={{
+                      fontSize: width * 0.04,
+                      color: Colors.veryDarkGrey,
+                      textTransform: 'capitalize',
+                      // fontWeight: '600',
+                      letterSpacing: 1,
+                    }}>
+                    {user.item?.firstName} {user.item?.LastName}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: width * 0.03,
+                      color: Colors.mildGrey,
+                      fontWeight: '600',
+                      // letterSpacing: 1,
+                    }}>
+                    {user.item?.InstitudeName}
+                  </Text>
+                </View>
+                <Ripple>
+                  <FontAwesomeIcon
+                    icon={faEye}
+                    color={Colors.violet}
+                    size={23}
+                  />
+                </Ripple>
+              </TouchableOpacity>
+            </LinearGradient>
+          </ImageBackground>
         )}
       />
     </View>

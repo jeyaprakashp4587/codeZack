@@ -184,6 +184,7 @@ const Home = () => {
       // load add
     }, 500);
   }, []);
+  // set time
   const getCurrentGreeting = useCallback(() => {
     const currentHour = new Date().getHours();
     if (currentHour < 12) return 'Good Morning';
@@ -243,7 +244,7 @@ const Home = () => {
   // --- set profile
   const setProfilePic = useCallback(async () => {
     try {
-      if (!user?.Images || !user?.Images?.profile) {
+      if (!user?.Images || !user?.Images?.profile || user?.Images?.coverImg) {
         const res = await axios.post(
           `${loginApi}/Profile/setProfile/${user?._id}`,
         );
@@ -367,8 +368,6 @@ const Home = () => {
             </TouchableOpacity>
           </View>
         </View>
-        {/* notesFeed */}
-        <NotesFeed />
         {/*  header*/}
         {/* greeding and notification */}
         <View
@@ -421,6 +420,8 @@ const Home = () => {
             </Pressable>
           </View>
         </View>
+        {/* notesFeed */}
+        <NotesFeed />
         {/* search bar */}
         <TouchableOpacity
           onPress={() => navigation.navigate('search')}

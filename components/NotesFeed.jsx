@@ -25,9 +25,11 @@ import {useData} from '../Context/Contexter';
 import Skeleton from '../Skeletons/Skeleton';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
 
 const NotesFeed = () => {
-  const {user} = useData();
+  const {user, setSelectedUser} = useData();
+  const navigation = useNavigation();
   const {width, height} = Dimensions.get('window');
   const scrollAnimation = useRef(new Animated.Value(0)).current;
   const [shouldScroll, setShouldScroll] = useState(false);
@@ -110,8 +112,9 @@ const NotesFeed = () => {
         `${profileApi}/Post/getConnectionNotes/${user?._id}`,
       );
       if (response.data.success) {
+        // console.log(response.data.notes);
         setNotes(response.data.notes);
-        console.log('Fetched connection notes:', response.data.notes);
+        // console.log('Fetched connection notes:', response.data.notes);
       } else {
         console.error('Failed to fetch notes:', response.data.message);
       }
@@ -132,7 +135,7 @@ const NotesFeed = () => {
           height: height * 0.08,
           aspectRatio: 1,
           borderRadius: 50,
-          borderWidth: 2,
+          borderWidth: 1,
           borderColor: Colors.lightGrey,
           marginRight: 10,
           justifyContent: 'center',
@@ -154,7 +157,7 @@ const NotesFeed = () => {
             backgroundColor: 'white',
             right: 5,
             top: height * 0.06,
-            borderWidth: 1,
+            // borderWidth: 1,
           }}>
           <FontAwesomeIcon icon={faPlus} size={17} color={Colors.lightGrey} />
         </TouchableOpacity>
@@ -223,7 +226,7 @@ const NotesFeed = () => {
                   width: containerWidth,
                   overflow: 'hidden',
                 }}>
-                <Text
+                <Animated.Text
                   numberOfLines={1}
                   style={{
                     fontSize: width * 0.03,
@@ -233,7 +236,7 @@ const NotesFeed = () => {
                     letterSpacing: 1.3,
                   }}>
                   {item?.NotesText}
-                </Text>
+                </Animated.Text>
               </View>
             </View>
           )}
@@ -265,7 +268,11 @@ const NotesFeed = () => {
             }}>
             <FontAwesomeIcon icon={faTimes} size={20} />
           </TouchableOpacity>
-          <View
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('userprofile');
+              setSelectedUser(selectedNote?.NotesSenderId);
+            }}
             style={{
               width: '80%',
               backgroundColor: 'white',
@@ -317,7 +324,7 @@ const NotesFeed = () => {
               }}>
               {selectedNote?.NotesText}
             </Text>
-          </View>
+          </TouchableOpacity>
         </BlurView>
       </Modal>
       {/* Upload notes modal */}
@@ -365,6 +372,7 @@ const NotesFeed = () => {
                 borderRadius: 5,
                 flexDirection: 'row',
                 columnGap: 10,
+                justifyContent: 'center',
               }}>
               <Text
                 style={{
