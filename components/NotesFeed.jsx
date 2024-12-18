@@ -102,7 +102,6 @@ const NotesFeed = () => {
       setUploadIndi(false);
     }
   }, [noteText, user]);
-
   // Fetch connection notes
   const [notes, setNotes] = useState([]);
   const fetchConnectionNotes = useCallback(async () => {
@@ -154,7 +153,8 @@ const NotesFeed = () => {
             bottom: 0,
             backgroundColor: 'white',
             right: 5,
-            top: height * 0.057,
+            top: height * 0.06,
+            borderWidth: 1,
           }}>
           <FontAwesomeIcon icon={faPlus} size={17} color={Colors.lightGrey} />
         </TouchableOpacity>
@@ -223,27 +223,10 @@ const NotesFeed = () => {
                   width: containerWidth,
                   overflow: 'hidden',
                 }}>
-                {/* <Animated.Text
-                  numberOfLines={1}
-                  onLayout={event => {
-                    const {width: actualTextWidth} = event.nativeEvent.layout;
-                    setTextWidth(actualTextWidth);
-                    setShouldScroll(actualTextWidth > containerWidth); // Enable scrolling only if text overflows
-                  }}
-                  style={{
-                    transform: shouldScroll ? [{translateX}] : [],
-                    fontSize: 12,
-                    color: Colors.mildGrey,
-                    textAlign: 'center',
-                    whiteSpace: 'nowrap',
-                    letterSpacing: 1.3,
-                  }}>
-                  {item?.NotesText}
-                </Animated.Text> */}
                 <Text
+                  numberOfLines={1}
                   style={{
-                    // transform: shouldScroll ? [{translateX}] : [],
-                    fontSize: 12,
+                    fontSize: width * 0.03,
                     color: Colors.mildGrey,
                     textAlign: 'center',
                     whiteSpace: 'nowrap',
@@ -256,7 +239,6 @@ const NotesFeed = () => {
           )}
         />
       )}
-
       {/* Show notes modal */}
       <Modal
         visible={showNotesModel}
@@ -338,7 +320,6 @@ const NotesFeed = () => {
           </View>
         </BlurView>
       </Modal>
-
       {/* Upload notes modal */}
       <Modal
         visible={uploadNotesModal}
@@ -358,15 +339,16 @@ const NotesFeed = () => {
             style={{
               width: '80%',
               backgroundColor: 'white',
-              padding: 10,
+              padding: 20,
               borderRadius: 10,
               elevation: 4,
               rowGap: 10,
+              // flexDirection: 'row',
             }}>
             <TextInput
               placeholder="What's your today task?"
               style={{
-                borderWidth: 1,
+                borderWidth: 0.4,
                 paddingHorizontal: 14,
                 borderColor: Colors.lightGrey,
                 borderRadius: 5,
@@ -381,6 +363,8 @@ const NotesFeed = () => {
                 padding: 10,
                 backgroundColor: Colors.violet,
                 borderRadius: 5,
+                flexDirection: 'row',
+                columnGap: 10,
               }}>
               <Text
                 style={{

@@ -48,22 +48,23 @@ const Placement = () => {
         <View style={{paddingHorizontal: 15}}>
           <HeadingText text="Jobs" />
         </View>
-        <View
+        {/* <View
           style={{
             paddingHorizontal: 15,
             flexDirection: 'row',
             borderWidth: 1,
             borderColor: 'white',
             alignItems: 'center',
+            columnGap: 10,
           }}>
           <Text
             style={{
               fontSize: width * 0.05,
-              fontWeight: '600',
+              // fontWeight: '600',
               color: Colors.veryDarkGrey,
-              letterSpacing: 1,
+              // letterSpacing: 2,
             }}>
-            Recommended Jobs{' '}
+            Recommended Jobs
           </Text>
           <Text
             style={{
@@ -75,7 +76,7 @@ const Placement = () => {
             }}>
             {jobs?.length}
           </Text>
-        </View>
+        </View> */}
         <View style={{flexDirection: 'column', rowGap: 10, margin: 15}}>
           <Skeleton width="100%" height={height * 0.3} radius={20} />
           <Skeleton width="100%" height={height * 0.3} radius={20} />
@@ -84,6 +85,7 @@ const Placement = () => {
       </View>
     );
   }
+  //  ---
   return (
     <View style={pageView}>
       {/* header */}
@@ -94,8 +96,6 @@ const Placement = () => {
         style={{
           paddingHorizontal: 15,
           flexDirection: 'row',
-          // borderWidth: 1,
-          // borderColor: 'white',
           alignItems: 'center',
           justifyContent: 'flex-start',
           padding: 10,

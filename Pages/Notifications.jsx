@@ -136,11 +136,7 @@ const Notifications = () => {
               onPress={() => handleNotificationClick(item)}
               key={index}
               style={{
-                // borderWidth: 1,
                 padding: 15,
-                // borderRadius: 7,
-                // marginTop: 15,
-                marginBottom: 10,
                 position: 'relative',
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -148,9 +144,6 @@ const Notifications = () => {
                 backgroundColor: item?.seen ? 'white' : Colors.veryLightGrey,
                 borderBottomWidth: 1,
                 borderColor: Colors.lightGrey,
-                // flexWrap: "wrap",
-                // elevation: 3,
-                // marginHorizontal: 5,
               }}>
               <Image
                 source={{
