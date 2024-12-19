@@ -92,7 +92,7 @@ const OtpVerification = () => {
 
     try {
       // Send OTP to server
-      await axios.post(`${loginApi}/LogIn/sendReserPassOtp`, {
+      await axios.post(`${loginApi}/LogIn/sendResetPassOtp`, {
         email,
         otp,
       });

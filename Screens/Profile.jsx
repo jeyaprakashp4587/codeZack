@@ -42,6 +42,7 @@ import {profileApi} from '../Api';
 import Skeleton from '../Skeletons/Skeleton';
 import Posts from '../components/Posts';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import {Snackbar} from 'react-native-paper';
 
 const Profile = ({navigation}) => {
   const {user, setUser, setSelectedUser} = useData();
@@ -181,7 +182,7 @@ const Profile = ({navigation}) => {
     }
   };
   // fetch connections lists
-  const [netWorksList, setNetworksList] = useState();
+  const [netWorksList, setNetworksList] = useState([]);
   const getNetworksList = useCallback(async () => {
     const res = await axios.get(
       `${profileApi}/Following/getNetworks/${user?._id}`,
@@ -195,7 +196,12 @@ const Profile = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => setLoading(true), 300);
   }, []);
+  // snack for asking logout
+  const [snackVisible, setSnackVisible] = useState(false);
+  const onToggleSnackBar = () => setSnackVisible(!snackVisible);
+  const onDismissSnackBar = () => setSnackVisible(false);
   const [loading, setLoading] = useState(false);
+  // render ui loading
   if (!loading) {
     return (
       <View style={pageView}>
@@ -262,7 +268,6 @@ const Profile = ({navigation}) => {
             }}
           />
         )}
-
         <View
           style={{
             top: -50,
@@ -338,9 +343,9 @@ const Profile = ({navigation}) => {
             <View
               style={{
                 borderWidth: 1,
-                borderColor: Colors.mildGrey,
+                borderColor: Colors.veryLightGrey,
                 width: '100%',
-                height: 300,
+                // height: 300,
                 position: 'absolute',
                 alignSelf: 'center',
                 backgroundColor: 'white',
@@ -350,6 +355,7 @@ const Profile = ({navigation}) => {
                 padding: 20,
                 flexDirection: 'column',
                 justifyContent: 'space-between',
+                rowGap: 10,
               }}>
               <ActivityIndicator
                 size={60}
@@ -414,7 +420,12 @@ const Profile = ({navigation}) => {
                   padding: 8,
                   borderRadius: 5,
                 }}>
-                <Text style={{color: 'white', textAlign: 'center'}}>
+                <Text
+                  style={{
+                    color: 'white',
+                    textAlign: 'center',
+                    letterSpacing: 2,
+                  }}>
                   Update
                 </Text>
               </TouchableOpacity>
@@ -522,7 +533,7 @@ const Profile = ({navigation}) => {
               letterSpacing: 1,
               fontSize: 16,
             }}>
-            Courses
+            Your Courses
           </Text>
           <FontAwesomeIcon icon={faBook} size={20} color={Colors.violet} />
         </TouchableOpacity>
@@ -544,14 +555,13 @@ const Profile = ({navigation}) => {
               letterSpacing: 1,
               fontSize: 16,
             }}>
-            Wallet
+            Your Wallet
           </Text>
           <SimpleLineIcons name="wallet" size={25} color={Colors.mildGrey} />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            AsyncStorage.removeItem('Email');
-            navigation.replace('login');
+            onToggleSnackBar();
           }}
           style={{
             // backgroundColor: Colors.veryLightGrey,
@@ -590,7 +600,7 @@ const Profile = ({navigation}) => {
           container: {
             borderTopLeftRadius: 20, // Optional for rounded corners
             borderTopRightRadius: 20,
-            height: 500, // Alternatively, you can set the height here
+            height: height * 0.65, // Alternatively, you can set the height here
           },
           wrapper: {
             backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
@@ -620,6 +630,8 @@ const Profile = ({navigation}) => {
               <Skeleton width="95%" height={40} radius={30} />
               <Skeleton width="95%" height={40} radius={30} />
             </View>
+          ) : netWorksList.length < 0 ? (
+            <Text>No Connections</Text>
           ) : (
             <FlatList
               data={netWorksList}
@@ -657,6 +669,20 @@ const Profile = ({navigation}) => {
           )}
         </View>
       </RBSheet>
+      {/* snack view */}
+      <Snackbar
+        visible={snackVisible}
+        style={{position: 'absolute', bottom: 0, zIndex: 900}}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: 'Yes',
+          onPress: () => {
+            AsyncStorage.removeItem('Email');
+            navigation.replace('login');
+          },
+        }}>
+        Are you sure want to logout
+      </Snackbar>
     </ScrollView>
   );
 };

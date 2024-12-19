@@ -81,7 +81,7 @@ const SignUp = ({navigation}) => {
         );
       } else {
         refs[key].current.setNativeProps({
-          style: {borderColor: Colors.mildGrey, borderWidth: 1},
+          style: {borderColor: Colors.veryLightGrey, borderWidth: 1},
         });
       }
     }
@@ -163,7 +163,12 @@ const SignUp = ({navigation}) => {
             <TextInput
               style={[
                 styles.input,
-                {borderColor: Colors.lightGrey, borderWidth: 1},
+                {
+                  borderColor: Colors.veryLightGrey,
+                  borderWidth: 1,
+                  elevation: 3,
+                  letterSpacing: 1,
+                },
               ]}
               key={key}
               placeholder={key.replace('_', ' ')}
@@ -179,9 +184,7 @@ const SignUp = ({navigation}) => {
         <View style={{height: height * 0.02}} />
 
         <Ripple onPress={handleSignUp} style={styles.signUpButton}>
-          {actiloading && (
-            <ActivityIndicator size={22} color={Colors.mildGrey} />
-          )}
+          {actiloading && <ActivityIndicator size={22} color={Colors.white} />}
           <Text style={styles.signUpText}>Sign Up</Text>
         </Ripple>
       </ScrollView>
@@ -254,8 +257,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: height * 0.01,
     borderRadius: 10,
-    // backgroundColor: Colors.violet,
-    // elevation: 2,
     width: '100%',
     alignSelf: 'center',
     marginBottom: 10,
@@ -295,7 +296,7 @@ const styles = StyleSheet.create({
   modalButton: {
     padding: height * 0.015,
     borderRadius: 5,
-    backgroundColor: 'orange',
+    backgroundColor: Colors.violet,
     marginTop: height * 0.01,
     width: '100%',
     alignItems: 'center',

@@ -18,7 +18,7 @@ import {
 } from 'react-native-reanimated';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import MobileAds from 'react-native-google-mobile-ads';
-
+import {PaperProvider} from 'react-native-paper';
 // --- //
 const {width} = Dimensions.get('window');
 configureReanimatedLogger({
@@ -39,16 +39,18 @@ const App = () => {
 
   return (
     <GestureHandlerRootView>
-      <ContextProvider>
-        <SocketProvider>
-          <View style={styles.cn}>
-            <SafeAreaView style={{flex: 1}}>
-              <AppNavigator />
-              <StatusBar backgroundColor="white" barStyle="dark-content" />
-            </SafeAreaView>
-          </View>
-        </SocketProvider>
-      </ContextProvider>
+      <PaperProvider>
+        <ContextProvider>
+          <SocketProvider>
+            <View style={styles.cn}>
+              <SafeAreaView style={{flex: 1}}>
+                <AppNavigator />
+                <StatusBar backgroundColor="white" barStyle="dark-content" />
+              </SafeAreaView>
+            </View>
+          </SocketProvider>
+        </ContextProvider>
+      </PaperProvider>
     </GestureHandlerRootView>
   );
 };

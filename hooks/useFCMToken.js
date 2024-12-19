@@ -17,7 +17,7 @@ const useFCMToken = () => {
         authStatus === messaging.AuthorizationStatus.PROVISIONAL
       ) {
         const token = await messaging().getToken();
-        console.log('FCM Token:', token);
+        // console.log('FCM Token:', token);
 
         // Save token to the backend
         await axios.post(`${profileApi}/Profile/saveFcmToken`, {
@@ -26,7 +26,7 @@ const useFCMToken = () => {
         });
       }
     } catch (error) {
-      console.error('Error getting FCM token:', error);
+      // console.error('Error getting FCM token:', error);
     }
   }, [user]);
 
@@ -52,7 +52,7 @@ const useFCMToken = () => {
         authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
       if (enabled) {
-        console.log('Notification permission granted');
+        // console.log('Notification permission granted');
       } else {
         console.log('Notification permission denied');
       }

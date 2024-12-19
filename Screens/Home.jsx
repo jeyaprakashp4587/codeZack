@@ -7,7 +7,6 @@ import React, {
   Suspense,
 } from 'react';
 import {
-  FlatList,
   StyleSheet,
   Text,
   View,
@@ -16,20 +15,15 @@ import {
   TextInput,
   TouchableOpacity,
   Pressable,
-  ToastAndroid,
-  Modal,
   Animated,
   Dimensions,
   InteractionManager,
   RefreshControl,
-  ActivityIndicator,
   AppState,
-  PermissionsAndroid,
   Vibration,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
 import Fontawesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
 import HomeSkeleton from '../Skeletons/HomeSkeleton';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBell, faMessage} from '@fortawesome/free-regular-svg-icons';
@@ -73,14 +67,12 @@ const Home = () => {
   const [UiLoading, setUiLoading] = useState(false);
   const [suggestDisplay, setSuggestDisplay] = useState(true);
   const [suggestRefresh, setSuggestRefresh] = useState(false);
-
   const [unseenCount, setUnseenCount] = useState(0);
   const shakeInterpolation = useShakeAnimation(3000);
   const socket = SocketData();
   const [refresh, setRefresh] = useState(false);
   // init firebase notification
   useFCMToken();
-
   // scroll to top
   const scrollViewRef = useRef(null);
   const [scrollToTop, setScrollToTop] = useState(false);
@@ -88,7 +80,7 @@ const Home = () => {
     const {contentOffset, contentSize, layoutMeasurement} = event.nativeEvent;
     const isAtBottom =
       layoutMeasurement.height + contentOffset.y >= contentSize.height - 2;
-    if (isAtBottom) {
+    if (isAtBottom && user?.ConnectionsPost?.length > 0) {
       navigation.navigate('postFeed');
     }
     // set scroll height
