@@ -28,7 +28,7 @@ import TypingEffect from '../utils/TypingEffect';
 const {width, height} = Dimensions.get('window');
 
 const Login = () => {
-  console.log(loginApi);
+  // console.log(loginApi);
 
   const {setUser} = useData();
   const navigation = useNavigation();
@@ -74,10 +74,10 @@ const Login = () => {
     }
 
     try {
-      const {data} = await axios.post(`${functionApi}/LogIn/signIn`, form);
-      if (data?.firstName) {
-        await AsyncStorage.setItem('Email', data.Email);
-        setUser(data);
+      const res = await axios.post(`${functionApi}/LogIn/signIn`, form);
+      if (res.data?.user) {
+        await AsyncStorage.setItem('Email', res.data?.user?.Email);
+        setUser(res.data?.user);
         navigation.navigate('Tab');
       } else {
         ToastAndroid.show(

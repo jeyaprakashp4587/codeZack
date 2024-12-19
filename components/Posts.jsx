@@ -355,23 +355,33 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         <View style={styles.modalBackground}>
           <View
             style={{
-              flexDirection: 'row',
               // borderWidth: 1,
-              justifyContent: 'space-between',
+              flexDirection: 'column',
               alignItems: 'center',
+              justifyContent: 'center',
+              rowGap: 10,
+              borderBottomWidth: 1,
+              borderColor: Colors.veryLightGrey,
+              marginBottom: 10,
             }}>
+            {/* bar */}
+            <View
+              style={{
+                width: 70,
+                height: 5,
+                backgroundColor: Colors.lightGrey,
+                borderRadius: 50,
+              }}
+            />
             <Text
               style={{
-                textAlign: 'left',
-                fontSize: width * 0.04,
-                letterSpacing: 1,
-                textTransform: 'capitalize',
+                fontSize: width * 0.045,
+                marginBottom: height * 0.01,
+                letterSpacing: 2,
+                textAlign: 'center',
               }}>
               {modalContentType}
             </Text>
-            <TouchableOpacity onPress={() => setIsModalVisible(false)}>
-              <FontAwesomeIcon icon={faTimes} color={Colors.mildGrey} />
-            </TouchableOpacity>
           </View>
           {/* show likes and comments */}
           {modalContentType === 'likes' ? (
@@ -566,8 +576,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '60%',
     borderWidth: 1,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
     padding: 20,
     borderBottomWidth: 0,
     borderColor: Colors.veryLightGrey,

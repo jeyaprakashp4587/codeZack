@@ -110,12 +110,14 @@ const SignUp = ({navigation}) => {
     if (validateForm()) {
       try {
         const response = await axios.post(`${loginApi}/LogIn/signUp`, formData);
+        console.log(response.data);
+
         if (response.data.message == 'SignUp Sucessfully') {
           ToastAndroid.show('Signup Successfully', ToastAndroid.BOTTOM);
           await AsyncStorage.setItem('Email', response.data.user.Email);
           navigation.navigate('Tab');
           setUser(response.data.user);
-        } else if (response.data === 'Email has Already Taken') {
+        } else if (response.data === 'Email has Already Been Taken') {
           // Alert.alert();
           ToastAndroid.show(
             'Email has already been taken',
@@ -184,8 +186,8 @@ const SignUp = ({navigation}) => {
         <View style={{height: height * 0.02}} />
 
         <Ripple onPress={handleSignUp} style={styles.signUpButton}>
-          {actiloading && <ActivityIndicator size={22} color={Colors.white} />}
           <Text style={styles.signUpText}>Sign Up</Text>
+          {actiloading && <ActivityIndicator size={22} color={Colors.white} />}
         </Ripple>
       </ScrollView>
 
@@ -263,6 +265,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.4,
     borderColor: Colors.lightGrey,
     backgroundColor: '#415a77',
+    columnGap: 10,
   },
   signUpText: {
     fontSize: width * 0.045,

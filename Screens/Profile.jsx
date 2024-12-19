@@ -614,15 +614,37 @@ const Profile = ({navigation}) => {
           statusBarTranslucent: true,
         }}>
         <View style={{padding: 20}}>
-          {/* render */}
-          <Text
+          {/* model header */}
+          <View
             style={{
-              fontSize: width * 0.045,
-              marginBottom: height * 0.03,
-              letterSpacing: 2,
+              // borderWidth: 1,
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              rowGap: 10,
+              borderBottomWidth: 1,
+              borderColor: Colors.veryLightGrey,
+              marginBottom: 10,
             }}>
-            Connections
-          </Text>
+            {/* bar */}
+            <View
+              style={{
+                width: 70,
+                height: 5,
+                backgroundColor: Colors.lightGrey,
+                borderRadius: 50,
+              }}
+            />
+            <Text
+              style={{
+                fontSize: width * 0.045,
+                marginBottom: height * 0.03,
+                letterSpacing: 2,
+                textAlign: 'center',
+              }}>
+              Connections
+            </Text>
+          </View>
           {!netWorksList ? (
             <View style={{flexDirection: 'column', rowGap: 10}}>
               <Skeleton width="95%" height={40} radius={30} />
