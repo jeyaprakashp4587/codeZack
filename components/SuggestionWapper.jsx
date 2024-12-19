@@ -31,7 +31,7 @@ const SuggestionWapper = ({trigger, refresh}) => {
     if (res.data) {
       setProfiles(res.data);
     }
-  }, []);
+  }, [refresh]);
   //
   useEffect(() => {
     userSuggestions();
@@ -65,17 +65,16 @@ const SuggestionWapper = ({trigger, refresh}) => {
           <ImageBackground
             source={{uri: user.item?.Images?.coverImg}}
             style={{
-              // marginRight: 10,
               borderRadius: 7,
               overflow: 'hidden',
-              elevation: 2,
-              margin: 2,
               marginRight: 10,
+              borderWidth: 1,
+              borderColor: Colors.veryLightGrey,
             }}>
             <LinearGradient
               colors={['rgba(0,0,0,.1)', '#f2f2f2', Colors.white]}
               // style={{elevation: 2, borderRadius: 5}}
-              start={{x: 0, y: 0}}
+              start={{x: 1, y: 0}}
               end={{x: 0, y: 1}}>
               <TouchableOpacity
                 style={{
@@ -128,7 +127,7 @@ const SuggestionWapper = ({trigger, refresh}) => {
                 <Ripple>
                   <FontAwesomeIcon
                     icon={faEye}
-                    color={Colors.violet}
+                    color={Colors.white}
                     size={23}
                   />
                 </Ripple>

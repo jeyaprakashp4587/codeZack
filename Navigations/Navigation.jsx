@@ -52,6 +52,7 @@ import PasswordReset from '../LoginSystem/PasswordReset';
 import OtpVerification from '../LoginSystem/OtpVerification';
 import SetPassword from '../LoginSystem/SetPassword';
 import {BlurView} from '@react-native-community/blur';
+import PostFeed from '../components/PostFeed';
 
 // Tab navigations
 const {width, height} = Dimensions.get('window');
@@ -389,6 +390,14 @@ const StackNavigations = () => {
         name="goBack"
         component={HeadingText}
         options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="postFeed"
+        component={PostFeed}
+        options={{
+          headerShown: false,
+          animation: 'slide_from_bottom',
+        }}
       />
     </Stack.Navigator>
   );

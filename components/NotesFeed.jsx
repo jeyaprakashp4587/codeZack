@@ -162,54 +162,43 @@ const NotesFeed = () => {
           <FontAwesomeIcon icon={faPlus} size={17} color={Colors.lightGrey} />
         </TouchableOpacity>
       </Ripple>
-      {notes.length <= 0 ? (
-        <View>
-          <FlatList
-            showsHorizontalScrollIndicator={false}
-            horizontal
-            data={new Array(5)}
-            renderItem={({item, index}) => (
-              <View style={{marginRight: 10}}>
-                <Skeleton
-                  width={width * 0.16}
-                  height={height * 0.08}
-                  radius={50}
-                />
-              </View>
-            )}
-          />
-        </View>
-      ) : (
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={notes}
-          renderItem={({item, index}) => (
-            <View
-              key={index}
+      <FlatList
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        data={notes}
+        renderItem={({item, index}) => (
+          <View
+            key={index}
+            style={{
+              marginRight: 15,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <LinearGradient
+              colors={['#99ccff', '#ffb3b3', '#99ccff', '#ffb3b3']}
               style={{
-                marginRight: 15,
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
+                padding: 3,
+                borderRadius: 50,
               }}>
-              <LinearGradient
-                colors={['#99ccff', '#ffb3b3', '#99ccff', '#ffb3b3']}
-                style={{
-                  padding: 3,
-                  borderRadius: 50,
+              <TouchableOpacity
+                onPress={() => {
+                  setShowNotesModel(true);
+                  setSelectedNote(item);
                 }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    setShowNotesModel(true);
-                    setSelectedNote(item);
+                <View
+                  style={{
+                    borderRadius: 50,
+                    backgroundColor: '#fff',
+                    borderWidth: 0,
                   }}>
-                  <View
-                    style={{
-                      borderRadius: 50,
-                      backgroundColor: '#fff',
-                      borderWidth: 0,
-                    }}>
+                  {!item?.NotesSenderProfile ? (
+                    <Skeleton
+                      width={width * 0.16}
+                      height={height * 0.08}
+                      radius={50}
+                    />
+                  ) : (
                     <Image
                       source={{uri: item?.NotesSenderProfile}}
                       style={{
@@ -218,30 +207,30 @@ const NotesFeed = () => {
                         borderRadius: 50,
                       }}
                     />
-                  </View>
-                </TouchableOpacity>
-              </LinearGradient>
-              <View
+                  )}
+                </View>
+              </TouchableOpacity>
+            </LinearGradient>
+            <View
+              style={{
+                width: containerWidth,
+                overflow: 'hidden',
+              }}>
+              <Animated.Text
+                numberOfLines={1}
                 style={{
-                  width: containerWidth,
-                  overflow: 'hidden',
+                  fontSize: width * 0.03,
+                  color: Colors.mildGrey,
+                  textAlign: 'center',
+                  whiteSpace: 'nowrap',
+                  letterSpacing: 1.3,
                 }}>
-                <Animated.Text
-                  numberOfLines={1}
-                  style={{
-                    fontSize: width * 0.03,
-                    color: Colors.mildGrey,
-                    textAlign: 'center',
-                    whiteSpace: 'nowrap',
-                    letterSpacing: 1.3,
-                  }}>
-                  {item?.NotesText}
-                </Animated.Text>
-              </View>
+                {item?.NotesText}
+              </Animated.Text>
             </View>
-          )}
-        />
-      )}
+          </View>
+        )}
+      />
       {/* Show notes modal */}
       <Modal
         visible={showNotesModel}

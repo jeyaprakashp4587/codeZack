@@ -51,6 +51,7 @@ const SplashScreen = () => {
       }
     } catch (error) {
       console.error('Error during auto-login:', error);
+      nav.navigate('login');
     }
   }, [nav, setUser]);
 

@@ -64,8 +64,6 @@ import Skeleton from '../Skeletons/Skeleton';
 import useFCMToken from '../hooks/useFCMToken';
 import IdeasWrapper from '../components/IdeasWrapper';
 import NotesFeed from '../components/NotesFeed';
-const PostFeed = React.lazy(() => import('../components/PostFeed'));
-
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
 
@@ -87,6 +85,13 @@ const Home = () => {
   const scrollViewRef = useRef(null);
   const [scrollToTop, setScrollToTop] = useState(false);
   const handleScroll = event => {
+    const {contentOffset, contentSize, layoutMeasurement} = event.nativeEvent;
+    const isAtBottom =
+      layoutMeasurement.height + contentOffset.y >= contentSize.height - 2;
+    if (isAtBottom) {
+      navigation.navigate('postFeed');
+    }
+    // set scroll height
     const offsetY = event.nativeEvent.contentOffset.y;
     setScrollToTop(offsetY > 400);
   };
@@ -525,15 +530,6 @@ const Home = () => {
         </Suspense>
         {/* banner add */}
         <BannerAdd />
-        {/* posts */}
-        <Suspense
-          fallback={
-            <View style={{margin: 15}}>
-              <Skeleton width="100%" height={height * 0.3} radius={10} />
-            </View>
-          }>
-          <PostFeed />
-        </Suspense>
         {/* model load aadd */}
       </ScrollView>
       {/* scroll to top button */}
