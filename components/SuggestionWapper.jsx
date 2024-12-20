@@ -23,7 +23,7 @@ import {TouchableOpacity} from 'react-native';
 
 const SuggestionWapper = ({trigger, refresh}) => {
   const {width, height} = Dimensions.get('window');
-  const [profiles, setProfiles] = useState();
+  const [profiles, setProfiles] = useState([]);
   const Navigation = useNavigation();
   const {setSelectedUser, user} = useData();
   const userSuggestions = useCallback(async () => {
@@ -32,12 +32,12 @@ const SuggestionWapper = ({trigger, refresh}) => {
       setProfiles(res.data);
     }
   }, [refresh]);
-  //
   useEffect(() => {
-    userSuggestions();
-  }, []);
-  useEffect(() => {
-    userSuggestions();
+    userSuggestions().then(() => {
+      if (profiles.length <= 0) {
+        trigger(false);
+      }
+    });
   }, [refresh]);
   const HandleClose = () => {
     trigger(false);

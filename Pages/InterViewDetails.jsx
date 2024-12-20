@@ -15,7 +15,8 @@ import {loginApi} from '../Api';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import TopicsText from '../utils/TopicsText';
 import Skeleton from '../Skeletons/Skeleton';
-
+import LinearGradient from 'react-native-linear-gradient';
+const {width, height} = Dimensions.get('window');
 const InterViewDetails = () => {
   const {selectedCompany, setSelectedCompany, user, setUser} = useData();
   const {width, height} = Dimensions.get('window');
@@ -96,6 +97,7 @@ const InterViewDetails = () => {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
+          backgroundColor: 'white',
         }}>
         <ActivityIndicator color={Colors.mildGrey} size={20} />
       </View>
@@ -103,15 +105,11 @@ const InterViewDetails = () => {
   }
   //
   return (
-    <View
-      style={[
-        pageView,
-        {
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        },
-      ]}>
+    <LinearGradient
+      style={styles.container}
+      colors={['#fff9f3', '#eef7fe']}
+      start={{x: 0, y: 1}}
+      end={{x: 1, y: 1}}>
       {/* preparetion duration */}
       <View
         style={{
@@ -132,11 +130,14 @@ const InterViewDetails = () => {
           flexDirection: 'column',
           rowGap: 10,
         }}>
-        <TopicsText text={company?.company_name} mb={2} fszie={35} />
+        <Text
+          style={{fontSize: width * 0.09, fontWeight: '600', letterSpacing: 1}}>
+          {company?.company_name}
+        </Text>
         <Text
           style={{
             letterSpacing: 2,
-            color: '#415a77',
+            color: Colors.veryDarkGrey,
             fontWeight: '600',
             fontSize: width * 0.04,
           }}>
@@ -145,7 +146,7 @@ const InterViewDetails = () => {
         <Text
           style={{
             letterSpacing: 2,
-            color: '#415a77',
+            color: Colors.mildGrey,
             fontWeight: '600',
             fontSize: width * 0.04,
           }}>
@@ -153,27 +154,33 @@ const InterViewDetails = () => {
         </Text>
         <Text
           style={{
-            letterSpacing: 2,
+            letterSpacing: 1,
             lineHeight: 30,
-            color: '#6a4c93',
+            color: Colors.violet,
             fontWeight: '600',
+            fontSize: width * 0.035,
           }}>
           "Step Up, Skill Up – Land Your Dream Job in Your Dream Company!"
         </Text>
         <TouchableOpacity
           onPress={() => handleAddInterview()}
           style={{
-            backgroundColor: 'white',
+            // backgroundColor: 'white',
             borderWidth: 0.4,
             borderColor: '#2b2d42',
             padding: 15,
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
-            borderRadius: 10,
+            borderRadius: 40,
             columnGap: 10,
           }}>
-          <Text style={{letterSpacing: 2, color: Colors.veryDarkGrey}}>
+          <Text
+            style={{
+              letterSpacing: 2,
+              color: Colors.veryDarkGrey,
+              fontWeight: '600',
+            }}>
             Let's Start
           </Text>
           {loading && (
@@ -181,10 +188,21 @@ const InterViewDetails = () => {
           )}
         </TouchableOpacity>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 
 export default InterViewDetails;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 10,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // borderWidth: 1,
+    // backgroundColor: 'white',
+    flex: 1,
+    // alignSelf: 'center',
+  },
+});

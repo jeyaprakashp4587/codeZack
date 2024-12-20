@@ -138,7 +138,12 @@ const InterviewPrep = () => {
             style={{width: '100%', height: '100%', resizeMode: 'contain'}}
           />
         </View>
-        <Text style={{color: Colors.mildGrey, letterSpacing: 2}}>
+        <Text
+          style={{
+            color: Colors.mildGrey,
+            letterSpacing: 2,
+            fontSize: width * 0.034,
+          }}>
           Completed Weeks: {userMile?.currentWeek - 1 ?? 0}
         </Text>
       </View>
@@ -146,7 +151,12 @@ const InterviewPrep = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{paddingHorizontal: 15, flexDirection: 'column', rowGap: 10}}>
-          <Text style={{fontWeight: '600', letterSpacing: 2}}>
+          <Text
+            style={{
+              fontWeight: '600',
+              letterSpacing: 2,
+              fontSize: width * 0.044,
+            }}>
             week: {currentWeek?.week ?? 0}
           </Text>
           <Text style={{fontWeight: '600', letterSpacing: 2}}>
@@ -158,6 +168,7 @@ const InterviewPrep = () => {
               letterSpacing: 2,
               color: Colors.violet,
               lineHeight: 25,
+              fontSize: width * 0.033,
             }}>
             Topics: {currentWeek?.topics}
           </Text>
@@ -168,7 +179,7 @@ const InterviewPrep = () => {
         <View style={{paddingHorizontal: 15, marginTop: 20}}>
           <View
             style={{
-              borderWidth: 1,
+              borderWidth: 0.7,
               padding: 20,
               borderColor: Colors.lightGrey,
               borderRadius: 5,
@@ -180,6 +191,7 @@ const InterviewPrep = () => {
                 letterSpacing: 2,
                 fontWeight: '600',
                 lineHeight: 25,
+                fontSize: width * 0.034,
               }}>
               {currentQuestion + 1}
               {')'}.Question:{' '}
@@ -188,7 +200,12 @@ const InterviewPrep = () => {
             {/* this algorithm fror weelk 1 that means  apptitiute*/}
             {currentWeek?.week == 1 && (
               <Text
-                style={{letterSpacing: 2, lineHeight: 25, color: '#ff5400'}}>
+                style={{
+                  letterSpacing: 2,
+                  lineHeight: 25,
+                  color: '#ff5400',
+                  fontSize: width * 0.034,
+                }}>
                 Answer: {currentWeek?.sample_questions[currentQuestion]?.answer}
               </Text>
             )}
@@ -200,6 +217,7 @@ const InterviewPrep = () => {
                   lineHeight: 25,
                   color: '#197278',
                   fontWeight: '600',
+                  fontSize: width * 0.034,
                 }}>
                 Input: {currentWeek?.sample_questions[currentQuestion]?.input}
               </Text>
@@ -211,6 +229,7 @@ const InterviewPrep = () => {
                   lineHeight: 25,
                   color: '#ee964b',
                   fontWeight: '600',
+                  fontSize: width * 0.03,
                 }}>
                 Output: {currentWeek?.sample_questions[currentQuestion]?.output}
               </Text>
@@ -222,6 +241,7 @@ const InterviewPrep = () => {
                 lineHeight: 25,
                 color: '#1a535c',
                 fontWeight: '600',
+                fontSize: width * 0.034,
               }}>
               Explanation:{' '}
               {currentWeek?.sample_questions[currentQuestion]?.explanation}
@@ -258,7 +278,7 @@ const InterviewPrep = () => {
             <View
               style={{
                 flexDirection: 'row',
-                borderWidth: 1,
+                // borderWidth: 1,
                 borderColor: 'white',
                 justifyContent: 'space-between',
               }}>
@@ -273,11 +293,17 @@ const InterviewPrep = () => {
                     backgroundColor: '#233d4d',
                     padding: 10,
                     borderRadius: 5,
-                    width: width * 0.25,
+                    // width: width * 0.25,
                     flexDirection: 'row',
                     justifyContent: 'center',
                     alignItems: 'center',
+                    columnGap: 5,
                   }}>
+                  <Ionicons
+                    name="arrow-back-circle-outline"
+                    size={17}
+                    color="white"
+                  />
                   <Text
                     style={{
                       textAlign: 'center',
@@ -293,13 +319,14 @@ const InterviewPrep = () => {
                 <TouchableOpacity
                   onPress={submitTask}
                   style={{
-                    backgroundColor: '#fe7f2d',
+                    backgroundColor: Colors.violet,
                     padding: 10,
                     borderRadius: 5,
-                    width: width * 0.25,
+                    // width: width * 0.25,
                     flexDirection: 'row',
                     justifyContent: 'center',
                     alignItems: 'center',
+                    columnGap: 5,
                   }}>
                   <Text
                     style={{
@@ -309,6 +336,7 @@ const InterviewPrep = () => {
                     }}>
                     Submit
                   </Text>
+                  <Ionicons name="rocket-outline" size={17} color="white" />
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity
@@ -317,13 +345,14 @@ const InterviewPrep = () => {
                     setIsShowHind(false);
                   }}
                   style={{
-                    backgroundColor: '#fe7f2d',
+                    backgroundColor: Colors.violet,
                     padding: 10,
                     borderRadius: 5,
                     width: width * 0.25,
                     flexDirection: 'row',
                     justifyContent: 'center',
                     alignItems: 'center',
+                    columnGap: 5,
                   }}>
                   <Text
                     style={{
@@ -333,6 +362,11 @@ const InterviewPrep = () => {
                     }}>
                     Next
                   </Text>
+                  <Ionicons
+                    name="arrow-forward-circle-outline"
+                    size={17}
+                    color="white"
+                  />
                 </TouchableOpacity>
               )}
             </View>

@@ -29,7 +29,7 @@ import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Snackbar} from 'react-native-paper';
 
-const NotesFeed = () => {
+const NotesFeed = ({refresh}) => {
   const {user, setSelectedUser} = useData();
   const navigation = useNavigation();
   const {width, height} = Dimensions.get('window');
@@ -53,18 +53,15 @@ const NotesFeed = () => {
       ).start();
     }
   }, [shouldScroll]);
-
   // Interpolation for text translation
   const translateX = scrollAnimation.interpolate({
     inputRange: [0, 1],
     outputRange: [0, -textWidth], // Scroll the full text width
   });
-
   // Handle text input change
   const handleText = text => {
     setNoteText(text);
   };
-
   // Upload note
   const [uploadIndi, setUploadIndi] = useState(false);
   const uploadNote = useCallback(async () => {
@@ -111,6 +108,7 @@ const NotesFeed = () => {
   // Fetch connection notes
   const [notes, setNotes] = useState([]);
   const fetchConnectionNotes = useCallback(async () => {
+    console.log('refresh');
     try {
       const response = await axios.get(
         `${profileApi}/Post/getConnectionNotes/${user?._id}`,
@@ -125,8 +123,8 @@ const NotesFeed = () => {
     } catch (error) {
       console.error('Error fetching notes:', error);
     }
-  }, [user]);
-  // snak
+  }, [user, refresh]);
+  // snack visible state
   const [snackVisible, setSnackVisible] = useState(false);
   // delete notes
   const handleDeleteNotes = useCallback(async () => {
@@ -145,7 +143,7 @@ const NotesFeed = () => {
   }, []);
   useEffect(() => {
     fetchConnectionNotes();
-  }, []);
+  }, [refresh]);
 
   return (
     <View style={{paddingLeft: 15, marginVertical: 15, flexDirection: 'row'}}>

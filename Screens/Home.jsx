@@ -418,7 +418,7 @@ const Home = () => {
           </View>
         </View>
         {/* notesFeed */}
-        <NotesFeed />
+        <NotesFeed refresh={suggestRefresh} />
         {/* search bar */}
         <TouchableOpacity
           onPress={() => navigation.navigate('search')}
