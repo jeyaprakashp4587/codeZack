@@ -108,7 +108,6 @@ const NotesFeed = ({refresh}) => {
   // Fetch connection notes
   const [notes, setNotes] = useState([]);
   const fetchConnectionNotes = useCallback(async () => {
-    console.log('refresh');
     try {
       const response = await axios.get(
         `${profileApi}/Post/getConnectionNotes/${user?._id}`,

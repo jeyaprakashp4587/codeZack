@@ -357,11 +357,7 @@ const Home = () => {
               onPress={() => {
                 navigation.navigate('message');
               }}>
-              <FontAwesomeIcon
-                icon={faMessage}
-                size={25}
-                color={Colors.mildGrey}
-              />
+              <FontAwesome name="send-o" size={20} color={Colors.mildGrey} />
             </TouchableOpacity>
           </View>
         </View>
@@ -377,11 +373,12 @@ const Home = () => {
           }}>
           <Text
             style={{
-              color: Colors.mildGrey,
-              fontSize: width * 0.03,
+              color: Colors.veryDarkGrey,
+              fontSize: width * 0.035,
               lineHeight: 30,
               letterSpacing: 1,
               paddingVertical: 10,
+              fontWeight: '600',
               // fontWeight: "700",
             }}>
             {getCurrentGreeting()} {user?.firstName}!

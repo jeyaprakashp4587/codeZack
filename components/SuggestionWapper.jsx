@@ -31,9 +31,10 @@ const SuggestionWapper = ({trigger, refresh}) => {
     if (res.data) {
       setProfiles(res.data);
     }
+    return res.data;
   }, [refresh]);
   useEffect(() => {
-    userSuggestions().then(() => {
+    userSuggestions().then(data => {
       if (profiles.length <= 0) {
         trigger(false);
       }
