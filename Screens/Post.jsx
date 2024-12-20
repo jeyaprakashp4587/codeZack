@@ -215,7 +215,7 @@ const Post = () => {
               color: Colors.mildGrey,
               borderBottomWidth: 1,
               padding: 10,
-              borderColor: Colors.lightGrey,
+              borderColor: Colors.veryLightGrey,
               letterSpacing: 1,
             }}
             ref={inputRef}
@@ -224,14 +224,14 @@ const Post = () => {
           />
           <TextInput
             ref={inputRef}
-            placeholder="Share Links"
+            placeholder="Share Links (eg: git link or project link)"
             onChangeText={handlePostLink}
             style={{
               color: Colors.mildGrey,
               borderBottomWidth: 1,
               letterSpacing: 1,
               padding: 10,
-              borderColor: Colors.lightGrey,
+              borderColor: Colors.veryLightGrey,
             }}
             placeholderTextColor={Colors.lightGrey}
           />

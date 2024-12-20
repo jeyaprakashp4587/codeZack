@@ -518,13 +518,12 @@ const Profile = ({navigation}) => {
         <TouchableOpacity
           onPress={() => navigation.navigate('yourcourse')}
           style={{
-            // backgroundColor: Co,
             padding: 15,
-            borderRadius: 15,
+            borderRadius: 10,
             flexDirection: 'row',
             justifyContent: 'space-between',
             width: width * 0.9,
-            borderWidth: 0.3,
+            borderWidth: 0.4,
           }}>
           <Text
             style={{
@@ -540,13 +539,12 @@ const Profile = ({navigation}) => {
         <TouchableOpacity
           onPress={() => navigation.navigate('Wallet')}
           style={{
-            // backgroundColor: Colors.veryLightGrey,
             padding: 15,
-            borderRadius: 15,
+            borderRadius: 10,
             flexDirection: 'row',
             justifyContent: 'space-between',
             width: width * 0.9,
-            borderWidth: 0.3,
+            borderWidth: 0.4,
           }}>
           <Text
             style={{
@@ -566,11 +564,11 @@ const Profile = ({navigation}) => {
           style={{
             // backgroundColor: Colors.veryLightGrey,
             padding: 15,
-            borderRadius: 15,
+            borderRadius: 10,
             flexDirection: 'row',
             justifyContent: 'space-between',
             width: width * 0.9,
-            borderWidth: 0.3,
+            borderWidth: 0.4,
           }}>
           <Text
             style={{
@@ -585,7 +583,7 @@ const Profile = ({navigation}) => {
         </TouchableOpacity>
       </View>
       {/* posts */}
-      <View style={{paddingHorizontal: 20}}>
+      <View>
         <TopicsText text={user?.Posts?.length > 0 ? 'Posts' : null} />
         {user?.Posts?.map((post, index) => (
           <Posts post={post} index={index} admin={true} />

@@ -26,6 +26,8 @@ import Skeleton from '../Skeletons/Skeleton';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {Snackbar} from 'react-native-paper';
 
 const NotesFeed = () => {
   const {user, setSelectedUser} = useData();
@@ -90,6 +92,8 @@ const NotesFeed = () => {
       if (response.data.success) {
         // Save today's date as the last upload date
         await AsyncStorage.setItem('lastUploadDate', todayDateKey);
+        fetchConnectionNotes();
+        setUploadNotesModal(false);
         ToastAndroid.show('Note uploaded successfully!', ToastAndroid.SHORT);
       } else {
         ToastAndroid.show('Failed to upload note', ToastAndroid.SHORT);
@@ -122,7 +126,23 @@ const NotesFeed = () => {
       console.error('Error fetching notes:', error);
     }
   }, [user]);
-
+  // snak
+  const [snackVisible, setSnackVisible] = useState(false);
+  // delete notes
+  const handleDeleteNotes = useCallback(async () => {
+    try {
+      const response = await axios.post(`${profileApi}/Post/deleteNote`, {
+        userId: user?._id,
+        noteId: selectedNote?.NotesId,
+      });
+      if (response.data.success) {
+        fetchConnectionNotes();
+        await AsyncStorage.removeItem('lastUploadDate');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
   useEffect(() => {
     fetchConnectionNotes();
   }, []);
@@ -275,6 +295,7 @@ const NotesFeed = () => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 columnGap: 10,
+                // justifyContent: 'space-between',
               }}>
               <Image
                 source={{uri: selectedNote?.NotesSenderProfile}}
@@ -304,6 +325,14 @@ const NotesFeed = () => {
                   {selectedNote?.NotesSenderLastName}
                 </Text>
               </View>
+              <Ripple
+                onPress={() => setSnackVisible(true)}
+                style={{
+                  display:
+                    user?._id == selectedNote?.NotesSenderId ? 'flex' : 'none',
+                }}>
+                <AntDesign name="delete" color={Colors.lightGrey} size={18} />
+              </Ripple>
             </View>
             <Text
               style={{
@@ -314,8 +343,21 @@ const NotesFeed = () => {
               {selectedNote?.NotesText}
             </Text>
           </TouchableOpacity>
+          <Snackbar
+            visible={snackVisible}
+            onDismiss={() => setSnackVisible(!snackVisible)}
+            action={{
+              label: 'Delete',
+              onPress: () => {
+                handleDeleteNotes();
+              },
+            }}>
+            Are you sure to want delete
+          </Snackbar>
         </BlurView>
       </Modal>
+      {/* snak for ask confirm delete */}
+
       {/* Upload notes modal */}
       <Modal
         visible={uploadNotesModal}
@@ -357,22 +399,24 @@ const NotesFeed = () => {
               onPress={uploadNote}
               style={{
                 padding: 10,
-                backgroundColor: Colors.violet,
+                // backgroundColor: Colors.violet,
                 borderRadius: 5,
                 flexDirection: 'row',
                 columnGap: 10,
                 justifyContent: 'center',
+                borderWidth: 1,
+                borderColor: Colors.violet,
               }}>
               <Text
                 style={{
                   textAlign: 'center',
-                  color: 'white',
+                  // color: 'white',
                   letterSpacing: 1.4,
                 }}>
                 Upload Note
               </Text>
               {uploadIndi && (
-                <ActivityIndicator size={20} color={Colors.white} />
+                <ActivityIndicator size={20} color={Colors.mildGrey} />
               )}
             </Ripple>
           </View>
