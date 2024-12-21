@@ -32,6 +32,7 @@ import {useData} from '../Context/Contexter';
 import {LinearGradient} from 'react-native-linear-gradient';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import {loginApi, profileApi} from '../Api';
 const SuggestionWapper = React.lazy(() =>

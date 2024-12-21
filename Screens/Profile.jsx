@@ -584,7 +584,18 @@ const Profile = ({navigation}) => {
       </View>
       {/* posts */}
       <View>
-        <TopicsText text={user?.Posts?.length > 0 ? 'Posts' : null} />
+        <View style={{paddingHorizontal: 15}}>
+          {user?.Posts?.length > 0 && (
+            <Text
+              style={{
+                fontSize: width * 0.06,
+                letterSpacing: 1,
+                color: Colors.veryDarkGrey,
+              }}>
+              Posts
+            </Text>
+          )}
+        </View>
         {user?.Posts?.map((post, index) => (
           <Posts post={post} index={index} admin={true} />
         ))}

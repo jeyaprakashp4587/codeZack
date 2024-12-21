@@ -267,7 +267,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           )}
         />
       )}
-      {/* options */}
+      {/* like comments section */}
       <View
         style={{
           flexDirection: 'row',
@@ -275,24 +275,34 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           justifyContent: 'space-between',
           marginTop: 5,
         }}>
+        {/* like icon  */}
         <TouchableOpacity
           onPress={handleLikeToggle}
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            columnGap: 5,
-            // borderWidth: 1,
-            width: width * 0.2,
+            justifyContent: 'space-between', // Ensures consistent spacing
+            width: width * 0.1, // Fixed width for the container
           }}>
-          <Text style={{fontFamily: font.poppins, fontSize: width * 0.048}}>
-            {likeCount}
-          </Text>
-          <FontAwesomeIcon
-            size={18}
-            icon={faHeart}
-            color={liked ? 'red' : Colors.mildGrey}
-          />
+          <View
+            style={{flexDirection: 'row', alignItems: 'center', columnGap: 5}}>
+            <Text
+              style={{
+                fontFamily: font.poppins,
+                fontSize: width * 0.048,
+                minWidth: 10, // Ensure fixed width for the number
+                textAlign: 'center', // Align text properly
+              }}>
+              {likeCount}
+            </Text>
+            <FontAwesomeIcon
+              size={18}
+              icon={faHeart}
+              color={liked ? 'red' : Colors.mildGrey}
+            />
+          </View>
         </TouchableOpacity>
+        {/* comment icon */}
         <TouchableOpacity
           onPress={handleShowComments} // Open modal to display comments
           style={{

@@ -75,20 +75,30 @@ const Login = () => {
 
     try {
       const res = await axios.post(`${functionApi}/LogIn/signIn`, form);
+
+      // Check if login was successful
       if (res.data?.user) {
         await AsyncStorage.setItem('Email', res.data?.user?.Email);
         setUser(res.data?.user);
         navigation.navigate('Tab');
       } else {
+        // Unexpected response format
+        ToastAndroid.show('Unexpected server response.', ToastAndroid.SHORT);
+      }
+    } catch (error) {
+      // Handle specific server errors
+      if (error.response) {
+        // Error response from server
+        const errorMessage =
+          error.response.data?.error || 'Login failed, please try again.';
+        ToastAndroid.show(errorMessage, ToastAndroid.SHORT);
+      } else {
+        // Network or other errors
         ToastAndroid.show(
-          'Email or Password is incorrect.',
+          'Network error, please try again.',
           ToastAndroid.SHORT,
         );
       }
-    } catch (error) {
-      console.error('Login error:', error);
-
-      ToastAndroid.show('Login failed, please try again.', ToastAndroid.SHORT);
     } finally {
       setActivityIndi(false);
     }
