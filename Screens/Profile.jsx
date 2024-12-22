@@ -42,7 +42,7 @@ import {profileApi} from '../Api';
 import Skeleton from '../Skeletons/Skeleton';
 import Posts from '../components/Posts';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {Snackbar} from 'react-native-paper';
+import {Modal, Portal, Snackbar, TouchableRipple} from 'react-native-paper';
 
 const Profile = ({navigation}) => {
   const {user, setUser, setSelectedUser} = useData();
@@ -192,6 +192,32 @@ const Profile = ({navigation}) => {
       // console.log(res.data.users);
     }
   }, []);
+  // fetch user posts
+  const [postLoading, setPostLoading] = useState(false); // Loading indicator
+  const [offset, setOffset] = useState(5); // Number of posts already fetched
+  const [hasMore, setHasMore] = useState(true);
+  const [posts, setPosts] = useState(user?.Posts);
+  // fecth user posts
+  const fetchPosts = async () => {
+    if (!hasMore || postLoading) return;
+    setPostLoading(true);
+    try {
+      const response = await axios.post(`${profileApi}/Post/getUserPosts`, {
+        userId: user?._id,
+        offset,
+      });
+      const newPosts = response.data;
+      if (newPosts.length < 5) {
+        setHasMore(false);
+      }
+      setPosts(prevPosts => [...prevPosts, ...newPosts]);
+      setOffset(prevOffset => prevOffset + newPosts.length);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    } finally {
+      setPostLoading(false);
+    }
+  };
   // render skeleton
   useEffect(() => {
     setTimeout(() => setLoading(true), 300);
@@ -583,7 +609,7 @@ const Profile = ({navigation}) => {
         </TouchableOpacity>
       </View>
       {/* posts */}
-      <View>
+      <View style={{paddingBottom: height * 0.08}}>
         <View style={{paddingHorizontal: 15}}>
           {user?.Posts?.length > 0 && (
             <Text
@@ -596,9 +622,44 @@ const Profile = ({navigation}) => {
             </Text>
           )}
         </View>
-        {user?.Posts?.map((post, index) => (
-          <Posts post={post} index={index} admin={true} />
-        ))}
+        {/* posts */}
+        <FlatList
+          data={posts}
+          keyExtractor={item => item._id}
+          renderItem={({item, index}) => (
+            <Posts post={item} index={index} admin={true} />
+          )}
+          ListFooterComponent={
+            postLoading ? (
+              <ActivityIndicator size="large" color={Colors.mildGrey} />
+            ) : hasMore ? (
+              <View style={{paddingHorizontal: 15}}>
+                <TouchableOpacity
+                  onPress={() => fetchPosts()}
+                  style={{
+                    padding: 10,
+                    borderWidth: 0.5,
+                    borderRadius: 50,
+                    borderColor: Colors.violet,
+                  }}>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      letterSpacing: 1.4,
+                      color: Colors.violet,
+                      fontWeight: '600',
+                    }}>
+                    Show more
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <Text style={{textAlign: 'center', color: 'gray'}}>
+                No more posts
+              </Text>
+            )
+          }
+        />
       </View>
       {/* RBSheet for show user connection */}
       <RBSheet
@@ -700,20 +761,55 @@ const Profile = ({navigation}) => {
           )}
         </View>
       </RBSheet>
-      {/* snack view */}
-      <Snackbar
+      {/* Model view  for confirm*/}
+      <Modal
         visible={snackVisible}
-        style={{position: 'absolute', bottom: 0, zIndex: 900}}
         onDismiss={onDismissSnackBar}
-        action={{
-          label: 'Yes',
-          onPress: () => {
-            AsyncStorage.removeItem('Email');
-            navigation.replace('login');
-          },
+        contentContainerStyle={{
+          backgroundColor: 'white',
+          padding: 20,
+          width: '80%',
+          alignSelf: 'center',
+          borderRadius: 10,
         }}>
-        Are you sure want to logout
-      </Snackbar>
+        <View style={{flexDirection: 'column', rowGap: 10}}>
+          <Text>Are you sure want to logout</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <TouchableRipple
+              style={{
+                // backgroundColor: Colors.violet,
+                paddingVertical: 5,
+                paddingHorizontal: 10,
+                borderRadius: 10,
+                borderWidth: 0.7,
+                borderColor: Colors.violet,
+              }}
+              onPress={() => {
+                setSnackVisible(false);
+              }}>
+              <Text>Cancel</Text>
+            </TouchableRipple>
+            <TouchableRipple
+              style={{
+                backgroundColor: Colors.violet,
+                paddingVertical: 5,
+                paddingHorizontal: 20,
+                borderRadius: 10,
+              }}
+              onPress={() => {
+                AsyncStorage.removeItem('Email');
+                navigation.replace('login');
+              }}>
+              <Text style={{color: 'white'}}>Yes</Text>
+            </TouchableRipple>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };

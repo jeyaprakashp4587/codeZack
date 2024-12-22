@@ -10,6 +10,7 @@ import {
   Modal,
   TouchableOpacity,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import {useData} from '../Context/Contexter';
 import HeadingText from '../utils/HeadingText';
@@ -178,6 +179,32 @@ const UserProfile = () => {
     };
     fetchMutualFriends();
   }, [getAllNetworks, user?.Connections]);
+  // fetch user posts
+  const [postLoading, setPostLoading] = useState(false); // Loading indicator
+  const [offset, setOffset] = useState(5); // Number of posts already fetched
+  const [hasMore, setHasMore] = useState(true);
+  const [posts, setPosts] = useState(selectedUser?.Posts);
+  // fecth user posts
+  const fetchPosts = async () => {
+    if (!hasMore || postLoading) return;
+    setPostLoading(true);
+    try {
+      const response = await axios.post(`${profileApi}/Post/getUserPosts`, {
+        userId: user?._id,
+        offset,
+      });
+      const newPosts = response.data;
+      if (newPosts.length < 5) {
+        setHasMore(false);
+      }
+      setPosts(prevPosts => [...prevPosts, ...newPosts]);
+      setOffset(prevOffset => prevOffset + newPosts.length);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    } finally {
+      setPostLoading(false);
+    }
+  };
   // render ui
   if (!selectedUser?.firstName || !selectedUser?.State) {
     <View style={pageView}>
@@ -425,22 +452,61 @@ const UserProfile = () => {
       <BannerAdd />
       {/* post */}
       <HrLine />
-      {selectedUser?.Posts?.length > 0 ? (
+      {/* post */}
+      <FlatList
+        data={posts}
+        keyExtractor={item => item._id}
+        renderItem={({item, index}) => (
+          <Posts
+            post={item}
+            index={index}
+            senderDetails={{
+              firstName: selectedUser?.firstName,
+              LastName: selectedUser?.LastName,
+              InstitudeName: selectedUser?.InstitudeName,
+              Images: {
+                profile: selectedUser?.Images?.profile,
+              },
+            }}
+          />
+        )}
+        ListFooterComponent={
+          postLoading ? (
+            <ActivityIndicator size="large" color={Colors.mildGrey} />
+          ) : hasMore ? (
+            <View style={{paddingHorizontal: 15}}>
+              <TouchableOpacity
+                onPress={() => fetchPosts()}
+                style={{
+                  padding: 10,
+                  borderWidth: 0.5,
+                  borderRadius: 50,
+                  borderColor: Colors.violet,
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    letterSpacing: 1.4,
+                    color: Colors.violet,
+                    fontWeight: '600',
+                  }}>
+                  Show more
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <Text style={{textAlign: 'center', color: 'gray'}}>
+              No more posts
+            </Text>
+          )
+        }
+      />
+      {/* post */}
+      {/* {selectedUser?.Posts?.length > 0 ? (
         <FlatList
           data={selectedUser?.Posts}
           renderItem={({item, index}) => (
-            <Posts
-              post={item}
-              index={index}
-              senderDetails={{
-                firstName: selectedUser?.firstName,
-                LastName: selectedUser?.LastName,
-                InstitudeName: selectedUser?.InstitudeName,
-                Images: {
-                  profile: selectedUser?.Images?.profile,
-                },
-              }}
-            />
+           
           )}
         />
       ) : (
@@ -452,7 +518,7 @@ const UserProfile = () => {
           }}>
           No Posts Yet
         </Text>
-      )}
+      )} */}
       {/* model for show networks list */}
       <Modal
         transparent={true}

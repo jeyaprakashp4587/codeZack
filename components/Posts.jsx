@@ -275,7 +275,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           justifyContent: 'space-between',
           marginTop: 5,
         }}>
-        {/* like icon  */}
+        {/* like Icon  */}
         <TouchableOpacity
           onPress={handleLikeToggle}
           style={{
@@ -430,11 +430,11 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                         color: Colors.veryDarkGrey,
                         letterSpacing: 1,
                         flex: 1,
+                        fontSize: width * 0.035,
                       }}>
                       {item?.firstName}
                       {item?.LastName}
                     </Text>
-
                     <RelativeTime time={item?.LikedTime} />
                   </TouchableOpacity>
                 )}
