@@ -133,7 +133,9 @@ const NotesFeed = ({refresh}) => {
         noteId: selectedNote?.NotesId,
       });
       if (response.data.success) {
+        setShowNotesModel(false);
         fetchConnectionNotes();
+
         await AsyncStorage.removeItem('lastUploadDate');
       }
     } catch (error) {
@@ -145,11 +147,17 @@ const NotesFeed = ({refresh}) => {
   }, [refresh]);
 
   return (
-    <View style={{paddingLeft: 15, marginVertical: 15, flexDirection: 'row'}}>
+    <View
+      style={{
+        paddingLeft: 15,
+        marginVertical: 15,
+        flexDirection: 'row',
+        marginTop: 30,
+      }}>
       <Ripple
         onPress={() => setUploadNotesModal(true)}
         style={{
-          height: height * 0.08,
+          height: height * 0.09,
           aspectRatio: 1,
           borderRadius: 50,
           borderWidth: 1,
@@ -191,12 +199,16 @@ const NotesFeed = ({refresh}) => {
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
+              // borderWidth: 1,
+              // height: 'auto',
+              // paddingTop: 5,
             }}>
             <LinearGradient
               colors={['#99ccff', '#ffb3b3', '#99ccff', '#ffb3b3']}
               style={{
                 padding: 3,
                 borderRadius: 50,
+                // marginTop: 20,
               }}>
               <TouchableOpacity
                 onPress={() => {
@@ -211,7 +223,7 @@ const NotesFeed = ({refresh}) => {
                   }}>
                   {!item?.NotesSenderProfile ? (
                     <Skeleton
-                      width={width * 0.16}
+                      width={width * 0.18}
                       height={height * 0.08}
                       radius={50}
                     />
@@ -219,7 +231,7 @@ const NotesFeed = ({refresh}) => {
                     <Image
                       source={{uri: item?.NotesSenderProfile}}
                       style={{
-                        height: height * 0.07,
+                        height: height * 0.09,
                         aspectRatio: 1,
                         borderRadius: 50,
                       }}
@@ -231,19 +243,62 @@ const NotesFeed = ({refresh}) => {
             <View
               style={{
                 width: containerWidth,
-                overflow: 'hidden',
+                position: 'absolute',
+                zIndex: 100,
+                top: 0,
+                bottom: 0,
+                backgroundColor: Colors.white,
+                height: height * 0.028,
+                justifyContent: 'center',
+                borderWidth: 1,
+                borderRadius: 50,
+                borderColor: Colors.lightGrey,
+                left: -width * 0.001,
               }}>
-              <Animated.Text
+              {/* dot1 effect */}
+              <View
+                style={{
+                  // width: 5,
+                  // height: 5,
+                  backgroundColor: 'white',
+                  position: 'absolute',
+                  bottom: -height * 0.0055,
+                  padding: 5,
+                  zIndex: 10,
+                  borderRadius: 50,
+                  left: width * 0.014,
+                  borderColor: Colors.mildGrey,
+                  borderWidth: 1,
+                  borderTopWidth: 0,
+                  borderLeftWidth: 0,
+                  borderRightWidth: 0,
+                }}
+              />
+              {/* dot2 effect */}
+              <View
+                style={{
+                  width: 5,
+                  height: 5,
+                  backgroundColor: 'white',
+                  position: 'absolute',
+                  bottom: -height * 0.018,
+                  padding: 2,
+                  zIndex: 10,
+                  borderRadius: 50,
+                  left: width * 0.035,
+                }}
+              />
+              <Text
                 numberOfLines={1}
                 style={{
-                  fontSize: width * 0.03,
-                  color: Colors.mildGrey,
+                  fontSize: width * 0.024,
                   textAlign: 'center',
                   whiteSpace: 'nowrap',
                   letterSpacing: 1.3,
+                  paddingHorizontal: 10,
                 }}>
                 {item?.NotesText}
-              </Animated.Text>
+              </Text>
             </View>
           </View>
         )}

@@ -1,4 +1,4 @@
-import {Dimensions, Text, View} from 'react-native';
+import {Dimensions, Image, Text, View} from 'react-native';
 import React, {useCallback, useMemo} from 'react';
 import Ripple from 'react-native-material-ripple';
 import {debounce} from 'lodash';
@@ -74,8 +74,9 @@ const IdeasWrapper = () => {
           // borderWidth: 1,
           flexWrap: 'wrap',
           alignItems: 'center',
-          justifyContent: 'center',
-          gap: 20,
+          justifyContent: 'space-between',
+          gap: 10,
+          marginHorizontal: 15,
         }}>
         {IdeaData.map((item, index) => (
           <LinearGradient
@@ -83,8 +84,8 @@ const IdeasWrapper = () => {
             end={index % 2 === 0 ? {x: 0, y: 1} : {x: 1, y: 1}}
             colors={['white', item.color, 'white']}
             style={{
-              width: '45%',
-              borderRadius: 50,
+              width: '47%',
+              borderRadius: 10,
               height: height * 0.09,
               flexDirection: 'column',
               justifyContent: 'center',
@@ -97,12 +98,25 @@ const IdeasWrapper = () => {
               <Text
                 style={{
                   textAlign: 'center',
-                  color: Colors.mildGrey,
+                  color: Colors.veryDarkGrey,
                   letterSpacing: 1,
                   fontSize: width * 0.028,
+                  fontWeight: '600',
                 }}>
                 {item.name}
               </Text>
+              {/* icons */}
+              <Image
+                source={{uri: item.icon}}
+                style={{
+                  width: 40,
+                  height: 40,
+                  // tintColor: Colors.veryLightGrey,
+                  position: 'absolute',
+                  left: width * 0.04,
+                  opacity: 0.2,
+                }}
+              />
             </Ripple>
           </LinearGradient>
         ))}

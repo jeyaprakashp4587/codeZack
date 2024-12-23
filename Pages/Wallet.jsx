@@ -234,6 +234,7 @@ const Wallet = () => {
                   borderColor: Colors.veryLightGrey,
                 }}
                 placeholder="Enter GPay Account Name"
+                placeholderTextColor={Colors.mildGrey}
                 onChangeText={text => setGpayAccountName(text)}
               />
               <TextInput
@@ -243,6 +244,7 @@ const Wallet = () => {
                   borderColor: Colors.veryLightGrey,
                 }}
                 placeholder="Enter GPay UPI Id"
+                placeholderTextColor={Colors.mildGrey}
                 onChangeText={text => setGpayUpiId(text)}
               />
               <Ripple
@@ -355,6 +357,7 @@ const Wallet = () => {
           }}
           keyboardType="numeric"
           onChangeText={setWitharawAmout}
+          placeholderTextColor={Colors.mildGrey}
         />
         <TouchableOpacity
           onPress={HandleWithdraw}
