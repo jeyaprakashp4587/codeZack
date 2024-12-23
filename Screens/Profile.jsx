@@ -50,6 +50,7 @@ const Profile = ({navigation}) => {
   const [aboutUpdate, setAboutUpdate] = useState(false);
   const [uploadActivityIndi, setUploadActivityIndi] = useState(false);
   const RBSheetRef = useRef();
+
   // function to pick images from the library
   const HandleChangeProfile = useCallback(
     async imageType => {

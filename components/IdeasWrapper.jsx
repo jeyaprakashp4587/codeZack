@@ -1,119 +1,114 @@
-import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
-import React, {useCallback} from 'react';
+import {Dimensions, Text, View} from 'react-native';
+import React, {useCallback, useMemo} from 'react';
 import Ripple from 'react-native-material-ripple';
-import {Colors} from '../constants/Colors';
 import {debounce} from 'lodash';
 import {useNavigation} from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
+import {Colors} from '../constants/Colors';
+
 const {width, height} = Dimensions.get('window');
-// ---
+
 const IdeasWrapper = () => {
   const navigation = useNavigation();
-  // ideas wrapper naivagtions
+
+  // Debounced navigation function
   const debounceNavigation = useCallback(
     debounce(route => navigation.navigate(route), 100),
-    [],
+    [navigation],
   );
-  const carrerNav = useCallback(() => debounceNavigation('carrerScreen'), []);
-  const courseNav = useCallback(() => debounceNavigation('yourcourse'), []);
+
+  // Navigation callbacks
+  const carrerNav = useCallback(
+    () => debounceNavigation('carrerScreen'),
+    [debounceNavigation],
+  );
+  const courseNav = useCallback(
+    () => debounceNavigation('yourcourse'),
+    [debounceNavigation],
+  );
   const activityNav = useCallback(
     () => debounceNavigation('youractivities'),
-    [],
+    [debounceNavigation],
   );
-  const assignmentNav = useCallback(() => {
-    debounceNavigation('Assignments');
-  }, []);
+  const assignmentNav = useCallback(
+    () => debounceNavigation('Assignments'),
+    [debounceNavigation],
+  );
+
+  // Data for rendering
+  const IdeaData = useMemo(
+    () => [
+      {
+        name: 'Choose your Carrer',
+        function: carrerNav,
+        color: 'hsl(12, 76%, 96%)',
+        icon: 'https://i.ibb.co/gddf19J/programming.png',
+      },
+      {
+        name: 'Your Courses',
+        function: courseNav,
+        color: 'hsl(41, 76%, 95%)',
+        icon: 'https://i.ibb.co/NmNqJpx/certificate.png',
+      },
+      {
+        name: 'Assignments',
+        function: assignmentNav,
+        color: 'hsl(120, 100%, 98%)',
+        icon: 'https://i.ibb.co/N19pNf3/assignment.png',
+      },
+      {
+        name: 'Your Activities',
+        function: activityNav,
+        color: 'hsl(200, 92%, 95%)',
+        icon: 'https://i.ibb.co/B3CdkDM/calendar.png',
+      },
+    ],
+    [carrerNav, courseNav, activityNav, assignmentNav],
+  );
+
   return (
-    // <View style={{flex: 1}}>
-    <View style={styles.ideasWrapper}>
-      <View style={{backgroundColor: 'white'}}>
-        <Ripple style={styles.ideaBox} onPress={carrerNav}>
-          <Image
-            style={styles.icon}
-            source={{uri: 'https://i.ibb.co/gddf19J/programming.png'}}
-          />
-        </Ripple>
-
-        {/* <SimpleLineIcons name="book-open" size={25} color="#264653" /> */}
-        <Text style={styles.ideaText} numberOfLines={1}>
-          Courses
-        </Text>
-      </View>
-      <View style={{backgroundColor: 'white'}}>
-        <Ripple onPress={courseNav} style={styles.ideaBox}>
-          <Image
-            style={styles.icon}
-            source={{uri: 'https://i.ibb.co/NmNqJpx/certificate.png'}}
-          />
-        </Ripple>
-
-        {/* <AntDesign name="laptop" size={25} color="#2a9d8f" /> */}
-        <Text numberOfLines={1} style={styles.ideaText}>
-          Your Courses
-        </Text>
-      </View>
-      <View>
-        {/* <SimpleLineIcons name="notebook" size={25} color="#e9c46a" /> */}
-        <Ripple onPress={assignmentNav} style={styles.ideaBox}>
-          <Image
-            style={styles.icon}
-            source={{uri: 'https://i.ibb.co/N19pNf3/assignment.png'}}
-          />
-        </Ripple>
-
-        <Text numberOfLines={1} style={styles.ideaText}>
-          Assignments
-        </Text>
-      </View>
-      <View>
-        {/* <Fontisto name="date" size={25} color="#e76f51" /> */}
-        <Ripple onPress={activityNav} style={styles.ideaBox}>
-          <Image
-            style={styles.icon}
-            source={{uri: 'https://i.ibb.co/B3CdkDM/calendar.png'}}
-          />
-        </Ripple>
-        <Text style={styles.ideaText} numberOfLines={1}>
-          Your Activities
-        </Text>
+    <View style={{flex: 1, marginVertical: 15}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          // borderWidth: 1,
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 20,
+        }}>
+        {IdeaData.map((item, index) => (
+          <LinearGradient
+            start={index % 2 === 0 ? {x: 1, y: 0} : {x: 0, y: 0}}
+            end={index % 2 === 0 ? {x: 0, y: 1} : {x: 1, y: 1}}
+            colors={['white', item.color, 'white']}
+            style={{
+              width: '45%',
+              borderRadius: 50,
+              height: height * 0.09,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              elevation: 1.5,
+              overflow: 'hidden',
+            }}>
+            <Ripple
+              style={{width: '100%', height: '100%', justifyContent: 'center'}}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  color: Colors.mildGrey,
+                  letterSpacing: 1,
+                  fontSize: width * 0.028,
+                }}>
+                {item.name}
+              </Text>
+            </Ripple>
+          </LinearGradient>
+        ))}
       </View>
     </View>
-    // </View>
   );
 };
 
 export default IdeasWrapper;
-
-const styles = StyleSheet.create({
-  ideasWrapper: {
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between',
-    paddingHorizontal: 15,
-    marginVertical: 15,
-  },
-  ideaBox: {
-    width: width * 0.2,
-    height: height * 0.1,
-    borderRadius: 10,
-    elevation: 2,
-    backgroundColor: 'white',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 10,
-    rowGap: 10,
-  },
-  icon: {
-    width: '70%',
-    height: '70%',
-    opacity: 0.78,
-  },
-  ideaText: {
-    color: Colors.mildGrey,
-    letterSpacing: 0.5,
-    textAlign: 'center',
-    marginTop: height * 0.01,
-    fontSize: width * 0.025,
-    fontWeight: '400',
-  },
-});

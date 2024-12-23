@@ -30,15 +30,12 @@ const SuggestionWapper = ({trigger, refresh}) => {
     const res = await axios.get(`${loginApi}/Suggestions/users/${user._id}`);
     if (res.data) {
       setProfiles(res.data);
+      if (res.data.length <= 0) trigger(false);
     }
     return res.data;
   }, [refresh]);
   useEffect(() => {
-    userSuggestions().then(data => {
-      if (profiles.length <= 0) {
-        trigger(false);
-      }
-    });
+    userSuggestions();
   }, [refresh]);
   const HandleClose = () => {
     trigger(false);
@@ -116,11 +113,12 @@ const SuggestionWapper = ({trigger, refresh}) => {
                     {user.item?.firstName} {user.item?.LastName}
                   </Text>
                   <Text
+                    numberOfLines={1}
                     style={{
-                      fontSize: width * 0.03,
+                      fontSize: width * 0.025,
                       color: Colors.mildGrey,
                       fontWeight: '600',
-                      // letterSpacing: 1,
+                      letterSpacing: 1,
                     }}>
                     {user.item?.InstitudeName}
                   </Text>

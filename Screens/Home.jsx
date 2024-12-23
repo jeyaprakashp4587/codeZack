@@ -21,6 +21,7 @@ import {
   RefreshControl,
   AppState,
   Vibration,
+  StatusBar,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
 import Fontawesome from 'react-native-vector-icons/FontAwesome';
@@ -82,7 +83,7 @@ const Home = () => {
     const isAtBottom =
       layoutMeasurement.height + contentOffset.y >= contentSize.height - 2;
     if (isAtBottom && user?.ConnectionsPost?.length > 0) {
-      navigation.navigate('postFeed');
+      // navigation.navigate('postFeed');
     }
     // set scroll height
     const offsetY = event.nativeEvent.contentOffset.y;
@@ -262,7 +263,7 @@ const Home = () => {
   if (!UiLoading) return <HomeSkeleton />;
 
   return (
-    <View style={pageView}>
+    <View style={{backgroundColor: 'white', flex: 1}}>
       <ScrollView
         ref={scrollViewRef}
         onScroll={event => handleScroll(event)}
@@ -272,6 +273,7 @@ const Home = () => {
           <RefreshControl refreshing={refresh} onRefresh={refreshUser} />
         }>
         {/* header */}
+
         <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.navigate('profile')}>
             <Image
@@ -362,7 +364,6 @@ const Home = () => {
             </TouchableOpacity>
           </View>
         </View>
-        {/*  header*/}
         {/* greeding and notification */}
         <View
           style={{
@@ -385,7 +386,11 @@ const Home = () => {
             {getCurrentGreeting()} {user?.firstName}!
           </Text>
           <View
-            style={{flexDirection: 'row', alignItems: 'center', columnGap: 10}}>
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              columnGap: 10,
+            }}>
             <DailyClaim />
             <Pressable
               style={{position: 'relative'}}

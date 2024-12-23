@@ -8,8 +8,9 @@ import {
   Modal,
   TextInput,
   Pressable,
+  ToastAndroid,
 } from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState, useRef} from 'react';
 import {Colors, font} from '../constants/Colors';
 import {faComments, faHeart} from '@fortawesome/free-regular-svg-icons';
 import {Dimensions} from 'react-native';
@@ -25,6 +26,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import useSocket from '../Socket/useSocket';
 import useSocketEmit from '../Socket/useSocketEmit';
 import {SocketData} from '../Socket/SocketContext';
+import RBSheet from 'react-native-raw-bottom-sheet';
 const {width, height} = Dimensions.get('window');
 
 const Posts = ({post, index, admin, senderDetails, elevation}) => {
@@ -33,10 +35,10 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const navigation = useNavigation();
   const socket = SocketData();
   const emitEvent = useSocketEmit(socket);
-
+  const PostRBSheetRef = useRef();
   const wordThreshold = 10;
   const [expanded, setExpanded] = useState(false);
-  const [deldisplay, setDeldisplay] = useState(false);
+  const [postOptions, setPostOptions] = useState(false);
   const [likeCount, setLikeCount] = useState(post?.Like);
   useEffect(() => {
     if (post?.Like !== undefined && post?.Like !== null) {
@@ -58,21 +60,19 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
 
   const countWords = text => text?.trim().split(/\s+/).length;
 
-  const handleDelDisp = () => {
-    setDeldisplay(prev => !prev);
-  };
-
   const HandleDelete = useCallback(
     async postId => {
       try {
         const res = await axios.post(`${Api}/Post/deletePost/${user?._id}`, {
           postId,
         });
-        if (res.data) {
-          setUser(res.data);
+        if (res.status == 200) {
+          setUser(res?.data?.Posts);
+          ToastAndroid.show('Post deleted sucessfully', ToastAndroid.SHORT);
         }
       } catch (err) {
         // console.log(err);
+        ToastAndroid.show('Error while post delete', ToastAndroid.SHORT);
       }
     },
     [user],
@@ -176,6 +176,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
   }, [comments, post]);
   //
   const [showImageModel, setShowImageModel] = useState(false);
+  // ui render
   return (
     <View
       key={index}
@@ -193,8 +194,10 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
       {/* Post Content */}
       <Pressable
         onPress={() => {
-          setSelectedUser(senderDetails?._id || senderDetails?.id);
-          navigation.navigate('userprofile');
+          if (!admin) {
+            setSelectedUser(senderDetails?._id || senderDetails?.id);
+            navigation.navigate('userprofile');
+          }
         }}
         style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <Image
@@ -215,23 +218,16 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             {senderDetails ? senderDetails?.InstitudeName : user?.InstitudeName}
           </Text>
         </View>
-        {admin && (
-          <TouchableOpacity onPress={handleDelDisp}>
-            <Image
-              source={{uri: 'https://i.ibb.co/nn25gZN/menu.png'}}
-              style={{width: 20, height: 20, tintColor: Colors.lightGrey}}
-            />
-          </TouchableOpacity>
-        )}
-        {/* display wrapper */}
 
-        {deldisplay && (
-          <TouchableOpacity
-            onPress={() => HandleDelete(post._id)}
-            style={styles.deleteButton}>
-            <Text style={styles.deleteText}>Delete</Text>
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity onPress={() => PostRBSheetRef.current.open()}>
+          <Image
+            source={{uri: 'https://i.ibb.co/nn25gZN/menu.png'}}
+            style={{width: 20, height: 20, tintColor: Colors.lightGrey}}
+          />
+        </TouchableOpacity>
+
+        {/* display wrapper */}
+        {/* */}
       </Pressable>
       <Text style={styles.postText}>
         {expanded
@@ -542,6 +538,60 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           />
         </View>
       </Modal>
+      {/* Rb sheet for show options for posts */}
+      <RBSheet
+        ref={PostRBSheetRef}
+        height={250} // Specify the desired height in pixels
+        useNativeDriver={true}
+        customStyles={{
+          container: {
+            borderTopLeftRadius: 20, // Optional for rounded corners
+            borderTopRightRadius: 20,
+            height: height * 0.65, // Alternatively, you can set the height here
+          },
+          wrapper: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+          },
+          draggableIcon: {
+            backgroundColor: '#cccccc',
+          },
+        }}
+        customModalProps={{
+          animationType: 'slide',
+          statusBarTranslucent: true,
+        }}>
+        {/* model header */}
+        <View
+          style={{
+            borderWidth: 1,
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            rowGap: 10,
+            borderBottomWidth: 1,
+            borderColor: Colors.veryLightGrey,
+            marginBottom: 10,
+          }}>
+          {/* bar */}
+          <View
+            style={{
+              width: 70,
+              height: 5,
+              backgroundColor: Colors.lightGrey,
+              borderRadius: 50,
+              marginVertical: 20,
+            }}
+          />
+        </View>
+        {/* options content */}
+        <View>
+          {admin && (
+            <TouchableOpacity onPress={() => HandleDelete(post._id)}>
+              <Text>Delete</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      </RBSheet>
     </View>
   );
 };
