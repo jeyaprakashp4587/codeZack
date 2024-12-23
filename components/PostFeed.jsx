@@ -24,6 +24,13 @@ const PostFeed = () => {
   const POSTS_PER_PAGE = 10;
   const [refreshing, setRefreshing] = useState(false);
   const {width, height} = Dimensions.get('window');
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    getConnectionPosts().then(() => {
+      setRefreshing(false);
+    });
+  }, []);
+  // get connections post
   const getConnectionPosts = useCallback(
     async (pageNumber = 0) => {
       if (!hasMore) return; // Stop fetching if no more posts are available
@@ -77,13 +84,10 @@ const PostFeed = () => {
         ) : (
           <FlatList
             refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-                colors={Colors.veryDarkGrey} // Replace with your desired color
-              />
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
             data={posts}
+            showsVerticalScrollIndicator={false}
             keyExtractor={item => item._id}
             renderItem={({item, index}) => (
               <Posts

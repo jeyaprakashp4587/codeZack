@@ -632,7 +632,7 @@ const Profile = ({navigation}) => {
           ListFooterComponent={
             postLoading ? (
               <ActivityIndicator size="large" color={Colors.mildGrey} />
-            ) : hasMore ? (
+            ) : hasMore && user?.Posts?.length > 0 ? (
               <View style={{paddingHorizontal: 15}}>
                 <TouchableOpacity
                   onPress={() => fetchPosts()}
