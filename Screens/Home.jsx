@@ -190,7 +190,7 @@ const Home = () => {
     if (currentHour < 17) return 'Good Afternoon';
     return 'Good Evening';
   }, []);
-
+  // refresh user
   const refreshUser = useCallback(async () => {
     setRefresh(true);
     try {
@@ -207,7 +207,7 @@ const Home = () => {
       console.error('Failed to refresh user:', error);
     }
   }, [user?._id, setUser]);
-
+  // get notifiation
   const getNotifications = useCallback(async () => {
     try {
       const res = await axios.get(
@@ -222,11 +222,11 @@ const Home = () => {
     }
   }, [user?._id]);
   // socket
-
+  // update the socket
   useSocketOn(socket, 'updateNoti', async data => {
     if (data) getNotifications();
   });
-
+  // receive the socket data from another peer
   useSocketOn(socket, 'Receive-Noti', async () => {
     await getNotifications();
     // Vibration.vibrate({});
@@ -273,7 +273,6 @@ const Home = () => {
           <RefreshControl refreshing={refresh} onRefresh={refreshUser} />
         }>
         {/* header */}
-
         <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.navigate('profile')}>
             <Image
