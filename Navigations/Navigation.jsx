@@ -58,7 +58,7 @@ import PostFeed from '../components/PostFeed';
 const {width, height} = Dimensions.get('window');
 const Tab = createBottomTabNavigator();
 
-// Tab Navigator
+// Tab Navigator functions 
 const TabNavigation = () => {
   return (
     <Tab.Navigator
