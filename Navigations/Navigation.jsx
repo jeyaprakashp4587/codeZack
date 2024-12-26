@@ -54,7 +54,7 @@ import SetPassword from '../LoginSystem/SetPassword';
 import {BlurView} from '@react-native-community/blur';
 import PostFeed from '../components/PostFeed';
 
-// Tab navigations
+// Tab navigations functions 
 const {width, height} = Dimensions.get('window');
 const Tab = createBottomTabNavigator();
 
