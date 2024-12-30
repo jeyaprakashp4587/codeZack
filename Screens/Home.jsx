@@ -67,7 +67,6 @@ const Home = () => {
   const navigation = useNavigation();
   const {user, setUser} = useData();
   const [UiLoading, setUiLoading] = useState(false);
-  const [suggestDisplay, setSuggestDisplay] = useState(true);
   const [suggestRefresh, setSuggestRefresh] = useState(false);
   const [unseenCount, setUnseenCount] = useState(0);
   const shakeInterpolation = useShakeAnimation(3000);
@@ -215,6 +214,8 @@ const Home = () => {
   // socket
   // update the socket
   useSocketOn(socket, 'updateNoti', async data => {
+    console.log('log');
+
     if (data) getNotifications();
   });
   // receive the socket data from another peer
@@ -247,9 +248,6 @@ const Home = () => {
     }
   }, [user?._id, setUser]);
 
-  const HandlesuggestDisplay = data => {
-    setSuggestDisplay(data);
-  };
   // render ui after load
   if (!UiLoading) return <HomeSkeleton />;
 
@@ -503,13 +501,9 @@ const Home = () => {
           }>
           <View
             style={{
-              display: suggestDisplay ? 'flex' : 'none',
               paddingHorizontal: 15,
             }}>
-            <SuggestionWapper
-              trigger={HandlesuggestDisplay}
-              refresh={suggestRefresh}
-            />
+            <SuggestionWapper refresh={suggestRefresh} />
           </View>
         </Suspense>
         {/* banner add */}

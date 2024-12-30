@@ -183,7 +183,13 @@ const UserProfile = () => {
   const [postLoading, setPostLoading] = useState(false); // Loading indicator
   const [offset, setOffset] = useState(5); // Number of posts already fetched
   const [hasMore, setHasMore] = useState(true);
-  const [posts, setPosts] = useState(selectedUser?.Posts);
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    if (selectedUser?.Posts) {
+      setPosts(selectedUser.Posts); // Update posts when selectedUser is available
+    }
+  }, [selectedUser]);
+
   // fecth user posts
   const fetchPosts = async () => {
     if (!hasMore || postLoading) return;
@@ -456,6 +462,7 @@ const UserProfile = () => {
       <FlatList
         data={posts}
         keyExtractor={item => item._id}
+        style={{borderWidth: 0, paddingBottom: 20}}
         renderItem={({item, index}) => (
           <Posts
             post={item}
@@ -501,24 +508,7 @@ const UserProfile = () => {
           )
         }
       />
-      {/* post */}
-      {/* {selectedUser?.Posts?.length > 0 ? (
-        <FlatList
-          data={selectedUser?.Posts}
-          renderItem={({item, index}) => (
-           
-          )}
-        />
-      ) : (
-        <Text
-          style={{
-            color: Colors.mildGrey,
-            textAlign: 'center',
-            fontSize: width * 0.04,
-          }}>
-          No Posts Yet
-        </Text>
-      )} */}
+
       {/* model for show networks list */}
       <Modal
         transparent={true}

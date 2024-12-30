@@ -21,7 +21,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
 import {TouchableOpacity} from 'react-native';
 
-const SuggestionWapper = ({trigger, refresh}) => {
+const SuggestionWapper = ({refresh}) => {
   const {width, height} = Dimensions.get('window');
   const [profiles, setProfiles] = useState([]);
   const Navigation = useNavigation();
@@ -37,10 +37,10 @@ const SuggestionWapper = ({trigger, refresh}) => {
   useEffect(() => {
     userSuggestions();
   }, [refresh]);
-  const HandleClose = () => {
-    trigger(false);
-  };
-
+  // handle show more
+  const HandleShowMore = useCallback(async () => {
+    Navigation.navigate('allUserPage');
+  }, []);
   return (
     <View style={{flexDirection: 'column', rowGap: 5}}>
       <View
@@ -50,8 +50,20 @@ const SuggestionWapper = ({trigger, refresh}) => {
           justifyContent: 'space-between',
         }}>
         <ParagraphText text="Suggestions" />
-        <TouchableOpacity onPress={HandleClose}>
-          <FontAwesomeIcon icon={faTimes} size={18} color={Colors.mildGrey} />
+        <TouchableOpacity
+          onPress={() => {
+            HandleShowMore();
+          }}>
+          <Text
+            style={{
+              // textDecorationLine: 'underline',
+              letterSpacing: 1,
+              fontSize: width * 0.03,
+              // fontWeight: '600',
+              color: Colors.mildGrey,
+            }}>
+            Show more
+          </Text>
         </TouchableOpacity>
       </View>
       {/* list */}
@@ -61,7 +73,11 @@ const SuggestionWapper = ({trigger, refresh}) => {
         showsHorizontalScrollIndicator={false}
         renderItem={user => (
           <ImageBackground
-            source={{uri: user.item?.Images?.coverImg}}
+            source={{
+              uri:
+                user.item?.Images?.coverImg ??
+                'https://i.ibb.co/Fh1fwGm/2151777507.jpg',
+            }}
             style={{
               borderRadius: 7,
               overflow: 'hidden',
@@ -109,7 +125,8 @@ const SuggestionWapper = ({trigger, refresh}) => {
                       textTransform: 'capitalize',
                       // fontWeight: '600',
                       letterSpacing: 1,
-                    }}>
+                    }}
+                    numberOfLines={1}>
                     {user.item?.firstName} {user.item?.LastName}
                   </Text>
                   <Text

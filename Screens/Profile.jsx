@@ -630,6 +630,7 @@ const Profile = ({navigation}) => {
         <FlatList
           data={posts}
           keyExtractor={item => item._id}
+          style={{borderWidth: 0, paddingBottom: 20}}
           renderItem={({item, index}) => (
             <Posts post={item} index={index} admin={true} />
           )}

@@ -116,16 +116,29 @@ const Notifications = () => {
       </View>
       {/* Notifications Sections */}
       {!notificationList || notificationList.length <= 0 ? (
-        <Text
+        <View
           style={{
-            fontSize: width * 0.05,
-            color: Colors.violet,
-            letterSpacing: 2,
-            marginTop: 10,
-            paddingHorizontal: 15,
+            borderWidth: 0,
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginVertical: 'auto',
+            marginHorizontal: 'auto',
           }}>
-          No Notifications There
-        </Text>
+          <Image
+            source={{uri: 'https://i.ibb.co/0scNLNQ/rb-4986.png'}}
+            style={{width: width * 0.65, aspectRatio: 1}}
+          />
+          <Text
+            style={{
+              fontSize: width * 0.035,
+              color: Colors.veryDarkGrey,
+              letterSpacing: 1,
+              fontWeight: '600',
+            }}>
+            No Notifications there
+          </Text>
+        </View>
       ) : (
         <FlatList
           showsVerticalScrollIndicator={false}

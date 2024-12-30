@@ -53,12 +53,13 @@ import OtpVerification from '../LoginSystem/OtpVerification';
 import SetPassword from '../LoginSystem/SetPassword';
 import {BlurView} from '@react-native-community/blur';
 import PostFeed from '../components/PostFeed';
+import AllUsersPage from '../Pages/AllUsersPage';
 
-// Tab navigations functions 
+// Tab navigations functions
 const {width, height} = Dimensions.get('window');
 const Tab = createBottomTabNavigator();
 
-// Tab Navigator functions 
+// Tab Navigator functions
 const TabNavigation = () => {
   return (
     <Tab.Navigator
@@ -397,6 +398,14 @@ const StackNavigations = () => {
         options={{
           headerShown: false,
           animation: 'slide_from_bottom',
+        }}
+      />
+      <Stack.Screen
+        name="allUserPage"
+        component={AllUsersPage}
+        options={{
+          headerShown: false,
+          // animation: 'slide_from_bottom',
         }}
       />
     </Stack.Navigator>
