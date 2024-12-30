@@ -152,7 +152,7 @@ const NotesFeed = ({refresh}) => {
         paddingLeft: 15,
         marginVertical: 15,
         flexDirection: 'row',
-        marginTop: 30,
+        // marginTop: 30,
       }}>
       <Ripple
         onPress={() => setUploadNotesModal(true)}
@@ -166,27 +166,31 @@ const NotesFeed = ({refresh}) => {
           justifyContent: 'center',
           alignItems: 'center',
           padding: 5,
+          // width: width * 0.2,
         }}>
         <Text
           style={{
-            fontSize: width * 0.019,
+            fontSize: width * 0.02,
             textAlign: 'center',
             letterSpacing: 1,
+            // fontWeight: '600',
+            color: Colors.mildGrey,
           }}>
-          Add Yours Notes
+          Upload
         </Text>
         <TouchableOpacity
           style={{
             position: 'absolute',
             bottom: 0,
             backgroundColor: 'white',
-            right: 5,
-            top: height * 0.06,
+            right: width * 0.02,
+            top: height * 0.068,
             // borderWidth: 1,
           }}>
           <FontAwesomeIcon icon={faPlus} size={17} color={Colors.lightGrey} />
         </TouchableOpacity>
       </Ripple>
+      {/* List conection  notes*/}
       <FlatList
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -199,16 +203,12 @@ const NotesFeed = ({refresh}) => {
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
-              // borderWidth: 1,
-              // height: 'auto',
-              // paddingTop: 5,
             }}>
             <LinearGradient
               colors={['#99ccff', '#ffb3b3', '#99ccff', '#ffb3b3']}
               style={{
                 padding: 3,
                 borderRadius: 50,
-                // marginTop: 20,
               }}>
               <TouchableOpacity
                 onPress={() => {
@@ -408,8 +408,6 @@ const NotesFeed = ({refresh}) => {
           </Snackbar>
         </BlurView>
       </Modal>
-      {/* snak for ask confirm delete */}
-
       {/* Upload notes modal */}
       <Modal
         visible={uploadNotesModal}

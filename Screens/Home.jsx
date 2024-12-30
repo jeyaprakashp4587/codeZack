@@ -75,9 +75,7 @@ const Home = () => {
   const [refresh, setRefresh] = useState(false);
   // init firebase notification
   useFCMToken();
-  // scroll to top
-  const scrollViewRef = useRef(null);
-  const [scrollToTop, setScrollToTop] = useState(false);
+
   const handleScroll = event => {
     const {contentOffset, contentSize, layoutMeasurement} = event.nativeEvent;
     const isAtBottom =
@@ -85,14 +83,7 @@ const Home = () => {
     if (isAtBottom && user?.ConnectionsPost?.length > 0) {
       // navigation.navigate('postFeed');
     }
-    // set scroll height
-    const offsetY = event.nativeEvent.contentOffset.y;
-    setScrollToTop(offsetY > 400);
   };
-  const handleScrollToTop = () => {
-    scrollViewRef.current?.scrollTo({y: 0, animated: true});
-  };
-  // config oneSignal notification
   // config reward add for every three mintes
   const {
     show: showReward,
@@ -265,7 +256,6 @@ const Home = () => {
   return (
     <View style={{backgroundColor: 'white', flex: 1}}>
       <ScrollView
-        ref={scrollViewRef}
         onScroll={event => handleScroll(event)}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
@@ -526,32 +516,6 @@ const Home = () => {
         <BannerAdd />
         {/* model load aadd */}
       </ScrollView>
-      {/* scroll to top button */}
-      {scrollToTop && (
-        <Animated.View
-          style={{
-            position: 'absolute',
-            bottom: height * 0.05,
-            zIndex: 100,
-            right: width * 0.035,
-          }}>
-          <TouchableOpacity
-            onPress={() => handleScrollToTop()}
-            style={{
-              backgroundColor: Colors.violet,
-              width: width * 0.16,
-              height: height * 0.08,
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 50,
-              borderWidth: 3,
-              borderColor: 'white',
-            }}>
-            <AntDesign name="totop" size={15} color="white" />
-          </TouchableOpacity>
-        </Animated.View>
-      )}
     </View>
   );
 };
@@ -560,7 +524,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 10,
+    padding: 15,
     alignItems: 'center',
   },
   profileImage: {resizeMode: 'cover'},

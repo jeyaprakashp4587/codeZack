@@ -46,14 +46,22 @@ const Tasks = () => {
           <TouchableOpacity
             onPress={() => navigation.navigate('taskScreen')}
             style={{
-              // backgroundColor: Colors.violet,
+              backgroundColor: Colors.violet,
               padding: width * 0.02,
               paddingHorizontal: width * 0.05,
               borderRadius: 60,
-              borderWidth: 0.7,
+              // borderWidth: 0.7,
               borderColor: Colors.mildGrey,
             }}>
-            <Text style={{letterSpacing: 2, fontSize: width * 0.03}}>
+            <Text
+              style={{
+                letterSpacing: 2,
+                fontSize: width * 0.03,
+                color: 'white',
+                // textDecorationLine: 'underline',
+                // textDecorationStyle: 'solid',
+                // textDecorationColor: Colors.violet,
+              }}>
               Try it out!
             </Text>
           </TouchableOpacity>

@@ -24,9 +24,8 @@ import {Colors, pageView} from '../constants/Colors';
 import HeadingText from '../utils/HeadingText';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faEdit} from '@fortawesome/free-regular-svg-icons';
-import {faAward, faBook, faSignOut} from '@fortawesome/free-solid-svg-icons';
+import {faSignOut} from '@fortawesome/free-solid-svg-icons';
 import HrLine from '../utils/HrLine';
-import TopicsText from '../utils/TopicsText';
 import {useData} from '../Context/Contexter';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {launchImageLibrary} from 'react-native-image-picker'; // Updated Image Picker import
@@ -43,6 +42,7 @@ import Skeleton from '../Skeletons/Skeleton';
 import Posts from '../components/Posts';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {Modal, Portal, Snackbar, TouchableRipple} from 'react-native-paper';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const Profile = ({navigation}) => {
   const {user, setUser, setSelectedUser} = useData();
@@ -550,18 +550,18 @@ const Profile = ({navigation}) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             width: width * 0.9,
-            borderWidth: 0.4,
+            // borderWidth: 0.2,
           }}>
           <Text
             style={{
               color: Colors.violet,
-              fontWeight: '600',
+              // fontWeight: '600',
               letterSpacing: 1,
-              fontSize: 16,
+              fontSize: width * 0.035,
             }}>
             Your Courses
           </Text>
-          <FontAwesomeIcon icon={faBook} size={20} color={Colors.violet} />
+          <AntDesign name="laptop" size={23} />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigation.navigate('Wallet')}
@@ -571,14 +571,17 @@ const Profile = ({navigation}) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             width: width * 0.9,
-            borderWidth: 0.4,
+            // borderWidth: 0.2,
+            borderTopWidth: 1,
+            borderBottomWidth: 1,
+            borderColor: '#e6e6e6',
           }}>
           <Text
             style={{
               color: '#595959',
-              fontWeight: '600',
+              // fontWeight: '600',
               letterSpacing: 1,
-              fontSize: 16,
+              fontSize: width * 0.035,
             }}>
             Your Wallet
           </Text>
@@ -595,18 +598,18 @@ const Profile = ({navigation}) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             width: width * 0.9,
-            borderWidth: 0.4,
+            // borderWidth: 0.2,
           }}>
           <Text
             style={{
-              color: '#ffaa80',
-              fontWeight: '600',
+              color: '#333333',
+              // fontWeight: '600',
               letterSpacing: 1,
-              fontSize: 16,
+              fontSize: width * 0.035,
             }}>
             Log out
           </Text>
-          <FontAwesomeIcon icon={faSignOut} size={20} color="#ffaa80" />
+          <FontAwesomeIcon icon={faSignOut} size={20} color="#333333" />
         </TouchableOpacity>
       </View>
       {/* posts */}
