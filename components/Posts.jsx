@@ -39,10 +39,10 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const wordThreshold = 10;
   const [expanded, setExpanded] = useState(false);
   const [postOptions, setPostOptions] = useState(false);
-  const [likeCount, setLikeCount] = useState(post?.Like);
+  const [likeCount, setLikeCount] = useState();
   useEffect(() => {
     if (post?.Like !== undefined && post?.Like !== null) {
-      setLikeCount(post.Like);
+      setLikeCount(post?.Like);
     }
   }, [post?.Like]);
   const [comments, setComments] = useState(post?.Comments || []); // List of comments
@@ -67,7 +67,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           postId,
         });
         if (res.status == 200) {
-          setUser(res?.data?.Posts);
+          setUser(prev => ({...prev, Posts: res.data.Posts}));
           ToastAndroid.show('Post deleted sucessfully', ToastAndroid.SHORT);
         }
       } catch (err) {

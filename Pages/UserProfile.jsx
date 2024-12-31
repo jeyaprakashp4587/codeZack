@@ -30,6 +30,8 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faL, faTimes} from '@fortawesome/free-solid-svg-icons';
 import BannerAdd from '../Adds/BannerAdd';
+import {faDotCircle} from '@fortawesome/free-regular-svg-icons';
+import Octicons from 'react-native-vector-icons/Octicons';
 
 const UserProfile = () => {
   const {width, height} = Dimensions.get('window');
@@ -155,7 +157,6 @@ const UserProfile = () => {
       );
       if (res.status === 200) {
         setNetworksList(res.data.users);
-        console.log(res.data.users);
       }
       return res.data.users;
     }
@@ -281,7 +282,20 @@ const UserProfile = () => {
               resizeMode: 'cover',
             }}
           />
-
+          {/* online dot indicator */}
+          <View
+            style={{
+              position: 'absolute',
+              top: height * 0.09,
+              zIndex: 10,
+              left: width * 0.2,
+              padding: width * 0.017,
+              backgroundColor: selectedUser?.onlineStatus ? 'Green' : 'red',
+              borderRadius: 50,
+              borderWidth: 3,
+              borderColor: 'white',
+            }}
+          />
           {/* User Name and Bio */}
           <Text
             style={{

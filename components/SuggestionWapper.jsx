@@ -117,6 +117,20 @@ const SuggestionWapper = ({refresh}) => {
                     // resizeMode: 'contain',
                   }}
                 />
+                {/* online status dot */}
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: height * 0.064,
+                    zIndex: 10,
+                    left: width * 0.12,
+                    padding: width * 0.017,
+                    backgroundColor: user?.item?.onlineStatus ? 'Green' : 'red',
+                    borderRadius: 50,
+                    borderWidth: 3,
+                    borderColor: 'white',
+                  }}
+                />
                 <View style={{borderWidth: 0, flex: 1}}>
                   <Text
                     style={{

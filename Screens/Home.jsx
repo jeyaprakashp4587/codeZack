@@ -35,7 +35,7 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
-import {loginApi, profileApi} from '../Api';
+import {functionApi, loginApi, profileApi} from '../Api';
 const SuggestionWapper = React.lazy(() =>
   import('../components/SuggestionWapper'),
 );
@@ -74,7 +74,7 @@ const Home = () => {
   const [refresh, setRefresh] = useState(false);
   // init firebase notification
   useFCMToken();
-
+  // handle scroll for navigate post screen
   const handleScroll = event => {
     const {contentOffset, contentSize, layoutMeasurement} = event.nativeEvent;
     const isAtBottom =
@@ -117,6 +117,25 @@ const Home = () => {
       loadReward();
     }
   }, [closedReward, loadReward]);
+  // set user online status
+  const setOnlineStatus = useCallback(
+    async status => {
+      try {
+        const res = await axios.post(
+          `${profileApi}/Profile/setOnlineStatus/${user?._id}`,
+          {
+            status: status,
+          },
+        );
+        if (res.status === 200) {
+          setUser(prev => ({...prev, onlineStatus: res.data.onlineStatus}));
+        }
+      } catch (error) {
+        console.error('Failed to update online status:', error);
+      }
+    },
+    [profileApi, setUser],
+  );
 
   // Hook to manage app open ad state
   const {
@@ -138,16 +157,13 @@ const Home = () => {
     const handleAppStateChange = async state => {
       // console.log(`AppState changed to: ${state}`);
       // console.log(`Ad Loaded: ${loadedAppOpen}`);
+      await setOnlineStatus(state === 'active');
       if (state === 'active') {
         if (loadedAppOpen) {
           try {
-            // console.log('Ad is loaded. Attempting to show the ad...');
             showAppopen();
-          } catch (error) {
-            // console.error('Error showing AppOpenAd:', error);
-          }
+          } catch (error) {}
         } else {
-          // console.log('Ad not loaded. Reloading the ad...');
           loadAppOpen(); // Reload the ad
         }
       }
@@ -407,6 +423,7 @@ const Home = () => {
             </Pressable>
           </View>
         </View>
+
         {/* notesFeed */}
         <NotesFeed refresh={suggestRefresh} />
         {/* search bar */}

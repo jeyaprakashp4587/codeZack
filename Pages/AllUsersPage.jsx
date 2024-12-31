@@ -40,7 +40,7 @@ const AllUsersPage = () => {
       );
       const {data, hasMore} = response.data;
       setSuggestions(prev => [...prev, ...data]);
-      console.log(data);
+
       // Append new suggestions
       setHasMore(hasMore); // Check if more data is available
       setSkip(prev => prev + limit); // Update skip for the next fetch
