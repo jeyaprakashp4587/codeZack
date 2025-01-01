@@ -37,7 +37,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import BannerAdd from '../Adds/BannerAdd';
 
 const Post = () => {
-  const {user} = useData();
+  const {user, setUser} = useData();
   const {width, height} = Dimensions.get('window');
   const postText = useRef('');
   const postLink = useRef('');
@@ -146,7 +146,8 @@ const Post = () => {
             postId: res.data?.postId,
           });
           ToastAndroid.show('Uploaded Successfully', ToastAndroid.SHORT);
-
+          setUser(prev => ({...prev, Posts: res.data.Posts}));
+          // console.log(res.data.Posts);
           refreshFields();
         } else {
           setUploadText('upload');

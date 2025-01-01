@@ -635,11 +635,6 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             renderItem={({item}) => (
               <View>
                 <Image
-                  //  firstName: user.firstName,
-                  // lastName: user.LastName,
-                  // profileImg: user.Images.profile,
-                  // id: user._id,
-                  // onlineStatus
                   source={{
                     uri: item?.profileImg
                       ? item?.profileImg

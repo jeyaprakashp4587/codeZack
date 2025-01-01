@@ -197,6 +197,9 @@ const Profile = ({navigation}) => {
   const [offset, setOffset] = useState(5); // Number of posts already fetched
   const [hasMore, setHasMore] = useState(true);
   const [posts, setPosts] = useState(user?.Posts);
+  useEffect(() => {
+    setPosts(user?.Posts);
+  }, []);
   // fecth user posts
   const fetchPosts = async () => {
     if (!hasMore || postLoading) return;
@@ -627,7 +630,7 @@ const Profile = ({navigation}) => {
         </View>
         {/* posts */}
         <FlatList
-          data={posts}
+          data={posts > user?.Posts ? posts : user?.Posts}
           keyExtractor={item => item._id}
           style={{borderWidth: 0, paddingBottom: 20}}
           renderItem={({item, index}) => (
@@ -765,7 +768,7 @@ const Profile = ({navigation}) => {
           )}
         </View>
       </RBSheet>
-      {/* Model view  for confirm*/}
+      {/* Model view  for confirm logout*/}
       <Modal
         visible={snackVisible}
         onDismiss={onDismissSnackBar}
