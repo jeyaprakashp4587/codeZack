@@ -18,7 +18,7 @@ import axios from 'axios';
 import {useData} from '../Context/Contexter';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import RelativeTime from './RelativeTime';
-import {Api} from '../Api';
+import {Api, profileApi} from '../Api';
 import moment from 'moment';
 import {useNavigation} from '@react-navigation/native';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
@@ -176,6 +176,17 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
   }, [comments, post]);
   //
   const [showImageModel, setShowImageModel] = useState(false);
+  // fetch connections lists
+  const [netWorksList, setNetworksList] = useState([]);
+  const getNetworksList = useCallback(async () => {
+    const res = await axios.get(
+      `${profileApi}/Following/getNetworks/${user?._id}`,
+    );
+    if (res.status == 200) {
+      setNetworksList(res.data.users);
+      // console.log(res.data);
+    }
+  }, []);
   // ui render
   return (
     <View
@@ -219,7 +230,11 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           </Text>
         </View>
 
-        <TouchableOpacity onPress={() => PostRBSheetRef.current.open()}>
+        <TouchableOpacity
+          onPress={() => {
+            PostRBSheetRef.current.open();
+            getNetworksList();
+          }}>
           <Image
             source={{uri: 'https://i.ibb.co/nn25gZN/menu.png'}}
             style={{width: 20, height: 20, tintColor: Colors.lightGrey}}
@@ -541,13 +556,13 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
       {/* Rb sheet for show options for posts */}
       <RBSheet
         ref={PostRBSheetRef}
-        height={250} // Specify the desired height in pixels
+        // height={250} // Specify the desired height in pixels
         useNativeDriver={true}
         customStyles={{
           container: {
             borderTopLeftRadius: 20, // Optional for rounded corners
             borderTopRightRadius: 20,
-            height: height * 0.65, // Alternatively, you can set the height here
+            height: height * 0.38, // Alternatively, you can set the height here
           },
           wrapper: {
             backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
@@ -584,12 +599,77 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           />
         </View>
         {/* options content */}
-        <View>
+        <View style={{padding: 20}}>
           {admin && (
-            <TouchableOpacity onPress={() => HandleDelete(post._id)}>
-              <Text>Delete</Text>
+            <TouchableOpacity
+              onPress={() => HandleDelete(post._id)}
+              style={{
+                borderWidth: 1,
+                borderColor: Colors.veryLightGrey,
+                padding: width * 0.04,
+                borderRadius: 50,
+              }}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  letterSpacing: 1,
+                  fontSize: width * 0.035,
+                }}>
+                Delete
+              </Text>
             </TouchableOpacity>
           )}
+          <Text
+            style={{
+              borderColor: Colors.veryLightGrey,
+              borderBottomWidth: 1,
+              paddingVertical: width * 0.04,
+              fontSize: width * 0.035,
+              letterSpacing: 0.8,
+            }}>
+            Share to{' '}
+          </Text>
+          <FlatList
+            style={{margin: 'auto'}}
+            data={netWorksList}
+            renderItem={({item}) => (
+              <View>
+                <Image
+                  //  firstName: user.firstName,
+                  // lastName: user.LastName,
+                  // profileImg: user.Images.profile,
+                  // id: user._id,
+                  // onlineStatus
+                  source={{
+                    uri: item?.profileImg
+                      ? item?.profileImg
+                      : 'https://i.ibb.co/3T4mNMm/man.png',
+                  }}
+                  style={{
+                    width: width * 0.14,
+                    height: height * 0.07,
+                    borderRadius: 50,
+                  }}
+                />
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: height * 0.064,
+                    zIndex: 10,
+                    left: width * 0.12,
+                    padding: width * 0.017,
+                    backgroundColor: item?.onlineStatus ? 'Green' : 'red',
+                    borderRadius: 50,
+                    borderWidth: 3,
+                    borderColor: 'white',
+                  }}
+                />
+                <Text style={{fontSize: width * 0.03, textAlign: 'center'}}>
+                  {item?.firstName}
+                </Text>
+              </View>
+            )}
+          />
         </View>
       </RBSheet>
     </View>

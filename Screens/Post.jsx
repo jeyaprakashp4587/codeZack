@@ -41,7 +41,8 @@ const Post = () => {
   const {width, height} = Dimensions.get('window');
   const postText = useRef('');
   const postLink = useRef('');
-  const inputRef = useRef(null);
+  const inputRef1 = useRef(null);
+  const inputRef2 = useRef(null);
   const [images, setImages] = useState([]);
   const [uploadText, setUploadText] = useState('Upload');
   const [uploadIndi, setUploadIndi] = useState(false);
@@ -61,23 +62,48 @@ const Post = () => {
 
   // Select images from the library using react-native-image-picker
   const selectImage = async () => {
-    setHostImageIndi(false);
-    setUploadImgIndi(true);
-    const options = {
-      mediaType: 'photo',
-      selectionLimit: 4,
-    };
+    try {
+      setHostImageIndi(false);
+      setUploadImgIndi(true);
+      const options = {
+        mediaType: 'photo',
+        selectionLimit: 5,
+      };
+      const result = await launchImageLibrary(options);
+      // Check if user canceled the image selection
+      if (result.didCancel) {
+        setHostImageIndi(false);
+        setUploadImgIndi(false);
+        // console.log('Image selection canceled by the user.');
+        return;
+      }
+      if (result.errorMessage) {
+        throw new Error(result.errorMessage);
+      }
+      if (result?.assets) {
+        const uploadedImages = await Promise.all(
+          result.assets.map(async asset => {
+            try {
+              return await hostImage(asset.uri);
+            } catch (error) {
+              console.error(`Error uploading image: ${asset.uri}`, error);
+              return null; // Handle individual image upload failures
+            }
+          }),
+        );
+        const successfulUploads = uploadedImages.filter(
+          image => image !== null,
+        );
+        if (successfulUploads.length > 0) {
+          setImages(prev => [...prev, ...successfulUploads]);
+        }
 
-    const result = await launchImageLibrary(options);
-
-    if (result?.assets) {
-      const uploadedImages = await Promise.all(
-        result.assets.map(async asset => {
-          return await hostImage(asset.uri);
-        }),
-      );
-      setImages(prev => [...prev, ...uploadedImages]);
-      setHostImageIndi(true);
+        setHostImageIndi(true);
+      }
+    } catch (error) {
+      //  console.error('Error during image selection or upload:', error);
+    } finally {
+      // Ensure loading indicators are turned off regardless of success or failure
       setUploadImgIndi(false);
     }
   };
@@ -146,7 +172,8 @@ const Post = () => {
   const refreshFields = () => {
     setRefreshCon(true);
     setTimeout(() => setRefreshCon(false), 200);
-    inputRef.current.clear();
+    inputRef1.current.clear();
+    inputRef2.current.clear();
     setImages([]);
     setUploadText('Upload');
   };
@@ -218,12 +245,12 @@ const Post = () => {
               borderColor: Colors.veryLightGrey,
               letterSpacing: 1,
             }}
-            ref={inputRef}
+            ref={inputRef1}
             onChangeText={handlePostText}
             placeholderTextColor={Colors.lightGrey}
           />
           <TextInput
-            ref={inputRef}
+            ref={inputRef2}
             placeholder="Share Links (eg: git link or project link)"
             onChangeText={handlePostLink}
             style={{

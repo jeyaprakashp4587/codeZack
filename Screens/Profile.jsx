@@ -190,7 +190,6 @@ const Profile = ({navigation}) => {
     );
     if (res.status == 200) {
       setNetworksList(res.data.users);
-      // console.log(res.data.users);
     }
   }, []);
   // fetch user posts
