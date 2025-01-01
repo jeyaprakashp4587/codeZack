@@ -630,10 +630,12 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             Share to{' '}
           </Text>
           <FlatList
-            style={{margin: 'auto'}}
+            style={{
+              margin: 'auto',
+            }}
             data={netWorksList}
             renderItem={({item}) => (
-              <View>
+              <View style={{borderWidth: 1, width: '100%'}}>
                 <Image
                   source={{
                     uri: item?.profileImg
@@ -642,16 +644,19 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                   }}
                   style={{
                     width: width * 0.14,
-                    height: height * 0.07,
+                    // height: height * 0.07,
+                    aspectRatio: 1,
                     borderRadius: 50,
+                    borderColor: Colors.mildGrey,
+                    borderWidth: 3,
                   }}
                 />
                 <View
                   style={{
                     position: 'absolute',
-                    top: height * 0.064,
+                    top: height * 0.05,
                     zIndex: 10,
-                    left: width * 0.12,
+                    left: width * 0.09,
                     padding: width * 0.017,
                     backgroundColor: item?.onlineStatus ? 'Green' : 'red',
                     borderRadius: 50,
