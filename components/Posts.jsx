@@ -40,6 +40,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const [expanded, setExpanded] = useState(false);
   const [postOptions, setPostOptions] = useState(false);
   const [likeCount, setLikeCount] = useState();
+  const [selectedShareUser, setSelectedShareUser] = useState();
   useEffect(() => {
     if (post?.Like !== undefined && post?.Like !== null) {
       setLikeCount(post?.Like);
@@ -57,9 +58,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const toggleExpanded = () => {
     setExpanded(!expanded);
   };
-
   const countWords = text => text?.trim().split(/\s+/).length;
-
   const HandleDelete = useCallback(
     async postId => {
       try {
@@ -77,7 +76,6 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
     },
     [user],
   );
-
   const handleLikeToggle = useCallback(async () => {
     if (liked) {
       await handleUnlike(post?._id);
@@ -581,7 +579,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             borderWidth: 1,
             flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'space-between',
             rowGap: 10,
             borderBottomWidth: 1,
             borderColor: Colors.veryLightGrey,
@@ -599,7 +597,14 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           />
         </View>
         {/* options content */}
-        <View style={{padding: 20}}>
+        <View
+          style={{
+            padding: 20,
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            flex: 1,
+            marginHorizontal: 'auto',
+          }}>
           {admin && (
             <TouchableOpacity
               onPress={() => HandleDelete(post._id)}
@@ -629,47 +634,54 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             }}>
             Share to{' '}
           </Text>
-          <FlatList
+          <View
             style={{
-              margin: 'auto',
-            }}
-            data={netWorksList}
-            renderItem={({item}) => (
-              <View style={{borderWidth: 1, width: '100%'}}>
-                <Image
-                  source={{
-                    uri: item?.profileImg
-                      ? item?.profileImg
-                      : 'https://i.ibb.co/3T4mNMm/man.png',
-                  }}
-                  style={{
-                    width: width * 0.14,
-                    // height: height * 0.07,
-                    aspectRatio: 1,
-                    borderRadius: 50,
-                    borderColor: Colors.mildGrey,
-                    borderWidth: 3,
-                  }}
-                />
-                <View
-                  style={{
-                    position: 'absolute',
-                    top: height * 0.05,
-                    zIndex: 10,
-                    left: width * 0.09,
-                    padding: width * 0.017,
-                    backgroundColor: item?.onlineStatus ? 'Green' : 'red',
-                    borderRadius: 50,
-                    borderWidth: 3,
-                    borderColor: 'white',
-                  }}
-                />
-                <Text style={{fontSize: width * 0.03, textAlign: 'center'}}>
-                  {item?.firstName}
-                </Text>
-              </View>
-            )}
-          />
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              borderWidth: 1,
+              flexDirection: 'row',
+              columnGap: 10,
+            }}>
+            <FlatList
+              horizontal
+              data={netWorksList}
+              renderItem={({item}) => (
+                <View style={{borderWidth: 0, marginRight: 10}}>
+                  <Image
+                    source={{
+                      uri: item?.profileImg
+                        ? item?.profileImg
+                        : 'https://i.ibb.co/3T4mNMm/man.png',
+                    }}
+                    style={{
+                      width: width * 0.14,
+                      // height: height * 0.07,
+                      aspectRatio: 1,
+                      borderRadius: 50,
+                      borderColor: Colors.mildGrey,
+                      borderWidth: 3,
+                    }}
+                  />
+                  <View
+                    style={{
+                      position: 'absolute',
+                      top: height * 0.05,
+                      zIndex: 10,
+                      left: width * 0.09,
+                      padding: width * 0.017,
+                      backgroundColor: item?.onlineStatus ? 'green' : 'red',
+                      borderRadius: 50,
+                      borderWidth: 3,
+                      borderColor: 'white',
+                    }}
+                  />
+                  <Text style={{fontSize: width * 0.025, textAlign: 'center'}}>
+                    {item?.firstName}
+                  </Text>
+                </View>
+              )}
+            />
+          </View>
         </View>
       </RBSheet>
     </View>
