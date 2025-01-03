@@ -41,7 +41,13 @@ import {profileApi} from '../Api';
 import Skeleton from '../Skeletons/Skeleton';
 import Posts from '../components/Posts';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {Modal, Portal, Snackbar, TouchableRipple} from 'react-native-paper';
+import {
+  Divider,
+  Modal,
+  Portal,
+  Snackbar,
+  TouchableRipple,
+} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const Profile = ({navigation}) => {
@@ -542,7 +548,7 @@ const Profile = ({navigation}) => {
           alignItems: 'center',
           rowGap: 10,
           marginVertical: 10,
-          marginBottom: 30,
+          // marginBottom: 30,
         }}>
         <TouchableOpacity
           onPress={() => navigation.navigate('yourcourse')}
@@ -551,8 +557,9 @@ const Profile = ({navigation}) => {
             borderRadius: 10,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            width: width * 0.9,
+            // width: width * 0.9,
             // borderWidth: 0.2,
+            width: '100%',
           }}>
           <Text
             style={{
@@ -572,7 +579,7 @@ const Profile = ({navigation}) => {
             borderRadius: 10,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            width: width * 0.9,
+            width: '100%',
             // borderWidth: 0.2,
             borderTopWidth: 1,
             borderBottomWidth: 1,
@@ -603,7 +610,7 @@ const Profile = ({navigation}) => {
             borderRadius: 10,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            width: width * 0.9,
+            width: '100%',
             // borderWidth: 0.2,
           }}>
           <Text

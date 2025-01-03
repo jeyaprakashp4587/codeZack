@@ -19,8 +19,10 @@ import {ScrollView} from 'react-native';
 import {RefreshControl} from 'react-native';
 import BannerAdd from '../Adds/BannerAdd';
 import PragraphText from '../utils/PragraphText';
+import FastImage from 'react-native-fast-image';
+import {useNavigation} from '@react-navigation/native';
 
-const {width} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 const YourCourses = () => {
   const {user, setUser} = useData();
@@ -38,7 +40,7 @@ const YourCourses = () => {
     ],
     [],
   ); // Memoize colors to prevent unnecessary re-calculations
-
+  const navigation = useNavigation();
   const HandleRemoveCourse = useCallback(
     async crName => {
       try {
@@ -81,7 +83,42 @@ const YourCourses = () => {
           <RefreshControl refreshing={refresh} onRefresh={HandleRefresh} />
         }>
         {user?.Courses.length <= 0 ? (
-          <Text style={styles.noCoursesText}>You Have No Courses</Text>
+          <View>
+            <FastImage
+              source={{
+                uri: 'https://i.ibb.co/z2yHfJ0/35496095-2211-w026-n002-2760-B-p1-2760.jpg',
+              }}
+              style={{
+                width: width * 0.9,
+                height: height * 0.3,
+                // aspectRatio: 1,
+                alignSelf: 'center',
+              }}
+              resizeMode="contain"
+            />
+            <Text style={styles.noCoursesText}>You Have No Courses</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('carrerScreen')}
+              style={{
+                borderWidth: 0.8,
+                padding: 15,
+                borderRadius: 50,
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+                borderColor: Colors.lightGrey,
+                marginTop: 20,
+              }}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  letterSpacing: 0.5,
+                  fontSize: width * 0.031,
+                }}>
+                Select course
+              </Text>
+            </TouchableOpacity>
+          </View>
         ) : (
           user?.Courses.map((course, index) => (
             <LinearGradient
@@ -116,21 +153,6 @@ const YourCourses = () => {
             </LinearGradient>
           ))
         )}
-        {/* tutorials */}
-        <PragraphText text="Tutorials" fsize={20} />
-        <Text style={styles.infoText}>
-          <Text style={styles.infoHighlight}>*</Text> Long press the course
-          wrapper to remove the course
-        </Text>
-        <Text style={styles.infoText}>
-          <Text style={styles.infoHighlight}>*</Text> For you to earn 10 points,
-          you must complete Assesments and earn points
-        </Text>
-        <Text style={styles.infoText}>
-          <Text style={styles.infoHighlight}>*</Text> Once You reach 10 points
-          then you will receive a certification and unlock the{' '}
-          <Text style={styles.messageSystem}>(Message System)</Text>.
-        </Text>
       </ScrollView>
       {/* add */}
       <BannerAdd />
@@ -177,6 +199,7 @@ const styles = StyleSheet.create({
   },
   noCoursesText: {
     fontSize: width * 0.04, // 4% of screen width
+    textAlign: 'center',
   },
   infoText: {
     color: Colors.mildGrey,
