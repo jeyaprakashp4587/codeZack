@@ -185,6 +185,28 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
       // console.log(res.data);
     }
   }, []);
+  // handle share post to connections
+  const handleSharePost = useCallback(async (receiverId, postId) => {
+    try {
+      // console.log(receiverId, postId);
+      emitEvent(
+        'SharePostToConnection',
+        {receivingUserId: receiverId, postId},
+        response => {
+          if (response.success) {
+            ToastAndroid.show('post send sucessfully', ToastAndroid.SHORT);
+          } else {
+            ToastAndroid.show(
+              'Something is error,try again',
+              ToastAndroid.SHORT,
+            );
+          }
+        },
+      );
+    } catch (error) {
+      ToastAndroid.show('Something is error,try again', ToastAndroid.SHORT);
+    }
+  }, []);
   // ui render
   return (
     <View
@@ -539,14 +561,28 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             horizontal
             pagingEnabled
             renderItem={({item}) => (
-              <Image
-                source={{uri: item}}
+              <View
                 style={{
-                  width: width * 0.6,
-                  resizeMode: 'contain',
-                  borderRadius: 60,
-                }}
-              />
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  padding: 20,
+                }}>
+                <Image
+                  source={{uri: item}}
+                  style={{
+                    width: width * 0.9,
+                    resizeMode: 'contain',
+                    borderRadius: 10,
+                    // height: 200,
+                    aspectRatio: 1,
+                    marginRight: post?.Images?.length > 1 ? 5 : 0,
+                  }}
+                />
+                {post?.Images?.length > 1 && (
+                  <Text>Scroll to view more images</Text>
+                )}
+              </View>
             )}
           />
         </View>
@@ -588,7 +624,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           {/* bar */}
           <View
             style={{
-              width: 70,
+              width: width * 0.15,
               height: 5,
               backgroundColor: Colors.lightGrey,
               borderRadius: 50,
@@ -603,16 +639,17 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             flexDirection: 'column',
             justifyContent: 'space-between',
             flex: 1,
-            marginHorizontal: 'auto',
           }}>
           {admin && (
             <TouchableOpacity
               onPress={() => HandleDelete(post._id)}
               style={{
-                borderWidth: 1,
+                // borderWidth: 1,
                 borderColor: Colors.veryLightGrey,
                 padding: width * 0.04,
                 borderRadius: 50,
+                width: '100%',
+                backgroundColor: Colors.veryLightGrey,
               }}>
               <Text
                 style={{
@@ -627,10 +664,11 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           <Text
             style={{
               borderColor: Colors.veryLightGrey,
-              borderBottomWidth: 1,
+              // borderBottomWidth: 1,
               paddingVertical: width * 0.04,
               fontSize: width * 0.035,
               letterSpacing: 0.8,
+              textAlign: 'center',
             }}>
             Share to{' '}
           </Text>
@@ -638,7 +676,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             style={{
               justifyContent: 'flex-start',
               alignItems: 'center',
-              borderWidth: 1,
+              // borderWidth: 1,
               flexDirection: 'row',
               columnGap: 10,
             }}>
@@ -646,7 +684,11 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
               horizontal
               data={netWorksList}
               renderItem={({item}) => (
-                <View style={{borderWidth: 0, marginRight: 10}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    handleSharePost(item?.id, post?._id);
+                  }}
+                  style={{borderWidth: 0, marginRight: 10}}>
                   <Image
                     source={{
                       uri: item?.profileImg
@@ -678,7 +720,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                   <Text style={{fontSize: width * 0.025, textAlign: 'center'}}>
                     {item?.firstName}
                   </Text>
-                </View>
+                </TouchableOpacity>
               )}
             />
           </View>

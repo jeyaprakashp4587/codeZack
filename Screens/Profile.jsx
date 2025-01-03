@@ -556,14 +556,14 @@ const Profile = ({navigation}) => {
           }}>
           <Text
             style={{
-              color: Colors.violet,
+              color: Colors.veryDarkGrey,
               // fontWeight: '600',
               letterSpacing: 1,
               fontSize: width * 0.035,
             }}>
             Your Courses
           </Text>
-          <AntDesign name="laptop" size={23} />
+          <AntDesign name="laptop" size={23} color={Colors.veryDarkGrey} />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigation.navigate('Wallet')}
@@ -580,14 +580,18 @@ const Profile = ({navigation}) => {
           }}>
           <Text
             style={{
-              color: '#595959',
+              color: 'Colors.veryDarkGrey',
               // fontWeight: '600',
               letterSpacing: 1,
               fontSize: width * 0.035,
             }}>
             Your Wallet
           </Text>
-          <SimpleLineIcons name="wallet" size={25} color={Colors.mildGrey} />
+          <SimpleLineIcons
+            name="wallet"
+            size={25}
+            color={Colors.veryDarkGrey}
+          />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
@@ -604,14 +608,18 @@ const Profile = ({navigation}) => {
           }}>
           <Text
             style={{
-              color: '#333333',
+              color: Colors.veryDarkGrey,
               // fontWeight: '600',
               letterSpacing: 1,
               fontSize: width * 0.035,
             }}>
             Log out
           </Text>
-          <FontAwesomeIcon icon={faSignOut} size={20} color="#333333" />
+          <FontAwesomeIcon
+            icon={faSignOut}
+            size={20}
+            color={Colors.veryDarkGrey}
+          />
         </TouchableOpacity>
       </View>
       {/* posts */}
@@ -706,7 +714,7 @@ const Profile = ({navigation}) => {
             {/* bar */}
             <View
               style={{
-                width: 70,
+                width: width * 0.15,
                 height: 5,
                 backgroundColor: Colors.lightGrey,
                 borderRadius: 50,
@@ -754,7 +762,12 @@ const Profile = ({navigation}) => {
                       borderRadius: 50,
                     }}
                   />
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      columnGap: 5,
+                    }}>
                     <Text style={{letterSpacing: 2, fontSize: width * 0.03}}>
                       {item?.firstName}
                     </Text>

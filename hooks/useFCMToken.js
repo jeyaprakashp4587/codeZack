@@ -33,7 +33,7 @@ const useFCMToken = () => {
   // Setup foreground notification listener
   const setupForegroundListener = useCallback(() => {
     return messaging().onMessage(async remoteMessage => {
-      console.log('Notification received in foreground:', remoteMessage);
+      // console.log('Notification received in foreground:', remoteMessage);
       // Display local notification
       //   PushNotification.localNotification({
       //     channelId: 'default-channel-id', // Must match with the created channel on Android
