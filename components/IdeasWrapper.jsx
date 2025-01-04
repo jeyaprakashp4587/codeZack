@@ -94,7 +94,8 @@ const IdeasWrapper = () => {
               overflow: 'hidden',
             }}>
             <Ripple
-              style={{width: '100%', height: '100%', justifyContent: 'center'}}>
+              style={{width: '100%', height: '100%', justifyContent: 'center'}}
+              onPress={() => item.function()}>
               <Text
                 style={{
                   textAlign: 'center',

@@ -264,6 +264,7 @@ const UserProfile = () => {
             rowGap: 5,
             justifyContent: 'flex-start',
             paddingHorizontal: width * 0.05,
+            // backgroundColor: 'white',
           }}>
           <Image
             source={{
@@ -280,15 +281,16 @@ const UserProfile = () => {
               borderColor: 'white',
               borderWidth: 5,
               resizeMode: 'cover',
+              backgroundColor: 'white',
             }}
           />
           {/* online dot indicator */}
           <View
             style={{
               position: 'absolute',
-              top: height * 0.09,
+              top: height * 0.1,
               zIndex: 10,
-              left: width * 0.2,
+              left: width * 0.23,
               padding: width * 0.017,
               backgroundColor: selectedUser?.onlineStatus ? 'Green' : 'red',
               borderRadius: 50,

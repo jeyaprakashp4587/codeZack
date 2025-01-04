@@ -30,7 +30,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Snackbar} from 'react-native-paper';
 
 const NotesFeed = ({refresh}) => {
-  const {user, setSelectedUser} = useData();
+  const {user, setSelectedUser, setUser} = useData();
   const navigation = useNavigation();
   const {width, height} = Dimensions.get('window');
   const scrollAnimation = useRef(new Animated.Value(0)).current;
@@ -91,6 +91,7 @@ const NotesFeed = ({refresh}) => {
         await AsyncStorage.setItem('lastUploadDate', todayDateKey);
         fetchConnectionNotes();
         setUploadNotesModal(false);
+        setNoteText('');
         ToastAndroid.show('Note uploaded successfully!', ToastAndroid.SHORT);
       } else {
         ToastAndroid.show('Failed to upload note', ToastAndroid.SHORT);
@@ -135,7 +136,7 @@ const NotesFeed = ({refresh}) => {
       if (response.data.success) {
         setShowNotesModel(false);
         fetchConnectionNotes();
-
+        setUser(prev => ({...prev, Notes: response.data.Notes}));
         await AsyncStorage.removeItem('lastUploadDate');
       }
     } catch (error) {
@@ -231,7 +232,7 @@ const NotesFeed = ({refresh}) => {
                     <Image
                       source={{uri: item?.NotesSenderProfile}}
                       style={{
-                        height: height * 0.09,
+                        height: height * 0.085,
                         aspectRatio: 1,
                         borderRadius: 50,
                       }}
@@ -244,7 +245,7 @@ const NotesFeed = ({refresh}) => {
               style={{
                 width: containerWidth,
                 position: 'absolute',
-                zIndex: 100,
+                zIndex: 10,
                 top: 0,
                 bottom: 0,
                 backgroundColor: Colors.white,
