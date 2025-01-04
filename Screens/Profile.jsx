@@ -729,7 +729,7 @@ const Profile = ({navigation}) => {
             />
             <Text
               style={{
-                fontSize: width * 0.045,
+                fontSize: width * 0.04,
                 marginBottom: height * 0.03,
                 letterSpacing: 2,
                 textAlign: 'center',
@@ -760,6 +760,9 @@ const Profile = ({navigation}) => {
                     marginTop: 10,
                     alignItems: 'center',
                     columnGap: 15,
+                    borderBottomWidth: 0.9,
+                    paddingVertical: 10,
+                    borderColor: Colors.veryLightGrey,
                   }}>
                   <Image
                     source={{uri: item?.profileImg}}
@@ -773,10 +776,10 @@ const Profile = ({navigation}) => {
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',
-                      columnGap: 5,
+                      columnGap: 3,
                     }}>
                     <Text style={{letterSpacing: 2, fontSize: width * 0.03}}>
-                      {item?.firstName}
+                      {item?.firstName.trim()}
                     </Text>
                     <Text style={{letterSpacing: 2, fontSize: width * 0.03}}>
                       {item?.lastName}

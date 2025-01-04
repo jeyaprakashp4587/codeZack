@@ -416,7 +416,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             />
             <Text
               style={{
-                fontSize: width * 0.045,
+                fontSize: width * 0.04,
                 marginBottom: height * 0.01,
                 letterSpacing: 2,
                 textAlign: 'center',
@@ -510,7 +510,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                         letterSpacing: 1,
                         fontSize: width * 0.033,
                       }}>
-                      {item?.commentedBy?.firstName} {'  '}
+                      {item?.commentedBy?.firstName}{' '}
                       {item?.commentedBy?.LastName}
                     </Text>
                     <Text

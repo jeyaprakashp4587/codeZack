@@ -74,7 +74,7 @@ const NotesFeed = ({refresh}) => {
       const lastUploadDate = await AsyncStorage.getItem('lastUploadDate');
       // Check if the user has already posted today
       if (lastUploadDate === todayDateKey) {
-        console.log('data not valid');
+        // console.log('data not valid');
         ToastAndroid.show(
           'You can only upload one note per day. Try again tomorrow!',
           ToastAndroid.SHORT,
@@ -125,13 +125,13 @@ const NotesFeed = ({refresh}) => {
     }
   }, [user, refresh]);
   // snack visible state
-  const [snackVisible, setSnackVisible] = useState(false);
+
   // delete notes
-  const handleDeleteNotes = useCallback(async () => {
+  const handleDeleteNotes = useCallback(async noteId => {
     try {
       const response = await axios.post(`${profileApi}/Post/deleteNote`, {
         userId: user?._id,
-        noteId: selectedNote?.NotesId,
+        noteId,
       });
       if (response.data.success) {
         setShowNotesModel(false);
@@ -305,17 +305,14 @@ const NotesFeed = ({refresh}) => {
         )}
       />
       {/* Show notes modal */}
-      <Modal
-        visible={showNotesModel}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={() => setShowNotesModel(false)}>
+      <Modal visible={showNotesModel} animationType="slide">
         <BlurView
           style={{
             flex: 1,
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
+            // backgroundColor: 'white',
           }}
           blurAmount={2}
           blurType="light">
@@ -379,7 +376,9 @@ const NotesFeed = ({refresh}) => {
                 </Text>
               </View>
               <Ripple
-                onPress={() => setSnackVisible(true)}
+                onPress={() => {
+                  handleDeleteNotes(selectedNote?.NotesId);
+                }}
                 style={{
                   display:
                     user?._id == selectedNote?.NotesSenderId ? 'flex' : 'none',
@@ -396,17 +395,6 @@ const NotesFeed = ({refresh}) => {
               {selectedNote?.NotesText}
             </Text>
           </TouchableOpacity>
-          <Snackbar
-            visible={snackVisible}
-            onDismiss={() => setSnackVisible(!snackVisible)}
-            action={{
-              label: 'Delete',
-              onPress: () => {
-                handleDeleteNotes();
-              },
-            }}>
-            Are you sure to want delete
-          </Snackbar>
         </BlurView>
       </Modal>
       {/* Upload notes modal */}
