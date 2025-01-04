@@ -49,6 +49,10 @@ import {
   TouchableRipple,
 } from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const Profile = ({navigation}) => {
   const {user, setUser, setSelectedUser} = useData();
@@ -281,8 +285,8 @@ const Profile = ({navigation}) => {
           onPress={() => HandleChangeProfile('cover')}
           style={{
             position: 'absolute',
-            right: width * 0.05,
-            top: height * 0.03,
+            right: wp('5%'),
+            top: hp('4%'),
             zIndex: 10,
           }}>
           <FontAwesomeIcon icon={faEdit} size={20} color="orange" />
@@ -305,7 +309,7 @@ const Profile = ({navigation}) => {
         )}
         <View
           style={{
-            top: -50,
+            top: hp('-7%'),
             width: '100%',
             flexDirection: 'column',
             rowGap: 5,
@@ -317,7 +321,7 @@ const Profile = ({navigation}) => {
             onPress={() => HandleChangeProfile('profile')}
             style={{
               position: 'absolute',
-              left: width * 0.23,
+              left: wp('23%'),
               top: height * 0.099,
               zIndex: 10,
             }}>
@@ -350,8 +354,8 @@ const Profile = ({navigation}) => {
             onPress={() => setAboutUpdate(!aboutUpdate)}
             style={{
               position: 'absolute',
-              right: width * 0.05,
-              top: height * 0.08,
+              right: wp('5%'),
+              top: hp('10%'),
             }}>
             <FontAwesomeIcon icon={faEdit} size={20} />
           </TouchableOpacity>

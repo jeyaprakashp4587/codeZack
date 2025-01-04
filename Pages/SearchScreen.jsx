@@ -118,7 +118,7 @@ const SearchScreen = ({navigation}) => {
                 marginTop: 10,
                 marginBottom: 10,
                 alignSelf: 'center',
-                elevation: 3,
+                elevation: 2,
                 backgroundColor: 'white',
                 borderRadius: 5,
               }}>
@@ -128,7 +128,6 @@ const SearchScreen = ({navigation}) => {
                   width: 55,
                   height: 55,
                   borderRadius: 50,
-                  // resizeMode: 'contain',
                 }}
               />
               <View style={{flex: 1, flexDirection: 'column', paddingLeft: 10}}>
@@ -150,9 +149,17 @@ const SearchScreen = ({navigation}) => {
                   setSelectedUser(item._id);
                   updateSearchHistory(item);
                 }}
-                style={{backgroundColor: Colors.violet, borderRadius: 10}}>
+                style={{
+                  borderRadius: 50,
+                  borderWidth: 0.6,
+                  borderColor: Colors.violet,
+                }}>
                 <Text
-                  style={{color: 'white', padding: 10, paddingHorizontal: 15}}>
+                  style={{
+                    padding: 5,
+                    paddingHorizontal: 25,
+                    color: Colors.violet,
+                  }}>
                   View
                 </Text>
               </Ripple>

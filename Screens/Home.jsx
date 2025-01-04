@@ -375,16 +375,19 @@ const Home = () => {
             justifyContent: 'space-between',
             paddingHorizontal: 15,
             flexWrap: 'wrap',
+            paddingLeft: 0,
           }}>
           <Text
             style={{
-              color: Colors.veryDarkGrey,
-              fontSize: width * 0.035,
+              color: Colors.white,
+              fontSize: width * 0.025,
               lineHeight: 30,
               letterSpacing: 1,
-              paddingVertical: 10,
-              fontWeight: '600',
-              // fontWeight: "700",
+              // paddingVertical: 2,
+              paddingHorizontal: 15,
+              backgroundColor: Colors.violet,
+              borderTopRightRadius: 20,
+              borderBottomRightRadius: 20,
             }}>
             {getCurrentGreeting()} {user?.firstName}!
           </Text>
@@ -423,7 +426,6 @@ const Home = () => {
             </Pressable>
           </View>
         </View>
-
         {/* notesFeed */}
         <NotesFeed refresh={suggestRefresh} />
         {/* search bar */}
@@ -456,15 +458,6 @@ const Home = () => {
         </TouchableOpacity>
         {/* Ideas wrapper */}
         <IdeasWrapper />
-        {/* tasks */}
-        <Suspense
-          fallback={
-            <View style={{margin: 15}}>
-              <Skeleton width="100%" height={height * 0.2} radius={10} />
-            </View>
-          }>
-          <Tasks />
-        </Suspense>
         {/* companies */}
         <Suspense
           fallback={
@@ -508,6 +501,15 @@ const Home = () => {
               </TouchableOpacity>
             </LinearGradient>
           </View>
+        </Suspense>
+        {/* tasks */}
+        <Suspense
+          fallback={
+            <View style={{margin: 15}}>
+              <Skeleton width="100%" height={height * 0.2} radius={10} />
+            </View>
+          }>
+          <Tasks />
         </Suspense>
         {/* friends suggestions */}
         <Suspense

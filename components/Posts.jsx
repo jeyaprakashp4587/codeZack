@@ -28,6 +28,10 @@ import useSocketEmit from '../Socket/useSocketEmit';
 import {SocketData} from '../Socket/SocketContext';
 import RBSheet from 'react-native-raw-bottom-sheet';
 const {width, height} = Dimensions.get('window');
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const initialText = post?.PostText;
@@ -637,7 +641,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           style={{
             padding: 20,
             flexDirection: 'column',
-            justifyContent: 'space-between',
+            // justifyContent: 'space-between',
             flex: 1,
           }}>
           {admin && (
@@ -696,7 +700,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                         : 'https://i.ibb.co/3T4mNMm/man.png',
                     }}
                     style={{
-                      width: width * 0.14,
+                      width: width * 0.16,
                       // height: height * 0.07,
                       aspectRatio: 1,
                       borderRadius: 50,
@@ -707,9 +711,9 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                   <View
                     style={{
                       position: 'absolute',
-                      top: height * 0.05,
+                      top: hp('5.5%'),
                       zIndex: 10,
-                      left: width * 0.09,
+                      left: wp('10%'),
                       padding: width * 0.017,
                       backgroundColor: item?.onlineStatus ? 'green' : 'red',
                       borderRadius: 50,

@@ -41,6 +41,10 @@ const SuggestionWapper = ({refresh}) => {
   const HandleShowMore = useCallback(async () => {
     Navigation.navigate('allUserPage');
   }, []);
+  // render ui
+  if (profiles.length <= 0) {
+    return <View></View>;
+  }
   return (
     <View style={{flexDirection: 'column', rowGap: 5}}>
       <View

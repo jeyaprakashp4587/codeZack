@@ -27,7 +27,10 @@ import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {Snackbar} from 'react-native-paper';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const NotesFeed = ({refresh}) => {
   const {user, setSelectedUser, setUser} = useData();
@@ -254,7 +257,7 @@ const NotesFeed = ({refresh}) => {
                 borderWidth: 1,
                 borderRadius: 50,
                 borderColor: Colors.lightGrey,
-                left: -width * 0.001,
+                left: wp('1%'),
               }}>
               {/* dot1 effect */}
               <View
@@ -263,16 +266,18 @@ const NotesFeed = ({refresh}) => {
                   // height: 5,
                   backgroundColor: 'white',
                   position: 'absolute',
-                  bottom: -height * 0.0055,
+                  bottom: hp('-.6%'),
                   padding: 5,
                   zIndex: 10,
                   borderRadius: 50,
-                  left: width * 0.014,
+                  left: wp('.6%'),
                   borderColor: Colors.mildGrey,
                   borderWidth: 1,
                   borderTopWidth: 0,
                   borderLeftWidth: 0,
                   borderRightWidth: 0,
+                  borderBottomRightRadius: 0,
+                  borderTopLeftRadius: 0,
                 }}
               />
               {/* dot2 effect */}

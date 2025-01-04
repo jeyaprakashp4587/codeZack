@@ -116,22 +116,23 @@ const DailyClaim = () => {
       <Ripple
         onPress={handleCheckIn}
         style={{
-          borderRadius: 10,
           flexDirection: 'row',
           alignItems: 'center',
           columnGap: 5,
-          borderWidth: 0.9,
           borderColor: Colors.lightGrey,
-          height: height * 0.03,
+          // height: height * 0.035,
           paddingHorizontal: 10,
           justifyContent: 'center',
           backgroundColor: 'white',
+          borderWidth: 0.3,
+          borderRadius: 50,
         }}>
         <Text
           style={{
             color: '#14213d',
             letterSpacing: 2,
             fontSize: width * 0.02,
+            paddingVertical: 6,
           }}>
           Daily check in {!isDisabled && timer > 0 ? timer : ''}
         </Text>
