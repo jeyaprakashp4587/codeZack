@@ -60,6 +60,10 @@ import Skeleton from '../Skeletons/Skeleton';
 import useFCMToken from '../hooks/useFCMToken';
 import IdeasWrapper from '../components/IdeasWrapper';
 import NotesFeed from '../components/NotesFeed';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
 
@@ -315,8 +319,8 @@ const Home = () => {
                 borderRadius: 50,
                 padding: 5,
                 fontSize: 8,
-                top: -height * 0.017,
-                right: width * 0.12,
+                top: hp('-1.6%'),
+                right: wp('10%'),
                 paddingHorizontal: 8,
               }}>
               <Fontawesome name="rupee" color="white" size={8} />

@@ -187,8 +187,8 @@ const NotesFeed = ({refresh}) => {
             position: 'absolute',
             bottom: 0,
             backgroundColor: 'white',
-            right: width * 0.02,
-            top: height * 0.068,
+            right: wp('2.5%'),
+            top: hp('6.8%'),
             // borderWidth: 1,
           }}>
           <FontAwesomeIcon icon={faPlus} size={17} color={Colors.lightGrey} />
