@@ -12,6 +12,8 @@ import {useData} from '../Context/Contexter';
 import {Colors} from '../constants/Colors';
 import {debounce} from 'lodash';
 import Entypo from 'react-native-vector-icons/Entypo';
+import axios from 'axios';
+import {functionApi} from '../Api';
 
 const DailyClaim = () => {
   const {width, height} = Dimensions.get('window');
@@ -99,6 +101,9 @@ const DailyClaim = () => {
     const now = moment().toISOString();
     await AsyncStorage.setItem('lastCheckIn', now);
     const result = await AddWallet(user?._id, 1, setUser);
+    await axios.post(`${functionApi}/Wallet/increaseClaimstreak`, {
+      userId: user?._id,
+    });
     if (result === 'ok') {
       await showIntrestAdd();
       ToastAndroid.show('You earned 1 rupee!', ToastAndroid.SHORT);

@@ -388,7 +388,7 @@ const Home = () => {
               lineHeight: 30,
               letterSpacing: 1,
               // paddingVertical: 2,
-              paddingHorizontal: 15,
+              paddingHorizontal: wp('5%'),
               backgroundColor: Colors.violet,
               borderTopRightRadius: 20,
               borderBottomRightRadius: 20,

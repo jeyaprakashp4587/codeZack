@@ -92,6 +92,7 @@ const Task = () => {
     ],
     [], // No dependencies, so the array is only initialized once
   );
+  console.log(user?.DailyCalimStreak);
 
   // Retrieve user data (assumed to contain information about the user's progress)
 
