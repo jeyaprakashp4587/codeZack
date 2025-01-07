@@ -11,10 +11,8 @@ import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Colors, pageView} from '../constants/Colors';
 import {useData} from '../Context/Contexter';
 import axios from 'axios';
-import {loginApi} from '../Api';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import TopicsText from '../utils/TopicsText';
-import Skeleton from '../Skeletons/Skeleton';
+import {profileApi} from '../Api';
+import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 const {width, height} = Dimensions.get('window');
 const InterViewDetails = () => {
@@ -37,10 +35,13 @@ const InterViewDetails = () => {
   // get particular company
   const [company, setCompany] = useState();
   const getParticularCompany = useCallback(async () => {
-    const res = await axios.post(`${loginApi}/InterView/getParticularCompany`, {
-      // selectedcompany in initlaly have company name then its have whole compant data
-      companyName: selectedCompany || selectedCompany?.company_name,
-    });
+    const res = await axios.post(
+      `${profileApi}/InterView/getParticularCompany`,
+      {
+        // selectedcompany in initlaly have company name then its have whole compant data
+        companyName: selectedCompany || selectedCompany?.company_name,
+      },
+    );
     if (res.status == 200) {
       setCompany(res.data);
       setLoad(false);
@@ -59,7 +60,7 @@ const InterViewDetails = () => {
   const handleAddInterview = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await axios.post(`${loginApi}/InterView/addInterView`, {
+      const res = await axios.post(`${profileApi}/InterView/addInterView`, {
         companyName: selectedCompany?.company_name || selectedCompany,
         userId: user?._id,
       });

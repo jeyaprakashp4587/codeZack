@@ -35,7 +35,7 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
-import {functionApi, loginApi, profileApi} from '../Api';
+import {loginApi, profileApi} from '../Api';
 const SuggestionWapper = React.lazy(() =>
   import('../components/SuggestionWapper'),
 );
@@ -248,26 +248,9 @@ const Home = () => {
   useEffect(() => {
     InteractionManager.runAfterInteractions(async () => {
       await getNotifications();
-      await setProfilePic();
       checkButtonStatus();
     });
   }, []);
-  // --- set profile
-  const setProfilePic = useCallback(async () => {
-    try {
-      if (!user?.Images || !user?.Images?.profile || user?.Images?.coverImg) {
-        const res = await axios.post(
-          `${loginApi}/Profile/setProfile/${user?._id}`,
-        );
-        if (res.status === 200) {
-          setUser(prev => ({...prev, Images: res.data.Images}));
-        }
-      }
-    } catch (error) {
-      console.error('Failed to set profile picture:', error);
-    }
-  }, [user?._id, setUser]);
-
   // render ui after load
   if (!UiLoading) return <HomeSkeleton />;
 

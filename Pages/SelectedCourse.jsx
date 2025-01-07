@@ -18,7 +18,7 @@ import Skeleton from '../Skeletons/Skeleton';
 import Ripple from 'react-native-material-ripple';
 import TopicsText from '../utils/TopicsText';
 import PragraphText from '../utils/PragraphText';
-import {functionApi} from '../Api';
+import {challengesApi} from '../Api';
 import axios from 'axios';
 import Actitivity from '../hooks/ActivityHook';
 import AddWallet from '../hooks/AddWallet';
@@ -35,7 +35,7 @@ const SelectedCourse = ({navigation}) => {
     setLoading(true);
     try {
       // Send request to add course
-      const res = await axios.post(`${functionApi}/Courses/addCourse`, {
+      const res = await axios.post(`${challengesApi}/Courses/addCourse`, {
         courseName: selectedCourse.name,
         userId: user?._id,
       });

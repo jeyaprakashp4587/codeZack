@@ -1,9 +1,9 @@
 import axios from 'axios';
-import {Api} from '../Api';
+import {functionApi} from '../Api';
 
 const AddWallet = async (userId, price, setUser) => {
   try {
-    const res = await axios.post(`${Api}/Wallet/AddWallet/${userId}`, {
+    const res = await axios.post(`${functionApi}/Wallet/AddWallet/${userId}`, {
       Price: price,
     });
     if (res.status == 200) {

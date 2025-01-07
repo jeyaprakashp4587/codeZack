@@ -12,7 +12,7 @@ import {
 import {Colors, pageView} from '../constants/Colors';
 import TopicsText from '../utils/TopicsText';
 import HrLine from '../utils/HrLine';
-import {Api} from '../Api';
+import {functionApi} from '../Api';
 import axios from 'axios';
 import {useData} from '../Context/Contexter';
 import RelativeTime from '../components/RelativeTime';
@@ -34,7 +34,7 @@ const Notifications = () => {
   const getNotifications = useCallback(async () => {
     try {
       const res = await axios.get(
-        `${Api}/Notifications/getNotifications/${user?._id}`,
+        `${functionApi}/Notifications/getNotifications/${user?._id}`,
       );
       if (res.data) {
         setNotificationList(res.data);
@@ -55,7 +55,7 @@ const Notifications = () => {
         try {
           // Mark the notification as seen
           await axios.patch(
-            `${Api}/Notifications/markAsSeen/${user?._id}/${item.NotificationId}`,
+            `${functionApi}/Notifications/markAsSeen/${user?._id}/${item.NotificationId}`,
           );
           setNotificationList(prevList =>
             prevList.map(notification =>

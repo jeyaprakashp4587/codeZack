@@ -16,7 +16,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import WebView from 'react-native-webview';
 import BannerAdd from '../Adds/BannerAdd';
 import axios from 'axios';
-import {loginApi} from '../Api';
+import {profileApi} from '../Api';
 import Actitivity from '../hooks/ActivityHook';
 import Skeleton from '../Skeletons/Skeleton';
 import HeadingText from '../utils/HeadingText';
@@ -81,7 +81,7 @@ const InterviewPrep = () => {
       return;
     }
     try {
-      const response = await axios.post(`${loginApi}/InterView/submitTask`, {
+      const response = await axios.post(`${profileApi}/InterView/submitTask`, {
         userId: user?._id,
         companyName: selectedCompany?.company_name || selectedCompany,
       });

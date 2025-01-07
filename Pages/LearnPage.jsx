@@ -10,7 +10,7 @@ import BannerAdd from '../Adds/BannerAdd';
 import AddWallet from '../hooks/AddWallet';
 import {useIsFocused} from '@react-navigation/native';
 import axios from 'axios';
-import {profileApi} from '../Api';
+import {challengesApi} from '../Api';
 
 const {width, height} = Dimensions.get('window');
 
@@ -62,7 +62,7 @@ const LearnPage = () => {
   const sendSpendTime = useCallback(async () => {
     const totalMinutes = hours * 60 + minutes + Math.floor(seconds / 60); // Convert time to total minutes
     try {
-      const res = await axios.post(`${profileApi}/Wallet/saveSpendTime`, {
+      const res = await axios.post(`${challengesApi}/Wallet/saveSpendTime`, {
         userId: user?._id,
         Time: totalMinutes,
       });

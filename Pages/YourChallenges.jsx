@@ -6,7 +6,7 @@ import {ScrollView} from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
 import HeadingText from '../utils/HeadingText';
 import HrLine from '../utils/HrLine';
-import {profileApi} from '../Api';
+import {challengesApi} from '../Api';
 import axios from 'axios';
 import {useData} from '../Context/Contexter';
 const {width, height} = Dimensions.get('window');
@@ -29,7 +29,7 @@ const YourChallenges = props => {
   const getChallenges = async option => {
     try {
       const res = await axios.post(
-        `${profileApi}/Challenges/getUserChallenge/${user?._id}`,
+        `${challengesApi}/Challenges/getUserChallenge/${user?._id}`,
         {option: option},
       );
       if (res.data) {

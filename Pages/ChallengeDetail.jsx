@@ -23,7 +23,7 @@ import TopicsText from '../utils/TopicsText';
 import Button from '../utils/Button';
 import PragraphText from '../utils/PragraphText';
 import axios from 'axios';
-import {Api} from '../Api';
+import {challengesApi} from '../Api';
 import {faImage} from '@fortawesome/free-regular-svg-icons';
 import Ripple from 'react-native-material-ripple';
 import {
@@ -35,7 +35,6 @@ import {
 import {launchImageLibrary} from 'react-native-image-picker';
 import {storage} from '../Firebase/Firebase';
 import moment from 'moment';
-import useSocket from '../Socket/useSocket';
 import useSocketEmit from '../Socket/useSocketEmit';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import WebView from 'react-native-webview';
@@ -80,7 +79,7 @@ const ChallengeDetail = () => {
   const checkChallengeStatus = useCallback(async () => {
     try {
       const res = await axios.post(
-        `${Api}/Challenges/checkChallengeStatus/${user?._id}`,
+        `${challengesApi}/Challenges/checkChallengeStatus/${user?._id}`,
         {
           ChallengeName:
             selectedChallenge?.ChallengeName || selectedChallenge?.title,
@@ -165,7 +164,7 @@ const ChallengeDetail = () => {
     if (uploadForm.GitRepo && uploadForm.LiveLink && images.length > 0) {
       try {
         const res = await axios.post(
-          `${Api}/Challenges/uploadChallenge/${user?._id}`,
+          `${challengesApi}/Challenges/uploadChallenge/${user?._id}`,
           {
             GitRepo: uploadForm.GitRepo,
             LiveLink: uploadForm.LiveLink,
@@ -206,7 +205,7 @@ const ChallengeDetail = () => {
 
   const handleUploadPost = async () => {
     try {
-      const res = await axios.post(`${Api}/Post/uploadPost`, {
+      const res = await axios.post(`${challengesApi}/Post/uploadPost`, {
         userId: user?._id,
         Images: images,
         postText: postText[Math.floor(Math.random() * postText.length)],
@@ -235,7 +234,7 @@ const ChallengeDetail = () => {
     show();
     setChallengeStatus('pending');
     try {
-      const res = await axios.post(`${Api}/Challenges/addChallenge`, {
+      const res = await axios.post(`${challengesApi}/Challenges/addChallenge`, {
         userId: user._id,
         ChallengeName: chName,
         ChallengeType: selectedChallenge.technologies[0].name,

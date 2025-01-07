@@ -12,7 +12,7 @@ import {Colors, pageView} from '../constants/Colors';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import TopicsText from '../utils/TopicsText';
 import axios from 'axios';
-import {Api} from '../Api';
+import {challengesApi} from '../Api';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import PragraphText from '../utils/PragraphText';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -27,7 +27,7 @@ const VideoTutorials = () => {
   const [selectedTool, setSelectedTool] = useState();
   //
   const getAllTutorials = useCallback(async () => {
-    const res = await axios.get(`${Api}/Challenges/getAllTutorials`);
+    const res = await axios.get(`${challengesApi}/Challenges/getAllTutorials`);
     if (res.status == 200) {
       setAllTutorials(res.data.tutorials);
       // console.log(res.data);

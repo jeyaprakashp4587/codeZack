@@ -20,7 +20,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {useData} from '../Context/Contexter';
 import {useNavigation} from '@react-navigation/native';
-import {functionApi, loginApi} from '../Api';
+import {loginApi} from '../Api';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
@@ -74,7 +74,7 @@ const Login = () => {
     }
 
     try {
-      const res = await axios.post(`${functionApi}/LogIn/signIn`, form);
+      const res = await axios.post(`${loginApi}/LogIn/signIn`, form);
 
       // Check if login was successful
       if (res.data?.user) {

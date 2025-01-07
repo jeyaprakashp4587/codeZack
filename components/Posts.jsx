@@ -18,7 +18,7 @@ import axios from 'axios';
 import {useData} from '../Context/Contexter';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import RelativeTime from './RelativeTime';
-import {Api, profileApi} from '../Api';
+import {profileApi} from '../Api';
 import moment from 'moment';
 import {useNavigation} from '@react-navigation/native';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
@@ -66,9 +66,12 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const HandleDelete = useCallback(
     async postId => {
       try {
-        const res = await axios.post(`${Api}/Post/deletePost/${user?._id}`, {
-          postId,
-        });
+        const res = await axios.post(
+          `${profileApi}/Post/deletePost/${user?._id}`,
+          {
+            postId,
+          },
+        );
         if (res.status == 200) {
           setUser(prev => ({...prev, Posts: res.data.Posts}));
           ToastAndroid.show('Post deleted sucessfully', ToastAndroid.SHORT);
@@ -92,10 +95,13 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
     async postId => {
       setLiked(true);
       try {
-        const response = await axios.post(`${Api}/Post/likePost/${postId}`, {
-          userId: user?._id,
-          LikedTime: moment().format('YYYY-MM-DDTHH:mm:ss'),
-        });
+        const response = await axios.post(
+          `${profileApi}/Post/likePost/${postId}`,
+          {
+            userId: user?._id,
+            LikedTime: moment().format('YYYY-MM-DDTHH:mm:ss'),
+          },
+        );
         if (response.status === 200) {
           setLikeCount(prev => prev + 1);
           emitEvent('LikeNotiToUploader', {
@@ -115,9 +121,12 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
     async postId => {
       setLiked(false);
       try {
-        const res = await axios.post(`${Api}/Post/unlikePost/${postId}`, {
-          userId: user._id,
-        });
+        const res = await axios.post(
+          `${profileApi}/Post/unlikePost/${postId}`,
+          {
+            userId: user._id,
+          },
+        );
         if (res.status === 200) {
           setLikeCount(prev => prev - 1);
         }
@@ -132,11 +141,14 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
     if (newComment.trim() === '') return;
 
     try {
-      const res = await axios.post(`${Api}/Post/commentPost/${post._id}`, {
-        userId: user._id,
-        commentText: newComment,
-        commentTime: moment().format('YYYY-MM-DDTHH:mm:ss'),
-      });
+      const res = await axios.post(
+        `${profileApi}/Post/commentPost/${post._id}`,
+        {
+          userId: user._id,
+          commentText: newComment,
+          commentTime: moment().format('YYYY-MM-DDTHH:mm:ss'),
+        },
+      );
 
       if (res.status === 200) {
         // console.log(res.data.comment);
@@ -155,7 +167,9 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
 
   const handleShowLikedUsers = useCallback(async () => {
     try {
-      const res = await axios.get(`${Api}/Post/getLikedUsers/${post._id}`);
+      const res = await axios.get(
+        `${profileApi}/Post/getLikedUsers/${post._id}`,
+      );
       if (res.status === 200) {
         setLikedUsers(res.data.likedUsers);
         setModalContentType('likes');
@@ -170,7 +184,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const handleShowComments = useCallback(async () => {
     setModalContentType('comments');
     setIsModalVisible(true);
-    const res = await axios.get(`${Api}/Post/getComments/${post?._id}`);
+    const res = await axios.get(`${profileApi}/Post/getComments/${post?._id}`);
     if (res.data) {
       // console.log(res.data);
       setComments(res.data.comments);

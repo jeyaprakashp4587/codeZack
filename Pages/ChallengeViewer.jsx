@@ -11,7 +11,7 @@ import {
 
 import {useData} from '../Context/Contexter';
 import axios from 'axios';
-import {functionApi} from '../Api';
+import {challengesApi} from '../Api';
 import TopicsText from '../utils/TopicsText';
 import {Colors} from '../constants/Colors';
 import WebView from 'react-native-webview';
@@ -40,7 +40,7 @@ const ChallengeViewer = () => {
   const getChallenge = async () => {
     try {
       const res = await axios.get(
-        `${functionApi}/Challenges/getCompletedChallenge/${user?._id}/${selectedChallenge?.title}`,
+        `${challengesApi}/Challenges/getCompletedChallenge/${user?._id}/${selectedChallenge?.title}`,
       );
       if (res.data) {
         setChallenge(res.data);

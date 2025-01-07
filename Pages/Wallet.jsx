@@ -24,7 +24,7 @@ import {faGooglePay} from '@fortawesome/free-brands-svg-icons/faGooglePay';
 import Ripple from 'react-native-material-ripple';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import axios from 'axios';
-import {Api} from '../Api';
+import {profileApi} from '../Api';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 import BannerAdd from '../Adds/BannerAdd';
@@ -73,7 +73,7 @@ const Wallet = () => {
       return;
     }
     try {
-      const response = await axios.post(`${Api}/Wallet/withdrawal`, {
+      const response = await axios.post(`${profileApi}/Wallet/withdrawal`, {
         userId: user?._id,
         userName: `${user?.firstName} ${user?.LastName}`,
         accountName: user?.Wallet?.GpayAccount?.GpayAccountName,
@@ -107,7 +107,7 @@ const Wallet = () => {
     // console.log(GpayAccountName);
     if (GpayAccountName && GpayUpiId) {
       const res = await axios.post(
-        `${Api}/Wallet/ChangeGpayDetails/${user?._id}`,
+        `${profileApi}/Wallet/ChangeGpayDetails/${user?._id}`,
         {
           GpayAccountName,
           GpayUpiId,

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import axios from 'axios';
-import {loginApi} from '../Api';
+import {profileApi} from '../Api';
 import {useData} from '../Context/Contexter';
 import Posts from './Posts';
 import HeadingText from '../utils/HeadingText';
@@ -37,7 +37,7 @@ const PostFeed = () => {
       setLoadingMore(true);
       try {
         const res = await axios.get(
-          `${loginApi}/Post/getConnectionPosts/${user?._id}?skip=${
+          `${profileApi}/Post/getConnectionPosts/${user?._id}?skip=${
             pageNumber * POSTS_PER_PAGE
           }&limit=${POSTS_PER_PAGE}`,
         );

@@ -12,7 +12,7 @@ import {Colors, pageView} from '../constants/Colors';
 import HeadingText from '../utils/HeadingText';
 import axios from 'axios';
 import {debounce} from 'lodash';
-import {Api} from '../Api';
+import {functionApi} from '../Api';
 import {FlatList} from 'react-native';
 import {Dimensions} from 'react-native';
 import Ripple from 'react-native-material-ripple';
@@ -47,9 +47,12 @@ const SearchScreen = ({navigation}) => {
   // Fetch username data based on input
   const getUserName = useCallback(async () => {
     try {
-      const res = await axios.post(`${Api}/Search/getUserName/${user?._id}`, {
-        userName: userName.current,
-      });
+      const res = await axios.post(
+        `${functionApi}/Search/getUserName/${user?._id}`,
+        {
+          userName: userName.current,
+        },
+      );
       if (res.data) {
         setUsers(res.data);
         setLoading(false);

@@ -8,7 +8,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
-import {loginApi} from '../Api';
+import {functionApi} from '../Api';
 import axios from 'axios';
 import {Colors} from '../constants/Colors';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -36,7 +36,7 @@ const AllUsersPage = () => {
     try {
       setIsLoading(true);
       const response = await axios.get(
-        `${loginApi}/suggestions/getAllSuggestions/${user?._id}?skip=${skip}&limit=${limit}`,
+        `${functionApi}/suggestions/getAllSuggestions/${user?._id}?skip=${skip}&limit=${limit}`,
       );
       const {data, hasMore} = response.data;
       setSuggestions(prev => [...prev, ...data]);

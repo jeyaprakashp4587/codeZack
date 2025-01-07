@@ -15,7 +15,7 @@ import HeadingText from '../utils/HeadingText';
 import {useData} from '../Context/Contexter';
 import AddWallet from '../hooks/AddWallet';
 import axios from 'axios';
-import {loginApi} from '../Api';
+import {functionApi} from '../Api';
 
 const Task = () => {
   const {user, setUser} = useData();
@@ -190,7 +190,7 @@ const Task = () => {
   const [refresh, setRefresh] = useState(false);
   const handleRefresh = useCallback(async () => {
     setRefresh(true);
-    const res = await axios.post(`${loginApi}/Login/getUser`, {
+    const res = await axios.post(`${functionApi}/Login/getUser`, {
       userId: user?._id,
     });
     if (res.data) {

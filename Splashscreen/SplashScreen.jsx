@@ -7,10 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
-
 import {Colors, pageView} from '../constants/Colors';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCode} from '@fortawesome/free-solid-svg-icons';
 // import ProgressBar from '../utils/ProgressBar';
 import {useEffect} from 'react';
 import {useState} from 'react';

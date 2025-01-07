@@ -18,7 +18,7 @@ import ParagraphText from '../utils/PragraphText';
 import Feather from 'react-native-vector-icons/Feather';
 import {LinearGradient} from 'react-native-linear-gradient';
 import axios from 'axios';
-import {functionApi} from '../Api';
+import {challengesApi} from '../Api';
 import Skeleton from '../Skeletons/Skeleton';
 import Ripple from 'react-native-material-ripple';
 import {useFocusEffect} from '@react-navigation/native';
@@ -51,7 +51,7 @@ const ChooseChallenge = ({navigation}) => {
       setError(null);
       try {
         const res = await axios.post(
-          `${functionApi}/Challenges/getChallenges`,
+          `${challengesApi}/Challenges/getChallenges`,
           {
             ChallengeTopic: ChallengeTopic,
           },
