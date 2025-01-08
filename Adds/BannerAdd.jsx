@@ -13,7 +13,7 @@ const BannerAdd = () => {
     <View style={styles.bannerContainer}>
       <BannerAd
         unitId={bannerId}
-        size={BannerAdSize.BANNER}
+        size={BannerAdSize.FULL_BANNER}
         requestOptions={{
           requestNonPersonalizedAdsOnly: true,
         }}

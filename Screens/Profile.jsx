@@ -18,6 +18,7 @@ import {
   RefreshControl,
   Dimensions,
   FlatList,
+  ToastAndroid,
 } from 'react-native';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import {Colors, pageView} from '../constants/Colors';
@@ -37,7 +38,7 @@ import {
   uploadBytes,
 } from 'firebase/storage';
 import axios from 'axios';
-import {profileApi} from '../Api';
+import {loginApi, profileApi} from '../Api';
 import Skeleton from '../Skeletons/Skeleton';
 import Posts from '../components/Posts';
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -237,8 +238,24 @@ const Profile = ({navigation}) => {
   }, []);
   // snack for asking logout
   const [snackVisible, setSnackVisible] = useState(false);
-  const onToggleSnackBar = () => setSnackVisible(!snackVisible);
-  const onDismissSnackBar = () => setSnackVisible(false);
+  const onToggleSnackBar = useCallback(() => setSnackVisible(true), []);
+  const onDismissSnackBar = useCallback(() => setSnackVisible(false), []);
+  // handle log out
+  const handleLogOut = useCallback(async () => {
+    try {
+      const {status} = await axios.post(
+        `${loginApi}/LogIn/signOut/${user?._id}`,
+      );
+      if (status == 200) {
+        AsyncStorage.removeItem('Email');
+        navigation.replace('login');
+      }
+    } catch (error) {
+      console.log(err);
+      setSnackVisible(false);
+      ToastAndroid.show('something error in logout', ToastAndroid.SHORT);
+    }
+  }, []);
   const [loading, setLoading] = useState(false);
   // render ui loading
   if (!loading) {
@@ -836,8 +853,7 @@ const Profile = ({navigation}) => {
                 borderRadius: 10,
               }}
               onPress={() => {
-                AsyncStorage.removeItem('Email');
-                navigation.replace('login');
+                handleLogOut();
               }}>
               <Text style={{color: 'white'}}>Yes</Text>
             </TouchableRipple>

@@ -109,7 +109,14 @@ const YourActivity = () => {
         <HeadingText text="Your Activities" />
         {/* calender preview */}
         <Calendar
-          style={{borderWidth: 0, width: '100%', height: 'auto'}}
+          style={{
+            borderWidth: 0,
+            width: '100%',
+            height: 'auto',
+            backgroundColor: '#E7EEFB',
+            borderRadius: 20,
+            padding: 10,
+          }}
           markedDates={dates}
           onDayPress={selectedDateFun}
         />
@@ -127,7 +134,7 @@ const YourActivity = () => {
                   color: Colors.white,
                   marginBottom: 20,
                   borderRadius: 5,
-                  backgroundColor: Colors.violet,
+                  backgroundColor: '#E7EEFB',
                   letterSpacing: 1,
                 }}
                 key={index}>

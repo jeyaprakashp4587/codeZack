@@ -286,11 +286,12 @@ const Home = () => {
               style={[
                 styles.profileImage,
                 {
-                  width: width * 0.13,
-                  height: width * 0.13,
+                  width: width * 0.17,
+                  // height: width * 0.13,
                   borderRadius: 50,
                   borderWidth: 2,
                   borderColor: Colors.mildGrey,
+                  aspectRatio: 1,
                 },
               ]}
             />
