@@ -436,6 +436,7 @@ const NotesFeed = ({refresh}) => {
                 borderRadius: 5,
                 fontSize: width * 0.03,
                 letterSpacing: 0.5,
+                padding: 10,
               }}
               value={noteText}
               onChangeText={handleText}

@@ -56,7 +56,6 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const [liked, setLiked] = useState(
     post?.LikedUsers?.some(likeuser => likeuser?.LikedUser === user?._id),
   );
-  const [likedUsers, setLikedUsers] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalContentType, setModalContentType] = useState(''); // Either 'likes' or 'comments'
 
@@ -165,32 +164,63 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
       // console.error("Error submitting comment:", error);
     }
   }, [newComment, comments, user]);
-
+  // get liked user using pagination
+  const [likedUsers, setLikedUsers] = useState([]);
+  const [likedUserSkip, setLikedUserSkip] = useState(0);
+  const [likedUserHasMore, setLikedUserHasMore] = useState(true);
+  const [likedUserLoading, setLikedUserLoading] = useState(false);
   const handleShowLikedUsers = useCallback(async () => {
+    setModalContentType('likes');
+    setIsModalVisible(true);
+    if (likedUserLoading || !likedUserHasMore) return;
+    setLikedUserLoading(true);
     try {
       const res = await axios.get(
         `${profileApi}/Post/getLikedUsers/${post._id}`,
+        {
+          params: {skip: likedUserSkip, limit: 10},
+        },
       );
+
       if (res.status === 200) {
-        setLikedUsers(res.data.likedUsers);
-        setModalContentType('likes');
-        setIsModalVisible(true);
-        // console.log(res.data);
+        setLikedUsers(prevUsers => [...prevUsers, ...res.data.likedUsers]);
+        setLikedUserSkip(prevSkip => prevSkip + 10);
+        setLikedUserHasMore(res.data.hasMore);
       }
     } catch (err) {
-      // console.error("Failed to fetch liked users:", err);
+      console.error('Failed to fetch liked users:', err);
+    } finally {
+      setLikedUserLoading(false);
     }
-  }, [post]);
-
+  }, [likedUserSkip, likedUserHasMore, likedUserLoading]);
+  // get all commants
+  const [commentSkip, setCommentSkip] = useState(0);
+  const [commentHasMore, setCommentHasMore] = useState(true);
+  const [commentLoading, setCommentLoading] = useState(false);
   const handleShowComments = useCallback(async () => {
     setModalContentType('comments');
     setIsModalVisible(true);
-    const res = await axios.get(`${profileApi}/Post/getComments/${post?._id}`);
-    if (res.data) {
-      // console.log(res.data);
-      setComments(res.data.comments);
+    setCommentLoading(true);
+    if (commentLoading || !commentHasMore) return;
+    try {
+      const res = await axios.get(
+        `${profileApi}/Post/getComments/${post?._id}`,
+        {
+          params: {skip: commentSkip, limit: 10},
+        },
+      );
+
+      if (res.status === 200) {
+        setComments(prevComments => [...prevComments, ...res.data.comments]);
+        setCommentSkip(prevSkip => prevSkip + 10);
+        setCommentHasMore(res.data.hasMore);
+      }
+    } catch (error) {
+      console.error('Failed to fetch comments:', error);
+    } finally {
+      setCommentLoading(false);
     }
-  }, [comments, post]);
+  }, [post, commentSkip, commentHasMore, commentLoading]);
   //
   const [showImageModel, setShowImageModel] = useState(false);
   // fetch connections lists
@@ -471,6 +501,8 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                 showsVerticalScrollIndicator={false}
                 data={likedUsers}
                 keyExtractor={item => item?._id}
+                onEndReached={() => handleShowLikedUsers()}
+                onEndReachedThreshold={0.5}
                 renderItem={({item}) => (
                   <TouchableOpacity
                     style={{
@@ -509,6 +541,11 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                     <RelativeTime time={item?.LikedTime} />
                   </TouchableOpacity>
                 )}
+                ListFooterComponent={
+                  likedUserLoading && (
+                    <ActivityIndicator size="small" color={Colors.mildGrey} />
+                  )
+                }
               />
             ) : (
               <Text>No Likes</Text>
@@ -517,6 +554,8 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             <FlatList
               showsVerticalScrollIndicator={false}
               data={comments}
+              onEndReached={() => handleShowComments()}
+              onEndReachedThreshold={0.5}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({item}) => (
                 <TouchableOpacity
@@ -562,6 +601,11 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                   <RelativeTime time={item?.commentedAt} />
                 </TouchableOpacity>
               )}
+              ListFooterComponent={
+                commentLoading ? (
+                  <ActivityIndicator size="large" color="#0000ff" />
+                ) : null
+              }
             />
           ) : (
             <Text>No Comments</Text>
