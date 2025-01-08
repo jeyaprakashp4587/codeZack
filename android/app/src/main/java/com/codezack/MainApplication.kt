@@ -13,6 +13,7 @@ import com.facebook.react.soloader.OpenSourceMergedSoMapping
 import com.facebook.soloader.SoLoader
 
 
+
 class MainApplication : Application(), ReactApplication {
 
 
@@ -22,6 +23,7 @@ class MainApplication : Application(), ReactApplication {
             PackageList(this).packages.apply {
               // Packages that cannot be autolinked yet can be added manually here, for example:
               // add(NavigationPackage())
+                add(KotlinBridgePackage()); //this package for create bridge between react and kotlin
             }
 
         override fun getJSMainModuleName(): String = "index"

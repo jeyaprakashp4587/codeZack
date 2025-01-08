@@ -6,19 +6,16 @@ import {
   FlatList,
   Image,
   ImageBackground,
+  RefreshControl,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {functionApi} from '../Api';
 import axios from 'axios';
 import {Colors} from '../constants/Colors';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import Ripple from 'react-native-material-ripple';
-import ParagraphText from '../utils/PragraphText';
 import {useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
 import {TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {faEye} from '@fortawesome/free-regular-svg-icons';
 import HeadingText from '../utils/HeadingText';
 
 const AllUsersPage = () => {
@@ -31,6 +28,10 @@ const AllUsersPage = () => {
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const limit = 6; // Number of suggestions to fetch at a time
+  const [refresh, setRefresh] = useState(false);
+  const handleRefresh = useCallback(async () => {
+    await fetchSuggestions();
+  }, []);
   // Function to fetch suggestions
   const fetchSuggestions = async () => {
     try {
@@ -40,7 +41,7 @@ const AllUsersPage = () => {
       );
       const {data, hasMore} = response.data;
       setSuggestions(prev => [...prev, ...data]);
-
+      setRefresh(false);
       // Append new suggestions
       setHasMore(hasMore); // Check if more data is available
       setSkip(prev => prev + limit); // Update skip for the next fetch
@@ -72,6 +73,9 @@ const AllUsersPage = () => {
           paddingTop: 15,
         }}>
         <FlatList
+          scrollEnabled
+          refreshControl={<RefreshControl refreshing={refresh} />}
+          refreshing={true}
           data={suggestions}
           showsHorizontalScrollIndicator={false}
           numColumns={2}
@@ -91,6 +95,7 @@ const AllUsersPage = () => {
                 elevation: 3,
                 borderRadius: 10,
                 overflow: 'hidden',
+                marginBottom: 20,
               }}>
               <ImageBackground
                 source={{
@@ -111,7 +116,8 @@ const AllUsersPage = () => {
                 <LinearGradient
                   colors={[
                     'rgba(0,0,0,0.1)',
-                    Colors.veryLightGrey,
+                    'hsl(0, 0%, 100%)',
+                    'hsl(0, 0%, 100%)',
                     Colors.white,
                   ]}
                   start={{x: 0, y: 0}}

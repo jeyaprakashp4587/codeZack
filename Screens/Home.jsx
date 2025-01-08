@@ -140,7 +140,6 @@ const Home = () => {
     },
     [profileApi, setUser],
   );
-
   // Hook to manage app open ad state
   const {
     show: showAppopen,
@@ -159,9 +158,8 @@ const Home = () => {
   //  load add
   useEffect(() => {
     const handleAppStateChange = async state => {
-      // console.log(`AppState changed to: ${state}`);
-      // console.log(`Ad Loaded: ${loadedAppOpen}`);
       await setOnlineStatus(state === 'active');
+      await updateUserForRedis(state === 'active');
       if (state === 'active') {
         if (loadedAppOpen) {
           try {
@@ -185,6 +183,17 @@ const Home = () => {
       loadAppOpen();
     }
   }, [closedAppOpen]);
+  // update user value for redis
+  const updateUserForRedis = useCallback(async status => {
+    try {
+      if (!status) {
+        console.log('send to update user ');
+        await axios.post(`${loginApi}/LogIn/updateUser/${user?._id}`);
+      }
+    } catch (error) {
+      console.log('redis', error);
+    }
+  }, []);
   // Loading ui effect
   const emitSocketEvent = useSocketEmit(socket);
   useEffect(() => {

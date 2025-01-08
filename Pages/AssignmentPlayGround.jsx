@@ -18,6 +18,7 @@ import BannerAdd from '../Adds/BannerAdd';
 import Actitivity from '../hooks/ActivityHook';
 import AddWallet from '../hooks/AddWallet';
 import Skeleton from '../Skeletons/Skeleton';
+import {NativeModule} from 'react-native';
 
 const AssignmentPlayGround = () => {
   const {assignmentType, user, setUser} = useData();
