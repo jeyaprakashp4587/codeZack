@@ -195,14 +195,34 @@ const Profile = ({navigation}) => {
   };
   // fetch connections lists
   const [netWorksList, setNetworksList] = useState([]);
+  const [netWorkListPage, setNetWorkListPage] = useState(0);
+  const [networkListLoadding, setNetworkListLoading] = useState(false);
+  const [hasMoreNetworks, setHasMoreNetworks] = useState(true);
   const getNetworksList = useCallback(async () => {
-    const res = await axios.get(
-      `${profileApi}/Following/getNetworks/${user?._id}`,
-    );
-    if (res.status == 200) {
-      setNetworksList(res.data.users);
+    if (networkListLoadding || !hasMoreNetworks) return; // Prevent duplicate requests
+    setNetworkListLoading(true);
+    try {
+      const res = await axios.get(
+        `${profileApi}/Following/getNetworks/${user?._id}`,
+        {
+          params: {
+            skip: netWorkListPage * 10,
+            limit: 10,
+          },
+        },
+      );
+      if (res.status === 200) {
+        setNetworksList(prev => [...prev, ...res.data.users]);
+        setNetWorkListPage(prev => prev + 1);
+        setHasMoreNetworks(res.data.hasMore);
+      }
+    } catch (error) {
+      console.error('Error fetching networks list:', error);
+    } finally {
+      setNetworkListLoading(false);
     }
-  }, []);
+  }, [netWorkListPage, networkListLoadding]);
+
   // fetch user posts
   const [postLoading, setPostLoading] = useState(false); // Loading indicator
   const [offset, setOffset] = useState(5); // Number of posts already fetched
@@ -765,11 +785,13 @@ const Profile = ({navigation}) => {
               <Skeleton width="95%" height={40} radius={30} />
               <Skeleton width="95%" height={40} radius={30} />
             </View>
-          ) : netWorksList.length < 0 ? (
-            <Text>No Connections</Text>
+          ) : netWorksList.length <= 0 ? (
+            <Text style={{letterSpacing: 0.5}}>No Connections</Text>
           ) : (
             <FlatList
               data={netWorksList}
+              onEndReached={() => getNetworksList()}
+              onEndReachedThreshold={0.5}
               renderItem={({item}) => (
                 <TouchableOpacity
                   onPress={() => {
@@ -808,6 +830,11 @@ const Profile = ({navigation}) => {
                   </View>
                 </TouchableOpacity>
               )}
+              ListFooterComponent={
+                networkListLoadding && (
+                  <ActivityIndicator size="small" color="#0000ff" />
+                )
+              }
             />
           )}
         </View>
@@ -835,7 +862,7 @@ const Profile = ({navigation}) => {
               style={{
                 // backgroundColor: Colors.violet,
                 paddingVertical: 5,
-                paddingHorizontal: 10,
+                // paddingHorizontal: 10,
                 borderRadius: 10,
                 borderWidth: 0.7,
                 borderColor: Colors.violet,

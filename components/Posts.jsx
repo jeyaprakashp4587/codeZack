@@ -9,6 +9,7 @@ import {
   TextInput,
   Pressable,
   ToastAndroid,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useCallback, useEffect, useState, useRef} from 'react';
 import {Colors, font} from '../constants/Colors';
@@ -194,15 +195,34 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const [showImageModel, setShowImageModel] = useState(false);
   // fetch connections lists
   const [netWorksList, setNetworksList] = useState([]);
+  const [netWorkListPage, setNetWorkListPage] = useState(0);
+  const [networkListLoadding, setNetworkListLoading] = useState(false);
+  const [hasMoreNetworks, setHasMoreNetworks] = useState(true);
   const getNetworksList = useCallback(async () => {
-    const res = await axios.get(
-      `${profileApi}/Following/getNetworks/${user?._id}`,
-    );
-    if (res.status == 200) {
-      setNetworksList(res.data.users);
-      // console.log(res.data);
+    if (networkListLoadding || !hasMoreNetworks) return; // Prevent duplicate requests
+    setNetworkListLoading(true);
+    try {
+      const res = await axios.get(
+        `${profileApi}/Following/getNetworks/${user?._id}`,
+        {
+          params: {
+            skip: netWorkListPage * 10,
+            limit: 10,
+          },
+        },
+      );
+      if (res.status === 200) {
+        setNetworksList(prev => [...prev, ...res.data.users]);
+        setNetWorkListPage(prev => prev + 1);
+        setHasMoreNetworks(res.data.hasMore);
+      }
+    } catch (error) {
+      console.error('Error fetching networks list:', error);
+    } finally {
+      setNetworkListLoading(false);
     }
-  }, []);
+  }, [netWorkListPage, networkListLoadding]);
+
   // handle share post to connections
   const handleSharePost = useCallback(async (receiverId, postId) => {
     try {
@@ -402,7 +422,9 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
 
       {/* Show Liked Users Button */}
       <TouchableOpacity onPress={handleShowLikedUsers} style={styles.likeBtn}>
-        <Text style={{letterSpacing: 2}}>Show Likes</Text>
+        <Text style={{letterSpacing: 1, fontSize: width * 0.03}}>
+          Show likes
+        </Text>
       </TouchableOpacity>
 
       {/* Modal for displaying liked users or comments */}
@@ -698,9 +720,23 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
               flexDirection: 'row',
               columnGap: 10,
             }}>
+            {netWorksList.length <= 0 && (
+              <Text
+                style={{
+                  fontSize: width * 0.03,
+                  textAlign: 'center',
+                  // borderWidth: 1,
+                  width: '100%',
+                  letterSpacing: 0.5,
+                }}>
+                You Have No Connections To Share Posts
+              </Text>
+            )}
             <FlatList
               horizontal
               data={netWorksList}
+              onEndReached={() => getNetworksList()}
+              onEndReachedThreshold={0.5}
               renderItem={({item}) => (
                 <TouchableOpacity
                   onPress={() => {
@@ -740,6 +776,11 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                   </Text>
                 </TouchableOpacity>
               )}
+              ListFooterComponent={
+                networkListLoadding && (
+                  <ActivityIndicator size="small" color="#0000ff" />
+                )
+              }
             />
           </View>
         </View>
@@ -751,10 +792,10 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
 export default React.memo(Posts);
 
 const styles = StyleSheet.create({
-  userName: {
-    fontFamily: font.poppinsBold,
-    fontSize: 16,
-  },
+  // userName: {
+  //   // fontFamily: font.poppinsBold,
+  //   fontSize: 16,
+  // },
   instituteText: {
     color: Colors.mildGrey,
   },

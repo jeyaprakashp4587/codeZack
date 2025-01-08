@@ -432,8 +432,10 @@ const NotesFeed = ({refresh}) => {
               style={{
                 borderWidth: 0.4,
                 paddingHorizontal: 14,
-                borderColor: Colors.lightGrey,
+                borderColor: Colors.veryLightGrey,
                 borderRadius: 5,
+                fontSize: width * 0.03,
+                letterSpacing: 0.5,
               }}
               value={noteText}
               onChangeText={handleText}
@@ -448,7 +450,7 @@ const NotesFeed = ({refresh}) => {
                 flexDirection: 'row',
                 columnGap: 10,
                 justifyContent: 'center',
-                borderWidth: 1,
+                borderWidth: 0.4,
                 borderColor: Colors.violet,
               }}>
               <Text
@@ -456,6 +458,8 @@ const NotesFeed = ({refresh}) => {
                   textAlign: 'center',
                   // color: 'white',
                   letterSpacing: 1.4,
+                  fontSize: width * 0.024,
+                  color: Colors.mildGrey,
                 }}>
                 Upload Note
               </Text>

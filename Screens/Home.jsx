@@ -286,7 +286,7 @@ const Home = () => {
               style={[
                 styles.profileImage,
                 {
-                  width: width * 0.17,
+                  width: width * 0.16,
                   // height: width * 0.13,
                   borderRadius: 50,
                   borderWidth: 2,
