@@ -51,7 +51,7 @@ const SelectedCourse = ({navigation}) => {
         );
         setUser(prev => ({...prev, Courses: res.data.courses}));
         try {
-          Actitivity(user?._id, `${selectedCourse.name} Added`);
+          await Actitivity(user?._id, `${selectedCourse.name} Added`);
         } catch (error) {
           console.log(error);
         }

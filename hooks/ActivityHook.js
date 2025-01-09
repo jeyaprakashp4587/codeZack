@@ -13,8 +13,9 @@ const Actitivity = async (userId, ActivityName) => {
         Date: date,
       },
     );
+    console.log('log from actiivty', userId, Actitivity);
   } catch (error) {
-    console.log(err, 'on activity hook');
+    console.log(error, 'on activity hook');
   }
 };
 

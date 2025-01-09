@@ -1,10 +1,11 @@
-import React, {useCallback, useState, useMemo} from 'react';
+import React, {useCallback, useState, useMemo, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
   Dimensions,
+  FlatList,
 } from 'react-native';
 
 import HeadingText from '../utils/HeadingText';
@@ -29,9 +30,9 @@ const YourCourses = () => {
 
   const color = useMemo(
     () => [
-      {color1: '#ffb3b3', color2: '#ffe6e6'},
-      {color1: '#b3d9ff', color2: '#e6f2ff'},
-      {color1: '#b3e6cc', color2: '#ecf9f2'},
+      {color1: '#F7E7CD', color2: '#F7E7CD'},
+      {color1: '#DDD8F6', color2: '#DDD8F6'},
+      {color1: '#EA96AD', color2: '#EA96AD'},
       {color1: '#b3b3ff', color2: '#e6e6ff'},
       {color1: '#ffb3ff', color2: '#ffe6ff'},
       {color1: '#b3e6cc', color2: '#ecf9f2'},
@@ -62,12 +63,50 @@ const YourCourses = () => {
 
   const [refresh, setRefresh] = useState(false);
   // console.log(user?.Courses[0]?.Technologies);
+  // get user courses
+  const getCourses = useCallback(async () => {
+    try {
+      const {status, data} = await axios.get(
+        `${challengesApi}/Courses/getCourses/${user?._id}`,
+      );
+      if (status === 200) {
+        setUser(prev => ({...prev, Courses: data.Courses}));
+      }
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+  // splist course
+  const [leftWrapper, setLeftWrapper] = useState([]);
+  const [rightWrapper, setRightWrapper] = useState([]);
+  // focus effect
+  useEffect(() => {
+    const focusListener = navigation.addListener('focus', () => {
+      getCourses().then(data => {
+        const left = [];
+        const right = [];
+        data?.Courses?.forEach((item, index) => {
+          if (index % 2 === 0) {
+            left.push(item);
+          } else {
+            right.push(item);
+          }
+        });
+        setLeftWrapper(left);
+        setRightWrapper(right);
+      });
+    });
+    return () => {
+      navigation.removeListener('focus', focusListener);
+    };
+  }, [getCourses, navigation]);
 
   const HandleRefresh = useCallback(() => {
     setRefresh(true);
-    setTimeout(() => {
+    getCourses().finally(() => {
       setRefresh(false);
-    }, 2000);
+    });
   }, []);
 
   return (
@@ -120,38 +159,62 @@ const YourCourses = () => {
             </TouchableOpacity>
           </View>
         ) : (
-          user?.Courses.map((course, index) => (
-            <LinearGradient
-              key={index}
-              colors={[
-                color[index % color.length].color1,
-                color[index % color.length].color2,
-              ]}
-              start={{x: 0, y: 1}}
-              end={{x: 1, y: 0}}
-              style={styles.courseWrapper}>
-              <TouchableOpacity
-                onLongPress={() => HandleRemoveCourse(course.Course_Name)}
-                style={styles.courseContainer}>
-                <View style={{flexDirection: 'column', rowGap: 5}}>
-                  <Text style={styles.courseName}>{course.Course_Name}</Text>
-                  {course.Technologies.map((tech, index) => (
-                    <View key={index} style={styles.techWrapper}>
-                      <Text style={styles.techName}>{tech.TechName}</Text>
-                      <Text style={styles.techPoints}>
-                        Points( {tech?.Points} / 10 )
-                      </Text>
-                    </View>
-                  ))}
-                </View>
-                <FontAwesomeIcon
-                  icon={faCode}
-                  color={Colors.veryLightGrey}
-                  size={50}
-                />
-              </TouchableOpacity>
-            </LinearGradient>
-          ))
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <FlatList
+              data={leftWrapper}
+              keyExtractor={(item, index) => `left-${index}`}
+              renderItem={({item, index}) => (
+                <TouchableOpacity
+                  onLongPress={() => HandleRemoveCourse(item?.Course_Name)}
+                  style={[
+                    styles.courseContainer,
+                    {
+                      backgroundColor: color[index % color.length].color1, // Apply dynamic background color
+                      borderColor: color[index % color.length].color2, // Apply dynamic border color
+                    },
+                  ]}>
+                  <View style={{flexDirection: 'column', rowGap: 5}}>
+                    <Text style={styles.courseName}>{item?.Course_Name}</Text>
+                    {item?.Technologies.map((tech, index) => (
+                      <View key={index} style={styles.techWrapper}>
+                        <Text style={styles.techName}>{tech?.TechName}</Text>
+                        <Text style={styles.techPoints}>
+                          Points( {tech?.Points} / 10 )
+                        </Text>
+                      </View>
+                    ))}
+                  </View>
+                </TouchableOpacity>
+              )}
+            />
+            <FlatList
+              data={rightWrapper}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({item, index}) => (
+                <TouchableOpacity
+                  onLongPress={() => HandleRemoveCourse(item?.Course_Name)}
+                  style={[
+                    styles.courseContainer,
+                    {
+                      backgroundColor: color[index % color.length].color1, // Apply dynamic background color
+                      borderColor: color[index % color.length].color2, // Apply dynamic border color
+                    },
+                  ]}>
+                  <View style={{flexDirection: 'column', rowGap: 5}}>
+                    <Text style={styles.courseName}>{item?.Course_Name}</Text>
+                    {item?.Technologies.map((tech, index) => (
+                      <View key={index} style={styles.techWrapper}>
+                        <Text style={styles.techName}>{tech?.TechName}</Text>
+                        <Text style={styles.techPoints}>
+                          Points( {tech?.Points} / 10 )
+                        </Text>
+                      </View>
+                    ))}
+                  </View>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
         )}
       </ScrollView>
       {/* add */}
@@ -163,19 +226,13 @@ const YourCourses = () => {
 export default React.memo(YourCourses);
 
 const styles = StyleSheet.create({
-  courseWrapper: {
-    borderRadius: 10,
-    marginBottom: 20,
-    elevation: 5,
-    marginHorizontal: 3,
-    padding: width * 0.05, // 5% of screen width
-  },
   courseContainer: {
-    width: '100%',
+    // width: '100%',
     height: 'auto',
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
+    borderWidth: 1,
   },
   courseName: {
     fontSize: width * 0.04, // 5% of screen width
