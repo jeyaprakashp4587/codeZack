@@ -30,6 +30,7 @@ const {width, height} = Dimensions.get('window');
 
 const SelectedCourse = ({navigation}) => {
   const {selectedCourse, user, setUser} = useData();
+  // console.log(selectedCourse);
   const [loading, setLoading] = useState(false);
   const HandleAddCourse = async () => {
     // console.log(user);
@@ -43,7 +44,7 @@ const SelectedCourse = ({navigation}) => {
       });
 
       // Check if the response contains user data (Email field presence indicates success)
-      if (res.status === 200) {
+      if (res.data != 'Enrolled') {
         // Update user data and show success alert
         setLoading(false);
         await AddWallet(user?._id, 2, setUser);
@@ -110,7 +111,7 @@ const SelectedCourse = ({navigation}) => {
         />
         <View style={styles.technologiesContainer}>
           {selectedCourse?.technologies.map((icon, index) => (
-            <TouchableOpacity key={index}>{icon.icon}</TouchableOpacity>
+            <Image source={{uri: icon.icon}} style={{width: 30, height: 30}} />
           ))}
         </View>
       </View>

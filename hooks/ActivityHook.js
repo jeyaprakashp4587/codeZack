@@ -4,17 +4,17 @@ import {functionApi} from '../Api';
 
 const Actitivity = async (userId, ActivityName) => {
   try {
-    console.log(userId, ActivityName);
-
-    // const date = moment().format('YYYY-MM-DD');
-    // const res = await axios.post(
-    //   `${functionApi}/Activity/setActitvity/${userId}`,
-    //   {
-    //     ActivityName: ActivityName,
-    //     Date: date,
-    //   },
-    // );
-    console.log('log from actiivty', userId, Actitivity);
+    // console.log(userId, ActivityName);
+    const date = moment().format('YYYY-MM-DD');
+    const {data} = await axios.post(
+      `${functionApi}/Activity/setActivity/${userId}`,
+      {
+        ActivityName: ActivityName,
+        Date: date,
+      },
+    );
+    // console.log(data);
+    // console.log('log from actiivty', userId, Actitivity);
   } catch (error) {
     console.log(error, 'on activity hook');
   }

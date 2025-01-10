@@ -8,6 +8,7 @@ import {
   Dimensions,
   TouchableOpacity,
   ToastAndroid,
+  Image,
 } from 'react-native';
 
 import {Colors, pageView} from '../constants/Colors';
@@ -46,11 +47,13 @@ const CourseDetails = () => {
         const res = await axios.post(`${challengesApi}/Courses/addTech`, {
           TechName: item.name,
           CourseName: selectedCourse.name,
+          TechIcon: item.icon,
+          TechWeb: item.web,
           UserId: user?._id,
         });
 
         // Check the response
-        if (res.status === 200) {
+        if (res.data != 'Enrolled') {
           setUser(prev => ({...prev, Courses: res.data.Tech}));
           ToastAndroid.show(
             'Technology Added Successfully',
@@ -58,7 +61,10 @@ const CourseDetails = () => {
           );
           // Log the activity if course is successfully added
           try {
-            Actitivity(user?._id, `${selectedCourse.name} Successfully Added.`);
+            await Actitivity(
+              user?._id,
+              `${selectedCourse.name} Successfully Added.`,
+            );
           } catch (error) {
             console.log(error);
           }
@@ -87,11 +93,22 @@ const CourseDetails = () => {
         renderItem={({item, index}) => (
           <View key={index} style={styles.courseItem}>
             <View style={styles.iconContainer}>
-              {React.cloneElement(item.icon, {size: width * 0.4})}
+              <Image
+                source={{uri: item?.icon}}
+                style={{width: width * 0.5, aspectRatio: 1}}
+              />
             </View>
-            <PragraphText text={item.details} />
+            <Text
+              style={{
+                fontSize: width * 0.04,
+                letterSpacing: 1,
+                lineHeight: height * 0.035,
+                color: Colors.mildGrey,
+              }}>
+              {item.details}
+            </Text>
             <View>
-              <TopicsText text="Concepts" />
+              <TopicsText text="Concepts" color={Colors.veryDarkGrey} />
               {item.basics.map((basic, index) => (
                 <Text key={index} style={styles.basicText}>
                   <Text style={styles.asterisk}> * </Text>
@@ -103,7 +120,7 @@ const CourseDetails = () => {
               onPress={() => HandleCourse(item)}
               style={{
                 backgroundColor: 'white',
-                borderRadius: 10,
+                borderRadius: 90,
                 width: '100%',
                 padding: 10,
                 borderWidth: 0.8,
@@ -135,7 +152,7 @@ const styles = StyleSheet.create({
     padding: 10,
     rowGap: 20,
     borderRadius: 5,
-    borderWidth: 1,
+    // borderWidth: 1,
     borderColor: Colors.veryLightGrey,
     paddingHorizontal: 15,
   },
@@ -143,8 +160,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   basicText: {
-    color: Colors.mildGrey,
-    fontSize: 16,
+    color: Colors.veryDarkGrey,
+    fontSize: width * 0.04,
     lineHeight: 27,
     letterSpacing: 0.9,
     paddingVertical: 10,
@@ -152,7 +169,7 @@ const styles = StyleSheet.create({
   asterisk: {
     color: 'orange',
     fontWeight: '700',
-    fontSize: 20,
+    fontSize: width * 0.03,
   },
 });
 

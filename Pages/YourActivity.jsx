@@ -6,6 +6,7 @@ import {
   Text,
   View,
   Dimensions,
+  FlatList,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
 import HeadingText from '../utils/HeadingText';
@@ -110,45 +111,50 @@ const YourActivity = () => {
         {/* calender preview */}
         <Calendar
           style={{
-            borderWidth: 0,
+            // borderWidth: 1,
             width: '100%',
             height: 'auto',
-            backgroundColor: '#E7EEFB',
             borderRadius: 20,
-            padding: 10,
+            // padding: 10,
           }}
           markedDates={dates}
           onDayPress={selectedDateFun}
         />
         {/* list Activities */}
         <HrLine width="100%" />
-        <TopicsText text={selectedDate ? selectedDate : ''} />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {activitiesList.length > 0 ? (
-            activitiesList.map((item, index) => (
+        <Text style={{letterSpacing: 1, fontWeight: 'bold'}}>
+          Date: {selectedDate ?? ''}
+        </Text>
+        {activitiesList.length > 0 ? (
+          <FlatList
+            data={activitiesList}
+            renderItem={({item, index}) => (
               <Text
+                key={index}
                 style={{
                   // borderWidth: 1,
                   padding: width * 0.03,
-                  fontSize: width * 0.04,
-                  color: Colors.white,
-                  marginBottom: 20,
+                  fontSize: width * 0.03,
+                  color: Colors.mildGrey,
+                  marginTop: 10,
                   borderRadius: 5,
-                  backgroundColor: '#E7EEFB',
-                  letterSpacing: 1,
-                }}
-                key={index}>
+                  backgroundColor: Colors.veryLightGrey,
+                  letterSpacing: 1.5,
+                }}>
                 {index + 1}. {item.activityName}
               </Text>
-            ))
-          ) : (
-            <Text style={{letterSpacing: 1, color: Colors.mildGrey}}>
-              No Activities there in this date
-            </Text>
-          )}
-        </ScrollView>
+            )}
+          />
+        ) : (
+          <Text style={{letterSpacing: 1, color: Colors.mildGrey}}>
+            No Activities there in this date
+          </Text>
+        )}
       </View>
-      <BannerAdd />
+      {/* banner add */}
+      <View style={{position: 'absolute', bottom: 0}}>
+        <BannerAdd />
+      </View>
     </View>
   );
 };
