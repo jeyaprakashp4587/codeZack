@@ -71,6 +71,7 @@ const YourCourses = () => {
       );
       if (status === 200) {
         setUser(prev => ({...prev, Courses: data.Courses}));
+        console.log(data);
       }
       return data;
     } catch (error) {

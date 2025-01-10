@@ -3,11 +3,14 @@ import {functionApi} from '../Api';
 
 const AddWallet = async (userId, price, setUser) => {
   try {
-    const res = await axios.post(`${functionApi}/Wallet/AddWallet/${userId}`, {
-      Price: price,
-    });
-    if (res.status == 200) {
-      setUser(res.data);
+    const {status, data} = await axios.post(
+      `${functionApi}/Wallet/AddWallet/${userId}`,
+      {
+        Price: price,
+      },
+    );
+    if (status === 200) {
+      setUser(prev => ({...prev, Wallet: data.Wallet}));
       return 'ok';
     }
   } catch (error) {

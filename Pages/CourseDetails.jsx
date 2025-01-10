@@ -87,7 +87,7 @@ const CourseDetails = () => {
         renderItem={({item, index}) => (
           <View key={index} style={styles.courseItem}>
             <View style={styles.iconContainer}>
-              {React.cloneElement(item.icon, {size: 130})}
+              {React.cloneElement(item.icon, {size: width * 0.4})}
             </View>
             <PragraphText text={item.details} />
             <View>
@@ -102,13 +102,15 @@ const CourseDetails = () => {
             <TouchableOpacity
               onPress={() => HandleCourse(item)}
               style={{
-                backgroundColor: '#7575a3',
+                backgroundColor: 'white',
                 borderRadius: 10,
                 width: '100%',
                 padding: 10,
+                borderWidth: 0.8,
+                borderColor: Colors.mildGrey,
               }}>
               <Text
-                style={{color: 'white', textAlign: 'center', letterSpacing: 1}}>
+                style={{color: 'black', textAlign: 'center', letterSpacing: 1}}>
                 Start
               </Text>
             </TouchableOpacity>

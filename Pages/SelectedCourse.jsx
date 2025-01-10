@@ -32,6 +32,8 @@ const SelectedCourse = ({navigation}) => {
   const {selectedCourse, user, setUser} = useData();
   const [loading, setLoading] = useState(false);
   const HandleAddCourse = async () => {
+    // console.log(user);
+
     setLoading(true);
     try {
       // Send request to add course
@@ -46,7 +48,7 @@ const SelectedCourse = ({navigation}) => {
         setLoading(false);
         await AddWallet(user?._id, 2, setUser);
         ToastAndroid.show(
-          'Course added sucessfully and earned Rs:2',
+          'Course added sucessfully and earned Rs: 2',
           ToastAndroid.SHORT,
         );
         setUser(prev => ({...prev, Courses: res.data.courses}));
@@ -94,19 +96,17 @@ const SelectedCourse = ({navigation}) => {
           text="Course Intro"
           mb={2}
           color="black"
-          fszie={height * 0.028}
+          fszie={height * 0.024}
         />
-        <PragraphText text={selectedCourse?.introduction} />
+        <PragraphText text={selectedCourse?.introduction} fsize={13} />
       </View>
-      {/* Banner add */}
-      <BannerAdd />
-      {/* Banner */}
-      <View style={{paddingHorizontal: 15, marginTop: 10}}>
+
+      <View style={{paddingHorizontal: 15}}>
         <TopicsText
           text="Technologies"
           mb={20}
           color="black"
-          fszie={height * 0.028}
+          fszie={height * 0.02}
         />
         <View style={styles.technologiesContainer}>
           {selectedCourse?.technologies.map((icon, index) => (
@@ -122,6 +122,9 @@ const SelectedCourse = ({navigation}) => {
         <Text style={styles.buttonText}>Let's Begin</Text>
         {loading && <ActivityIndicator color={Colors.mildGrey} size={17} />}
       </Ripple>
+      {/* Banner add */}
+      <BannerAdd />
+      {/* Banner */}
     </ScrollView>
   );
 };
@@ -168,6 +171,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
     columnGap: width * 0.08,
+    // borderWidth: 1,
   },
   webviewContainer: {
     height: 250,

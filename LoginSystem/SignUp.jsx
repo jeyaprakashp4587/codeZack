@@ -110,8 +110,6 @@ const SignUp = ({navigation}) => {
     if (validateForm()) {
       try {
         const response = await axios.post(`${loginApi}/LogIn/signUp`, formData);
-        console.log(response.data);
-
         if (response.data.message == 'SignUp Sucessfully') {
           ToastAndroid.show('Signup Successfully', ToastAndroid.BOTTOM);
           await AsyncStorage.setItem('Email', response.data.user.Email);
@@ -186,7 +184,7 @@ const SignUp = ({navigation}) => {
         <View style={{height: height * 0.02}} />
 
         <Ripple onPress={handleSignUp} style={styles.signUpButton}>
-          <Text style={styles.signUpText}>Sign Up</Text>
+          <Text style={styles.signUpText}>SignUp</Text>
           {actiloading && <ActivityIndicator size={22} color={Colors.white} />}
         </Ripple>
       </ScrollView>
@@ -258,7 +256,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: height * 0.01,
-    borderRadius: 10,
+    borderRadius: 5,
     width: '100%',
     alignSelf: 'center',
     marginBottom: 10,
