@@ -135,23 +135,19 @@ const TabNavigation = () => {
         component={Post}
         options={{
           tabBarIcon: ({color}) => (
-            <FontAwesomeIcon
-              icon={faPlus}
-              color={Colors.white}
-              size={width * 0.07}
-            />
+            <FontAwesomeIcon icon={faPlus} color={color} size={width * 0.07} />
           ),
-          tabBarIconStyle: {
-            backgroundColor: '#3a6ea5',
-            width: 70,
-            height: 70,
-            borderRadius: 40,
-            position: 'absolute',
-            top: -35,
-            elevation: 1,
-            borderWidth: 4,
-            borderColor: 'white',
-          },
+          // tabBarIconStyle: {
+          //   backgroundColor: '#3a6ea5',
+          //   width: 70,
+          //   height: 70,
+          //   borderRadius: 40,
+          //   position: 'absolute',
+          //   top: -35,
+          //   elevation: 1,
+          //   borderWidth: 4,
+          //   borderColor: 'white',
+          // },
         }}
       />
       <Tab.Screen

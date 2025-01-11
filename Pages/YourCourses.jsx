@@ -6,27 +6,25 @@ import {
   View,
   Dimensions,
   FlatList,
+  Image,
 } from 'react-native';
-
 import HeadingText from '../utils/HeadingText';
 import {Colors, pageView} from '../constants/Colors';
 import {useData} from '../Context/Contexter';
-import {LinearGradient} from 'react-native-linear-gradient';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCode} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import {challengesApi} from '../Api';
 import {ScrollView} from 'react-native';
 import {RefreshControl} from 'react-native';
 import BannerAdd from '../Adds/BannerAdd';
-import PragraphText from '../utils/PragraphText';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
+import Ripple from 'react-native-material-ripple';
+import {Modal} from 'react-native-paper';
 
 const {width, height} = Dimensions.get('window');
 
 const YourCourses = () => {
-  const {user, setUser} = useData();
+  const {user, setUser, setselectedTechnology} = useData();
 
   const color = useMemo(
     () => [
@@ -42,24 +40,24 @@ const YourCourses = () => {
     [],
   ); // Memoize colors to prevent unnecessary re-calculations
   const navigation = useNavigation();
-  const HandleRemoveCourse = useCallback(
-    async crName => {
-      try {
-        const res = await axios.post(`${challengesApi}/Courses/removeCourse`, {
-          userId: user?._id,
-          CourseName: crName,
-        });
+  // const HandleRemoveCourse = useCallback(
+  //   async crName => {
+  //     try {
+  //       const res = await axios.post(`${challengesApi}/Courses/removeCourse`, {
+  //         userId: user?._id,
+  //         CourseName: crName,
+  //       });
 
-        if (res.status === 200) {
-          setUser(prev => ({...prev, Courses: res.data.course}));
-        }
-      } catch (error) {
-        console.error('Error removing course:', error);
-        // Handle the error (e.g., show notification to user)
-      }
-    },
-    [user?._id, setUser],
-  );
+  //       if (res.status === 200) {
+  //         setUser(prev => ({...prev, Courses: res.data.course}));
+  //       }
+  //     } catch (error) {
+  //       console.error('Error removing course:', error);
+  //       // Handle the error (e.g., show notification to user)
+  //     }
+  //   },
+  //   [user?._id, setUser],
+  // );
 
   const [refresh, setRefresh] = useState(false);
   // get user courses
@@ -91,6 +89,14 @@ const YourCourses = () => {
     getCourses().finally(() => {
       setRefresh(false);
     });
+  }, []);
+  // techs
+  const [showTech, setShowTech] = useState(false);
+  const [selectTechs, setSelectedTechs] = useState([]);
+  const hideModal = () => setShowTech(false);
+  const showTechs = useCallback(async techs => {
+    setShowTech(true);
+    setSelectedTechs(techs);
   }, []);
 
   return (
@@ -148,7 +154,7 @@ const YourCourses = () => {
             keyExtractor={(item, index) => index.toString()}
             renderItem={({item, index}) => (
               <TouchableOpacity
-                onLongPress={() => HandleRemoveCourse(item?.Course_Name)}
+                // onLongPress={() => HandleRemoveCourse(item?.Course_Name)}
                 style={[
                   styles.courseContainer,
                   {
@@ -160,6 +166,10 @@ const YourCourses = () => {
                   <Text style={styles.courseName}>{item?.Course_Name}</Text>
                   {item?.Technologies.map((tech, index) => (
                     <View key={index} style={styles.techWrapper}>
+                      <Image
+                        source={{uri: tech?.TechIcon}}
+                        style={{width: width * 0.06, aspectRatio: 1}}
+                      />
                       <Text style={styles.techName}>{tech?.TechName}</Text>
                       <Text style={styles.techPoints}>
                         Points ({tech?.Points}/10)
@@ -167,11 +177,61 @@ const YourCourses = () => {
                     </View>
                   ))}
                 </View>
+                <Ripple
+                  onPress={() => showTechs(item?.Technologies)}
+                  style={{
+                    padding: 5,
+                    borderWidth: 1,
+                    paddingHorizontal: 20,
+                    borderRadius: 50,
+                    borderColor: Colors.lightGrey,
+                  }}>
+                  <Text style={{fontWeight: '600', letterSpacing: 1}}>
+                    Continue
+                  </Text>
+                </Ripple>
               </TouchableOpacity>
             )}
           />
         )}
       </ScrollView>
+      {/* model for select tech and navigate to learn section */}
+      <Modal
+        visible={showTech}
+        onDismiss={hideModal}
+        anima
+        contentContainerStyle={{
+          backgroundColor: 'white',
+          padding: 20,
+          width: '80%',
+          margin: 'auto',
+        }}>
+        {selectTechs?.map((tech, index) => (
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('learn');
+              setselectedTechnology({web: tech.TechWeb, name: tech.TechName});
+            }}
+            key={index}
+            style={{
+              // borderWidth: 1,
+              flexDirection: 'row',
+              alignItems: 'center',
+              columnGap: 5,
+              marginBottom: 10,
+              padding: 10,
+              borderRadius: 5,
+              backgroundColor: 'white',
+              elevation: 2,
+            }}>
+            <Image
+              source={{uri: tech?.TechIcon}}
+              style={{width: width * 0.08, aspectRatio: 1}}
+            />
+            <Text style={styles.techName}>{tech?.TechName}</Text>
+          </TouchableOpacity>
+        ))}
+      </Modal>
       {/* add */}
       <BannerAdd />
     </View>
@@ -183,13 +243,14 @@ export default React.memo(YourCourses);
 const styles = StyleSheet.create({
   courseContainer: {
     height: 'auto',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    flexDirection: 'column',
     borderWidth: 1,
     padding: 10,
     marginBottom: 10,
     borderRadius: 5,
+    rowGap: 10,
   },
   courseName: {
     fontSize: width * 0.035,
@@ -200,7 +261,7 @@ const styles = StyleSheet.create({
   techWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    columnGap: 3,
+    columnGap: 5,
     flexWrap: 'wrap',
   },
   techName: {
