@@ -200,8 +200,8 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const handleShowComments = useCallback(async () => {
     setModalContentType('comments');
     setIsModalVisible(true);
-    setCommentLoading(true);
     if (commentLoading || !commentHasMore) return;
+    setCommentLoading(true);
     try {
       const res = await axios.get(
         `${profileApi}/Post/getComments/${post?._id}`,
@@ -209,11 +209,11 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           params: {skip: commentSkip, limit: 10},
         },
       );
-
       if (res.status === 200) {
         setComments(prevComments => [...prevComments, ...res.data.comments]);
         setCommentSkip(prevSkip => prevSkip + 10);
         setCommentHasMore(res.data.hasMore);
+        setCommentLoading(false);
       }
     } catch (error) {
       console.error('Failed to fetch comments:', error);
@@ -603,7 +603,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
               )}
               ListFooterComponent={
                 commentLoading ? (
-                  <ActivityIndicator size="large" color="#0000ff" />
+                  <ActivityIndicator size="large" color={Colors.mildGrey} />
                 ) : null
               }
             />

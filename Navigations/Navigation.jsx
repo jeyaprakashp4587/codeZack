@@ -8,15 +8,7 @@ import Home from '../Screens/Home';
 import Profile from '../Screens/Profile';
 import {Colors, font} from '../constants/Colors';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faBell,
-  faHome,
-  faPlus,
-  faSuitcase,
-  faUserGroup,
-} from '@fortawesome/free-solid-svg-icons';
 import Post from '../Screens/Post';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Challenge from '../Screens/Challenge';
 import MessageScreen from '../Screens/MessageScreen';
 import SignUp from '../LoginSystem/SignUp';
@@ -51,8 +43,8 @@ import HeadingText from '../utils/HeadingText';
 import PasswordReset from '../LoginSystem/PasswordReset';
 import OtpVerification from '../LoginSystem/OtpVerification';
 import SetPassword from '../LoginSystem/SetPassword';
-import {BlurView} from '@react-native-community/blur';
 import PostFeed from '../components/PostFeed';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import AllUsersPage from '../Pages/AllUsersPage';
 
 // Tab navigations functions
@@ -107,7 +99,24 @@ const TabNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Challenges"
+        name="Feed"
+        component={PostFeed}
+        options={{
+          tabBarIcon: ({color}) => (
+            <Image
+              source={{uri: 'https://i.ibb.co/hHNtxqx/newspaper-folded.png'}}
+              style={{
+                width: width * 0.06,
+                height: width * 0.06,
+                tintColor: color, // This will apply a tint to your image if needed
+              }}
+              resizeMode="contain"
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Code"
         component={Challenge}
         options={{
           tabBarIcon: ({color}) => (
@@ -135,19 +144,16 @@ const TabNavigation = () => {
         component={Post}
         options={{
           tabBarIcon: ({color}) => (
-            <FontAwesomeIcon icon={faPlus} color={color} size={width * 0.07} />
+            <Image
+              source={{uri: 'https://i.ibb.co/WWg5vdF/plus.png'}}
+              style={{
+                width: width * 0.06,
+                height: width * 0.06,
+                tintColor: color, // This will apply a tint to your image if needed
+              }}
+              resizeMode="contain"
+            />
           ),
-          // tabBarIconStyle: {
-          //   backgroundColor: '#3a6ea5',
-          //   width: 70,
-          //   height: 70,
-          //   borderRadius: 40,
-          //   position: 'absolute',
-          //   top: -35,
-          //   elevation: 1,
-          //   borderWidth: 4,
-          //   borderColor: 'white',
-          // },
         }}
       />
       <Tab.Screen

@@ -84,10 +84,30 @@ const Carrer = () => {
               key={index}
               style={{
                 ...styles.courseButton,
-                width: '100%',
-                backgroundColor: item?.bgColor,
+                width: '98%',
+                backgroundColor: 'white',
+                marginBottom: 20,
+                borderColor: item.bgColor,
+                elevation: 2,
+                marginHorizontal: 'auto',
+                borderRadius: 5,
               }}>
-              <Text style={styles.courseButtonText}>{item?.name}</Text>
+              <Text
+                style={{
+                  color: item?.bgColor,
+                  fontWeight: '600',
+                  letterSpacing: 1,
+                }}>
+                {item?.name}
+              </Text>
+              <View style={{flexDirection: 'row', columnGap: 10}}>
+                {item?.technologies?.map(tech => (
+                  <Image
+                    source={{uri: tech.icon}}
+                    style={{width: 30, height: 30}}
+                  />
+                ))}
+              </View>
             </TouchableOpacity>
           )}
         />
@@ -127,11 +147,12 @@ const styles = StyleSheet.create({
   },
   courseButton: {
     height: height * 0.15,
-    elevation: 7,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
     padding: 20,
-    borderRadius: 6,
+    flexDirection: 'column',
+    // rowGap: 10,
+    // borderRadius: 6,
   },
   courseButtonText: {
     fontFamily: font.poppins,
@@ -143,8 +164,8 @@ const styles = StyleSheet.create({
   footerText: {
     textAlign: 'center',
     padding: 20,
-    fontSize: 15,
-    color: Colors.lightGrey,
-    fontFamily: font.poppins,
+    fontSize: width * 0.03,
+    fontWeight: '600',
+    letterSpacing: 1,
   },
 });

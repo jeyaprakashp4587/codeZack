@@ -181,12 +181,18 @@ const YourCourses = () => {
                   onPress={() => showTechs(item?.Technologies)}
                   style={{
                     padding: 5,
-                    borderWidth: 1,
+                    borderWidth: 0.7,
                     paddingHorizontal: 20,
                     borderRadius: 50,
-                    borderColor: Colors.lightGrey,
+                    borderWidth: 0,
+                    borderColor: Colors.mildGrey,
+                    borderWidth: 1,
                   }}>
-                  <Text style={{fontWeight: '600', letterSpacing: 1}}>
+                  <Text
+                    style={{
+                      fontWeight: '600',
+                      letterSpacing: 1,
+                    }}>
                     Continue
                   </Text>
                 </Ripple>

@@ -67,7 +67,7 @@ const IdeasWrapper = () => {
   );
 
   return (
-    <View style={{flex: 1, marginVertical: 15}}>
+    <View style={{flex: 1}}>
       <View
         style={{
           flexDirection: 'row',

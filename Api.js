@@ -1,21 +1,21 @@
-const Api = __DEV__
-  ? 'http://192.168.43.90:8080'
-  : 'https://codezackserver.onrender.com';
-const SocketApi = __DEV__
-  ? 'http://192.168.43.90:8080'
-  : 'https://codezackserver.onrender.com';
-const loginApi = __DEV__
-  ? 'http://192.168.43.90:8080'
-  : 'https://codezackserver.onrender.com';
-const profileApi = __DEV__
-  ? 'http://192.168.43.90:8080'
-  : 'https://codezackserver.onrender.com';
-const functionApi = __DEV__
-  ? 'http://192.168.43.90:8080'
-  : 'https://codezackserver.onrender.com';
-const challengesApi = __DEV__
-  ? 'http://192.168.43.90:8080'
-  : 'https://codezackserver.onrender.com';
+const Api = !__DEV__
+  ? 'https://codezackserver.onrender.com'
+  : 'http:192.168.43.90:8080';
+const SocketApi = !__DEV__
+  ? 'https://codezackserver.onrender.com'
+  : 'hhttp:192.168.43.90:8080';
+const loginApi = !__DEV__
+  ? 'https://codezackserver.onrender.com'
+  : 'http:192.168.43.90:8080';
+const profileApi = !__DEV__
+  ? 'https://codezackserver.onrender.com'
+  : 'http:192.168.43.90:8080';
+const functionApi = !__DEV__
+  ? 'https://codezackserver.onrender.com'
+  : 'http:192.168.43.90:8080';
+const challengesApi = !__DEV__
+  ? 'https://codezackserver.onrender.com'
+  : 'http:192.168.43.90:8080';
 // -----
 module.exports = {
   Api,

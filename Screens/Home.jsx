@@ -32,7 +32,6 @@ import {useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
 import {LinearGradient} from 'react-native-linear-gradient';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import {loginApi, profileApi} from '../Api';
@@ -59,7 +58,6 @@ import useSocketEmit from '../Socket/useSocketEmit';
 import Skeleton from '../Skeletons/Skeleton';
 import useFCMToken from '../hooks/useFCMToken';
 import IdeasWrapper from '../components/IdeasWrapper';
-import NotesFeed from '../components/NotesFeed';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -423,8 +421,6 @@ const Home = () => {
             </Pressable>
           </View>
         </View>
-        {/* notesFeed */}
-        <NotesFeed refresh={suggestRefresh} />
         {/* search bar */}
         <TouchableOpacity
           onPress={() => navigation.navigate('search')}
@@ -438,7 +434,6 @@ const Home = () => {
             paddingHorizontal: 10,
             borderColor: Colors.veryLightGrey,
             marginVertical: 10,
-            marginBottom: 5,
             height: height * 0.06,
           }}>
           <EvilIcons
@@ -469,10 +464,8 @@ const Home = () => {
             style={{
               flexDirection: 'column',
               justifyContent: 'space-between',
-              // paddingHorizontal: 15,
               columnGap: 20,
               borderWidth: 0,
-              marginVertical: 15,
             }}>
             {/* interviews & company */}
             <Companies />
