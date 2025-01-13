@@ -44,6 +44,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {useRewardedAd} from 'react-native-google-mobile-ads';
 import {SocketData} from '../Socket/SocketContext';
+import {Divider} from 'react-native-paper';
 
 const {width, height} = Dimensions.get('window');
 
@@ -97,7 +98,7 @@ const ChallengeDetail = () => {
   const getParticularChallenge = useCallback(async () => {
     try {
       const res = await axios.post(
-        `${Api}/Challenges/getParticularChallenge/${user?._id}`,
+        `${challengesApi}/Challenges/getParticularChallenge/${user?._id}`,
         {
           ChallengeName:
             selectedChallenge?.ChallengeName || selectedChallenge?.title,
@@ -289,12 +290,17 @@ const ChallengeDetail = () => {
     setRefreshing(true);
     Promise.all([getParticularChallenge()]).then(data => {
       setRefreshing(false);
-      console.log(data);
     });
   };
   // ------
   return (
-    <View style={{backgroundColor: 'white', flex: 1, paddingHorizontal: 15}}>
+    <View
+      style={{
+        backgroundColor: 'white',
+        flex: 1,
+        paddingHorizontal: 15,
+        // paddingBottom: 20,
+      }}>
       <HeadingText text="Challenge Details" />
       <ScrollView
         style={{flex: 1, marginBottom: 20}}
@@ -334,7 +340,12 @@ const ChallengeDetail = () => {
                 }}
               />
             )}
-            <TopicsText text={selectedChallenge?.title} fsize={20} mb={5} />
+            <TopicsText
+              text={selectedChallenge?.title}
+              fszie={width * 0.05}
+              mb={5}
+              color="black"
+            />
             <View
               style={{
                 flexDirection: 'row',
@@ -387,10 +398,11 @@ const ChallengeDetail = () => {
               }}>
               <Text
                 style={{
-                  color: '#354f52',
-                  fontSize: width * 0.04,
+                  color: 'black',
+                  fontSize: width * 0.03,
                   letterSpacing: 2,
                   lineHeight: 27,
+                  fontWeight: '600',
                 }}>
                 "Need Help with a Coding Error or Anything Else? Contact Our
                 Technical Engineer on WhatsApp!"
@@ -420,11 +432,13 @@ const ChallengeDetail = () => {
             {/* support wrapper */}
             {statusButtonToggle ? (
               <Button
-                text={ChallengeStatus}
-                bgcolor="#563d7c"
+                text={ChallengeStatus.toLocaleUpperCase()}
+                bgcolor={Colors.violet}
                 textColor="white"
                 fsize={18}
                 width="100%"
+                br={50}
+                radius={50}
               />
             ) : (
               <Button
@@ -432,7 +446,9 @@ const ChallengeDetail = () => {
                 bgcolor="#6699ff"
                 textColor="white"
                 width="100%"
-                fsize={18}
+                mb={5}
+                radius={50}
+                fsize={width * 0.04}
                 function={() => HandleStart(selectedChallenge.title)}
               />
             )}
@@ -442,7 +458,7 @@ const ChallengeDetail = () => {
                 style={{
                   // borderWidth: 1,
                   padding: 10,
-                  borderRadius: 5,
+                  borderRadius: 50,
                   alignItems: 'center',
                   // borderColor: Colors.mildGrey,
                   backgroundColor: '#80bfff',
@@ -483,7 +499,7 @@ const ChallengeDetail = () => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-              <TopicsText text="Tutorials" mb={2} />
+              <TopicsText text="Tutorials" mb={2} color="black" />
               <TouchableOpacity onPress={() => setUploadTut(!uploadTut)}>
                 <Text
                   style={{
@@ -530,13 +546,25 @@ const ChallengeDetail = () => {
             </View>
           </View>
         ) : null}
+        <Divider
+          style={{marginVertical: 10, backgroundColor: Colors.veryLightGrey}}
+        />
         {ChallengeStatus == 'pending' ? (
           <View
             style={{
-              marginTop: 30,
-              marginBottom: 20,
+              marginVertical: 10,
               rowGap: 20,
+              // borderWidth: 1,
+              padding: 2,
             }}>
+            <Text
+              style={{
+                fontSize: width * 0.034,
+                fontWeight: '600',
+                letterSpacing: 1,
+              }}>
+              Upload Your Challenge
+            </Text>
             <TextInput
               placeholder="Enter Your Project Repository"
               style={{
@@ -544,7 +572,7 @@ const ChallengeDetail = () => {
                 padding: 15,
                 fontSize: 15,
                 letterSpacing: 1,
-                borderColor: Colors.mildGrey,
+                borderColor: Colors.veryLightGrey,
                 borderRadius: 5,
               }}
               placeholderTextColor={Colors.mildGrey}
@@ -558,8 +586,9 @@ const ChallengeDetail = () => {
                 padding: 15,
                 fontSize: 15,
                 letterSpacing: 1,
-                borderColor: Colors.mildGrey,
+                borderColor: Colors.veryLightGrey,
                 borderRadius: 5,
+                // paddingLeft: 15,
               }}
               placeholderTextColor={Colors.mildGrey}
             />
@@ -571,7 +600,7 @@ const ChallengeDetail = () => {
                 columnGap: 5,
                 justifyContent: 'center',
                 borderWidth: 1,
-                borderColor: Colors.mildGrey,
+                borderColor: Colors.veryLightGrey,
                 borderRadius: 5,
                 padding: 10,
               }}>
@@ -598,9 +627,10 @@ const ChallengeDetail = () => {
                   <Image
                     source={{uri: item}}
                     style={{
-                      width: width * 0.3,
+                      width: width * 0.5,
                       height: height * 0.3,
                       marginRight: 10,
+                      borderRadius: 10,
                       // resizeMode: 'contain',
                     }}
                   />
@@ -609,12 +639,12 @@ const ChallengeDetail = () => {
             ) : null}
             {/*  */}
             <Ripple
-              onPress={HandleUpload}
+              onPress={() => HandleUpload()}
               style={{
                 width: '100%',
-                backgroundColor: '#563d7c',
-                padding: 12,
-                borderRadius: 5,
+                backgroundColor: Colors.violet,
+                padding: 10,
+                borderRadius: 50,
               }}>
               <Text
                 style={{

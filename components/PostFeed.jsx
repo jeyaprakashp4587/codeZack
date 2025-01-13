@@ -3,8 +3,10 @@ import {
   Dimensions,
   FlatList,
   RefreshControl,
+  ScrollView,
   StyleSheet,
   Text,
+  ToastAndroid,
   View,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
@@ -58,7 +60,7 @@ const PostFeed = () => {
   );
 
   useEffect(() => {
-    getConnectionPosts(); // Fetch initial posts
+    getConnectionPosts();
   }, [getConnectionPosts]);
 
   const handleLoadMore = () => {
@@ -70,43 +72,62 @@ const PostFeed = () => {
       });
     }
   };
+  const [Pagerefreshing, setPageRefreshing] = useState(false);
+  const refreshPost = useCallback(async () => {
+    try {
+      setPageRefreshing(true);
+      await getConnectionPosts().finally(() => {
+        setPageRefreshing(false);
+      });
+    } catch (error) {
+      ToastAndroid.show('Refreshing failed');
+    }
+  }, []);
 
   return (
     <View style={{borderWidth: 0, backgroundColor: 'white', flex: 1}}>
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text="Post Feeds" />
       </View>
-      <View style={{paddingHorizontal: 15}}>
-        {posts.length <= 0 ? (
-          <Text style={{fontSize: width * 0.04, letterSpacing: 1}}>
-            No Posts there
-          </Text>
-        ) : (
-          <FlatList
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-            data={posts}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={item => item._id}
-            renderItem={({item, index}) => (
-              <Posts
-                post={item.Posts}
-                senderDetails={item.SenderDetails}
-                index={index}
-                admin={false}
-              />
-            )}
-            onEndReachedThreshold={0.5}
-            onEndReached={handleLoadMore}
-            ListFooterComponent={
-              loadingMore ? (
-                <ActivityIndicator size="large" color="#0000ff" />
-              ) : null
-            }
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={Pagerefreshing}
+            onRefresh={() => refreshPost()}
           />
-        )}
-      </View>
+        }>
+        <View style={{paddingHorizontal: 15}}>
+          {posts.length <= 0 ? (
+            <Text style={{fontSize: width * 0.04, letterSpacing: 1}}>
+              No Posts there
+            </Text>
+          ) : (
+            <FlatList
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+              data={posts}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={item => item._id}
+              renderItem={({item, index}) => (
+                <Posts
+                  post={item.Posts}
+                  senderDetails={item.SenderDetails}
+                  index={index}
+                  admin={false}
+                />
+              )}
+              onEndReachedThreshold={0.5}
+              onEndReached={handleLoadMore}
+              ListFooterComponent={
+                loadingMore ? (
+                  <ActivityIndicator size="small" color={Colors.mildGrey} />
+                ) : null
+              }
+            />
+          )}
+        </View>
+      </ScrollView>
     </View>
   );
 };

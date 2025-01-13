@@ -155,16 +155,15 @@ const Post = () => {
         }
       } catch (error) {
         setUploadText('upload');
-        console.error(
-          'Upload error:',
-          error.response ? error.response.data : error.message,
+        ToastAndroid.show(
+          'Upload failed. Please check your connection.',
+          ToastAndroid.SHORT,
         );
-        Alert.alert('Upload failed. Please check your connection.');
       } finally {
         setUploadIndi(false);
       }
     } else {
-      Alert.alert('Please fill in all fields.');
+      ToastAndroid.show('Please fill in all fields.');
       setUploadIndi(false);
     }
   };
@@ -213,9 +212,9 @@ const Post = () => {
         />
         <Text
           style={{
-            fontSize: width * 0.051,
-            letterSpacing: 1,
-            color: Colors.mildGrey,
+            fontSize: width * 0.05,
+            letterSpacing: 1.4,
+            color: 'black',
           }}>
           {user?.firstName} {user?.LastName}
         </Text>
@@ -223,11 +222,12 @@ const Post = () => {
       {/* text */}
       <Text
         style={{
-          fontSize: width * 0.033,
+          fontSize: width * 0.025,
           textAlign: 'center',
           letterSpacing: 1,
-          color: Colors.lightGrey,
+          color: 'black',
           paddingVertical: 20,
+          fontWeight: '600',
         }}>
         ShowCase your Achivement to the World
       </Text>
@@ -269,29 +269,30 @@ const Post = () => {
               flexDirection: 'row',
               alignItems: 'center',
               columnGap: 10,
-              backgroundColor: Colors.violet,
+              backgroundColor: Colors.white,
               justifyContent: 'center',
               height: height * 0.06,
-              borderRadius: 10,
+              borderRadius: 50,
+              borderWidth: 0.7,
             }}>
+            <Text
+              style={{
+                fontSize: width * 0.035,
+                color: 'black',
+                letterSpacing: 1,
+                // fontWeight: '700',
+              }}>
+              Select Images
+            </Text>
             {uploadImgIndi ? (
-              <ActivityIndicator size={15} color={Colors.white} />
+              <ActivityIndicator size={15} color="black" />
             ) : (
               <FontAwesomeIcon
                 icon={faImage}
                 size={width * 0.05}
-                color={Colors.white}
+                color="black"
               />
             )}
-            <Text
-              style={{
-                fontSize: width * 0.035,
-                color: Colors.white,
-                letterSpacing: 1,
-                fontWeight: '700',
-              }}>
-              Select Images
-            </Text>
           </TouchableOpacity>
         </View>
         {/* show selected images  */}
@@ -349,31 +350,29 @@ const Post = () => {
             flexDirection: 'row',
             alignItems: 'center',
             columnGap: 10,
-            backgroundColor: Colors.violet,
+            backgroundColor: 'white',
             justifyContent: 'center',
             height: height * 0.06,
-            borderRadius: 10,
-            // marginTop: 20,
-            marginBottom: 50,
+            borderRadius: 50,
+            marginBottom: 20,
+            borderWidth: 0.5,
           }}>
           <ActivityIndicator
             size={30}
-            color={Colors.white}
+            color="black"
             style={{display: uploadIndi ? 'flex' : 'none'}}
           />
           <Text
             style={{
               fontSize: width * 0.035,
-              color: Colors.white,
-              letterSpacing: 1,
-              fontWeight: '700',
+              color: 'black',
+              letterSpacing: 1.4,
+              // fontWeight: '700',
             }}>
             {uploadText}
           </Text>
         </Ripple>
       </ScrollView>
-      {/* add */}
-      <BannerAdd />
     </ScrollView>
   );
 };

@@ -29,10 +29,10 @@ const BannerAdd = () => {
 
 const styles = StyleSheet.create({
   bannerContainer: {
-    marginTop: 10,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'white',
   },
 });
 

@@ -458,7 +458,7 @@ const Home = () => {
             </View>
           }>
           <View style={{paddingHorizontal: 15}}>
-            <PragraphText text="Videos & Preparations" />
+            <PragraphText text="Tutorials & Preparations" />
           </View>
           <View
             style={{
@@ -515,9 +515,6 @@ const Home = () => {
             <SuggestionWapper refresh={suggestRefresh} />
           </View>
         </Suspense>
-        {/* banner add */}
-        <BannerAdd />
-        {/* model load aadd */}
       </ScrollView>
     </View>
   );

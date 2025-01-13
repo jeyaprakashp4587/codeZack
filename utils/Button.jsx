@@ -22,6 +22,7 @@ const Button = props => {
         elevation: props.elevation ? props.elevation : 2,
         width: props.width ? props.width : 'auto',
         alignSelf: 'center',
+        marginBottom: props.mb ?? 0,
       }}>
       <Text
         style={{

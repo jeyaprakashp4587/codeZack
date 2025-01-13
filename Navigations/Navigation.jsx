@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Dimensions, Image} from 'react-native';
+import {StyleSheet, Dimensions, Image, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -7,7 +7,6 @@ import Login from '../LoginSystem/Login';
 import Home from '../Screens/Home';
 import Profile from '../Screens/Profile';
 import {Colors, font} from '../constants/Colors';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import Post from '../Screens/Post';
 import Challenge from '../Screens/Challenge';
 import MessageScreen from '../Screens/MessageScreen';
@@ -31,7 +30,6 @@ import Assignment from '../Pages/Assignments';
 import PostViewer from '../Pages/PostViewer';
 import ChallengeViewer from '../Pages/ChallengeViewer';
 import AssignmentPlayGround from '../Pages/AssignmentPlayGround';
-import {faUser} from '@fortawesome/free-regular-svg-icons';
 import Wallet from '../Pages/Wallet';
 import CoreChallenges from '../Pages/CoreChallenges';
 import CoreChallengeViewer from '../Pages/CoreChallengeViewer';
@@ -46,6 +44,12 @@ import SetPassword from '../LoginSystem/SetPassword';
 import PostFeed from '../components/PostFeed';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AllUsersPage from '../Pages/AllUsersPage';
+import BannerAdd from '../Adds/BannerAdd';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import {BottomTabBar} from '@react-navigation/bottom-tabs';
 
 // Tab navigations functions
 const {width, height} = Dimensions.get('window');
@@ -54,159 +58,173 @@ const Tab = createBottomTabNavigator();
 // Tab Navigator functions
 const TabNavigation = () => {
   return (
-    <Tab.Navigator
-      initialRouteName="Home"
-      screenOptions={{
-        headerShown: false,
-        tabBarIconStyle: {
-          color: Colors.lightGrey,
-        },
-        tabBarActiveTintColor: Colors.violet,
-        tabBarInactiveTintColor: Colors.mildGrey,
-        tabBarStyle: {
-          height: 80,
-          paddingBottom: 10,
-          borderTopWidth: 0,
-        },
-        tabBarLabelStyle: {
-          fontSize: 11,
-          marginTop: -15,
-          marginBottom: 5,
-          fontFamily: font.poppins,
-          color: Colors.mildGrey,
-          letterSpacing: 1,
-          backgroundColor: 'transparent',
-        },
-        tabBarHideOnKeyboard: true,
-        // tabBarShowLabel: false,
-      }}>
-      <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{
-          tabBarIcon: ({color}) => (
-            // <FontAwesomeIcon icon={faHome} color={color} size={width * 0.06} />
-            <Image
-              source={{uri: 'https://i.ibb.co/DD0gmYp/home.png'}}
-              style={{
-                width: width * 0.06,
-                height: width * 0.06,
-                tintColor: color, // This will apply a tint to your image if needed
-              }}
-              resizeMode="contain"
-            />
-          ),
+    <View style={{flex: 1}}>
+      {/* Tab Navigator */}
+      <Tab.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerShown: false,
+          tabBarIconStyle: {
+            color: Colors.lightGrey,
+          },
+          tabBarActiveTintColor: Colors.violet,
+          tabBarInactiveTintColor: Colors.mildGrey,
+          tabBarStyle: {
+            height: hp('10%'),
+            paddingBottom: 10,
+            borderTopWidth: 0,
+            borderWidth: 1,
+          },
+          tabBarLabelStyle: {
+            fontSize: width * 0.027,
+            marginTop: -15,
+            marginBottom: 5,
+            fontFamily: font.poppins,
+            color: Colors.mildGrey,
+            letterSpacing: 1,
+            backgroundColor: 'transparent',
+          },
+          tabBarHideOnKeyboard: true,
         }}
-      />
-      <Tab.Screen
-        name="Feed"
-        component={PostFeed}
-        options={{
-          tabBarIcon: ({color}) => (
-            <Image
-              source={{uri: 'https://i.ibb.co/hHNtxqx/newspaper-folded.png'}}
+        tabBar={props => (
+          <>
+            <View
               style={{
-                width: width * 0.06,
-                height: width * 0.06,
-                tintColor: color, // This will apply a tint to your image if needed
-              }}
-              resizeMode="contain"
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Code"
-        component={Challenge}
-        options={{
-          tabBarIcon: ({color}) => (
-            // <MaterialCommunityIcons
-            //   name="sword-cross"
-            //   size={width * 0.06}
-            //   color={color}
-            // />
-            <Image
-              source={{
-                uri: 'https://img.icons8.com/parakeet-line/96/source-code.png',
-              }}
-              style={{
-                width: width * 0.07,
-                height: width * 0.07,
-                tintColor: color, // This will apply a tint to your image if needed
-              }}
-              resizeMode="contain"
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Post"
-        component={Post}
-        options={{
-          tabBarIcon: ({color}) => (
-            <Image
-              source={{uri: 'https://i.ibb.co/WWg5vdF/plus.png'}}
-              style={{
-                width: width * 0.06,
-                height: width * 0.06,
-                tintColor: color, // This will apply a tint to your image if needed
-              }}
-              resizeMode="contain"
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Jobs"
-        component={Placement}
-        options={{
-          tabBarIcon: ({color}) => (
-            // <FontAwesomeIcon
-            //   icon={faSuitcase}
-            //   color={color}
-            //   size={width * 0.06}
-            // />
-            <Image
-              source={{
-                uri: 'https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/50/external-suitcase-interface-kiranshastry-lineal-kiranshastry-1.png',
-              }}
-              style={{
-                width: width * 0.07,
-                height: width * 0.07,
-                tintColor: color, // This will apply a tint to your image if needed
-              }}
-              resizeMode="contain"
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarIcon: ({color}) => (
-            // <FontAwesomeIcon icon={faUser} color={color} size={width * 0.06} />
+                borderWidth: 0,
+                backgroundColor: 'white',
+                height: 'auto',
+              }}>
+              <BannerAdd />
+            </View>
+            {/* Render the default tab bar */}
+            <BottomTabBar {...props} />
+          </>
+        )}>
+        <Tab.Screen
+          name="Home"
+          component={Home}
+          options={{
+            tabBarIcon: ({color}) => (
+              // <FontAwesomeIcon icon={faHome} color={color} size={width * 0.06} />
+              <Image
+                source={{uri: 'https://i.ibb.co/DD0gmYp/home.png'}}
+                style={{
+                  width: width * 0.06,
+                  height: width * 0.06,
+                  tintColor: color, // This will apply a tint to your image if needed
+                }}
+                resizeMode="contain"
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Feed"
+          component={PostFeed}
+          options={{
+            tabBarIcon: ({color}) => (
+              <Image
+                source={{uri: 'https://i.ibb.co/hHNtxqx/newspaper-folded.png'}}
+                style={{
+                  width: width * 0.06,
+                  height: width * 0.06,
+                  tintColor: color, // This will apply a tint to your image if needed
+                }}
+                resizeMode="contain"
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Code"
+          component={Challenge}
+          options={{
+            tabBarIcon: ({color}) => (
+              // <MaterialCommunityIcons
+              //   name="sword-cross"
+              //   size={width * 0.06}
+              //   color={color}
+              // />
+              <Image
+                source={{
+                  uri: 'https://img.icons8.com/parakeet-line/96/source-code.png',
+                }}
+                style={{
+                  width: width * 0.07,
+                  height: width * 0.07,
+                  tintColor: color, // This will apply a tint to your image if needed
+                }}
+                resizeMode="contain"
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Post"
+          component={Post}
+          options={{
+            tabBarIcon: ({color}) => (
+              <Image
+                source={{uri: 'https://i.ibb.co/WWg5vdF/plus.png'}}
+                style={{
+                  width: width * 0.06,
+                  height: width * 0.06,
+                  tintColor: color, // This will apply a tint to your image if needed
+                }}
+                resizeMode="contain"
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Jobs"
+          component={Placement}
+          options={{
+            tabBarIcon: ({color}) => (
+              // <FontAwesomeIcon
+              //   icon={faSuitcase}
+              //   color={color}
+              //   size={width * 0.06}
+              // />
+              <Image
+                source={{
+                  uri: 'https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/50/external-suitcase-interface-kiranshastry-lineal-kiranshastry-1.png',
+                }}
+                style={{
+                  width: width * 0.07,
+                  height: width * 0.07,
+                  tintColor: color, // This will apply a tint to your image if needed
+                }}
+                resizeMode="contain"
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            tabBarIcon: ({color}) => (
+              // <FontAwesomeIcon icon={faUser} color={color} size={width * 0.06} />
 
-            <Image
-              source={{uri: 'https://i.ibb.co/9Vck1rW/people.png'}}
-              style={{
-                width: width * 0.07,
-                height: width * 0.07,
-                tintColor: color, // This will apply a tint to your image if needed
-              }}
-              resizeMode="contain"
-            />
-          ),
-        }}
-      />
-    </Tab.Navigator>
+              <Image
+                source={{uri: 'https://i.ibb.co/9Vck1rW/people.png'}}
+                style={{
+                  width: width * 0.07,
+                  height: width * 0.07,
+                  tintColor: color, // This will apply a tint to your image if needed
+                }}
+                resizeMode="contain"
+              />
+            ),
+          }}
+        />
+        {/* Add other screens here */}
+      </Tab.Navigator>
+    </View>
   );
 };
-{
-  /* <a href="https://imgbb.com/"><img src="https://i.ibb.co/FYLw2bP/sword.png" alt="sword" border="0"></a>
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/Cv25P24/suitcase.png" alt="suitcase" border="0"></a>
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/DD0gmYp/home.png" alt="home" border="0"></a> */
-}
+
 // Stack navigations
 const Stack = createNativeStackNavigator();
 
@@ -425,4 +443,13 @@ const AppNavigator = () => {
 
 export default AppNavigator;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  bannerContainer: {
+    // height: 50, // Adjust the height of your banner ad
+    justifyContent: 'center',
+    alignItems: 'center',
+    // position: 'absolute',
+    // bottom: hp('9%'),
+    // zIndex: 100,
+  },
+});
