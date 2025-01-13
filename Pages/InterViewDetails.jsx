@@ -66,7 +66,7 @@ const InterViewDetails = () => {
       });
 
       if (res.status === 200) {
-        setUser(res.data.User);
+        setUser(prev => ({...prev, InterView: res.data.User}));
         navigation.navigate('InterviewPreparation');
         // console.log(res.data.message); // Success message
       } else if (res.status === 400 && res.data.message === 'Exists') {

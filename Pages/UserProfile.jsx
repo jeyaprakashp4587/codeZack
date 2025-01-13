@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useEffect} from 'react';
+import React, {useState, useCallback, useEffect, useRef} from 'react';
 import {
   Dimensions,
   Image,
@@ -30,8 +30,7 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faL, faTimes} from '@fortawesome/free-solid-svg-icons';
 import BannerAdd from '../Adds/BannerAdd';
-import {faDotCircle} from '@fortawesome/free-regular-svg-icons';
-import Octicons from 'react-native-vector-icons/Octicons';
+import RBSheet from 'react-native-raw-bottom-sheet';
 
 const UserProfile = () => {
   const {width, height} = Dimensions.get('window');
@@ -41,7 +40,7 @@ const UserProfile = () => {
   const emitSocketEvent = useSocketEmit(socket);
   const [existsFollower, setExistsFollower] = useState(false);
   const [loading, setLoading] = useState(false); // Add loading state for API calls
-
+  const RBSheetRef = useRef(null);
   // Send notification to user
   const sendNotification = useCallback(() => {
     if (selectedUser?._id && user?._id) {
@@ -136,19 +135,18 @@ const UserProfile = () => {
   }, [selectedUser, findExistsFollower]);
   // get user networks members
   const [netWorksList, setNetworksList] = useState();
-  const [showNetWorkModel, setShowNetWorkModel] = useState(false);
   const getNetworksList = useCallback(async () => {
-    setShowNetWorkModel(true);
+    RBSheetRef.current.open();
     if (selectedUser?.Connections?.length > 0) {
       const res = await axios.get(
         `${profileApi}/Following/getNetworks/${selectedUser?._id}`,
       );
       if (res.status == 200) {
         setNetworksList(res.data.users);
-        console.log(res.data);
+        // console.log(res.data);
       }
     }
-  }, [showNetWorkModel]);
+  }, []);
   // get all connection
   const getAllNetworks = useCallback(async () => {
     if (selectedUser?.Connections?.length > 0) {
@@ -526,46 +524,59 @@ const UserProfile = () => {
       />
 
       {/* model for show networks list */}
-      <Modal
-        transparent={true}
-        visible={showNetWorkModel}
-        animationType="slide"
-        style={{
-          flex: 1,
+      <RBSheet
+        ref={RBSheetRef}
+        height={300} // Specify the desired height in pixels
+        useNativeDriver={true}
+        customStyles={{
+          container: {
+            borderTopLeftRadius: 20, // Optional for rounded corners
+            borderTopRightRadius: 20,
+            height: height * 0.65, // Alternatively, you can set the height here
+          },
+          wrapper: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+          },
+          draggableIcon: {
+            backgroundColor: '#cccccc',
+          },
+        }}
+        customModalProps={{
+          animationType: 'slide',
+          statusBarTranslucent: true,
         }}>
-        <View
-          style={{
-            borderWidth: 1,
-            position: 'absolute',
-            bottom: 0,
-            height: '50%',
-            borderTopRightRadius: 10,
-            borderTopLeftRadius: 10,
-            width: '100%',
-            backgroundColor: 'white',
-            borderColor: Colors.lightGrey,
-            padding: 20,
-          }}>
-          {/* close button */}
-          <TouchableOpacity
-            onPress={() => setShowNetWorkModel(false)}
+        <View style={{padding: 10}}>
+          {/* model header */}
+          <View
             style={{
-              position: 'absolute',
-              right: width * 0.1,
-              top: height * 0.025,
-              zIndex: 20,
+              // borderWidth: 1,
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              rowGap: 10,
+              borderBottomWidth: 1,
+              borderColor: Colors.veryLightGrey,
+              marginBottom: 10,
             }}>
-            <FontAwesomeIcon icon={faTimes} size={20} color={Colors.mildGrey} />
-          </TouchableOpacity>
-          <Text
-            style={{
-              fontSize: width * 0.04,
-              letterSpacing: 1,
-              paddingTop: 10,
-              paddingBottom: 10,
-            }}>
-            NetWorks
-          </Text>
+            {/* bar */}
+            <View
+              style={{
+                width: width * 0.1,
+                height: 5,
+                backgroundColor: Colors.lightGrey,
+                borderRadius: 50,
+              }}
+            />
+            <Text
+              style={{
+                fontSize: width * 0.04,
+                marginBottom: height * 0.03,
+                letterSpacing: 2,
+                textAlign: 'center',
+              }}>
+              Networks
+            </Text>
+          </View>
           {selectedUser?.Connections?.length > 0 ? (
             <FlatList
               showsVerticalScrollIndicator={false}
@@ -617,7 +628,7 @@ const UserProfile = () => {
             </Text>
           )}
         </View>
-      </Modal>
+      </RBSheet>
     </ScrollView>
   );
 };

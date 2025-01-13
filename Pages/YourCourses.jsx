@@ -77,18 +77,18 @@ const YourCourses = () => {
   // focus effect
   useEffect(() => {
     const focusListener = navigation.addListener('focus', () => {
-      getCourses();
+      // getCourses();
     });
     return () => {
       navigation.removeListener('focus', focusListener);
     };
-  }, [getCourses, navigation]);
+  }, [navigation]);
 
   const HandleRefresh = useCallback(() => {
     setRefresh(true);
-    getCourses().finally(() => {
-      setRefresh(false);
-    });
+    // getCourses().finally(() => {
+    //   setRefresh(false);
+    // });
   }, []);
   // techs
   const [showTech, setShowTech] = useState(false);
@@ -108,9 +108,10 @@ const YourCourses = () => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{paddingHorizontal: 15}}
-        refreshControl={
-          <RefreshControl refreshing={refresh} onRefresh={HandleRefresh} />
-        }>
+        // refreshControl={
+        //   <RefreshControl refreshing={refresh} onRefresh={HandleRefresh} />
+        // }
+      >
         {user?.Courses?.length <= 0 ? (
           <View>
             <FastImage

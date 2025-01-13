@@ -762,7 +762,7 @@ const Profile = ({navigation}) => {
             {/* bar */}
             <View
               style={{
-                width: width * 0.15,
+                width: width * 0.1,
                 height: 5,
                 backgroundColor: Colors.lightGrey,
                 borderRadius: 50,
@@ -862,7 +862,7 @@ const Profile = ({navigation}) => {
               style={{
                 // backgroundColor: Colors.violet,
                 paddingVertical: 5,
-                // paddingHorizontal: 10,
+                paddingHorizontal: 10,
                 borderRadius: 10,
                 borderWidth: 0.7,
                 borderColor: Colors.violet,

@@ -24,7 +24,6 @@ import moment from 'moment';
 import {useNavigation} from '@react-navigation/native';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import useSocket from '../Socket/useSocket';
 import useSocketEmit from '../Socket/useSocketEmit';
 import {SocketData} from '../Socket/SocketContext';
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -859,6 +858,8 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     color: Colors.veryDarkGrey,
     letterSpacing: 1,
+    lineHeight: 20,
+    fontSize: width * 0.03,
   },
   showMore: {
     marginVertical: 5,

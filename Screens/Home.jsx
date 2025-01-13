@@ -62,6 +62,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import RecentCourses from '../components/RecentCourses';
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
 
@@ -157,7 +158,7 @@ const Home = () => {
   useEffect(() => {
     const handleAppStateChange = async state => {
       await setOnlineStatus(state === 'active');
-      await updateUserForRedis(state === 'active');
+      // await updateUserForRedis(state === 'active');
       if (state === 'active') {
         if (loadedAppOpen) {
           try {
@@ -450,6 +451,8 @@ const Home = () => {
         </TouchableOpacity>
         {/* Ideas wrapper */}
         <IdeasWrapper />
+        {/* Recent courses */}
+        <RecentCourses />
         {/* companies */}
         <Suspense
           fallback={
