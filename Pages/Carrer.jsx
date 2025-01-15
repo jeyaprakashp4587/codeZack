@@ -20,7 +20,7 @@ import axios from 'axios';
 import {challengesApi} from '../Api';
 const {width, height} = Dimensions.get('window');
 const Carrer = () => {
-  // courses list
+  // courses list update from git log 
   const navigation = useNavigation();
   const {setSelectedCourse} = useData();
   const [courses, setCourses] = useState([]);
