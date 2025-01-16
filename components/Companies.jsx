@@ -18,7 +18,7 @@ const Companies = () => {
   const navigation = useNavigation();
   const {width, height} = Dimensions.get('window');
   const {setSelectedCompany, user} = useData();
-  console.log(user?.InterView);
+  // console.log(user?.InterView);
 
   // set interview details and navigate
   const handleSetInterView = useCallback(async name => {
@@ -81,34 +81,31 @@ const Companies = () => {
               }}
             />
           </View>
-          {user?.InterView?.some(userComp =>
-            companies?.some(comp => userComp.companyName === comp.company_name),
+          {user?.InterView?.some(
+            userComp => userComp?.companyName == comp?.company_name,
           ) ? (
             <Text
               style={{
                 letterSpacing: 2,
                 color: Colors.mildGrey,
                 textAlign: 'center',
-                borderWidth: 0.4,
-                paddingHorizontal: 10,
-                borderColor: Colors.veryLightGrey,
-                borderRadius: 50,
+                fontWeight: '600',
+                fontSize: width * 0.03,
               }}>
               Continue
             </Text>
           ) : (
-            <Text>No</Text>
+            <Text
+              style={{
+                letterSpacing: 2,
+                color: Colors.mildGrey,
+                textAlign: 'center',
+                fontWeight: '600',
+                fontSize: width * 0.03,
+              }}>
+              Prepare For {comp?.company_name}
+            </Text>
           )}
-
-          <Text
-            style={{
-              // flex: 1,
-              letterSpacing: 2,
-              color: Colors.mildGrey,
-              textAlign: 'center',
-            }}>
-            Prepare For {comp?.company_name}
-          </Text>
         </TouchableOpacity>
       ))}
     </ScrollView>
