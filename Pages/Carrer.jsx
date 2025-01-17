@@ -20,7 +20,7 @@ import axios from 'axios';
 import {challengesApi} from '../Api';
 const {width, height} = Dimensions.get('window');
 const Carrer = () => {
-  // courses list update from git log 
+  // courses list update from git log
   const navigation = useNavigation();
   const {setSelectedCourse} = useData();
   const [courses, setCourses] = useState([]);
@@ -86,11 +86,12 @@ const Carrer = () => {
                 ...styles.courseButton,
                 width: '98%',
                 backgroundColor: 'white',
-                marginBottom: 20,
+                // marginBottom: 20,
                 borderColor: item.bgColor,
                 elevation: 2,
                 marginHorizontal: 'auto',
                 borderRadius: 5,
+                marginVertical: 5,
               }}>
               <Text
                 style={{

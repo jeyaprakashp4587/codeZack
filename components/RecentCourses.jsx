@@ -18,7 +18,7 @@ const RecentCourses = () => {
   const {width, height} = Dimensions.get('window');
   const {user, setselectedTechnology} = useData();
   const navigation = useNavigation();
-  const newCourseIndex = user?.Courses?.length - 2;
+  const newCourseIndex = user?.Courses?.length - 1;
   if (user?.Courses?.length <= 0) {
     return null;
   }
@@ -27,14 +27,11 @@ const RecentCourses = () => {
       <TopicsText text="Continue your courses" fszie={width * 0.04} mb={10} />
       <View
         style={{
-          //   borderWidth: 1,
-          //   borderColor: '#F7E7CD',
           padding: 20,
           borderRadius: 5,
-          elevation: 2,
+          elevation: 1,
           backgroundColor: 'white',
           rowGap: 10,
-          //   borderWidth: 1,
           borderColor: Colors.veryLightGrey,
         }}>
         <Text

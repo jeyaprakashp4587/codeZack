@@ -371,21 +371,19 @@ const Home = () => {
             justifyContent: 'space-between',
             paddingHorizontal: 15,
             flexWrap: 'wrap',
-            paddingLeft: 0,
           }}>
           <Text
             style={{
-              color: Colors.white,
-              fontSize: width * 0.025,
+              // color: Colors.white,
+              fontSize: width * 0.03,
               lineHeight: 30,
               letterSpacing: 1,
-              // paddingVertical: 2,
-              paddingHorizontal: wp('5%'),
-              backgroundColor: Colors.violet,
               borderTopRightRadius: 20,
               borderBottomRightRadius: 20,
+              fontWeight: '600',
             }}>
-            {getCurrentGreeting()} {user?.firstName}!
+            {/* {getCurrentGreeting()} */}
+            Hello👋 {user?.firstName}!
           </Text>
           <View
             style={{
