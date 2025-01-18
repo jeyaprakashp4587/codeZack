@@ -7,7 +7,6 @@ import moment from 'moment';
 import {useFocusEffect} from '@react-navigation/native';
 import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
 import useShakeAnimation from '../hooks/useShakeAnimation';
-import AddWallet from '../hooks/AddWallet';
 import {useData} from '../Context/Contexter';
 import {Colors} from '../constants/Colors';
 import {debounce} from 'lodash';
@@ -77,39 +76,26 @@ const DailyClaim = () => {
   useFocusEffect(debouncedFunctions);
   // Handle claim action
   const handleCheckIn = useCallback(async () => {
-    if (timer > 0) {
+    if (timer > 0 && !isDisabled) {
       ToastAndroid.show(
         `Please wait for the timer to finish: ${timer} seconds left.`,
         ToastAndroid.SHORT,
       );
       return;
     }
-
     showIntrestAdd();
     // reutn the add, if user alrady cjecked in today
     if (isDisabled) {
       ToastAndroid.show('You have already checked', ToastAndroid.SHORT);
       return;
     }
-    if (!loadedIntrestAdd) {
-      ToastAndroid.show(
-        'Ad is still loading. Please wait.',
-        ToastAndroid.SHORT,
-      );
-      return;
-    }
     const now = moment().toISOString();
     await AsyncStorage.setItem('lastCheckIn', now);
-    const result = await AddWallet(user?._id, 1, setUser);
-    await axios.post(`${functionApi}/Wallet/increaseClaimstreak`, {
-      userId: user?._id,
-    });
     if (result === 'ok') {
       await showIntrestAdd();
-      ToastAndroid.show('You earned 1 rupee!', ToastAndroid.SHORT);
       setIsDisabled(true); // Disable the button again after claiming
     } else {
-      ToastAndroid.show('Failed to add to wallet.', ToastAndroid.SHORT);
+      // ToastAndroid.show('Failed to add to wallet.', ToastAndroid.SHORT);
     }
   }, [isDisabled, user, setUser, loadedIntrestAdd, timer]);
 

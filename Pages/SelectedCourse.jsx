@@ -21,7 +21,6 @@ import PragraphText from '../utils/PragraphText';
 import {challengesApi} from '../Api';
 import axios from 'axios';
 import Actitivity from '../hooks/ActivityHook';
-import AddWallet from '../hooks/AddWallet';
 import BannerAdd from '../Adds/BannerAdd';
 import {faL} from '@fortawesome/free-solid-svg-icons';
 import HeadingText from '../utils/HeadingText';
@@ -47,11 +46,6 @@ const SelectedCourse = ({navigation}) => {
       if (res.data != 'Enrolled') {
         // Update user data and show success alert
         setLoading(false);
-        await AddWallet(user?._id, 2, setUser);
-        ToastAndroid.show(
-          'Course added sucessfully and earned Rs: 2',
-          ToastAndroid.SHORT,
-        );
         setUser(prev => ({...prev, Courses: res.data.courses}));
         try {
           await Actitivity(user?._id, `${selectedCourse.name} Added`);

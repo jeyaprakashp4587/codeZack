@@ -7,7 +7,6 @@ import {useData} from '../Context/Contexter';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Skeleton from '../Skeletons/Skeleton';
 import BannerAdd from '../Adds/BannerAdd';
-import AddWallet from '../hooks/AddWallet';
 import {useIsFocused} from '@react-navigation/native';
 import axios from 'axios';
 import {challengesApi} from '../Api';
@@ -38,13 +37,6 @@ const LearnPage = () => {
         }
         return prevSeconds + 1;
       });
-
-      // Reward logic: Reward user every 15 minutes
-      if (minutes === 15 && seconds === 0) {
-        AddWallet(user?._id, 5, setUser).then(() => {
-          ToastAndroid.show('Congrats! You earned Rs:5', ToastAndroid.SHORT);
-        });
-      }
     }, 1000);
 
     return () => clearInterval(interval); // Cleanup interval on component unmount

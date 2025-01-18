@@ -36,7 +36,6 @@ import CoreChallengeViewer from '../Pages/CoreChallengeViewer';
 import VideoTutorials from '../Pages/VideoTutorials';
 import InterViewDetails from '../Pages/InterViewDetails';
 import InterviewPrep from '../Pages/InterviewPrep';
-import Task from '../Pages/Task';
 import HeadingText from '../utils/HeadingText';
 import PasswordReset from '../LoginSystem/PasswordReset';
 import OtpVerification from '../LoginSystem/OtpVerification';
@@ -384,11 +383,6 @@ const StackNavigations = () => {
       <Stack.Screen
         name="InterviewPreparation"
         component={InterviewPrep}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="taskScreen"
-        component={Task}
         options={{headerShown: false}}
       />
       <Stack.Screen

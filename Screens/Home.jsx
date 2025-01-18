@@ -1,11 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useMemo,
-  useCallback,
-  useRef,
-  Suspense,
-} from 'react';
+import React, {useState, useEffect, useCallback, Suspense} from 'react';
 import {
   StyleSheet,
   Text,
@@ -15,7 +8,6 @@ import {
   TextInput,
   TouchableOpacity,
   Pressable,
-  Animated,
   Dimensions,
   InteractionManager,
   RefreshControl,
@@ -38,15 +30,12 @@ import {loginApi, profileApi} from '../Api';
 const SuggestionWapper = React.lazy(() =>
   import('../components/SuggestionWapper'),
 );
-// import  from '../components/SuggestionWapper';
 import useSocketOn from '../Socket/useSocketOn';
 import {SocketData} from '../Socket/SocketContext';
-import BannerAdd from '../Adds/BannerAdd';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import useShakeAnimation from '../hooks/useShakeAnimation';
 import PragraphText from '../utils/PragraphText';
 const Companies = React.lazy(() => import('../components/Companies'));
-const Tasks = React.lazy(() => import('../components/Tasks'));
 import DailyClaim from '../components/DailyClaim';
 // import usehook for show adds
 import {
@@ -301,42 +290,6 @@ const Home = () => {
               alignItems: 'center',
               columnGap: 30,
             }}>
-            <Text
-              onPress={() => navigation.navigate('Wallet')}
-              style={{
-                position: 'absolute',
-                backgroundColor: '#e63946',
-                color: 'white',
-                zIndex: 10,
-                borderRadius: 50,
-                padding: 5,
-                fontSize: 8,
-                top: hp('-1.6%'),
-                right: wp('10%'),
-                paddingHorizontal: 8,
-              }}>
-              <Fontawesome name="rupee" color="white" size={8} />
-              {user?.Wallet?.TotalWallet}
-            </Text>
-            <Animated.View
-              style={{
-                transform: [
-                  {
-                    translateX:
-                      user?.Wallet?.TotalWallet >= 1 ? shakeInterpolation : 0,
-                  },
-                ],
-              }}>
-              <TouchableOpacity
-                style={{position: 'relative'}}
-                onPress={() => navigation.navigate('Wallet')}>
-                <SimpleLineIcons
-                  name="wallet"
-                  size={25}
-                  color={Colors.mildGrey}
-                />
-              </TouchableOpacity>
-            </Animated.View>
             {/* message batch */}
             {/* <Text
             onPress={() => navigation.navigate('message')}
@@ -492,15 +445,6 @@ const Home = () => {
               </TouchableOpacity>
             </LinearGradient>
           </View>
-        </Suspense>
-        {/* tasks */}
-        <Suspense
-          fallback={
-            <View style={{margin: 15}}>
-              <Skeleton width="100%" height={height * 0.2} radius={10} />
-            </View>
-          }>
-          <Tasks />
         </Suspense>
         {/* friends suggestions */}
         <Suspense
