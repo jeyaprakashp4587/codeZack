@@ -1,4 +1,4 @@
-import {Dimensions, Image, Text, View} from 'react-native';
+import {Dimensions, FlatList, Image, Text, View} from 'react-native';
 import React, {useCallback, useMemo} from 'react';
 import Ripple from 'react-native-material-ripple';
 import {debounce} from 'lodash';
@@ -75,52 +75,64 @@ const IdeasWrapper = () => {
           flexWrap: 'wrap',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: 10,
           marginHorizontal: 15,
         }}>
-        {IdeaData.map((item, index) => (
-          <LinearGradient
-            start={index % 2 === 0 ? {x: 1, y: 0} : {x: 0, y: 0}}
-            end={index % 2 === 0 ? {x: 0, y: 1} : {x: 1, y: 1}}
-            colors={['white', item.color, 'white']}
-            style={{
-              width: '47%',
-              borderRadius: 10,
-              height: height * 0.09,
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              elevation: 1.5,
-              overflow: 'hidden',
-            }}>
-            <Ripple
-              style={{width: '100%', height: '100%', justifyContent: 'center'}}
-              onPress={() => item.function()}>
-              <Text
+        <FlatList
+          data={IdeaData}
+          keyExtractor={item => item._id}
+          numColumns={2}
+          columnWrapperStyle={{
+            justifyContent: 'space-between',
+            padding: 1,
+          }}
+          renderItem={({item, index}) => (
+            <LinearGradient
+              start={index % 2 === 0 ? {x: 1, y: 0} : {x: 0, y: 0}}
+              end={index % 2 === 0 ? {x: 0, y: 1} : {x: 1, y: 1}}
+              colors={['white', item.color, 'white']}
+              style={{
+                width: '48%',
+                borderRadius: 10,
+                height: height * 0.09,
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                elevation: 1.5,
+                overflow: 'hidden',
+                marginBottom: 10,
+              }}>
+              <Ripple
                 style={{
-                  textAlign: 'center',
-                  color: Colors.veryDarkGrey,
-                  letterSpacing: 1,
-                  fontSize: width * 0.028,
-                  fontWeight: '600',
-                }}>
-                {item.name}
-              </Text>
-              {/* icons */}
-              <Image
-                source={{uri: item.icon}}
-                style={{
-                  width: 40,
-                  height: 40,
-                  // tintColor: Colors.veryLightGrey,
-                  position: 'absolute',
-                  left: width * 0.04,
-                  opacity: 0.2,
+                  width: '100%',
+                  height: '100%',
+                  justifyContent: 'center',
                 }}
-              />
-            </Ripple>
-          </LinearGradient>
-        ))}
+                onPress={() => item.function()}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    color: Colors.veryDarkGrey,
+                    letterSpacing: 1,
+                    fontSize: width * 0.028,
+                    fontWeight: '600',
+                  }}>
+                  {item.name}
+                </Text>
+                {/* icons */}
+                <Image
+                  source={{uri: item.icon}}
+                  style={{
+                    width: 40,
+                    height: 40,
+                    position: 'absolute',
+                    left: width * 0.04,
+                    opacity: 0.2,
+                  }}
+                />
+              </Ripple>
+            </LinearGradient>
+          )}
+        />
       </View>
     </View>
   );

@@ -8,8 +8,9 @@ import {
   TouchableOpacity,
   Dimensions,
   Modal,
+  ScrollView,
+  RefreshControl,
 } from 'react-native';
-
 import {Colors, pageView} from '../constants/Colors';
 import {useData} from '../Context/Contexter';
 import HeadingText from '../utils/HeadingText';
@@ -41,55 +42,74 @@ const ChooseChallenge = ({navigation}) => {
   const {selectedChallengeTopic, setSelectedChallenge, user} = useData();
   const [Challenges, setChallenges] = useState([]);
   const [difficultyInfo, setDifficultyInfo] = useState('Newbie');
-  const [menuVisible, setMenuVisible] = useState(false); // Custom dropdown visibility
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [challengesData, setChallengesData] = useState(null); // To store all challenges initially
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const getChallenges = useCallback(
-    async (ChallengeTopic, level) => {
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await axios.post(
-          `${challengesApi}/Challenges/getChallenges`,
-          {
-            ChallengeTopic: ChallengeTopic,
-          },
-        );
-        if (res.data) {
-          const {newbieLevel, juniorLevel, expertLevel, legendLevel} = res.data;
-          switch (level) {
-            case 'Newbie':
-              setChallenges([...newbieLevel]);
-              break;
-            case 'Junior':
-              setChallenges([...juniorLevel]);
-              break;
-            case 'Expert':
-              setChallenges([...expertLevel]);
-              break;
-            case 'Legend':
-              setChallenges([...legendLevel]);
-              break;
-            default:
-              setChallenges([]);
-          }
-        }
-      } catch (err) {
-        setError('Failed to load challenges. Please try again.');
-        console.error('Error fetching challenges:', err);
-      } finally {
-        setLoading(false);
+  const getChallenges = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await axios.post(
+        `${challengesApi}/Challenges/getChallenges`,
+        {
+          ChallengeTopic: selectedChallengeTopic,
+        },
+      );
+      if (res.data) {
+        setChallengesData(res.data);
+        filterChallengesByLevel('Newbie');
+      }
+    } catch (err) {
+      setError('Failed to load challenges. Please try again.');
+      console.error('Error fetching challenges:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, [selectedChallengeTopic]); // Fetch only once when component mounts
+
+  const filterChallengesByLevel = useCallback(
+    level => {
+      if (!challengesData) {
+        setError('Challenges not loaded yet. Please refresh.');
+        return;
+      }
+      const {newbieLevel, juniorLevel, expertLevel, legendLevel} =
+        challengesData;
+      switch (level) {
+        case 'Newbie':
+          setChallenges([...newbieLevel]);
+          break;
+        case 'Junior':
+          setChallenges([...juniorLevel]);
+          break;
+        case 'Expert':
+          setChallenges([...expertLevel]);
+          break;
+        case 'Legend':
+          setChallenges([...legendLevel]);
+          break;
+        default:
+          setChallenges([]);
       }
     },
-    [difficultyInfo],
+    [challengesData],
   );
+  // Fetch challenges only once when the component mounts
 
+  useEffect(() => {
+    getChallenges();
+  }, [getChallenges]);
+  // refresh
+  const handleRefresh = useCallback(async () => {
+    await getChallenges();
+  }, []);
   const HandleSelectLevel = useCallback(
     levelName => {
       setDifficultyInfo(levelName);
       setMenuVisible(false); // Close custom dropdown
-      getChallenges(selectedChallengeTopic, levelName);
+      filterChallengesByLevel(levelName);
     },
     [getChallenges, selectedChallengeTopic],
   );
@@ -138,7 +158,7 @@ const ChooseChallenge = ({navigation}) => {
   }
 
   return (
-    <View style={styles.pageView}>
+    <ScrollView style={styles.pageView} refreshControl={<RefreshControl />}>
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text={selectedChallengeTopic} />
       </View>
@@ -270,7 +290,7 @@ const ChooseChallenge = ({navigation}) => {
           </View>
         )}
       />
-    </View>
+    </ScrollView>
   );
 };
 

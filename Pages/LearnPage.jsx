@@ -7,14 +7,11 @@ import {useData} from '../Context/Contexter';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Skeleton from '../Skeletons/Skeleton';
 import BannerAdd from '../Adds/BannerAdd';
-import {useIsFocused} from '@react-navigation/native';
-import axios from 'axios';
-import {challengesApi} from '../Api';
 
 const {width, height} = Dimensions.get('window');
 
 const LearnPage = () => {
-  const {selectedTechnology, user, setUser} = useData();
+  const {selectedTechnology} = useData();
 
   // Timer states
   const [hours, setHours] = useState(0);
@@ -42,32 +39,6 @@ const LearnPage = () => {
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, [minutes, seconds]);
 
-  // Detect when the screen becomes inactive
-  const isFocused = useIsFocused();
-  useEffect(() => {
-    if (!isFocused) {
-      sendSpendTime(); // Send time to the server
-    }
-  }, [isFocused]);
-
-  // Function to send total time (in minutes) to the server
-  const sendSpendTime = useCallback(async () => {
-    const totalMinutes = hours * 60 + minutes + Math.floor(seconds / 60); // Convert time to total minutes
-    try {
-      const res = await axios.post(`${challengesApi}/Wallet/saveSpendTime`, {
-        userId: user?._id,
-        Time: totalMinutes,
-      });
-      if (res.status == 200) {
-        res.status(200).json({data: user?.TotalStudyTime});
-        setUser(prev => ({...prev, TotalStudyTime: res.data.data}));
-      }
-      // console.log('Time sent to server:', totalMinutes, res.data);
-    } catch (error) {
-      // console.error('Error sending time to server:', error);
-    }
-  }, [hours, minutes, seconds]);
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -91,15 +62,12 @@ const LearnPage = () => {
       {/* add */}
       <BannerAdd />
       {/* add */}
-      {selectedTechnology?.web ? (
-        <WebView
-          javaScriptEnabled
-          source={{uri: selectedTechnology.web}}
-          style={styles.webview}
-        />
-      ) : (
-        <Skeleton width={width * 0.5} height={height * 0.25} />
-      )}
+
+      <WebView
+        javaScriptEnabled
+        source={{uri: selectedTechnology?.web}}
+        style={styles.webview}
+      />
     </View>
   );
 };

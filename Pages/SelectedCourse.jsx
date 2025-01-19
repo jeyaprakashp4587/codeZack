@@ -129,8 +129,10 @@ export default React.memo(SelectedCourse);
 const styles = StyleSheet.create({
   pageView: {
     flex: 1,
-    // paddingHorizontal: width * 0.05,
     backgroundColor: '#fff',
+    flexDirection: 'column',
+    // justifyContent: 'center',
+    alignItems: 'center',
   },
   courseName: {
     fontSize: width * 0.065,

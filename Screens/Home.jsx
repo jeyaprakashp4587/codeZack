@@ -61,7 +61,6 @@ const Home = () => {
   const [UiLoading, setUiLoading] = useState(false);
   const [suggestRefresh, setSuggestRefresh] = useState(false);
   const [unseenCount, setUnseenCount] = useState(0);
-  const shakeInterpolation = useShakeAnimation(3000);
   const socket = SocketData();
   const [refresh, setRefresh] = useState(false);
   // init firebase notification
@@ -183,19 +182,12 @@ const Home = () => {
     }
   }, []);
   // Loading ui effect
-  const emitSocketEvent = useSocketEmit(socket);
   useEffect(() => {
+    getNotifications();
     setTimeout(() => {
       setUiLoading(true);
       // load add
     }, 500);
-  }, []);
-  // set time
-  const getCurrentGreeting = useCallback(() => {
-    const currentHour = new Date().getHours();
-    if (currentHour < 12) return 'Good Morning';
-    if (currentHour < 17) return 'Good Afternoon';
-    return 'Good Evening';
   }, []);
   // refresh user
   const refreshUser = useCallback(async () => {
@@ -213,7 +205,7 @@ const Home = () => {
     } catch (error) {
       console.error('Failed to refresh user:', error);
     }
-  }, [user?._id, setUser]);
+  }, []);
   // get notifiation
   const getNotifications = useCallback(async () => {
     try {
@@ -227,7 +219,7 @@ const Home = () => {
     } catch (error) {
       console.error('Failed to fetch notifications:', error);
     }
-  }, [user?._id]);
+  }, [user]);
   // socket
   // update the socket
   useSocketOn(socket, 'updateNoti', async data => {
@@ -241,13 +233,6 @@ const Home = () => {
     // Vibration.vibrate({});
     Vibration.vibrate([0, 200, 100, 200]);
   });
-
-  useEffect(() => {
-    InteractionManager.runAfterInteractions(async () => {
-      await getNotifications();
-      checkButtonStatus();
-    });
-  }, []);
   // render ui after load
   if (!UiLoading) return <HomeSkeleton />;
 
@@ -288,63 +273,8 @@ const Home = () => {
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              columnGap: 30,
+              columnGap: 15,
             }}>
-            {/* message batch */}
-            {/* <Text
-            onPress={() => navigation.navigate('message')}
-            style={{
-              position: 'absolute',
-              backgroundColor: '#e63946',
-              color: 'white',
-              zIndex: 10,
-              borderRadius: 50,
-              fontSize: 7,
-              top: -height * 0.017,
-              right: -width * 0.009,
-              padding: 5,
-              paddingHorizontal: 8,
-              // textAlign: 'center',
-            }}>
-            1
-          </Text> */}
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('message');
-              }}>
-              <FontAwesome name="send-o" size={20} color={Colors.mildGrey} />
-            </TouchableOpacity>
-          </View>
-        </View>
-        {/* greeding and notification */}
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            paddingHorizontal: 15,
-            flexWrap: 'wrap',
-          }}>
-          <Text
-            style={{
-              // color: Colors.white,
-              fontSize: width * 0.03,
-              lineHeight: 30,
-              letterSpacing: 1,
-              borderTopRightRadius: 20,
-              borderBottomRightRadius: 20,
-              fontWeight: '600',
-            }}>
-            {/* {getCurrentGreeting()} */}
-            Hello👋 {user?.firstName}!
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              columnGap: 10,
-            }}>
-            <DailyClaim />
             <Pressable
               style={{position: 'relative'}}
               onPress={() => navigation.navigate('notifications')}>
@@ -369,8 +299,69 @@ const Home = () => {
                 }}>
                 {unseenCount}
               </Text>
-              <FontAwesomeIcon color="orange" icon={faBell} size={23} />
+              <FontAwesomeIcon
+                color="orange"
+                icon={faBell}
+                size={width * 0.055}
+              />
             </Pressable>
+            {/* message batch */}
+            {/* <Text
+            onPress={() => navigation.navigate('message')}
+            style={{
+              position: 'absolute',
+              backgroundColor: '#e63946',
+              color: 'white',
+              zIndex: 10,
+              borderRadius: 50,
+              fontSize: 7,
+              top: -height * 0.017,
+              right: -width * 0.009,
+              padding: 5,
+              paddingHorizontal: 8,
+              // textAlign: 'center',
+            }}>
+            1
+          </Text> */}
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('message');
+              }}>
+              <Image
+                source={{uri: 'https://i.ibb.co/V9h4w1s/send.png'}}
+                style={{width: width * 0.055, aspectRatio: 1}}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+        {/* greeding and notification */}
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingHorizontal: 15,
+            flexWrap: 'wrap',
+          }}>
+          <Text
+            style={{
+              // color: Colors.white,
+              fontSize: width * 0.03,
+              lineHeight: 30,
+              letterSpacing: 1,
+              borderTopRightRadius: 20,
+              borderBottomRightRadius: 20,
+              fontWeight: '600',
+            }}>
+            Hello👋 {user?.firstName}!
+          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              columnGap: 10,
+            }}>
+            <DailyClaim />
           </View>
         </View>
         {/* search bar */}

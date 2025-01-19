@@ -238,10 +238,10 @@ const InterviewPrep = () => {
             <Text
               style={{
                 letterSpacing: 2,
-                lineHeight: 25,
+                lineHeight: 20,
                 color: '#1a535c',
                 fontWeight: '600',
-                fontSize: width * 0.034,
+                fontSize: width * 0.024,
               }}>
               Explanation:{' '}
               {currentWeek?.sample_questions[currentQuestion]?.explanation}

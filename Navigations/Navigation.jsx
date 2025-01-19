@@ -72,7 +72,7 @@ const TabNavigation = () => {
             height: hp('10%'),
             paddingBottom: 10,
             borderTopWidth: 0,
-            borderWidth: 1,
+            // borderWidth: 1,
           },
           tabBarLabelStyle: {
             fontSize: width * 0.027,
@@ -81,7 +81,7 @@ const TabNavigation = () => {
             fontFamily: font.poppins,
             color: Colors.mildGrey,
             letterSpacing: 1,
-            backgroundColor: 'transparent',
+            // backgroundColor: 'transparent',
           },
           tabBarHideOnKeyboard: true,
         }}

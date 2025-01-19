@@ -83,7 +83,6 @@ const DailyClaim = () => {
       );
       return;
     }
-    showIntrestAdd();
     // reutn the add, if user alrady cjecked in today
     if (isDisabled) {
       ToastAndroid.show('You have already checked', ToastAndroid.SHORT);
@@ -92,7 +91,7 @@ const DailyClaim = () => {
     const now = moment().toISOString();
     await AsyncStorage.setItem('lastCheckIn', now);
     if (result === 'ok') {
-      await showIntrestAdd();
+      showIntrestAdd();
       setIsDisabled(true); // Disable the button again after claiming
     } else {
       // ToastAndroid.show('Failed to add to wallet.', ToastAndroid.SHORT);

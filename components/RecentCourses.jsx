@@ -24,7 +24,15 @@ const RecentCourses = () => {
   }
   return (
     <View style={{paddingHorizontal: 15, marginVertical: 10}}>
-      <TopicsText text="Continue your courses" fszie={width * 0.04} mb={10} />
+      <Text
+        style={{
+          fontSize: width * 0.042,
+          letterSpacing: 1,
+          color: Colors.mildGrey,
+          marginBottom: 10,
+        }}>
+        Recent Course
+      </Text>
       <View
         style={{
           padding: 20,
