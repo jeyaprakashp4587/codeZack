@@ -28,14 +28,33 @@ const Companies = () => {
   // get all companies name and logo
   const [companies, setCompanies] = useState([]);
   const getCompanyDetails = useCallback(async () => {
-    const res = await axios.get(`${profileApi}/InterView/getCompanyDetails`);
-    if (res.status == 200) {
-      setCompanies(res.data);
-      return res.data;
+    try {
+      const res = await axios.get(`${profileApi}/InterView/getCompanyDetails`);
+      if (res.status === 200) {
+        let companies = res.data;
+        // Find all companies the user is enrolled in
+        const enrolledCompanies = companies.filter(comp =>
+          user?.InterView?.some(
+            userComp => userComp?.companyName === comp?.company_name,
+          ),
+        );
+        // Filter out enrolled companies from the main list
+        const otherCompanies = companies.filter(
+          comp =>
+            !user?.InterView?.some(
+              userComp => userComp?.companyName === comp?.company_name,
+            ),
+        );
+        // Combine enrolled companies at the beginning of the list
+        companies = [...enrolledCompanies, ...otherCompanies];
+        setCompanies(companies);
+        return companies;
+      }
+    } catch (error) {
+      console.error('Error fetching company details:', error);
     }
   }, [user]);
-  //
-  const [existingCompany, setExistingCompany] = useState(false);
+
   useEffect(() => {
     getCompanyDetails();
   }, []);

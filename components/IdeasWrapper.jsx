@@ -83,7 +83,7 @@ const IdeasWrapper = () => {
           numColumns={2}
           columnWrapperStyle={{
             justifyContent: 'space-between',
-            padding: 1,
+            padding: 2,
           }}
           renderItem={({item, index}) => (
             <LinearGradient

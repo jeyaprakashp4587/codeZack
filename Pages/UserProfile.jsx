@@ -41,6 +41,12 @@ const UserProfile = () => {
   const [existsFollower, setExistsFollower] = useState(false);
   const [loading, setLoading] = useState(false); // Add loading state for API calls
   const RBSheetRef = useRef(null);
+  // check the selected user id for that user is  dev user
+  useEffect(() => {
+    if (selectedUser == user?._id) {
+      navigation.navigate('profile');
+    }
+  }, [selectedUser]);
   // Send notification to user
   const sendNotification = useCallback(() => {
     if (selectedUser?._id && user?._id) {

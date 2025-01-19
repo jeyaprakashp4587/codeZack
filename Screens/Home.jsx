@@ -9,14 +9,11 @@ import {
   TouchableOpacity,
   Pressable,
   Dimensions,
-  InteractionManager,
   RefreshControl,
   AppState,
   Vibration,
-  StatusBar,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
-import Fontawesome from 'react-native-vector-icons/FontAwesome';
 import HomeSkeleton from '../Skeletons/HomeSkeleton';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBell, faMessage} from '@fortawesome/free-regular-svg-icons';
@@ -24,7 +21,6 @@ import {useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
 import {LinearGradient} from 'react-native-linear-gradient';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import {loginApi, profileApi} from '../Api';
 const SuggestionWapper = React.lazy(() =>
@@ -32,18 +28,14 @@ const SuggestionWapper = React.lazy(() =>
 );
 import useSocketOn from '../Socket/useSocketOn';
 import {SocketData} from '../Socket/SocketContext';
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import useShakeAnimation from '../hooks/useShakeAnimation';
 import PragraphText from '../utils/PragraphText';
 const Companies = React.lazy(() => import('../components/Companies'));
-import DailyClaim from '../components/DailyClaim';
 // import usehook for show adds
 import {
   TestIds,
   useAppOpenAd,
   useRewardedAd,
 } from 'react-native-google-mobile-ads';
-import useSocketEmit from '../Socket/useSocketEmit';
 import Skeleton from '../Skeletons/Skeleton';
 import useFCMToken from '../hooks/useFCMToken';
 import IdeasWrapper from '../components/IdeasWrapper';
@@ -65,15 +57,6 @@ const Home = () => {
   const [refresh, setRefresh] = useState(false);
   // init firebase notification
   useFCMToken();
-  // handle scroll for navigate post screen
-  const handleScroll = event => {
-    const {contentOffset, contentSize, layoutMeasurement} = event.nativeEvent;
-    const isAtBottom =
-      layoutMeasurement.height + contentOffset.y >= contentSize.height - 2;
-    if (isAtBottom && user?.ConnectionsPost?.length > 0) {
-      // navigation.navigate('postFeed');
-    }
-  };
   // config reward add for every three mintes
   const {
     show: showReward,
@@ -239,7 +222,6 @@ const Home = () => {
   return (
     <View style={{backgroundColor: 'white', flex: 1}}>
       <ScrollView
-        onScroll={event => handleScroll(event)}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -355,14 +337,6 @@ const Home = () => {
             }}>
             Hello👋 {user?.firstName}!
           </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              columnGap: 10,
-            }}>
-            <DailyClaim />
-          </View>
         </View>
         {/* search bar */}
         <TouchableOpacity

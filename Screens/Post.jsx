@@ -199,6 +199,7 @@ const Post = () => {
           alignItems: 'center',
           columnGap: 20,
           paddingHorizontal: 15,
+          marginTop: 20,
         }}>
         <Image
           source={{
