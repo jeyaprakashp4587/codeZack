@@ -188,7 +188,7 @@ const Post = () => {
           onRefresh={() => refreshFields()}
         />
       }>
-      {/* heading Text */}
+      {/* heading Text  fj*/}
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text="Post" />
       </View>
