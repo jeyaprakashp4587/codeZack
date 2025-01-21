@@ -43,8 +43,12 @@ const UserProfile = () => {
   const RBSheetRef = useRef(null);
   // check the selected user id for that user is  dev user
   useEffect(() => {
-    if (selectedUser == user?._id) {
-      navigation.navigate('profile');
+    console.log(selectedUser);
+
+    if (selectedUser === user?._id) {
+      console.log('yes');
+
+      navigation.replace('profile');
     }
   }, [selectedUser]);
   // Send notification to user

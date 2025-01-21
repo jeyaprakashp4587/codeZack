@@ -48,6 +48,7 @@ const ChooseChallenge = ({navigation}) => {
   const [error, setError] = useState(null);
 
   const getChallenges = useCallback(async () => {
+    console.log('Fetching challenges...');
     setLoading(true);
     setError(null);
     try {
@@ -57,9 +58,8 @@ const ChooseChallenge = ({navigation}) => {
           ChallengeTopic: selectedChallengeTopic,
         },
       );
-      if (res.data) {
-        setChallengesData(res.data);
-        filterChallengesByLevel('Newbie');
+      if (res.data && res.status === 200) {
+        setChallengesData(res.data); // Update challengesData
       }
     } catch (err) {
       setError('Failed to load challenges. Please try again.');
@@ -67,14 +67,14 @@ const ChooseChallenge = ({navigation}) => {
     } finally {
       setLoading(false);
     }
-  }, [selectedChallengeTopic]); // Fetch only once when component mounts
-
+  }, [selectedChallengeTopic]);
   const filterChallengesByLevel = useCallback(
     level => {
       if (!challengesData) {
         setError('Challenges not loaded yet. Please refresh.');
         return;
       }
+
       const {newbieLevel, juniorLevel, expertLevel, legendLevel} =
         challengesData;
       switch (level) {
@@ -97,13 +97,21 @@ const ChooseChallenge = ({navigation}) => {
     [challengesData],
   );
   // Fetch challenges only once when the component mounts
-
   useEffect(() => {
     getChallenges();
   }, [getChallenges]);
+  // Automatically filter challenges by level when challengesData is updated
+  useEffect(() => {
+    if (challengesData) {
+      filterChallengesByLevel('Newbie');
+    }
+  }, [challengesData, filterChallengesByLevel]);
+
   // refresh
+  const [refresh, setRefresh] = useState(false);
   const handleRefresh = useCallback(async () => {
-    await getChallenges();
+    setRefresh(true);
+    await getChallenges().finally(() => setRefresh(false));
   }, []);
   const HandleSelectLevel = useCallback(
     levelName => {
@@ -151,14 +159,23 @@ const ChooseChallenge = ({navigation}) => {
 
   if (error) {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={handleRefresh} />
+        }
+        style={{
+          flex: 1,
+          // justifyContent: 'center',
+          // alignItems: 'center',
+          backgroundColor: 'white',
+        }}>
         <Text>{error}</Text>
-      </View>
+      </ScrollView>
     );
   }
 
   return (
-    <ScrollView style={styles.pageView} refreshControl={<RefreshControl />}>
+    <View style={styles.pageView}>
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text={selectedChallengeTopic} />
       </View>
@@ -290,7 +307,7 @@ const ChooseChallenge = ({navigation}) => {
           </View>
         )}
       />
-    </ScrollView>
+    </View>
   );
 };
 
