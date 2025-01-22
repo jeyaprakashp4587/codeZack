@@ -30,7 +30,6 @@ import Assignment from '../Pages/Assignments';
 import PostViewer from '../Pages/PostViewer';
 import ChallengeViewer from '../Pages/ChallengeViewer';
 import AssignmentPlayGround from '../Pages/AssignmentPlayGround';
-import Wallet from '../Pages/Wallet';
 import CoreChallenges from '../Pages/CoreChallenges';
 import CoreChallengeViewer from '../Pages/CoreChallengeViewer';
 import VideoTutorials from '../Pages/VideoTutorials';
@@ -355,11 +354,7 @@ const StackNavigations = () => {
         component={AssignmentPlayGround}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        name="Wallet"
-        component={Wallet}
-        options={{headerShown: false}}
-      />
+
       <Stack.Screen
         name="CoreChallenge"
         component={CoreChallenges}

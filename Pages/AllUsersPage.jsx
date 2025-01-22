@@ -72,6 +72,7 @@ const AllUsersPage = () => {
           paddingHorizontal: 15,
           paddingTop: 15,
         }}>
+        {suggestions?.length <= 0 && <Text>No more suggestion</Text>}
         <FlatList
           scrollEnabled
           refreshControl={<RefreshControl refreshing={refresh} />}

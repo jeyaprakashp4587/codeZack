@@ -1,5 +1,6 @@
 import {
   Dimensions,
+  FlatList,
   Image,
   ScrollView,
   StyleSheet,
@@ -13,6 +14,8 @@ import axios from 'axios';
 import {profileApi} from '../Api';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
+import LinearGradient from 'react-native-linear-gradient';
+import Skeleton from '../Skeletons/Skeleton';
 
 const Companies = () => {
   const navigation = useNavigation();
@@ -33,16 +36,16 @@ const Companies = () => {
       if (res.status === 200) {
         let companies = res.data;
         // Find all companies the user is enrolled in
-        const enrolledCompanies = companies.filter(comp =>
+        const enrolledCompanies = companies.filter(item =>
           user?.InterView?.some(
-            userComp => userComp?.companyName === comp?.company_name,
+            userComp => userComp?.companyName === item?.company_name,
           ),
         );
         // Filter out enrolled companies from the main list
         const otherCompanies = companies.filter(
-          comp =>
+          item =>
             !user?.InterView?.some(
-              userComp => userComp?.companyName === comp?.company_name,
+              userComp => userComp?.companyName === item?.company_name,
             ),
         );
         // Combine enrolled companies at the beginning of the list
@@ -59,75 +62,116 @@ const Companies = () => {
     getCompanyDetails();
   }, []);
 
+  if (!companies) {
+    return (
+      <View
+        style={{
+          paddingHorizontal: 15,
+          marginBottom: 10,
+          flexDirection: 'row',
+          columnGap: 10,
+        }}>
+        <Skeleton width={width * 0.6} height={height * 0.14} radius={20} />
+        <Skeleton width={width * 0.6} height={height * 0.14} radius={20} />
+      </View>
+    );
+  }
   //
   return (
-    <ScrollView
-      style={{
-        marginBottom: 10,
-        paddingLeft: 15,
-      }}
-      horizontal={true}
-      showsHorizontalScrollIndicator={false}>
-      {companies.map((comp, index) => (
-        <TouchableOpacity
-          key={index}
-          onPress={() => handleSetInterView(comp?.company_name)}
-          style={{
-            flex: 1,
-            borderWidth: 1,
-            borderColor: Colors.veryLightGrey,
-            padding: width * 0.04,
-            borderRadius: 10,
-            flexDirection: 'column',
-            rowGap: 15,
-            backgroundColor: 'white',
-            alignItems: 'center',
-            marginRight: 15,
-          }}>
-          <View
+    <View style={{paddingLeft: 15, marginBottom: 10}}>
+      <FlatList
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        data={companies}
+        renderItem={({item}) => (
+          <LinearGradient
+            colors={['black', '#1e1815', '#4b3d34', '#806859']}
+            start={{x: 0, y: 1}}
+            end={{x: 1, y: 1}}
             style={{
-              borderWidth: 0,
-              width: width * 0.3,
-              height: height * 0.05,
-              // flex: 1.5,
+              marginRight: 10,
+              borderRadius: 15,
+              padding: 15,
+              flexDirection: 'column',
+              rowGap: 10,
+              elevation: 4,
+              marginVertical: 5,
             }}>
-            <Image
-              source={{uri: comp?.companyLogo}}
+            <View
               style={{
-                width: '100%',
-                height: '100%',
-                resizeMode: 'contain',
-              }}
-            />
-          </View>
-          {user?.InterView?.some(
-            userComp => userComp?.companyName == comp?.company_name,
-          ) ? (
-            <Text
-              style={{
-                letterSpacing: 2,
-                color: Colors.mildGrey,
-                textAlign: 'center',
-                fontWeight: '600',
-                fontSize: width * 0.03,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flex: 1,
               }}>
-              Continue
-            </Text>
-          ) : (
-            <Text
+              <View style={{borderWidth: 0, flex: 1}}>
+                <Text
+                  style={{
+                    color: 'white',
+                    textAlign: 'left',
+                    fontWeight: '400',
+                    letterSpacing: 1,
+                    fontSize: width * 0.04,
+                  }}>
+                  {item?.company_name}
+                </Text>
+                <Text
+                  style={{
+                    fontWeight: '600',
+                    color: 'white',
+                    letterSpacing: 1,
+                    fontSize: width * 0.05,
+                  }}>
+                  6 Weeks
+                </Text>
+              </View>
+              <View style={{borderWidth: 0, flex: 1}}>
+                <Image
+                  source={{uri: item?.companyLogo}}
+                  style={{
+                    resizeMode: 'contain',
+                    width: width * 0.35,
+                    height: height * 0.05,
+                  }}
+                />
+              </View>
+            </View>
+            <View
               style={{
-                letterSpacing: 2,
-                color: Colors.mildGrey,
-                textAlign: 'center',
-                fontWeight: '600',
-                fontSize: width * 0.03,
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
               }}>
-              Prepare For {comp?.company_name}
-            </Text>
-          )}
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
+              <TouchableOpacity
+                onPress={() => handleSetInterView(item?.company_name)}
+                style={{
+                  borderWidth: 0.7,
+                  borderColor: 'white',
+                  padding: 10,
+                  width: '100%',
+                  borderRadius: 50,
+                }}>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontWeight: '600',
+                    textAlign: 'center',
+                    letterSpacing: 1,
+                    fontSize: width * 0.025,
+                  }}>
+                  {user?.InterView?.some(
+                    userComp => userComp?.companyName == item?.company_name,
+                  )
+                    ? 'Continue'
+                    : 'Start'}{' '}
+                  your Preparation
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </LinearGradient>
+        )}
+      />
+    </View>
   );
 };
 

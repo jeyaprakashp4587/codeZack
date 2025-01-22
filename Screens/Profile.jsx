@@ -601,6 +601,8 @@ const Profile = ({navigation}) => {
             // width: width * 0.9,
             // borderWidth: 0.2,
             width: '100%',
+            borderBottomWidth: 0.4,
+            borderColor: Colors.veryLightGrey,
           }}>
           <Text
             style={{
@@ -612,34 +614,6 @@ const Profile = ({navigation}) => {
             Your Courses
           </Text>
           <AntDesign name="laptop" size={23} color={Colors.veryDarkGrey} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Wallet')}
-          style={{
-            padding: 15,
-            borderRadius: 10,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '100%',
-            // borderWidth: 0.2,
-            borderTopWidth: 1,
-            borderBottomWidth: 1,
-            borderColor: '#e6e6e6',
-          }}>
-          <Text
-            style={{
-              color: 'Colors.veryDarkGrey',
-              // fontWeight: '600',
-              letterSpacing: 1,
-              fontSize: width * 0.035,
-            }}>
-            Your Wallet
-          </Text>
-          <SimpleLineIcons
-            name="wallet"
-            size={25}
-            color={Colors.veryDarkGrey}
-          />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
