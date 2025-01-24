@@ -48,6 +48,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {BottomTabBar} from '@react-navigation/bottom-tabs';
+import SelectedProject from '../Pages/SelectedProject';
 
 // Tab navigations functions
 const {width, height} = Dimensions.get('window');
@@ -415,6 +416,13 @@ const StackNavigations = () => {
         options={{
           headerShown: false,
           // animation: 'slide_from_bottom',
+        }}
+      />
+      <Stack.Screen
+        name="selectedProject"
+        component={SelectedProject}
+        options={{
+          headerShown: false,
         }}
       />
     </Stack.Navigator>

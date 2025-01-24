@@ -14,9 +14,10 @@ import axios from 'axios';
 import PragraphText from '../utils/PragraphText';
 import {Colors} from '../constants/Colors';
 import Ripple from 'react-native-material-ripple';
+import {useNavigation} from '@react-navigation/native';
 
 const Projects = () => {
-  const {user} = useData();
+  const {setSelectedProject} = useData();
   // fetch all projects from server
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -40,6 +41,16 @@ const Projects = () => {
       setLoading(false);
     });
   }, []);
+  //   handle select project and navigate
+  const navigation = useNavigation();
+  const handleSelectProject = useCallback(async project => {
+    try {
+      setSelectedProject(project);
+      navigation.navigate('selectedProject');
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
   return (
     <View>
       <FlatList
@@ -56,7 +67,7 @@ const Projects = () => {
               flexDirection: 'column',
               rowGap: 10,
               borderRadius: 5,
-              elevation: 2,
+              elevation: 1,
               backgroundColor: 'white',
               margin: 5,
               justifyContent: 'space-between',
@@ -65,14 +76,14 @@ const Projects = () => {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                columnGap: 10,
+                columnGap: 20,
               }}>
               <View style={{rowGap: 5}}>
                 {/* discount label*/}
                 {item?.Discount && (
                   <Text
                     style={{
-                      backgroundColor: 'red',
+                      backgroundColor: '#ff6666',
                       paddingHorizontal: 10,
                       paddingVertical: 1,
                       color: 'white',
@@ -88,7 +99,9 @@ const Projects = () => {
                 <Text style={{fontWeight: '600', letterSpacing: 1}}>
                   {item?.name}
                 </Text>
-                <Text>Rs: {item?.Technologies[0]?.Price} /-</Text>
+                <Text style={{fontSize: width * 0.03}}>
+                  Rs: {item?.Technologies[0]?.Price} /-
+                </Text>
                 <View
                   style={{
                     flexDirection: 'row',
@@ -123,11 +136,12 @@ const Projects = () => {
               </View>
             </View>
             <Ripple
+              onPress={() => handleSelectProject(item)}
               style={{
                 borderWidth: 0.5,
                 padding: 5,
                 borderRadius: 5,
-                borderColor: Colors.mildGrey,
+                borderColor: Colors.veryLightGrey,
               }}>
               <Text
                 style={{
@@ -136,7 +150,7 @@ const Projects = () => {
                   letterSpacing: 1,
                   color: Colors.mildGrey,
                 }}>
-                Let's Explore
+                Try it out!
               </Text>
               {/* <View
                 style={{

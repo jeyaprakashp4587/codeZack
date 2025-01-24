@@ -35,6 +35,8 @@ const Companies = () => {
       const res = await axios.get(`${profileApi}/InterView/getCompanyDetails`);
       if (res.status === 200) {
         let companies = res.data;
+        console.log(res.data);
+
         // Find all companies the user is enrolled in
         const enrolledCompanies = companies.filter(item =>
           user?.InterView?.some(
@@ -86,7 +88,8 @@ const Companies = () => {
         data={companies}
         renderItem={({item, index}) => (
           <LinearGradient
-            colors={['black', '#1e1815', '#4b3d34', '#806859']}
+            // colors={['black', '#1e1815', '#4b3d34', '#806859']}
+            colors={item?.colors}
             start={{x: 0, y: 1}}
             end={{x: 1, y: 1}}
             style={{

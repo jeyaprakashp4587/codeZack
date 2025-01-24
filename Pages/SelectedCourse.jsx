@@ -131,8 +131,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     flexDirection: 'column',
-    // justifyContent: 'center',
-    alignItems: 'center',
   },
   courseName: {
     fontSize: width * 0.065,
