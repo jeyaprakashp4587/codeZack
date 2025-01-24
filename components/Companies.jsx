@@ -66,10 +66,11 @@ const Companies = () => {
     return (
       <View
         style={{
-          paddingHorizontal: 15,
+          // paddingHorizontal: 15,
           marginBottom: 10,
           flexDirection: 'row',
           columnGap: 10,
+          borderWidth: 1,
         }}>
         <Skeleton width={width * 0.6} height={height * 0.14} radius={20} />
         <Skeleton width={width * 0.6} height={height * 0.14} radius={20} />
@@ -78,24 +79,25 @@ const Companies = () => {
   }
   //
   return (
-    <View style={{paddingLeft: 15, marginBottom: 10}}>
+    <View style={{paddingLeft: 0, marginBottom: 10}}>
       <FlatList
         horizontal
         showsHorizontalScrollIndicator={false}
         data={companies}
-        renderItem={({item}) => (
+        renderItem={({item, index}) => (
           <LinearGradient
             colors={['black', '#1e1815', '#4b3d34', '#806859']}
             start={{x: 0, y: 1}}
             end={{x: 1, y: 1}}
             style={{
-              marginRight: 10,
+              marginRight: 15,
               borderRadius: 15,
               padding: 15,
               flexDirection: 'column',
               rowGap: 10,
               elevation: 4,
               marginVertical: 5,
+              marginLeft: index == 0 && 15,
             }}>
             <View
               style={{

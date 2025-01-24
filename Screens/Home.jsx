@@ -23,6 +23,7 @@ import {LinearGradient} from 'react-native-linear-gradient';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import axios from 'axios';
 import {loginApi, profileApi} from '../Api';
+const PremiumProjects = React.lazy(() => import('../components/Projects'));
 const SuggestionWapper = React.lazy(() =>
   import('../components/SuggestionWapper'),
 );
@@ -369,6 +370,18 @@ const Home = () => {
         <IdeasWrapper />
         {/* Recent courses */}
         <RecentCourses />
+        {/* premium projects */}
+        <Suspense
+          fallback={
+            <View style={{margin: 15}}>
+              <Skeleton width="100%" height={height * 0.3} radius={10} />
+            </View>
+          }>
+          <View style={{paddingHorizontal: 15}}>
+            <PragraphText text="Premium projects" />
+          </View>
+          <PremiumProjects />
+        </Suspense>
         {/* companies */}
         <Suspense
           fallback={
@@ -383,7 +396,6 @@ const Home = () => {
             style={{
               flexDirection: 'column',
               justifyContent: 'space-between',
-              columnGap: 20,
               borderWidth: 0,
             }}>
             {/* interviews & company */}
