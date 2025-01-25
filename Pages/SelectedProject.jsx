@@ -11,6 +11,7 @@ import React from 'react';
 import {useData} from '../Context/Contexter';
 import HeadingText from '../utils/HeadingText';
 import {Colors} from '../constants/Colors';
+import LinearGradient from 'react-native-linear-gradient';
 
 const SelectedProject = () => {
   const {selectedProject} = useData();
@@ -18,7 +19,9 @@ const SelectedProject = () => {
   //   console.log(selectedProject);
   //  {"Discount": true, "PaymentStatus": "pending", "Technologies": [{"Price": "100", "TechType": "Static", "Techs": [Array]}, {"Price": "200", "TechType": "Dynamic", "Techs": [Array]}], "img": "https://i.ibb.co/cQNpKqT/portfolio.png", "name": "Personal Portfolio", "status": "not started"}
   return (
-    <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
+    <ScrollView
+      style={{flex: 1, backgroundColor: 'white'}}
+      showsHorizontalScrollIndicator={false}>
       {/* header */}
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text={selectedProject?.name} />
@@ -56,6 +59,7 @@ const SelectedProject = () => {
             color: Colors.veryDarkGrey,
             fontWeight: '600',
             fontSize: width * 0.045,
+            letterSpacing: 0.5,
           }}>
           Select your Technology
         </Text>
@@ -67,15 +71,16 @@ const SelectedProject = () => {
                 borderWidth: 0,
                 padding: 15,
                 marginBottom: 20,
-                elevation: 5,
+                elevation: 2,
                 backgroundColor: 'white',
+                borderRadius: 5,
               }}>
               <Text
                 style={{
                   fontSize: width * 0.035,
                   letterSpacing: 1,
                   fontWeight: '600',
-                  color: Colors.mildGrey,
+                  color: Colors.veryDarkGrey,
                   marginBottom: 10,
                 }}>
                 Project Type: {tech?.TechType}
@@ -85,11 +90,12 @@ const SelectedProject = () => {
                   key={index}
                   style={{
                     flexDirection: 'row',
-                    borderWidth: 1,
-                    borderColor: 'white',
+                    borderColor: Colors.veryLightGrey,
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     marginBottom: 10,
+                    borderBottomWidth: 0.5,
+                    paddingBottom: 10,
                   }}>
                   <Text
                     style={{
@@ -109,35 +115,52 @@ const SelectedProject = () => {
               <Text
                 style={{
                   fontWeight: '900',
-                  //   color: 'orange',
+                  color: Colors.violet,
                   letterSpacing: 1,
                   fontSize: width * 0.03,
                   marginBottom: 10,
                 }}>
                 Price Rs: {tech?.Price} /-
               </Text>
-              <TouchableOpacity
-                style={{
-                  padding: 10,
-                  //   borderWidth: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: 5,
-                  backgroundColor: Colors.violet,
-                }}>
-                <Text
+              <LinearGradient
+                style={{borderRadius: 5}}
+                colors={['#fff9f3', '#eef7fe']}
+                start={{x: 0, y: 1}}
+                end={{x: 1, y: 1}}>
+                <TouchableOpacity
                   style={{
-                    textAlign: 'center',
-                    letterSpacing: 1,
-                    fontSize: width * 0.035,
-                    color: 'white',
+                    padding: 10,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 5,
                   }}>
-                  Buy Now
-                </Text>
-              </TouchableOpacity>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      letterSpacing: 1,
+                      fontSize: width * 0.035,
+                      color: Colors.mildGrey,
+                    }}>
+                    Buy Now
+                  </Text>
+                </TouchableOpacity>
+              </LinearGradient>
             </View>
           ))}
         </View>
+        {/* text */}
+        <Text
+          style={{
+            color: Colors.veryDarkGrey,
+            fontSize: width * 0.03,
+            marginBottom: 30,
+            fontWeight: '600',
+            letterSpacing: 0.7,
+            lineHeight: 20,
+          }}>
+          "Achieve success with our project! Get full support, UI assets, and
+          expert guidance. Start your journey today!"
+        </Text>
       </View>
     </ScrollView>
   );

@@ -15,6 +15,7 @@ import PragraphText from '../utils/PragraphText';
 import {Colors} from '../constants/Colors';
 import Ripple from 'react-native-material-ripple';
 import {useNavigation} from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
 
 const Projects = () => {
   const {setSelectedProject} = useData();
@@ -99,7 +100,12 @@ const Projects = () => {
                 <Text style={{fontWeight: '600', letterSpacing: 1}}>
                   {item?.name}
                 </Text>
-                <Text style={{fontSize: width * 0.03}}>
+                <Text
+                  style={{
+                    fontSize: width * 0.03,
+                    fontWeight: '600',
+                    letterSpacing: 0.5,
+                  }}>
                   Rs: {item?.Technologies[0]?.Price} /-
                 </Text>
                 <View
@@ -135,33 +141,31 @@ const Projects = () => {
                 />
               </View>
             </View>
-            <Ripple
-              onPress={() => handleSelectProject(item)}
-              style={{
-                borderWidth: 0.5,
-                padding: 5,
-                borderRadius: 5,
-                borderColor: Colors.veryLightGrey,
-              }}>
-              <Text
+            <LinearGradient
+              style={{borderRadius: 5}}
+              colors={['#fff9f3', '#eef7fe']}
+              start={{x: 0, y: 1}}
+              end={{x: 1, y: 1}}>
+              <Ripple
+                onPress={() => handleSelectProject(item)}
                 style={{
-                  textAlign: 'center',
-                  fontSize: width * 0.03,
-                  letterSpacing: 1,
-                  color: Colors.mildGrey,
+                  padding: 7,
+                  borderRadius: 25,
+                  borderColor: Colors.violet,
+                  // backgroundColor: Colors.violet,
                 }}>
-                Try it out!
-              </Text>
-              {/* <View
-                style={{
-                  width: width * 0.15,
-                  borderBottomWidth: 3,
-                  alignSelf: 'center',
-                  borderBottomColor: Colors.violet,
-                  borderRadius: 50,
-                }}
-              /> */}
-            </Ripple>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontSize: width * 0.03,
+                    letterSpacing: 1,
+                    color: Colors.mildGrey,
+                    fontWeight: '600',
+                  }}>
+                  Try it out!
+                </Text>
+              </Ripple>
+            </LinearGradient>
           </TouchableOpacity>
         )}
       />

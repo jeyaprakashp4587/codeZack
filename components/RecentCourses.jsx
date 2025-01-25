@@ -39,8 +39,9 @@ const RecentCourses = () => {
           borderRadius: 5,
           elevation: 1,
           backgroundColor: 'white',
-          rowGap: 10,
+          rowGap: 15,
           borderColor: Colors.veryLightGrey,
+          flexDirection: 'column',
         }}>
         <Text
           style={{
