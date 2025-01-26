@@ -14,8 +14,6 @@ import ParagraphText from '../utils/PragraphText';
 import Skeleton from '../Skeletons/Skeleton';
 import {TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import BannerAdd from '../Adds/BannerAdd';
-import LinearGradient from 'react-native-linear-gradient';
 
 const YourChallenges = props => {
   const navigation = useNavigation();
@@ -141,36 +139,24 @@ const YourChallenges = props => {
           paddingHorizontal: 15,
         }}>
         {options.map(item => (
-          <LinearGradient
-            colors={['white', item.color]}
-            start={{x: 1, y: 0}}
-            end={{x: 0, y: 1}}
-            style={{
-              borderRadius: 10,
-              // height: height * 0.035,
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              elevation: 3,
-              width: '30%',
-            }}>
-            <TouchableOpacity onPress={() => HandleOption(item.route)}>
-              <Text
-                style={{
-                  letterSpacing: 1,
-                  fontSize: width * 0.025,
-                  paddingVertical: 5,
-                  paddingHorizontal: 15,
-                }}>
-                {item.Name}
-              </Text>
-            </TouchableOpacity>
-          </LinearGradient>
+          <TouchableOpacity onPress={() => HandleOption(item.route)}>
+            <Text
+              style={{
+                letterSpacing: 1,
+                fontSize: width * 0.03,
+                paddingVertical: 5,
+                paddingHorizontal: 15,
+                // borderWidth: 1,
+                borderBottomWidth: 1,
+                borderRadius: 50,
+                borderColor: item.color,
+              }}>
+              {item.Name}
+            </Text>
+          </TouchableOpacity>
         ))}
       </View>
-      {/* add banner */}
-      <BannerAdd />
-      {/* add banner */}
+
       <HrLine width="100%" />
       {/* list challenges */}
       {challenges?.length <= 0 ? (
@@ -183,15 +169,36 @@ const YourChallenges = props => {
             <Skeleton width="100%" height={200} radius={10} />
           </View>
         ) : (
-          <Text
-            style={{
-              letterSpacing: 2,
-              paddingHorizontal: 15,
-              fontSize: width * 0.05,
-              color: Colors.mildGrey,
-            }}>
-            Nothing Is There!
-          </Text>
+          <View>
+            <Text
+              style={{
+                letterSpacing: 2,
+                paddingHorizontal: 15,
+                fontSize: width * 0.03,
+                color: 'black',
+                fontWeight: '600',
+              }}>
+              Nothing Is There!
+            </Text>
+            <Ripple
+              style={{
+                borderWidth: 0.5,
+                padding: 10,
+                marginHorizontal: 15,
+                marginTop: 20,
+                borderRadius: 10,
+              }}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  letterSpacing: 1,
+                  fontWeight: '400',
+                  fontSize: width * 0.025,
+                }}>
+                Choose Challenges
+              </Text>
+            </Ripple>
+          </View>
         )
       ) : (
         <FlatList

@@ -14,7 +14,7 @@ import {useData} from '../Context/Contexter';
 import {Colors, pageView} from '../constants/Colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import WebView from 'react-native-webview';
-import BannerAdd from '../Adds/BannerAdd';
+
 import axios from 'axios';
 import {profileApi} from '../Api';
 import Actitivity from '../hooks/ActivityHook';
@@ -173,8 +173,7 @@ const InterviewPrep = () => {
             Topics: {currentWeek?.topics}
           </Text>
         </View>
-        {/* Banner add */}
-        <BannerAdd />
+
         {/* questions area */}
         <View style={{paddingHorizontal: 15, marginTop: 20}}>
           <View

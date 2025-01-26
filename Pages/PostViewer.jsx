@@ -47,8 +47,6 @@ const PostViewer = () => {
           <Skeleton width="95%" height={150} radius={20} />
         </View>
       )}
-      //banner add
-      <BannerAdd />
     </View>
   );
 };

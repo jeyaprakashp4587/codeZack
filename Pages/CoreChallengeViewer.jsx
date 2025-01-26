@@ -11,7 +11,6 @@ import {useData} from '../Context/Contexter';
 import {Colors, pageView} from '../constants/Colors';
 import TopicsText from '../utils/TopicsText';
 import WebView from 'react-native-webview';
-import BannerAdd from '../Adds/BannerAdd';
 
 const CoreChallengeViewer = () => {
   const {width, height} = Dimensions.get('window');
@@ -54,8 +53,7 @@ const CoreChallengeViewer = () => {
           <Text>Output: </Text> {selectedChallenge?.output_example}
         </Text>
       </TouchableOpacity>
-      {/* add */}
-      <BannerAdd />
+
       {/* web view */}
       <View style={{flex: 1}}>
         <WebView

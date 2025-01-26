@@ -14,8 +14,7 @@ import {useData} from '../Context/Contexter';
 import axios from 'axios';
 import {challengesApi} from '../Api';
 import {ScrollView} from 'react-native';
-import {RefreshControl} from 'react-native';
-import BannerAdd from '../Adds/BannerAdd';
+
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 import Ripple from 'react-native-material-ripple';
@@ -239,8 +238,6 @@ const YourCourses = () => {
           </TouchableOpacity>
         ))}
       </Modal>
-      {/* add */}
-      <BannerAdd />
     </View>
   );
 };

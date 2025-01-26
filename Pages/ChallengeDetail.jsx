@@ -39,7 +39,6 @@ import useSocketEmit from '../Socket/useSocketEmit';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import WebView from 'react-native-webview';
 import Actitivity from '../hooks/ActivityHook';
-import BannerAdd from '../Adds/BannerAdd';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {useRewardedAd} from 'react-native-google-mobile-ads';
@@ -360,9 +359,7 @@ const ChallengeDetail = () => {
                 {selectedChallenge?.level}
               </Text>
             </View>
-            {/* Banner add */}
-            <BannerAdd />
-            {/* Banner  add*/}
+
             <View style={{flexDirection: 'row', columnGap: 20}}>
               {selectedChallenge?.technologies?.map((i, index) => (
                 <Image

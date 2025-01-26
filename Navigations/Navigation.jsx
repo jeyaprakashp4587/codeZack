@@ -87,14 +87,14 @@ const TabNavigation = () => {
         }}
         tabBar={props => (
           <>
-            <View
+            {/* <View
               style={{
                 borderWidth: 0,
                 backgroundColor: 'white',
                 height: 'auto',
               }}>
-              <BannerAdd />
-            </View>
+              <BannerAdd /> */}
+            {/* </View> */}
             {/* Render the default tab bar */}
             <BottomTabBar {...props} />
           </>
@@ -229,203 +229,205 @@ const Stack = createNativeStackNavigator();
 
 const StackNavigations = () => {
   return (
-    <Stack.Navigator
-      // initialRouteName="splash"
-      screenOptions={{
-        headerShown: false,
-        animation: 'slide_from_right',
-      }}>
-      <Stack.Screen
-        name="splash"
-        component={SplashScreen}
-        options={{headerShadow: false}}
-      />
-      <Stack.Screen
-        name="login"
-        component={Login}
-        options={{headerShadow: false}}
-      />
-      <Stack.Screen
-        name="Tab"
-        component={TabNavigation}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="profile"
-        component={Profile}
-        options={{headerShadow: false}}
-      />
-      <Stack.Screen
-        name="signup"
-        component={SignUp}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="message"
-        component={MessageScreen}
-        options={{headerShadow: false}}
-      />
-      <Stack.Screen
-        name="carrerScreen"
-        component={Carrer}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="course"
-        component={SelectedCourse}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="learn"
-        component={LearnPage}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="courseDetails"
-        component={CourseDetails}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="chooseChallenge"
-        component={ChooseChallenge}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="challengeDetail"
-        component={ChallengeDetail}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="notifications"
-        component={Notifications}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="yourcourse"
-        component={YourCourses}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="yourrewards"
-        component={YourRewards}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="search"
-        component={SearchScreen}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="placement"
-        component={Placement}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="yourchallenges"
-        component={YourChallenges}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="youractivities"
-        component={YourActivity}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="userprofile"
-        component={UserProfile}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="Assignments"
-        component={Assignment}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="Postviewer"
-        component={PostViewer}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="ChallengeViewer"
-        component={ChallengeViewer}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="AssignmentPlayGround"
-        component={AssignmentPlayGround}
-        options={{headerShown: false}}
-      />
+    <View style={{flex: 1}}>
+      <Stack.Navigator
+        // initialRouteName="splash"
+        screenOptions={{
+          headerShown: false,
+          animation: 'slide_from_right',
+        }}>
+        <Stack.Screen
+          name="splash"
+          component={SplashScreen}
+          options={{headerShadow: false}}
+        />
+        <Stack.Screen
+          name="login"
+          component={Login}
+          options={{headerShadow: false}}
+        />
+        <Stack.Screen
+          name="Tab"
+          component={TabNavigation}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="profile"
+          component={Profile}
+          options={{headerShadow: false}}
+        />
+        <Stack.Screen
+          name="signup"
+          component={SignUp}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="message"
+          component={MessageScreen}
+          options={{headerShadow: false}}
+        />
+        <Stack.Screen
+          name="carrerScreen"
+          component={Carrer}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="course"
+          component={SelectedCourse}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="learn"
+          component={LearnPage}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="courseDetails"
+          component={CourseDetails}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="chooseChallenge"
+          component={ChooseChallenge}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="challengeDetail"
+          component={ChallengeDetail}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="notifications"
+          component={Notifications}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="yourcourse"
+          component={YourCourses}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="yourrewards"
+          component={YourRewards}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="search"
+          component={SearchScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="placement"
+          component={Placement}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="yourchallenges"
+          component={YourChallenges}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="youractivities"
+          component={YourActivity}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="userprofile"
+          component={UserProfile}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Assignments"
+          component={Assignment}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Postviewer"
+          component={PostViewer}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ChallengeViewer"
+          component={ChallengeViewer}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AssignmentPlayGround"
+          component={AssignmentPlayGround}
+          options={{headerShown: false}}
+        />
 
-      <Stack.Screen
-        name="CoreChallenge"
-        component={CoreChallenges}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="CoreChallengeViewer"
-        component={CoreChallengeViewer}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="VideoTutorial"
-        component={VideoTutorials}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="InterviewDetail"
-        component={InterViewDetails}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="InterviewPreparation"
-        component={InterviewPrep}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="passwordReset"
-        component={PasswordReset}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="otpVerification"
-        component={OtpVerification}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="setPassword"
-        component={SetPassword}
-        options={{headerShown: false}}
-      />
-      {/* go back operator */}
-      <Stack.Screen
-        name="goBack"
-        component={HeadingText}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="postFeed"
-        component={PostFeed}
-        options={{
-          headerShown: false,
-          animation: 'slide_from_bottom',
-        }}
-      />
-      <Stack.Screen
-        name="allUserPage"
-        component={AllUsersPage}
-        options={{
-          headerShown: false,
-          // animation: 'slide_from_bottom',
-        }}
-      />
-      <Stack.Screen
-        name="selectedProject"
-        component={SelectedProject}
-        options={{
-          headerShown: false,
-        }}
-      />
-    </Stack.Navigator>
+        <Stack.Screen
+          name="CoreChallenge"
+          component={CoreChallenges}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CoreChallengeViewer"
+          component={CoreChallengeViewer}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="VideoTutorial"
+          component={VideoTutorials}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="InterviewDetail"
+          component={InterViewDetails}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="InterviewPreparation"
+          component={InterviewPrep}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="passwordReset"
+          component={PasswordReset}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="otpVerification"
+          component={OtpVerification}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="setPassword"
+          component={SetPassword}
+          options={{headerShown: false}}
+        />
+        {/* go back operator */}
+        <Stack.Screen
+          name="goBack"
+          component={HeadingText}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="postFeed"
+          component={PostFeed}
+          options={{
+            headerShown: false,
+            animation: 'slide_from_bottom',
+          }}
+        />
+        <Stack.Screen
+          name="allUserPage"
+          component={AllUsersPage}
+          options={{
+            headerShown: false,
+            // animation: 'slide_from_bottom',
+          }}
+        />
+        <Stack.Screen
+          name="selectedProject"
+          component={SelectedProject}
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack.Navigator>
+    </View>
   );
 };
 
@@ -433,7 +435,10 @@ const StackNavigations = () => {
 const AppNavigator = () => {
   return (
     <NavigationContainer>
-      <StackNavigations />
+      <View style={{flex: 1}}>
+        <BannerAdd />
+        <StackNavigations />
+      </View>
     </NavigationContainer>
   );
 };

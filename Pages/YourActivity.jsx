@@ -18,7 +18,6 @@ import axios from 'axios';
 import TopicsText from '../utils/TopicsText';
 import moment from 'moment';
 import Skeleton from '../Skeletons/Skeleton';
-import BannerAdd from '../Adds/BannerAdd';
 import {useNavigation} from '@react-navigation/native';
 
 const YourActivity = () => {
@@ -152,9 +151,6 @@ const YourActivity = () => {
         )}
       </View>
       {/* banner add */}
-      <View style={{position: 'absolute', bottom: 0}}>
-        <BannerAdd />
-      </View>
     </View>
   );
 };

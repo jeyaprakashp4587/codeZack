@@ -23,7 +23,6 @@ import {challengesApi} from '../Api';
 import Skeleton from '../Skeletons/Skeleton';
 import Ripple from 'react-native-material-ripple';
 import {useFocusEffect} from '@react-navigation/native';
-import BannerAdd from '../Adds/BannerAdd';
 import Entypo from 'react-native-vector-icons/Entypo';
 
 const {width, height} = Dimensions.get('window');
@@ -219,9 +218,7 @@ const ChooseChallenge = ({navigation}) => {
           </View>
         </Modal>
       </View>
-      {/* Banner add */}
-      <BannerAdd />
-      {/* Banner add */}
+
       {/* challenges list */}
       <FlatList
         data={Challenges}

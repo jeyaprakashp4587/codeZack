@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 import PragraphText from '../utils/PragraphText';
 import {Colors} from '../constants/Colors';
-import BannerAdd from '../Adds/BannerAdd';
 import Actitivity from '../hooks/ActivityHook';
 import Skeleton from '../Skeletons/Skeleton';
 
@@ -322,7 +321,6 @@ const AssignmentPlayGround = () => {
           <Skeleton width={'100%'} height={30} radius={20} />
         </View>
       )}
-      <BannerAdd />
     </View>
   );
 };

@@ -13,7 +13,7 @@ const BannerAdd = () => {
     <View style={styles.bannerContainer}>
       <BannerAd
         unitId={bannerId}
-        size={BannerAdSize.FULL_BANNER}
+        size={BannerAdSize.BANNER}
         requestOptions={{
           requestNonPersonalizedAdsOnly: true,
         }}
@@ -22,7 +22,6 @@ const BannerAdd = () => {
           setAdInfo(`Ad Load Failed: ${error.message}`)
         }
       />
-      <Text>{adInfo}</Text>
     </View>
   );
 };

@@ -27,9 +27,6 @@ import moment from 'moment';
 import {SocketData} from '../Socket/SocketContext';
 import Skeleton from '../Skeletons/Skeleton';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faL, faTimes} from '@fortawesome/free-solid-svg-icons';
-import BannerAdd from '../Adds/BannerAdd';
 import RBSheet from 'react-native-raw-bottom-sheet';
 
 const UserProfile = () => {
@@ -478,8 +475,6 @@ const UserProfile = () => {
           </Text>
         </View>
       </View>
-      {/* banner */}
-      <BannerAdd />
       {/* post */}
       <HrLine />
       {/* post */}

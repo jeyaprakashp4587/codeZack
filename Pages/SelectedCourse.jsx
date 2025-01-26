@@ -21,8 +21,6 @@ import PragraphText from '../utils/PragraphText';
 import {challengesApi} from '../Api';
 import axios from 'axios';
 import Actitivity from '../hooks/ActivityHook';
-import BannerAdd from '../Adds/BannerAdd';
-import {faL} from '@fortawesome/free-solid-svg-icons';
 import HeadingText from '../utils/HeadingText';
 
 const {width, height} = Dimensions.get('window');
@@ -117,9 +115,6 @@ const SelectedCourse = ({navigation}) => {
         <Text style={styles.buttonText}>Let's Begin</Text>
         {loading && <ActivityIndicator color={Colors.mildGrey} size={17} />}
       </Ripple>
-      {/* Banner add */}
-      <BannerAdd />
-      {/* Banner */}
     </ScrollView>
   );
 };

@@ -17,7 +17,6 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import PragraphText from '../utils/PragraphText';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
-import BannerAdd from '../Adds/BannerAdd';
 import HeadingText from '../utils/HeadingText';
 
 const VideoTutorials = () => {
@@ -52,8 +51,7 @@ const VideoTutorials = () => {
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text="Video Tutorials" />
       </View>
-      {/* banner add */}
-      <BannerAdd />
+
       {/* toutorila list */}
       <View style={{paddingHorizontal: 15, marginTop: 15}}>
         <FlatList
@@ -175,8 +173,6 @@ const VideoTutorials = () => {
           videoId={selectedTool?.Video[0]?.Tamil}
         />
       )}
-      {/* banner add */}
-      <BannerAdd />
     </ScrollView>
   );
 };

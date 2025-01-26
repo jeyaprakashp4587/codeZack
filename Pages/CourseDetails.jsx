@@ -20,7 +20,6 @@ import axios from 'axios';
 import {challengesApi} from '../Api';
 import Actitivity from '../hooks/ActivityHook';
 import {useNavigation} from '@react-navigation/native';
-import BannerAdd from '../Adds/BannerAdd';
 
 const {width, height} = Dimensions.get('window');
 
@@ -134,9 +133,6 @@ const CourseDetails = () => {
           </View>
         )}
       />
-      {/* add */}
-      <BannerAdd />
-      {/* add */}
     </View>
   );
 };

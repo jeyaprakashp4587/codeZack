@@ -14,7 +14,6 @@ import {useData} from '../Context/Contexter';
 import {Dimensions} from 'react-native';
 import Skeleton from '../Skeletons/Skeleton';
 import {useNavigation} from '@react-navigation/native';
-import BannerAdd from '../Adds/BannerAdd';
 import HeadingText from '../utils/HeadingText';
 import axios from 'axios';
 import {challengesApi} from '../Api';
@@ -68,9 +67,7 @@ const Carrer = () => {
           }}
         />
       </View>
-      {/* Banner */}
-      <BannerAdd />
-      {/* Banner */}
+
       <View style={styles.courseContainer}>
         <FlatList
           data={courses}

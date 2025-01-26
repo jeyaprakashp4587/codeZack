@@ -13,7 +13,6 @@ import {
 import {Colors} from '../constants/Colors';
 import {useData} from '../Context/Contexter';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import BannerAdd from '../Adds/BannerAdd';
 import HeadingText from '../utils/HeadingText';
 
 const Assignments = () => {
@@ -107,9 +106,6 @@ const Assignments = () => {
           alignSelf: 'center',
         }}
       />
-
-      {/* Banner add */}
-      <BannerAdd />
       {/* list assignments */}
       <View
         style={{

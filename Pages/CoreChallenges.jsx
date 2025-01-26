@@ -15,7 +15,6 @@ import axios from 'axios';
 import {challengesApi} from '../Api';
 import Skeleton from '../Skeletons/Skeleton';
 import {debounce} from 'lodash';
-import BannerAdd from '../Adds/BannerAdd';
 import HeadingText from '../utils/HeadingText';
 
 const CoreChallenges = () => {
@@ -130,9 +129,7 @@ const CoreChallenges = () => {
         <HeadingText text="Challenges" />
         <PragraphText text={selectedChallengeTopic?.ChallengeName} fsize={24} />
       </View>
-      {/* Banner add*/}
-      <BannerAdd />
-      {/* Banner add */}
+
       {/* challenge list */}
       <View style={{paddingHorizontal: 10, borderWidth: 0, flex: 1}}>
         <FlatList
