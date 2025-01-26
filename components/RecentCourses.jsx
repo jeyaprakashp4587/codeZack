@@ -37,11 +37,12 @@ const RecentCourses = () => {
         style={{
           padding: 20,
           borderRadius: 5,
-          elevation: 1,
+          // elevation: ,
           backgroundColor: 'white',
           rowGap: 15,
           borderColor: Colors.veryLightGrey,
           flexDirection: 'column',
+          borderWidth: 0.5,
         }}>
         <Text
           style={{

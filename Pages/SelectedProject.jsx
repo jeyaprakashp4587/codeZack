@@ -4,10 +4,11 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useCallback} from 'react';
 import {useData} from '../Context/Contexter';
 import HeadingText from '../utils/HeadingText';
 import {Colors} from '../constants/Colors';
@@ -17,7 +18,10 @@ const SelectedProject = () => {
   const {selectedProject} = useData();
   const {width, height} = Dimensions.get('window');
   //   console.log(selectedProject);
-  //  {"Discount": true, "PaymentStatus": "pending", "Technologies": [{"Price": "100", "TechType": "Static", "Techs": [Array]}, {"Price": "200", "TechType": "Dynamic", "Techs": [Array]}], "img": "https://i.ibb.co/cQNpKqT/portfolio.png", "name": "Personal Portfolio", "status": "not started"}
+  // handle buy project
+  const handleBuyProject = useCallback(async () => {
+    ToastAndroid.show("We'll updated soon", ToastAndroid.SHORT);
+  }, []);
   return (
     <ScrollView
       style={{flex: 1, backgroundColor: 'white'}}
@@ -133,7 +137,8 @@ const SelectedProject = () => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderRadius: 5,
-                  }}>
+                  }}
+                  onPress={() => handleBuyProject()}>
                   <Text
                     style={{
                       textAlign: 'center',
@@ -141,7 +146,7 @@ const SelectedProject = () => {
                       fontSize: width * 0.035,
                       color: Colors.mildGrey,
                     }}>
-                    Buy Now
+                    Coming Soon
                   </Text>
                 </TouchableOpacity>
               </LinearGradient>

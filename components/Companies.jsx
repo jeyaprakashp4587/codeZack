@@ -86,20 +86,17 @@ const Companies = () => {
         showsHorizontalScrollIndicator={false}
         data={companies}
         renderItem={({item, index}) => (
-          <LinearGradient
-            colors={['black', '#1e1815', '#4b3d34', '#806859']}
-            // colors={item?.colors}
-            start={{x: 0, y: 1}}
-            end={{x: 1, y: 1}}
+          <View
             style={{
               marginRight: 15,
               borderRadius: 15,
               padding: 15,
               flexDirection: 'column',
-              rowGap: 10,
-              elevation: 4,
+              rowGap: 20,
+              elevation: 2,
               marginVertical: 5,
               marginLeft: index == 0 && 15,
+              backgroundColor: item?.colors[item?.colors?.length - 1],
             }}>
             <View
               style={{
@@ -172,7 +169,7 @@ const Companies = () => {
                 </Text>
               </TouchableOpacity>
             </View>
-          </LinearGradient>
+          </View>
         )}
       />
     </View>

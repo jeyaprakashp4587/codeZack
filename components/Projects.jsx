@@ -59,19 +59,20 @@ const Projects = () => {
         horizontal
         showsHorizontalScrollIndicator={false}
         renderItem={({item, index}) => (
-          <TouchableOpacity
+          <View
             style={{
-              //   borderWidth: 1,
+              borderWidth: 0.5,
               marginLeft: index == 0 && 15,
               marginRight: 15,
               padding: 15,
               flexDirection: 'column',
               rowGap: 10,
               borderRadius: 5,
-              elevation: 1,
+              // elevation: 1,
               backgroundColor: 'white',
               margin: 5,
               justifyContent: 'space-between',
+              borderColor: Colors.veryLightGrey,
             }}>
             <View
               style={{
@@ -142,7 +143,7 @@ const Projects = () => {
               </View>
             </View>
             <LinearGradient
-              style={{borderRadius: 5}}
+              style={{borderRadius: 5, elevation: 0.5}}
               colors={['#fff9f3', '#eef7fe']}
               start={{x: 0, y: 1}}
               end={{x: 1, y: 1}}>
@@ -152,7 +153,6 @@ const Projects = () => {
                   padding: 7,
                   borderRadius: 25,
                   borderColor: Colors.violet,
-                  // backgroundColor: Colors.violet,
                 }}>
                 <Text
                   style={{
@@ -160,13 +160,12 @@ const Projects = () => {
                     fontSize: width * 0.03,
                     letterSpacing: 1,
                     color: Colors.mildGrey,
-                    fontWeight: '600',
                   }}>
-                  Try it out!
+                  Coming Soon
                 </Text>
               </Ripple>
             </LinearGradient>
-          </TouchableOpacity>
+          </View>
         )}
       />
     </View>
