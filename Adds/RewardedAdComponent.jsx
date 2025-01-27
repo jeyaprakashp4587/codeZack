@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
 import {useRewardedAd, TestIds} from 'react-native-google-mobile-ads';
 
-const RewardedAdComponent = ({adUnitId}) => {
+const RewardedAdComponent = () => {
   const {
     show: showRewardedAd,
     isLoaded: isRewardedAdLoaded,
     load: loadRewardedAd,
   } = useRewardedAd(
-    __DEV__ ? TestIds.REWARDED : adUnitId, // Use test ad unit ID in development
+    __DEV__ ? TestIds.REWARDED : '', // Use test ad unit ID in development
     {
       requestNonPersonalizedAdsOnly: true,
     },

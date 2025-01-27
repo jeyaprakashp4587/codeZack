@@ -29,7 +29,7 @@ const InterViewDetails = () => {
     );
     if (existingInterview) {
       // Navigate to the desired screen if the company exists
-      navigation.navigate('InterviewPreparation');
+      navigation.replace('InterviewPreparation');
     }
   };
   // get particular company
@@ -70,7 +70,7 @@ const InterViewDetails = () => {
         navigation.navigate('InterviewPreparation');
         // console.log(res.data.message); // Success message
       } else if (res.status === 400 && res.data.message === 'Exists') {
-        navigation.navigate('InterviewPreparation');
+        navigation.replace('InterviewPreparation');
         // console.log('Company interview entry already exists.');
       }
     } catch (error) {
@@ -80,7 +80,7 @@ const InterViewDetails = () => {
         error.response.data.message === 'Exists'
       ) {
         // console.log('Company interview entry already exists.');
-        navigation.navigate('InterviewPreparation');
+        navigation.replace('InterviewPreparation');
       } else {
         console.error('An error occurred:', error.message);
       }

@@ -9,20 +9,17 @@ import {
   View,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
-import {Colors} from '../constants/Colors';
 import axios from 'axios';
 import {profileApi} from '../Api';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
-import LinearGradient from 'react-native-linear-gradient';
 import Skeleton from '../Skeletons/Skeleton';
+import RewardedAdComponent from '../Adds/RewardedAdComponent';
 
 const Companies = () => {
   const navigation = useNavigation();
   const {width, height} = Dimensions.get('window');
   const {setSelectedCompany, user} = useData();
-  // console.log(user?.InterView);
-
   // set interview details and navigate
   const handleSetInterView = useCallback(async name => {
     navigation.navigate('InterviewDetail');

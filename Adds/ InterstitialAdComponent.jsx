@@ -6,7 +6,7 @@ const InterstitialAdComponent = () => {
     show: showInterstitialAd,
     isLoaded: isInterstitialAdLoaded,
     load: loadInterstitialAd,
-  } = useInterstitialAd(__DEV__ ? TestIds.INTERSTITIAL : adUnitId, {
+  } = useInterstitialAd(__DEV__ ? TestIds.INTERSTITIAL : '', {
     requestNonPersonalizedAdsOnly: true,
   });
   // Load the ad when the component mounts

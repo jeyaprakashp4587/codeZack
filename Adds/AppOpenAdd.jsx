@@ -1,5 +1,5 @@
 import {AppState} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {useAppOpenAd, TestIds} from 'react-native-google-mobile-ads';
 
 const AppOpenAd = () => {
@@ -15,6 +15,9 @@ const AppOpenAd = () => {
     },
   );
 
+  const isAdShowing = useRef(false); // Tracks whether an ad is currently being shown
+  const isAppActive = useRef(false); // Tracks app activity to prevent unnecessary triggers
+
   // Load the ad when the component mounts
   useEffect(() => {
     loadAppOpen();
@@ -24,15 +27,35 @@ const AppOpenAd = () => {
   useEffect(() => {
     const handleAppStateChange = state => {
       if (state === 'active') {
-        if (loadedAppOpen) {
-          try {
-            showAppOpen();
-          } catch (error) {
-            console.error('Failed to show App Open Ad:', error);
-          }
-        } else {
-          loadAppOpen(); // Reload the ad
+        if (!isAppActive.current) {
+          isAppActive.current = true; // Mark app as active
+          showAdIfAvailable();
         }
+      } else {
+        isAppActive.current = false; // Reset app state when inactive
+      }
+    };
+
+    const showAdIfAvailable = () => {
+      if (loadedAppOpen && !isAdShowing.current) {
+        isAdShowing.current = true; // Lock to prevent multiple calls
+        try {
+          showAppOpen()
+            .then(() => {
+              // console.log('Ad shown successfully');
+            })
+            .catch(error => {
+              // console.error('Failed to show App Open Ad:', error);
+            })
+            .finally(() => {
+              isAdShowing.current = false; // Reset after the ad is handled
+            });
+        } catch (error) {
+          // console.error('Unexpected error while showing ad:', error);
+          isAdShowing.current = false;
+        }
+      } else if (!loadedAppOpen) {
+        loadAppOpen(); // Reload the ad if not loaded
       }
     };
 

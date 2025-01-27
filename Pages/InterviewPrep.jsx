@@ -65,7 +65,7 @@ const InterviewPrep = () => {
     if (userMile?.currentWeek - 1 >= 6) {
       console.log('Current Week:', userMile?.currentWeek);
       ToastAndroid.show(
-        'Congrats!, you finished your all preparations',
+        'Congrats!, you finished your preparations',
         ToastAndroid.SHORT,
       );
       try {
@@ -128,9 +128,9 @@ const InterviewPrep = () => {
           paddingHorizontal: 15,
           flexDirection: 'row',
           justifyContent: 'space-between',
-          alignItems: 'flex-end',
-          borderWidth: 1,
-          borderColor: 'white',
+          alignItems: 'center',
+          // borderWidth: 1,
+          // borderColor: 'white',
         }}>
         <View style={{width: width * 0.3, height: height * 0.1}}>
           <Image
@@ -159,16 +159,21 @@ const InterviewPrep = () => {
             }}>
             week: {currentWeek?.week ?? 0}
           </Text>
-          <Text style={{fontWeight: '600', letterSpacing: 2}}>
+          <Text
+            style={{
+              fontWeight: '600',
+              letterSpacing: 2,
+              fontSize: width * 0.03,
+            }}>
             Focus Area: {currentWeek?.focus_area}
           </Text>
           <Text
             style={{
               fontWeight: '600',
               letterSpacing: 2,
-              color: Colors.violet,
-              lineHeight: 25,
-              fontSize: width * 0.033,
+              color: 'black',
+              lineHeight: 20,
+              fontSize: width * 0.023,
             }}>
             Topics: {currentWeek?.topics}
           </Text>
@@ -178,12 +183,14 @@ const InterviewPrep = () => {
         <View style={{paddingHorizontal: 15, marginTop: 20}}>
           <View
             style={{
-              borderWidth: 0.7,
+              // borderWidth: 0.7,
               padding: 20,
               borderColor: Colors.lightGrey,
               borderRadius: 5,
               flexDirection: 'column',
-              rowGap: 20,
+              rowGap: 10,
+              elevation: 3,
+              backgroundColor: 'white',
             }}>
             <Text
               style={{
@@ -236,7 +243,7 @@ const InterviewPrep = () => {
             {/* this is explanatio is common */}
             <Text
               style={{
-                letterSpacing: 2,
+                letterSpacing: 1.3,
                 lineHeight: 20,
                 color: '#1a535c',
                 fontWeight: '600',
@@ -289,10 +296,11 @@ const InterviewPrep = () => {
                     setIsShowHind(false);
                   }}
                   style={{
-                    backgroundColor: '#233d4d',
+                    // backgroundColor: '',
                     padding: 10,
                     borderRadius: 5,
-                    // width: width * 0.25,
+                    borderColor: '#233d4d',
+                    borderWidth: 0.5,
                     flexDirection: 'row',
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -301,12 +309,12 @@ const InterviewPrep = () => {
                   <Ionicons
                     name="arrow-back-circle-outline"
                     size={17}
-                    color="white"
+                    color="#233d4d"
                   />
                   <Text
                     style={{
                       textAlign: 'center',
-                      color: Colors.white,
+                      color: '#233d4d',
                       letterSpacing: 1,
                     }}>
                     previous
@@ -318,24 +326,29 @@ const InterviewPrep = () => {
                 <TouchableOpacity
                   onPress={submitTask}
                   style={{
-                    backgroundColor: Colors.violet,
+                    // backgroundColor: Colors.violet,
                     padding: 10,
                     borderRadius: 5,
-                    // width: width * 0.25,
                     flexDirection: 'row',
                     justifyContent: 'center',
                     alignItems: 'center',
                     columnGap: 5,
+                    borderColor: Colors.violet,
+                    borderWidth: 0.5,
                   }}>
                   <Text
                     style={{
                       textAlign: 'center',
-                      color: Colors.white,
+                      color: Colors.violet,
                       letterSpacing: 1,
                     }}>
                     Submit
                   </Text>
-                  <Ionicons name="rocket-outline" size={17} color="white" />
+                  <Ionicons
+                    name="rocket-outline"
+                    size={17}
+                    color={Colors.violet}
+                  />
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity
@@ -344,7 +357,6 @@ const InterviewPrep = () => {
                     setIsShowHind(false);
                   }}
                   style={{
-                    backgroundColor: Colors.violet,
                     padding: 10,
                     borderRadius: 5,
                     width: width * 0.25,
@@ -352,11 +364,13 @@ const InterviewPrep = () => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     columnGap: 5,
+                    borderWidth: 0.5,
+                    borderColor: Colors.violet,
                   }}>
                   <Text
                     style={{
                       textAlign: 'center',
-                      color: Colors.white,
+                      color: Colors.violet,
                       letterSpacing: 1,
                     }}>
                     Next
@@ -364,7 +378,7 @@ const InterviewPrep = () => {
                   <Ionicons
                     name="arrow-forward-circle-outline"
                     size={17}
-                    color="white"
+                    color={Colors.violet}
                   />
                 </TouchableOpacity>
               )}
