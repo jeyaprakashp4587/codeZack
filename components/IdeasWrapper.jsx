@@ -78,6 +78,7 @@ const IdeasWrapper = () => {
           marginHorizontal: 15,
         }}>
         <FlatList
+          nestedScrollEnabled={true}
           data={IdeaData}
           keyExtractor={item => item._id}
           numColumns={2}

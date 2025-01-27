@@ -126,6 +126,7 @@ const YourActivity = () => {
         </Text>
         {activitiesList.length > 0 ? (
           <FlatList
+            nestedScrollEnabled={true}
             data={activitiesList}
             renderItem={({item, index}) => (
               <Text

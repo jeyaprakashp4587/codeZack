@@ -107,6 +107,7 @@ const SearchScreen = ({navigation}) => {
     if (users?.length > 0) {
       return (
         <FlatList
+          nestedScrollEnabled={true}
           showsVerticalScrollIndicator={false}
           data={users}
           style={{marginTop: 20}}

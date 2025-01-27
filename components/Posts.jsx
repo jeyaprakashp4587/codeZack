@@ -497,6 +497,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           {modalContentType === 'likes' ? (
             likedUsers?.length > 0 ? (
               <FlatList
+                nestedScrollEnabled={true}
                 showsVerticalScrollIndicator={false}
                 data={likedUsers}
                 keyExtractor={item => item?._id}
@@ -551,6 +552,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             )
           ) : comments?.length > 0 ? (
             <FlatList
+              nestedScrollEnabled={true}
               showsVerticalScrollIndicator={false}
               data={comments}
               onEndReached={() => handleShowComments()}
@@ -639,6 +641,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
 
           {/* Image List */}
           <FlatList
+            nestedScrollEnabled={true}
             showsHorizontalScrollIndicator={false}
             data={post?.Images}
             horizontal

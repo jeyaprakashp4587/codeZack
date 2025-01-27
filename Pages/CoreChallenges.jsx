@@ -150,6 +150,7 @@ const CoreChallenges = () => {
       {/* challenge list */}
       <View style={{paddingHorizontal: 10, borderWidth: 0, flex: 1}}>
         <FlatList
+          nestedScrollEnabled={true}
           data={challenges}
           showsVerticalScrollIndicator={false}
           renderItem={({item}) => <ChallengeItem item={item} width={width} />}

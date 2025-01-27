@@ -480,6 +480,7 @@ const UserProfile = () => {
       <HrLine />
       {/* post */}
       <FlatList
+        nestedScrollEnabled={true}
         data={posts}
         keyExtractor={item => item._id}
         style={{borderWidth: 0, paddingBottom: 20}}
@@ -585,6 +586,7 @@ const UserProfile = () => {
           </View>
           {selectedUser?.Connections?.length > 0 ? (
             <FlatList
+              nestedScrollEnabled={true}
               showsVerticalScrollIndicator={false}
               data={netWorksList}
               renderItem={({item, index}) => (

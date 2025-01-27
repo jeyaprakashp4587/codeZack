@@ -53,6 +53,7 @@ const RecentCourses = () => {
           {user?.Courses[newCourseIndex]?.Course_Name}
         </Text>
         <FlatList
+          nestedScrollEnabled={true}
           data={user.Courses[newCourseIndex]?.Technologies}
           horizontal
           renderItem={({item, index}) => (

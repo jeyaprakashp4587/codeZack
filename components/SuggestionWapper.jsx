@@ -73,6 +73,7 @@ const SuggestionWapper = ({refresh}) => {
       </View>
       {/* list */}
       <FlatList
+        nestedScrollEnabled={true}
         horizontal
         data={profiles}
         showsHorizontalScrollIndicator={false}

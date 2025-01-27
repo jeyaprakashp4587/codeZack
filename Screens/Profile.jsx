@@ -763,6 +763,7 @@ const Profile = ({navigation}) => {
             <Text style={{letterSpacing: 0.5}}>No Connections</Text>
           ) : (
             <FlatList
+              nestedScrollEnabled={true}
               data={netWorksList}
               onEndReached={() => getNetworksList()}
               onEndReachedThreshold={0.5}

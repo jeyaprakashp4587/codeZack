@@ -87,6 +87,7 @@ const CourseDetails = () => {
         <HeadingText text="Course Details" />
       </View>
       <FlatList
+        nestedScrollEnabled={true}
         showsVerticalScrollIndicator={false}
         data={selectedCourse?.technologies}
         renderItem={({item, index}) => (

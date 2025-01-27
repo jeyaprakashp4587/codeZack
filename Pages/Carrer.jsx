@@ -70,6 +70,7 @@ const Carrer = () => {
 
       <View style={styles.courseContainer}>
         <FlatList
+          nestedScrollEnabled={true}
           data={courses}
           keyExtractor={(_, index) => index}
           renderItem={({item, index}) => (

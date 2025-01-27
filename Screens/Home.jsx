@@ -36,6 +36,7 @@ import useFCMToken from '../hooks/useFCMToken';
 import IdeasWrapper from '../components/IdeasWrapper';
 import RecentCourses from '../components/RecentCourses';
 import AppOpenAd from '../Adds/AppOpenAdd';
+import RewardedAdComponent from '../Adds/RewardedAdComponent';
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
 
@@ -51,6 +52,7 @@ const Home = () => {
   useFCMToken();
   // app open add
   AppOpenAd();
+  RewardedAdComponent();
   // set user online status
   const setOnlineStatus = useCallback(
     async status => {

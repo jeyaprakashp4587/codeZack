@@ -74,6 +74,7 @@ const AllUsersPage = () => {
         }}>
         {suggestions?.length <= 0 && <Text>No more suggestion</Text>}
         <FlatList
+          nestedScrollEnabled={true}
           scrollEnabled
           refreshControl={<RefreshControl refreshing={refresh} />}
           refreshing={true}

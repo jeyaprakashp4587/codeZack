@@ -1,30 +1,41 @@
-import React, {useEffect} from 'react';
+import {useEffect, useCallback} from 'react';
 import {useInterstitialAd, TestIds} from 'react-native-google-mobile-ads';
 
-const InterstitialAdComponent = () => {
+const useInterstitialAdHook = () => {
   const {
     show: showInterstitialAd,
     isLoaded: isInterstitialAdLoaded,
     load: loadInterstitialAd,
-  } = useInterstitialAd(__DEV__ ? TestIds.INTERSTITIAL : '', {
-    requestNonPersonalizedAdsOnly: true,
-  });
-  // Load the ad when the component mounts
+  } = useInterstitialAd(
+    __DEV__ ? TestIds.INTERSTITIAL : '<YOUR_AD_UNIT_ID>', // Replace with your production ad unit ID
+    {
+      requestNonPersonalizedAdsOnly: true,
+    },
+  );
+
+  // Load the interstitial ad when the hook is initialized
   useEffect(() => {
     loadInterstitialAd();
   }, [loadInterstitialAd]);
-  // Reload the ad if it is shown and then closed
+
+  // Automatically reload the ad after it is shown and closed
   useEffect(() => {
-    // Listen for the ad being closed
     if (!isInterstitialAdLoaded) {
       loadInterstitialAd();
     }
-    return () => {
-      // Cleanup if needed (depending on your logic)
-    };
   }, [isInterstitialAdLoaded, loadInterstitialAd]);
 
-  return {showInterstitialAd, isInterstitialAdLoaded};
+  // Safely show the interstitial ad
+  const handleShowInterstitialAd = useCallback(() => {
+    if (isInterstitialAdLoaded) {
+      showInterstitialAd();
+    }
+  }, [isInterstitialAdLoaded, showInterstitialAd]);
+
+  return {
+    showInterstitialAd: handleShowInterstitialAd,
+    isInterstitialAdLoaded,
+  };
 };
 
-export default InterstitialAdComponent;
+export default useInterstitialAdHook;

@@ -205,6 +205,7 @@ const YourChallenges = props => {
         )
       ) : (
         <FlatList
+          nestedScrollEnabled={true}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           data={challenges}

@@ -55,6 +55,7 @@ const VideoTutorials = () => {
       {/* toutorila list */}
       <View style={{paddingHorizontal: 15, marginTop: 15}}>
         <FlatList
+          nestedScrollEnabled={true}
           data={allTutorials}
           // horizontal
           // contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap'}}

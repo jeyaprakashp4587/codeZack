@@ -55,6 +55,7 @@ const Projects = () => {
   return (
     <View>
       <FlatList
+        nestedScrollEnabled={true}
         data={projects}
         horizontal
         showsHorizontalScrollIndicator={false}

@@ -79,6 +79,7 @@ const Companies = () => {
   return (
     <View style={{paddingLeft: 0, marginBottom: 10}}>
       <FlatList
+        nestedScrollEnabled={true}
         horizontal
         showsHorizontalScrollIndicator={false}
         data={companies}

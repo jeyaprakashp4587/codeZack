@@ -114,6 +114,7 @@ const Placement = () => {
       </View>
       {/* job lists */}
       <FlatList
+        nestedScrollEnabled={true}
         showsVerticalScrollIndicator={false}
         data={jobs}
         renderItem={({item, index}) => (

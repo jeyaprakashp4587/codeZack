@@ -141,6 +141,7 @@ const Notifications = () => {
         </View>
       ) : (
         <FlatList
+          nestedScrollEnabled={true}
           showsVerticalScrollIndicator={false}
           data={notificationList}
           style={{marginTop: 10}}

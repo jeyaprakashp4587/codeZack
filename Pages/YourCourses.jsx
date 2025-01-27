@@ -150,6 +150,7 @@ const YourCourses = () => {
           </View>
         ) : (
           <FlatList
+            nestedScrollEnabled={true}
             data={user?.Courses}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({item, index}) => (
