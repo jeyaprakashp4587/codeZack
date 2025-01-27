@@ -42,7 +42,7 @@ const RecentCourses = () => {
           rowGap: 15,
           borderColor: Colors.veryLightGrey,
           flexDirection: 'column',
-          borderWidth: 0.5,
+          borderWidth: 1,
         }}>
         <Text
           style={{

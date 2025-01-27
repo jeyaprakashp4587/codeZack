@@ -61,7 +61,7 @@ const Projects = () => {
         renderItem={({item, index}) => (
           <View
             style={{
-              borderWidth: 0.5,
+              borderWidth: 1,
               marginLeft: index == 0 && 15,
               marginRight: 15,
               padding: 15,
