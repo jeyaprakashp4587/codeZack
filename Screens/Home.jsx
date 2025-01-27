@@ -31,19 +31,9 @@ import useSocketOn from '../Socket/useSocketOn';
 import {SocketData} from '../Socket/SocketContext';
 import PragraphText from '../utils/PragraphText';
 const Companies = React.lazy(() => import('../components/Companies'));
-// import usehook for show adds
-import {
-  TestIds,
-  useAppOpenAd,
-  useRewardedAd,
-} from 'react-native-google-mobile-ads';
 import Skeleton from '../Skeletons/Skeleton';
 import useFCMToken from '../hooks/useFCMToken';
 import IdeasWrapper from '../components/IdeasWrapper';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
 import RecentCourses from '../components/RecentCourses';
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
@@ -58,40 +48,6 @@ const Home = () => {
   const [refresh, setRefresh] = useState(false);
   // init firebase notification
   useFCMToken();
-  // config reward add for every three mintes
-  const {
-    show: showReward,
-    isLoaded: loadedReward,
-    load: loadReward,
-    isClosed: closedReward,
-  } = useRewardedAd(
-    __DEV__ ? TestIds.REWARDED : 'ca-app-pub-3257747925516984/5831080677',
-  );
-  // load reward add
-  useEffect(() => {
-    // setUpOneSignal()
-    loadReward();
-    // console.log('loading reward add');
-  }, [loadReward]);
-  // show reward add every 3 minutes
-  useEffect(() => {
-    const showInterval = setInterval(() => {
-      if (loadedReward) {
-        // showReward();
-      }
-    }, 3 * 60 * 1000); // 3 minutes
-
-    // Cleanup interval on component unmount
-    return () => {
-      clearInterval(showInterval);
-    };
-  }, [loadedReward, showReward]);
-  // Load the next ad when the current one is closed
-  useEffect(() => {
-    if (closedReward) {
-      loadReward();
-    }
-  }, [closedReward, loadReward]);
   // set user online status
   const setOnlineStatus = useCallback(
     async status => {
@@ -111,60 +67,6 @@ const Home = () => {
     },
     [profileApi, setUser],
   );
-  // Hook to manage app open ad state
-  const {
-    show: showAppopen,
-    isLoaded: loadedAppOpen,
-    isClosed: closedAppOpen,
-    load: loadAppOpen,
-  } = useAppOpenAd(
-    __DEV__ ? TestIds.APP_OPEN : 'ca-app-pub-3257747925516984/6520210341',
-    {
-      requestNonPersonalizedAdsOnly: true,
-    },
-  );
-  useEffect(() => {
-    loadAppOpen();
-  }, [loadAppOpen]);
-  //  load add
-  useEffect(() => {
-    const handleAppStateChange = async state => {
-      await setOnlineStatus(state === 'active');
-      // await updateUserForRedis(state === 'active');
-      if (state === 'active') {
-        if (loadedAppOpen) {
-          try {
-            showAppopen();
-          } catch (error) {}
-        } else {
-          loadAppOpen(); // Reload the ad
-        }
-      }
-    };
-    const appStateListener = AppState.addEventListener(
-      'change',
-      handleAppStateChange,
-    );
-    return () => {
-      appStateListener.remove();
-    };
-  }, [loadedAppOpen, showAppopen, loadAppOpen]);
-  useEffect(() => {
-    if (closedAppOpen) {
-      loadAppOpen();
-    }
-  }, [closedAppOpen]);
-  // update user value for redis
-  const updateUserForRedis = useCallback(async status => {
-    try {
-      if (!status) {
-        console.log('send to update user ');
-        await axios.post(`${loginApi}/LogIn/updateUser/${user?._id}`);
-      }
-    } catch (error) {
-      console.log('redis', error);
-    }
-  }, []);
   // Loading ui effect
   useEffect(() => {
     getNotifications();
