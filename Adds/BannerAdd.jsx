@@ -17,10 +17,10 @@ const BannerAdd = () => {
         requestOptions={{
           requestNonPersonalizedAdsOnly: true,
         }}
-        onAdLoaded={() => setAdInfo('Ad Loaded Successfully')}
-        onAdFailedToLoad={error =>
-          setAdInfo(`Ad Load Failed: ${error.message}`)
-        }
+        // onAdLoaded={() => setAdInfo('Ad Loaded Successfully')}
+        // onAdFailedToLoad={error =>
+        // setAdInfo(`Ad Load Failed: ${error.message}`)
+        // }
       />
     </View>
   );

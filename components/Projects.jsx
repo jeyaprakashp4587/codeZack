@@ -16,6 +16,7 @@ import {Colors} from '../constants/Colors';
 import Ripple from 'react-native-material-ripple';
 import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
+import useRewardedAdHook from '../Adds/useRewardedAdHook';
 
 const Projects = () => {
   const {setSelectedProject} = useData();
@@ -42,16 +43,22 @@ const Projects = () => {
       setLoading(false);
     });
   }, []);
+  // load and destructuring add
+  const {isRewardedAdLoaded, showRewardedAd} = useRewardedAdHook();
   //   handle select project and navigate
   const navigation = useNavigation();
   const handleSelectProject = useCallback(async project => {
     try {
-      setSelectedProject(project);
       navigation.navigate('selectedProject');
+      setSelectedProject(project);
+      if (isRewardedAdLoaded) {
+        showRewardedAd();
+      }
     } catch (error) {
       console.log(error);
     }
   }, []);
+
   return (
     <View>
       <FlatList
