@@ -14,7 +14,7 @@ import {profileApi} from '../Api';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
 import Skeleton from '../Skeletons/Skeleton';
-import RewardedAdComponent from '../Adds/RewardedAdComponent';
+import RewardedAdComponent from '../Adds/useRewardedAdHook';
 
 const Companies = () => {
   const navigation = useNavigation();

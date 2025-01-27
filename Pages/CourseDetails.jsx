@@ -20,6 +20,7 @@ import axios from 'axios';
 import {challengesApi} from '../Api';
 import Actitivity from '../hooks/ActivityHook';
 import {useNavigation} from '@react-navigation/native';
+import useRewardedAdHook from '../Adds/useRewardedAdHook';
 
 const {width, height} = Dimensions.get('window');
 
@@ -38,7 +39,7 @@ const CourseDetails = () => {
       try {
         // Set the selected technology
         setselectedTechnology({web: item.web, name: item.name});
-
+        showRewardedAd();
         // Navigate to "learn" screen immediately
         navigation.navigate('learn');
 
@@ -80,7 +81,7 @@ const CourseDetails = () => {
     },
     [selectedCourse, setselectedTechnology, user, setUser, navigation],
   );
-
+  const {showRewardedAd} = useRewardedAdHook();
   return (
     <View style={styles.container}>
       <View style={{paddingHorizontal: 15}}>

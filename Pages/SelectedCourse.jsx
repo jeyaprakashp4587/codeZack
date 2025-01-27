@@ -22,11 +22,14 @@ import {challengesApi} from '../Api';
 import axios from 'axios';
 import Actitivity from '../hooks/ActivityHook';
 import HeadingText from '../utils/HeadingText';
+import useRewardedAdHook from '../Adds/useRewardedAdHook';
 
 const {width, height} = Dimensions.get('window');
 
 const SelectedCourse = ({navigation}) => {
   const {selectedCourse, user, setUser} = useData();
+  const {isRewardedAdLoaded, showRewardedAd} = useRewardedAdHook();
+
   // console.log(selectedCourse);
   const [loading, setLoading] = useState(false);
   const HandleAddCourse = async () => {
