@@ -44,7 +44,9 @@ const App = () => {
           <SocketProvider>
             <View style={styles.cn}>
               <SafeAreaView style={{flex: 1}}>
-                <AppNavigator />
+                <NavigationContainer>
+                  <AppNavigator />
+                </NavigationContainer>
                 <StatusBar backgroundColor="white" barStyle="dark-content" />
               </SafeAreaView>
             </View>

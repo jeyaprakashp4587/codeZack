@@ -1,6 +1,9 @@
 import React from 'react';
 import {StyleSheet, Dimensions, Image, View} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  useNavigationState,
+} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from '../LoginSystem/Login';
@@ -433,13 +436,21 @@ const StackNavigations = () => {
 
 // Main Navigation Container
 const AppNavigator = () => {
+  const navigationState = useNavigationState(state => state);
+  const currentScreen = navigationState?.routes[navigationState?.index]?.name;
+  const shouldShowBanner = ![
+    'login',
+    'signup',
+    'splash',
+    'otpVerification',
+    'setPassword',
+    'passwordReset',
+  ].includes(currentScreen);
   return (
-    <NavigationContainer>
-      <View style={{flex: 1}}>
-        <BannerAdd />
-        <StackNavigations />
-      </View>
-    </NavigationContainer>
+    <View style={{flex: 1}}>
+      {shouldShowBanner && <BannerAdd />}
+      <StackNavigations />
+    </View>
   );
 };
 

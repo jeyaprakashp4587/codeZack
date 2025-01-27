@@ -9,25 +9,57 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useData} from '../Context/Contexter';
 import {Colors, pageView} from '../constants/Colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import WebView from 'react-native-webview';
-
 import axios from 'axios';
 import {profileApi} from '../Api';
 import Actitivity from '../hooks/ActivityHook';
 import Skeleton from '../Skeletons/Skeleton';
 import HeadingText from '../utils/HeadingText';
+import Ripple from 'react-native-material-ripple';
 
 const InterviewPrep = () => {
   const {selectedCompany, user, setUser} = useData();
   const [userMile, setUserMile] = useState(null);
   const {width, height} = Dimensions.get('window');
   const [currentWeek, setCurrentWeek] = useState();
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState();
+  const questionCount = useRef(0);
   const [isShowHint, setIsShowHind] = useState(false);
+  // set currentQuestion to server and set
+  const increaseCount = () => {
+    setCurrentQuestion(prev => prev + 1);
+    setIsShowHind(false);
+    questionCount.current += 1;
+  };
+  const decreaseCount = () => {
+    setCurrentQuestion(prev => prev - 1);
+    setIsShowHind(false);
+    questionCount.current -= 1;
+  };
+
+  // Function to send current question to the server
+  const setQuestionLength = useCallback(async () => {
+    try {
+      console.log('Current Question:', questionCount.current); // Logs the current value
+      const {status, data} = await axios.post(
+        `${profileApi}/InterView/setQuestionLength`,
+        {
+          userId: user?._id,
+          companyName: selectedCompany?.company_name || selectedCompany,
+          currentQuestion: questionCount.current, // Send the updated value
+        },
+      );
+      if (status === 200) {
+        setUser(prev => ({...prev, InterView: data.InterView})); // Update user state
+      }
+    } catch (error) {
+      console.error('Error sending question length:', error); // Log error
+    }
+  }, []); // Add dependencies to the useCallback
+
   // Find user milestone for the selected company
   const findCompanyName = async () => {
     const companyName = user?.InterView?.find(
@@ -35,9 +67,11 @@ const InterviewPrep = () => {
     );
     if (companyName) {
       setUserMile(companyName);
+      console.log(companyName);
+      setCurrentQuestion(companyName?.currentQuestionLength);
+      questionCount.current = companyName?.currentQuestionLength;
     }
   };
-  // Set the current week based on user milestone
   const setWeek = weekIndex => {
     if (userMile) {
       const findWeek = selectedCompany?.weeks?.find(
@@ -88,7 +122,7 @@ const InterviewPrep = () => {
       if (response.data) {
         // console.log(response.data);
         setWeek(response.data.week);
-        setUser(response.data.user);
+        setUser(prev => ({...prev, InterView: response.data.userInterView}));
         setCurrentQuestion(0);
       } else {
         throw new Error('Unexpected response from the server');
@@ -221,8 +255,8 @@ const InterviewPrep = () => {
                 style={{
                   letterSpacing: 2,
                   lineHeight: 25,
-                  color: '#197278',
-                  fontWeight: '600',
+                  color: Colors.mildGrey,
+                  // fontWeight: '600',
                   fontSize: width * 0.034,
                 }}>
                 Input: {currentWeek?.sample_questions[currentQuestion]?.input}
@@ -233,8 +267,8 @@ const InterviewPrep = () => {
                 style={{
                   letterSpacing: 2,
                   lineHeight: 25,
-                  color: '#ee964b',
-                  fontWeight: '600',
+                  color: Colors.mildGrey,
+                  // fontWeight: '600',
                   fontSize: width * 0.03,
                 }}>
                 Output: {currentWeek?.sample_questions[currentQuestion]?.output}
@@ -274,7 +308,6 @@ const InterviewPrep = () => {
                   letterSpacing: 2,
                   lineHeight: 25,
                   color: '#001233',
-                  fontWeight: '600',
                   display: isShowHint ? 'flex' : 'none',
                 }}>
                 code: {currentWeek?.sample_questions[currentQuestion]?.code}
@@ -291,20 +324,18 @@ const InterviewPrep = () => {
               {/* previous button setting */}
               {currentQuestion > 0 && (
                 <TouchableOpacity
-                  onPress={() => {
-                    setCurrentQuestion(prev => prev - 1);
-                    setIsShowHind(false);
-                  }}
+                  onPress={() => decreaseCount()}
                   style={{
                     // backgroundColor: '',
-                    padding: 10,
+                    padding: 5,
                     borderRadius: 5,
                     borderColor: '#233d4d',
-                    borderWidth: 0.5,
+                    // borderWidth: 0.5,
                     flexDirection: 'row',
                     justifyContent: 'center',
                     alignItems: 'center',
                     columnGap: 5,
+                    paddingHorizontal: 10,
                   }}>
                   <Ionicons
                     name="arrow-back-circle-outline"
@@ -316,6 +347,7 @@ const InterviewPrep = () => {
                       textAlign: 'center',
                       color: '#233d4d',
                       letterSpacing: 1,
+                      fontSize: width * 0.03,
                     }}>
                     previous
                   </Text>
@@ -327,20 +359,21 @@ const InterviewPrep = () => {
                   onPress={submitTask}
                   style={{
                     // backgroundColor: Colors.violet,
-                    padding: 10,
+                    padding: 7,
                     borderRadius: 5,
                     flexDirection: 'row',
                     justifyContent: 'center',
                     alignItems: 'center',
                     columnGap: 5,
                     borderColor: Colors.violet,
-                    borderWidth: 0.5,
+                    // borderWidth: 0.5,
                   }}>
                   <Text
                     style={{
                       textAlign: 'center',
                       color: Colors.violet,
                       letterSpacing: 1,
+                      fontSize: width * 0.03,
                     }}>
                     Submit
                   </Text>
@@ -352,19 +385,16 @@ const InterviewPrep = () => {
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity
-                  onPress={() => {
-                    setCurrentQuestion(prev => prev + 1);
-                    setIsShowHind(false);
-                  }}
+                  onPress={() => increaseCount()}
                   style={{
-                    padding: 10,
+                    padding: 7,
                     borderRadius: 5,
                     width: width * 0.25,
                     flexDirection: 'row',
                     justifyContent: 'center',
                     alignItems: 'center',
                     columnGap: 5,
-                    borderWidth: 0.5,
+                    // borderWidth: 0.5,
                     borderColor: Colors.violet,
                   }}>
                   <Text
@@ -372,6 +402,7 @@ const InterviewPrep = () => {
                       textAlign: 'center',
                       color: Colors.violet,
                       letterSpacing: 1,
+                      fontSize: width * 0.03,
                     }}>
                     Next
                   </Text>
@@ -383,18 +414,39 @@ const InterviewPrep = () => {
                 </TouchableOpacity>
               )}
             </View>
+            {/* save prgess */}
+            <Ripple
+              onPress={() => setQuestionLength()}
+              style={{
+                borderWidth: 0.3,
+                borderColor: Colors.lightGrey,
+                padding: 10,
+                borderRadius: 5,
+                // elevation: 1,
+                // backgroundColor: 'white',
+              }}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  letterSpacing: 1,
+                  color: Colors.mildGrey,
+                  fontSize: width * 0.03,
+                }}>
+                Save your progress
+              </Text>
+            </Ripple>
           </View>
         </View>
         {/* coding webview */}
         {currentWeek?.week > 1 && (
           <View style={{marginTop: 20}}>
-            <WebView
+            {/* <WebView
               javaScriptEnabled={true}
               style={{height: 600}}
               source={{
                 uri: 'https://www.programiz.com/java-programming/online-compiler/',
               }}
-            />
+            /> */}
           </View>
         )}
       </ScrollView>

@@ -155,7 +155,7 @@ const Companies = () => {
                     fontWeight: '600',
                     textAlign: 'center',
                     letterSpacing: 1,
-                    fontSize: width * 0.025,
+                    fontSize: width * 0.029,
                   }}>
                   {user?.InterView?.some(
                     userComp => userComp?.companyName == item?.company_name,
