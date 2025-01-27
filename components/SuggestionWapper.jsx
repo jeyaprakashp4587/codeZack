@@ -126,13 +126,13 @@ const SuggestionWapper = ({refresh}) => {
                 <View
                   style={{
                     position: 'absolute',
-                    top: height * 0.064,
+                    top: height * 0.072,
                     zIndex: 10,
-                    left: width * 0.12,
-                    padding: width * 0.017,
+                    left: width * 0.14,
+                    padding: width * 0.01,
                     backgroundColor: user?.item?.onlineStatus ? 'Green' : 'red',
                     borderRadius: 50,
-                    borderWidth: 3,
+                    borderWidth: 1.3,
                     borderColor: 'white',
                   }}
                 />
