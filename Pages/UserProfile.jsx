@@ -259,7 +259,7 @@ const UserProfile = () => {
               ? selectedUser?.Images?.coverImg
               : 'https://i.ibb.co/Fh1fwGm/2151777507.jpg',
           }}
-          style={{width: '100%', height: 220, resizeMode: 'cover'}}
+          style={{width: '100%', height: height * 0.2, resizeMode: 'cover'}}
         />
         <View
           style={{
@@ -281,19 +281,20 @@ const UserProfile = () => {
             }}
             style={{
               width: 100,
-              height: 100,
+              // height: 100,
               borderRadius: 50,
               borderColor: 'white',
               borderWidth: 5,
               resizeMode: 'cover',
               backgroundColor: 'white',
+              aspectRatio: 1,
             }}
           />
           {/* online dot indicator */}
           <View
             style={{
               position: 'absolute',
-              top: height * 0.1,
+              top: height * 0.112,
               zIndex: 10,
               left: width * 0.23,
               padding: width * 0.017,
@@ -318,7 +319,7 @@ const UserProfile = () => {
               fontSize: width * 0.04,
               letterSpacing: 1,
             }}>
-            {selectedUser?.Bio ? selectedUser.Bio : 'I want to become a Winner'}
+            {selectedUser?.Bio ? selectedUser.Bio : 'Student'}
           </Text>
           {/* Update User Info Modal */}
 
