@@ -68,9 +68,9 @@ const CoreChallenges = () => {
         elevation: 3,
         marginHorizontal: 5,
         padding: 15,
-        borderRadius: 10,
+        borderRadius: 5,
         flexDirection: 'column',
-        rowGap: 7,
+        rowGap: 10,
       }}>
       <Text
         style={{
@@ -81,28 +81,45 @@ const CoreChallenges = () => {
         <Text>{item?.question_id}.</Text>
         {item?.title}
       </Text>
-      <Text style={{letterSpacing: 1, color: Colors.mildGrey}}>
+      <Text
+        style={{
+          letterSpacing: 1,
+          color: Colors.mildGrey,
+          lineHeight: 20,
+          fontSize: width * 0.03,
+        }}>
         {item?.description}
       </Text>
-      <Text style={{color: '#1d3557', fontWeight: '600', letterSpacing: 1}}>
+      <Text
+        style={{
+          color: '#1d3557',
+          fontWeight: '600',
+          letterSpacing: 1,
+          fontSize: width * 0.03,
+        }}>
         <Text>Inputs: </Text>
         {item?.input_example}
       </Text>
-      <Text style={{color: '#ee6c4d', letterSpacing: 1}}>
+      <Text
+        style={{color: '#ee6c4d', letterSpacing: 1, fontSize: width * 0.03}}>
         <Text>Output: </Text> {item?.output_example}
       </Text>
       <TouchableOpacity
         onPress={() => handleSelectChallenge(item)}
         style={{
-          padding: 10,
-          backgroundColor: Colors.violet,
-          borderRadius: 10,
+          padding: 7,
+          // backgroundColor: Colors.vio,
+          borderRadius: 5,
+          borderColor: Colors.mildGrey,
+          borderWidth: 0.5,
         }}>
         <Text
           style={{
-            color: 'white',
+            color: Colors.mildGrey,
             textAlign: 'center',
             letterSpacing: 1,
+            fontSize: width * 0.033,
+            fontWeight: '600',
           }}>
           Take a Look
         </Text>

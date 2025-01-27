@@ -20,7 +20,7 @@ import Skeleton from '../Skeletons/Skeleton';
 
 const Placement = () => {
   const {width, height} = Dimensions.get('window');
-  const [jobs, setjobs] = useState();
+  const [jobs, setjobs] = useState([]);
   const nav = useNavigation();
   const getAllJobs = useCallback(async () => {
     const res = await axios.get(`${functionApi}/Jobs/getAllJobs`);
@@ -48,39 +48,30 @@ const Placement = () => {
         <View style={{paddingHorizontal: 15}}>
           <HeadingText text="Jobs" />
         </View>
-        {/* <View
-          style={{
-            paddingHorizontal: 15,
-            flexDirection: 'row',
-            borderWidth: 1,
-            borderColor: 'white',
-            alignItems: 'center',
-            columnGap: 10,
-          }}>
-          <Text
-            style={{
-              fontSize: width * 0.05,
-              // fontWeight: '600',
-              color: Colors.veryDarkGrey,
-              // letterSpacing: 2,
-            }}>
-            Recommended Jobs
-          </Text>
-          <Text
-            style={{
-              borderColor: Colors.mildGrey,
-              paddingHorizontal: 15,
-              textAlign: 'center',
-              borderRadius: 10,
-              borderWidth: 1,
-            }}>
-            {jobs?.length}
-          </Text>
-        </View> */}
         <View style={{flexDirection: 'column', rowGap: 10, margin: 15}}>
           <Skeleton width="100%" height={height * 0.3} radius={20} />
           <Skeleton width="100%" height={height * 0.3} radius={20} />
           <Skeleton width="100%" height={height * 0.3} radius={20} />
+        </View>
+      </View>
+    );
+  }
+  if (jobs.length <= 0) {
+    return (
+      <View style={{backgroundColor: 'white', flex: 1}}>
+        <View style={{paddingHorizontal: 15}}>
+          <HeadingText text="Jobs" />
+        </View>
+        <View style={{flexDirection: 'column', rowGap: 10, margin: 15}}>
+          <Text
+            style={{
+              fontSize: width * 0.035,
+              color: Colors.veryDarkGrey,
+              letterSpacing: 1,
+              fontWeight: '600',
+            }}>
+            No Jobs
+          </Text>
         </View>
       </View>
     );
@@ -122,7 +113,6 @@ const Placement = () => {
         </Text>
       </View>
       {/* job lists */}
-      {/* <View style={{paddingHorizontal: 15, marginVertical: 30}}> */}
       <FlatList
         showsVerticalScrollIndicator={false}
         data={jobs}
@@ -272,7 +262,6 @@ const Placement = () => {
           </View>
         )}
       />
-      {/* </View> */}
     </View>
   );
 };

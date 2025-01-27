@@ -181,12 +181,14 @@ const YourChallenges = props => {
               Nothing Is There!
             </Text>
             <Ripple
+              onPress={() => navigation.navigate('Code')}
               style={{
                 borderWidth: 0.5,
                 padding: 10,
                 marginHorizontal: 15,
                 marginTop: 20,
-                borderRadius: 10,
+                borderRadius: 5,
+                borderColor: Colors.lightGrey,
               }}>
               <Text
                 style={{
@@ -194,6 +196,7 @@ const YourChallenges = props => {
                   letterSpacing: 1,
                   fontWeight: '400',
                   fontSize: width * 0.025,
+                  color: Colors.mildGrey,
                 }}>
                 Choose Challenges
               </Text>

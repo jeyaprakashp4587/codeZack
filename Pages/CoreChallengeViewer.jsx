@@ -11,6 +11,7 @@ import {useData} from '../Context/Contexter';
 import {Colors, pageView} from '../constants/Colors';
 import TopicsText from '../utils/TopicsText';
 import WebView from 'react-native-webview';
+import HeadingText from '../utils/HeadingText';
 
 const CoreChallengeViewer = () => {
   const {width, height} = Dimensions.get('window');
@@ -20,7 +21,7 @@ const CoreChallengeViewer = () => {
   return (
     <ScrollView style={pageView}>
       <View style={{paddingHorizontal: 15}}>
-        <TopicsText text="Coding Ground" mb={4} />
+        <HeadingText text="Coding Ground" mb={4} />
       </View>
       <TouchableOpacity
         style={{
@@ -42,14 +43,26 @@ const CoreChallengeViewer = () => {
           <Text>{selectedChallenge?.question_id}.</Text>
           {selectedChallenge?.title}
         </Text>
-        <Text style={{letterSpacing: 1, color: Colors.mildGrey}}>
+        <Text
+          style={{
+            letterSpacing: 1,
+            color: Colors.mildGrey,
+            fontSize: width * 0.035,
+          }}>
           {selectedChallenge?.description}
         </Text>
-        <Text style={{color: '#1d3557', fontWeight: '600', letterSpacing: 1}}>
+        <Text
+          style={{
+            color: '#1d3557',
+            fontWeight: '600',
+            letterSpacing: 1,
+            fontSize: width * 0.03,
+          }}>
           <Text>Inputs: </Text>
           {selectedChallenge?.input_example}
         </Text>
-        <Text style={{color: '#ee6c4d', letterSpacing: 1}}>
+        <Text
+          style={{color: '#ee6c4d', letterSpacing: 1, fontSize: width * 0.03}}>
           <Text>Output: </Text> {selectedChallenge?.output_example}
         </Text>
       </TouchableOpacity>

@@ -58,7 +58,9 @@ const ChooseChallenge = ({navigation}) => {
         },
       );
       if (res.data && res.status === 200) {
-        setChallengesData(res.data); // Update challengesData
+        setChallengesData(res.data);
+        console.log('ok');
+        // Update challengesData
       }
     } catch (err) {
       setError('Failed to load challenges. Please try again.');
@@ -66,7 +68,8 @@ const ChooseChallenge = ({navigation}) => {
     } finally {
       setLoading(false);
     }
-  }, [selectedChallengeTopic]);
+  }, []);
+
   const filterChallengesByLevel = useCallback(
     level => {
       if (!challengesData) {
@@ -95,10 +98,6 @@ const ChooseChallenge = ({navigation}) => {
     },
     [challengesData],
   );
-  // Fetch challenges only once when the component mounts
-  useEffect(() => {
-    getChallenges();
-  }, [getChallenges]);
   // Automatically filter challenges by level when challengesData is updated
   useEffect(() => {
     if (challengesData) {
@@ -282,7 +281,7 @@ const ChooseChallenge = ({navigation}) => {
                         completedChallenge.ChallengeName === item.title,
                     )
                       ? 'green'
-                      : Colors.mildGrey
+                      : Colors.lightGrey
                   }
                 />
               </View>
@@ -294,7 +293,8 @@ const ChooseChallenge = ({navigation}) => {
                 setSelectedChallenge(item);
               }}>
               <LinearGradient
-                colors={['#79a6d2', '#9fbfdf', '#79a6d2']}
+                // colors={['#79a6d2', '#9fbfdf', '#79a6d2']}
+                colors={['#fff9f3', '#eef7fe']}
                 style={styles.linearGradient}>
                 <Text style={styles.viewChallengeButtonText}>
                   View Challenge
@@ -319,7 +319,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 15,
   },
-  flatList: {alignSelf: 'center', width: '100%', paddingHorizontal: 15},
+  flatList: {
+    alignSelf: 'center',
+    width: '100%',
+    paddingHorizontal: 15,
+    marginBottom: 10,
+  },
   challengeContainer: {
     padding: 20,
     backgroundColor: 'white',
@@ -344,11 +349,14 @@ const styles = StyleSheet.create({
   },
   technologies: {flexDirection: 'row', columnGap: 10},
   technologyIcon: {width: width * 0.08, height: width * 0.08},
-  linearGradient: {borderRadius: 10, padding: 10, justifyContent: 'center'},
+  linearGradient: {borderRadius: 10, padding: 2, justifyContent: 'center'},
   viewChallengeButtonText: {
-    color: 'white',
+    color: Colors.mildGrey,
     letterSpacing: 1,
     textAlign: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 7,
   },
   modalOverlay: {
     flex: 1,

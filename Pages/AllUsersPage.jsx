@@ -117,7 +117,7 @@ const AllUsersPage = () => {
                 <LinearGradient
                   colors={[
                     'rgba(0,0,0,0.1)',
-                    'hsl(0, 0%, 100%)',
+                    'hsl(0, 0%, 97%)',
                     'hsl(0, 0%, 100%)',
                     Colors.white,
                   ]}
