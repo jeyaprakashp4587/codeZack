@@ -47,9 +47,12 @@ const Projects = () => {
     });
   }, []);
   // load and destructuring add
-  const {load, isLoaded, show, isClosed} = useRewardedAd(TestIds.REWARDED, {
-    requestNonPersonalizedAdsOnly: true,
-  });
+  const {load, isLoaded, show, isClosed} = useRewardedAd(
+    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/2804627935',
+    {
+      requestNonPersonalizedAdsOnly: true,
+    },
+  );
   useEffect(() => {
     load();
   }, [load]);

@@ -38,8 +38,9 @@ const RecentCourses = () => {
         style={{
           fontSize: width * 0.042,
           letterSpacing: 1,
-          color: Colors.mildGrey,
+          color: 'black',
           marginBottom: 10,
+          fontWeight: '600',
         }}>
         Recent Course
       </Text>
