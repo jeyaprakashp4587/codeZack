@@ -10,12 +10,10 @@ import {
   ToastAndroid,
   Image,
 } from 'react-native';
-
 import {Colors, pageView} from '../constants/Colors';
 import {useData} from '../Context/Contexter';
 import HeadingText from '../utils/HeadingText';
 import TopicsText from '../utils/TopicsText';
-import PragraphText from '../utils/PragraphText';
 import axios from 'axios';
 import {challengesApi} from '../Api';
 import Actitivity from '../hooks/ActivityHook';
@@ -38,7 +36,7 @@ const CourseDetails = () => {
       try {
         // Set the selected technology
         setselectedTechnology({web: item.web, name: item.name});
-        showRewardedAd();
+
         // Navigate to "learn" screen immediately
         navigation.navigate('learn');
 
@@ -80,7 +78,7 @@ const CourseDetails = () => {
     },
     [selectedCourse, setselectedTechnology, user, setUser, navigation],
   );
-  const {showRewardedAd} = useRewardedAdHook();
+
   return (
     <View style={styles.container}>
       <View style={{paddingHorizontal: 15}}>

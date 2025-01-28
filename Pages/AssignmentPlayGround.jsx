@@ -17,6 +17,7 @@ import {Colors} from '../constants/Colors';
 import Actitivity from '../hooks/ActivityHook';
 import Skeleton from '../Skeletons/Skeleton';
 import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
+import HeadingText from '../utils/HeadingText';
 
 const AssignmentPlayGround = () => {
   const {assignmentType, user, setUser} = useData();
@@ -136,11 +137,7 @@ const AssignmentPlayGround = () => {
     [currentQuestionIndex, selectedAnswers],
   );
   // const submit assignmenet and check answer
-  const checkAnswers = async () => {
-    if (!adResult.success) {
-      Alert.alert('Ad Error', adResult.message || 'Failed to show ad');
-      return;
-    }
+  const checkAnswers = useCallback(async () => {
     // Ad was shown successfully, proceed with checking answers
     let score = 0;
     currentQuiz?.forEach((item, index) => {
@@ -154,10 +151,9 @@ const AssignmentPlayGround = () => {
       Alert.alert(`Try Again!, You did not pass. Score: ${score}`);
       return;
     }
-    // console.log('Passing score achieved, making API call');
     try {
       const res = await axios.post(
-        $`{functionApi}/Assignment/saveAssignment/${user?._id}`,
+        `${functionApi}/Assignment/saveAssignment/${user?._id}`,
         {
           AssignmentType: assignmentType,
           point: score,
@@ -182,19 +178,19 @@ const AssignmentPlayGround = () => {
         'Something went wrong while submitting your assignment. Please try again.',
       );
     }
-  };
+  }, [currentQuiz]);
   // go next question
   const nextQuestion = useCallback(() => {
-    addCount.current += 1;
     if (currentQuestionIndex < currentQuiz?.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     }
+    addCount.current += 1;
     if (addCount.current % 5 === 0) {
       if (isLoaded) {
         show();
       }
     }
-  }, [isLoaded, addCount]);
+  }, [isLoaded, addCount, currentQuestionIndex]);
   // go previous question
   const previousQuestion = () => {
     if (currentQuestionIndex > 0) {
@@ -216,14 +212,24 @@ const AssignmentPlayGround = () => {
         borderRadius: 5,
         // elevation: 2,
       }}>
-      <Text style={{color: Colors.mildGrey, flexShrink: 1}}>{option}</Text>
+      <Text
+        style={{
+          color: Colors.mildGrey,
+          flexShrink: 1,
+          fontSize: width * 0.034,
+          letterSpacing: 0.5,
+        }}>
+        {option}
+      </Text>
     </TouchableOpacity>
   );
   // main wrapper
   return (
     <View style={{backgroundColor: 'white', flex: 1}}>
       <View style={{paddingHorizontal: 15}}>
-        <TopicsText text={assignmentType.toUpperCase()} mb={5} />
+        <HeadingText text="Assignment playground" />
+      </View>
+      <View style={{paddingHorizontal: 15}}>
         <PragraphText text={'Choose Difficulty'} />
       </View>
       <View
@@ -239,7 +245,7 @@ const AssignmentPlayGround = () => {
             onPress={() => HandleSetDifficulty(item)}
             style={{
               paddingHorizontal: width * 0.06,
-              borderWidth: 1,
+              borderWidth: 0.5,
               paddingVertical: 10,
               borderRadius: 5,
               letterSpacing: 1,
@@ -260,12 +266,26 @@ const AssignmentPlayGround = () => {
               : difficultyInfo.toLowerCase() === 'medium'
               ? 'orange'
               : 'red',
+          fontWeight: '700',
+          letterSpacing: 1,
         }}>
         {difficultyInfo.toUpperCase()}
       </Text>
+      <View style={{paddingHorizontal: 15}}>
+        <TopicsText
+          text={
+            assignmentType.toLowerCase() == 'js'
+              ? 'Java script'
+              : assignmentType.toUpperCase()
+          }
+          fszie={width * 0.06}
+          mb={5}
+        />
+      </View>
       {currentQuiz ? (
         <View style={{marginTop: 10, paddingHorizontal: 15}}>
-          <Text style={{fontSize: width * 0.05}}>
+          <Text
+            style={{fontSize: width * 0.045, lineHeight: 30, letterSpacing: 1}}>
             {currentQuiz[currentQuestionIndex].question_id}.{' '}
             {currentQuiz[currentQuestionIndex].question}
           </Text>

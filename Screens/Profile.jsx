@@ -42,18 +42,13 @@ import {loginApi, profileApi} from '../Api';
 import Skeleton from '../Skeletons/Skeleton';
 import Posts from '../components/Posts';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {
-  Divider,
-  Modal,
-  Portal,
-  Snackbar,
-  TouchableRipple,
-} from 'react-native-paper';
+import {Modal, TouchableRipple} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
 
 const Profile = ({navigation}) => {
   const {user, setUser, setSelectedUser} = useData();

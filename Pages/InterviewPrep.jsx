@@ -141,7 +141,7 @@ const InterviewPrep = () => {
     );
     if (companyName) {
       setUserMile(companyName);
-      // console.log(companyName);
+      console.log(companyName);
       setCurrentQuestion(companyName?.currentQuestionLength);
       questionCount.current = companyName?.currentQuestionLength;
     }
@@ -522,13 +522,13 @@ const InterviewPrep = () => {
         {/* coding webview */}
         {currentWeek?.week > 1 && (
           <View style={{marginTop: 20}}>
-            {/* <WebView
+            <WebView
               javaScriptEnabled={true}
               style={{height: 600}}
               source={{
                 uri: 'https://www.programiz.com/java-programming/online-compiler/',
               }}
-            /> */}
+            />
           </View>
         )}
       </ScrollView>

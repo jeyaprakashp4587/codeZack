@@ -180,7 +180,8 @@ const AllUsersPage = () => {
           }}
           onEndReachedThreshold={0.5}
           ListFooterComponent={
-            isLoading && (
+            isLoading &&
+            suggestions?.length > 0 && (
               <View style={{padding: 10}}>
                 <Text style={{textAlign: 'center', color: Colors.mildGrey}}>
                   Loading more suggestions...
