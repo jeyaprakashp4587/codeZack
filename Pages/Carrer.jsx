@@ -17,6 +17,7 @@ import {useNavigation} from '@react-navigation/native';
 import HeadingText from '../utils/HeadingText';
 import axios from 'axios';
 import {challengesApi} from '../Api';
+
 const {width, height} = Dimensions.get('window');
 const Carrer = () => {
   // courses list update from git log

@@ -29,12 +29,10 @@ import {
 import {storage} from '../Firebase/Firebase';
 import axios from 'axios';
 import {profileApi} from '../Api';
-
 import moment from 'moment';
 import useSocketEmit from '../Socket/useSocketEmit';
 import {SocketData} from '../Socket/SocketContext';
 import {launchImageLibrary} from 'react-native-image-picker';
-import BannerAdd from '../Adds/BannerAdd';
 import {TestIds, useRewardedAd} from 'react-native-google-mobile-ads';
 
 const Post = () => {
@@ -399,5 +397,3 @@ const Post = () => {
 };
 
 export default React.memo(Post);
-
-const styles = StyleSheet.create({});

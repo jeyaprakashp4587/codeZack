@@ -52,7 +52,6 @@ const Home = () => {
   useFCMToken();
   // app open add
   AppOpenAd();
-
   // set user online status
   const setOnlineStatus = useCallback(
     async status => {
