@@ -576,10 +576,11 @@ const UserProfile = () => {
             />
             <Text
               style={{
-                fontSize: width * 0.04,
+                fontSize: width * 0.03,
                 marginBottom: height * 0.03,
                 letterSpacing: 2,
                 textAlign: 'center',
+                color: 'black',
               }}>
               Networks
             </Text>

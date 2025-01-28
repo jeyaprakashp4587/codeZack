@@ -35,6 +35,7 @@ import useSocketEmit from '../Socket/useSocketEmit';
 import {SocketData} from '../Socket/SocketContext';
 import {launchImageLibrary} from 'react-native-image-picker';
 import BannerAdd from '../Adds/BannerAdd';
+import {TestIds, useRewardedAd} from 'react-native-google-mobile-ads';
 
 const Post = () => {
   const {user, setUser} = useData();
@@ -51,7 +52,22 @@ const Post = () => {
   const socket = SocketData();
   const [refreshCon, setRefreshCon] = useState(false);
   const emitEvent = useSocketEmit(socket);
-
+  // load and destructure Reward add
+  const {load, isLoaded, show, isClosed} = useRewardedAd(
+    __DEV__ ? TestIds.REWARDED : 'ca-app-pub-3257747925516984/5831080677',
+    {
+      requestNonPersonalizedAdsOnly: false,
+    },
+  );
+  useEffect(() => {
+    load();
+  }, [load]);
+  useEffect(() => {
+    if (isClosed) {
+      load();
+    }
+  }, [load, isClosed]);
+  // close add section
   const handlePostText = text => {
     postText.current = text;
   };
@@ -127,7 +143,7 @@ const Post = () => {
   }, []);
 
   // Handle post upload
-  const handleUpload = async () => {
+  const handleUpload = useCallback(async () => {
     setUploadIndi(true);
     if (postLink.current && postText.current) {
       try {
@@ -147,6 +163,10 @@ const Post = () => {
           });
           ToastAndroid.show('Uploaded Successfully', ToastAndroid.SHORT);
           setUser(prev => ({...prev, Posts: res.data.Posts}));
+          // show add after post upload sucessfully
+          if (isLoaded) {
+            await show();
+          }
           // console.log(res.data.Posts);
           refreshFields();
         } else {
@@ -166,7 +186,7 @@ const Post = () => {
       ToastAndroid.show('Please fill in all fields.');
       setUploadIndi(false);
     }
-  };
+  }, [isLoaded, show, postText]);
 
   // Refresh input fields
   const refreshFields = () => {

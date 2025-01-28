@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useCallback, useEffect} from 'react';
+import React, {useState, useMemo, useCallback, useEffect, useRef} from 'react';
 import TopicsText from '../utils/TopicsText';
 import {functionApi} from '../Api';
 import {useData} from '../Context/Contexter';
@@ -16,16 +16,28 @@ import PragraphText from '../utils/PragraphText';
 import {Colors} from '../constants/Colors';
 import Actitivity from '../hooks/ActivityHook';
 import Skeleton from '../Skeletons/Skeleton';
+import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
 
 const AssignmentPlayGround = () => {
   const {assignmentType, user, setUser} = useData();
-  // console.log(assignmentType);
-
   const {width, height} = Dimensions.get('window');
   const [currentQuiz, setCurrentQuiz] = useState();
   const difficulty = ['easy', 'medium', 'hard'];
   const [difficultyInfo, setDifficultyInfo] = useState('easy');
-
+  // load and destructure Intrestial add
+  const addCount = useRef(0);
+  const {load, isLoaded, show, isClosed} = useInterstitialAd(
+    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/2804627935',
+    {requestNonPersonalizedAdsOnly: true},
+  );
+  useEffect(() => {
+    load();
+  }, [load]);
+  useEffect(() => {
+    if (isClosed) {
+      load();
+    }
+  }, [isClosed, load]);
   const HandleSetDifficulty = useCallback(level => {
     setDifficultyInfo(level);
     const existsLevel = checkExistsLevel(level);
@@ -172,19 +184,24 @@ const AssignmentPlayGround = () => {
     }
   };
   // go next question
-
-  const nextQuestion = () => {
+  const nextQuestion = useCallback(() => {
+    addCount.current += 1;
     if (currentQuestionIndex < currentQuiz?.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     }
-  };
-
+    if (addCount.current % 5 === 0) {
+      if (isLoaded) {
+        show();
+      }
+    }
+  }, [isLoaded, addCount]);
+  // go previous question
   const previousQuestion = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
   };
-
+  // custom radio button
   const CustomRadioButton = ({option, isSelected, onSelect}) => (
     <TouchableOpacity
       onPress={() => onSelect(option)}

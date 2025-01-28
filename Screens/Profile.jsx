@@ -61,38 +61,58 @@ const Profile = ({navigation}) => {
   const [aboutUpdate, setAboutUpdate] = useState(false);
   const [uploadActivityIndi, setUploadActivityIndi] = useState(false);
   const RBSheetRef = useRef();
-
+  // load and destructure intrestial add
+  const {load, show, isClosed, isLoaded} = useInterstitialAd(
+    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/2804627935',
+    {requestNonPersonalizedAdsOnly: true},
+  );
+  useEffect(() => {
+    load();
+  }, [load]);
+  useEffect(() => {
+    if (isClosed) {
+      load();
+    }
+  }, [isClosed, load]);
   // function to pick images from the library
   const HandleChangeProfile = useCallback(
     async imageType => {
-      launchImageLibrary(
-        {
-          mediaType: 'photo',
-          maxHeight: 400,
-          maxWidth: 400,
-          includeExtra: true,
-          quality: 1,
-          selectionLimit: 1,
-        },
-        response => {
-          if (response.didCancel) {
-            console.log('User cancelled image picker');
-          } else if (response.error) {
-            console.error('ImagePicker Error: ', response.error);
-          } else {
-            const uri = response.assets[0]?.uri;
-            if (uri) {
-              hostImage(uri, imageType)
-                .then(imageUri => {
-                  upload(imageUri, imageType);
-                })
-                .catch(err => setUploadIndicator(false));
+      try {
+        launchImageLibrary(
+          {
+            mediaType: 'photo',
+            maxHeight: 400,
+            maxWidth: 400,
+            includeExtra: true,
+            quality: 1,
+            selectionLimit: 1,
+          },
+          response => {
+            if (response.didCancel) {
+              console.log('User cancelled image picker');
+            } else if (response.error) {
+              console.error('ImagePicker Error: ', response.error);
+            } else {
+              const uri = response.assets[0]?.uri;
+              if (uri) {
+                // show add after select image
+                if (isLoaded) {
+                  show();
+                }
+                hostImage(uri, imageType)
+                  .then(imageUri => {
+                    upload(imageUri, imageType);
+                  })
+                  .catch(err => setUploadIndicator(false));
+              }
             }
-          }
-        },
-      );
+          },
+        );
+      } catch (error) {
+        console.log(error);
+      }
     },
-    [Image],
+    [Image, isLoaded, show],
   );
   // Upload image to Firebase Storage
   const [uploadIndicator, setUploadIndicator] = useState(false);
@@ -119,17 +139,24 @@ const Profile = ({navigation}) => {
   );
   // upload to server
   const upload = useCallback(async (ImageUrl, ImageType) => {
-    const res = await axios.post(`${profileApi}/Profile/updateProfileImages`, {
-      ImageUri: ImageUrl,
-      ImageType: ImageType,
-      userId: user?._id,
-    });
-    if (res.status === 200) {
-      setUser(prev => ({
-        ...prev,
-        Images: res.data.data, // Update only the Images part in your state
-      }));
-      setUploadIndicator(false);
+    try {
+      const res = await axios.post(
+        `${profileApi}/Profile/updateProfileImages`,
+        {
+          ImageUri: ImageUrl,
+          ImageType: ImageType,
+          userId: user?._id,
+        },
+      );
+      if (res.status === 200) {
+        setUser(prev => ({
+          ...prev,
+          Images: res.data.data, // Update only the Images part in your state
+        }));
+        setUploadIndicator(false);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }, []);
   // Refresh user data
@@ -152,22 +179,26 @@ const Profile = ({navigation}) => {
 
   // Function to handle input changes
   const HandleAboutInput = (field, value) => {
-    switch (field) {
-      case 'FirstName':
-        setFirstName(value);
-        break;
-      case 'LastName':
-        setLastName(value);
-        break;
-      case 'Bio':
-        setBio(value);
-        break;
-      default:
-        break;
+    try {
+      switch (field) {
+        case 'FirstName':
+          setFirstName(value);
+          break;
+        case 'LastName':
+          setLastName(value);
+          break;
+        case 'Bio':
+          setBio(value);
+          break;
+        default:
+          break;
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
   // Function to handle update submission
-  const HandleUpdate = async () => {
+  const HandleUpdate = useCallback(async () => {
     setUploadActivityIndi(true);
     try {
       const response = await axios.post(
@@ -185,14 +216,19 @@ const Profile = ({navigation}) => {
           LastName: response.data.LastName,
           Bio: response.data.Bio,
         }));
-        setAboutUpdate(false); // close the modal after update
+        setAboutUpdate(false);
+        // show add after update
+        if (isLoaded) {
+          await show();
+        }
+        // close the modal after update
       }
     } catch (error) {
       console.error('Error updating profile:', error);
     } finally {
       setUploadActivityIndi(false);
     }
-  };
+  }, [isLoaded, show]);
   // fetch connections lists
   const [netWorksList, setNetworksList] = useState([]);
   const [netWorkListPage, setNetWorkListPage] = useState(0);

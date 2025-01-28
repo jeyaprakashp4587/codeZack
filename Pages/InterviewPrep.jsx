@@ -43,7 +43,10 @@ const InterviewPrep = () => {
     isClosed: rewardClosed,
     show: showReward,
     isLoaded: rewardIsLoaded,
-  } = useRewardedAd(TestIds.REWARDED, {requestNonPersonalizedAdsOnly: true});
+  } = useRewardedAd(
+    __DEV__ ? TestIds.REWARDED : 'ca-app-pub-3257747925516984/5831080677',
+    {requestNonPersonalizedAdsOnly: true},
+  );
 
   useEffect(() => {
     loadReward(); // Load rewarded ad on initial render
@@ -60,9 +63,12 @@ const InterviewPrep = () => {
     isClosed: interestClosed,
     show: showInterest,
     isLoaded: interestIsLoaded,
-  } = useInterstitialAd(TestIds.INTERSTITIAL, {
-    requestNonPersonalizedAdsOnly: true,
-  });
+  } = useInterstitialAd(
+    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/2804627935',
+    {
+      requestNonPersonalizedAdsOnly: true,
+    },
+  );
 
   useEffect(() => {
     loadInterest(); // Load interstitial ad on initial render

@@ -14,11 +14,11 @@ import {useData} from '../Context/Contexter';
 import axios from 'axios';
 import {challengesApi} from '../Api';
 import {ScrollView} from 'react-native';
-
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 import Ripple from 'react-native-material-ripple';
 import {Modal} from 'react-native-paper';
+import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
 
 const {width, height} = Dimensions.get('window');
 
@@ -97,6 +97,34 @@ const YourCourses = () => {
     setShowTech(true);
     setSelectedTechs(techs);
   }, []);
+  // load and destructure intrestial add
+  const {load, show, isClosed, isLoaded} = useInterstitialAd(
+    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/2804627935',
+    {requestNonPersonalizedAdsOnly: true},
+  );
+  useEffect(() => {
+    load();
+  }, [load]);
+  useEffect(() => {
+    if (isClosed) {
+      load();
+    }
+  }, [isClosed, load]);
+  // navigate to learn page after select tech and show add
+  const handleNavLearn = useCallback(
+    async tech => {
+      try {
+        navigation.navigate('learn');
+        setselectedTechnology({web: tech.TechWeb, name: tech.TechName});
+        if (isLoaded) {
+          await show();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [isLoaded, show],
+  );
 
   return (
     <View style={pageView}>
@@ -215,10 +243,7 @@ const YourCourses = () => {
         }}>
         {selectTechs?.map((tech, index) => (
           <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('learn');
-              setselectedTechnology({web: tech.TechWeb, name: tech.TechName});
-            }}
+            onPress={() => handleNavLearn(tech)}
             key={index}
             style={{
               // borderWidth: 1,
