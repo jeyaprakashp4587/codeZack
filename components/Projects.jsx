@@ -189,7 +189,6 @@ const Projects = () => {
                   }}>
                   Coming Soon
                 </Text>
-                <Text>{isLoaded && 'ok'}</Text>
               </Ripple>
             </LinearGradient>
           </View>

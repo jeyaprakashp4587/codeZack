@@ -19,6 +19,13 @@ import Actitivity from '../hooks/ActivityHook';
 import Skeleton from '../Skeletons/Skeleton';
 import HeadingText from '../utils/HeadingText';
 import Ripple from 'react-native-material-ripple';
+import {
+  TestIds,
+  useInterstitialAd,
+  useRewardedAd,
+} from 'react-native-google-mobile-ads';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const InterviewPrep = () => {
   const {selectedCompany, user, setUser} = useData();
@@ -28,16 +35,76 @@ const InterviewPrep = () => {
   const [currentQuestion, setCurrentQuestion] = useState();
   const questionCount = useRef(0);
   const [isShowHint, setIsShowHind] = useState(false);
-  // set currentQuestion to server and set
-  const increaseCount = () => {
-    setCurrentQuestion(prev => prev + 1);
-    setIsShowHind(false);
-    questionCount.current += 1;
-  };
+  const AddCout = useRef(0);
+  const [saveInfo, setSaveInfo] = useState(false);
+  // load and destructure Reward add
+  const {
+    load: loadReward,
+    isClosed: rewardClosed,
+    show: showReward,
+    isLoaded: rewardIsLoaded,
+  } = useRewardedAd(TestIds.REWARDED, {requestNonPersonalizedAdsOnly: true});
+
+  useEffect(() => {
+    loadReward(); // Load rewarded ad on initial render
+  }, [loadReward]);
+
+  useEffect(() => {
+    if (rewardClosed) {
+      loadReward(); // Reload ad if it's closed
+    }
+  }, [rewardClosed, loadReward]);
+  // load reward and destructure Reward add
+  const {
+    load: loadInterest,
+    isClosed: interestClosed,
+    show: showInterest,
+    isLoaded: interestIsLoaded,
+  } = useInterstitialAd(TestIds.INTERSTITIAL, {
+    requestNonPersonalizedAdsOnly: true,
+  });
+
+  useEffect(() => {
+    loadInterest(); // Load interstitial ad on initial render
+  }, [loadInterest]);
+
+  useEffect(() => {
+    if (interestClosed) {
+      loadInterest(); // Reload ad if it's closed
+    }
+  }, [interestClosed, loadInterest]);
+  const increaseCount = useCallback(async () => {
+    try {
+      setCurrentQuestion(prev => prev + 1);
+      setIsShowHind(false);
+      setSaveInfo(false);
+      questionCount.current += 1;
+      AddCout.current += 1;
+      // Show interstitial ad every 10 questions
+      if (AddCout.current % 10 === 0 && interestIsLoaded) {
+        await showInterest();
+      }
+      // Show rewarded ad every 5 questions (but not on multiples of 10)
+      if (
+        AddCout.current % 5 === 0 &&
+        AddCout.current % 10 !== 0 &&
+        rewardIsLoaded
+      ) {
+        await showReward();
+      }
+    } catch (error) {
+      console.error('Error in increaseCount:', error);
+    }
+  }, [rewardIsLoaded, interestIsLoaded, showInterest, showReward]);
   const decreaseCount = () => {
-    setCurrentQuestion(prev => prev - 1);
-    setIsShowHind(false);
-    questionCount.current -= 1;
+    try {
+      saveInfo(false);
+      setCurrentQuestion(prev => prev - 1);
+      setIsShowHind(false);
+      questionCount.current -= 1;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // Function to send current question to the server
@@ -54,6 +121,7 @@ const InterviewPrep = () => {
       );
       if (status === 200) {
         setUser(prev => ({...prev, InterView: data.InterView})); // Update user state
+        setSaveInfo(true);
       }
     } catch (error) {
       console.error('Error sending question length:', error); // Log error
@@ -163,8 +231,6 @@ const InterviewPrep = () => {
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
-          // borderWidth: 1,
-          // borderColor: 'white',
         }}>
         <View style={{width: width * 0.3, height: height * 0.1}}>
           <Image
@@ -422,18 +488,28 @@ const InterviewPrep = () => {
                 borderColor: Colors.lightGrey,
                 padding: 10,
                 borderRadius: 5,
-                // elevation: 1,
-                // backgroundColor: 'white',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                columnGap: 6,
               }}>
               <Text
                 style={{
                   textAlign: 'center',
                   letterSpacing: 1,
-                  color: Colors.mildGrey,
+                  color: saveInfo ? 'green' : Colors.mildGrey,
                   fontSize: width * 0.03,
+                  borderWidth: 1,
+                  alignSelf: 'center',
+                  borderColor: 'white',
                 }}>
-                Save your progress
+                {saveInfo ? 'saved' : 'Save your progress'}
               </Text>
+              {saveInfo ? (
+                <AntDesign name="check" size={width * 0.04} color="green" />
+              ) : (
+                <SimpleLineIcons name="cloud-upload" size={width * 0.04} />
+              )}
             </Ripple>
           </View>
         </View>

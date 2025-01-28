@@ -14,19 +14,36 @@ import {profileApi} from '../Api';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
 import Skeleton from '../Skeletons/Skeleton';
+import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
 
 const Companies = () => {
   const navigation = useNavigation();
   const {width, height} = Dimensions.get('window');
   const {setSelectedCompany, user} = useData();
   // destructuring and load add
-
+  const {load, isLoaded, show, isClosed} = useInterstitialAd(
+    TestIds.INTERSTITIAL,
+    {requestNonPersonalizedAdsOnly: true},
+  );
+  useEffect(() => {
+    load();
+  }, [load]);
+  useEffect(() => {
+    if (isClosed) {
+      load();
+    }
+  }, [isClosed]);
   // set interview details and navigate
-
-  const handleSetInterView = useCallback(async name => {
-    navigation.navigate('InterviewDetail');
-    setSelectedCompany(name);
-  }, []);
+  const handleSetInterView = useCallback(
+    async name => {
+      navigation.navigate('InterviewDetail');
+      setSelectedCompany(name);
+      if (isLoaded) {
+        await show();
+      }
+    },
+    [isLoaded, show],
+  );
   // get all companies name and logo
   const [companies, setCompanies] = useState([]);
   const getCompanyDetails = useCallback(async () => {
