@@ -43,7 +43,7 @@ const InterviewPrep = () => {
   // Function to send current question to the server
   const setQuestionLength = useCallback(async () => {
     try {
-      console.log('Current Question:', questionCount.current); // Logs the current value
+      // console.log('Current Question:', questionCount.current); // Logs the current value
       const {status, data} = await axios.post(
         `${profileApi}/InterView/setQuestionLength`,
         {
@@ -67,7 +67,7 @@ const InterviewPrep = () => {
     );
     if (companyName) {
       setUserMile(companyName);
-      console.log(companyName);
+      // console.log(companyName);
       setCurrentQuestion(companyName?.currentQuestionLength);
       questionCount.current = companyName?.currentQuestionLength;
     }

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import TopicsText from '../utils/TopicsText';
 import {useData} from '../Context/Contexter';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -18,7 +18,17 @@ const RecentCourses = () => {
   const {width, height} = Dimensions.get('window');
   const {user, setselectedTechnology} = useData();
   const navigation = useNavigation();
-  const newCourseIndex = user?.Courses?.length - 1;
+  const [newCourseIndex, setNewCourseIndex] = useState(null);
+  useEffect(() => {
+    if (user?.Courses) {
+      const index =
+        user.Courses[user.Courses.length - 1]?.Technologies?.length <= 0
+          ? user?.Courses?.length - 2
+          : user?.Courses?.length - 1;
+      setNewCourseIndex(index);
+    }
+  }, [user?.Courses]);
+
   if (user?.Courses?.length <= 0) {
     return null;
   }

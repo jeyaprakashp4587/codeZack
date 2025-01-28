@@ -36,7 +36,7 @@ import useFCMToken from '../hooks/useFCMToken';
 import IdeasWrapper from '../components/IdeasWrapper';
 import RecentCourses from '../components/RecentCourses';
 import AppOpenAd from '../Adds/AppOpenAdd';
-import useRewardedAdHook from '../Adds/useRewardedAdHook';
+
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
 
@@ -74,7 +74,7 @@ const Home = () => {
   );
   // Loading ui effect
   useEffect(() => {
-    getNotifications();
+    // getNotifications();
     setTimeout(() => {
       setUiLoading(true);
       // load add
@@ -91,7 +91,7 @@ const Home = () => {
       if (res.data) {
         setUser(res.data);
         setRefresh(false);
-        await getNotifications();
+        // await getNotifications();
       }
     } catch (error) {
       console.error('Failed to refresh user:', error);
@@ -116,11 +116,11 @@ const Home = () => {
   useSocketOn(socket, 'updateNoti', async data => {
     console.log('log');
 
-    if (data) getNotifications();
+    // if (data) getNotifications();
   });
   // receive the socket data from another peer
   useSocketOn(socket, 'Receive-Noti', async () => {
-    await getNotifications();
+    // await getNotifications();
     // Vibration.vibrate({});
     Vibration.vibrate([0, 200, 100, 200]);
   });

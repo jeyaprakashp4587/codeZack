@@ -11,12 +11,15 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {challengesApi} from '../Api';
 import {useData} from '../Context/Contexter';
 import axios from 'axios';
-import PragraphText from '../utils/PragraphText';
 import {Colors} from '../constants/Colors';
 import Ripple from 'react-native-material-ripple';
 import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
-import useRewardedAdHook from '../Adds/useRewardedAdHook';
+import {
+  TestIds,
+  useInterstitialAd,
+  useRewardedAd,
+} from 'react-native-google-mobile-ads';
 
 const Projects = () => {
   const {setSelectedProject} = useData();
@@ -44,20 +47,35 @@ const Projects = () => {
     });
   }, []);
   // load and destructuring add
-  const {isRewardedAdLoaded, showRewardedAd} = useRewardedAdHook();
+  const {load, isLoaded, show, isClosed} = useRewardedAd(TestIds.REWARDED, {
+    requestNonPersonalizedAdsOnly: true,
+  });
+  useEffect(() => {
+    load();
+  }, [load]);
+  // Reload the ad after it is closed
+  useEffect(() => {
+    if (isClosed) {
+      load();
+    }
+  }, [isClosed, load]);
+
   //   handle select project and navigate
   const navigation = useNavigation();
-  const handleSelectProject = useCallback(async project => {
-    try {
-      navigation.navigate('selectedProject');
-      setSelectedProject(project);
-      if (isRewardedAdLoaded) {
-        showRewardedAd();
+  const handleSelectProject = useCallback(
+    async project => {
+      try {
+        navigation.navigate('selectedProject');
+        setSelectedProject(project);
+        if (isLoaded) {
+          await show();
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+    },
+    [navigation, isLoaded, show],
+  );
 
   return (
     <View>
@@ -171,6 +189,7 @@ const Projects = () => {
                   }}>
                   Coming Soon
                 </Text>
+                <Text>{isLoaded && 'ok'}</Text>
               </Ripple>
             </LinearGradient>
           </View>

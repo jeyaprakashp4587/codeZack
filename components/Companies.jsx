@@ -14,23 +14,18 @@ import {profileApi} from '../Api';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
 import Skeleton from '../Skeletons/Skeleton';
-import RewardedAdComponent from '../Adds/useRewardedAdHook';
-import useInterstitialAdHook from '../Adds/ InterstitialAdComponent';
 
 const Companies = () => {
   const navigation = useNavigation();
   const {width, height} = Dimensions.get('window');
   const {setSelectedCompany, user} = useData();
   // destructuring and load add
-  const {isInterstitialAdLoaded, showInterstitialAd} = useInterstitialAdHook();
+
   // set interview details and navigate
 
   const handleSetInterView = useCallback(async name => {
     navigation.navigate('InterviewDetail');
     setSelectedCompany(name);
-    if (isInterstitialAdLoaded) {
-      showInterstitialAd();
-    }
   }, []);
   // get all companies name and logo
   const [companies, setCompanies] = useState([]);

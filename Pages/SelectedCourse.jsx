@@ -22,7 +22,6 @@ import {challengesApi} from '../Api';
 import axios from 'axios';
 import Actitivity from '../hooks/ActivityHook';
 import HeadingText from '../utils/HeadingText';
-import useRewardedAdHook from '../Adds/useRewardedAdHook';
 
 const {width, height} = Dimensions.get('window');
 

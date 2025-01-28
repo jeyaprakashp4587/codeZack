@@ -20,7 +20,6 @@ import axios from 'axios';
 import {challengesApi} from '../Api';
 import Actitivity from '../hooks/ActivityHook';
 import {useNavigation} from '@react-navigation/native';
-import useRewardedAdHook from '../Adds/useRewardedAdHook';
 
 const {width, height} = Dimensions.get('window');
 
