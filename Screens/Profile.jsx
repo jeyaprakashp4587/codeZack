@@ -25,7 +25,7 @@ import {Colors, pageView} from '../constants/Colors';
 import HeadingText from '../utils/HeadingText';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faEdit} from '@fortawesome/free-regular-svg-icons';
-import {faSignOut} from '@fortawesome/free-solid-svg-icons';
+import {faSignOut, faTimes} from '@fortawesome/free-solid-svg-icons';
 import HrLine from '../utils/HrLine';
 import {useData} from '../Context/Contexter';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -223,7 +223,7 @@ const Profile = ({navigation}) => {
     } finally {
       setUploadActivityIndi(false);
     }
-  }, [isLoaded, show]);
+  }, [isLoaded, show, firstName, lastName, bio]);
   // fetch connections lists
   const [netWorksList, setNetworksList] = useState([]);
   const [netWorkListPage, setNetWorkListPage] = useState(0);
@@ -449,7 +449,7 @@ const Profile = ({navigation}) => {
           {aboutUpdate && (
             <View
               style={{
-                borderWidth: 1,
+                // borderWidth: 1,
                 borderColor: Colors.veryLightGrey,
                 width: '100%',
                 // height: 300,
@@ -458,15 +458,16 @@ const Profile = ({navigation}) => {
                 backgroundColor: 'white',
                 zIndex: 10,
                 top: height * 0.2,
-                borderRadius: 10,
+                borderRadius: 4,
                 padding: 20,
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 rowGap: 10,
+                elevation: 2,
               }}>
               <ActivityIndicator
-                size={60}
-                color={Colors.violet}
+                size={40}
+                color={Colors.veryDarkGrey}
                 style={{
                   position: 'absolute',
                   zIndex: 90,
@@ -475,13 +476,22 @@ const Profile = ({navigation}) => {
                   display: uploadActivityIndi ? 'flex' : 'none',
                 }}
               />
+              <TouchableOpacity
+                style={{
+                  justifyContent: 'flex-end',
+                  borderWidth: 0,
+                  alignItems: 'flex-end',
+                }}
+                onPress={() => setAboutUpdate(false)}>
+                <FontAwesomeIcon icon={faTimes} size={width * 0.06} />
+              </TouchableOpacity>
               <TextInput
                 placeholder="First Name"
                 style={{
                   borderRadius: 3,
-                  borderWidth: 1,
+                  borderWidth: 0.4,
                   padding: 10,
-                  borderColor: Colors.veryLightGrey,
+                  borderColor: Colors.mildGrey,
                   color: Colors.mildGrey,
                   letterSpacing: 1,
                   opacity: uploadActivityIndi ? 0.3 : 1,
@@ -494,9 +504,9 @@ const Profile = ({navigation}) => {
                 placeholder="Last Name"
                 style={{
                   borderRadius: 3,
-                  borderWidth: 1,
+                  borderWidth: 0.4,
                   padding: 10,
-                  borderColor: Colors.veryLightGrey,
+                  borderColor: Colors.mildGrey,
                   color: Colors.mildGrey,
                   letterSpacing: 1,
                   opacity: uploadActivityIndi ? 0.3 : 1,
@@ -509,10 +519,10 @@ const Profile = ({navigation}) => {
                 placeholder="Bio"
                 style={{
                   borderRadius: 3,
-                  borderWidth: 1,
+                  borderWidth: 0.4,
                   padding: 10,
                   paddingHorizontal: 15,
-                  borderColor: Colors.veryLightGrey,
+                  borderColor: Colors.mildGrey,
                   color: Colors.mildGrey,
                   letterSpacing: 1,
                   opacity: uploadActivityIndi ? 0.3 : 1,
@@ -523,13 +533,15 @@ const Profile = ({navigation}) => {
               <TouchableOpacity
                 onPress={() => HandleUpdate()}
                 style={{
-                  backgroundColor: Colors.violet,
+                  // backgroundColor: Colors.violet,
                   padding: 8,
                   borderRadius: 5,
+                  borderWidth: 0.5,
+                  borderColor: Colors.violet,
                 }}>
                 <Text
                   style={{
-                    color: 'white',
+                    color: Colors.violet,
                     textAlign: 'center',
                     letterSpacing: 2,
                   }}>

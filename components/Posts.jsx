@@ -372,7 +372,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
-          marginTop: 5,
+          marginTop: 15,
         }}>
         {/* like Icon  */}
         <TouchableOpacity

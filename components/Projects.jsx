@@ -80,6 +80,21 @@ const Projects = () => {
     [navigation, isLoaded, show],
   );
 
+  if (projects.length <= 0) {
+    return (
+      <View
+        style={{
+          // paddingHorizontal: 15,
+          marginBottom: 10,
+          flexDirection: 'row',
+          columnGap: 10,
+          borderWidth: 1,
+        }}>
+        <Skeleton width={width * 0.6} height={height * 0.14} radius={20} />
+        <Skeleton width={width * 0.6} height={height * 0.14} radius={20} />
+      </View>
+    );
+  }
   return (
     <View>
       <FlatList
@@ -172,7 +187,7 @@ const Projects = () => {
               </View>
             </View>
             <LinearGradient
-              style={{borderRadius: 5, elevation: 0.5}}
+              style={{borderRadius: 5}}
               colors={['#fff9f3', '#eef7fe']}
               start={{x: 0, y: 1}}
               end={{x: 1, y: 1}}>

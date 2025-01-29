@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Text, View, Animated, StyleSheet, Dimensions} from 'react-native';
 
-const {width} = Dimensions.get('window'); // Get the window width
+const {width, height} = Dimensions.get('window'); // Get the window width
 
 const TypingEffect = () => {
   const fullText = 'Welcome To CodeZack, Grow Your Career From Here';
@@ -93,9 +93,11 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     textAlign: 'center',
-    // fontWeight: 'bold',
+    color: 'black',
     letterSpacing: 1,
     fontSize: width * 0.03,
+    fontWeight: '600',
+    // lineHeight: height * 0.055,
   },
 });
 

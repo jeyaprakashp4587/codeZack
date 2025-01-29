@@ -79,7 +79,7 @@ const Companies = () => {
     getCompanyDetails();
   }, []);
 
-  if (!companies) {
+  if (companies.length <= 0) {
     return (
       <View
         style={{

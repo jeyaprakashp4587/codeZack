@@ -105,17 +105,27 @@ const Login = () => {
   }, [form, validateForm, setUser, navigation]);
 
   return (
-    <LinearGradient
-      style={styles.container}
-      colors={['#fff9f3', '#eef7fe']}
-      start={{x: 0, y: 1}}
-      end={{x: 1, y: 1}}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {/* <Text style={styles.headerText}>Log In</Text> */}
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <LinearGradient
+        style={{
+          flex: 1,
+          borderWidth: 0,
+          height: height * 1,
+          paddingHorizontal: 25,
+          flexDirection: 'column',
+          justifyContent: 'center',
+        }}
+        colors={['#fff9f3', '#eef7fe']}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 1}}>
+        {/* <View style={{borderWidth: 1, flex: 1, height: '100%'}}> */}
         <View style={styles.imageContainer}>
-          <Image
-            source={{uri: 'https://i.ibb.co/P5s1nZ5/loginbg.png'}}
+          <FastImage
             style={styles.image}
+            source={{
+              uri: 'https://i.ibb.co/P5s1nZ5/loginbg.png',
+              priority: FastImage.priority.high,
+            }}
           />
           <TypingEffect />
         </View>
@@ -163,7 +173,7 @@ const Login = () => {
           <TouchableOpacity onPress={HandleLogin} style={styles.loginButton}>
             <Text style={styles.loginText}>Login</Text>
             {activityIndi && (
-              <ActivityIndicator size="small" color={Colors.white} />
+              <ActivityIndicator size={width * 0.045} color={Colors.white} />
             )}
           </TouchableOpacity>
         </View>
@@ -198,8 +208,9 @@ const Login = () => {
             <Text style={styles.signUpLink}>Sign up</Text>
           </TouchableOpacity>
         </View>
-      </ScrollView>
-    </LinearGradient>
+        {/* </View> */}
+      </LinearGradient>
+    </ScrollView>
   );
 };
 
@@ -210,23 +221,15 @@ const styles = StyleSheet.create({
     color: 'hsl(0, 0%, 50%)',
     paddingBottom: height * 0.015, // Dynamic padding
   },
-  container: {
-    paddingHorizontal: width * 0.08,
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    // borderWidth: 1,
-    // backgroundColor: 'white',
-    flex: 1,
-    // alignSelf: 'center',
-  },
   imageContainer: {
     alignItems: 'center',
   },
   image: {
-    width: width * 0.75,
-    height: width * 0.75,
+    width: width * 0.6,
     alignSelf: 'center',
+    aspectRatio: 1,
+    borderRadius: 20,
+    // elevation: 10,
   },
   welcomeText: {
     textAlign: 'center',
@@ -260,11 +263,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     columnGap: 10,
     marginTop: 10,
-    borderWidth: 0.4,
     borderColor: Colors.veryDarkGrey,
   },
   loginText: {
-    fontWeight: '800',
     letterSpacing: 2,
     fontSize: width * 0.035, // Dynamic font size
     color: Colors.white,
@@ -295,7 +296,7 @@ const styles = StyleSheet.create({
     color: 'orange',
     textDecorationLine: 'underline',
     paddingHorizontal: width * 0.025,
-    fontWeight: '400', // Dynamic padding
+    // fontWeight: '400', // Dynamic padding
   },
 });
 
