@@ -280,7 +280,7 @@ const Home = () => {
         <Suspense
           fallback={
             <View style={{margin: 15}}>
-              <Skeleton width="100%" height={height * 0.3} radius={10} />
+              <Skeleton width="100%" height={height * 0.2} radius={10} />
             </View>
           }>
           <View style={{paddingHorizontal: 15}}>
@@ -292,7 +292,7 @@ const Home = () => {
         <Suspense
           fallback={
             <View style={{margin: 15}}>
-              <Skeleton width="100%" height={height * 0.3} radius={10} />
+              <Skeleton width="100%" height={height * 0.2} radius={10} />
             </View>
           }>
           <View style={{paddingHorizontal: 15}}>
@@ -337,7 +337,7 @@ const Home = () => {
         <Suspense
           fallback={
             <View style={{margin: 15}}>
-              <Skeleton width="100%" height={height * 0.3} radius={10} />
+              <Skeleton width="100%" height={height * 0.2} radius={10} />
             </View>
           }>
           <View

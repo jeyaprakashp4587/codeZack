@@ -19,12 +19,17 @@ import WebView from 'react-native-webview';
 const ChallengeViewer = () => {
   const {width, height} = Dimensions.get('window');
   const {user, selectedChallenge} = useData();
-  const [challenge, setChallenge] = useState();
+  const [challenge, setChallenge] = useState(null);
   const [webViewSource, setWebViewSource] = useState('');
   const [webViewError, setWebViewError] = useState(false); // Track errors in WebView
-  const fallbackURL = 'https://example.com'; // Replace with your dummy fallback URL
+  const fallbackURL = 'https://example.com'; // Dummy fallback URL
 
+  // Function to validate URL
   const isValidURL = url => {
+    if (typeof url !== 'string') {
+      return false;
+    }
+
     const urlPattern = new RegExp(
       '^(https?:\\/\\/)?' + // protocol
         '((([a-zA-Z\\d]([a-zA-Z\\d-]*[a-zA-Z\\d])*)\\.?)+[a-zA-Z]{2,}|' + // domain name
@@ -37,15 +42,25 @@ const ChallengeViewer = () => {
     return !!urlPattern.test(url);
   };
 
+  // Fetch Challenge Details
   const getChallenge = async () => {
     try {
       const res = await axios.get(
         `${challengesApi}/Challenges/getCompletedChallenge/${user?._id}/${selectedChallenge?.title}`,
       );
+
       if (res.data) {
         setChallenge(res.data);
-        if (isValidURL(res.data?.LiveLink)) {
-          setWebViewSource(res.data.LiveLink);
+
+        let liveLink = res.data?.LiveLink;
+
+        // Ensure LiveLink is a string before setting it
+        if (Array.isArray(liveLink)) {
+          liveLink = liveLink[0]; // Take the first URL if it's an array
+        }
+
+        if (isValidURL(liveLink)) {
+          setWebViewSource(liveLink);
         } else {
           setWebViewError(true);
         }
@@ -73,27 +88,35 @@ const ChallengeViewer = () => {
           {challenge?.ChallengeName}
         </Text>
 
-        <Text
-          onPress={() => Linking.openURL(challenge?.RepoLink)}
-          style={{
-            fontSize: width * 0.04,
-            letterSpacing: 1,
-            color: Colors.violet,
-            marginVertical: 10,
-            textDecorationLine: 'underline',
-          }}>
-          {challenge?.RepoLink}
-        </Text>
-        <Text
-          onPress={() => Linking.openURL(challenge?.LiveLink)}
-          style={{
-            fontSize: width * 0.04,
-            letterSpacing: 1,
-            color: Colors.violet,
-            textDecorationLine: 'underline',
-          }}>
-          {challenge?.LiveLink}
-        </Text>
+        {/* Repository Link */}
+        {challenge?.RepoLink && isValidURL(challenge?.RepoLink) && (
+          <Text
+            onPress={() => Linking.openURL(challenge?.RepoLink)}
+            style={{
+              fontSize: width * 0.04,
+              letterSpacing: 1,
+              color: Colors.violet,
+              marginVertical: 10,
+              textDecorationLine: 'underline',
+            }}>
+            {challenge?.RepoLink}
+          </Text>
+        )}
+
+        {/* Live Link */}
+        {challenge?.LiveLink && isValidURL(challenge?.LiveLink) && (
+          <Text
+            onPress={() => Linking.openURL(challenge?.LiveLink)}
+            style={{
+              fontSize: width * 0.04,
+              letterSpacing: 1,
+              color: Colors.violet,
+              textDecorationLine: 'underline',
+            }}>
+            {challenge?.LiveLink}
+          </Text>
+        )}
+
         <Text
           style={{
             fontSize: width * 0.05,
@@ -103,6 +126,8 @@ const ChallengeViewer = () => {
           }}>
           Your Solution
         </Text>
+
+        {/* Snapshot Image */}
         {challenge?.SnapImage && (
           <Image
             source={{uri: challenge?.SnapImage}}
@@ -146,7 +171,7 @@ const ChallengeViewer = () => {
             javaScriptEnabled={true}
             scrollEnabled={true}
             nestedScrollEnabled
-            source={{uri: webViewSource}}
+            source={{uri: webViewSource.toString()}} // Ensure it's a string
             style={{borderWidth: 1, height: height * 0.8}}
             onError={() => setWebViewError(true)}
           />
@@ -156,6 +181,7 @@ const ChallengeViewer = () => {
   );
 };
 
+// Styles
 const styles = StyleSheet.create({
   errorContainer: {
     flex: 1,

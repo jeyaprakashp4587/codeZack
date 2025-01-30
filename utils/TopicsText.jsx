@@ -12,6 +12,7 @@ const TopicsText = props => {
         marginBottom: props.mb ? props.mb : 20,
         letterSpacing: 2,
         fontWeight: props.fontWeight ?? '400',
+        lineHeight: props.ln && props.ln,
       }}>
       {props.text}
     </Text>

@@ -24,6 +24,7 @@ import Skeleton from '../Skeletons/Skeleton';
 import Ripple from 'react-native-material-ripple';
 import {useFocusEffect} from '@react-navigation/native';
 import Entypo from 'react-native-vector-icons/Entypo';
+import FastImage from 'react-native-fast-image';
 
 const {width, height} = Dimensions.get('window');
 
@@ -45,7 +46,6 @@ const ChooseChallenge = ({navigation}) => {
   const [challengesData, setChallengesData] = useState(null); // To store all challenges initially
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
   const getChallenges = useCallback(async () => {
     console.log('Fetching challenges...');
     setLoading(true);
@@ -58,9 +58,7 @@ const ChooseChallenge = ({navigation}) => {
         },
       );
       if (res.data && res.status === 200) {
-        setChallengesData(res.data);
-        console.log('ok');
-        // Update challengesData
+        setChallengesData(res.data); // Set challenges data only once
       }
     } catch (err) {
       setError('Failed to load challenges. Please try again.');
@@ -68,7 +66,7 @@ const ChooseChallenge = ({navigation}) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [selectedChallengeTopic]); // This only depends on the topic now
 
   const filterChallengesByLevel = useCallback(
     level => {
@@ -79,18 +77,19 @@ const ChooseChallenge = ({navigation}) => {
 
       const {newbieLevel, juniorLevel, expertLevel, legendLevel} =
         challengesData;
+
       switch (level) {
         case 'Newbie':
-          setChallenges([...newbieLevel]);
+          setChallenges(newbieLevel); // Directly filter from the already fetched data
           break;
         case 'Junior':
-          setChallenges([...juniorLevel]);
+          setChallenges(juniorLevel);
           break;
         case 'Expert':
-          setChallenges([...expertLevel]);
+          setChallenges(expertLevel);
           break;
         case 'Legend':
-          setChallenges([...legendLevel]);
+          setChallenges(legendLevel);
           break;
         default:
           setChallenges([]);
@@ -98,42 +97,37 @@ const ChooseChallenge = ({navigation}) => {
     },
     [challengesData],
   );
-  // Automatically filter challenges by level when challengesData is updated
+
   useEffect(() => {
     if (challengesData) {
       filterChallengesByLevel('Newbie');
     }
   }, [challengesData, filterChallengesByLevel]);
 
-  // refresh
-  const [refresh, setRefresh] = useState(false);
-  const handleRefresh = useCallback(async () => {
-    setRefresh(true);
-    await getChallenges().finally(() => setRefresh(false));
-  }, []);
+  // Automatically call getChallenges when the topic changes
   const HandleSelectLevel = useCallback(
     levelName => {
       setDifficultyInfo(levelName);
-      setMenuVisible(false); // Close custom dropdown
+      setMenuVisible(false);
       filterChallengesByLevel(levelName);
     },
-    [getChallenges, selectedChallengeTopic],
+    [filterChallengesByLevel],
   );
 
-  const openMenu = () => setMenuVisible(true);
-  const closeMenu = () => setMenuVisible(false);
+  const handleRefresh = useCallback(async () => {
+    setRefresh(true);
+    await getChallenges().finally(() => setRefresh(false));
+  }, [getChallenges]);
 
   useFocusEffect(
     useCallback(() => {
-      getChallenges(selectedChallengeTopic, difficultyInfo);
+      getChallenges();
       getCompletedAllChallenges();
-    }, [
-      selectedChallengeTopic,
-      difficultyInfo,
-      getChallenges,
-      getCompletedAllChallenges,
-    ]),
+    }, [getChallenges, getCompletedAllChallenges]),
   );
+  const openMenu = () => setMenuVisible(true);
+  const closeMenu = () => setMenuVisible(false);
+
   // get completed challlegs from use
   const [userCompletedChallenges, setUserCompletedChallenges] = useState([]);
   const getCompletedAllChallenges = useCallback(() => {
@@ -228,7 +222,13 @@ const ChooseChallenge = ({navigation}) => {
           <View style={styles.challengeContainer} key={index}>
             {/* Challenge Item Layout */}
             <View>
-              <ParagraphText text={item.title} fsize={18} padding={5} />
+              <ParagraphText
+                text={item.title}
+                fsize={width * 0.05}
+                padding={5}
+                color="black"
+                fontWeight={600}
+              />
               <ParagraphText
                 text={item.level ? item.level : difficultyInfo}
                 fsize={15}
@@ -245,9 +245,9 @@ const ChooseChallenge = ({navigation}) => {
             <View style={styles.technologiesContainer}>
               <View style={styles.technologies}>
                 {item.technologies.map((i, index) => (
-                  <Image
+                  <FastImage
                     key={index}
-                    source={{uri: i.icon}}
+                    source={{uri: i.icon, priority: FastImage.priority.high}}
                     style={styles.technologyIcon}
                   />
                 ))}
@@ -319,6 +319,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 15,
+    paddingBottom: 10,
   },
   flatList: {
     alignSelf: 'center',

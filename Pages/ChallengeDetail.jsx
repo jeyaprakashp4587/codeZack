@@ -44,6 +44,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {useRewardedAd} from 'react-native-google-mobile-ads';
 import {SocketData} from '../Socket/SocketContext';
 import {Divider} from 'react-native-paper';
+import FastImage from 'react-native-fast-image';
 
 const {width, height} = Dimensions.get('window');
 
@@ -74,7 +75,7 @@ const ChallengeDetail = () => {
       `Finished a tricky ${selectedChallenge?.ChallengeType} challenge named ${selectedChallenge?.ChallengeName}. Check out the details below!`,
       `Successfully completed the ${selectedChallenge?.ChallengeName} project, which was part of a challenging ${selectedChallenge?.ChallengeType}. Check out the link below!`,
     ],
-    [],
+    [uploadForm.GitRepo],
   );
   const checkChallengeStatus = useCallback(async () => {
     try {
@@ -160,56 +161,76 @@ const ChallengeDetail = () => {
     }
   };
 
-  const HandleUpload = async () => {
-    if (uploadForm.GitRepo && uploadForm.LiveLink && images.length > 0) {
-      try {
-        const res = await axios.post(
-          `${challengesApi}/Challenges/uploadChallenge/${user?._id}`,
-          {
-            GitRepo: uploadForm.GitRepo,
-            LiveLink: uploadForm.LiveLink,
-            SnapImage: images,
-            ChallengeName:
-              selectedChallenge?.title || selectedChallenge?.ChallengeName,
-          },
-        );
-        if (res.data == 'completed') {
-          setChallengeStatus('completed');
-          console.log('suces');
-          ToastAndroid.show(
-            'Wow!, You Finished and earn Rs:1',
-            ToastAndroid.SHORT,
-          );
-          await handleUploadPost();
-          try {
-            Actitivity(
-              user?._id,
-              `${
-                selectedChallenge?.title || selectedChallenge?.ChallengeName
-              } Completed`,
-            );
-          } catch (error) {
-            console.log(error, 'while do activity ');
-          }
-        }
-      } catch (error) {
-        console.error('Error uploading challenge:', error);
-      }
-    } else {
+  const isValidGitHubRepo = url => {
+    const gitHubRegex =
+      /^https:\/\/github\.com\/[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+$/;
+    return gitHubRegex.test(url);
+  };
+
+  const isValidURL = url => {
+    const urlRegex =
+      /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+    return urlRegex.test(url);
+  };
+
+  const HandleUpload = useCallback(async () => {
+    if (!uploadForm.GitRepo) {
       ToastAndroid.show(
         'Please fill in all fields and select images',
         ToastAndroid.SHORT,
       );
+      return;
     }
-  };
+    if (!isValidGitHubRepo(uploadForm.GitRepo)) {
+      ToastAndroid.show('Invalid GitHub repository link', ToastAndroid.SHORT);
+      return;
+    }
+    if (uploadForm.LiveLink && !isValidURL(uploadForm.LiveLink)) {
+      ToastAndroid.show('Invalid live link', ToastAndroid.SHORT);
+      return;
+    }
+    try {
+      const res = await axios.post(
+        `${challengesApi}/Challenges/uploadChallenge/${user?._id}`,
+        {
+          GitRepo: uploadForm.GitRepo,
+          LiveLink: uploadForm.LiveLink,
+          SnapImage: images,
+          ChallengeName:
+            selectedChallenge?.title || selectedChallenge?.ChallengeName,
+        },
+      );
 
-  const handleUploadPost = async () => {
+      if (res.data === 'completed') {
+        setChallengeStatus('completed');
+        console.log('success');
+        ToastAndroid.show('Wow! you made it', ToastAndroid.SHORT);
+        await handleUploadPost();
+
+        try {
+          Actitivity(
+            user?._id,
+            `${
+              selectedChallenge?.title || selectedChallenge?.ChallengeName
+            } Completed`,
+          );
+        } catch (error) {
+          console.log(error, 'while doing activity');
+        }
+      }
+    } catch (error) {
+      console.error('Error uploading challenge:', error);
+      ToastAndroid.show('Upload failed. Please try again.', ToastAndroid.SHORT);
+    }
+  }, [uploadForm.GitRepo, images, user, selectedChallenge]);
+
+  const handleUploadPost = useCallback(async () => {
     try {
       const res = await axios.post(`${challengesApi}/Post/uploadPost`, {
         userId: user?._id,
         Images: images,
         postText: postText[Math.floor(Math.random() * postText.length)],
-        postLink: uploadForm.LiveLink,
+        postLink: uploadForm.LiveLink ?? uploadForm.GitRepo,
         Time: moment().format('YYYY-MM-DDTHH:mm:ss'),
       });
       if (res.status === 200) {
@@ -227,25 +248,31 @@ const ChallengeDetail = () => {
       );
       Alert.alert('Upload failed. Please check your connection.');
     }
-  };
+  }, [uploadForm.GitRepo, images, user, selectedChallenge]);
 
-  const HandleStart = async chName => {
-    setStatusButtonToggle(true);
-    show();
-    setChallengeStatus('pending');
-    try {
-      const res = await axios.post(`${challengesApi}/Challenges/addChallenge`, {
-        userId: user._id,
-        ChallengeName: chName,
-        ChallengeType: selectedChallenge.technologies[0].name,
-        ChallengeImage: selectedChallenge.sample_image,
-        ChallengeLevel: selectedChallenge.level,
-      });
-      if (res.data) setUploadTut(true);
-    } catch (error) {
-      console.error('Error starting challenge:', error);
-    }
-  };
+  const HandleStart = useCallback(
+    async chName => {
+      setStatusButtonToggle(true);
+      show();
+      setChallengeStatus('pending');
+      try {
+        const res = await axios.post(
+          `${challengesApi}/Challenges/addChallenge`,
+          {
+            userId: user._id,
+            ChallengeName: chName,
+            ChallengeType: selectedChallenge.technologies[0].name,
+            ChallengeImage: selectedChallenge.sample_image,
+            ChallengeLevel: selectedChallenge.level,
+          },
+        );
+        if (res.data) setUploadTut(true);
+      } catch (error) {
+        console.error('Error starting challenge:', error);
+      }
+    },
+    [user, ChallengeDetail],
+  );
 
   useFocusEffect(
     useCallback(() => {
@@ -341,9 +368,11 @@ const ChallengeDetail = () => {
             )}
             <TopicsText
               text={selectedChallenge?.title}
-              fszie={width * 0.05}
+              fszie={width * 0.07}
               mb={5}
+              fontWeight={600}
               color="black"
+              ln={40}
             />
             <View
               style={{
@@ -429,13 +458,13 @@ const ChallengeDetail = () => {
             {/* support wrapper */}
             {statusButtonToggle ? (
               <Button
-                text={ChallengeStatus.toLocaleUpperCase()}
+                text={ChallengeStatus?.toLocaleUpperCase()}
                 bgcolor={Colors.violet}
                 textColor="white"
-                fsize={18}
+                fsize={width * 0.04}
                 width="100%"
                 br={50}
-                radius={50}
+                radius={10}
               />
             ) : (
               <Button
@@ -444,7 +473,7 @@ const ChallengeDetail = () => {
                 textColor="white"
                 width="100%"
                 mb={5}
-                radius={50}
+                radius={10}
                 fsize={width * 0.04}
                 function={() => HandleStart(selectedChallenge.title)}
               />
@@ -455,7 +484,7 @@ const ChallengeDetail = () => {
                 style={{
                   // borderWidth: 1,
                   padding: 10,
-                  borderRadius: 50,
+                  borderRadius: 10,
                   alignItems: 'center',
                   // borderColor: Colors.mildGrey,
                   backgroundColor: '#80bfff',
@@ -464,7 +493,7 @@ const ChallengeDetail = () => {
                 <Text
                   style={{
                     color: Colors.white,
-                    fontSize: 17,
+                    fontSize: width * 0.04,
                     letterSpacing: 1,
                   }}>
                   How To Upload
@@ -550,8 +579,7 @@ const ChallengeDetail = () => {
           <View
             style={{
               marginVertical: 10,
-              rowGap: 20,
-              // borderWidth: 1,
+              rowGap: 10,
               padding: 2,
             }}>
             <Text
@@ -567,7 +595,7 @@ const ChallengeDetail = () => {
               style={{
                 borderWidth: 1,
                 padding: 15,
-                fontSize: 15,
+                fontSize: width * 0.03,
                 letterSpacing: 1,
                 borderColor: Colors.veryLightGrey,
                 borderRadius: 5,
@@ -581,7 +609,7 @@ const ChallengeDetail = () => {
               style={{
                 borderWidth: 1,
                 padding: 15,
-                fontSize: 15,
+                fontSize: width * 0.03,
                 letterSpacing: 1,
                 borderColor: Colors.veryLightGrey,
                 borderRadius: 5,
@@ -599,7 +627,7 @@ const ChallengeDetail = () => {
                 borderWidth: 1,
                 borderColor: Colors.veryLightGrey,
                 borderRadius: 5,
-                padding: 10,
+                padding: 5,
               }}>
               {imgLoad ? (
                 <ActivityIndicator
@@ -609,11 +637,15 @@ const ChallengeDetail = () => {
               ) : (
                 <FontAwesomeIcon
                   icon={faImage}
-                  size={width * 0.05}
+                  size={width * 0.035}
                   color={Colors.mildGrey}
                 />
               )}
-              <PragraphText text="Upload Snapshot" padding={1} fsize={15} />
+              <PragraphText
+                text="Upload Snapshot"
+                padding={1}
+                fsize={width * 0.03}
+              />
             </TouchableOpacity>
             {/* show oupload image */}
             {images.length > 0 ? (
@@ -621,8 +653,8 @@ const ChallengeDetail = () => {
                 horizontal
                 data={images}
                 renderItem={({item}) => (
-                  <Image
-                    source={{uri: item}}
+                  <FastImage
+                    source={{uri: item, priority: FastImage.priority.high}}
                     style={{
                       width: width * 0.5,
                       height: height * 0.3,
@@ -641,11 +673,11 @@ const ChallengeDetail = () => {
                 width: '100%',
                 backgroundColor: Colors.violet,
                 padding: 10,
-                borderRadius: 50,
+                borderRadius: 5,
               }}>
               <Text
                 style={{
-                  fontSize: 18,
+                  fontSize: width * 0.045,
                   color: 'white',
                   letterSpacing: 1,
                   textAlign: 'center',
