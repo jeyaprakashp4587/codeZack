@@ -89,7 +89,8 @@ const Projects = () => {
           marginBottom: 10,
           flexDirection: 'row',
           columnGap: 10,
-          borderWidth: 1,
+          paddingHorizontal: 15,
+          // borderWidth: 1,
         }}>
         <Skeleton width={width * 0.6} height={height * 0.14} radius={20} />
         <Skeleton width={width * 0.6} height={height * 0.14} radius={20} />

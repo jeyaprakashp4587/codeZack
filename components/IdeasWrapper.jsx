@@ -98,7 +98,7 @@ const IdeasWrapper = () => {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
-                elevation: 1.5,
+                elevation: 0.8,
                 overflow: 'hidden',
                 marginBottom: 10,
               }}>

@@ -789,7 +789,7 @@ const Profile = ({navigation}) => {
               style={{
                 fontSize: width * 0.04,
                 marginBottom: height * 0.03,
-                letterSpacing: 2,
+                letterSpacing: 1,
                 textAlign: 'center',
               }}>
               Connections
@@ -821,7 +821,7 @@ const Profile = ({navigation}) => {
                     marginTop: 10,
                     alignItems: 'center',
                     columnGap: 15,
-                    borderBottomWidth: 0.9,
+                    // borderBottomWidth: 0.9,
                     paddingVertical: 10,
                     borderColor: Colors.veryLightGrey,
                   }}>

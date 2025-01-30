@@ -27,6 +27,8 @@ const Placement = () => {
     if (res.status == 200) {
       // console.log(res.data.jobs[0]?.Jobs);
       setjobs(res.data.jobs[0]?.Jobs);
+    } else if (res.status(404)) {
+      setjobs([]);
     }
   }, []);
   useEffect(() => {

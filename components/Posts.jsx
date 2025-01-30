@@ -27,6 +27,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import useSocketEmit from '../Socket/useSocketEmit';
 import {SocketData} from '../Socket/SocketContext';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import FastImage from 'react-native-fast-image';
 
 const {width, height} = Dimensions.get('window');
 import {
@@ -299,7 +301,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           }
         }}
         style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Image
+        <FastImage
           source={{
             uri: senderDetails?.Images
               ? senderDetails?.Images?.profile
@@ -308,12 +310,12 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           style={{width: 50, height: 50, borderRadius: 50}}
         />
         <View style={{flex: 1, paddingHorizontal: 15}}>
-          <Text style={styles.userName}>
+          <Text style={styles.userName} numberOfLines={1}>
             {senderDetails
               ? senderDetails?.firstName + ' ' + senderDetails?.LastName
               : user?.firstName + ' ' + user?.LastName}
           </Text>
-          <Text style={styles.instituteText}>
+          <Text style={styles.instituteText} numberOfLines={1}>
             {senderDetails ? senderDetails?.InstitudeName : user?.InstitudeName}
           </Text>
         </View>
@@ -325,7 +327,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           }}>
           <Image
             source={{uri: 'https://i.ibb.co/nn25gZN/menu.png'}}
-            style={{width: 20, height: 20, tintColor: Colors.lightGrey}}
+            style={{width: 20, height: 20, tintColor: Colors.mildGrey}}
           />
         </TouchableOpacity>
 
@@ -344,7 +346,10 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           </Text>
         </TouchableOpacity>
       )}
-      <Text style={{color: Colors.violet}}>{post?.PostLink}</Text>
+      {post?.PostLink && (
+        <Text style={{color: Colors.violet}}>{post?.PostLink}</Text>
+      )}
+
       {/* post images */}
       {post?.Images && (
         <FlatList
@@ -353,9 +358,9 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           horizontal
           renderItem={({item, index}) => (
             <TouchableOpacity onPress={() => setShowImageModel(true)}>
-              <Image
+              <FastImage
                 key={index}
-                source={{uri: item}}
+                source={{uri: item, priority: FastImage.priority.high}}
                 style={{
                   width: post?.Images.length === 1 ? width * 0.84 : width * 0.8,
                   height: height * 0.3,
@@ -384,7 +389,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             width: width * 0.1, // Fixed width for the container
           }}>
           <View
-            style={{flexDirection: 'row', alignItems: 'center', columnGap: 5}}>
+            style={{flexDirection: 'row', alignItems: 'center', columnGap: 2}}>
             <Text
               style={{
                 fontFamily: font.poppins,
@@ -394,10 +399,10 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
               }}>
               {likeCount}
             </Text>
-            <FontAwesomeIcon
-              size={18}
-              icon={faHeart}
-              color={liked ? 'red' : Colors.mildGrey}
+            <EvilIcons
+              name="like"
+              size={width * 0.08}
+              color={liked ? 'red' : Colors.veryDarkGrey}
             />
           </View>
         </TouchableOpacity>
@@ -407,18 +412,14 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            columnGap: 5,
+            columnGap: 2,
             // borderWidth: 1,
             width: width * 0.2,
           }}>
           <Text style={{fontFamily: font.poppins, fontSize: width * 0.048}}>
             {comments.length}
           </Text>
-          <FontAwesomeIcon
-            icon={faComments}
-            size={22}
-            color={Colors.mildGrey}
-          />
+          <EvilIcons name="comment" size={width * 0.07} />
         </TouchableOpacity>
 
         <View style={{borderWidth: 0}}>
@@ -839,12 +840,12 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
 export default React.memo(Posts);
 
 const styles = StyleSheet.create({
-  // userName: {
-  //   // fontFamily: font.poppinsBold,
-  //   fontSize: 16,
-  // },
+  userName: {
+    fontSize: width * 0.037,
+  },
   instituteText: {
     color: Colors.mildGrey,
+    fontSize: width * 0.034,
   },
   deleteButton: {
     backgroundColor: 'red',
@@ -863,10 +864,11 @@ const styles = StyleSheet.create({
     color: Colors.veryDarkGrey,
     letterSpacing: 1,
     lineHeight: 20,
-    fontSize: width * 0.03,
+    fontSize: width * 0.035,
   },
   showMore: {
     marginVertical: 5,
+    fontSize: width * 0.03,
   },
   likeBtn: {
     marginVertical: 10,

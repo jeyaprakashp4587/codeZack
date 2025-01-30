@@ -73,7 +73,10 @@ const Post = () => {
   const handlePostLink = text => {
     postLink.current = text;
   };
-
+  const isValidURL = url => {
+    const regex = /^(https?:\/\/)?([\w\-]+(\.[\w\-]+)+)(\/[\w\-./?%&=]*)?$/;
+    return regex.test(url);
+  };
   // Select images from the library using react-native-image-picker
   const selectImage = async () => {
     try {
@@ -142,8 +145,21 @@ const Post = () => {
 
   // Handle post upload
   const handleUpload = useCallback(async () => {
+    if (!postText.current) {
+      ToastAndroid.show('Please fill in all fields.', ToastAndroid.SHORT);
+      setUploadIndi(false);
+      return;
+    }
+    if (postLink.current && !isValidURL(postLink.current)) {
+      ToastAndroid.show(
+        'Invalid URL. Please enter a valid link.',
+        ToastAndroid.SHORT,
+      );
+      setUploadIndi(false);
+      return;
+    }
     setUploadIndi(true);
-    if (postLink.current && postText.current) {
+    if (postText.current) {
       try {
         const res = await axios.post(`${profileApi}/Post/uploadPost`, {
           userId: user?._id,
@@ -180,9 +196,6 @@ const Post = () => {
       } finally {
         setUploadIndi(false);
       }
-    } else {
-      ToastAndroid.show('Please fill in all fields.');
-      setUploadIndi(false);
     }
   }, [isLoaded, show, postText]);
 

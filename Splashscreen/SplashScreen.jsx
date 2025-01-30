@@ -8,7 +8,6 @@ import {
   View,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
-// import ProgressBar from '../utils/ProgressBar';
 import {useEffect} from 'react';
 import {useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -32,13 +31,10 @@ const SplashScreen = () => {
         const response = await axios.post(`${loginApi}/LogIn/splash`, {
           Email: email,
         });
-
         if (response.status == 200 && response.data.user) {
           setActivityIndicator(false);
-          // console.log(response.data.user);
           setUser(response.data.user);
-          // nav.navigate('Tab');
-          // nav.navigate('login'); // Navigate to the main app if login is valid
+          nav.navigate('Tab');
         } else {
           setActivityIndicator(false);
           nav.navigate('login'); // Navigate to login screen if email not found
@@ -80,7 +76,9 @@ const SplashScreen = () => {
         />
         {/* progress bar */}
         <View>
-          {!activityIndicator && <ActivityIndicator size={80} color="black" />}
+          {activityIndicator && (
+            <ActivityIndicator size={width * 0.15} color="black" />
+          )}
         </View>
       </View>
     </View>
