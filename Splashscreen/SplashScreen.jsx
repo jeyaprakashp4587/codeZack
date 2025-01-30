@@ -37,7 +37,7 @@ const SplashScreen = () => {
           setActivityIndicator(false);
           // console.log(response.data.user);
           setUser(response.data.user);
-          nav.navigate('Tab');
+          // nav.navigate('Tab');
           // nav.navigate('login'); // Navigate to the main app if login is valid
         } else {
           setActivityIndicator(false);
@@ -71,19 +71,16 @@ const SplashScreen = () => {
           rowGap: 100,
         }}>
         <FastImage
-          source={require('../assets/CC.png')}
+          source={require('../assets/CZ.png')}
           style={{
-            width: width * 0.9,
-            height: height * 0.5,
+            width: width * 0.5,
             borderRadius: 50,
+            aspectRatio: 1,
           }}
         />
-
         {/* progress bar */}
-        <View style={{position: 'absolute', bottom: -height * 0.08}}>
-          {activityIndicator && (
-            <ActivityIndicator size={80} color={Colors.mildGrey} />
-          )}
+        <View>
+          {!activityIndicator && <ActivityIndicator size={80} color="black" />}
         </View>
       </View>
     </View>
