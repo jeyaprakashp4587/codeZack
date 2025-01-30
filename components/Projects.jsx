@@ -20,6 +20,7 @@ import {
   useInterstitialAd,
   useRewardedAd,
 } from 'react-native-google-mobile-ads';
+import Skeleton from '../Skeletons/Skeleton';
 
 const Projects = () => {
   const {setSelectedProject} = useData();
