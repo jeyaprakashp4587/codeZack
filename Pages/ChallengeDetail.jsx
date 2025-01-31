@@ -687,25 +687,26 @@ const ChallengeDetail = () => {
             </Ripple>
           </View>
         ) : ChallengeStatus == 'completed' ? (
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('ChallengeViewer');
-            }}
-            style={{
-              marginTop: 10,
-              flexDirection: 'row',
-              alignItems: 'center',
-              columnGap: 5,
-              justifyContent: 'center',
-              borderWidth: 1,
-              borderColor: Colors.mildGrey,
-              borderRadius: 5,
-              padding: 10,
-            }}>
-            <Text style={{letterSpacing: 1, fontSize: 18}}>
-              See Your Challenge
-            </Text>
-          </TouchableOpacity>
+          // <TouchableOpacity
+          //   onPress={() => {
+          //     navigation.navigate('ChallengeViewer');
+          //   }}
+          //   style={{
+          //     marginTop: 10,
+          //     flexDirection: 'row',
+          //     alignItems: 'center',
+          //     columnGap: 5,
+          //     justifyContent: 'center',
+          //     borderWidth: 1,
+          //     borderColor: Colors.mildGrey,
+          //     borderRadius: 5,
+          //     padding: 10,
+          //   }}>
+          //   <Text style={{letterSpacing: 1, fontSize: 18}}>
+          //     See Your Challenge
+          //   </Text>
+          //   </TouchableOpacity>
+          <Text></Text>
         ) : null}
         {/* view completed postviewer */}
       </ScrollView>
