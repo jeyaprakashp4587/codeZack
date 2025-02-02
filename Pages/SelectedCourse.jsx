@@ -22,6 +22,7 @@ import {challengesApi} from '../Api';
 import axios from 'axios';
 import Actitivity from '../hooks/ActivityHook';
 import HeadingText from '../utils/HeadingText';
+import FastImage from 'react-native-fast-image';
 
 const {width, height} = Dimensions.get('window');
 
@@ -80,7 +81,11 @@ const SelectedCourse = ({navigation}) => {
       </View>
 
       {selectedCourse?.img ? (
-        <Image source={{uri: selectedCourse?.img}} style={styles.courseImage} />
+        <FastImage
+          source={{uri: selectedCourse?.img}}
+          style={styles.courseImage}
+          priority={FastImage.priority.high}
+        />
       ) : (
         <Skeleton width={width * 0.9} height={250} />
       )}

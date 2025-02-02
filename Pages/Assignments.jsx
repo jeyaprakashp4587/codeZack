@@ -14,6 +14,7 @@ import {Colors} from '../constants/Colors';
 import {useData} from '../Context/Contexter';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import HeadingText from '../utils/HeadingText';
+import FastImage from 'react-native-fast-image';
 
 const Assignments = () => {
   const navigation = useNavigation();
@@ -98,13 +99,16 @@ const Assignments = () => {
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text="Assignments" />
       </View>
-      <Image
-        source={{uri: 'https://i.ibb.co/qLSFp14/22378291-6567453.jpg'}}
+      <FastImage
+        source={{uri: 'https://i.ibb.co/Hf9fYB72/rb-76248.png'}}
         style={{
-          width: width * 0.7,
-          height: height * 0.4,
+          marginTop: 30,
+          width: width * 0.5,
+          // height: heig/ht * 0.4,
+          aspectRatio: 1,
           alignSelf: 'center',
         }}
+        priority={FastImage.priority.high}
       />
       {/* list assignments */}
       <View
@@ -130,7 +134,7 @@ const Assignments = () => {
               borderRadius: 5,
               borderColor: Colors.mildGrey,
               overflow: 'hidden',
-              elevation: 3,
+              elevation: 2,
               backgroundColor: 'white',
               padding: 10,
               rowGap: 10,

@@ -178,7 +178,7 @@ const AssignmentPlayGround = () => {
         'Something went wrong while submitting your assignment. Please try again.',
       );
     }
-  }, [currentQuiz]);
+  }, [currentQuiz, selectedAnswers, difficultyInfo, assignmentType, user]);
   // go next question
   const nextQuestion = useCallback(() => {
     if (currentQuestionIndex < currentQuiz?.length - 1) {

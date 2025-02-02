@@ -122,10 +122,9 @@ const Login = () => {
         <View style={styles.imageContainer}>
           <FastImage
             style={styles.image}
-            source={{
-              uri: 'https://i.ibb.co/P5s1nZ5/loginbg.png',
-              priority: FastImage.priority.high,
-            }}
+            source={require('../assets/loginHero.png')}
+            priority={FastImage.priority.high}
+            resizeMode="contain"
           />
           <TypingEffect />
         </View>
@@ -250,7 +249,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: width * 0.035, // Dynamic padding
     borderColor: Colors.veryLightGrey,
     borderWidth: 1,
-    // paddingVertical: height * 0.017,
+    paddingVertical: height * 0.017,
     color: Colors.veryDarkGrey,
     marginVertical: height * 0.01, // Dynamic margin
   },
