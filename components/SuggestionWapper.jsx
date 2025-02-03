@@ -54,7 +54,7 @@ const SuggestionWapper = ({refresh}) => {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        <ParagraphText text="Suggestions" color="black" fweight={900} />
+        <ParagraphText text="Suggestions" color="black" fweight={700} />
         <TouchableOpacity
           onPress={() => {
             HandleShowMore();

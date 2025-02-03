@@ -92,7 +92,7 @@ const YourCourses = () => {
   // techs
   const [showTech, setShowTech] = useState(false);
   const [selectTechs, setSelectedTechs] = useState([]);
-  const hideModal = () => setShowTech(false);
+  const hideModal = useCallback(() => setShowTech(false), []);
   const showTechs = useCallback(async techs => {
     setShowTech(true);
     setSelectedTechs(techs);

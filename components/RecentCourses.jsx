@@ -40,7 +40,7 @@ const RecentCourses = () => {
           letterSpacing: 1,
           color: 'black',
           marginBottom: 10,
-          fontWeight: '900',
+          fontWeight: '700',
         }}>
         Recent Course
       </Text>

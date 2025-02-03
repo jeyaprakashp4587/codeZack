@@ -76,53 +76,69 @@ const SelectedCourse = ({navigation}) => {
 
   return (
     <ScrollView style={styles.pageView} showsVerticalScrollIndicator={false}>
-      <View style={{paddingHorizontal: 15}}>
-        <HeadingText text={selectedCourse?.name} />
-      </View>
-
-      {selectedCourse?.img ? (
-        <FastImage
-          source={{uri: selectedCourse?.img}}
-          style={styles.courseImage}
-          priority={FastImage.priority.high}
-        />
-      ) : (
-        <Skeleton width={width * 0.9} height={250} />
-      )}
-      <View style={styles.section}>
-        <TopicsText
-          text="Course Intro"
-          mb={2}
-          color="black"
-          fszie={height * 0.024}
-        />
-        <PragraphText text={selectedCourse?.introduction} fsize={13} />
-      </View>
-
-      <View style={{paddingHorizontal: 15}}>
-        <TopicsText
-          text="Technologies"
-          mb={20}
-          color="black"
-          fszie={height * 0.02}
-        />
-        <View style={styles.technologiesContainer}>
-          {selectedCourse?.technologies.map((icon, index) => (
-            <Image source={{uri: icon.icon}} style={{width: 30, height: 30}} />
-          ))}
+      <View
+        style={{
+          // borderWidth: 1,
+          borderColor: 'red',
+          flex: 1,
+          height: height * 0.92,
+          flexDirection: 'column',
+          justifyContent: 'center',
+        }}>
+        <View
+          style={{
+            paddingHorizontal: 15,
+            flex: 1,
+          }}>
+          <HeadingText text={selectedCourse?.name} />
         </View>
-      </View>
-      <Ripple
-        rippleColor={Colors.violet}
-        rippleOpacity={1}
-        style={styles.button}
-        onPress={HandleAddCourse}>
-        {loading ? (
-          <ActivityIndicator color={Colors.mildGrey} size={17} />
+        {selectedCourse?.img ? (
+          <FastImage
+            source={{uri: selectedCourse?.img}}
+            style={styles.courseImage}
+            priority={FastImage.priority.high}
+          />
         ) : (
-          <Text style={styles.buttonText}>Let's Begin</Text>
+          <Skeleton width={width * 0.9} height={250} />
         )}
-      </Ripple>
+        <View style={styles.section}>
+          <TopicsText
+            text="Course Intro"
+            mb={2}
+            color="black"
+            fszie={height * 0.024}
+            fontWeight={900}
+          />
+          <PragraphText text={selectedCourse?.introduction} fsize={13} />
+        </View>
+        <View style={{paddingHorizontal: 15}}>
+          <TopicsText
+            text="Technologies"
+            mb={20}
+            color="black"
+            fszie={width * 0.04}
+          />
+          <View style={styles.technologiesContainer}>
+            {selectedCourse?.technologies.map((icon, index) => (
+              <Image
+                source={{uri: icon.icon}}
+                style={{width: 30, height: 30}}
+              />
+            ))}
+          </View>
+        </View>
+        <Ripple
+          rippleColor={Colors.violet}
+          rippleOpacity={1}
+          style={styles.button}
+          onPress={HandleAddCourse}>
+          {loading ? (
+            <ActivityIndicator color={Colors.mildGrey} size={17} />
+          ) : (
+            <Text style={styles.buttonText}>Let's Begin</Text>
+          )}
+        </Ripple>
+      </View>
     </ScrollView>
   );
 };
@@ -133,7 +149,8 @@ const styles = StyleSheet.create({
   pageView: {
     flex: 1,
     backgroundColor: '#fff',
-    flexDirection: 'column',
+    // borderWidth: 1,
+    borderColor: 'red',
   },
   courseName: {
     fontSize: width * 0.065,

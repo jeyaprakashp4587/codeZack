@@ -308,6 +308,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
               : user?.Images?.profile,
           }}
           style={{width: 50, height: 50, borderRadius: 50}}
+          priority={FastImage.priority.high}
         />
         <View style={{flex: 1, paddingHorizontal: 15}}>
           <Text style={styles.userName} numberOfLines={1}>

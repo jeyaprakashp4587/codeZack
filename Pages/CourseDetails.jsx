@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ToastAndroid,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
 import {useData} from '../Context/Contexter';
@@ -24,15 +25,12 @@ const {width, height} = Dimensions.get('window');
 const CourseDetails = () => {
   const {selectedCourse, setselectedTechnology, user, setUser} = useData();
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
 
   const HandleCourse = useCallback(
     async item => {
       try {
-        // Set the selected technology
-        setselectedTechnology({web: item.web, name: item.name});
-        // Navigate to "learn" screen immediately
-        navigation.navigate('learn');
-
+        setLoading(true);
         // Make the API request to add the course technology
         const res = await axios.post(`${challengesApi}/Courses/addTech`, {
           TechName: item.name,
@@ -44,11 +42,16 @@ const CourseDetails = () => {
 
         // Check the response
         if (res.data != 'Enrolled') {
+          // Set the selected technology
+          setselectedTechnology({web: item.web, name: item.name});
+          // Navigate to "learn" screen immediately
+          navigation.navigate('learn');
           setUser(prev => ({...prev, Courses: res.data.Tech}));
           ToastAndroid.show(
             'Technology Added Successfully',
             ToastAndroid.BOTTOM,
           );
+          setLoading(false);
           // Log the activity if course is successfully added
           try {
             await Actitivity(
@@ -63,13 +66,15 @@ const CourseDetails = () => {
             'You are already enrolled in this Tool',
             ToastAndroid.BOTTOM,
           );
+          setLoading(false);
         }
       } catch (error) {
         // Catch and handle any errors
-        ToastAndroid.show('Error adding course');
+        setLoading(false);
+        ToastAndroid.show('Error adding course', ToastAndroid.SHORT);
       }
     },
-    [selectedCourse, setselectedTechnology, user, setUser, navigation],
+    [selectedCourse, setselectedTechnology, user, setUser, navigation, loading],
   );
 
   return (
@@ -117,10 +122,19 @@ const CourseDetails = () => {
                 borderWidth: 0.8,
                 borderColor: Colors.mildGrey,
               }}>
-              <Text
-                style={{color: 'black', textAlign: 'center', letterSpacing: 1}}>
-                Start
-              </Text>
+              {loading ? (
+                <ActivityIndicator color={Colors.mildGrey} />
+              ) : (
+                <Text
+                  style={{
+                    color: 'black',
+                    textAlign: 'center',
+                    letterSpacing: 1,
+                    fontSize: width * 0.04,
+                  }}>
+                  Start
+                </Text>
+              )}
             </TouchableOpacity>
           </View>
         )}
