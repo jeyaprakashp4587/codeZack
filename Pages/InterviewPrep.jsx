@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Dimensions,
   FlatList,
   Image,
@@ -37,6 +38,7 @@ const InterviewPrep = () => {
   const [isShowHint, setIsShowHind] = useState(false);
   const AddCout = useRef(0);
   const [saveInfo, setSaveInfo] = useState(false);
+  const [saveLoading, setSaveLoading] = useState(false);
   // load and destructure Reward add
   const {
     load: loadReward,
@@ -115,6 +117,7 @@ const InterviewPrep = () => {
 
   // Function to send current question to the server
   const setQuestionLength = useCallback(async () => {
+    setSaveLoading(true);
     try {
       // console.log('Current Question:', questionCount.current); // Logs the current value
       const {status, data} = await axios.post(
@@ -128,8 +131,12 @@ const InterviewPrep = () => {
       if (status === 200) {
         setUser(prev => ({...prev, InterView: data.InterView})); // Update user state
         setSaveInfo(true);
+        setSaveLoading(false);
+        ToastAndroid.show('Saved', ToastAndroid.SHORT);
       }
     } catch (error) {
+      setSaveLoading(false);
+      ToastAndroid.show('Error saving, Try Again', ToastAndroid.SHORT);
       console.error('Error sending question length:', error); // Log error
     }
   }, []); // Add dependencies to the useCallback
@@ -494,27 +501,35 @@ const InterviewPrep = () => {
                 borderColor: Colors.lightGrey,
                 padding: 10,
                 borderRadius: 5,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                columnGap: 6,
               }}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  letterSpacing: 1,
-                  color: saveInfo ? 'green' : Colors.mildGrey,
-                  fontSize: width * 0.03,
-                  borderWidth: 1,
-                  alignSelf: 'center',
-                  borderColor: 'white',
-                }}>
-                {saveInfo ? 'saved' : 'Save your progress'}
-              </Text>
-              {saveInfo ? (
-                <AntDesign name="check" size={width * 0.04} color="green" />
+              {saveLoading ? (
+                <ActivityIndicator color={Colors.veryDarkGrey} />
               ) : (
-                <SimpleLineIcons name="cloud-upload" size={width * 0.04} />
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    columnGap: 6,
+                  }}>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      letterSpacing: 1,
+                      color: saveInfo ? 'green' : Colors.mildGrey,
+                      fontSize: width * 0.03,
+                      borderWidth: 1,
+                      alignSelf: 'center',
+                      borderColor: 'white',
+                    }}>
+                    {saveInfo ? 'saved' : 'Save your progress'}
+                  </Text>
+                  {saveInfo ? (
+                    <AntDesign name="check" size={width * 0.04} color="green" />
+                  ) : (
+                    <SimpleLineIcons name="cloud-upload" size={width * 0.04} />
+                  )}
+                </View>
               )}
             </Ripple>
           </View>

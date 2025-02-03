@@ -176,16 +176,18 @@ const InterViewDetails = () => {
             borderRadius: 40,
             columnGap: 10,
           }}>
-          <Text
-            style={{
-              letterSpacing: 2,
-              color: Colors.veryDarkGrey,
-              fontWeight: '600',
-            }}>
-            Let's Start
-          </Text>
-          {loading && (
+          {/* */}
+          {loading ? (
             <ActivityIndicator color={Colors.veryDarkGrey} size={20} />
+          ) : (
+            <Text
+              style={{
+                letterSpacing: 2,
+                color: Colors.veryDarkGrey,
+                fontWeight: '600',
+              }}>
+              Let's Start
+            </Text>
           )}
         </TouchableOpacity>
       </View>

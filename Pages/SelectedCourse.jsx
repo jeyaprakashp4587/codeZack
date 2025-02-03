@@ -117,8 +117,11 @@ const SelectedCourse = ({navigation}) => {
         rippleOpacity={1}
         style={styles.button}
         onPress={HandleAddCourse}>
-        <Text style={styles.buttonText}>Let's Begin</Text>
-        {loading && <ActivityIndicator color={Colors.mildGrey} size={17} />}
+        {loading ? (
+          <ActivityIndicator color={Colors.mildGrey} size={17} />
+        ) : (
+          <Text style={styles.buttonText}>Let's Begin</Text>
+        )}
       </Ripple>
     </ScrollView>
   );

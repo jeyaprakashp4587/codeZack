@@ -207,7 +207,7 @@ const Projects = () => {
                     letterSpacing: 1,
                     color: Colors.mildGrey,
                   }}>
-                  Coming Soon
+                  View
                 </Text>
               </Ripple>
             </LinearGradient>

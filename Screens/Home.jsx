@@ -235,12 +235,12 @@ const Home = () => {
           <Text
             style={{
               // color: Colors.white,
-              fontSize: width * 0.03,
+              fontSize: width * 0.04,
               lineHeight: 30,
               letterSpacing: 1,
               borderTopRightRadius: 20,
               borderBottomRightRadius: 20,
-              fontWeight: '600',
+              fontWeight: '900',
             }}>
             Hello👋 {user?.firstName}!
           </Text>
@@ -284,7 +284,7 @@ const Home = () => {
             </View>
           }>
           <View style={{paddingHorizontal: 15}}>
-            <PragraphText text="Premium projects" color="black" fweight={600} />
+            <PragraphText text="Premium projects" color="black" fweight={900} />
           </View>
           <PremiumProjects />
         </Suspense>
@@ -299,7 +299,7 @@ const Home = () => {
             <PragraphText
               text="Tutorials & Preparations"
               color="black"
-              fweight={600}
+              fweight={900}
             />
           </View>
           <View

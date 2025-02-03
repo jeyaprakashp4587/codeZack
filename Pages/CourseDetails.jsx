@@ -22,16 +22,8 @@ import {useNavigation} from '@react-navigation/native';
 const {width, height} = Dimensions.get('window');
 
 const CourseDetails = () => {
-  const {
-    selectedCourse,
-    setselectedTechnology,
-    selectedTechnology,
-    user,
-    setUser,
-  } = useData();
+  const {selectedCourse, setselectedTechnology, user, setUser} = useData();
   const navigation = useNavigation();
-  // console.log(user?.Courses[0]);
-  // console.log(selectedCourse);
 
   const HandleCourse = useCallback(
     async item => {
