@@ -21,6 +21,7 @@ import {useNavigation} from '@react-navigation/native';
 import useSocketEmit from '../Socket/useSocketEmit';
 import {SocketData} from '../Socket/SocketContext';
 import HeadingText from '../utils/HeadingText';
+import FastImage from 'react-native-fast-image';
 
 const Notifications = () => {
   const {user, setSelectedUser, setselectedPost} = useData();
@@ -123,9 +124,10 @@ const Notifications = () => {
             marginVertical: 'auto',
             marginHorizontal: 'auto',
           }}>
-          <Image
+          <FastImage
             source={{uri: 'https://i.ibb.co/0scNLNQ/rb-4986.png'}}
             style={{width: width * 0.65, aspectRatio: 1}}
+            priority={FastImage.priority.high}
           />
           <Text
             style={{
@@ -142,6 +144,7 @@ const Notifications = () => {
           nestedScrollEnabled={true}
           showsVerticalScrollIndicator={false}
           data={notificationList}
+          keyExtractor={item => item.NotificationId}
           style={{marginTop: 10}}
           renderItem={({item, index}) => (
             <TouchableOpacity
