@@ -16,6 +16,7 @@ import {useData} from '../Context/Contexter';
 import Posts from './Posts';
 import HeadingText from '../utils/HeadingText';
 import {Colors} from '../constants/Colors';
+import FastImage from 'react-native-fast-image';
 
 const PostFeed = () => {
   const {user} = useData();
@@ -95,12 +96,28 @@ const PostFeed = () => {
             refreshing={Pagerefreshing}
             onRefresh={() => refreshPost()}
           />
-        }>
-        <View style={{paddingHorizontal: 15}}>
+        }
+        style={{flex: 1}}>
+        <View style={{paddingHorizontal: 15, flex: 1, height: '80%'}}>
           {posts.length <= 0 ? (
-            <Text style={{fontSize: width * 0.04, letterSpacing: 1}}>
-              No Posts there
-            </Text>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignContent: 'center',
+                // borderWidth: 1,
+                borderColor: 'red',
+              }}>
+              <Text
+                style={{
+                  fontSize: width * 0.04,
+                  letterSpacing: 1,
+                  textAlign: 'center',
+                }}>
+                No Posts there
+              </Text>
+            </View>
           ) : (
             <FlatList
               nestedScrollEnabled={true}
