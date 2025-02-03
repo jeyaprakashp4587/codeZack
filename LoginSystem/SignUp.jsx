@@ -184,8 +184,11 @@ const SignUp = ({navigation}) => {
         <View style={{height: height * 0.02}} />
 
         <Ripple onPress={handleSignUp} style={styles.signUpButton}>
-          <Text style={styles.signUpText}>signup</Text>
-          {actiloading && <ActivityIndicator size={20} color={Colors.white} />}
+          {actiloading ? (
+            <ActivityIndicator size={width * 0.045} color={Colors.white} />
+          ) : (
+            <Text style={styles.signUpText}>signup</Text>
+          )}
         </Ripple>
       </ScrollView>
 

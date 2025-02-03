@@ -1,5 +1,6 @@
 import React, {useEffect, useState, useMemo, useCallback} from 'react';
 import {
+  ActivityIndicator,
   Button,
   Dimensions,
   FlatList,
@@ -31,20 +32,30 @@ const Notifications = () => {
   const socket = SocketData();
   const emitevent = useSocketEmit(socket);
   // Fetch notifications from the API
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true); // Check if more notifications exist
   const getNotifications = useCallback(async () => {
+    if (loading || !hasMore) return; // Avoid multiple API calls
+    setLoading(true);
     try {
       const res = await axios.get(
         `${functionApi}/Notifications/getNotifications/${user?._id}`,
+        {
+          params: {page, limit: 10},
+        },
       );
-      if (res.data) {
-        setNotificationList(res.data);
+      if (res.data.notifications.length > 0) {
+        setNotificationList(prev => [...prev, ...res.data.notifications]);
+        setPage(prev => prev + 1); // Increment page
       } else {
-        setNotificationList([]);
+        setHasMore(false); // No more notifications
       }
     } catch (error) {
       console.error('Error fetching notifications:', error);
     }
-  }, [user?._id, notificationList]);
+    setLoading(false);
+  }, [user?._id, page, hasMore, loading]);
 
   // Handle notification click
   const handleNotificationClick = useCallback(
@@ -86,19 +97,6 @@ const Notifications = () => {
     },
     [user?._id, Navigation, setSelectedUser, emitevent],
   );
-
-  // Use socket to listen for notification updates
-  useEffect(() => {
-    if (socket) {
-      socket.on('newNotification', getNotifications);
-    }
-    return () => {
-      if (socket) {
-        socket.off('newNotification', getNotifications);
-      }
-    };
-  }, [socket, getNotifications]);
-
   // Fetch notifications when the component mounts
   useEffect(() => {
     getNotifications();
@@ -193,6 +191,13 @@ const Notifications = () => {
               </View>
             </TouchableOpacity>
           )}
+          onEndReached={getNotifications} // Load more when reaching bottom
+          onEndReachedThreshold={0.5} // Trigger when 50% from bottom
+          ListFooterComponent={
+            loading ? (
+              <ActivityIndicator size={w} color={Colors.veryDarkGrey} />
+            ) : null
+          }
         />
       )}
     </View>

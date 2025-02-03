@@ -170,9 +170,10 @@ const Login = () => {
             </TouchableOpacity>
           </View>
           <TouchableOpacity onPress={HandleLogin} style={styles.loginButton}>
-            <Text style={styles.loginText}>Login</Text>
-            {activityIndi && (
+            {activityIndi ? (
               <ActivityIndicator size={width * 0.045} color={Colors.white} />
+            ) : (
+              <Text style={styles.loginText}>Login</Text>
             )}
           </TouchableOpacity>
         </View>

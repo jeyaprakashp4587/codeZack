@@ -30,13 +30,14 @@ const CourseDetails = () => {
     setUser,
   } = useData();
   const navigation = useNavigation();
+  // console.log(user?.Courses[0]);
+  // console.log(selectedCourse);
 
   const HandleCourse = useCallback(
     async item => {
       try {
         // Set the selected technology
         setselectedTechnology({web: item.web, name: item.name});
-
         // Navigate to "learn" screen immediately
         navigation.navigate('learn');
 
@@ -63,7 +64,7 @@ const CourseDetails = () => {
               `${selectedCourse.name} Successfully Added.`,
             );
           } catch (error) {
-            console.log(error);
+            // console.log(error);
           }
         } else if (res.data == 'Enrolled') {
           ToastAndroid.show(
