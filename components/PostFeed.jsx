@@ -29,7 +29,7 @@ const PostFeed = () => {
   const {width, height} = Dimensions.get('window');
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    getConnectionPosts().then(() => {
+    getConnectionPosts(1).then(() => {
       setRefreshing(false);
     });
   }, []);
@@ -73,79 +73,60 @@ const PostFeed = () => {
       });
     }
   };
-  const [Pagerefreshing, setPageRefreshing] = useState(false);
-  const refreshPost = useCallback(async () => {
-    try {
-      setPageRefreshing(true);
-      await getConnectionPosts().finally(() => {
-        setPageRefreshing(false);
-      });
-    } catch (error) {
-      ToastAndroid.show('Refreshing failed');
-    }
-  }, []);
 
   return (
     <View style={{borderWidth: 0, backgroundColor: 'white', flex: 1}}>
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text="Post Feeds" />
       </View>
-      <ScrollView
-        refreshControl={
-          <RefreshControl
-            refreshing={Pagerefreshing}
-            onRefresh={() => refreshPost()}
-          />
-        }
-        style={{flex: 1}}>
-        <View style={{paddingHorizontal: 15, flex: 1, height: '80%'}}>
-          {posts.length <= 0 ? (
-            <View
+
+      <View style={{paddingHorizontal: 0, flex: 1, height: '80%'}}>
+        {posts.length <= 0 ? (
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignContent: 'center',
+              // borderWidth: 1,
+              borderColor: 'red',
+            }}>
+            <Text
               style={{
-                flex: 1,
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignContent: 'center',
-                // borderWidth: 1,
-                borderColor: 'red',
+                fontSize: width * 0.04,
+                letterSpacing: 1,
+                textAlign: 'center',
               }}>
-              <Text
-                style={{
-                  fontSize: width * 0.04,
-                  letterSpacing: 1,
-                  textAlign: 'center',
-                }}>
-                No Posts there
-              </Text>
-            </View>
-          ) : (
-            <FlatList
-              nestedScrollEnabled={true}
-              refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }
-              data={posts}
-              showsVerticalScrollIndicator={false}
-              keyExtractor={item => item._id}
-              renderItem={({item, index}) => (
-                <Posts
-                  post={item.Posts}
-                  senderDetails={item.SenderDetails}
-                  index={index}
-                  admin={false}
-                />
-              )}
-              onEndReachedThreshold={0.5}
-              onEndReached={handleLoadMore}
-              ListFooterComponent={
-                loadingMore ? (
-                  <ActivityIndicator size="small" color={Colors.mildGrey} />
-                ) : null
-              }
-            />
-          )}
-        </View>
-      </ScrollView>
+              No Posts there
+            </Text>
+          </View>
+        ) : (
+          <FlatList
+            nestedScrollEnabled={true}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            data={posts}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={item => item._id}
+            renderItem={({item, index}) => (
+              <Posts
+                post={item.Posts}
+                senderDetails={item.SenderDetails}
+                index={index}
+                admin={false}
+              />
+            )}
+            onEndReachedThreshold={0.5}
+            onEndReached={handleLoadMore}
+            ListFooterComponent={
+              loadingMore ? (
+                <ActivityIndicator size="small" color={Colors.mildGrey} />
+              ) : null
+            }
+          />
+        )}
+      </View>
     </View>
   );
 };
