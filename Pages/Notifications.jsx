@@ -46,7 +46,10 @@ const Notifications = () => {
           params: {page, limit: 10},
         },
       );
-      if (res.data.notifications.length > 0) {
+      if (
+        Array.isArray(res.data.notifications) &&
+        res.data.notifications.length > 0
+      ) {
         setNotificationList(prev => [...prev, ...res.data.notifications]);
         setPage(prev => prev + 1); // Increment page
       } else {
@@ -56,22 +59,21 @@ const Notifications = () => {
       console.error('Error fetching notifications:', error);
     }
     setLoading(false);
-  }, [user?._id, page, hasMore, loading]);
+  }, [user?._id, page, hasMore]);
 
   // Handle notification click
   const handleNotificationClick = useCallback(
     async item => {
-      // console.log(item);
       emitevent('checkNotification', {socketId: user?.SocketId});
       if (!item.seen) {
         try {
           // Mark the notification as seen
-          await axios.patch(
+          const {data} = await axios.patch(
             `${functionApi}/Notifications/markAsSeen/${user?._id}/${item.NotificationId}`,
           );
           setNotificationList(prevList =>
             prevList.map(notification =>
-              notification._id === item._id
+              notification?.NotificationId === item?.NotificationId
                 ? {...notification, seen: true}
                 : notification,
             ),
@@ -102,7 +104,7 @@ const Notifications = () => {
   useEffect(() => {
     getNotifications();
     // console.log(notificationList);
-    setNotificationList(user?.Notifications);
+    // setNotificationList(user?.Notifications);
   }, []);
 
   return (
@@ -110,8 +112,6 @@ const Notifications = () => {
       <View style={{paddingHorizontal: 15}}>
         {/* heading */}
         <HeadingText text="Notifications" mb={5} />
-        {/* hr line */}
-        <HrLine margin={1} width="100%" />
       </View>
       {/* Notifications Sections */}
       {!notificationList || notificationList.length <= 0 ? (
@@ -198,7 +198,7 @@ const Notifications = () => {
           onEndReachedThreshold={0.5} // Trigger when 50% from bottom
           ListFooterComponent={
             loading ? (
-              <ActivityIndicator size={w} color={Colors.veryDarkGrey} />
+              <ActivityIndicator size={20} color={Colors.veryDarkGrey} />
             ) : null
           }
         />
