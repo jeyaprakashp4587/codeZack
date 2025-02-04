@@ -135,10 +135,13 @@ const SearchScreen = ({navigation}) => {
                 }}
               />
               <View style={{flex: 1, flexDirection: 'column', paddingLeft: 10}}>
-                <Text style={{letterSpacing: 1, color: Colors.mildGrey}}>
+                <Text
+                  style={{letterSpacing: 1, color: Colors.mildGrey}}
+                  numberOfLines={1}>
                   {item.firstName} {item.LastName}
                 </Text>
                 <Text
+                  numberOfLines={1}
                   style={{
                     letterSpacing: 1,
                     color: Colors.mildGrey,

@@ -22,7 +22,7 @@ import {useData} from '../Context/Contexter';
 import {LinearGradient} from 'react-native-linear-gradient';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import axios from 'axios';
-import {loginApi, profileApi} from '../Api';
+import {functionApi, loginApi, profileApi} from '../Api';
 const PremiumProjects = React.lazy(() => import('../components/Projects'));
 const SuggestionWapper = React.lazy(() =>
   import('../components/SuggestionWapper'),
@@ -52,28 +52,9 @@ const Home = () => {
   useFCMToken();
   // app open add
   AppOpenAd();
-  // set user online status
-  const setOnlineStatus = useCallback(
-    async status => {
-      try {
-        const res = await axios.post(
-          `${profileApi}/Profile/setOnlineStatus/${user?._id}`,
-          {
-            status: status,
-          },
-        );
-        if (res.status === 200) {
-          setUser(prev => ({...prev, onlineStatus: res.data.onlineStatus}));
-        }
-      } catch (error) {
-        console.error('Failed to update online status:', error);
-      }
-    },
-    [profileApi, setUser],
-  );
   // Loading ui effect
   useEffect(() => {
-    // getNotifications();
+    getNotifications();
     setTimeout(() => {
       setUiLoading(true);
       // load add
@@ -90,7 +71,7 @@ const Home = () => {
       if (res.data) {
         setUser(res.data);
         setRefresh(false);
-        // await getNotifications();
+        await getNotifications();
       }
     } catch (error) {
       console.error('Failed to refresh user:', error);
@@ -100,10 +81,15 @@ const Home = () => {
   const getNotifications = useCallback(async () => {
     try {
       const res = await axios.get(
-        `${loginApi}/Notifications/getNotifications/${user?._id}`,
+        `${functionApi}/Notifications/getNotifications/${user?._id}`,
+        {
+          params: {page: 1, limit: 10},
+        },
       );
       if (res.status === 200) {
-        const unseen = res.data.filter(notification => !notification.seen);
+        const unseen = res.data?.notifications?.filter(
+          notification => !notification.seen,
+        );
         setUnseenCount(unseen.length);
       }
     } catch (error) {
@@ -119,7 +105,7 @@ const Home = () => {
   });
   // receive the socket data from another peer
   useSocketOn(socket, 'Receive-Noti', async () => {
-    // await getNotifications();
+    await getNotifications();
     // Vibration.vibrate({});
     Vibration.vibrate([0, 200, 100, 200]);
   });
