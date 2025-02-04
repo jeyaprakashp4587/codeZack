@@ -145,7 +145,6 @@ const Login = () => {
               justifyContent: 'space-between',
               alignItems: 'center',
               columnGap: 10,
-              // paddingHorizontal: 10,
               paddingRight: 10,
               backgroundColor: 'white',
             }}>
@@ -155,7 +154,6 @@ const Login = () => {
                 flex: 1,
                 paddingLeft: 10,
                 color: Colors.veryDarkGrey,
-                // paddingVertical: height * 0.08,
               }}
               placeholder="Password"
               placeholderTextColor={Colors.mildGrey}
