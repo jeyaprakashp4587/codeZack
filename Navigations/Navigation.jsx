@@ -135,7 +135,7 @@ const TabNavigation = () => {
                     : 'https://i.ibb.co/hHNtxqx/newspaper-folded.png',
                 }}
                 style={{
-                  width: focused ? width * 0.07 : width * 0.06,
+                  width: focused ? width * 0.06 : width * 0.06,
                   aspectRatio: 1,
                   tintColor: color, // This will apply a tint to your image if needed
                 }}

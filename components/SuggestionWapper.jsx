@@ -20,6 +20,7 @@ import {FlatList} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
 import {TouchableOpacity} from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 const SuggestionWapper = ({refresh}) => {
   const {width, height} = Dimensions.get('window');
@@ -109,7 +110,8 @@ const SuggestionWapper = ({refresh}) => {
                   Navigation.navigate('userprofile');
                   setSelectedUser(user.item._id);
                 }}>
-                <Image
+                <FastImage
+                  priority={FastImage.priority.high}
                   source={{
                     uri: user.item?.Images?.profile
                       ? user.item?.Images?.profile

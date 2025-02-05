@@ -148,7 +148,8 @@ const Assignments = () => {
               }}>
               {item.name}
             </Text>
-            <Image
+            <FastImage
+              priority={FastImage.priority.high}
               source={{uri: item.img}}
               style={{
                 width: 30,

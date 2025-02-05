@@ -10,6 +10,7 @@ import {
   Pressable,
   ToastAndroid,
   ActivityIndicator,
+  Linking,
 } from 'react-native';
 import React, {useCallback, useEffect, useState, useRef} from 'react';
 import {Colors, font} from '../constants/Colors';
@@ -224,6 +225,8 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
     }
   }, [post, commentSkip, commentHasMore, commentLoading]);
   //
+  console.log(post?.Images);
+
   const [showImageModel, setShowImageModel] = useState(false);
   // fetch connections lists
   const [netWorksList, setNetworksList] = useState([]);
@@ -348,7 +351,15 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         </TouchableOpacity>
       )}
       {post?.PostLink && (
-        <Text style={{color: Colors.violet}}>{post?.PostLink}</Text>
+        <Text
+          onPress={() => {
+            if (post?.PostLink) {
+              Linking.openURL(post.PostLink);
+            }
+          }}
+          style={{color: Colors.violet}}>
+          {post?.PostLink}
+        </Text>
       )}
 
       {/* post images */}
@@ -357,17 +368,37 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           showsHorizontalScrollIndicator={false}
           data={post?.Images}
           horizontal
+          style={{marginTop: 10}}
           renderItem={({item, index}) => (
             <TouchableOpacity onPress={() => setShowImageModel(true)}>
               <FastImage
                 key={index}
-                source={{uri: item, priority: FastImage.priority.high}}
+                source={{uri: item}}
+                priority={FastImage.priority.high}
+                resizeMode="cover"
                 style={{
-                  width: post?.Images.length === 1 ? width * 0.84 : width * 0.8,
-                  height: height * 0.3,
-                  resizeMode: 'contain',
+                  width: post?.Images.length === 1 ? width * 0.9 : width * 0.6,
+                  aspectRatio: 1,
+                  marginRight: post?.Images.length > 1 && 8,
                 }}
               />
+              <Text
+                style={{
+                  position: 'absolute',
+                  bottom: height * 0.02,
+                  textAlign: 'center',
+                  alignSelf: 'center',
+                  color: 'white',
+                  fontSize: width * 0.03,
+                  borderWidth: 0.7,
+                  borderRadius: 50,
+                  borderColor: 'white',
+                  paddingHorizontal: 10,
+                  paddingVertical: 5,
+                  letterSpacing: 1,
+                }}>
+                Expand view
+              </Text>
             </TouchableOpacity>
           )}
         />
@@ -655,15 +686,17 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                   flex: 1,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  padding: 20,
+                  // padding: 20,
+                  borderWidth: 0,
+                  // borderColor: 'white',
                 }}>
-                <Image
+                <FastImage
+                  priority={FastImage.priority.high}
                   source={{uri: item}}
+                  resizeMode="contain"
                   style={{
-                    width: width * 0.9,
-                    resizeMode: 'contain',
+                    width: width * 1,
                     borderRadius: 10,
-                    // height: 200,
                     aspectRatio: 1,
                     marginRight: post?.Images?.length > 1 ? 5 : 0,
                   }}
@@ -792,7 +825,8 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                     handleSharePost(item?.id, post?._id);
                   }}
                   style={{borderWidth: 0, marginRight: 10}}>
-                  <Image
+                  <FastImage
+                    priority={FastImage.priority.high}
                     source={{
                       uri: item?.profileImg
                         ? item?.profileImg

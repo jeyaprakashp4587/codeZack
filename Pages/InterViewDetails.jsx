@@ -14,6 +14,7 @@ import axios from 'axios';
 import {profileApi} from '../Api';
 import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
+import FastImage from 'react-native-fast-image';
 const {width, height} = Dimensions.get('window');
 const InterViewDetails = () => {
   const {selectedCompany, setSelectedCompany, user, setUser} = useData();
@@ -118,7 +119,8 @@ const InterViewDetails = () => {
           height: height * 0.2,
           paddingHorizontal: 15,
         }}>
-        <Image
+        <FastImage
+          priority={FastImage.priority.high}
           source={{uri: company?.companyLogo}}
           style={{width: '100%', height: '100%', resizeMode: 'contain'}}
         />

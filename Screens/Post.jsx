@@ -34,6 +34,7 @@ import useSocketEmit from '../Socket/useSocketEmit';
 import {SocketData} from '../Socket/SocketContext';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {TestIds, useRewardedAd} from 'react-native-google-mobile-ads';
+import FastImage from 'react-native-fast-image';
 
 const Post = () => {
   const {user, setUser} = useData();
@@ -197,7 +198,7 @@ const Post = () => {
         setUploadIndi(false);
       }
     }
-  }, [isLoaded, show, postText]);
+  }, [isLoaded, show, postText, images]);
 
   // Refresh input fields
   const refreshFields = () => {
@@ -232,7 +233,8 @@ const Post = () => {
           paddingHorizontal: 15,
           marginTop: 20,
         }}>
-        <Image
+        <FastImage
+          priority={FastImage.priority.high}
           source={{
             uri: user?.Images?.profile
               ? user?.Images?.profile
@@ -346,8 +348,10 @@ const Post = () => {
                   marginBottom: 10,
                 }}
                 key={index}>
-                <Image
+                <FastImage
+                  priority={FastImage.priority.high}
                   source={{uri: img}}
+                  resizeMode="contain"
                   style={{
                     width: width * 0.5,
                     height: height * 0.3,
@@ -389,20 +393,23 @@ const Post = () => {
             marginBottom: 20,
             borderWidth: 0.5,
           }}>
-          <ActivityIndicator
-            size={30}
-            color="black"
-            style={{display: uploadIndi ? 'flex' : 'none'}}
-          />
-          <Text
-            style={{
-              fontSize: width * 0.035,
-              color: 'black',
-              letterSpacing: 1.4,
-              // fontWeight: '700',
-            }}>
-            {uploadText}
-          </Text>
+          {uploadIndi ? (
+            <ActivityIndicator
+              size={30}
+              color="black"
+              style={{display: uploadIndi ? 'flex' : 'none'}}
+            />
+          ) : (
+            <Text
+              style={{
+                fontSize: width * 0.035,
+                color: 'black',
+                letterSpacing: 1.4,
+                // fontWeight: '700',
+              }}>
+              {uploadText}
+            </Text>
+          )}
         </Ripple>
       </ScrollView>
     </ScrollView>

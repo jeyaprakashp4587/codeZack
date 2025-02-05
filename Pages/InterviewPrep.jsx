@@ -27,6 +27,7 @@ import {
 } from 'react-native-google-mobile-ads';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import FastImage from 'react-native-fast-image';
 
 const InterviewPrep = () => {
   const {selectedCompany, user, setUser} = useData();
@@ -246,7 +247,8 @@ const InterviewPrep = () => {
           alignItems: 'center',
         }}>
         <View style={{width: width * 0.3, height: height * 0.1}}>
-          <Image
+          <FastImage
+            priority={FastImage.priority.high}
             source={{uri: selectedCompany?.companyLogo}}
             style={{width: '100%', height: '100%', resizeMode: 'contain'}}
           />

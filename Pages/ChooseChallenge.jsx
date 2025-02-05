@@ -236,7 +236,8 @@ const ChooseChallenge = ({navigation}) => {
               />
             </View>
             {item?.level !== 'newbie' && (
-              <Image
+              <FastImage
+                priority={FastImage.priority.high}
                 source={{uri: item.sample_image}}
                 style={styles.challengeImage}
               />
@@ -292,15 +293,13 @@ const ChooseChallenge = ({navigation}) => {
               onPress={() => {
                 navigation.navigate('challengeDetail');
                 setSelectedChallenge(item);
+              }}
+              style={{
+                borderWidth: 1,
+                borderColor: Colors.violet,
+                borderRadius: 50,
               }}>
-              <LinearGradient
-                // colors={['#79a6d2', '#9fbfdf', '#79a6d2']}
-                colors={['#fff9f3', '#eef7fe']}
-                style={styles.linearGradient}>
-                <Text style={styles.viewChallengeButtonText}>
-                  View Challenge
-                </Text>
-              </LinearGradient>
+              <Text style={styles.viewChallengeButtonText}>View Challenge</Text>
             </Ripple>
           </View>
         )}
@@ -353,12 +352,12 @@ const styles = StyleSheet.create({
   technologyIcon: {width: width * 0.08, height: width * 0.08},
   linearGradient: {borderRadius: 10, padding: 2, justifyContent: 'center'},
   viewChallengeButtonText: {
-    color: Colors.mildGrey,
+    color: Colors.violet,
     letterSpacing: 1,
     textAlign: 'center',
-    backgroundColor: 'white',
     borderRadius: 10,
     padding: 7,
+    fontWeight: '700',
   },
   modalOverlay: {
     flex: 1,

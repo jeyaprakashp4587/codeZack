@@ -13,6 +13,7 @@ import {useData} from '../Context/Contexter';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import {Colors} from '../constants/Colors';
+import FastImage from 'react-native-fast-image';
 
 const RecentCourses = () => {
   const {width, height} = Dimensions.get('window');
@@ -80,7 +81,8 @@ const RecentCourses = () => {
                 columnGap: 5,
                 marginRight: 20,
               }}>
-              <Image
+              <FastImage
+                priority={FastImage.priority.high}
                 source={{uri: item?.TechIcon}}
                 style={{width: width * 0.1, aspectRatio: 1}}
               />

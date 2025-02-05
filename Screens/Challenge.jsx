@@ -16,6 +16,7 @@ import {ScrollView} from 'react-native';
 import {Dimensions} from 'react-native';
 import BannerAdd from '../Adds/BannerAdd';
 import {Colors} from '../constants/Colors';
+import FastImage from 'react-native-fast-image';
 
 const Challenge = ({navigation}) => {
   const {setselectedChallengeTopic} = useData();
@@ -163,8 +164,9 @@ const Challenge = ({navigation}) => {
                 {ch.content}
               </Text>
               {ch.Images.map(img => (
-                <Image
+                <FastImage
                   source={{uri: img}}
+                  priority={FastImage.priority.high}
                   style={{width: 20, height: 20, marginVertical: 10}}
                 />
               ))}
@@ -214,7 +216,11 @@ const Challenge = ({navigation}) => {
                   marginVertical: 10,
                 }}>
                 {ch.Images.map(img => (
-                  <Image source={{uri: img}} style={{width: 20, height: 20}} />
+                  <FastImage
+                    priority={FastImage.priority.high}
+                    source={{uri: img}}
+                    style={{width: 20, height: 20}}
+                  />
                 ))}
               </View>
             </TouchableOpacity>

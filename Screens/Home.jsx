@@ -36,6 +36,7 @@ import useFCMToken from '../hooks/useFCMToken';
 import IdeasWrapper from '../components/IdeasWrapper';
 import RecentCourses from '../components/RecentCourses';
 import AppOpenAd from '../Adds/AppOpenAdd';
+import FastImage from 'react-native-fast-image';
 
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
@@ -123,7 +124,8 @@ const Home = () => {
         {/* header */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.navigate('profile')}>
-            <Image
+            <FastImage
+              priority={FastImage.priority.high}
               source={{
                 uri: user?.Images?.profile
                   ? user?.Images?.profile
@@ -138,7 +140,7 @@ const Home = () => {
                   // height: width * 0.13,
                   borderRadius: 50,
                   borderWidth: 2,
-                  borderColor: Colors.mildGrey,
+                  borderColor: Colors.veryLightGrey,
                   aspectRatio: 1,
                 },
               ]}
@@ -202,7 +204,8 @@ const Home = () => {
               onPress={() => {
                 navigation.navigate('message');
               }}>
-              <Image
+              <FastImage
+                priority={FastImage.priority.high}
                 source={{uri: 'https://i.ibb.co/V9h4w1s/send.png'}}
                 style={{width: width * 0.055, aspectRatio: 1}}
               />

@@ -14,6 +14,7 @@ import ParagraphText from '../utils/PragraphText';
 import Skeleton from '../Skeletons/Skeleton';
 import {TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 
 const YourChallenges = props => {
   const navigation = useNavigation();
@@ -237,7 +238,8 @@ const YourChallenges = props => {
                 />
               </View>
               {item?.ChallengeLevel !== 'newbie' && (
-                <Image
+                <FastImage
+                  priority={FastImage.priority.high}
                   source={{uri: item?.ChallengeImage}}
                   style={styles.challengeImage}
                 />

@@ -17,6 +17,7 @@ import {functionApi} from '../Api';
 import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import Skeleton from '../Skeletons/Skeleton';
+import FastImage from 'react-native-fast-image';
 
 const Placement = () => {
   const {width, height} = Dimensions.get('window');
@@ -186,7 +187,8 @@ const Placement = () => {
                   </Text>
                 </View>
                 <View>
-                  <Image
+                  <FastImage
+                    priority={FastImage.priority.high}
                     source={{uri: item?.CompanyLogo}}
                     style={{width: 50, height: 50, resizeMode: 'contain'}}
                   />

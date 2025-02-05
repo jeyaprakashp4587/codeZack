@@ -5,6 +5,7 @@ import {debounce} from 'lodash';
 import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Colors} from '../constants/Colors';
+import FastImage from 'react-native-fast-image';
 
 const {width, height} = Dimensions.get('window');
 
@@ -120,7 +121,8 @@ const IdeasWrapper = () => {
                   {item.name}
                 </Text>
                 {/* icons */}
-                <Image
+                <FastImage
+                  priority={FastImage.priority.high}
                   source={{uri: item.icon}}
                   style={{
                     width: 40,

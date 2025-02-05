@@ -13,6 +13,7 @@ import {useData} from '../Context/Contexter';
 import HeadingText from '../utils/HeadingText';
 import {Colors} from '../constants/Colors';
 import LinearGradient from 'react-native-linear-gradient';
+import FastImage from 'react-native-fast-image';
 
 const SelectedProject = () => {
   const {selectedProject} = useData();
@@ -38,7 +39,8 @@ const SelectedProject = () => {
           flexDirection: 'column',
           rowGap: 20,
         }}>
-        <Image
+        <FastImage
+          priority={FastImage.priority.high}
           source={{uri: selectedProject?.img}}
           style={{width: width * 0.4, aspectRatio: 1, alignSelf: 'center'}}
         />
@@ -109,7 +111,8 @@ const SelectedProject = () => {
                     }}>
                     {tool?.TechName}
                   </Text>
-                  <Image
+                  <FastImage
+                    priority={FastImage.priority.high}
                     source={{uri: tool?.TechImg}}
                     style={{width: width * 0.06, aspectRatio: 1}}
                   />

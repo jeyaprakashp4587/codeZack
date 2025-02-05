@@ -22,6 +22,7 @@ import {faSearch, faTimes} from '@fortawesome/free-solid-svg-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Skeleton from '../Skeletons/Skeleton';
 import SuggestionWapper from '../components/SuggestionWapper';
+import FastImage from 'react-native-fast-image';
 
 const SearchScreen = ({navigation}) => {
   // -------------- //
@@ -126,7 +127,8 @@ const SearchScreen = ({navigation}) => {
                 backgroundColor: 'white',
                 borderRadius: 5,
               }}>
-              <Image
+              <FastImage
+                priority={FastImage.priority.high}
                 source={{uri: item?.Images?.profile}}
                 style={{
                   width: 55,

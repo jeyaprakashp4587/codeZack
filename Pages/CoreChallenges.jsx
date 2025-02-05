@@ -65,7 +65,7 @@ const CoreChallenges = () => {
       style={{
         marginVertical: 10,
         backgroundColor: 'white',
-        elevation: 3,
+        elevation: 2,
         marginHorizontal: 5,
         padding: 15,
         borderRadius: 5,
@@ -77,6 +77,7 @@ const CoreChallenges = () => {
           color: Colors.veryDarkGrey,
           letterSpacing: 1,
           fontSize: width * 0.045,
+          fontWeight: '700',
         }}>
         <Text>{item?.question_id}.</Text>
         {item?.title}
@@ -108,18 +109,18 @@ const CoreChallenges = () => {
         onPress={() => handleSelectChallenge(item)}
         style={{
           padding: 7,
-          // backgroundColor: Colors.vio,
           borderRadius: 5,
-          borderColor: Colors.mildGrey,
+          borderColor: Colors.violet,
           borderWidth: 0.5,
+          borderRadius: 50,
         }}>
         <Text
           style={{
-            color: Colors.mildGrey,
+            color: Colors.violet,
             textAlign: 'center',
             letterSpacing: 1,
             fontSize: width * 0.033,
-            fontWeight: '600',
+            fontWeight: '700',
           }}>
           Take a Look
         </Text>

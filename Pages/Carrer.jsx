@@ -59,7 +59,8 @@ const Carrer = () => {
       style={{backgroundColor: 'white'}}>
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text="Choose Your Learning Carrer" />
-        <Image
+        <FastImage
+          priority={FastImage.priority.high}
           source={{uri: 'https://i.ibb.co/vDwVGnW/carrer.jpg'}}
           style={{
             ...styles.careerImage,
@@ -102,7 +103,8 @@ const Carrer = () => {
               </Text>
               <View style={{flexDirection: 'row', columnGap: 10}}>
                 {item?.technologies?.map(tech => (
-                  <Image
+                  <FastImage
+                    priority={FastImage.priority.high}
                     source={{uri: tech.icon}}
                     style={{width: 30, height: 30}}
                   />

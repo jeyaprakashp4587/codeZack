@@ -120,7 +120,7 @@ const SelectedCourse = ({navigation}) => {
           />
           <View style={styles.technologiesContainer}>
             {selectedCourse?.technologies.map((icon, index) => (
-              <Image
+              <FastImage
                 source={{uri: icon.icon}}
                 style={{width: 30, height: 30}}
               />

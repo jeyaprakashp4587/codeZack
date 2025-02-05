@@ -49,6 +49,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
+import FastImage from 'react-native-fast-image';
 
 const Profile = ({navigation}) => {
   const {user, setUser, setSelectedUser} = useData();
@@ -362,7 +363,8 @@ const Profile = ({navigation}) => {
         {uploadIndicator === 'cover' ? (
           <Skeleton width="100%" height={200} radius={10} mt={1} />
         ) : (
-          <Image
+          <FastImage
+            priority={FastImage.priority.high}
             source={{
               uri: user?.Images?.coverImg
                 ? user?.Images?.coverImg
@@ -398,7 +400,8 @@ const Profile = ({navigation}) => {
           {uploadIndicator === 'profile' ? (
             <Skeleton width={100} height={100} radius={50} mt={1} />
           ) : (
-            <Image
+            <FastImage
+              priority={FastImage.priority.high}
               source={{
                 uri: user?.Images?.profile
                   ? user?.Images?.profile
@@ -825,7 +828,8 @@ const Profile = ({navigation}) => {
                     paddingVertical: 10,
                     borderColor: Colors.veryLightGrey,
                   }}>
-                  <Image
+                  <FastImage
+                    priority={FastImage.priority.high}
                     source={{uri: item?.profileImg}}
                     style={{
                       width: width * 0.13,

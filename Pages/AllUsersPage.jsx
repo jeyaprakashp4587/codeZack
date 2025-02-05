@@ -17,6 +17,7 @@ import {useData} from '../Context/Contexter';
 import {TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import HeadingText from '../utils/HeadingText';
+import FastImage from 'react-native-fast-image';
 
 const AllUsersPage = () => {
   const {width, height} = Dimensions.get('window');
@@ -139,7 +140,8 @@ const AllUsersPage = () => {
                       width: '100%',
                       rowGap: 5,
                     }}>
-                    <Image
+                    <FastImage
+                      priority={FastImage.priority.high}
                       source={{uri: item?.Images?.profile}}
                       style={{
                         width: width * 0.15,

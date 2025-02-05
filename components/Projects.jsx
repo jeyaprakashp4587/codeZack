@@ -21,6 +21,7 @@ import {
   useRewardedAd,
 } from 'react-native-google-mobile-ads';
 import Skeleton from '../Skeletons/Skeleton';
+import FastImage from 'react-native-fast-image';
 
 const Projects = () => {
   const {setSelectedProject} = useData();
@@ -161,7 +162,8 @@ const Projects = () => {
                     alignItems: 'center',
                     columnGap: 10,
                   }}>
-                  <Image
+                  <FastImage
+                    priority={FastImage.priority.high}
                     source={{
                       uri: 'https://i.ibb.co/FDtYbfG/icons8-technical-support-80.png',
                     }}
@@ -182,7 +184,8 @@ const Projects = () => {
                 </View>
               </View>
               <View>
-                <Image
+                <FastImage
+                  priority={FastImage.priority.high}
                   source={{uri: item?.img}}
                   style={{width: width * 0.13, aspectRatio: 1}}
                 />

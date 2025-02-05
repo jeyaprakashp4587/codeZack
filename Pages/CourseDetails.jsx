@@ -19,6 +19,7 @@ import axios from 'axios';
 import {challengesApi} from '../Api';
 import Actitivity from '../hooks/ActivityHook';
 import {useNavigation} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 
 const {width, height} = Dimensions.get('window');
 
@@ -89,7 +90,8 @@ const CourseDetails = () => {
         renderItem={({item, index}) => (
           <View key={index} style={styles.courseItem}>
             <View style={styles.iconContainer}>
-              <Image
+              <FastImage
+                priority={FastImage.priority.high}
                 source={{uri: item?.icon}}
                 style={{width: width * 0.5, aspectRatio: 1}}
               />

@@ -15,6 +15,7 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
 import Skeleton from '../Skeletons/Skeleton';
 import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
+import FastImage from 'react-native-fast-image';
 
 const Companies = () => {
   const navigation = useNavigation();
@@ -149,7 +150,7 @@ const Companies = () => {
                   source={{uri: item?.companyLogo}}
                   style={{
                     resizeMode: 'contain',
-                    width: width * 0.35,
+                    width: width * 0.25,
                     height: height * 0.05,
                   }}
                 />

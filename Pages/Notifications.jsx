@@ -160,7 +160,8 @@ const Notifications = () => {
                 borderBottomWidth: 1,
                 borderColor: Colors.lightGrey,
               }}>
-              <Image
+              <FastImage
+                priority={FastImage.priority.high}
                 source={{
                   uri:
                     item?.senderProfileImage ??

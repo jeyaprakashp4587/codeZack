@@ -195,7 +195,8 @@ const YourCourses = () => {
                   <Text style={styles.courseName}>{item?.Course_Name}</Text>
                   {item?.Technologies.map((tech, index) => (
                     <View key={index} style={styles.techWrapper}>
-                      <Image
+                      <FastImage
+                        priority={FastImage.priority.high}
                         source={{uri: tech?.TechIcon}}
                         style={{width: width * 0.06, aspectRatio: 1}}
                       />
@@ -256,7 +257,8 @@ const YourCourses = () => {
               backgroundColor: 'white',
               elevation: 2,
             }}>
-            <Image
+            <FastImage
+              priority={FastImage.priority.high}
               source={{uri: tech?.TechIcon}}
               style={{width: width * 0.08, aspectRatio: 1}}
             />
