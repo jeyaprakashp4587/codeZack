@@ -142,8 +142,12 @@ const SignUp = ({navigation}) => {
     <LinearGradient
       style={{
         paddingHorizontal: width * 0.05,
-        paddingBottom: height * 0.02,
+        // paddingBottom: height * 0.02,
         flex: 1,
+        justifyContent: 'center',
+        // alignItems: 'center',
+        flexDirection: 'column',
+        // borderWidth: 1,
       }}
       colors={['#fff9f3', '#eef7fe']}
       start={{x: 0, y: 1}}
@@ -152,75 +156,80 @@ const SignUp = ({navigation}) => {
       <View>
         <HeadingText text="sign up" />
       </View>
-      <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={{flex: 1, borderWidth: 0}}
+        showsVerticalScrollIndicator={false}>
         <View
           style={{
+            // borderWidth: 1,
+            height: height * 0.95,
             flexDirection: 'column',
-            rowGap: 5,
-            paddingHorizontal: width * 0.01,
+            justifyContent: 'center',
+            // alignItems: 'center',
+            // alignSelf: 'center',
           }}>
-          {Object.keys(formData).map(key => (
-            <TextInput
-              style={[
-                styles.input,
-                {
-                  borderColor: Colors.veryLightGrey,
-                  borderWidth: 1,
-                  elevation: 3,
-                  letterSpacing: 1,
-                },
-              ]}
-              key={key}
-              placeholder={key.replace('_', ' ')}
-              placeholderTextColor={Colors.mildGrey}
-              ref={refs[key]}
-              onFocus={() => key === 'Gender' && setShowGenderModal(true)}
-              onChangeText={text => handleInput(key, text)}
-              value={formData[key]}
-            />
-          ))}
-        </View>
-
-        <View style={{height: height * 0.02}} />
-
-        <Ripple onPress={handleSignUp} style={styles.signUpButton}>
-          {actiloading ? (
-            <ActivityIndicator size={width * 0.045} color={Colors.white} />
-          ) : (
-            <Text style={styles.signUpText}>Signup</Text>
-          )}
-        </Ripple>
-      </ScrollView>
-
-      <FontAwesomeIcon
-        icon={faCode}
-        size={width * 1.3}
-        color="hsl(0, 0%, 97%)"
-        style={styles.backgroundIcon}
-      />
-
-      <Modal visible={showGenderModal} transparent={true} animationType="slide">
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalHeader}>Select Gender</Text>
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={() => handleGenderSelect('Male')}>
-              <Text style={styles.modalButtonText}>Male</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={() => handleGenderSelect('Female')}>
-              <Text style={styles.modalButtonText}>Female</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={() => setShowGenderModal(false)}>
-              <Text style={styles.modalButtonText}>Cancel</Text>
-            </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: 'column',
+              rowGap: 5,
+              paddingHorizontal: width * 0.01,
+            }}>
+            {Object.keys(formData).map(key => (
+              <TextInput
+                style={[
+                  styles.input,
+                  {
+                    borderColor: Colors.veryLightGrey,
+                    // borderWidth: 1,
+                    elevation: 3,
+                    letterSpacing: 1,
+                  },
+                ]}
+                key={key}
+                placeholder={key.replace('_', ' ')}
+                placeholderTextColor={Colors.mildGrey}
+                ref={refs[key]}
+                onFocus={() => key === 'Gender' && setShowGenderModal(true)}
+                onChangeText={text => handleInput(key, text)}
+                value={formData[key]}
+              />
+            ))}
           </View>
+          <View style={{height: height * 0.02}} />
+          <Ripple onPress={handleSignUp} style={styles.signUpButton}>
+            {actiloading ? (
+              <ActivityIndicator size={width * 0.045} color={Colors.white} />
+            ) : (
+              <Text style={styles.signUpText}>Signup</Text>
+            )}
+          </Ripple>
         </View>
-      </Modal>
+        <Modal
+          visible={showGenderModal}
+          transparent={true}
+          animationType="slide">
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalHeader}>Select Gender</Text>
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => handleGenderSelect('Male')}>
+                <Text style={styles.modalButtonText}>Male</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => handleGenderSelect('Female')}>
+                <Text style={styles.modalButtonText}>Female</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => setShowGenderModal(false)}>
+                <Text style={styles.modalButtonText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      </ScrollView>
     </LinearGradient>
   );
 };

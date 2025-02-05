@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  ImageBackground,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import TopicsText from '../utils/TopicsText';
@@ -45,51 +46,52 @@ const RecentCourses = () => {
         }}>
         Recent Course
       </Text>
-      <View
-        style={{
-          padding: 20,
-          borderRadius: 5,
-          // elevation: ,
-          backgroundColor: 'white',
-          rowGap: 15,
-          borderColor: Colors.veryLightGrey,
-          flexDirection: 'column',
-          borderWidth: 1,
-        }}>
-        <Text
+      <View style={{borderRadius: 5, overflow: 'hidden'}}>
+        <ImageBackground
+          source={require('../assets/gend.jpg')}
           style={{
-            fontWeight: '600',
-            fontSize: width * 0.03,
-            letterSpacing: 1,
+            padding: 20,
+            rowGap: 10,
           }}>
-          {user?.Courses[newCourseIndex]?.Course_Name}
-        </Text>
-        <FlatList
-          nestedScrollEnabled={true}
-          data={user.Courses[newCourseIndex]?.Technologies}
-          horizontal
-          renderItem={({item, index}) => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('learn');
-                setselectedTechnology({web: item.TechWeb, name: item.TechName});
-              }}
-              key={index}
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                columnGap: 5,
-                marginRight: 20,
-              }}>
-              <FastImage
-                priority={FastImage.priority.high}
-                source={{uri: item?.TechIcon}}
-                style={{width: width * 0.1, aspectRatio: 1}}
-              />
-              <MaterialIcons name="start" />
-            </TouchableOpacity>
-          )}
-        />
+          <Text
+            style={{
+              fontWeight: '600',
+              fontSize: width * 0.035,
+              letterSpacing: 1,
+              color: 'white',
+            }}>
+            {user?.Courses[newCourseIndex]?.Course_Name}
+          </Text>
+          <FlatList
+            nestedScrollEnabled={true}
+            data={user.Courses[newCourseIndex]?.Technologies}
+            horizontal
+            renderItem={({item, index}) => (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('learn');
+                  setselectedTechnology({
+                    web: item.TechWeb,
+                    name: item.TechName,
+                  });
+                }}
+                key={index}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  columnGap: 5,
+                  marginRight: 20,
+                }}>
+                <FastImage
+                  priority={FastImage.priority.high}
+                  source={{uri: item?.TechIcon}}
+                  style={{width: width * 0.1, aspectRatio: 1}}
+                />
+                <MaterialIcons name="start" color="white" />
+              </TouchableOpacity>
+            )}
+          />
+        </ImageBackground>
       </View>
     </View>
   );

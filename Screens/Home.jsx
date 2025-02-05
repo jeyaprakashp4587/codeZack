@@ -147,71 +147,43 @@ const Home = () => {
               ]}
             />
           </TouchableOpacity>
-          <View
+
+          <Pressable
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              columnGap: 15,
-            }}>
-            <Pressable
-              style={{position: 'relative'}}
-              onPress={() => navigation.navigate('notifications')}>
-              {/* notificatio badge */}
-              <Text
-                style={{
-                  display: unseenCount > 0 ? 'flex' : 'none',
-                  position: 'absolute',
-                  top: -height * 0.01,
-                  right: -width * 0.0,
-                  height: height * 0.018,
-                  width: width * 0.04,
-                  fontSize: width * 0.026,
-                  textAlign: 'center',
-                  color: 'white',
-                  backgroundColor: 'red',
-                  // padding: 5,
-                  borderRadius: 50,
-                  zIndex: 100,
-                  borderColor: 'white',
-                  borderWidth: 1,
-                }}>
-                {unseenCount}
-              </Text>
-              <FontAwesomeIcon
-                color="orange"
-                icon={faBell}
-                size={width * 0.055}
-              />
-            </Pressable>
-            {/* message batch */}
-            {/* <Text
-            onPress={() => navigation.navigate('message')}
-            style={{
-              position: 'absolute',
-              backgroundColor: '#e63946',
-              color: 'white',
-              zIndex: 10,
+              position: 'relative',
+              borderWidth: 1,
+              padding: 10,
               borderRadius: 50,
-              fontSize: 7,
-              top: -height * 0.017,
-              right: -width * 0.009,
-              padding: 5,
-              paddingHorizontal: 8,
-              // textAlign: 'center',
-            }}>
-            1
-          </Text> */}
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('message');
+              borderColor: Colors.veryLightGrey,
+            }}
+            onPress={() => navigation.navigate('notifications')}>
+            {/* notificatio badge */}
+            <Text
+              style={{
+                display: unseenCount > 0 ? 'flex' : 'none',
+                position: 'absolute',
+                top: height * 0.01,
+                right: -width * 0.0,
+                aspectRatio: 1,
+                width: width * 0.03,
+                fontSize: width * 0.018,
+                textAlign: 'center',
+                color: 'white',
+                backgroundColor: 'red',
+                borderRadius: 50,
+                zIndex: 100,
+                borderColor: 'white',
+                borderWidth: 1,
+                left: width * 0.05,
               }}>
-              <FastImage
-                priority={FastImage.priority.high}
-                source={{uri: 'https://i.ibb.co/V9h4w1s/send.png'}}
-                style={{width: width * 0.055, aspectRatio: 1}}
-              />
-            </TouchableOpacity>
-          </View>
+              {unseenCount}
+            </Text>
+            <FontAwesomeIcon
+              color={Colors.lightGrey}
+              icon={faBell}
+              size={width * 0.05}
+            />
+          </Pressable>
         </View>
         {/* greeding and notification */}
         <View
@@ -249,11 +221,13 @@ const Home = () => {
             borderColor: Colors.veryLightGrey,
             marginVertical: 10,
             height: height * 0.06,
+            backgroundColor: '#F6F6F6',
+            // backgroundColor: Colors.veryLightGrey,
           }}>
           <EvilIcons
             name="search"
             size={width * 0.07}
-            color={Colors.lightGrey}
+            color={Colors.veryDarkGrey}
           />
           <TextInput
             onPress={() => navigation.navigate('search')}
@@ -264,8 +238,6 @@ const Home = () => {
         </TouchableOpacity>
         {/* Ideas wrapper */}
         <IdeasWrapper />
-        {/* Recent courses */}
-        <RecentCourses />
         {/* premium projects */}
         <Suspense
           fallback={
@@ -278,6 +250,8 @@ const Home = () => {
           </View>
           <PremiumProjects />
         </Suspense>
+        {/* Recent courses */}
+        <RecentCourses />
         {/* companies */}
         <Suspense
           fallback={

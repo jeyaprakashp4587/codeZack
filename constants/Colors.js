@@ -3,7 +3,7 @@ export const Colors = {
   lightGrey: '#a6a6a6',
   veryLightGrey: '#f2f2f2',
   veryDarkGrey: '#1a1a1a',
-  violet: '#3a6ea5',
+  violet: '#2A3562',
   mildGrey: '#737373',
 };
 export const pageView = {

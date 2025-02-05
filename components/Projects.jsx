@@ -87,7 +87,7 @@ const Projects = () => {
       <View
         style={{
           // paddingHorizontal: 15,
-          marginBottom: 10,
+          marginBottom: 5,
           flexDirection: 'row',
           columnGap: 10,
           paddingHorizontal: 15,
@@ -117,7 +117,7 @@ const Projects = () => {
               borderRadius: 5,
               // elevation: 1,
               backgroundColor: 'white',
-              margin: 5,
+              // margin: 5,
               justifyContent: 'space-between',
               borderColor: Colors.veryLightGrey,
             }}>

@@ -42,25 +42,25 @@ const IdeasWrapper = () => {
       {
         name: 'Choose your Carrer',
         function: carrerNav,
-        color: 'hsl(12, 76%, 96%)',
+        color: 'hsl(30, 100%, 94%)',
         icon: 'https://i.ibb.co/gddf19J/programming.png',
       },
       {
         name: 'Your Courses',
         function: courseNav,
-        color: 'hsl(41, 76%, 95%)',
+        color: 'hsl(278, 83%, 95%)',
         icon: 'https://i.ibb.co/NmNqJpx/certificate.png',
       },
       {
         name: 'Assignments',
         function: assignmentNav,
-        color: 'hsl(120, 100%, 98%)',
+        color: '#E7F9EE',
         icon: 'https://i.ibb.co/N19pNf3/assignment.png',
       },
       {
         name: 'Your Activities',
         function: activityNav,
-        color: 'hsl(200, 92%, 95%)',
+        color: 'hsl(200, 86%, 93%)',
         icon: 'https://i.ibb.co/B3CdkDM/calendar.png',
       },
     ],
@@ -88,10 +88,7 @@ const IdeasWrapper = () => {
             padding: 2,
           }}
           renderItem={({item, index}) => (
-            <LinearGradient
-              start={index % 2 === 0 ? {x: 1, y: 0} : {x: 0, y: 0}}
-              end={index % 2 === 0 ? {x: 0, y: 1} : {x: 1, y: 1}}
-              colors={['white', item.color, 'white']}
+            <Ripple
               style={{
                 width: '48%',
                 borderRadius: 10,
@@ -99,41 +96,35 @@ const IdeasWrapper = () => {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
-                elevation: 0.8,
+                // elevation: 0.8,
                 overflow: 'hidden',
                 marginBottom: 10,
-              }}>
-              <Ripple
+                backgroundColor: item.color,
+              }}
+              onPress={() => item.function()}>
+              <Text
                 style={{
-                  width: '100%',
-                  height: '100%',
-                  justifyContent: 'center',
+                  textAlign: 'center',
+                  color: Colors.veryDarkGrey,
+                  letterSpacing: 1,
+                  fontSize: width * 0.028,
+                  fontWeight: '700',
+                }}>
+                {item.name}
+              </Text>
+              {/* icons */}
+              <FastImage
+                priority={FastImage.priority.high}
+                source={{uri: item.icon}}
+                style={{
+                  width: 40,
+                  height: 40,
+                  position: 'absolute',
+                  left: width * 0.04,
+                  opacity: 0.4,
                 }}
-                onPress={() => item.function()}>
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    color: Colors.veryDarkGrey,
-                    letterSpacing: 1,
-                    fontSize: width * 0.028,
-                    fontWeight: '600',
-                  }}>
-                  {item.name}
-                </Text>
-                {/* icons */}
-                <FastImage
-                  priority={FastImage.priority.high}
-                  source={{uri: item.icon}}
-                  style={{
-                    width: 40,
-                    height: 40,
-                    position: 'absolute',
-                    left: width * 0.04,
-                    opacity: 0.2,
-                  }}
-                />
-              </Ripple>
-            </LinearGradient>
+              />
+            </Ripple>
           )}
         />
       </View>
