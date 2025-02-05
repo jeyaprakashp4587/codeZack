@@ -229,7 +229,7 @@ const Post = () => {
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          columnGap: 20,
+          columnGap: 10,
           paddingHorizontal: 15,
           marginTop: 20,
         }}>
@@ -242,11 +242,17 @@ const Post = () => {
               ? 'https://i.ibb.co/3T4mNMm/man.png'
               : 'https://i.ibb.co/3mCcQp9/woman.png',
           }}
-          style={{width: 60, height: 60, borderRadius: 50, borderWidth: 2}}
+          style={{
+            width: 60,
+            aspectRatio: 1,
+            borderRadius: 50,
+            borderWidth: 2,
+            borderColor: Colors.veryLightGrey,
+          }}
         />
         <Text
           style={{
-            fontSize: width * 0.05,
+            fontSize: width * 0.045,
             letterSpacing: 1.4,
             color: 'black',
           }}>
@@ -307,7 +313,7 @@ const Post = () => {
               justifyContent: 'center',
               height: height * 0.06,
               borderRadius: 50,
-              borderWidth: 0.7,
+              borderWidth: 0.3,
             }}>
             <Text
               style={{
@@ -391,7 +397,7 @@ const Post = () => {
             height: height * 0.06,
             borderRadius: 50,
             marginBottom: 20,
-            borderWidth: 0.5,
+            borderWidth: 0.3,
           }}>
           {uploadIndi ? (
             <ActivityIndicator
