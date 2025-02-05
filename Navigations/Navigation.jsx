@@ -106,10 +106,13 @@ const TabNavigation = () => {
           name="Home"
           component={Home}
           options={{
-            tabBarIcon: ({color}) => (
-              // <FontAwesomeIcon icon={faHome} color={color} size={width * 0.06} />
+            tabBarIcon: ({color, focused}) => (
               <Image
-                source={{uri: 'https://i.ibb.co/DD0gmYp/home.png'}}
+                source={{
+                  uri: focused
+                    ? 'https://img.icons8.com/ios-filled/50/home.png'
+                    : 'https://i.ibb.co/DD0gmYp/home.png',
+                }}
                 style={{
                   width: width * 0.06,
                   height: width * 0.06,
@@ -124,12 +127,16 @@ const TabNavigation = () => {
           name="Feed"
           component={PostFeed}
           options={{
-            tabBarIcon: ({color}) => (
+            tabBarIcon: ({color, focused}) => (
               <Image
-                source={{uri: 'https://i.ibb.co/hHNtxqx/newspaper-folded.png'}}
+                source={{
+                  uri: focused
+                    ? 'https://img.icons8.com/external-nawicon-glyph-nawicon/128/external-newspaper-communication-nawicon-glyph-nawicon.png'
+                    : 'https://i.ibb.co/hHNtxqx/newspaper-folded.png',
+                }}
                 style={{
-                  width: width * 0.06,
-                  height: width * 0.06,
+                  width: focused ? width * 0.07 : width * 0.06,
+                  aspectRatio: 1,
                   tintColor: color, // This will apply a tint to your image if needed
                 }}
                 resizeMode="contain"
@@ -141,7 +148,7 @@ const TabNavigation = () => {
           name="Code"
           component={Challenge}
           options={{
-            tabBarIcon: ({color}) => (
+            tabBarIcon: ({color, focused}) => (
               // <MaterialCommunityIcons
               //   name="sword-cross"
               //   size={width * 0.06}
@@ -149,11 +156,13 @@ const TabNavigation = () => {
               // />
               <Image
                 source={{
-                  uri: 'https://img.icons8.com/parakeet-line/96/source-code.png',
+                  uri: focused
+                    ? 'https://img.icons8.com/deco-glyph/100/source-code.png'
+                    : 'https://img.icons8.com/parakeet-line/96/source-code.png',
                 }}
                 style={{
-                  width: width * 0.07,
-                  height: width * 0.07,
+                  width: focused ? width * 0.075 : width * 0.07,
+                  aspectRatio: 1,
                   tintColor: color, // This will apply a tint to your image if needed
                 }}
                 resizeMode="contain"
@@ -165,12 +174,16 @@ const TabNavigation = () => {
           name="Post"
           component={Post}
           options={{
-            tabBarIcon: ({color}) => (
+            tabBarIcon: ({color, focused}) => (
               <Image
-                source={{uri: 'https://i.ibb.co/WWg5vdF/plus.png'}}
+                source={{
+                  uri: focused
+                    ? 'https://img.icons8.com/ios-filled/100/plus-2-math.png'
+                    : 'https://i.ibb.co/WWg5vdF/plus.png',
+                }}
                 style={{
-                  width: width * 0.06,
-                  height: width * 0.06,
+                  width: focused ? width * 0.07 : width * 0.06,
+                  aspectRatio: 1,
                   tintColor: color, // This will apply a tint to your image if needed
                 }}
                 resizeMode="contain"
@@ -182,7 +195,7 @@ const TabNavigation = () => {
           name="Jobs"
           component={Placement}
           options={{
-            tabBarIcon: ({color}) => (
+            tabBarIcon: ({color, focused}) => (
               // <FontAwesomeIcon
               //   icon={faSuitcase}
               //   color={color}
@@ -190,11 +203,13 @@ const TabNavigation = () => {
               // />
               <Image
                 source={{
-                  uri: 'https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/50/external-suitcase-interface-kiranshastry-lineal-kiranshastry-1.png',
+                  uri: focused
+                    ? 'https://img.icons8.com/external-kiranshastry-solid-kiranshastry/128/external-suitcase-interface-kiranshastry-solid-kiranshastry-1.png'
+                    : 'https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/50/external-suitcase-interface-kiranshastry-lineal-kiranshastry-1.png',
                 }}
                 style={{
-                  width: width * 0.07,
-                  height: width * 0.07,
+                  width: focused ? width * 0.08 : width * 0.07,
+                  aspectRatio: 1,
                   tintColor: color, // This will apply a tint to your image if needed
                 }}
                 resizeMode="contain"
@@ -206,14 +221,18 @@ const TabNavigation = () => {
           name="Profile"
           component={Profile}
           options={{
-            tabBarIcon: ({color}) => (
+            tabBarIcon: ({color, focused}) => (
               // <FontAwesomeIcon icon={faUser} color={color} size={width * 0.06} />
 
               <Image
-                source={{uri: 'https://i.ibb.co/9Vck1rW/people.png'}}
+                source={{
+                  uri: focused
+                    ? 'https://img.icons8.com/ios-glyphs/100/user--v1.png'
+                    : 'https://i.ibb.co/9Vck1rW/people.png',
+                }}
                 style={{
-                  width: width * 0.07,
-                  height: width * 0.07,
+                  width: focused ? width * 0.085 : width * 0.07,
+                  aspectRatio: 1,
                   tintColor: color, // This will apply a tint to your image if needed
                 }}
                 resizeMode="contain"

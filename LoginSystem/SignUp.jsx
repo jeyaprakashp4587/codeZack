@@ -187,7 +187,7 @@ const SignUp = ({navigation}) => {
           {actiloading ? (
             <ActivityIndicator size={width * 0.045} color={Colors.white} />
           ) : (
-            <Text style={styles.signUpText}>signup</Text>
+            <Text style={styles.signUpText}>Signup</Text>
           )}
         </Ripple>
       </ScrollView>
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderWidth: 0.4,
     borderColor: Colors.lightGrey,
-    backgroundColor: '#415a77',
+    backgroundColor: Colors.violet,
     columnGap: 10,
     marginHorizontal: width * 0.1,
   },

@@ -28,6 +28,7 @@ import {SocketData} from '../Socket/SocketContext';
 import Skeleton from '../Skeletons/Skeleton';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import FastImage from 'react-native-fast-image';
 
 const UserProfile = () => {
   const {width, height} = Dimensions.get('window');
@@ -253,12 +254,13 @@ const UserProfile = () => {
 
       {/* About Section */}
       <View style={{borderWidth: 0}}>
-        <Image
+        <FastImage
           source={{
             uri: selectedUser?.Images?.coverImg
               ? selectedUser?.Images?.coverImg
               : 'https://i.ibb.co/Fh1fwGm/2151777507.jpg',
           }}
+          priority={FastImage.priority.high}
           style={{width: '100%', height: height * 0.2, resizeMode: 'cover'}}
         />
         <View
@@ -271,7 +273,7 @@ const UserProfile = () => {
             paddingHorizontal: width * 0.05,
             // backgroundColor: 'white',
           }}>
-          <Image
+          <FastImage
             source={{
               uri: selectedUser?.Images?.profile
                 ? selectedUser?.Images?.profile
@@ -279,6 +281,7 @@ const UserProfile = () => {
                 ? 'https://i.ibb.co/3T4mNMm/man.png'
                 : 'https://i.ibb.co/3mCcQp9/woman.png',
             }}
+            priority={FastImage.priority.high}
             style={{
               width: 100,
               // height: 100,

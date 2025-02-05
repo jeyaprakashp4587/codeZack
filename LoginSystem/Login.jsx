@@ -129,31 +129,39 @@ const Login = () => {
           <TypingEffect />
         </View>
         <View style={styles.inputsWrapper}>
-          <TextInput
-            spellCheck={true}
-            style={styles.textInput}
-            placeholder="Email"
-            placeholderTextColor={Colors.mildGrey}
-            onChangeText={text => handleEmail('Email', text)}
-          />
           <View
             style={{
-              flexDirection: 'row',
-              borderWidth: 1,
-              borderColor: Colors.veryLightGrey,
-              borderRadius: 5,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              columnGap: 10,
-              paddingRight: 10,
+              height: height * 0.055,
               backgroundColor: 'white',
+              borderRadius: 5,
+            }}>
+            <TextInput
+              spellCheck={true}
+              style={{
+                paddingLeft: 10,
+              }}
+              placeholder="Email"
+              placeholderTextColor={Colors.mildGrey}
+              onChangeText={text => handleEmail('Email', text)}
+            />
+          </View>
+          <View
+            style={{
+              height: height * 0.055,
+              backgroundColor: Colors.white,
+              borderRadius: 5,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingRight: 10,
             }}>
             <TextInput
               style={{
-                borderWidth: 0,
-                flex: 1,
                 paddingLeft: 10,
                 color: Colors.veryDarkGrey,
+                flex: 1,
+                // borderWidth: 1,
+                borderColor: 'black',
               }}
               placeholder="Password"
               placeholderTextColor={Colors.mildGrey}
@@ -167,7 +175,16 @@ const Login = () => {
               />
             </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={HandleLogin} style={styles.loginButton}>
+          <TouchableOpacity
+            onPress={HandleLogin}
+            style={{
+              backgroundColor: Colors.violet,
+              height: height * 0.055,
+              borderRadius: 5,
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'column',
+            }}>
             {activityIndi ? (
               <ActivityIndicator size={width * 0.045} color={Colors.white} />
             ) : (
@@ -239,34 +256,15 @@ const styles = StyleSheet.create({
   },
   inputsWrapper: {
     flexDirection: 'column',
-    // rowGap: , // Dynamic gap
     marginVertical: height * 0.025,
+    rowGap: 10,
   },
-  textInput: {
-    backgroundColor: 'white',
-    borderRadius: 5,
-    paddingHorizontal: width * 0.035, // Dynamic padding
-    borderColor: Colors.veryLightGrey,
-    borderWidth: 1,
-    paddingVertical: height * 0.017,
-    color: Colors.veryDarkGrey,
-    marginVertical: height * 0.01, // Dynamic margin
-  },
-  loginButton: {
-    backgroundColor: '#415a77',
-    padding: height * 0.015, // Dynamic padding
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    flexDirection: 'row',
-    columnGap: 10,
-    marginTop: 10,
-    borderColor: Colors.veryDarkGrey,
-  },
+
   loginText: {
-    letterSpacing: 2,
+    letterSpacing: 1,
     fontSize: width * 0.035, // Dynamic font size
     color: Colors.white,
+    textAlign: 'center',
   },
   indicator: {
     width: '100%',
