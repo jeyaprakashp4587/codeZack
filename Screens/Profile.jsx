@@ -155,19 +155,7 @@ const Profile = ({navigation}) => {
       console.log(error);
     }
   }, []);
-  // Refresh user data
-  const [refControl, setRefControl] = useState(false);
-  const refreshUser = async () => {
-    setUploadIndicator(false);
-    setRefControl(true);
-    const res = await axios.post(`${profileApi}/Login/getUser`, {
-      userId: user?._id,
-    });
-    if (res.data) {
-      setUser(res.data);
-      setRefControl(false);
-    }
-  };
+
   // uplod user data to server
   const [firstName, setFirstName] = useState(user?.firstName || '');
   const [lastName, setLastName] = useState(user?.LastName || '');
@@ -225,6 +213,12 @@ const Profile = ({navigation}) => {
       setUploadActivityIndi(false);
     }
   }, [isLoaded, show, firstName, lastName, bio]);
+  // render skeleton
+  useEffect(() => {
+    setTimeout(() => setLoading(true), 300);
+    fetchPosts({offsets: 0});
+  }, []);
+
   // fetch connections lists
   const [netWorksList, setNetworksList] = useState([]);
   const [netWorkListPage, setNetWorkListPage] = useState(0);
@@ -256,38 +250,34 @@ const Profile = ({navigation}) => {
   }, [netWorkListPage, networkListLoadding]);
 
   // fetch user posts
-  const [postLoading, setPostLoading] = useState(false); // Loading indicator
-  const [offset, setOffset] = useState(5); // Number of posts already fetched
+  const [postLoading, setPostLoading] = useState(false);
+  const [offset, setOffset] = useState(0); // Start from 0
   const [hasMore, setHasMore] = useState(true);
-  const [posts, setPosts] = useState(user?.Posts);
-  useEffect(() => {
-    setPosts(user?.Posts);
-  }, []);
-  // fecth user posts
-  const fetchPosts = async () => {
-    if (!hasMore || postLoading) return;
-    setPostLoading(true);
-    try {
-      const response = await axios.post(`${profileApi}/Post/getUserPosts`, {
-        userId: user?._id,
-        offset,
-      });
-      const newPosts = response.data;
-      if (newPosts.length < 5) {
-        setHasMore(false);
+
+  const fetchPosts = useCallback(
+    async ({offsets = offset}) => {
+      if (!hasMore || postLoading) return;
+      setPostLoading(true);
+      try {
+        const response = await axios.post(`${profileApi}/Post/getUserPosts`, {
+          userId: user?._id,
+          offsets,
+        });
+        const newPosts = response.data.posts;
+        if (newPosts.length < 5) {
+          setHasMore(false); // No more posts to fetch
+        }
+        setUser(prev => ({...prev, Posts: newPosts}));
+        setOffset(prevOffset => prevOffset + newPosts.length);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      } finally {
+        setPostLoading(false);
       }
-      setPosts(prevPosts => [...prevPosts, ...newPosts]);
-      setOffset(prevOffset => prevOffset + newPosts.length);
-    } catch (error) {
-      console.error('Error fetching posts:', error);
-    } finally {
-      setPostLoading(false);
-    }
-  };
-  // render skeleton
-  useEffect(() => {
-    setTimeout(() => setLoading(true), 300);
-  }, []);
+    },
+    [user, offset, hasMore, postLoading],
+  );
+  // console.log(user?.Posts);
   // snack for asking logout
   const [snackVisible, setSnackVisible] = useState(false);
   const onToggleSnackBar = useCallback(() => setSnackVisible(true), []);
@@ -308,6 +298,42 @@ const Profile = ({navigation}) => {
       ToastAndroid.show('something error in logout', ToastAndroid.SHORT);
     }
   }, []);
+  // Refresh user data
+  const [refControl, setRefControl] = useState(false);
+  const refreshUser = useCallback(async () => {
+    setOffset(0); // Reset the offset
+    setPostLoading(true); // Show loading indicator while refreshing
+    setRefControl(true);
+    try {
+      // Fetch user excluding posts
+      const res = await axios.post(`${profileApi}/Login/getUser`, {
+        userId: user?._id,
+      });
+      if (res.data && res.status === 200) {
+        // Fetch posts separately
+        const postsResponse = await axios.post(
+          `${profileApi}/Post/getUserPosts`,
+          {
+            userId: user?._id,
+            offsets: 0,
+          },
+        );
+        if (postsResponse?.data?.posts?.length < 5) {
+          setHasMore(false); // No more posts to fetch
+        }
+        // Update user with the fetched posts
+        setUser(prev => ({
+          ...res.data,
+          Posts: postsResponse.data.posts,
+        }));
+        setPostLoading(false);
+        setRefControl(false); // Hide loading indicator
+      }
+    } catch (error) {
+      console.error('Error refreshing user data:', error);
+      setPostLoading(false);
+    }
+  }, [user, fetchPosts]);
   const [loading, setLoading] = useState(false);
   // render ui loading
   if (!loading) {
@@ -621,7 +647,7 @@ const Profile = ({navigation}) => {
               fontSize: width * 0.04,
               letterSpacing: 1,
             }}>
-            {user?.Posts?.length}
+            {user?.PostLength}
           </Text>
         </View>
       </View>
@@ -693,7 +719,7 @@ const Profile = ({navigation}) => {
       {/* posts */}
       <View style={{paddingBottom: height * 0.08}}>
         <View style={{paddingHorizontal: 15}}>
-          {user?.Posts?.length > 0 && (
+          {user?.PostLength > 0 && (
             <Text
               style={{
                 fontSize: width * 0.06,
@@ -706,19 +732,20 @@ const Profile = ({navigation}) => {
         </View>
         {/* posts */}
         <FlatList
-          data={posts > user?.Posts ? posts : user?.Posts}
+          data={user?.Posts}
           keyExtractor={item => item._id}
           style={{borderWidth: 0, paddingBottom: 20}}
           renderItem={({item, index}) => (
             <Posts post={item} index={index} admin={true} />
           )}
+          nestedScrollEnabled={true}
           ListFooterComponent={
             postLoading ? (
               <ActivityIndicator size="large" color={Colors.mildGrey} />
-            ) : hasMore && user?.Posts?.length > 0 ? (
+            ) : hasMore ? (
               <View style={{paddingHorizontal: 15}}>
                 <TouchableOpacity
-                  onPress={() => fetchPosts()}
+                  onPress={fetchPosts}
                   style={{
                     padding: 10,
                     borderWidth: 0.5,

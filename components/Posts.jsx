@@ -75,7 +75,8 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             postId,
           },
         );
-        if (res.status == 200) {
+        if (res.status === 200) {
+          PostRBSheetRef.current.close();
           setUser(prev => ({...prev, Posts: res.data.Posts}));
           ToastAndroid.show('Post deleted sucessfully', ToastAndroid.SHORT);
         }
@@ -225,7 +226,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
     }
   }, [post, commentSkip, commentHasMore, commentLoading]);
   //
-  console.log(post?.Images);
+  // console.log(post?.Images);
 
   const [showImageModel, setShowImageModel] = useState(false);
   // fetch connections lists
@@ -268,6 +269,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         response => {
           if (response.success) {
             ToastAndroid.show('post send sucessfully', ToastAndroid.SHORT);
+            PostRBSheetRef.current.close();
           } else {
             ToastAndroid.show(
               'Something is error,try again',

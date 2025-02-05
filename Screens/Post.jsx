@@ -178,6 +178,7 @@ const Post = () => {
           });
           ToastAndroid.show('Uploaded Successfully', ToastAndroid.SHORT);
           setUser(prev => ({...prev, Posts: res.data.Posts}));
+
           // show add after post upload sucessfully
           if (isLoaded) {
             await show();

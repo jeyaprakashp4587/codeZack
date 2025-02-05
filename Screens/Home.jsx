@@ -49,6 +49,7 @@ const Home = () => {
   const [unseenCount, setUnseenCount] = useState(0);
   const socket = SocketData();
   const [refresh, setRefresh] = useState(false);
+
   // init firebase notification
   useFCMToken();
   // app open add

@@ -33,6 +33,8 @@ import FastImage from 'react-native-fast-image';
 const UserProfile = () => {
   const {width, height} = Dimensions.get('window');
   const {selectedUser, user, setSelectedUser} = useData();
+  console.log(selectedUser?.Post);
+
   const navigation = useNavigation();
   const socket = SocketData();
   const emitSocketEvent = useSocketEmit(socket);
@@ -41,11 +43,7 @@ const UserProfile = () => {
   const RBSheetRef = useRef(null);
   // check the selected user id for that user is  dev user
   useEffect(() => {
-    console.log(selectedUser);
-
     if (selectedUser === user?._id) {
-      console.log('yes');
-
       navigation.replace('profile');
     }
   }, [selectedUser]);
@@ -187,37 +185,36 @@ const UserProfile = () => {
     fetchMutualFriends();
   }, [getAllNetworks, user?.Connections]);
   // fetch user posts
-  const [postLoading, setPostLoading] = useState(false); // Loading indicator
-  const [offset, setOffset] = useState(5); // Number of posts already fetched
-  const [hasMore, setHasMore] = useState(true);
-  const [posts, setPosts] = useState([]);
   useEffect(() => {
-    if (selectedUser?.Posts) {
-      setPosts(selectedUser.Posts); // Update posts when selectedUser is available
-    }
-  }, [selectedUser]);
-
-  // fecth user posts
-  const fetchPosts = async () => {
-    if (!hasMore || postLoading) return;
-    setPostLoading(true);
-    try {
-      const response = await axios.post(`${profileApi}/Post/getUserPosts`, {
-        userId: user?._id,
-        offset,
-      });
-      const newPosts = response.data;
-      if (newPosts.length < 5) {
-        setHasMore(false);
+    fetchPosts();
+  }, []);
+  const [postLoading, setPostLoading] = useState(false);
+  const [offset, setOffset] = useState(0); // Start from 0
+  const [hasMore, setHasMore] = useState(true);
+  const fetchPosts = useCallback(
+    async ({offsets = offset}) => {
+      if (!hasMore || postLoading) return;
+      setPostLoading(true);
+      try {
+        const response = await axios.post(`${profileApi}/Post/getUserPosts`, {
+          userId: selectedUser?._id || selectedUser,
+          offsets,
+        });
+        const newPosts = response.data.posts;
+        if (newPosts.length < 5) {
+          setHasMore(false); // No more posts to fetch
+        }
+        setSelectedUser(prev => ({...prev, Posts: newPosts}));
+        setOffset(prevOffset => prevOffset + newPosts.length);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      } finally {
+        setPostLoading(false);
       }
-      setPosts(prevPosts => [...prevPosts, ...newPosts]);
-      setOffset(prevOffset => prevOffset + newPosts.length);
-    } catch (error) {
-      console.error('Error fetching posts:', error);
-    } finally {
-      setPostLoading(false);
-    }
-  };
+    },
+    [selectedUser, offset, hasMore, postLoading],
+  );
+  // render skeleton
   // render ui
   if (!selectedUser?.firstName || !selectedUser?.State) {
     <View style={pageView}>
@@ -440,7 +437,7 @@ const UserProfile = () => {
               fontSize: width * 0.04,
               letterSpacing: 1,
             }}>
-            {selectedUser?.Posts?.length}
+            {selectedUser?.PostLength}
           </Text>
         </View>
       </View>
@@ -483,31 +480,20 @@ const UserProfile = () => {
       <HrLine />
       {/* post */}
       <FlatList
-        nestedScrollEnabled={true}
-        data={posts}
+        data={selectedUser?.Post}
         keyExtractor={item => item._id}
         style={{borderWidth: 0, paddingBottom: 20}}
         renderItem={({item, index}) => (
-          <Posts
-            post={item}
-            index={index}
-            senderDetails={{
-              firstName: selectedUser?.firstName,
-              LastName: selectedUser?.LastName,
-              InstitudeName: selectedUser?.InstitudeName,
-              Images: {
-                profile: selectedUser?.Images?.profile,
-              },
-            }}
-          />
+          <Posts post={item} index={index} admin={true} />
         )}
+        nestedScrollEnabled={true}
         ListFooterComponent={
           postLoading ? (
             <ActivityIndicator size="large" color={Colors.mildGrey} />
           ) : hasMore ? (
             <View style={{paddingHorizontal: 15}}>
               <TouchableOpacity
-                onPress={() => fetchPosts()}
+                onPress={fetchPosts}
                 style={{
                   padding: 10,
                   borderWidth: 0.5,
