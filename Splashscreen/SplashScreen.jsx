@@ -32,7 +32,7 @@ const SplashScreen = () => {
           Email: email,
         });
         if (response.status == 200 && response.data.user) {
-          setActivityIndicator(false);
+          // setActivityIndicator(false);
           setUser(response.data.user);
           nav.navigate('Tab');
         } else {

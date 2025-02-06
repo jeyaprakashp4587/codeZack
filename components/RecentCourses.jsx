@@ -46,12 +46,15 @@ const RecentCourses = () => {
         }}>
         Recent Course
       </Text>
-      <View style={{borderRadius: 5, overflow: 'hidden'}}>
+      <View style={{borderRadius: 10, overflow: 'hidden'}}>
         <ImageBackground
-          source={require('../assets/gend.jpg')}
+          source={{
+            uri: 'https://i.ibb.co/BKw2qKzn/Screenshot-from-2025-02-06-11-09-20.png',
+          }}
           style={{
             padding: 20,
             rowGap: 10,
+            // opacity: 0.5,
           }}>
           <Text
             style={{

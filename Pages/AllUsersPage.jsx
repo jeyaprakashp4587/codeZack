@@ -41,6 +41,7 @@ const AllUsersPage = () => {
         `${functionApi}/suggestions/getAllSuggestions/${user?._id}?skip=${skip}&limit=${limit}`,
       );
       const {data, hasMore} = response.data;
+
       setSuggestions(prev => [...prev, ...data]);
       setRefresh(false);
       // Append new suggestions
@@ -62,6 +63,7 @@ const AllUsersPage = () => {
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text="Grow Your Network" />
       </View>
+      {suggestions?.length <= 0 && <Text>No more suggestion</Text>}
       <View
         style={{
           borderWidth: 0,
@@ -73,7 +75,6 @@ const AllUsersPage = () => {
           paddingHorizontal: 15,
           paddingTop: 15,
         }}>
-        {suggestions?.length <= 0 && <Text>No more suggestion</Text>}
         <FlatList
           nestedScrollEnabled={true}
           scrollEnabled

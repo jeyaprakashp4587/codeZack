@@ -157,7 +157,7 @@ const Notifications = () => {
                 alignItems: 'center',
                 columnGap: 20,
                 backgroundColor: item?.seen ? 'white' : Colors.veryLightGrey,
-                borderBottomWidth: 1,
+                borderBottomWidth: 0.5,
                 borderColor: Colors.lightGrey,
               }}>
               <FastImage

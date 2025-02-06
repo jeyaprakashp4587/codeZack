@@ -180,7 +180,7 @@ const SearchScreen = ({navigation}) => {
       return (
         <Text
           style={{
-            fontSize: width * 0.07,
+            fontSize: width * 0.05,
             color: Colors.lightGrey,
             marginTop: 20,
             textAlign: 'center',

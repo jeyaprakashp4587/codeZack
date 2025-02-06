@@ -108,11 +108,11 @@ const Companies = () => {
           <View
             style={{
               marginRight: 15,
-              borderRadius: 15,
+              borderRadius: 10,
               padding: 15,
               flexDirection: 'column',
-              rowGap: 20,
-              elevation: 2,
+              rowGap: 15,
+              elevation: 1,
               marginVertical: 5,
               marginLeft: index == 0 && 15,
               backgroundColor: item?.colors[item?.colors?.length - 1],
@@ -123,15 +123,16 @@ const Companies = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 flex: 1,
+                columnGap: 15,
               }}>
               <View style={{borderWidth: 0, flex: 1}}>
                 <Text
                   style={{
                     color: 'white',
                     textAlign: 'left',
-                    fontWeight: '400',
+                    fontWeight: '700',
                     letterSpacing: 1,
-                    fontSize: width * 0.04,
+                    fontSize: width * 0.05,
                   }}>
                   {item?.company_name}
                 </Text>
@@ -140,7 +141,7 @@ const Companies = () => {
                     fontWeight: '600',
                     color: 'white',
                     letterSpacing: 1,
-                    fontSize: width * 0.05,
+                    fontSize: width * 0.035,
                   }}>
                   6 Weeks
                 </Text>
@@ -151,7 +152,7 @@ const Companies = () => {
                   style={{
                     resizeMode: 'contain',
                     width: width * 0.25,
-                    height: height * 0.05,
+                    height: height * 0.08,
                   }}
                 />
               </View>
@@ -167,9 +168,11 @@ const Companies = () => {
                 style={{
                   borderWidth: 0.7,
                   borderColor: 'white',
-                  padding: 10,
+                  // padding: 10,
                   width: '100%',
-                  borderRadius: 50,
+                  borderRadius: 0,
+                  paddingHorizontal: 10,
+                  paddingVertical: 7,
                 }}>
                 <Text
                   style={{

@@ -2,6 +2,7 @@ import {
   Dimensions,
   FlatList,
   Image,
+  ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -108,112 +109,122 @@ const Projects = () => {
         renderItem={({item, index}) => (
           <View
             style={{
-              borderWidth: 1,
+              borderRadius: 10,
+              overflow: 'hidden',
+              width: width * 0.7,
+              marginRight: 10,
+              opacity: 0.9,
               marginLeft: index == 0 && 15,
-              marginRight: 15,
-              padding: 15,
-              flexDirection: 'column',
-              rowGap: 10,
-              borderRadius: 5,
-              // elevation: 1,
-              backgroundColor: 'white',
-              // margin: 5,
-              justifyContent: 'space-between',
-              borderColor: Colors.veryLightGrey,
             }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                columnGap: 20,
-              }}>
-              <View style={{rowGap: 5}}>
-                {/* discount label*/}
-                {item?.Discount && (
-                  <Text
-                    style={{
-                      backgroundColor: '#ff6666',
-                      paddingHorizontal: 10,
-                      paddingVertical: 1,
-                      color: 'white',
-                      fontSize: width * 0.024,
-                      borderRadius: 20,
-                      alignSelf: 'flex-start',
-                      fontWeight: '600',
-                      letterSpacing: 1,
-                    }}>
-                    20%
-                  </Text>
-                )}
-                <Text style={{fontWeight: '600', letterSpacing: 1}}>
-                  {item?.name}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: width * 0.03,
-                    fontWeight: '600',
-                    letterSpacing: 0.5,
-                  }}>
-                  Rs: {item?.Technologies[0]?.Price} /-
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    columnGap: 10,
-                  }}>
+            <ImageBackground source={{uri: item?.img}} resizeMode="cover">
+              <LinearGradient
+                colors={[
+                  'rgb(0, 0, 0)',
+                  // 'rgba(0, 0, 0, 0.9)',
+                  'rgba(13, 13, 13, 0.83)',
+                  'rgba(255, 255, 255, 0.2)',
+                ]}
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 0}}
+                style={{flex: 1, padding: 20}}>
+                <View style={{rowGap: 5}}>
+                  {/* crown icons */}
                   <FastImage
-                    priority={FastImage.priority.high}
                     source={{
-                      uri: 'https://i.ibb.co/FDtYbfG/icons8-technical-support-80.png',
+                      uri: 'https://img.icons8.com/color/96/fairytale.png',
+                      priority: FastImage.priority.high,
                     }}
+                    resizeMode="contain"
                     style={{
-                      width: width * 0.06,
+                      position: 'absolute',
+                      width: width * 0.05,
                       aspectRatio: 1,
+                      right: 0,
+                      top: 0,
                     }}
                   />
+                  {/* discount label*/}
+                  {item?.Discount && (
+                    <Text
+                      style={{
+                        backgroundColor: '#ff6666',
+                        paddingHorizontal: 10,
+                        paddingVertical: 1,
+                        color: 'white',
+                        fontSize: width * 0.024,
+                        borderRadius: 20,
+                        alignSelf: 'flex-start',
+                        fontWeight: '600',
+                        letterSpacing: 1,
+                      }}>
+                      20%
+                    </Text>
+                  )}
                   <Text
                     style={{
+                      fontWeight: '700',
                       letterSpacing: 1,
-                      fontSize: width * 0.02,
-                      color: Colors.mildGrey,
-                    }}
-                    numberOfLines={2}>
-                    24x7 Technical Support
+                      color: 'white',
+                    }}>
+                    {item?.name}
                   </Text>
+                  <Text
+                    style={{
+                      fontSize: width * 0.03,
+                      fontWeight: '600',
+                      letterSpacing: 0.5,
+                      color: 'white',
+                    }}>
+                    Rs: {item?.Technologies[0]?.Price} /-
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      columnGap: 10,
+                    }}>
+                    <FastImage
+                      priority={FastImage.priority.high}
+                      source={{
+                        uri: 'https://i.ibb.co/FDtYbfG/icons8-technical-support-80.png',
+                      }}
+                      style={{
+                        width: width * 0.06,
+                        aspectRatio: 1,
+                      }}
+                    />
+                    <Text
+                      style={{
+                        letterSpacing: 1,
+                        fontSize: width * 0.02,
+                        color: Colors.veryLightGrey,
+                      }}
+                      numberOfLines={2}>
+                      24x7 Technical Support
+                    </Text>
+                  </View>
+                  <TouchableOpacity
+                    onPress={() => handleSelectProject(item)}
+                    style={{
+                      borderWidth: 0.4,
+                      borderColor: 'white',
+                      padding: 5,
+                      // borderRadius: 15,
+                      marginTop: 10,
+                    }}>
+                    <Text
+                      style={{
+                        color: 'white',
+                        fontSize: width * 0.03,
+                        textAlign: 'center',
+                        letterSpacing: 1,
+                      }}>
+                      view
+                    </Text>
+                  </TouchableOpacity>
                 </View>
-              </View>
-              <View>
-                <FastImage
-                  priority={FastImage.priority.high}
-                  source={{uri: item?.img}}
-                  style={{width: width * 0.13, aspectRatio: 1}}
-                />
-              </View>
-            </View>
-            <LinearGradient
-              style={{borderRadius: 5}}
-              colors={['#fff9f3', '#eef7fe']}
-              start={{x: 0, y: 1}}
-              end={{x: 1, y: 1}}>
-              <Ripple
-                onPress={() => handleSelectProject(item)}
-                style={{
-                  padding: 7,
-                  borderRadius: 25,
-                  borderColor: Colors.violet,
-                }}>
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    fontSize: width * 0.03,
-                    letterSpacing: 1,
-                    color: Colors.mildGrey,
-                  }}>
-                  View
-                </Text>
-              </Ripple>
-            </LinearGradient>
+              </LinearGradient>
+            </ImageBackground>
           </View>
         )}
       />
