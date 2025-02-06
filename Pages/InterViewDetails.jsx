@@ -122,7 +122,8 @@ const InterViewDetails = () => {
         <FastImage
           priority={FastImage.priority.high}
           source={{uri: company?.companyLogo}}
-          style={{width: '100%', height: '100%', resizeMode: 'contain'}}
+          style={{width: '100%', height: '100%'}}
+          resizeMode="contain"
         />
       </View>
       {/* compant name */}

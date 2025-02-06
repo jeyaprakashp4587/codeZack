@@ -15,6 +15,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import {Colors} from '../constants/Colors';
 import FastImage from 'react-native-fast-image';
+import LinearGradient from 'react-native-linear-gradient';
 
 const RecentCourses = () => {
   const {width, height} = Dimensions.get('window');
@@ -47,21 +48,17 @@ const RecentCourses = () => {
         Recent Course
       </Text>
       <View style={{borderRadius: 10, overflow: 'hidden'}}>
-        <ImageBackground
-          source={{
-            uri: 'https://i.ibb.co/BKw2qKzn/Screenshot-from-2025-02-06-11-09-20.png',
-          }}
-          style={{
-            padding: 20,
-            rowGap: 10,
-            // opacity: 0.5,
-          }}>
+        <LinearGradient
+          colors={['#fff9f3', '#eef7fe']}
+          start={{x: 0, y: 1}}
+          end={{x: 1, y: 1}}
+          style={{padding: 20, rowGap: 10}}>
           <Text
             style={{
               fontWeight: '600',
               fontSize: width * 0.035,
               letterSpacing: 1,
-              color: 'white',
+              color: Colors.veryDarkGrey,
             }}>
             {user?.Courses[newCourseIndex]?.Course_Name}
           </Text>
@@ -90,11 +87,11 @@ const RecentCourses = () => {
                   source={{uri: item?.TechIcon}}
                   style={{width: width * 0.1, aspectRatio: 1}}
                 />
-                <MaterialIcons name="start" color="white" />
               </TouchableOpacity>
             )}
           />
-        </ImageBackground>
+        </LinearGradient>
+        {/* </ImageBackground> */}
       </View>
     </View>
   );

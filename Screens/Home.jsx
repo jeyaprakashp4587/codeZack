@@ -37,7 +37,6 @@ import IdeasWrapper from '../components/IdeasWrapper';
 import RecentCourses from '../components/RecentCourses';
 import AppOpenAd from '../Adds/AppOpenAdd';
 import FastImage from 'react-native-fast-image';
-
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
 
@@ -49,7 +48,6 @@ const Home = () => {
   const [unseenCount, setUnseenCount] = useState(0);
   const socket = SocketData();
   const [refresh, setRefresh] = useState(false);
-
   // init firebase notification
   useFCMToken();
   // app open add
@@ -101,9 +99,7 @@ const Home = () => {
   // socket
   // update the socket
   useSocketOn(socket, 'updateNoti', async data => {
-    console.log('log');
-
-    // if (data) getNotifications();
+    if (data) getNotifications();
   });
   // receive the socket data from another peer
   useSocketOn(socket, 'Receive-Noti', async () => {

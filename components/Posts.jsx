@@ -26,7 +26,7 @@ import {useNavigation} from '@react-navigation/native';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import useSocketEmit from '../Socket/useSocketEmit';
-import {SocketData} from '../Socket/SocketContext';
+// import {SocketData} from '../Socket/SocketContext';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import FastImage from 'react-native-fast-image';
@@ -36,6 +36,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {SocketData} from '../Socket/SocketContext';
 
 const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const initialText = post?.PostText;
@@ -46,9 +47,8 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const PostRBSheetRef = useRef();
   const wordThreshold = 10;
   const [expanded, setExpanded] = useState(false);
-  const [postOptions, setPostOptions] = useState(false);
   const [likeCount, setLikeCount] = useState();
-  const [selectedShareUser, setSelectedShareUser] = useState();
+  const [LoadDelete, setLoadDelete] = useState(false);
   useEffect(() => {
     if (post?.Like !== undefined && post?.Like !== null) {
       setLikeCount(post?.Like);
@@ -68,6 +68,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const countWords = text => text?.trim().split(/\s+/).length;
   const HandleDelete = useCallback(
     async postId => {
+      setLoadDelete(true);
       try {
         const res = await axios.post(
           `${profileApi}/Post/deletePost/${user?._id}`,
@@ -76,11 +77,13 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           },
         );
         if (res.status === 200) {
+          setLoadDelete(false);
           PostRBSheetRef.current.close();
           setUser(prev => ({...prev, Posts: res.data.Posts}));
           ToastAndroid.show('Post deleted sucessfully', ToastAndroid.SHORT);
         }
       } catch (err) {
+        setLoadDelete(false);
         // console.log(err);
         ToastAndroid.show('Error while post delete', ToastAndroid.SHORT);
       }
@@ -262,12 +265,14 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
   // handle share post to connections
   const handleSharePost = useCallback(async (receiverId, postId) => {
     try {
-      // console.log(receiverId, postId);
       emitEvent(
         'SharePostToConnection',
         {receivingUserId: receiverId, postId},
         response => {
+          console.log(response);
           if (response.success) {
+            console.log(response);
+
             ToastAndroid.show('post send sucessfully', ToastAndroid.SHORT);
             PostRBSheetRef.current.close();
           } else {
@@ -775,14 +780,18 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                 width: '100%',
                 backgroundColor: Colors.veryLightGrey,
               }}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  letterSpacing: 1,
-                  fontSize: width * 0.035,
-                }}>
-                Delete
-              </Text>
+              {LoadDelete ? (
+                <ActivityIndicator color={Colors.veryDarkGrey} size={20} />
+              ) : (
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    letterSpacing: 1,
+                    fontSize: width * 0.035,
+                  }}>
+                  Delete
+                </Text>
+              )}
             </TouchableOpacity>
           )}
           <Text
@@ -839,7 +848,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                       // height: height * 0.07,
                       aspectRatio: 1,
                       borderRadius: 50,
-                      borderColor: Colors.mildGrey,
+                      borderColor: Colors.veryLightGrey,
                       borderWidth: 3,
                     }}
                   />
