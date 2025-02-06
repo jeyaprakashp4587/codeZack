@@ -123,6 +123,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         }
       } catch (error) {
         setLiked(false);
+        ToastAndroid.show('Error on like', ToastAndroid.SHORT);
       }
     },
     [user],
@@ -172,6 +173,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         });
       }
     } catch (error) {
+      ToastAndroid.show('Error on Comment', ToastAndroid.SHORT);
       // console.error("Error submitting comment:", error);
     }
   }, [newComment, comments, user]);
