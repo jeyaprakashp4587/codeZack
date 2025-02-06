@@ -54,7 +54,11 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
       setLikeCount(post?.Like);
     }
   }, [post?.Like]);
-  const [comments, setComments] = useState(post?.Comments || []); // List of comments
+  const [comments, setComments] = useState(post?.Comments || []);
+  useEffect(() => {
+    setComments(post?.Comments);
+  }, [post?.Comments]);
+  // List of comments
   const [newComment, setNewComment] = useState(''); // Track new comment
   const [liked, setLiked] = useState(
     post?.LikedUsers?.some(likeuser => likeuser?.LikedUser === user?._id),
@@ -271,15 +275,14 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         response => {
           console.log(response);
           if (response.success) {
-            console.log(response);
-
             ToastAndroid.show('post send sucessfully', ToastAndroid.SHORT);
             PostRBSheetRef.current.close();
           } else {
             ToastAndroid.show(
-              'Something is error,try again',
+              'Something is wrong, try again',
               ToastAndroid.SHORT,
             );
+            PostRBSheetRef.current.close();
           }
         },
       );
@@ -741,7 +744,6 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         {/* model header */}
         <View
           style={{
-            borderWidth: 1,
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -865,7 +867,12 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                       borderColor: 'white',
                     }}
                   />
-                  <Text style={{fontSize: width * 0.025, textAlign: 'center'}}>
+                  <Text
+                    style={{
+                      fontSize: width * 0.025,
+                      textAlign: 'center',
+                      fontWeight: '600',
+                    }}>
                     {item?.firstName}
                   </Text>
                 </TouchableOpacity>

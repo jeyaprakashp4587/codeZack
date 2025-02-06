@@ -851,7 +851,7 @@ const Profile = ({navigation}) => {
                     marginTop: 10,
                     alignItems: 'center',
                     columnGap: 15,
-                    // borderBottomWidth: 0.9,
+                    borderBottomWidth: 0.5,
                     paddingVertical: 10,
                     borderColor: Colors.veryLightGrey,
                   }}>
@@ -859,9 +859,9 @@ const Profile = ({navigation}) => {
                     priority={FastImage.priority.high}
                     source={{uri: item?.profileImg}}
                     style={{
-                      width: width * 0.13,
-                      height: height * 0.06,
+                      width: width * 0.15,
                       borderRadius: 50,
+                      aspectRatio: 1,
                     }}
                   />
                   <View
@@ -870,10 +870,10 @@ const Profile = ({navigation}) => {
                       alignItems: 'center',
                       columnGap: 3,
                     }}>
-                    <Text style={{letterSpacing: 2, fontSize: width * 0.03}}>
+                    <Text style={{letterSpacing: 1, fontSize: width * 0.035}}>
                       {item?.firstName.trim()}
                     </Text>
-                    <Text style={{letterSpacing: 2, fontSize: width * 0.03}}>
+                    <Text style={{letterSpacing: 1, fontSize: width * 0.035}}>
                       {item?.lastName}
                     </Text>
                   </View>

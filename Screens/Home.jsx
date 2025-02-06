@@ -37,6 +37,7 @@ import IdeasWrapper from '../components/IdeasWrapper';
 import RecentCourses from '../components/RecentCourses';
 import AppOpenAd from '../Adds/AppOpenAdd';
 import FastImage from 'react-native-fast-image';
+import useOnlineStatus from '../hooks/ useOnlineStatus';
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
 
@@ -51,6 +52,9 @@ const Home = () => {
   // init firebase notification
   useFCMToken();
   // app open add
+  // setonlineStatus
+  useOnlineStatus();
+  // config app open add
   AppOpenAd();
   // Loading ui effect
   useEffect(() => {
