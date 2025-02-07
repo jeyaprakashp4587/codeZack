@@ -11,11 +11,10 @@ import {
 import React, {useCallback, useEffect, useState} from 'react';
 import axios from 'axios';
 import {profileApi} from '../Api';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
 import Skeleton from '../Skeletons/Skeleton';
 import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
-import FastImage from 'react-native-fast-image';
 
 const Companies = () => {
   const navigation = useNavigation();
@@ -170,7 +169,7 @@ const Companies = () => {
                   borderColor: 'white',
                   // padding: 10,
                   width: '100%',
-                  borderRadius: 0,
+                  borderRadius: 4,
                   paddingHorizontal: 10,
                   paddingVertical: 7,
                 }}>

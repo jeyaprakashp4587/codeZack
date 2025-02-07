@@ -329,7 +329,7 @@ const ChallengeDetail = () => {
       }}>
       <HeadingText text="Challenge Details" />
       <ScrollView
-        style={{flex: 1, marginBottom: 20}}
+        style={{flex: 1, marginBottom: 10}}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
@@ -338,7 +338,7 @@ const ChallengeDetail = () => {
           />
         }>
         {selectedChallenge?.sample_image || selectedChallenge?.level ? (
-          <View style={{flexDirection: 'column', rowGap: 30, marginTop: 25}}>
+          <View style={{flexDirection: 'column', rowGap: 10, marginTop: 25}}>
             {selectedChallenge?.level === 'newbie' ? (
               <Text>
                 We Don't have assets for{' '}
@@ -353,18 +353,16 @@ const ChallengeDetail = () => {
                 Level Challenges
               </Text>
             ) : (
-              <Image
-                source={{
-                  uri: selectedChallenge?.sample_image,
-                }}
-                style={{
-                  width: width * 0.9,
-                  height: height * 0.3,
-                  alignSelf: 'center',
-                  resizeMode: 'cover',
-                  borderRadius: 20,
-                }}
-              />
+              <View style={{borderWidth: 0, height: height * 0.3}}>
+                <FastImage
+                  source={{
+                    uri: selectedChallenge?.sample_image,
+                  }}
+                  priority={FastImage.priority.high}
+                  style={{width: '100%', height: '100%'}}
+                  resizeMode="center"
+                />
+              </View>
             )}
             <TopicsText
               text={selectedChallenge?.title}
@@ -388,7 +386,7 @@ const ChallengeDetail = () => {
                 {selectedChallenge?.level}
               </Text>
             </View>
-
+            style={styles.challengeImage}
             <View style={{flexDirection: 'row', columnGap: 20}}>
               {selectedChallenge?.technologies?.map((i, index) => (
                 <Image
@@ -457,46 +455,55 @@ const ChallengeDetail = () => {
             </View>
             {/* support wrapper */}
             {statusButtonToggle ? (
-              <Button
-                text={ChallengeStatus?.toLocaleUpperCase()}
-                bgcolor={Colors.violet}
-                textColor="white"
-                fsize={width * 0.04}
-                width="100%"
-                br={50}
-                radius={10}
-              />
+              <TouchableOpacity
+                style={{
+                  borderWidth: 0.4,
+                  padding: 10,
+                  borderRadius: 10,
+                  alignItems: 'center',
+                  backgroundColor: Colors.violet,
+                }}>
+                <Text
+                  style={{
+                    fontSize: width * 0.04,
+                    letterSpacing: 1,
+                    color: 'white',
+                  }}>
+                  {ChallengeStatus}
+                </Text>
+              </TouchableOpacity>
             ) : (
-              <Button
-                text="Start Challenge"
-                bgcolor="#6699ff"
-                textColor="white"
-                width="100%"
-                mb={5}
-                radius={10}
-                fsize={width * 0.04}
-                function={() => HandleStart(selectedChallenge.title)}
-              />
+              <TouchableOpacity
+                onPress={() => HandleStart(selectedChallenge.title)}
+                style={{
+                  borderWidth: 0.4,
+                  padding: 10,
+                  borderRadius: 10,
+                  alignItems: 'center',
+                  backgroundColor: Colors.violet,
+                }}>
+                <Text>Start challenge</Text>
+              </TouchableOpacity>
             )}
             {ChallengeStatus == 'pending' && (
               <TouchableOpacity
                 onPress={() => setUploadTut(!uploadTut)}
                 style={{
-                  // borderWidth: 1,
+                  borderWidth: 0.4,
                   padding: 10,
                   borderRadius: 10,
                   alignItems: 'center',
-                  // borderColor: Colors.mildGrey,
-                  backgroundColor: '#80bfff',
+                  borderColor: Colors.violet,
+                  // backgroundColor: '#80bfff',
                   display: uploadTut ? 'none' : 'flex',
                 }}>
                 <Text
                   style={{
-                    color: Colors.white,
+                    color: Colors.violet,
                     fontSize: width * 0.04,
                     letterSpacing: 1,
                   }}>
-                  How To Upload
+                  How to upload
                 </Text>
               </TouchableOpacity>
             )}
@@ -515,7 +522,7 @@ const ChallengeDetail = () => {
           <View
             style={{
               paddingBottom: 20,
-              marginTop: 50,
+              marginTop: 20,
               flexDirection: 'column',
               rowGap: 15,
             }}>
@@ -525,7 +532,12 @@ const ChallengeDetail = () => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-              <TopicsText text="Tutorials" mb={2} color="black" />
+              <TopicsText
+                text="Tutorials"
+                mb={2}
+                color="black"
+                fszie={width * 0.045}
+              />
               <TouchableOpacity onPress={() => setUploadTut(!uploadTut)}>
                 <Text
                   style={{
@@ -537,12 +549,17 @@ const ChallengeDetail = () => {
               </TouchableOpacity>
             </View>
             <View>
-              <TopicsText text="Step 1" mb={2} />
-              <PragraphText text="* Create the account in GitHub" padding={4} />
+              <TopicsText text="Step 1" mb={2} fszie={width * 0.035} mb={2} />
+              <PragraphText
+                text="* Create the account in GitHub"
+                padding={4}
+                fsize={width * 0.03}
+              />
             </View>
             <View>
-              <TopicsText text="Step 2" mb={2} />
+              <TopicsText text="Step 2" mb={2} fszie={width * 0.035} mb={2} />
               <PragraphText
+                fsize={width * 0.03}
                 padding={4}
                 text="* Create the repository and Upload the project files into repository"
               />
@@ -554,8 +571,12 @@ const ChallengeDetail = () => {
               />
             </View>
             <View>
-              <TopicsText text="Step 3" mb={2} />
-              <PragraphText text="* Host the project in github" padding={4} />
+              <TopicsText text="Step 3" mb={2} fszie={width * 0.035} mb={2} />
+              <PragraphText
+                text="*Host the project in github"
+                padding={4}
+                fsize={width * 0.03}
+              />
               <WebView
                 style={{width: '100%', height: height * 0.25}}
                 source={{
@@ -564,17 +585,16 @@ const ChallengeDetail = () => {
               />
             </View>
             <View>
-              <TopicsText text="Step 4" mb={2} />
+              <TopicsText text="Step 4" fszie={width * 0.035} mb={2} />
               <PragraphText
+                fsize={width * 0.03}
                 text="* Upload the all links and details"
                 padding={2}
               />
             </View>
           </View>
         ) : null}
-        <Divider
-          style={{marginVertical: 10, backgroundColor: Colors.veryLightGrey}}
-        />
+
         {ChallengeStatus == 'pending' ? (
           <View
             style={{
@@ -677,7 +697,7 @@ const ChallengeDetail = () => {
               }}>
               <Text
                 style={{
-                  fontSize: width * 0.045,
+                  fontSize: width * 0.04,
                   color: 'white',
                   letterSpacing: 1,
                   textAlign: 'center',

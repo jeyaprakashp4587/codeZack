@@ -157,8 +157,6 @@ const YourChallenges = props => {
           </TouchableOpacity>
         ))}
       </View>
-
-      <HrLine width="100%" />
       {/* list challenges */}
       {challenges?.length <= 0 ? (
         !skLoad ? (
@@ -209,6 +207,7 @@ const YourChallenges = props => {
           nestedScrollEnabled={true}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
+          keyExtractor={item => item?._id}
           data={challenges}
           style={{borderWidth: 0}}
           renderItem={({item, index}) => (
@@ -220,29 +219,34 @@ const YourChallenges = props => {
               style={styles.challengeContainer}
               key={index}>
               <View style={styles.challengeHeader}>
-                <ParagraphText
-                  text={item?.ChallengeName}
-                  fsize={height * 0.021}
-                  padding={5}
-                  widht="70%"
-                />
-                <ParagraphText
-                  text={
-                    item?.ChallengeLevel
-                      ? item?.ChallengeLevel
-                      : item?.ChallengeLevel
-                  }
-                  fsize={height * 0.017}
-                  padding={5}
-                  color="orange"
-                />
+                <Text
+                  style={{
+                    fontSize: width * 0.045,
+                    fontWeight: '600',
+                    color: 'black',
+                    maxWidth: '80%',
+                    lineHeight: 25,
+                  }}>
+                  {item?.ChallengeName}
+                </Text>
+                <Text
+                  style={{
+                    color: 'orange',
+                    fontWeight: '600',
+                    fontSize: width * 0.03,
+                  }}>
+                  {item?.ChallengeLevel}
+                </Text>
               </View>
               {item?.ChallengeLevel !== 'newbie' && (
-                <FastImage
-                  priority={FastImage.priority.high}
-                  source={{uri: item?.ChallengeImage}}
-                  style={styles.challengeImage}
-                />
+                <View style={{borderWidth: 0, height: height * 0.3}}>
+                  <FastImage
+                    priority={FastImage.priority.high}
+                    source={{uri: item?.ChallengeImage}}
+                    style={{width: '100%', height: '100%'}}
+                    resizeMode="center"
+                  />
+                </View>
               )}
               <View
                 style={{
@@ -253,7 +257,7 @@ const YourChallenges = props => {
                   style={{
                     fontSize: height * 0.018,
                     letterSpacing: 1,
-                    color: Colors.lightGrey,
+                    color: Colors.mildGrey,
                   }}>
                   {item?.ChallengeType}
                 </Text>
@@ -279,7 +283,7 @@ export default React.memo(YourChallenges);
 const styles = StyleSheet.create({
   challengeContainer: {
     flexDirection: 'column',
-    // rowGap: 10,
+    rowGap: 10,
     padding: 20,
     backgroundColor: 'white',
     borderRadius: 5,
@@ -291,12 +295,5 @@ const styles = StyleSheet.create({
   challengeHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  challengeImage: {
-    width: '100%',
-    height: height * 0.35, // Responsive height
-    alignSelf: 'center',
-    resizeMode: 'contain',
-    borderRadius: 20,
   },
 });

@@ -23,6 +23,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Skeleton from '../Skeletons/Skeleton';
 import SuggestionWapper from '../components/SuggestionWapper';
 import FastImage from 'react-native-fast-image';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
 const SearchScreen = ({navigation}) => {
   // -------------- //
@@ -111,7 +112,7 @@ const SearchScreen = ({navigation}) => {
           nestedScrollEnabled={true}
           showsVerticalScrollIndicator={false}
           data={users}
-          style={{marginTop: 20}}
+          style={{marginTop: 5}}
           keyExtractor={item => item._id}
           renderItem={({item}) => (
             <TouchableOpacity
@@ -199,17 +200,25 @@ const SearchScreen = ({navigation}) => {
       {/* search button */}
       <TouchableOpacity
         style={{
+          borderWidth: 1,
           flexDirection: 'row',
           alignItems: 'center',
-          backgroundColor: Colors.veryLightGrey,
-          // width: '100%',
-          // padding: 10,
-          paddingHorizontal: 10,
-          borderRadius: 7,
+          justifyContent: 'flex-start',
           marginHorizontal: 15,
+          borderRadius: 25,
+          paddingHorizontal: 10,
+          borderColor: Colors.veryLightGrey,
+          marginVertical: 10,
+          height: height * 0.06,
+          backgroundColor: '#F6F6F6',
         }}>
-        <FontAwesomeIcon icon={faSearch} size={20} color={Colors.lightGrey} />
+        <EvilIcons
+          name="search"
+          size={width * 0.07}
+          color={Colors.veryDarkGrey}
+        />
         <TextInput
+          autoFocus
           placeholder="Search"
           style={{
             color: Colors.lightGrey,
@@ -303,6 +312,11 @@ const SearchScreen = ({navigation}) => {
       )}
       {/* usersList */}
       <View style={{paddingHorizontal: 15}}>
+        {users.length > 0 && (
+          <Text style={{paddingTop: 10, fontWeight: '700'}}>
+            Results of ({userName.current}){' '}
+          </Text>
+        )}
         <ResultRender />
       </View>
 
