@@ -33,8 +33,6 @@ import FastImage from 'react-native-fast-image';
 const UserProfile = () => {
   const {width, height} = Dimensions.get('window');
   const {selectedUser, user, setSelectedUser} = useData();
-  console.log(selectedUser?.Post);
-
   const navigation = useNavigation();
   const socket = SocketData();
   const emitSocketEvent = useSocketEmit(socket);
@@ -129,7 +127,9 @@ const UserProfile = () => {
   useFocusEffect(
     useCallback(() => {
       if (!selectedUser?.firstName) {
-        getSelectedUser();
+        getSelectedUser().then(() => {
+          fetchPosts({offsets: 0});
+        });
       }
     }, [selectedUser]),
   );
@@ -185,12 +185,10 @@ const UserProfile = () => {
     fetchMutualFriends();
   }, [getAllNetworks, user?.Connections]);
   // fetch user posts
-  useEffect(() => {
-    fetchPosts();
-  }, []);
   const [postLoading, setPostLoading] = useState(false);
   const [offset, setOffset] = useState(0); // Start from 0
   const [hasMore, setHasMore] = useState(true);
+  const [selectedUserPost, setSelectedUserPost] = useState([]);
   const fetchPosts = useCallback(
     async ({offsets = offset}) => {
       if (!hasMore || postLoading) return;
@@ -200,20 +198,24 @@ const UserProfile = () => {
           userId: selectedUser?._id || selectedUser,
           offsets,
         });
-        const newPosts = response.data.posts;
-        if (newPosts.length < 5) {
-          setHasMore(false); // No more posts to fetch
+        if (response.status === 200) {
+          const newPosts = response.data.posts;
+          console.log(response.data);
+          if (newPosts.length < 5) {
+            setHasMore(false); // No more posts to fetch
+          }
+          setSelectedUserPost(newPosts);
+          setOffset(prevOffset => prevOffset + newPosts.length);
         }
-        setSelectedUser(prev => ({...prev, Posts: newPosts}));
-        setOffset(prevOffset => prevOffset + newPosts.length);
       } catch (error) {
         console.error('Error fetching posts:', error);
       } finally {
         setPostLoading(false);
       }
     },
-    [selectedUser, offset, hasMore, postLoading],
+    [selectedUser],
   );
+
   // render skeleton
   // render ui
   if (!selectedUser?.firstName || !selectedUser?.State) {
@@ -480,8 +482,8 @@ const UserProfile = () => {
       <HrLine />
       {/* post */}
       <FlatList
-        data={selectedUser?.Post}
-        keyExtractor={item => item._id}
+        data={selectedUserPost}
+        // keyExtractor={item => item._id}
         style={{borderWidth: 0, paddingBottom: 20}}
         renderItem={({item, index}) => (
           <Posts post={item} index={index} admin={true} />
@@ -493,7 +495,9 @@ const UserProfile = () => {
           ) : hasMore ? (
             <View style={{paddingHorizontal: 15}}>
               <TouchableOpacity
-                onPress={fetchPosts}
+                onPress={() => {
+                  fetchPosts(offset);
+                }}
                 style={{
                   padding: 10,
                   borderWidth: 0.5,

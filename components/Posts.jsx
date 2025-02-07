@@ -26,10 +26,10 @@ import {useNavigation} from '@react-navigation/native';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import useSocketEmit from '../Socket/useSocketEmit';
-// import {SocketData} from '../Socket/SocketContext';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import FastImage from 'react-native-fast-image';
+import MiniUserSkeleton from '../Skeletons/MiniUserSkeleton';
 
 const {width, height} = Dimensions.get('window');
 import {
@@ -37,6 +37,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {SocketData} from '../Socket/SocketContext';
+import Skeleton from '../Skeletons/Skeleton';
 
 const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const initialText = post?.PostText;
@@ -49,6 +50,8 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const [expanded, setExpanded] = useState(false);
   const [likeCount, setLikeCount] = useState();
   const [LoadDelete, setLoadDelete] = useState(false);
+  // console.log(post);
+
   useEffect(() => {
     if (post?.Like !== undefined && post?.Like !== null) {
       setLikeCount(post?.Like);
@@ -115,6 +118,8 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         );
         if (response.status === 200) {
           setLikeCount(prev => prev + 1);
+          // console.log('liked user', response.data.likedUser);
+
           emitEvent('LikeNotiToUploader', {
             Time: moment().format('YYYY-MM-DDTHH:mm:ss'),
             postId: post?._id,
@@ -144,6 +149,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         }
       } catch (error) {
         setLiked(true);
+        ToastAndroid.show('Error on unlike post', ToastAndroid.SHORT);
       }
     },
     [user],
@@ -196,16 +202,18 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
       );
 
       if (res.status === 200) {
-        setLikedUsers(prevUsers => [...prevUsers, ...res.data.likedUsers]);
+        setLikedUsers(res.data.likedUsers);
         setLikedUserSkip(prevSkip => prevSkip + 10);
         setLikedUserHasMore(res.data.hasMore);
+        // console.log('fetch liked user', res.data.likedUsers);
       }
     } catch (err) {
       console.error('Failed to fetch liked users:', err);
+      ToastAndroid.show('Failed to fetch liked users', ToastAndroid.SHORT);
     } finally {
       setLikedUserLoading(false);
     }
-  }, [likedUserSkip, likedUserHasMore, likedUserLoading]);
+  }, []);
   // get all commants
   const [commentSkip, setCommentSkip] = useState(0);
   const [commentHasMore, setCommentHasMore] = useState(true);
@@ -216,6 +224,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
     if (commentLoading || !commentHasMore) return;
     setCommentLoading(true);
     try {
+      // console.log('Fetching comments...');
       const res = await axios.get(
         `${profileApi}/Post/getComments/${post?._id}`,
         {
@@ -223,17 +232,20 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         },
       );
       if (res.status === 200) {
-        setComments(prevComments => [...prevComments, ...res.data.comments]);
+        setComments(res.data.comments);
+        // console.log(res.data.comments);
+        // console.log('comments', comments);
         setCommentSkip(prevSkip => prevSkip + 10);
         setCommentHasMore(res.data.hasMore);
-        setCommentLoading(false);
       }
     } catch (error) {
       console.error('Failed to fetch comments:', error);
+      ToastAndroid.show('Failed to fetch comments', ToastAndroid.show());
     } finally {
       setCommentLoading(false);
     }
-  }, [post, commentSkip, commentHasMore, commentLoading]);
+  }, [commentSkip, commentHasMore, commentLoading]);
+
   //
   // console.log(post?.Images);
 
@@ -247,6 +259,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
     if (networkListLoadding || !hasMoreNetworks) return; // Prevent duplicate requests
     setNetworkListLoading(true);
     try {
+      console.log('fetch networks');
       const res = await axios.get(
         `${profileApi}/Following/getNetworks/${user?._id}`,
         {
@@ -266,7 +279,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
     } finally {
       setNetworkListLoading(false);
     }
-  }, [netWorkListPage, networkListLoadding]);
+  }, [netWorkListPage, networkListLoadding, hasMoreNetworks]);
 
   // handle share post to connections
   const handleSharePost = useCallback(async (receiverId, postId) => {
@@ -298,16 +311,14 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
       key={index}
       style={{
         marginTop: 20,
-        padding: 20,
         borderRadius: 0,
         backgroundColor: 'white',
         marginBottom: 10,
-        // elevation: elevation ? 0 : 3,
-        borderWidth: 0.4,
+        // borderWidth: 0.4,
         borderColor: Colors.veryLightGrey,
-        // marginHorizontal: 5,
+        borderWidth: 1,
       }}>
-      {/* Post Content */}
+      {/* Post Content user details and menu*/}
       <Pressable
         onPress={() => {
           if (!admin) {
@@ -315,7 +326,11 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             navigation.navigate('userprofile');
           }
         }}
-        style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          padding: 15,
+        }}>
         <FastImage
           source={{
             uri: senderDetails?.Images
@@ -350,18 +365,20 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         {/* display wrapper */}
         {/* */}
       </Pressable>
-      <Text style={styles.postText}>
-        {expanded
-          ? initialText
-          : `${initialText?.split(' ').slice(0, wordThreshold).join(' ')}...`}
-      </Text>
-      {countWords(initialText) > wordThreshold && (
-        <TouchableOpacity onPress={toggleExpanded} style={styles.showMore}>
-          <Text style={{color: '#595959'}}>
-            {expanded ? 'Show less' : 'Show more'}
-          </Text>
-        </TouchableOpacity>
-      )}
+      <View style={{paddingHorizontal: 15}}>
+        <Text style={styles.postText}>
+          {expanded
+            ? initialText
+            : `${initialText?.split(' ').slice(0, wordThreshold).join(' ')}...`}
+        </Text>
+        {countWords(initialText) > wordThreshold && (
+          <TouchableOpacity onPress={toggleExpanded} style={styles.showMore}>
+            <Text style={{color: '#595959'}}>
+              {expanded ? 'Show less' : 'Show more'}
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
       {post?.PostLink && (
         <Text
           onPress={() => {
@@ -369,11 +386,10 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
               Linking.openURL(post.PostLink);
             }
           }}
-          style={{color: Colors.violet}}>
+          style={{color: Colors.violet, fontWeight: '700'}}>
           {post?.PostLink}
         </Text>
       )}
-
       {/* post images */}
       {post?.Images && (
         <FlatList
@@ -470,7 +486,6 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           <RelativeTime time={post?.Time} fsize={width * 0.033} />
         </View>
       </View>
-
       {/* Add New Comment */}
       <View
         style={{
@@ -497,7 +512,8 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
 
       {/* Show Liked Users Button */}
       <TouchableOpacity onPress={handleShowLikedUsers} style={styles.likeBtn}>
-        <Text style={{letterSpacing: 1, fontSize: width * 0.03}}>
+        <Text
+          style={{letterSpacing: 1, fontSize: width * 0.03, fontWeight: '600'}}>
           Show likes
         </Text>
       </TouchableOpacity>
@@ -516,15 +532,15 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
               alignItems: 'center',
               justifyContent: 'center',
               rowGap: 10,
-              borderBottomWidth: 1,
+              // borderBottomWidth: 1,
               borderColor: Colors.veryLightGrey,
               marginBottom: 10,
             }}>
             {/* bar */}
             <View
               style={{
-                width: 70,
-                height: 5,
+                width: 50,
+                height: 3,
                 backgroundColor: Colors.lightGrey,
                 borderRadius: 50,
               }}
@@ -546,9 +562,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                 nestedScrollEnabled={true}
                 showsVerticalScrollIndicator={false}
                 data={likedUsers}
-                keyExtractor={item => item?._id}
-                onEndReached={() => handleShowLikedUsers()}
-                onEndReachedThreshold={0.5}
+                keyExtractor={item => item?.userId}
                 renderItem={({item}) => (
                   <TouchableOpacity
                     style={{
@@ -556,7 +570,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                       flexDirection: 'row',
                       alignItems: 'center',
                       columnGap: 10,
-                      borderBottomWidth: 1,
+                      borderTopWidth: 1,
                       borderColor: Colors.veryLightGrey,
                       paddingVertical: 10,
                       marginTop: 10,
@@ -566,12 +580,16 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                       setSelectedUser(item?.userId);
                     }}>
                     {item?.LikedUser}
-                    <Image
+                    <FastImage
                       source={{uri: item?.profile}}
+                      priority={FastImage.priority.high}
                       style={{
-                        width: width * 0.1,
-                        height: height * 0.05,
+                        width: width * 0.15,
+                        // height: height * 0.05,
+                        aspectRatio: 1,
                         borderRadius: 50,
+                        borderWidth: 0.5,
+                        borderColor: Colors.veryLightGrey,
                       }}
                     />
                     <Text
@@ -579,18 +597,46 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                         color: Colors.veryDarkGrey,
                         letterSpacing: 1,
                         flex: 1,
-                        fontSize: width * 0.035,
+                        fontSize: width * 0.04,
                       }}>
-                      {item?.firstName}
-                      {item?.LastName}
+                      {item?.firstName} {item?.LastName}
                     </Text>
                     <RelativeTime time={item?.LikedTime} />
                   </TouchableOpacity>
                 )}
                 ListFooterComponent={
-                  likedUserLoading && (
-                    <ActivityIndicator size="small" color={Colors.mildGrey} />
-                  )
+                  <View style={{padding: 20}}>
+                    {likedUserLoading &&
+                      Array.from({length: 5}).map((_, index) => (
+                        <View style={{marginBottom: 10}}>
+                          <MiniUserSkeleton />
+                        </View>
+                      ))}
+
+                    {likedUserHasMore && !likedUserLoading && (
+                      <View style={{padding: 20}}>
+                        <TouchableOpacity
+                          onPress={handleShowLikedUsers}
+                          style={{
+                            padding: 10,
+                            borderWidth: 0.5,
+                            borderRadius: 50,
+                            borderColor: Colors.violet,
+                          }}>
+                          <Text
+                            style={{
+                              textAlign: 'center',
+                              letterSpacing: 1.4,
+                              color: Colors.violet,
+                              fontWeight: '600',
+                              fontSize: width * 0.03,
+                            }}>
+                            Show more
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    )}
+                  </View>
                 }
               />
             ) : (
@@ -601,9 +647,9 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
               nestedScrollEnabled={true}
               showsVerticalScrollIndicator={false}
               data={comments}
-              onEndReached={() => handleShowComments()}
-              onEndReachedThreshold={0.5}
-              keyExtractor={(item, index) => index.toString()}
+              keyExtractor={(item, index) =>
+                item?.commentedBy?.userId ?? index.toString()
+              }
               renderItem={({item}) => (
                 <TouchableOpacity
                   style={{
@@ -611,22 +657,27 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                     flexDirection: 'row',
                     alignItems: 'center',
                     columnGap: 10,
-                    borderBottomWidth: 1,
+                    borderTopWidth: 1,
                     borderColor: Colors.veryLightGrey,
                     paddingVertical: 10,
-                    marginTop: 10,
+                    marginTop: 5,
                   }}
                   onPress={() => {
                     navigation.navigate('userprofile');
-                    setSelectedUser(item?.commentedBy?.userId);
+                    setSelectedUser(item?.userId);
                   }}>
-                  {item?.LikedUser}
-                  <Image
-                    source={{uri: item?.commentedBy?.profile}}
+                  <FastImage
+                    source={{
+                      uri: item?.profile,
+                      // priority: FastImage.priority.high,
+                    }}
                     style={{
-                      width: width * 0.1,
-                      height: height * 0.05,
+                      width: width * 0.15,
+                      // height: height * 0.05,
                       borderRadius: 50,
+                      borderWidth: 0.5,
+                      borderColor: Colors.veryLightGrey,
+                      aspectRatio: 1,
                     }}
                   />
                   <View style={{flex: 1}}>
@@ -634,13 +685,12 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                       style={{
                         color: Colors.veryDarkGrey,
                         letterSpacing: 1,
-                        fontSize: width * 0.033,
+                        fontSize: width * 0.04,
                       }}>
-                      {item?.commentedBy?.firstName}{' '}
-                      {item?.commentedBy?.LastName}
+                      {item?.firstName} {item?.LastName}
                     </Text>
                     <Text
-                      style={{fontSize: width * 0.03, color: Colors.mildGrey}}>
+                      style={{fontSize: width * 0.035, color: Colors.mildGrey}}>
                       {item?.commentText}
                     </Text>
                   </View>
@@ -649,9 +699,37 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                 </TouchableOpacity>
               )}
               ListFooterComponent={
-                commentLoading ? (
-                  <ActivityIndicator size="large" color={Colors.mildGrey} />
-                ) : null
+                <View>
+                  {commentHasMore && !commentLoading && (
+                    <View style={{padding: 10}}>
+                      <TouchableOpacity
+                        onPress={handleShowComments}
+                        style={{
+                          padding: 10,
+                          borderWidth: 0.5,
+                          borderRadius: 50,
+                          borderColor: Colors.violet,
+                        }}>
+                        <Text
+                          style={{
+                            textAlign: 'center',
+                            letterSpacing: 1.4,
+                            color: Colors.violet,
+                            fontWeight: '600',
+                            fontSize: width * 0.03,
+                          }}>
+                          Show more
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                  {commentLoading &&
+                    Array.from({length: 5}).map((_, index) => (
+                      <View style={{marginBottom: 10}}>
+                        <MiniUserSkeleton />
+                      </View>
+                    ))}
+                </View>
               }
             />
           ) : (
@@ -831,15 +909,19 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             )}
             <FlatList
               horizontal
+              style={{borderWidth: 0}}
               data={netWorksList}
-              onEndReached={() => getNetworksList()}
-              onEndReachedThreshold={0.5}
+              contentContainerStyle={{borderWidth: 1, alignItems: 'center'}}
               renderItem={({item}) => (
                 <TouchableOpacity
                   onPress={() => {
                     handleSharePost(item?.id, post?._id);
                   }}
-                  style={{borderWidth: 0, marginRight: 10}}>
+                  style={{
+                    borderWidth: 0,
+                    marginRight: 10,
+                    position: 'relative',
+                  }}>
                   <FastImage
                     priority={FastImage.priority.high}
                     source={{
@@ -848,8 +930,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                         : 'https://i.ibb.co/3T4mNMm/man.png',
                     }}
                     style={{
-                      width: width * 0.16,
-                      // height: height * 0.07,
+                      width: width * 0.18,
                       aspectRatio: 1,
                       borderRadius: 50,
                       borderColor: Colors.veryLightGrey,
@@ -859,9 +940,9 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                   <View
                     style={{
                       position: 'absolute',
-                      top: hp('5.5%'),
+                      top: hp('6.5%'),
                       zIndex: 10,
-                      left: wp('10%'),
+                      left: wp('12%'),
                       padding: width * 0.017,
                       backgroundColor: item?.onlineStatus ? 'green' : 'red',
                       borderRadius: 50,
@@ -871,7 +952,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                   />
                   <Text
                     style={{
-                      fontSize: width * 0.025,
+                      fontSize: width * 0.028,
                       textAlign: 'center',
                       fontWeight: '600',
                     }}>
@@ -880,9 +961,41 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                 </TouchableOpacity>
               )}
               ListFooterComponent={
-                networkListLoadding && (
-                  <ActivityIndicator size="small" color="#0000ff" />
-                )
+                <View>
+                  {hasMoreNetworks && !networkListLoadding && (
+                    <TouchableOpacity
+                      onPress={getNetworksList}
+                      style={{
+                        padding: 10,
+                        borderWidth: 0.5,
+                        borderRadius: 50,
+                        borderColor: Colors.violet,
+                      }}>
+                      <Text
+                        style={{
+                          textAlign: 'center',
+                          letterSpacing: 1.4,
+                          color: Colors.violet,
+                          fontWeight: '600',
+                          fontSize: width * 0.03,
+                        }}>
+                        Show more
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                  {networkListLoadding && (
+                    <View style={{flexDirection: 'row', columnGap: 5}}>
+                      {Array.from({length: 4}).map((_, index) => (
+                        <Skeleton
+                          key={index}
+                          width={width * 0.17}
+                          height={height * 0.09}
+                          radius={60}
+                        />
+                      ))}
+                    </View>
+                  )}
+                </View>
               }
             />
           </View>

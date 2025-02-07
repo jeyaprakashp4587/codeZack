@@ -72,18 +72,16 @@ const Login = () => {
       setActivityIndi(false);
       return;
     }
-
     try {
       const res = await axios.post(`${loginApi}/LogIn/signIn`, form);
 
       // Check if login was successful
-      if (res.data?.user) {
+      if (res.status === 200) {
         await AsyncStorage.setItem('Email', res.data?.user?.Email);
         setUser(res.data?.user);
         navigation.navigate('Tab');
-      } else {
-        // Unexpected response format
-        ToastAndroid.show('Unexpected server response.', ToastAndroid.SHORT);
+      } else if (res.status === 401) {
+        ToastAndroid.show(res.data.error, ToastAndroid.SHORT);
       }
     } catch (error) {
       // Handle specific server errors

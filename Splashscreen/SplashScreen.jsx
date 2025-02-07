@@ -74,12 +74,6 @@ const SplashScreen = () => {
             aspectRatio: 1,
           }}
         />
-        {/* progress bar */}
-        <View>
-          {activityIndicator && (
-            <ActivityIndicator size={width * 0.15} color="black" />
-          )}
-        </View>
       </View>
     </View>
   );

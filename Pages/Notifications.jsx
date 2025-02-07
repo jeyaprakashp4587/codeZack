@@ -35,11 +35,15 @@ const Notifications = () => {
   // Fetch notifications from the API
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true); // Check if more notifications exist
+  const [hasMore, setHasMore] = useState(true);
+  const [totalPages, setTotalPages] = useState(1); // Track total pages
+
   const getNotifications = useCallback(async () => {
-    if (loading || !hasMore) return; // Avoid multiple API calls
+    if (loading || !hasMore) return;
     setLoading(true);
     try {
+      console.log('Fetching notifications...');
+
       const res = await axios.get(
         `${functionApi}/Notifications/getNotifications/${user?._id}`,
         {
@@ -52,8 +56,12 @@ const Notifications = () => {
       ) {
         setNotificationList(prev => [...prev, ...res.data.notifications]);
         setPage(prev => prev + 1); // Increment page
+        setTotalPages(res.data.totalPages); // Store total pages
+        if (page >= res.data.totalPages) {
+          setHasMore(false); // No more pages
+        }
       } else {
-        setHasMore(false); // No more notifications
+        setHasMore(false);
       }
     } catch (error) {
       console.error('Error fetching notifications:', error);
@@ -103,8 +111,6 @@ const Notifications = () => {
   // Fetch notifications when the component mounts
   useEffect(() => {
     getNotifications();
-    // console.log(notificationList);
-    // setNotificationList(user?.Notifications);
   }, []);
 
   return (
@@ -195,12 +201,32 @@ const Notifications = () => {
               </View>
             </TouchableOpacity>
           )}
-          onEndReached={getNotifications} // Load more when reaching bottom
-          onEndReachedThreshold={0.5} // Trigger when 50% from bottom
           ListFooterComponent={
-            loading ? (
-              <ActivityIndicator size={20} color={Colors.veryDarkGrey} />
-            ) : null
+            <View style={{padding: 15}}>
+              {loading && (
+                <ActivityIndicator size={20} color={Colors.veryDarkGrey} />
+              )}
+              {hasMore && !loading && (
+                <TouchableOpacity
+                  onPress={getNotifications}
+                  style={{
+                    padding: 10,
+                    borderWidth: 0.5,
+                    borderRadius: 50,
+                    borderColor: Colors.violet,
+                  }}>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      letterSpacing: 1.4,
+                      color: Colors.violet,
+                      fontWeight: '600',
+                    }}>
+                    Show more
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </View>
           }
         />
       )}

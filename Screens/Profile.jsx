@@ -50,6 +50,7 @@ import {
 } from 'react-native-responsive-screen';
 import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
 import FastImage from 'react-native-fast-image';
+import MiniUserSkeleton from '../Skeletons/MiniUserSkeleton';
 
 const Profile = ({navigation}) => {
   const {user, setUser, setSelectedUser} = useData();
@@ -734,7 +735,7 @@ const Profile = ({navigation}) => {
         <FlatList
           data={user?.Posts}
           keyExtractor={item => item._id}
-          style={{borderWidth: 0, paddingBottom: 20}}
+          style={{borderWidth: 0, paddingBottom: 10}}
           renderItem={({item, index}) => (
             <Posts post={item} index={index} admin={true} />
           )}
@@ -802,15 +803,15 @@ const Profile = ({navigation}) => {
               alignItems: 'center',
               justifyContent: 'center',
               rowGap: 10,
-              borderBottomWidth: 1,
+              // borderBottomWidth: 1,
               borderColor: Colors.veryLightGrey,
               marginBottom: 10,
             }}>
             {/* bar */}
             <View
               style={{
-                width: width * 0.1,
-                height: 5,
+                width: 50,
+                height: 3,
                 backgroundColor: Colors.lightGrey,
                 borderRadius: 50,
               }}
@@ -838,8 +839,6 @@ const Profile = ({navigation}) => {
             <FlatList
               nestedScrollEnabled={true}
               data={netWorksList}
-              onEndReached={() => getNetworksList()}
-              onEndReachedThreshold={0.5}
               renderItem={({item}) => (
                 <TouchableOpacity
                   onPress={() => {
@@ -851,7 +850,7 @@ const Profile = ({navigation}) => {
                     marginTop: 10,
                     alignItems: 'center',
                     columnGap: 15,
-                    borderBottomWidth: 0.5,
+                    borderTopWidth: 0.5,
                     paddingVertical: 10,
                     borderColor: Colors.veryLightGrey,
                   }}>
@@ -880,9 +879,34 @@ const Profile = ({navigation}) => {
                 </TouchableOpacity>
               )}
               ListFooterComponent={
-                networkListLoadding && (
-                  <ActivityIndicator size="small" color="#0000ff" />
-                )
+                <View style={{padding: 20}}>
+                  {networkListLoadding &&
+                    Array.from({length: 5}).map((_, index) => (
+                      <View style={{marginBottom: 10}}>
+                        <MiniUserSkeleton />
+                      </View>
+                    ))}
+                  {hasMoreNetworks && !networkListLoadding && (
+                    <TouchableOpacity
+                      onPress={getNetworksList}
+                      style={{
+                        padding: 10,
+                        borderWidth: 0.5,
+                        borderRadius: 50,
+                        borderColor: Colors.violet,
+                      }}>
+                      <Text
+                        style={{
+                          textAlign: 'center',
+                          letterSpacing: 1.4,
+                          color: Colors.violet,
+                          fontWeight: '600',
+                        }}>
+                        Show more
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
               }
             />
           )}
