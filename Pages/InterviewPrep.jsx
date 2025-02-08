@@ -28,6 +28,7 @@ import {
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FastImage from 'react-native-fast-image';
+import WebView from 'react-native-webview';
 
 const InterviewPrep = () => {
   const {selectedCompany, user, setUser} = useData();
@@ -175,6 +176,9 @@ const InterviewPrep = () => {
   // show hint
   const showHint = () => {
     setIsShowHind(true);
+    if (rewardIsLoaded) {
+      showReward();
+    }
   };
   // submit task
   const submitTask = useCallback(async () => {

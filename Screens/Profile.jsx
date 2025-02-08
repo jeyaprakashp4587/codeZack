@@ -242,6 +242,7 @@ const Profile = ({navigation}) => {
         setNetworksList(prev => [...prev, ...res.data.users]);
         setNetWorkListPage(prev => prev + 1);
         setHasMoreNetworks(res.data.hasMore);
+        console.log(res.data.users);
       }
     } catch (error) {
       console.error('Error fetching networks list:', error);

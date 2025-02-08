@@ -379,17 +379,19 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           </TouchableOpacity>
         )}
       </View>
-      {post?.PostLink && (
-        <Text
-          onPress={() => {
-            if (post?.PostLink) {
-              Linking.openURL(post.PostLink);
-            }
-          }}
-          style={{color: Colors.violet, fontWeight: '700'}}>
-          {post?.PostLink}
-        </Text>
-      )}
+      <View style={{paddingHorizontal: 15}}>
+        {post?.PostLink && (
+          <Text
+            onPress={() => {
+              if (post?.PostLink) {
+                Linking.openURL(post.PostLink);
+              }
+            }}
+            style={{color: Colors.violet, fontWeight: '700'}}>
+            {post?.PostLink}
+          </Text>
+        )}
+      </View>
       {/* post images */}
       {post?.Images && (
         <FlatList
@@ -405,7 +407,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                 priority={FastImage.priority.high}
                 resizeMode="cover"
                 style={{
-                  width: post?.Images.length === 1 ? width * 0.9 : width * 0.6,
+                  width: post?.Images.length === 1 ? width * 1 : width * 0.7,
                   aspectRatio: 1,
                   marginRight: post?.Images.length > 1 && 8,
                 }}
@@ -438,6 +440,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           alignItems: 'center',
           justifyContent: 'space-between',
           marginTop: 15,
+          paddingHorizontal: 15,
         }}>
         {/* like Icon  */}
         <TouchableOpacity
@@ -495,6 +498,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           borderBottomWidth: 1,
           borderColor: Colors.veryLightGrey,
           alignItems: 'center',
+          paddingHorizontal: 15,
         }}>
         <TextInput
           placeholderTextColor={Colors.lightGrey}
@@ -509,7 +513,6 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           <FontAwesome name="send-o" size={20} color={Colors.mildGrey} />
         </TouchableOpacity>
       </View>
-
       {/* Show Liked Users Button */}
       <TouchableOpacity onPress={handleShowLikedUsers} style={styles.likeBtn}>
         <Text
@@ -517,7 +520,6 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           Show likes
         </Text>
       </TouchableOpacity>
-
       {/* Modal for displaying liked users or comments */}
       <Modal
         visible={isModalVisible}
@@ -1040,6 +1042,7 @@ const styles = StyleSheet.create({
   },
   likeBtn: {
     marginVertical: 10,
+    paddingHorizontal: 15,
   },
   modalBackground: {
     backgroundColor: 'white',

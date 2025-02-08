@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   FlatList,
   ActivityIndicator,
+  ToastAndroid,
 } from 'react-native';
 import {useData} from '../Context/Contexter';
 import HeadingText from '../utils/HeadingText';
@@ -47,13 +48,15 @@ const UserProfile = () => {
   }, [selectedUser]);
   // Send notification to user
   const sendNotification = useCallback(() => {
-    if (selectedUser?._id && user?._id) {
-      emitSocketEvent('sendNotificationForConnection', {
-        ReceiverId: selectedUser._id,
-        SenderId: user._id,
-        Time: moment().format('YYYY-MM-DDTHH:mm:ss'),
-      });
-    }
+    try {
+      if (selectedUser?._id && user?._id) {
+        emitSocketEvent('sendNotificationForConnection', {
+          ReceiverId: selectedUser._id,
+          SenderId: user._id,
+          Time: moment().format('YYYY-MM-DDTHH:mm:ss'),
+        });
+      }
+    } catch (error) {}
   }, [selectedUser, user, emitSocketEvent]);
 
   // Fetch selected user data
@@ -102,6 +105,7 @@ const UserProfile = () => {
         sendNotification();
       }
     } catch (error) {
+      ToastAndroid.show('Error adding connection', ToastAndroid.SHORT);
       console.error('Error adding follower:', error);
     }
   }, [selectedUser, user, sendNotification]);
@@ -120,6 +124,7 @@ const UserProfile = () => {
       }
     } catch (error) {
       console.error('Error removing connection:', error);
+      ToastAndroid.show('Error removing connection', ToastAndroid.SHORT);
     }
   }, [selectedUser, user]);
 
@@ -142,44 +147,55 @@ const UserProfile = () => {
   // get user networks members
   const [netWorksList, setNetworksList] = useState();
   const getNetworksList = useCallback(async () => {
-    RBSheetRef.current.open();
-    if (selectedUser?.Connections?.length > 0) {
-      const res = await axios.get(
-        `${profileApi}/Following/getNetworks/${selectedUser?._id}`,
-      );
-      if (res.status == 200) {
-        setNetworksList(res.data.users);
-        // console.log(res.data);
+    try {
+      RBSheetRef.current.open();
+      if (selectedUser?.Connections?.length > 0) {
+        const res = await axios.get(
+          `${profileApi}/Following/getNetworks/${selectedUser?._id}`,
+        );
+        if (res.status === 200) {
+          setNetworksList(res.data.users);
+          // console.log(res.data);
+        }
       }
-    }
+    } catch (error) {}
   }, []);
-  // get all connection
+  // get all connection id for check mutual
+  const [getMutuals, setGetMutual] = useState([]);
   const getAllNetworks = useCallback(async () => {
-    if (selectedUser?.Connections?.length > 0) {
-      const res = await axios.get(
-        `${profileApi}/Following/getNetworks/${selectedUser?._id}`,
-      );
-      if (res.status === 200) {
-        setNetworksList(res.data.users);
+    try {
+      if (selectedUser?.Connections?.length > 0) {
+        const res = await axios.get(
+          `${profileApi}/Following/getNetworksForMutual/${selectedUser?._id}`,
+        );
+        if (res.status === 200) {
+          setGetMutual(res.data.users);
+        }
+        return res.data.users;
       }
-      return res.data.users;
+      return [];
+    } catch (error) {
+      ToastAndroid.show('error on get networks', ToastAndroid.SHORT);
     }
-    return [];
   }, [selectedUser]);
 
   const [mutualFriend, setMutualFriend] = useState([]);
 
   useEffect(() => {
     const fetchMutualFriends = async () => {
-      const users = await getAllNetworks();
-      if (users?.length > 0 && user?.Connections?.length > 0) {
-        const findMutuals = users.filter(mufrnd =>
-          user.Connections.some(
-            connection => mufrnd?.id === connection?.ConnectionsdId,
-          ),
-        );
-        const firstThreeMutuals = findMutuals.slice(0, 3);
-        setMutualFriend(firstThreeMutuals);
+      try {
+        const users = await getAllNetworks();
+        if (users?.length > 0 && user?.Connections?.length > 0) {
+          const findMutuals = users.filter(mufrnd =>
+            user.Connections.some(
+              connection => mufrnd?.id === connection?.ConnectionsdId,
+            ),
+          );
+          const firstThreeMutuals = findMutuals.slice(0, 3);
+          setMutualFriend(firstThreeMutuals);
+        }
+      } catch (error) {
+        ToastAndroid.show('error on fetch mutual', ToastAndroid.SHORT);
       }
     };
     fetchMutualFriends();
@@ -625,7 +641,11 @@ const UserProfile = () => {
             />
           ) : (
             <Text
-              style={{color: Colors.mildGrey, fontSize: 20, letterSpacing: 2}}>
+              style={{
+                color: Colors.mildGrey,
+                fontSize: width * 0.035,
+                letterSpacing: 2,
+              }}>
               No Connetions
             </Text>
           )}
