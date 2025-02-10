@@ -12,6 +12,7 @@ import {
   RefreshControl,
   AppState,
   Vibration,
+  ToastAndroid,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
 import HomeSkeleton from '../Skeletons/HomeSkeleton';
@@ -81,34 +82,32 @@ const Home = () => {
       console.error('Failed to refresh user:', error);
     }
   }, []);
-  // get notifiation
+  // get notifiation length
   const getNotifications = useCallback(async () => {
     try {
-      const res = await axios.get(
-        `${functionApi}/Notifications/getNotifications/${user?._id}`,
-        {
-          params: {page: 1, limit: 10},
-        },
+      const {data, status} = await axios.get(
+        `${functionApi}/Notifications/getNotificationsLength/${user?._id}`,
       );
-      if (res.status === 200) {
-        const unseen = res.data?.notifications?.filter(
-          notification => !notification.seen,
-        );
-        setUnseenCount(unseen.length);
+      if (status == 200 && data) {
+        setUnseenCount(data.notiLength);
+        console.log(data.notiLength);
       }
     } catch (error) {
-      console.error('Failed to fetch notifications:', error);
+      ToastAndroid.show('Failed to fetch notifications');
+      console.error('Failed to fetch notifications length:', error);
     }
   }, [user]);
   // socket
   // update the socket
   useSocketOn(socket, 'updateNoti', async data => {
-    if (data) getNotifications();
+    if (data) {
+      console.log(data.text);
+      await getNotifications();
+    }
   });
   // receive the socket data from another peer
   useSocketOn(socket, 'Receive-Noti', async () => {
     await getNotifications();
-
     Vibration.vibrate([0, 200, 100, 200]);
   });
   // render ui after load

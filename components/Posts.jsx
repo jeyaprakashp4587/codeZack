@@ -288,7 +288,6 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         'SharePostToConnection',
         {receivingUserId: receiverId, postId},
         response => {
-          console.log(response);
           if (response.success) {
             ToastAndroid.show('post send sucessfully', ToastAndroid.SHORT);
             PostRBSheetRef.current.close();
@@ -853,6 +852,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             flexDirection: 'column',
             // justifyContent: 'space-between',
             flex: 1,
+            borderWidth: 0,
           }}>
           {admin && (
             <TouchableOpacity
@@ -887,6 +887,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
               fontSize: width * 0.035,
               letterSpacing: 0.8,
               textAlign: 'center',
+              fontWeight: '600',
             }}>
             Share to{' '}
           </Text>

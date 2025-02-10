@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, ToastAndroid, View} from 'react-native';
 
 import Posts from '../components/Posts';
 import {useEffect} from 'react';
@@ -14,12 +14,16 @@ const PostViewer = () => {
   const {selectedPost} = useData();
   const [post, setPost] = useState();
   const getPostDetail = useCallback(async () => {
-    const res = await axios.get(
-      `${profileApi}/Post/getPostDetails/${selectedPost}`,
-    );
-    if (res.data) {
-      setPost(res.data);
-      console.log(post?.SenderDetails);
+    try {
+      const res = await axios.get(
+        `${profileApi}/Post/getPostDetails/${selectedPost}`,
+      );
+      if (res.data) {
+        setPost(res.data);
+        console.log(post?.SenderDetails);
+      }
+    } catch (error) {
+      ToastAndroid.show('Error fetch posts', ToastAndroid.SHORT);
     }
   }, [selectedPost]);
   useEffect(() => {

@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import PragraphText from '../utils/PragraphText';
 import {useData} from '../Context/Contexter';
 import {Colors, pageView} from '../constants/Colors';
@@ -20,32 +20,42 @@ import HeadingText from '../utils/HeadingText';
 const CoreChallenges = () => {
   const {selectedChallengeTopic, setSelectedChallenge} = useData();
   // console.log(selectedChallengeTopic);
-
-  const [challenges, setChallenges] = useState([]);
   const {width, height} = Dimensions.get('window');
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
   // get all challeges
-  // console.log(selectedChallengeTopic?.challengeName);
-
+  const [challenges, setChallenges] = useState([]);
+  const [chloading, setChLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const getChallenges = useCallback(async () => {
+    if (chloading || !hasMore) return;
+    setChLoading(true);
     try {
       const res = await axios.post(
         `${challengesApi}/Challenges/getChallenges`,
         {
           ChallengeTopic: selectedChallengeTopic?.ChallengeName,
+          page,
+          limit: 10,
         },
       );
       if (res.data) {
-        // console.log(res.data);
-        setLoading(false);
-        setChallenges(res.data);
+        setChallenges(prev => [...prev, ...res.data.challenges]);
+        setHasMore(res.data.hasMore);
       }
     } catch (error) {
       console.error('Error fetching challenges:', error);
-      setLoading(false);
+    } finally {
+      setChLoading(false);
     }
-  }, [selectedChallengeTopic]);
+  }, [selectedChallengeTopic, page, chloading, hasMore]);
+  // Call getChallenges on component mount and when page changes
+  useEffect(() => {
+    getChallenges();
+  }, [getChallenges]);
+
+  // console.log(selectedChallengeTopic?.challengeName);
 
   const handleSelectChallenge = useCallback(
     debounce(item => {
@@ -147,7 +157,6 @@ const CoreChallenges = () => {
         <HeadingText text="Challenges" />
         <PragraphText text={selectedChallengeTopic?.ChallengeName} fsize={24} />
       </View>
-
       {/* challenge list */}
       <View style={{paddingHorizontal: 10, borderWidth: 0, flex: 1}}>
         <FlatList

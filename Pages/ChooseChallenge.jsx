@@ -113,7 +113,7 @@ const ChooseChallenge = ({navigation}) => {
     },
     [filterChallengesByLevel],
   );
-
+  const [refresh, setRefresh] = useState(false);
   const handleRefresh = useCallback(async () => {
     setRefresh(true);
     await getChallenges().finally(() => setRefresh(false));
