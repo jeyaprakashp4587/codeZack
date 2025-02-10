@@ -498,7 +498,8 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           borderBottomWidth: 1,
           borderColor: Colors.veryLightGrey,
           alignItems: 'center',
-          paddingHorizontal: 15,
+          // paddingHorizontal: 15,
+          marginHorizontal: 15,
         }}>
         <TextInput
           placeholderTextColor={Colors.lightGrey}

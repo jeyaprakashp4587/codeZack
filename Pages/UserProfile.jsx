@@ -30,6 +30,7 @@ import Skeleton from '../Skeletons/Skeleton';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import FastImage from 'react-native-fast-image';
+import MiniUserSkeleton from '../Skeletons/MiniUserSkeleton';
 
 const UserProfile = () => {
   const {width, height} = Dimensions.get('window');
@@ -40,6 +41,7 @@ const UserProfile = () => {
   const [existsFollower, setExistsFollower] = useState(false);
   const [loading, setLoading] = useState(false); // Add loading state for API calls
   const RBSheetRef = useRef(null);
+  // console.log('selected user', selectedUser);
   // check the selected user id for that user is  dev user
   useEffect(() => {
     if (selectedUser === user?._id) {
@@ -61,13 +63,12 @@ const UserProfile = () => {
 
   // Fetch selected user data
   const getSelectedUser = useCallback(async () => {
-    setLoading(false);
+    setLoading(true);
     try {
       const res = await axios.post(`${profileApi}/Login/getUser`, {
         userId: selectedUser,
       });
       if (res.data) {
-        setLoading(true);
         setSelectedUser(res.data);
       }
     } catch (error) {
@@ -76,6 +77,20 @@ const UserProfile = () => {
       setLoading(false);
     }
   }, [selectedUser, setSelectedUser]);
+  // 🔹 Call `getSelectedUser()` when the screen is focused
+  useFocusEffect(
+    useCallback(() => {
+      if (!selectedUser?.firstName) {
+        getSelectedUser().then(() => fetchPosts({offsets: 0}));
+      }
+    }, [selectedUser, setSelectedUser]),
+  );
+
+  useEffect(() => {
+    if (selectedUser?._id) {
+      getAllNetworks().then(data => setMutualFriend(data));
+    }
+  }, [selectedUser]);
 
   // Find if the user is already a follower
   const findExistsFollower = useCallback(async () => {
@@ -127,17 +142,6 @@ const UserProfile = () => {
       ToastAndroid.show('Error removing connection', ToastAndroid.SHORT);
     }
   }, [selectedUser, user]);
-
-  // Fetch user data only once when the component is mounted
-  useFocusEffect(
-    useCallback(() => {
-      if (!selectedUser?.firstName) {
-        getSelectedUser().then(() => {
-          fetchPosts({offsets: 0});
-        });
-      }
-    }, [selectedUser]),
-  );
   // Check if the user is a follower when the selected user changes
   useEffect(() => {
     if (selectedUser?._id) {
@@ -145,61 +149,61 @@ const UserProfile = () => {
     }
   }, [selectedUser, findExistsFollower]);
   // get user networks members
-  const [netWorksList, setNetworksList] = useState();
+  const [netWorksList, setNetworksList] = useState([]);
+  const [netWorkListPage, setNetWorkListPage] = useState(0);
+  const [networkListLoadding, setNetworkListLoading] = useState(false);
+  const [hasMoreNetworks, setHasMoreNetworks] = useState(true);
   const getNetworksList = useCallback(async () => {
+    if (networkListLoadding || !hasMoreNetworks) return; // Prevent duplicate requests
+    setNetworkListLoading(true);
     try {
       RBSheetRef.current.open();
-      if (selectedUser?.Connections?.length > 0) {
-        const res = await axios.get(
-          `${profileApi}/Following/getNetworks/${selectedUser?._id}`,
-        );
-        if (res.status === 200) {
-          setNetworksList(res.data.users);
-          // console.log(res.data);
-        }
+      const res = await axios.get(
+        `${profileApi}/Following/getNetworks/${
+          selectedUser?._id || selectedUser
+        }`,
+        {
+          params: {
+            skip: netWorkListPage * 10,
+            limit: 10,
+          },
+        },
+      );
+      if (res.status === 200) {
+        setNetworksList(prev => [...prev, ...res.data.users]);
+        setNetWorkListPage(prev => prev + 1);
+        setHasMoreNetworks(res.data.hasMore);
+        // console.log(res.data.users);
       }
-    } catch (error) {}
-  }, []);
+    } catch (error) {
+      console.error('Error fetching networks list:', error);
+    } finally {
+      setNetworkListLoading(false);
+    }
+  }, [netWorkListPage, networkListLoadding]);
   // get all connection id for check mutual
-  const [getMutuals, setGetMutual] = useState([]);
+
   const getAllNetworks = useCallback(async () => {
     try {
       if (selectedUser?.Connections?.length > 0) {
-        const res = await axios.get(
-          `${profileApi}/Following/getNetworksForMutual/${selectedUser?._id}`,
-        );
+        const res = await axios.post(`${profileApi}/Following/getMutuals`, {
+          selectedUserId: selectedUser?._id,
+          userId: user._id,
+        });
         if (res.status === 200) {
-          setGetMutual(res.data.users);
+          return res.data.users;
         }
-        return res.data.users;
       }
       return [];
     } catch (error) {
-      ToastAndroid.show('error on get networks', ToastAndroid.SHORT);
+      ToastAndroid.show(
+        'Error fetching mutual friends',
+        error,
+        ToastAndroid.SHORT,
+      );
     }
   }, [selectedUser]);
-
   const [mutualFriend, setMutualFriend] = useState([]);
-
-  useEffect(() => {
-    const fetchMutualFriends = async () => {
-      try {
-        const users = await getAllNetworks();
-        if (users?.length > 0 && user?.Connections?.length > 0) {
-          const findMutuals = users.filter(mufrnd =>
-            user.Connections.some(
-              connection => mufrnd?.id === connection?.ConnectionsdId,
-            ),
-          );
-          const firstThreeMutuals = findMutuals.slice(0, 3);
-          setMutualFriend(firstThreeMutuals);
-        }
-      } catch (error) {
-        ToastAndroid.show('error on fetch mutual', ToastAndroid.SHORT);
-      }
-    };
-    fetchMutualFriends();
-  }, [getAllNetworks, user?.Connections]);
   // fetch user posts
   const [postLoading, setPostLoading] = useState(false);
   const [offset, setOffset] = useState(0); // Start from 0
@@ -216,7 +220,7 @@ const UserProfile = () => {
         });
         if (response.status === 200) {
           const newPosts = response.data.posts;
-          console.log(response.data);
+          // console.log(response.data);
           if (newPosts.length < 5) {
             setHasMore(false); // No more posts to fetch
           }
@@ -231,8 +235,6 @@ const UserProfile = () => {
     },
     [selectedUser],
   );
-
-  // render skeleton
   // render ui
   if (!selectedUser?.firstName || !selectedUser?.State) {
     <View style={pageView}>
@@ -469,8 +471,11 @@ const UserProfile = () => {
             marginVertical: 10,
           }}>
           {mutualFriend?.map((item, index) => (
-            <Image
-              source={{uri: item?.profileImg}}
+            <FastImage
+              source={{
+                uri: item?.Images.profile,
+                priority: FastImage.priority.high,
+              }}
               style={{
                 width: width * 0.1,
                 height: height * 0.05,
@@ -502,7 +507,7 @@ const UserProfile = () => {
         // keyExtractor={item => item._id}
         style={{borderWidth: 0, paddingBottom: 20}}
         renderItem={({item, index}) => (
-          <Posts post={item} index={index} admin={true} />
+          <Posts post={item} index={index} admin={false} />
         )}
         nestedScrollEnabled={true}
         ListFooterComponent={
@@ -638,6 +643,36 @@ const UserProfile = () => {
                   </Text>
                 </TouchableOpacity>
               )}
+              ListFooterComponent={
+                <View>
+                  {!networkListLoadding &&
+                    Array.from({length: 5}).map((_, index) => (
+                      <View style={{marginBottom: 10}}>
+                        <MiniUserSkeleton />
+                      </View>
+                    ))}
+                  {hasMoreNetworks && !networkListLoadding && (
+                    <TouchableOpacity
+                      onPress={getNetworksList}
+                      style={{
+                        padding: 10,
+                        borderWidth: 0.5,
+                        borderRadius: 50,
+                        borderColor: Colors.violet,
+                      }}>
+                      <Text
+                        style={{
+                          textAlign: 'center',
+                          letterSpacing: 1.4,
+                          color: Colors.violet,
+                          fontWeight: '600',
+                        }}>
+                        Show more
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              }
             />
           ) : (
             <Text

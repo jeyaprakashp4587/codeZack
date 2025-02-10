@@ -182,11 +182,12 @@ const Notifications = () => {
               <Text
                 numberOfLines={2}
                 style={{
-                  color: Colors.mildGrey,
+                  color: 'black',
                   letterSpacing: 1,
                   fontSize: width * 0.033,
                   maxWidth: 180,
                   lineHeight: 22,
+                  fontWeight: '700',
                 }}>
                 {item?.NotificationText}
               </Text>

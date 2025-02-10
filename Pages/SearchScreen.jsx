@@ -267,7 +267,7 @@ const SearchScreen = ({navigation}) => {
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate('userprofile');
-                setSelectedUser(item);
+                setSelectedUser(item._id);
               }}
               key={index}
               style={{

@@ -108,7 +108,7 @@ const Home = () => {
   // receive the socket data from another peer
   useSocketOn(socket, 'Receive-Noti', async () => {
     await getNotifications();
-    // Vibration.vibrate({});
+
     Vibration.vibrate([0, 200, 100, 200]);
   });
   // render ui after load

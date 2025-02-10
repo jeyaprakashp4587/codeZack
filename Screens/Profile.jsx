@@ -413,6 +413,7 @@ const Profile = ({navigation}) => {
             rowGap: 5,
             justifyContent: 'flex-start',
             paddingHorizontal: width * 0.05,
+            position: 'relative',
           }}>
           {/* Profile Photo Edit Icon */}
           <TouchableOpacity
@@ -420,7 +421,7 @@ const Profile = ({navigation}) => {
             style={{
               position: 'absolute',
               left: wp('23%'),
-              top: height * 0.099,
+              top: height * 0.08,
               zIndex: 10,
             }}>
             <FontAwesomeIcon icon={faEdit} size={20} color="orange" />
@@ -438,8 +439,9 @@ const Profile = ({navigation}) => {
                   : 'https://i.ibb.co/3mCcQp9/woman.png',
               }}
               style={{
-                width: 100,
-                height: 100,
+                width: width * 0.25,
+                // height: 100,
+                aspectRatio: 1,
                 borderRadius: 50,
                 borderColor: 'white',
                 borderWidth: 5,

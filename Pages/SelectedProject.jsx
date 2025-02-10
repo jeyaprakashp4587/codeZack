@@ -42,7 +42,12 @@ const SelectedProject = () => {
         <FastImage
           priority={FastImage.priority.high}
           source={{uri: selectedProject?.img}}
-          style={{width: width * 0.4, aspectRatio: 1, alignSelf: 'center'}}
+          style={{
+            width: width * 0.9,
+            alignSelf: 'center',
+            height: height * 0.3,
+          }}
+          resizeMode="center"
         />
         <Text
           style={{
@@ -129,30 +134,25 @@ const SelectedProject = () => {
                 }}>
                 Price Rs: {tech?.Price} /-
               </Text>
-              <LinearGradient
-                style={{borderRadius: 5}}
-                colors={['#fff9f3', '#eef7fe']}
-                start={{x: 0, y: 1}}
-                end={{x: 1, y: 1}}>
-                <TouchableOpacity
+              <TouchableOpacity
+                style={{
+                  padding: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 5,
+                  backgroundColor: 'white',
+                }}
+                onPress={() => handleBuyProject()}>
+                <Text
                   style={{
-                    padding: 10,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 5,
-                  }}
-                  onPress={() => handleBuyProject()}>
-                  <Text
-                    style={{
-                      textAlign: 'center',
-                      letterSpacing: 1,
-                      fontSize: width * 0.035,
-                      color: Colors.mildGrey,
-                    }}>
-                    Coming Soon
-                  </Text>
-                </TouchableOpacity>
-              </LinearGradient>
+                    textAlign: 'center',
+                    letterSpacing: 1,
+                    fontSize: width * 0.035,
+                    color: Colors.mildGrey,
+                  }}>
+                  Coming Soon
+                </Text>
+              </TouchableOpacity>
             </View>
           ))}
         </View>

@@ -190,7 +190,7 @@ const SignUp = ({navigation}) => {
                 placeholderTextColor={Colors.mildGrey}
                 ref={refs[key]}
                 onFocus={() => key === 'Gender' && setShowGenderModal(true)}
-                onChangeText={text => handleInput(key, text)}
+                onChangeText={text => handleInput(key, text.trim())}
                 value={formData[key]}
               />
             ))}
