@@ -315,7 +315,7 @@ const UserProfile = () => {
           <View
             style={{
               position: 'absolute',
-              top: height * 0.112,
+              top: 80,
               zIndex: 10,
               left: width * 0.23,
               padding: width * 0.017,
@@ -342,8 +342,6 @@ const UserProfile = () => {
             }}>
             {selectedUser?.Bio ? selectedUser.Bio : 'Student'}
           </Text>
-          {/* Update User Info Modal */}
-
           {/* Institute Name and Location */}
           <View style={{height: 5}} />
           <Text

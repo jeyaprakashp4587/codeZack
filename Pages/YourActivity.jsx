@@ -58,6 +58,7 @@ const YourActivity = () => {
         }));
         const markedDates = Object.assign({}, ...markedDatesArray);
         setDates(markedDates);
+        console.log(res.data);
       } else {
         setDates({});
       }
@@ -70,7 +71,6 @@ const YourActivity = () => {
   // Fetch activities for a particular date
   const getParticularDateActivities = async date => {
     setSelectedDate(date);
-
     try {
       const res = await axios.post(
         `${functionApi}/Activity/getParticularDateActivities/${user?._id}`,
@@ -146,7 +146,12 @@ const YourActivity = () => {
             )}
           />
         ) : (
-          <Text style={{letterSpacing: 1, color: Colors.mildGrey}}>
+          <Text
+            style={{
+              letterSpacing: 1,
+              color: Colors.mildGrey,
+              fontSize: width * 0.03,
+            }}>
             No Activities there in this date
           </Text>
         )}

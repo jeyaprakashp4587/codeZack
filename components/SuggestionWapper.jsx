@@ -162,13 +162,6 @@ const SuggestionWapper = ({refresh}) => {
                     {user.item?.InstitudeName}
                   </Text>
                 </View>
-                <Ripple>
-                  <FontAwesomeIcon
-                    icon={faEye}
-                    color={Colors.white}
-                    size={23}
-                  />
-                </Ripple>
               </TouchableOpacity>
             </LinearGradient>
           </ImageBackground>

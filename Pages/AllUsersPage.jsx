@@ -34,14 +34,16 @@ const AllUsersPage = () => {
     await fetchSuggestions();
   }, []);
   // Function to fetch suggestions
-  const fetchSuggestions = async () => {
+  const fetchSuggestions = useCallback(async () => {
     try {
       setIsLoading(true);
       const response = await axios.get(
         `${functionApi}/suggestions/getAllSuggestions/${user?._id}?skip=${skip}&limit=${limit}`,
       );
       const {data, hasMore} = response.data;
-
+      if (data) {
+        console.log(data);
+      }
       setSuggestions(prev => [...prev, ...data]);
       setRefresh(false);
       // Append new suggestions
@@ -52,7 +54,7 @@ const AllUsersPage = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [user]);
   // Load suggestions on component mount
   useEffect(() => {
     fetchSuggestions();
@@ -158,6 +160,7 @@ const AllUsersPage = () => {
                           fontSize: width * 0.034,
                           color: Colors.veryDarkGrey,
                           letterSpacing: 0.7,
+                          fontWeight: '700',
                         }}>
                         {item?.firstName} {item?.LastName}
                       </Text>

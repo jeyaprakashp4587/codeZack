@@ -48,7 +48,7 @@ const PostFeed = () => {
         if (res.status === 200) {
           const newPosts = res.data;
           if (newPosts.length < POSTS_PER_PAGE) {
-            setHasMore(false); // No more posts to fetch
+            setHasMore(false);
           }
           setPosts(prevPosts => [...prevPosts, ...newPosts]);
         }
@@ -58,7 +58,7 @@ const PostFeed = () => {
         setLoadingMore(false);
       }
     },
-    [user?._id, hasMore],
+    [user?.ConnectionsPost],
   );
 
   useEffect(() => {
