@@ -67,6 +67,7 @@ const Companies = () => {
         );
         // Combine enrolled companies at the beginning of the list
         companies = [...enrolledCompanies, ...otherCompanies];
+
         setCompanies(companies);
         return companies;
       }

@@ -17,6 +17,7 @@ import Posts from './Posts';
 import HeadingText from '../utils/HeadingText';
 import {Colors} from '../constants/Colors';
 import FastImage from 'react-native-fast-image';
+import PostSkeleton from '../Skeletons/PostSkeleton';
 
 const PostFeed = () => {
   const {user} = useData();
@@ -119,11 +120,7 @@ const PostFeed = () => {
             )}
             onEndReachedThreshold={0.5}
             onEndReached={handleLoadMore}
-            ListFooterComponent={
-              loadingMore ? (
-                <ActivityIndicator size="small" color={Colors.mildGrey} />
-              ) : null
-            }
+            ListFooterComponent={loadingMore ? <PostSkeleton /> : null}
           />
         )}
       </View>

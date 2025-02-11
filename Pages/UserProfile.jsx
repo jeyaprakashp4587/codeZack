@@ -31,6 +31,7 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import FastImage from 'react-native-fast-image';
 import MiniUserSkeleton from '../Skeletons/MiniUserSkeleton';
+import PostSkeleton from '../Skeletons/PostSkeleton';
 
 const UserProfile = () => {
   const {width, height} = Dimensions.get('window');
@@ -154,10 +155,10 @@ const UserProfile = () => {
   const [networkListLoadding, setNetworkListLoading] = useState(false);
   const [hasMoreNetworks, setHasMoreNetworks] = useState(true);
   const getNetworksList = useCallback(async () => {
+    RBSheetRef.current.open();
     if (networkListLoadding || !hasMoreNetworks) return; // Prevent duplicate requests
     setNetworkListLoading(true);
     try {
-      RBSheetRef.current.open();
       const res = await axios.get(
         `${profileApi}/Following/getNetworks/${
           selectedUser?._id || selectedUser
@@ -180,7 +181,7 @@ const UserProfile = () => {
     } finally {
       setNetworkListLoading(false);
     }
-  }, [netWorkListPage, networkListLoadding]);
+  }, [netWorkListPage]);
   // get all connection id for check mutual
 
   const getAllNetworks = useCallback(async () => {
@@ -507,12 +508,25 @@ const UserProfile = () => {
         // keyExtractor={item => item._id}
         style={{borderWidth: 0, paddingBottom: 20}}
         renderItem={({item, index}) => (
-          <Posts post={item} index={index} admin={false} />
+          <Posts
+            post={item}
+            index={index}
+            admin={false}
+            senderDetails={{
+              id: selectedUser?._id,
+              Images: {
+                profile: selectedUser?.Images?.profile,
+              },
+              firstName: selectedUser?.firstName,
+              LastName: selectedUser?.LastName,
+              InstitudeName: selectedUser?.InstitudeName,
+            }}
+          />
         )}
         nestedScrollEnabled={true}
         ListFooterComponent={
           postLoading ? (
-            <ActivityIndicator size="large" color={Colors.mildGrey} />
+            <PostSkeleton />
           ) : hasMore ? (
             <View style={{paddingHorizontal: 15}}>
               <TouchableOpacity
@@ -645,7 +659,7 @@ const UserProfile = () => {
               )}
               ListFooterComponent={
                 <View>
-                  {!networkListLoadding &&
+                  {networkListLoadding &&
                     Array.from({length: 5}).map((_, index) => (
                       <View style={{marginBottom: 10}}>
                         <MiniUserSkeleton />

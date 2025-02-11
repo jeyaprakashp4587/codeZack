@@ -59,8 +59,21 @@ const ChallengeDetail = () => {
   const [imgLoad, setImageLoad] = useState(false);
   const [images, setImages] = useState([]);
   const socket = SocketData();
-  // show reward add
-  const {show} = useRewardedAd();
+  // load and destructure Reward add
+  const {load, isLoaded, show, isClosed} = useRewardedAd(
+    __DEV__ ? TestIds.REWARDED : 'ca-app-pub-3257747925516984/5831080677',
+    {
+      requestNonPersonalizedAdsOnly: false,
+    },
+  );
+  useEffect(() => {
+    load();
+  }, [load]);
+  useEffect(() => {
+    if (isClosed) {
+      load();
+    }
+  }, [load, isClosed]);
   const emitEvent = useSocketEmit(socket);
   const postText = useMemo(
     () => [
@@ -206,7 +219,6 @@ const ChallengeDetail = () => {
         console.log('success');
         ToastAndroid.show('Wow! you made it', ToastAndroid.SHORT);
         await handleUploadPost();
-
         try {
           Actitivity(
             user?._id,
@@ -214,6 +226,9 @@ const ChallengeDetail = () => {
               selectedChallenge?.title || selectedChallenge?.ChallengeName
             } Completed`,
           );
+          if (isLoaded) {
+            show();
+          }
         } catch (error) {
           console.log(error, 'while doing activity');
         }
@@ -253,9 +268,11 @@ const ChallengeDetail = () => {
   const HandleStart = useCallback(
     async chName => {
       setStatusButtonToggle(true);
-      show();
       setChallengeStatus('pending');
       try {
+        if (isLoaded) {
+          show();
+        }
         const res = await axios.post(
           `${challengesApi}/Challenges/addChallenge`,
           {
@@ -482,7 +499,14 @@ const ChallengeDetail = () => {
                   alignItems: 'center',
                   backgroundColor: Colors.violet,
                 }}>
-                <Text>Start challenge</Text>
+                <Text
+                  style={{
+                    fontSize: width * 0.04,
+                    letterSpacing: 1,
+                    color: 'white',
+                  }}>
+                  Start challenge
+                </Text>
               </TouchableOpacity>
             )}
             {ChallengeStatus == 'pending' && (
@@ -549,7 +573,7 @@ const ChallengeDetail = () => {
               </TouchableOpacity>
             </View>
             <View>
-              <TopicsText text="Step 1" mb={2} fszie={width * 0.035} mb={2} />
+              <TopicsText text="Step 1" mb={2} fszie={width * 0.035} />
               <PragraphText
                 text="* Create the account in GitHub"
                 padding={4}
@@ -557,7 +581,7 @@ const ChallengeDetail = () => {
               />
             </View>
             <View>
-              <TopicsText text="Step 2" mb={2} fszie={width * 0.035} mb={2} />
+              <TopicsText text="Step 2" mb={2} fszie={width * 0.035} />
               <PragraphText
                 fsize={width * 0.03}
                 padding={4}
@@ -571,7 +595,7 @@ const ChallengeDetail = () => {
               />
             </View>
             <View>
-              <TopicsText text="Step 3" mb={2} fszie={width * 0.035} mb={2} />
+              <TopicsText text="Step 3" mb={2} fszie={width * 0.035} />
               <PragraphText
                 text="*Host the project in github"
                 padding={4}

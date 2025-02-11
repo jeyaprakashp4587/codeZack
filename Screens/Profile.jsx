@@ -51,6 +51,7 @@ import {
 import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
 import FastImage from 'react-native-fast-image';
 import MiniUserSkeleton from '../Skeletons/MiniUserSkeleton';
+import PostSkeleton from '../Skeletons/PostSkeleton';
 
 const Profile = ({navigation}) => {
   const {user, setUser, setSelectedUser} = useData();
@@ -242,14 +243,14 @@ const Profile = ({navigation}) => {
         setNetworksList(prev => [...prev, ...res.data.users]);
         setNetWorkListPage(prev => prev + 1);
         setHasMoreNetworks(res.data.hasMore);
-        console.log(res.data.users);
+        setNetworkListLoading(false);
       }
     } catch (error) {
       console.error('Error fetching networks list:', error);
     } finally {
       setNetworkListLoading(false);
     }
-  }, [netWorkListPage, networkListLoadding]);
+  }, [netWorkListPage, user]);
 
   // fetch user posts
   const [postLoading, setPostLoading] = useState(false);
@@ -745,7 +746,7 @@ const Profile = ({navigation}) => {
           nestedScrollEnabled={true}
           ListFooterComponent={
             postLoading ? (
-              <ActivityIndicator size="large" color={Colors.mildGrey} />
+              <PostSkeleton />
             ) : hasMore ? (
               <View style={{paddingHorizontal: 15}}>
                 <TouchableOpacity
