@@ -17,6 +17,7 @@ import {useNavigation} from '@react-navigation/native';
 import HeadingText from '../utils/HeadingText';
 import axios from 'axios';
 import {challengesApi} from '../Api';
+import FastImage from 'react-native-fast-image';
 
 const {width, height} = Dimensions.get('window');
 const Carrer = () => {
@@ -26,12 +27,14 @@ const Carrer = () => {
   const [courses, setCourses] = useState([]);
   // get all courses from db
   const getCourses = useCallback(async () => {
-    const {data, status} = await axios.get(
-      `${challengesApi}/Courses/getAllCourses`,
-    );
-    if (status == 200) {
-      setCourses(data.Course);
-    }
+    try {
+      const {data, status} = await axios.get(
+        `${challengesApi}/Courses/getAllCourses`,
+      );
+      if (status == 200) {
+        setCourses(data.Course);
+      }
+    } catch (error) {}
   }, []);
   // render skeleton
 

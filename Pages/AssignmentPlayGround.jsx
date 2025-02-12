@@ -10,7 +10,6 @@ import {
   Alert,
   Dimensions,
   TouchableOpacity,
-  ToastAndroid,
 } from 'react-native';
 import PragraphText from '../utils/PragraphText';
 import {Colors} from '../constants/Colors';
@@ -39,24 +38,6 @@ const AssignmentPlayGround = () => {
       load();
     }
   }, [isClosed, load]);
-  const HandleSetDifficulty = useCallback(level => {
-    setDifficultyInfo(level);
-    const existsLevel = checkExistsLevel(level);
-    if (!existsLevel) {
-      getAssignment(assignmentType, level);
-    } else {
-      Alert.alert('You already passed this assignment level, try next levels');
-      // Get the next available difficulty level to try
-      const nextLevel = getNextAvailableLevel(level);
-      if (nextLevel) {
-        setDifficultyInfo(nextLevel); // Update difficultyInfo to the next level
-        getAssignment(assignmentType, nextLevel);
-      } else {
-        // If no next level exists, handle accordingly (e.g., alert or log)
-        Alert.alert('Congratulations! You have completed all levels.');
-      }
-    }
-  }, []);
 
   const checkExistsLevel = useCallback(
     level => {
@@ -82,37 +63,65 @@ const AssignmentPlayGround = () => {
     }
     return null; // No next level
   };
+  const assignmentCache = useRef({}); // Store fetched data without re-rendering
 
-  const getAssignment = useCallback(
-    async (ChallengeTopic, level) => {
-      try {
-        const res = await axios.get(
-          `${functionApi}/Assignment/getAssignments/${ChallengeTopic}`,
-        );
-        if (res.data) {
-          const {easy, medium, hard} = res.data;
-          switch (level) {
-            case 'easy':
-              setCurrentQuiz([...easy]);
-              break;
-            case 'medium':
-              setCurrentQuiz([...medium]);
-              break;
-            case 'hard':
-              setCurrentQuiz([...hard]);
-              break;
-            default:
-              break;
-          }
-        }
-      } catch (err) {
-        setError('Failed to load challenges. Please try again.');
-        console.error('Error fetching challenges:', err);
+  const HandleSetDifficulty = useCallback(level => {
+    setCurrentQuestionIndex(0);
+    setDifficultyInfo(level);
+    const existsLevel = checkExistsLevel(level);
+    if (!existsLevel) {
+      if (assignmentCache.current[level]) {
+        // Use cached data directly
+        setCurrentQuiz([...assignmentCache.current[level]]);
+      } else {
+        // Fetch data and store it in cache
+        getAssignment(assignmentType, level);
       }
-    },
-    [], // Removed difficultyInfo from dependencies
-  );
-
+    } else {
+      Alert.alert('You already passed this assignment level, try next levels');
+      const nextLevel = getNextAvailableLevel(level);
+      if (nextLevel) {
+        setDifficultyInfo(nextLevel);
+        if (assignmentCache.current[nextLevel]) {
+          setCurrentQuiz([...assignmentCache.current[nextLevel]]);
+        } else {
+          getAssignment(assignmentType, nextLevel);
+        }
+      } else {
+        Alert.alert('Congratulations! You have completed all levels.');
+      }
+    }
+  }, []); // No need for dependency on assignmentCache
+  const getAssignment = useCallback(async (ChallengeTopic, level) => {
+    try {
+      const res = await axios.get(
+        `${functionApi}/Assignment/getAssignments/${ChallengeTopic}`,
+      );
+      if (res.data) {
+        console.log(res.data);
+        const {easy, medium, hard} = res.data;
+        let data = [];
+        switch (level) {
+          case 'easy':
+            data = [...easy];
+            break;
+          case 'medium':
+            data = [...medium];
+            break;
+          case 'hard':
+            data = [...hard];
+            break;
+          default:
+            return;
+        }
+        setCurrentQuiz(data);
+        assignmentCache.current[level] = data; // Store in cache without causing re-render
+      }
+    } catch (err) {
+      setError('Failed to load challenges. Please try again.');
+      console.error('Error fetching challenges:', err);
+    }
+  }, []); // No unnecessary re-renders
   useEffect(() => {
     const unfinishedLevel = difficulty.find(level => !checkExistsLevel(level));
     if (unfinishedLevel) {
@@ -149,6 +158,7 @@ const AssignmentPlayGround = () => {
     const passingScore = difficultyInfo.toLowerCase() === 'easy' ? 5 : 15;
     if (score < passingScore || score === 0) {
       Alert.alert(`Try Again!, You did not pass. Score: ${score}`);
+      setCurrentQuestionIndex(0);
       return;
     }
     try {
@@ -162,6 +172,7 @@ const AssignmentPlayGround = () => {
       );
       if (res.status === 200) {
         setUser(prev => ({...prev, Assignments: res.data.Assignments}));
+        setCurrentQuestionIndex(0);
         try {
           Actitivity(
             user?._id,
