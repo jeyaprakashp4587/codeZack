@@ -19,15 +19,22 @@ import {
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import MobileAds from 'react-native-google-mobile-ads';
 import {PaperProvider} from 'react-native-paper';
+import CodePush from 'react-native-code-push';
 
 const {width} = Dimensions.get('window');
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
   strict: false,
 });
-
+// config code push
+let codePushOptions = {checkFrequency: CodePush.CheckFrequency.ON_APP_RESUME};
 const App = () => {
-  // inintialze google admob
+  useEffect(() => {
+    CodePush.sync({
+      installMode: CodePush.InstallMode.IMMEDIATE,
+      updateDialog: true,
+    });
+  }, []);
   useEffect(() => {
     // createNotificationChannel();
     MobileAds()
@@ -57,7 +64,7 @@ const App = () => {
   );
 };
 
-export default App;
+export default CodePush(codePushOptions)(App);
 
 const styles = StyleSheet.create({
   cn: {
