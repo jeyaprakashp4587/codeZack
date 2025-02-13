@@ -1,12 +1,5 @@
 import React, {useEffect} from 'react';
-import {
-  Dimensions,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-  LogBox,
-} from 'react-native';
+import {Dimensions, StatusBar, StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import AppNavigator from './Navigations/Navigation';
 import {SocketProvider} from './Socket/SocketContext';
@@ -19,22 +12,14 @@ import {
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import MobileAds from 'react-native-google-mobile-ads';
 import {PaperProvider} from 'react-native-paper';
-import CodePush from 'react-native-code-push';
 
 const {width} = Dimensions.get('window');
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
   strict: false,
 });
-// config code push
-let codePushOptions = {checkFrequency: CodePush.CheckFrequency.ON_APP_RESUME};
+
 const App = () => {
-  useEffect(() => {
-    CodePush.sync({
-      installMode: CodePush.InstallMode.IMMEDIATE,
-      updateDialog: true,
-    });
-  }, []);
   useEffect(() => {
     // createNotificationChannel();
     MobileAds()
@@ -64,7 +49,7 @@ const App = () => {
   );
 };
 
-export default CodePush(codePushOptions)(App);
+export default App;
 
 const styles = StyleSheet.create({
   cn: {
