@@ -41,7 +41,7 @@ import WebView from 'react-native-webview';
 import Actitivity from '../hooks/ActivityHook';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {useRewardedAd} from 'react-native-google-mobile-ads';
+import {TestIds, useRewardedAd} from 'react-native-google-mobile-ads';
 import {SocketData} from '../Socket/SocketContext';
 import {Divider} from 'react-native-paper';
 import FastImage from 'react-native-fast-image';
@@ -403,27 +403,61 @@ const ChallengeDetail = () => {
                 {selectedChallenge?.level}
               </Text>
             </View>
-            style={styles.challengeImage}
-            <View style={{flexDirection: 'row', columnGap: 20}}>
-              {selectedChallenge?.technologies?.map((i, index) => (
-                <Image
-                  key={index}
-                  source={{uri: i.icon}}
-                  style={{
-                    width: width * 0.1,
-                    height: width * 0.1,
-                    resizeMode: 'contain',
+            {/* tools and assets */}
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <View style={{flexDirection: 'row', columnGap: 20}}>
+                {selectedChallenge?.technologies?.map((i, index) => (
+                  <FastImage
+                    key={index}
+                    source={{uri: i.icon}}
+                    style={{
+                      width: width * 0.09,
+                      aspectRatio: 1,
+                    }}
+                    resizeMode="contain"
+                  />
+                ))}
+              </View>
+              <Ripple
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  columnGap: 5,
+                  borderColor: Colors.violet,
+                  borderWidth: 0.4,
+                  paddingHorizontal: 15,
+                  paddingVertical: 5,
+                  borderRadius: 5,
+                }}>
+                <FastImage
+                  source={{
+                    uri: 'https://img.icons8.com/badges/100/create-icon.png',
                   }}
+                  resizeMode="contain"
+                  style={{width: width * 0.04, aspectRatio: 1, tin}}
                 />
-              ))}
+                <Text style={{fontSize: width * 0.03, color: 'white'}}>
+                  Get UI Design
+                </Text>
+              </Ripple>
             </View>
+            {/* info */}
+            <Text
+              style={{
+                color: Colors.violet,
+                fontSize: width * 0.03,
+                fontWeight: '600',
+              }}>
+              You can use also other frameworks or languages
+            </Text>
             <View>
               {selectedChallenge?.rules?.map((rule, index) => (
                 <PragraphText
                   key={index}
                   text={['* ', rule]}
-                  fsize={15}
-                  padding={5}
+                  fsize={width * 0.035}
+                  padding={3}
                 />
               ))}
             </View>
