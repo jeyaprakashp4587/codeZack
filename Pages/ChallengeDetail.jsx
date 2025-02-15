@@ -43,7 +43,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {TestIds, useRewardedAd} from 'react-native-google-mobile-ads';
 import {SocketData} from '../Socket/SocketContext';
-import {Divider} from 'react-native-paper';
 import FastImage from 'react-native-fast-image';
 
 const {width, height} = Dimensions.get('window');
@@ -327,6 +326,14 @@ const ChallengeDetail = () => {
       })
       .catch(error => console.error('Error opening WhatsApp:', error));
   };
+  // handle get asset url
+  const handleGetAsset = useCallback(assetLink => {
+    try {
+      Linking.openURL(assetLink);
+    } catch (error) {
+      ToastAndroid.show('error on get assets', ToastAndroid.SHORT);
+    }
+  }, []);
   // ask help
   const [refreshing, setRefreshing] = useState(false);
   const HandleRefresh = () => {
@@ -420,6 +427,7 @@ const ChallengeDetail = () => {
                 ))}
               </View>
               <Ripple
+                onPress={() => handleGetAsset(selectedChallenge?.asset)}
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
