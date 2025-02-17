@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState, useMemo} from 'react';
+import React, {useCallback, useEffect, useState, useMemo, useRef} from 'react';
 import {
   Dimensions,
   Image,
@@ -44,6 +44,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {TestIds, useRewardedAd} from 'react-native-google-mobile-ads';
 import {SocketData} from '../Socket/SocketContext';
 import FastImage from 'react-native-fast-image';
+import ge from 'react-native-palette';
 
 const {width, height} = Dimensions.get('window');
 
@@ -65,6 +66,8 @@ const ChallengeDetail = () => {
       requestNonPersonalizedAdsOnly: false,
     },
   );
+  // extract dominate color from selected challenge image
+  const dominateColor = useRef(null);
   useEffect(() => {
     load();
   }, [load]);
@@ -124,6 +127,9 @@ const ChallengeDetail = () => {
       if (res.data && res.status == 200) {
         setSelectedChallenge(res.data.challenge);
         checkChallengeStatus();
+        getPalette(selectedChallenge?.sample_image).then(palette => {
+          dominateColor.current = palette.LightVibrant;
+        });
         // console.log(res.data.challenge);
       }
     } catch (error) {
