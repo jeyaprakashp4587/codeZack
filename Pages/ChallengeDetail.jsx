@@ -383,7 +383,12 @@ const ChallengeDetail = () => {
                     uri: selectedChallenge?.sample_image,
                   }}
                   priority={FastImage.priority.high}
-                  style={{width: '100%', height: '100%'}}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    borderWidth: 1,
+                    // backgroundColor: 'red',
+                  }}
                   resizeMode="center"
                 />
               </View>
@@ -411,44 +416,19 @@ const ChallengeDetail = () => {
               </Text>
             </View>
             {/* tools and assets */}
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <View style={{flexDirection: 'row', columnGap: 20}}>
-                {selectedChallenge?.technologies?.map((i, index) => (
-                  <FastImage
-                    key={index}
-                    source={{uri: i.icon}}
-                    style={{
-                      width: width * 0.09,
-                      aspectRatio: 1,
-                    }}
-                    resizeMode="contain"
-                  />
-                ))}
-              </View>
-              <Ripple
-                onPress={() => handleGetAsset(selectedChallenge?.asset)}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  columnGap: 5,
-                  borderColor: Colors.violet,
-                  borderWidth: 0.4,
-                  paddingHorizontal: 15,
-                  paddingVertical: 5,
-                  borderRadius: 5,
-                }}>
+
+            <View style={{flexDirection: 'row', columnGap: 20}}>
+              {selectedChallenge?.technologies?.map((i, index) => (
                 <FastImage
-                  source={{
-                    uri: 'https://img.icons8.com/badges/100/create-icon.png',
+                  key={index}
+                  source={{uri: i.icon}}
+                  style={{
+                    width: width * 0.09,
+                    aspectRatio: 1,
                   }}
                   resizeMode="contain"
-                  style={{width: width * 0.04, aspectRatio: 1, tin}}
                 />
-                <Text style={{fontSize: width * 0.03, color: 'white'}}>
-                  Get UI Design
-                </Text>
-              </Ripple>
+              ))}
             </View>
             {/* info */}
             <Text
@@ -456,6 +436,7 @@ const ChallengeDetail = () => {
                 color: Colors.violet,
                 fontSize: width * 0.03,
                 fontWeight: '600',
+                letterSpacing: 0.5,
               }}>
               You can use also other frameworks or languages
             </Text>
@@ -469,6 +450,36 @@ const ChallengeDetail = () => {
                 />
               ))}
             </View>
+            {/* get ui design */}
+            <TouchableOpacity
+              onPress={() => handleGetAsset(selectedChallenge?.asset)}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                columnGap: 5,
+                borderColor: Colors.violet,
+                borderRadius: 5,
+                borderWidth: 0.3,
+                justifyContent: 'center',
+                padding: 10,
+              }}>
+              <FastImage
+                source={{
+                  uri: 'https://img.icons8.com/badges/100/create-icon.png',
+                }}
+                resizeMode="contain"
+                style={{width: width * 0.04, aspectRatio: 1}}
+              />
+              <Text
+                style={{
+                  fontSize: width * 0.025,
+                  color: Colors.violet,
+                  letterSpacing: 0.5,
+                  fontWeight: '600',
+                }}>
+                Get UI Design
+              </Text>
+            </TouchableOpacity>
             {/* support wrapper */}
             <View
               style={{
