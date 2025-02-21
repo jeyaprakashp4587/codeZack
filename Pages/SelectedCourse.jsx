@@ -11,7 +11,6 @@ import {
   ToastAndroid,
   ActivityIndicator,
 } from 'react-native';
-
 import {useData} from '../Context/Contexter';
 import {Colors, font, pageView} from '../constants/Colors';
 import Skeleton from '../Skeletons/Skeleton';
@@ -23,7 +22,6 @@ import axios from 'axios';
 import Actitivity from '../hooks/ActivityHook';
 import HeadingText from '../utils/HeadingText';
 import FastImage from 'react-native-fast-image';
-
 const {width, height} = Dimensions.get('window');
 
 const SelectedCourse = ({navigation}) => {
@@ -97,6 +95,7 @@ const SelectedCourse = ({navigation}) => {
             source={{uri: selectedCourse?.img}}
             style={styles.courseImage}
             priority={FastImage.priority.high}
+            resizeMode="center"
           />
         ) : (
           <Skeleton width={width * 0.9} height={250} />
@@ -123,6 +122,7 @@ const SelectedCourse = ({navigation}) => {
               <FastImage
                 source={{uri: icon.icon}}
                 style={{width: 30, height: 30}}
+                resizeMode="center"
               />
             ))}
           </View>
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     width: '90%',
     height: 250,
     alignSelf: 'center',
-    resizeMode: 'contain',
+    // resizeMode: 'contain',
     marginBottom: height * 0.02,
   },
   section: {

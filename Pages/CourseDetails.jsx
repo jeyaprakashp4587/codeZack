@@ -4,11 +4,9 @@ import {
   Text,
   View,
   FlatList,
-  Alert,
   Dimensions,
   TouchableOpacity,
   ToastAndroid,
-  Image,
   ActivityIndicator,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';

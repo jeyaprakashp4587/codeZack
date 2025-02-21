@@ -61,7 +61,7 @@ const Carrer = () => {
       showsVerticalScrollIndicator={false}
       style={{backgroundColor: 'white'}}>
       <View style={{paddingHorizontal: 15}}>
-        <HeadingText text="Choose Your Learning Carrer" />
+        <HeadingText text="Choose Your Course" />
         <FastImage
           priority={FastImage.priority.high}
           source={{uri: 'https://i.ibb.co/vDwVGnW/carrer.jpg'}}
