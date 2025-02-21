@@ -31,8 +31,9 @@ const HeadingText = props => {
           fontSize: 20,
           paddingVertical: 10,
           letterSpacing: 1,
-        }}>
-        {props.text}
+        }}
+        allowFontScaling={false}>
+        {props.text}{' '}
       </Text>
     </View>
   );

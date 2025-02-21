@@ -137,6 +137,7 @@ const Login = () => {
               spellCheck={true}
               style={{
                 paddingLeft: 10,
+                color: Colors.veryDarkGrey,
               }}
               placeholder="Email"
               placeholderTextColor={Colors.mildGrey}
@@ -158,7 +159,6 @@ const Login = () => {
                 paddingLeft: 10,
                 color: Colors.veryDarkGrey,
                 flex: 1,
-                // borderWidth: 1,
                 borderColor: 'black',
               }}
               placeholder="Password"
@@ -186,7 +186,7 @@ const Login = () => {
             {activityIndi ? (
               <ActivityIndicator size={width * 0.045} color={Colors.white} />
             ) : (
-              <Text style={styles.loginText}>Login</Text>
+              <Text style={styles.loginText}>Login </Text>
             )}
           </TouchableOpacity>
         </View>
@@ -263,6 +263,7 @@ const styles = StyleSheet.create({
     fontSize: width * 0.035, // Dynamic font size
     color: Colors.white,
     textAlign: 'center',
+    includeFontPadding: false,
   },
   indicator: {
     width: '100%',
@@ -290,6 +291,7 @@ const styles = StyleSheet.create({
     color: 'orange',
     textDecorationLine: 'underline',
     paddingHorizontal: width * 0.025,
+
     // fontWeight: '400', // Dynamic padding
   },
 });

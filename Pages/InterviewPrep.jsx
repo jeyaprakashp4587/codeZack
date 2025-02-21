@@ -92,7 +92,7 @@ const InterviewPrep = () => {
       AddCout.current += 1;
       // Show interstitial ad every 10 questions
       if (AddCout.current % 10 === 0 && interestIsLoaded) {
-        await showInterest();
+        // await showInterest();
       }
       // Show rewarded ad every 5 questions (but not on multiples of 10)
       if (
@@ -100,7 +100,7 @@ const InterviewPrep = () => {
         AddCout.current % 10 !== 0 &&
         rewardIsLoaded
       ) {
-        await showReward();
+        // await showReward();
       }
     } catch (error) {
       console.error('Error in increaseCount:', error);
@@ -108,7 +108,7 @@ const InterviewPrep = () => {
   }, [rewardIsLoaded, interestIsLoaded, showInterest, showReward]);
   const decreaseCount = () => {
     try {
-      saveInfo(false);
+      setSaveInfo(false);
       setCurrentQuestion(prev => prev - 1);
       setIsShowHind(false);
       questionCount.current -= 1;

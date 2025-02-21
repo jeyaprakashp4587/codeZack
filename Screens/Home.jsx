@@ -54,7 +54,7 @@ const Home = () => {
   useFCMToken();
   // app open add
   // setonlineStatus
-  useOnlineStatus();
+  // useOnlineStatus();
   // config app open add
   AppOpenAd();
   // Loading ui effect

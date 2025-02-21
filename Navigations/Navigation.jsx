@@ -75,29 +75,18 @@ const TabNavigation = () => {
             height: hp('10%'),
             paddingBottom: 10,
             borderTopWidth: 0,
-            // borderWidth: 1,
           },
           tabBarLabelStyle: {
-            fontSize: width * 0.027,
+            fontSize: width * 0.021,
             marginTop: -15,
             marginBottom: 5,
-            fontFamily: font.poppins,
             color: Colors.mildGrey,
             letterSpacing: 1,
-            // backgroundColor: 'transparent',
           },
           tabBarHideOnKeyboard: true,
         }}
         tabBar={props => (
           <>
-            {/* <View
-              style={{
-                borderWidth: 0,
-                backgroundColor: 'white',
-                height: 'auto',
-              }}>
-              <BannerAdd /> */}
-            {/* </View> */}
             {/* Render the default tab bar */}
             <BottomTabBar {...props} />
           </>
