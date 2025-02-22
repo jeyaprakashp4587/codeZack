@@ -325,8 +325,9 @@ const ChallengeDetail = () => {
       .catch(error => console.error('Error opening WhatsApp:', error));
   };
   // handle get asset url
-  const handleGetAsset = useCallback(assetLink => {
+  const handleGetAsset = useCallback(async assetLink => {
     try {
+      show();
       Linking.openURL(assetLink);
     } catch (error) {
       ToastAndroid.show('error on get assets', ToastAndroid.SHORT);
@@ -534,7 +535,7 @@ const ChallengeDetail = () => {
                 style={{
                   borderWidth: 0.4,
                   padding: 10,
-                  borderRadius: 10,
+                  borderRadius: 5,
                   alignItems: 'center',
                   backgroundColor: Colors.violet,
                 }}>

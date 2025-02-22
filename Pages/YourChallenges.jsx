@@ -27,6 +27,8 @@ const YourChallenges = props => {
   // Fetch challenges from the database
   const getChallenges = async option => {
     try {
+      console.log('fetch');
+
       const res = await axios.post(
         `${challengesApi}/Challenges/getUserChallenge/${user?._id}`,
         {option: option},
@@ -234,6 +236,7 @@ const YourChallenges = props => {
                     color: 'orange',
                     fontWeight: '600',
                     fontSize: width * 0.03,
+                    textTransform: 'capitalize',
                   }}>
                   {item?.ChallengeLevel}
                 </Text>
@@ -295,5 +298,7 @@ const styles = StyleSheet.create({
   challengeHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    // borderWidth: 1,
+    alignItems: 'center',
   },
 });
