@@ -10,7 +10,7 @@ const TopicsText = props => {
         fontSize: props.fszie ? props.fszie : 23,
         color: props.color ?? Colors.mildGrey,
         marginBottom: props.mb ? props.mb : 20,
-        letterSpacing: 2,
+        letterSpacing: props.lp ? props.lp : 2,
         fontWeight: props.fontWeight ?? '400',
         lineHeight: props.ln && props.ln,
       }}>

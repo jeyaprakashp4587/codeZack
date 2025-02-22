@@ -84,13 +84,7 @@ const TabNavigation = () => {
             letterSpacing: 1,
           },
           tabBarHideOnKeyboard: true,
-        }}
-        tabBar={props => (
-          <>
-            {/* Render the default tab bar */}
-            <BottomTabBar {...props} />
-          </>
-        )}>
+        }}>
         <Tab.Screen
           name="Home"
           component={Home}

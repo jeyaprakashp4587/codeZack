@@ -118,13 +118,11 @@ const ChooseChallenge = ({navigation}) => {
     setRefresh(true);
     await getChallenges().finally(() => setRefresh(false));
   }, [getChallenges]);
+  useEffect(() => {
+    getChallenges();
+    getCompletedAllChallenges();
+  }, [getChallenges, getCompletedAllChallenges]);
 
-  useFocusEffect(
-    useCallback(() => {
-      getChallenges();
-      getCompletedAllChallenges();
-    }, [getChallenges, getCompletedAllChallenges]),
-  );
   const openMenu = () => setMenuVisible(true);
   const closeMenu = () => setMenuVisible(false);
 
@@ -240,6 +238,7 @@ const ChooseChallenge = ({navigation}) => {
                 priority={FastImage.priority.high}
                 source={{uri: item.sample_image}}
                 style={styles.challengeImage}
+                resizeMode="contain"
               />
             )}
             <Text style={styles.challengeDescription}>{item.description}</Text>
@@ -333,10 +332,12 @@ const styles = StyleSheet.create({
     elevation: 2,
     marginTop: 15,
     margin: 5,
-    // paddingHorizontal: 15,
-    // borderWidth: 1,
   },
-  challengeImage: {width: '100%', height: height * 0.35, borderRadius: 20},
+  challengeImage: {
+    width: '100%',
+    height: height * 0.25,
+    borderRadius: 20,
+  },
   challengeDescription: {
     color: Colors.veryDarkGrey,
     lineHeight: 24,

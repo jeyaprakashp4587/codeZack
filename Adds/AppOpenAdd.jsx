@@ -10,15 +10,13 @@ const AppOpenAd = () => {
     load: loadAppOpen,
   } = useAppOpenAd(
     __DEV__ ? TestIds.APP_OPEN : 'ca-app-pub-3257747925516984/6520210341',
-    {
-      requestNonPersonalizedAdsOnly: true,
-    },
+    {requestNonPersonalizedAdsOnly: true},
   );
 
-  const isAdShowing = useRef(false); // Tracks whether an ad is currently being shown
-  const isAppActive = useRef(false); // Tracks app activity to prevent unnecessary triggers
+  const isAdShowing = useRef(false);
+  const isAppActive = useRef(false);
+  const lastAdShownTime = useRef(0);
 
-  // Load the ad when the component mounts
   useEffect(() => {
     loadAppOpen();
   }, [loadAppOpen]);
@@ -37,25 +35,27 @@ const AppOpenAd = () => {
     };
 
     const showAdIfAvailable = () => {
+      const currentTime = Date.now();
+      if (currentTime - lastAdShownTime.current < 60000) {
+        return;
+      }
+
       if (loadedAppOpen && !isAdShowing.current) {
-        isAdShowing.current = true; // Lock to prevent multiple calls
+        isAdShowing.current = true;
         try {
           showAppOpen()
             .then(() => {
-              // console.log('Ad shown successfully');
+              lastAdShownTime.current = Date.now();
             })
-            .catch(error => {
-              // console.error('Failed to show App Open Ad:', error);
-            })
+            .catch(() => {})
             .finally(() => {
-              isAdShowing.current = false; // Reset after the ad is handled
+              isAdShowing.current = false;
             });
-        } catch (error) {
-          // console.error('Unexpected error while showing ad:', error);
+        } catch {
           isAdShowing.current = false;
         }
       } else if (!loadedAppOpen) {
-        loadAppOpen(); // Reload the ad if not loaded
+        loadAppOpen();
       }
     };
 
@@ -69,14 +69,13 @@ const AppOpenAd = () => {
     };
   }, [loadedAppOpen, showAppOpen, loadAppOpen]);
 
-  // Reload the ad when it is closed
   useEffect(() => {
     if (closedAppOpen && !loadedAppOpen) {
       loadAppOpen();
     }
   }, [closedAppOpen, loadedAppOpen, loadAppOpen]);
 
-  return null; // This component doesn't render UI
+  return null;
 };
 
 export default AppOpenAd;

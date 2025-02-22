@@ -20,7 +20,6 @@ import {Colors, pageView} from '../constants/Colors';
 import {useData} from '../Context/Contexter';
 import HeadingText from '../utils/HeadingText';
 import TopicsText from '../utils/TopicsText';
-import Button from '../utils/Button';
 import PragraphText from '../utils/PragraphText';
 import axios from 'axios';
 import {challengesApi} from '../Api';
@@ -49,8 +48,6 @@ const {width, height} = Dimensions.get('window');
 
 const ChallengeDetail = () => {
   const {selectedChallenge, user, setSelectedChallenge} = useData();
-  // console.log(selectedChallenge);
-  const navigation = useNavigation();
   const [uploadTut, setUploadTut] = useState(false);
   const [ChallengeStatus, setChallengeStatus] = useState('');
   const [statusButtonToggle, setStatusButtonToggle] = useState(false);
@@ -65,7 +62,6 @@ const ChallengeDetail = () => {
       requestNonPersonalizedAdsOnly: false,
     },
   );
-  // extract dominate color from selected challenge image
   useEffect(() => {
     load();
   }, [load]);
@@ -294,7 +290,7 @@ const ChallengeDetail = () => {
 
   useFocusEffect(
     useCallback(() => {
-      getParticularChallenge();
+      getParticularChallenge().then(() => extract());
       checkChallengeStatus();
     }, []),
   );
@@ -379,7 +375,15 @@ const ChallengeDetail = () => {
                 Level Challenges
               </Text>
             ) : (
-              <View style={{borderWidth: 0, height: height * 0.3}}>
+              <View
+                style={{
+                  borderWidth: 0,
+                  height: height * 0.3,
+                  elevation: 3,
+                  backgroundColor: 'white',
+                  margin: 5,
+                  borderRadius: 5,
+                }}>
                 <FastImage
                   source={{
                     uri: selectedChallenge?.sample_image,
@@ -388,7 +392,7 @@ const ChallengeDetail = () => {
                   style={{
                     width: '100%',
                     height: '100%',
-                    borderWidth: 1,
+                    // borderWidth: 1,
                   }}
                   resizeMode="center"
                 />
@@ -396,11 +400,12 @@ const ChallengeDetail = () => {
             )}
             <TopicsText
               text={selectedChallenge?.title}
-              fszie={width * 0.07}
+              fszie={width * 0.06}
               mb={5}
               fontWeight={600}
               color="black"
               ln={40}
+              lp={1}
             />
             <View
               style={{
@@ -417,7 +422,6 @@ const ChallengeDetail = () => {
               </Text>
             </View>
             {/* tools and assets */}
-
             <View style={{flexDirection: 'row', columnGap: 20}}>
               {selectedChallenge?.technologies?.map((i, index) => (
                 <FastImage
@@ -549,7 +553,7 @@ const ChallengeDetail = () => {
                 style={{
                   borderWidth: 0.4,
                   padding: 10,
-                  borderRadius: 10,
+                  borderRadius: 5,
                   alignItems: 'center',
                   backgroundColor: Colors.violet,
                 }}>
@@ -569,7 +573,7 @@ const ChallengeDetail = () => {
                 style={{
                   borderWidth: 0.4,
                   padding: 10,
-                  borderRadius: 10,
+                  borderRadius: 5,
                   alignItems: 'center',
                   borderColor: Colors.violet,
                   // backgroundColor: '#80bfff',
