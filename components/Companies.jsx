@@ -166,13 +166,14 @@ const Companies = () => {
               <TouchableOpacity
                 onPress={() => handleSetInterView(item?.company_name)}
                 style={{
-                  borderWidth: 0.7,
-                  borderColor: 'white',
+                  // borderWidth: 0.7,
+                  borderColor: 'rgba(26, 25, 25, 0.52)',
                   // padding: 10,
                   width: '100%',
-                  borderRadius: 4,
+                  borderRadius: 20,
                   paddingHorizontal: 10,
                   paddingVertical: 7,
+                  backgroundColor: 'rgba(255, 255, 255, 0.2)',
                 }}>
                 <Text
                   style={{

@@ -216,12 +216,15 @@ const YourCourses = () => {
                     borderRadius: 50,
                     borderWidth: 0,
                     borderColor: Colors.mildGrey,
-                    borderWidth: 1,
+                    // borderWidth: 1,
+                    backgroundColor: 'rgba(245, 245, 245, 0.51)',
                   }}>
                   <Text
                     style={{
-                      fontWeight: '600',
+                      // fontWeight: '600',
                       letterSpacing: 1,
+                      color: Colors.veryDarkGrey,
+                      fontSize: width * 0.035,
                     }}>
                     Continue
                   </Text>

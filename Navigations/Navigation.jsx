@@ -50,7 +50,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {BottomTabBar} from '@react-navigation/bottom-tabs';
+
 import SelectedProject from '../Pages/SelectedProject';
 
 // Tab navigations functions
@@ -61,7 +61,6 @@ const Tab = createBottomTabNavigator();
 const TabNavigation = () => {
   return (
     <View style={{flex: 1}}>
-      {/* Tab Navigator */}
       <Tab.Navigator
         initialRouteName="Home"
         screenOptions={{
@@ -74,7 +73,9 @@ const TabNavigation = () => {
           tabBarStyle: {
             height: hp('10%'),
             paddingBottom: 10,
+            overflow: 'hidden',
             borderTopWidth: 0,
+            elevation: 0,
           },
           tabBarLabelStyle: {
             fontSize: width * 0.021,

@@ -116,7 +116,6 @@ const Projects = () => {
               <LinearGradient
                 colors={[
                   'rgb(0, 0, 0)',
-                  // 'rgba(0, 0, 0, 0.9)',
                   'rgba(13, 13, 13, 0.83)',
                   'rgba(255, 255, 255, 0.2)',
                 ]}
@@ -202,11 +201,12 @@ const Projects = () => {
                   <TouchableOpacity
                     onPress={() => handleSelectProject(item)}
                     style={{
-                      borderWidth: 0.4,
+                      // borderWidth: 0.4,
                       borderColor: 'white',
-                      padding: 5,
-                      // borderRadius: 15,
+                      padding: 7,
+                      borderRadius: 15,
                       marginTop: 10,
+                      backgroundColor: 'rgba(255, 255, 255, 0.20)',
                     }}>
                     <Text
                       style={{
@@ -215,7 +215,7 @@ const Projects = () => {
                         textAlign: 'center',
                         letterSpacing: 1,
                       }}>
-                      view
+                      View
                     </Text>
                   </TouchableOpacity>
                 </View>
