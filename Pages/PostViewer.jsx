@@ -27,6 +27,7 @@ const PostViewer = () => {
     }
   }, [selectedPost]);
   useEffect(() => {
+    z;
     getPostDetail();
   }, []);
   return (

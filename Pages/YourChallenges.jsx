@@ -1,5 +1,12 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {FlatList, StyleSheet, Text, View, Image} from 'react-native';
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  InteractionManager,
+} from 'react-native';
 import {Dimensions} from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import {ScrollView} from 'react-native';
@@ -43,24 +50,13 @@ const YourChallenges = props => {
     }
   };
 
-  // Fetch challenges when the screen is focused
   useEffect(() => {
-    const unsubscribeFocus = navigation.addListener('focus', () => {
-      setSkLoad(false); // Reset loading state
-      getChallenges('All'); // Fetch all challenges when the screen comes into focus
+    const task = InteractionManager.runAfterInteractions(() => {
+      setSkLoad(false);
+      getChallenges('All');
     });
-
-    // Optional: Clear challenges when leaving the screen
-    const unsubscribeBlur = navigation.addListener('blur', () => {
-      setChallenges(null); // Clear challenges on leaving the screen
-    });
-
-    // Cleanup the listeners on component unmount
-    return () => {
-      unsubscribeFocus();
-      unsubscribeBlur();
-    };
-  }, [navigation]);
+    return () => task.cancel();
+  }, []);
 
   // Handle option change
   const HandleOption = option => {

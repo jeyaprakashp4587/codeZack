@@ -19,7 +19,7 @@ const CoreChallengeViewer = () => {
   // console.log(selectedChallengeTopic, selectedChallenge);
 
   return (
-    <ScrollView style={pageView}>
+    <ScrollView style={pageView} showsVerticalScrollIndicator={false}>
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text="Coding Ground" mb={4} />
       </View>

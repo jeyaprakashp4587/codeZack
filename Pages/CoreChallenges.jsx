@@ -45,13 +45,10 @@ const CoreChallenges = () => {
     }
   }, [selectedChallengeTopic]);
 
-  const handleSelectChallenge = useCallback(
-    debounce(item => {
-      setSelectedChallenge(item);
-      navigation.navigate('CoreChallengeViewer');
-    }, 200),
-    [],
-  );
+  const handleSelectChallenge = useCallback(item => {
+    setSelectedChallenge(item);
+    navigation.navigate('CoreChallengeViewer');
+  }, []);
   useFocusEffect(
     useCallback(() => {
       getChallenges();

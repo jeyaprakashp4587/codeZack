@@ -108,7 +108,10 @@ const SelectedCourse = ({navigation}) => {
             fszie={height * 0.024}
             fontWeight={900}
           />
-          <PragraphText text={selectedCourse?.introduction} fsize={13} />
+          <PragraphText
+            text={selectedCourse?.introduction}
+            fsize={width * 0.034}
+          />
         </View>
         <View style={{paddingHorizontal: 15}}>
           <TopicsText
@@ -185,7 +188,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
-    columnGap: width * 0.08,
+    columnGap: 10,
     // borderWidth: 1,
   },
   webviewContainer: {
@@ -202,7 +205,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: height * 0.015,
-    borderRadius: 5,
+    borderRadius: 20,
     borderColor: '#004080',
     elevation: 2,
     alignSelf: 'center',
@@ -210,9 +213,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: height * 0.03,
     marginBottom: height * 0.03,
-    // paddingHorizontal: 25,
     columnGap: 10,
-    width: width * 0.5,
+    width: width * 0.9,
   },
   buttonText: {
     color: Colors.mildGrey,

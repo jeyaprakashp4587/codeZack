@@ -10,6 +10,7 @@ import {
   Modal,
   ScrollView,
   RefreshControl,
+  InteractionManager,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
 import {useData} from '../Context/Contexter';
@@ -119,8 +120,11 @@ const ChooseChallenge = ({navigation}) => {
     await getChallenges().finally(() => setRefresh(false));
   }, [getChallenges]);
   useEffect(() => {
-    getChallenges();
-    getCompletedAllChallenges();
+    const task = InteractionManager.runAfterInteractions(() => {
+      getChallenges();
+      getCompletedAllChallenges();
+    });
+    return () => task.cancel();
   }, [getChallenges, getCompletedAllChallenges]);
 
   const openMenu = () => setMenuVisible(true);

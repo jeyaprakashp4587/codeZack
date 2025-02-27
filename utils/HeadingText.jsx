@@ -11,7 +11,7 @@ import {Colors} from '../constants/Colors';
 import {useNavigation} from '@react-navigation/native';
 
 const HeadingText = props => {
-  const {widht} = Dimensions.get('window');
+  const {width} = Dimensions.get('window');
   const nav = useNavigation();
   return (
     <View
@@ -28,7 +28,7 @@ const HeadingText = props => {
       <Text
         style={{
           color: props.color ?? 'black',
-          fontSize: 20,
+          fontSize: width * 0.05,
           paddingVertical: 10,
           letterSpacing: 1,
         }}

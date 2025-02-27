@@ -7,7 +7,8 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Button,
+  ImageBackground,
+  InteractionManager,
 } from 'react-native';
 import {Colors, font, pageView} from '../constants/Colors';
 import {useData} from '../Context/Contexter';
@@ -18,6 +19,8 @@ import HeadingText from '../utils/HeadingText';
 import axios from 'axios';
 import {challengesApi} from '../Api';
 import FastImage from 'react-native-fast-image';
+import LinearGradient from 'react-native-linear-gradient';
+import {BlurView} from '@react-native-community/blur';
 
 const {width, height} = Dimensions.get('window');
 const Carrer = () => {
@@ -37,18 +40,22 @@ const Carrer = () => {
     } catch (error) {}
   }, []);
   // render skeleton
-
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    getCourses().finally(() => {
-      setLoading(true);
+    const task = InteractionManager.runAfterInteractions(() => {
+      getCourses().finally(() => {
+        setLoading(true);
+      });
     });
+    return () => task.cancel();
   }, []);
   if (!loading) {
     return (
-      <View style={pageView}>
-        <Skeleton width="100%" height={height * 0.06} radius={10} mt={10} />
-        <Skeleton width="100%" height={height * 0.5} radius={10} mt={10} />
+      <View style={[pageView, {paddingHorizontal: 15}]}>
+        <Skeleton width="100%" height={height * 0.1} radius={10} mt={10} />
+        <Skeleton width="100%" height={height * 0.1} radius={10} mt={10} />
+        <Skeleton width="100%" height={height * 0.1} radius={10} mt={10} />
+        <Skeleton width="100%" height={height * 0.1} radius={10} mt={10} />
         <Skeleton width="100%" height={height * 0.1} radius={10} mt={10} />
         <Skeleton width="100%" height={height * 0.1} radius={10} mt={10} />
         <Skeleton width="100%" height={height * 0.1} radius={10} mt={10} />
@@ -62,17 +69,7 @@ const Carrer = () => {
       style={{backgroundColor: 'white'}}>
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text="Choose Your Course" />
-        <FastImage
-          priority={FastImage.priority.high}
-          source={{uri: 'https://i.ibb.co/vDwVGnW/carrer.jpg'}}
-          style={{
-            ...styles.careerImage,
-            width: width * 0.7,
-            height: width * 0.7,
-          }}
-        />
       </View>
-
       <View style={styles.courseContainer}>
         <FlatList
           nestedScrollEnabled={true}
@@ -86,21 +83,36 @@ const Carrer = () => {
               }}
               key={index}
               style={{
-                ...styles.courseButton,
-                width: '98%',
-                backgroundColor: 'white',
-                // marginBottom: 20,
-                borderColor: item.bgColor,
-                elevation: 2,
-                marginHorizontal: 'auto',
+                overflow: 'hidden',
                 borderRadius: 5,
-                marginVertical: 5,
+                backgroundColor: 'white',
+                padding: 15,
+                flexDirection: 'column',
+                rowGap: 10,
+                alignItems: 'flex-start',
+                justifyContent: 'flex-start',
+                borderBottomWidth: index == courses.length - 1 ? 0 : 1,
+                borderColor: Colors.veryLightGrey,
+                marginTop: 10,
               }}>
+              <FastImage
+                source={{uri: item?.img}}
+                style={{
+                  width: 150,
+                  height: 150,
+                  position: 'absolute',
+                  right: -40,
+                  top: 0,
+                  opacity: 0.08,
+                }}
+                resizeMode="contain"
+              />
               <Text
                 style={{
-                  color: item?.bgColor,
-                  fontWeight: '600',
-                  letterSpacing: 1,
+                  color: Colors.veryDarkGrey,
+                  fontWeight: '700',
+                  fontSize: width * 0.039,
+                  letterSpacing: 0.5,
                 }}>
                 {item?.name}
               </Text>
@@ -109,7 +121,7 @@ const Carrer = () => {
                   <FastImage
                     priority={FastImage.priority.high}
                     source={{uri: tech.icon}}
-                    style={{width: 30, height: 30}}
+                    style={{width: 20, height: 20}}
                   />
                 ))}
               </View>
@@ -147,8 +159,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     padding: 10,
-    gap: 35,
-    marginTop: 20,
   },
   courseButton: {
     height: height * 0.15,

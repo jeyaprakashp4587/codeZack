@@ -141,7 +141,7 @@ const Login = () => {
               }}
               placeholder="Email"
               placeholderTextColor={Colors.mildGrey}
-              onChangeText={text => handleEmail('Email', text)}
+              onChangeText={text => handleEmail('Email', text.trim())}
             />
           </View>
           <View
@@ -164,7 +164,7 @@ const Login = () => {
               placeholder="Password"
               placeholderTextColor={Colors.mildGrey}
               secureTextEntry={hidePassword}
-              onChangeText={text => handlePassword('Password', text)}
+              onChangeText={text => handlePassword('Password', text.trim())}
             />
             <TouchableOpacity onPress={() => setHidePassword(!hidePassword)}>
               <Ionicons

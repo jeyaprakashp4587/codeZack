@@ -13,16 +13,12 @@ import {challengesApi} from '../Api';
 import {useData} from '../Context/Contexter';
 import axios from 'axios';
 import {Colors} from '../constants/Colors';
-import Ripple from 'react-native-material-ripple';
 import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
-import {
-  TestIds,
-  useInterstitialAd,
-  useRewardedAd,
-} from 'react-native-google-mobile-ads';
+import {TestIds, useRewardedAd} from 'react-native-google-mobile-ads';
 import Skeleton from '../Skeletons/Skeleton';
 import FastImage from 'react-native-fast-image';
+import {BlurView} from '@react-native-community/blur';
 
 const Projects = () => {
   const {setSelectedProject} = useData();

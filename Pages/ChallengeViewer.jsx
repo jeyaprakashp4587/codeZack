@@ -7,6 +7,7 @@ import {
   Text,
   View,
   Linking,
+  InteractionManager,
 } from 'react-native';
 
 import {useData} from '../Context/Contexter';
@@ -72,7 +73,8 @@ const ChallengeViewer = () => {
   };
 
   useEffect(() => {
-    getChallenge();
+    const task = InteractionManager.runAfterInteractions(() => getChallenge());
+    return () => task.cancel();
   }, []);
 
   return (
