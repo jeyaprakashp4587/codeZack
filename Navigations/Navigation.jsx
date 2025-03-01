@@ -121,7 +121,7 @@ const TabNavigation = () => {
                 style={{
                   width: focused ? width * 0.06 : width * 0.06,
                   aspectRatio: 1,
-                  tintColor: color, // This will apply a tint to your image if needed
+                  tintColor: color,
                 }}
                 resizeMode="contain"
               />
@@ -461,11 +461,7 @@ export default AppNavigator;
 
 const styles = StyleSheet.create({
   bannerContainer: {
-    // height: 50, // Adjust the height of your banner ad
     justifyContent: 'center',
     alignItems: 'center',
-    // position: 'absolute',
-    // bottom: hp('9%'),
-    // zIndex: 100,
   },
 });
