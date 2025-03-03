@@ -22,7 +22,7 @@ const Challenge = ({navigation}) => {
   const {setselectedChallengeTopic} = useData();
   const {width, height} = Dimensions.get('window');
   // Memoize the challenge data to avoid recalculating the array on every render
-  // right wrapper
+  // right wrapper left wrapper
   //   "https://i.ibb.co/6DzKrYd/icons8-swift-240.png"
   // "https://i.ibb.co/xfCGvhK/icons8-react-native-480.png"
   // "https://i.ibb.co/X2jw9bT/icons8-kotlin-480.png"
