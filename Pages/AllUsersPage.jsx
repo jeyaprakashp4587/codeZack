@@ -160,7 +160,8 @@ const AllUsersPage = () => {
                           fontSize: width * 0.034,
                           color: Colors.veryDarkGrey,
                           letterSpacing: 0.7,
-                          fontWeight: '700',
+                          // fontWeight: '700',
+                          fontFamily: 'Poppins-SemiBold',
                         }}>
                         {item?.firstName} {item?.LastName}
                       </Text>
@@ -169,6 +170,7 @@ const AllUsersPage = () => {
                           letterSpacing: 0.5,
                           fontSize: width * 0.028,
                           color: Colors.mildGrey,
+                          fontFamily: 'Poppins-Medium',
                         }}
                         numberOfLines={1}>
                         {item?.InstitudeName}
@@ -189,7 +191,12 @@ const AllUsersPage = () => {
             isLoading &&
             suggestions?.length > 0 && (
               <View style={{padding: 10}}>
-                <Text style={{textAlign: 'center', color: Colors.mildGrey}}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    color: Colors.mildGrey,
+                    fontFamily: 'Poppins-Medium',
+                  }}>
                   Loading more suggestions...
                 </Text>
               </View>

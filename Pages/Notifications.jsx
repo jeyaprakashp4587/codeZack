@@ -140,7 +140,8 @@ const Notifications = () => {
               fontSize: width * 0.035,
               color: Colors.veryDarkGrey,
               letterSpacing: 1,
-              fontWeight: '600',
+              // fontWeight: '600',
+              fontFamily: 'Poppins-SemiBold',
             }}>
             No Notifications there
           </Text>
@@ -187,7 +188,8 @@ const Notifications = () => {
                   fontSize: width * 0.033,
                   maxWidth: 180,
                   lineHeight: 22,
-                  fontWeight: '700',
+                  // fontWeight: '700',
+                  fontFamily: 'Poppins-SemiBold',
                 }}>
                 {item?.NotificationText}
               </Text>
@@ -221,7 +223,8 @@ const Notifications = () => {
                       textAlign: 'center',
                       letterSpacing: 1.4,
                       color: Colors.violet,
-                      fontWeight: '600',
+                      // fontWeight: '600',
+                      fontFamily: 'Poppins-SemiBold',
                     }}>
                     Show more
                   </Text>

@@ -139,7 +139,11 @@ const SearchScreen = ({navigation}) => {
               />
               <View style={{flex: 1, flexDirection: 'column', paddingLeft: 10}}>
                 <Text
-                  style={{letterSpacing: 1, color: Colors.mildGrey}}
+                  style={{
+                    letterSpacing: 1,
+                    color: Colors.mildGrey,
+                    fontFamily: 'Poppins-Medium',
+                  }}
                   numberOfLines={1}>
                   {item.firstName} {item.LastName}
                 </Text>
@@ -149,6 +153,7 @@ const SearchScreen = ({navigation}) => {
                     letterSpacing: 1,
                     color: Colors.mildGrey,
                     fontSize: width * 0.03,
+                    fontFamily: 'Poppins-Medium',
                   }}>
                   {item.InstitudeName}
                 </Text>
@@ -169,6 +174,7 @@ const SearchScreen = ({navigation}) => {
                     padding: 5,
                     paddingHorizontal: 25,
                     color: Colors.violet,
+                    fontFamily: 'Poppins-Medium',
                   }}>
                   View
                 </Text>
@@ -185,6 +191,7 @@ const SearchScreen = ({navigation}) => {
             color: Colors.lightGrey,
             marginTop: 20,
             textAlign: 'center',
+            fontFamily: 'Poppins-Medium',
           }}>
           No result found!
         </Text>
@@ -227,6 +234,7 @@ const SearchScreen = ({navigation}) => {
             // borderWidth: 1,
             flex: 1,
             padding: 10,
+            fontFamily: 'Poppins-Medium',
           }}
           focusable={true}
           onChangeText={handleSearch}
@@ -248,6 +256,7 @@ const SearchScreen = ({navigation}) => {
                 color: Colors.veryDarkGrey,
                 letterSpacing: 1,
                 paddingVertical: 10,
+                fontFamily: 'Poppins-Medium',
               }}>
               Recent Search
             </Text>
@@ -257,6 +266,7 @@ const SearchScreen = ({navigation}) => {
                   color: Colors.violet,
                   textDecorationLine: 'underline',
                   letterSpacing: 1,
+                  fontFamily: 'Poppins-Medium',
                 }}>
                 Clear All
               </Text>
@@ -295,6 +305,7 @@ const SearchScreen = ({navigation}) => {
                   letterSpacing: 1,
                   color: Colors.mildGrey,
                   flex: 1,
+                  fontFamily: 'Poppins-Medium',
                   // borderWidth: 1,
                 }}>
                 {item.firstName} {item.LastName}
@@ -313,7 +324,12 @@ const SearchScreen = ({navigation}) => {
       {/* usersList */}
       <View style={{paddingHorizontal: 15}}>
         {users.length > 0 && (
-          <Text style={{paddingTop: 10, fontWeight: '700'}}>
+          <Text
+            style={{
+              paddingTop: 10,
+              // fontWeight: '700',
+              fontFamily: 'Poppins-SemiBold',
+            }}>
             Results of ({userName.current}){' '}
           </Text>
         )}

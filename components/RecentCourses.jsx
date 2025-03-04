@@ -43,7 +43,8 @@ const RecentCourses = () => {
           letterSpacing: 1,
           color: 'black',
           marginBottom: 10,
-          fontWeight: '700',
+          // fontWeight: '700',
+          fontFamily: 'Poppins-Medium',
         }}>
         Recent Course
       </Text>

@@ -143,8 +143,9 @@ const Assignments = () => {
               style={{
                 color: Colors.mildGrey,
                 fontSize: width * 0.04,
-                fontWeight: '600',
+                // fontWeight: '600',
                 letterSpacing: 1,
+                fontFamily: 'Poppins-SemiBold',
               }}>
               {item.name}
             </Text>

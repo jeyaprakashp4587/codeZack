@@ -28,9 +28,10 @@ const HeadingText = props => {
       <Text
         style={{
           color: props.color ?? 'black',
-          fontSize: width * 0.05,
+          fontSize: width * 0.045,
           paddingVertical: 10,
           letterSpacing: 1,
+          fontFamily: 'Poppins-Medium',
         }}
         allowFontScaling={false}>
         {props.text}{' '}

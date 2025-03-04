@@ -56,6 +56,7 @@ const SelectedProject = () => {
             letterSpacing: 1,
             // fontWeight: '600',
             color: Colors.mildGrey,
+            fontFamily: 'Poppins-Medium',
           }}>
           Note! "If you purchase this project, our skilled software engineers
           will provide full support from scratch to completion. This project
@@ -71,6 +72,7 @@ const SelectedProject = () => {
             fontWeight: '600',
             fontSize: width * 0.045,
             letterSpacing: 0.5,
+            fontFamily: 'Poppins-Medium',
           }}>
           Select your Technology
         </Text>
@@ -93,6 +95,7 @@ const SelectedProject = () => {
                   fontWeight: '600',
                   color: Colors.veryDarkGrey,
                   marginBottom: 10,
+                  fontFamily: 'Poppins-SemiBold',
                 }}>
                 Project Type: {tech?.TechType}
               </Text>
@@ -113,6 +116,7 @@ const SelectedProject = () => {
                       color: Colors.mildGrey,
                       letterSpacing: 1,
                       fontSize: width * 0.03,
+                      fontFamily: 'Poppins-Medium',
                     }}>
                     {tool?.TechName}
                   </Text>
@@ -131,6 +135,7 @@ const SelectedProject = () => {
                   letterSpacing: 1,
                   fontSize: width * 0.03,
                   marginBottom: 10,
+                  fontFamily: 'Poppins-Medium',
                 }}>
                 Price Rs: {tech?.Price} /-
               </Text>
@@ -149,6 +154,7 @@ const SelectedProject = () => {
                     letterSpacing: 1,
                     fontSize: width * 0.035,
                     color: Colors.mildGrey,
+                    fontFamily: 'Poppins-Medium',
                   }}>
                   Coming Soon
                 </Text>
@@ -162,9 +168,10 @@ const SelectedProject = () => {
             color: Colors.veryDarkGrey,
             fontSize: width * 0.03,
             marginBottom: 30,
-            fontWeight: '600',
+            // fontWeight: '600',
             letterSpacing: 0.7,
             lineHeight: 20,
+            fontFamily: 'Poppins-SemiBold',
           }}>
           "Achieve success with our project! Get full support, UI assets, and
           expert guidance. Start your journey today!"

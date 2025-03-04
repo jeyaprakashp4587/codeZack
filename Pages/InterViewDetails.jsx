@@ -135,15 +135,21 @@ const InterViewDetails = () => {
           rowGap: 10,
         }}>
         <Text
-          style={{fontSize: width * 0.09, fontWeight: '600', letterSpacing: 1}}>
+          style={{
+            fontSize: width * 0.09,
+            // fontWeight: '600',
+            letterSpacing: 1,
+            fontFamily: 'Poppins-SemiBold',
+          }}>
           {company?.company_name}
         </Text>
         <Text
           style={{
             letterSpacing: 2,
             color: Colors.veryDarkGrey,
-            fontWeight: '600',
+            // fontWeight: '600',
             fontSize: width * 0.04,
+            fontFamily: 'Poppins-SemiBold',
           }}>
           Duration: {company?.preparation_duration}
         </Text>
@@ -151,8 +157,9 @@ const InterViewDetails = () => {
           style={{
             letterSpacing: 2,
             color: Colors.mildGrey,
-            fontWeight: '600',
+            // fontWeight: '600',
             fontSize: width * 0.04,
+            fontFamily: 'Poppins-SemiBold',
           }}>
           Weeks: {company?.weeks?.length}
         </Text>
@@ -161,8 +168,9 @@ const InterViewDetails = () => {
             letterSpacing: 1,
             lineHeight: 30,
             color: Colors.violet,
-            fontWeight: '600',
+            // fontWeight: '600',
             fontSize: width * 0.035,
+            fontFamily: 'Poppins-SemiBold',
           }}>
           "Step Up, Skill Up – Land Your Dream Job in Your Dream Company!"
         </Text>
@@ -187,7 +195,8 @@ const InterViewDetails = () => {
               style={{
                 letterSpacing: 2,
                 color: Colors.veryDarkGrey,
-                fontWeight: '600',
+                // fontWeight: '600',
+                fontFamily: 'Poppins-SemiBold',
               }}>
               Let's Start
             </Text>

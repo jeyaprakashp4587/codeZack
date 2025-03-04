@@ -157,9 +157,10 @@ const Projects = () => {
                   )}
                   <Text
                     style={{
-                      fontWeight: '700',
+                      // fontWeight: '400',
                       letterSpacing: 1,
                       color: 'white',
+                      fontFamily: 'Poppins-Medium',
                     }}>
                     {item?.name}
                   </Text>

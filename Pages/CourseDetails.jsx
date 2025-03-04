@@ -100,6 +100,7 @@ const CourseDetails = () => {
                 letterSpacing: 1,
                 lineHeight: height * 0.035,
                 color: Colors.mildGrey,
+                fontFamily: 'Poppins-Medium',
               }}>
               {item.details}
             </Text>
@@ -131,6 +132,7 @@ const CourseDetails = () => {
                     textAlign: 'center',
                     letterSpacing: 1,
                     fontSize: width * 0.04,
+                    fontFamily: 'Poppins-Medium',
                   }}>
                   Start
                 </Text>
@@ -167,6 +169,7 @@ const styles = StyleSheet.create({
     lineHeight: 27,
     letterSpacing: 0.9,
     paddingVertical: 10,
+    fontFamily: 'Poppins-Medium',
   },
   asterisk: {
     color: 'orange',

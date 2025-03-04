@@ -149,6 +149,7 @@ const YourChallenges = props => {
                 borderBottomWidth: 1,
                 borderRadius: 50,
                 borderColor: item.color,
+                fontFamily: 'Poppins-Medium',
               }}>
               {item.Name}
             </Text>
@@ -174,6 +175,7 @@ const YourChallenges = props => {
                 fontSize: width * 0.03,
                 color: 'black',
                 fontWeight: '600',
+                fontFamily: 'Poppins-SemiBold',
               }}>
               Nothing Is There!
             </Text>

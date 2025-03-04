@@ -256,6 +256,7 @@ const Post = () => {
             fontSize: width * 0.045,
             letterSpacing: 1.4,
             color: 'black',
+            fontFamily: 'Poppins-Medium',
           }}>
           {user?.firstName} {user?.LastName}
         </Text>
@@ -268,7 +269,8 @@ const Post = () => {
           letterSpacing: 1,
           color: 'black',
           paddingVertical: 20,
-          fontWeight: '600',
+          // fontWeight: '600',
+          fontFamily: 'Poppins-SemiBold',
         }}>
         ShowCase your Achivement to the World
       </Text>
@@ -322,6 +324,7 @@ const Post = () => {
                 color: 'black',
                 letterSpacing: 1,
                 // fontWeight: '700',
+                fontFamily: 'Poppins-Medium',
               }}>
               Select Images
             </Text>
@@ -412,6 +415,7 @@ const Post = () => {
                 fontSize: width * 0.035,
                 color: 'black',
                 letterSpacing: 1.4,
+                fontFamily: 'Poppins-Medium',
                 // fontWeight: '700',
               }}>
               {uploadText}

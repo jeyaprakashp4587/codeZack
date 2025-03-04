@@ -468,6 +468,7 @@ const Profile = ({navigation}) => {
               color: Colors.veryDarkGrey,
               fontSize: width * 0.06,
               letterSpacing: 1,
+              fontFamily: 'Poppins-Medium',
             }}>
             {user?.firstName} {user?.LastName}
           </Text>
@@ -476,6 +477,7 @@ const Profile = ({navigation}) => {
               color: Colors.mildGrey,
               fontSize: width * 0.04,
               letterSpacing: 1,
+              fontFamily: 'Poppins-Medium',
             }}>
             {user?.Bio ? user?.Bio : 'I want to become a Winner'}
           </Text>
@@ -530,6 +532,7 @@ const Profile = ({navigation}) => {
                   letterSpacing: 1,
                   opacity: uploadActivityIndi ? 0.3 : 1,
                   paddingHorizontal: 15,
+                  fontFamily: 'Poppins-Medium',
                 }}
                 placeholderTextColor={Colors.lightGrey}
                 onChangeText={text => HandleAboutInput('FirstName', text)}
@@ -545,6 +548,7 @@ const Profile = ({navigation}) => {
                   letterSpacing: 1,
                   opacity: uploadActivityIndi ? 0.3 : 1,
                   paddingHorizontal: 15,
+                  fontFamily: 'Poppins-Medium',
                 }}
                 placeholderTextColor={Colors.lightGrey}
                 onChangeText={text => HandleAboutInput('LastName', text)}
@@ -560,6 +564,7 @@ const Profile = ({navigation}) => {
                   color: Colors.mildGrey,
                   letterSpacing: 1,
                   opacity: uploadActivityIndi ? 0.3 : 1,
+                  fontFamily: 'Poppins-Medium',
                 }}
                 placeholderTextColor={Colors.lightGrey}
                 onChangeText={text => HandleAboutInput('Bio', text)}
@@ -578,6 +583,7 @@ const Profile = ({navigation}) => {
                     color: Colors.violet,
                     textAlign: 'center',
                     letterSpacing: 2,
+                    fontFamily: 'Poppins-Medium',
                   }}>
                   Update
                 </Text>
@@ -592,6 +598,7 @@ const Profile = ({navigation}) => {
               color: Colors.veryDarkGrey,
               fontSize: width * 0.04,
               letterSpacing: 1,
+              fontFamily: 'Poppins-Medium',
             }}>
             {user?.InstitudeName}
           </Text>
@@ -600,6 +607,7 @@ const Profile = ({navigation}) => {
               color: Colors.mildGrey,
               fontSize: width * 0.04,
               letterSpacing: 1,
+              fontFamily: 'Poppins-Medium',
             }}>
             {user?.District}, {user?.State}
           </Text>
@@ -623,6 +631,7 @@ const Profile = ({navigation}) => {
               fontWeight: '600',
               color: Colors.mildGrey,
               letterSpacing: 1,
+              fontFamily: 'Poppins-Medium',
             }}>
             Connections
           </Text>
@@ -632,6 +641,7 @@ const Profile = ({navigation}) => {
               color: Colors.mildGrey,
               fontSize: width * 0.04,
               letterSpacing: 1,
+              fontFamily: 'Poppins-Medium',
             }}>
             {user?.Connections?.length}
           </Text>
@@ -642,6 +652,7 @@ const Profile = ({navigation}) => {
               fontWeight: '600',
               color: Colors.mildGrey,
               letterSpacing: 1,
+              fontFamily: 'Poppins-Medium',
             }}>
             Posts
           </Text>
@@ -651,6 +662,7 @@ const Profile = ({navigation}) => {
               color: Colors.mildGrey,
               fontSize: width * 0.04,
               letterSpacing: 1,
+              fontFamily: 'Poppins-Medium',
             }}>
             {user?.PostLength}
           </Text>
@@ -687,6 +699,7 @@ const Profile = ({navigation}) => {
               // fontWeight: '600',
               letterSpacing: 1,
               fontSize: width * 0.035,
+              fontFamily: 'Poppins-Medium',
             }}>
             Your Courses
           </Text>
@@ -711,6 +724,7 @@ const Profile = ({navigation}) => {
               // fontWeight: '600',
               letterSpacing: 1,
               fontSize: width * 0.035,
+              fontFamily: 'Poppins-Medium',
             }}>
             Log out
           </Text>
@@ -730,6 +744,7 @@ const Profile = ({navigation}) => {
                 fontSize: width * 0.06,
                 letterSpacing: 1,
                 color: Colors.veryDarkGrey,
+                fontFamily: 'Poppins-Medium',
               }}>
               Posts
             </Text>
@@ -762,14 +777,20 @@ const Profile = ({navigation}) => {
                       textAlign: 'center',
                       letterSpacing: 1.4,
                       color: Colors.violet,
-                      fontWeight: '600',
+                      // fontWeight: '600',
+                      fontFamily: 'Poppins-SemiBold',
                     }}>
                     Show more
                   </Text>
                 </TouchableOpacity>
               </View>
             ) : (
-              <Text style={{textAlign: 'center', color: 'gray'}}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  color: 'gray',
+                  fontFamily: 'Poppins-Medium',
+                }}>
                 No more posts
               </Text>
             )
@@ -826,6 +847,7 @@ const Profile = ({navigation}) => {
                 marginBottom: height * 0.03,
                 letterSpacing: 1,
                 textAlign: 'center',
+                fontFamily: 'Poppins-Medium',
               }}>
               Connections
             </Text>
@@ -838,7 +860,9 @@ const Profile = ({navigation}) => {
               <Skeleton width="95%" height={40} radius={30} />
             </View>
           ) : netWorksList.length <= 0 ? (
-            <Text style={{letterSpacing: 0.5}}>No Connections</Text>
+            <Text style={{letterSpacing: 0.5, fontFamily: 'Poppins-Medium'}}>
+              No Connections
+            </Text>
           ) : (
             <FlatList
               nestedScrollEnabled={true}
@@ -873,10 +897,20 @@ const Profile = ({navigation}) => {
                       alignItems: 'center',
                       columnGap: 3,
                     }}>
-                    <Text style={{letterSpacing: 1, fontSize: width * 0.035}}>
+                    <Text
+                      style={{
+                        letterSpacing: 1,
+                        fontSize: width * 0.035,
+                        fontFamily: 'Poppins-Medium',
+                      }}>
                       {item?.firstName.trim()}
                     </Text>
-                    <Text style={{letterSpacing: 1, fontSize: width * 0.035}}>
+                    <Text
+                      style={{
+                        letterSpacing: 1,
+                        fontSize: width * 0.035,
+                        fontFamily: 'Poppins-Medium',
+                      }}>
                       {item?.lastName}
                     </Text>
                   </View>
@@ -904,7 +938,8 @@ const Profile = ({navigation}) => {
                           textAlign: 'center',
                           letterSpacing: 1.4,
                           color: Colors.violet,
-                          fontWeight: '600',
+                          // fontWeight: '600',
+                          fontFamily: 'Poppins-SemiBold',
                         }}>
                         Show more
                       </Text>
@@ -928,7 +963,9 @@ const Profile = ({navigation}) => {
           borderRadius: 10,
         }}>
         <View style={{flexDirection: 'column', rowGap: 10}}>
-          <Text>Are you sure want to logout</Text>
+          <Text style={{fontFamily: 'Poppins-Medium'}}>
+            Are you sure want to logout
+          </Text>
           <View
             style={{
               flexDirection: 'row',

@@ -13,7 +13,8 @@ const PragraphText = props => {
         letterSpacing: 1,
         paddingVertical: props.padding ? props.padding : 10,
         width: props.widht ? props.widht : 'auto',
-        fontWeight: props.fweight ?? '400',
+        // fontWeight: props.fweight ?? '400',
+        fontFamily: 'Poppins-Medium',
       }}>
       {props.text}
     </Text>

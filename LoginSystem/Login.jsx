@@ -138,6 +138,7 @@ const Login = () => {
               style={{
                 paddingLeft: 10,
                 color: Colors.veryDarkGrey,
+                fontFamily: 'Poppins-Medium',
               }}
               placeholder="Email"
               placeholderTextColor={Colors.mildGrey}
@@ -160,6 +161,7 @@ const Login = () => {
                 color: Colors.veryDarkGrey,
                 flex: 1,
                 borderColor: 'black',
+                fontFamily: 'Poppins-Medium',
               }}
               placeholder="Password"
               placeholderTextColor={Colors.mildGrey}
@@ -204,6 +206,7 @@ const Login = () => {
                 color: Colors.violet,
                 letterSpacing: 1,
                 textAlign: 'right',
+                fontFamily: 'Poppins-Medium',
               }}>
               Forgot Password?
             </Text>
@@ -233,6 +236,7 @@ const styles = StyleSheet.create({
     fontSize: width * 0.09, // Dynamic font size
     color: 'hsl(0, 0%, 50%)',
     paddingBottom: height * 0.015, // Dynamic padding
+    fontFamily: 'Poppins-Medium',
   },
   imageContainer: {
     alignItems: 'center',
@@ -250,7 +254,8 @@ const styles = StyleSheet.create({
     lineHeight: height * 0.04,
     color: Colors.veryDarkGrey,
     letterSpacing: 1,
-    fontWeight: '600',
+    // fontWeight: '600',
+    fontFamily: 'Poppins-SemiBold',
   },
   inputsWrapper: {
     flexDirection: 'column',
@@ -264,6 +269,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
     textAlign: 'center',
     includeFontPadding: false,
+    fontFamily: 'Poppins-Medium',
   },
   indicator: {
     width: '100%',
@@ -280,6 +286,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignSelf: 'center',
     zIndex: 10,
+    fontFamily: 'Poppins-Medium',
   },
 
   signUpContainer: {
@@ -291,7 +298,7 @@ const styles = StyleSheet.create({
     color: 'orange',
     textDecorationLine: 'underline',
     paddingHorizontal: width * 0.025,
-
+    fontFamily: 'Poppins-Medium',
     // fontWeight: '400', // Dynamic padding
   },
 });

@@ -117,10 +117,7 @@ const Challenge = ({navigation}) => {
       style={{backgroundColor: 'white'}}
       showsVerticalScrollIndicator={false}>
       <View style={{paddingHorizontal: 15}}>
-        <HeadingText
-          text="Develop Your Skills Here"
-          color={Colors.veryDarkGrey}
-        />
+        <HeadingText text="Challenges" color={Colors.veryDarkGrey} />
       </View>
       {/* Tech chalenege */}
       <View
@@ -148,9 +145,10 @@ const Challenge = ({navigation}) => {
               }}>
               <Text
                 style={{
-                  fontWeight: '600',
-                  letterSpacing: 2,
+                  // fontWeight: '600',
+                  letterSpacing: 1,
                   paddingBottom: 10,
+                  fontFamily: 'Poppins-Medium',
                 }}>
                 {ch.ChallengeName}
               </Text>
@@ -159,7 +157,8 @@ const Challenge = ({navigation}) => {
                   letterSpacing: 1,
                   bgColor: Colors.mildGrey,
                   lineHeight: 20,
-                  fontSize: width * 0.03,
+                  fontSize: width * 0.026,
+                  fontFamily: 'Poppins-Medium',
                 }}>
                 {ch.content}
               </Text>
@@ -195,8 +194,9 @@ const Challenge = ({navigation}) => {
               <Text
                 style={{
                   fontWeight: '600',
-                  letterSpacing: 2,
+                  letterSpacing: 1,
                   paddingBottom: 10,
+                  fontFamily: 'Poppins-Medium',
                 }}>
                 {ch.ChallengeName}
               </Text>
@@ -205,7 +205,8 @@ const Challenge = ({navigation}) => {
                   letterSpacing: 1,
                   bgColor: Colors.mildGrey,
                   lineHeight: 20,
-                  fontSize: width * 0.03,
+                  fontSize: width * 0.026,
+                  fontFamily: 'Poppins-Medium',
                 }}>
                 {ch.content}
               </Text>

@@ -1,6 +1,5 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-
 import {Colors} from '../constants/Colors';
 
 const TopicsText = props => {
@@ -11,8 +10,9 @@ const TopicsText = props => {
         color: props.color ?? Colors.mildGrey,
         marginBottom: props.mb ? props.mb : 20,
         letterSpacing: props.lp ? props.lp : 2,
-        fontWeight: props.fontWeight ?? '400',
+        // fontWeight: props.fontWeight ?? '400',
         lineHeight: props.ln && props.ln,
+        fontFamily: 'Poppins-SemiBold',
       }}>
       {props.text}
     </Text>

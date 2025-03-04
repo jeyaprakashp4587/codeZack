@@ -121,7 +121,12 @@ const YourActivity = () => {
         />
         {/* list Activities */}
         <HrLine width="100%" />
-        <Text style={{letterSpacing: 1, fontWeight: 'bold'}}>
+        <Text
+          style={{
+            letterSpacing: 1,
+            fontWeight: 'bold',
+            fontFamily: 'Poppins-Medium',
+          }}>
           Date: {selectedDate ?? ''}
         </Text>
         {activitiesList.length > 0 ? (
@@ -140,6 +145,7 @@ const YourActivity = () => {
                   borderRadius: 5,
                   backgroundColor: Colors.veryLightGrey,
                   letterSpacing: 1.5,
+                  fontFamily: 'Poppins-Medium',
                 }}>
                 {index + 1}. {item.activityName}
               </Text>
@@ -151,6 +157,7 @@ const YourActivity = () => {
               letterSpacing: 1,
               color: Colors.mildGrey,
               fontSize: width * 0.03,
+              fontFamily: 'Poppins-Medium',
             }}>
             No Activities there in this date
           </Text>

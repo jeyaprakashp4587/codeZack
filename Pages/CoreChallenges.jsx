@@ -72,7 +72,8 @@ const CoreChallenges = () => {
           color: Colors.veryDarkGrey,
           letterSpacing: 1,
           fontSize: width * 0.045,
-          fontWeight: '700',
+          // fontWeight: '700',
+          fontFamily: 'Poppins-SemiBold',
         }}>
         <Text>{item?.question_id}.</Text>
         {item?.title}
@@ -83,6 +84,7 @@ const CoreChallenges = () => {
           color: Colors.mildGrey,
           lineHeight: 20,
           fontSize: width * 0.03,
+          fontFamily: 'Poppins-Medium',
         }}>
         {item?.description}
       </Text>
@@ -92,13 +94,15 @@ const CoreChallenges = () => {
           fontWeight: '600',
           letterSpacing: 1,
           fontSize: width * 0.03,
+          fontFamily: 'Poppins-Medium',
         }}>
-        <Text>Inputs: </Text>
+        <Text style={{fontFamily: 'Poppins-Medium'}}>Inputs: </Text>
         {item?.input_example}
       </Text>
       <Text
         style={{color: '#ee6c4d', letterSpacing: 1, fontSize: width * 0.03}}>
-        <Text>Output: </Text> {item?.output_example}
+        <Text style={{fontFamily: 'Poppins-Medium'}}>Output: </Text>{' '}
+        {item?.output_example}
       </Text>
       <TouchableOpacity
         onPress={() => handleSelectChallenge(item)}
@@ -115,7 +119,8 @@ const CoreChallenges = () => {
             textAlign: 'center',
             letterSpacing: 1,
             fontSize: width * 0.033,
-            fontWeight: '700',
+            // fontWeight: '700',
+            fontFamily: 'Poppins-SemiBold',
           }}>
           Take a Look
         </Text>

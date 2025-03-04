@@ -183,6 +183,7 @@ const SignUp = ({navigation}) => {
                     // borderWidth: 1,
                     elevation: 3,
                     letterSpacing: 1,
+                    fontFamily: 'Poppins-Medium',
                   },
                 ]}
                 key={key}
@@ -241,6 +242,7 @@ const styles = StyleSheet.create({
     fontSize: width * 0.09,
     color: 'hsl(0, 0%, 50%)',
     paddingBottom: height * 0.01,
+    fontFamily: 'Poppins-Medium',
   },
   imageContainer: {
     paddingBottom: height * 0.02,
@@ -255,6 +257,7 @@ const styles = StyleSheet.create({
     color: Colors.veryDarkGrey,
     fontWeight: '600',
     letterSpacing: 1,
+    fontFamily: 'Poppins-Medium',
   },
   input: {
     marginTop: height * 0.005,
@@ -283,6 +286,7 @@ const styles = StyleSheet.create({
     fontSize: width * 0.037,
     color: Colors.white,
     letterSpacing: 1.5,
+    fontFamily: 'Poppins-Medium',
   },
   backgroundIcon: {
     position: 'absolute',
@@ -318,5 +322,6 @@ const styles = StyleSheet.create({
   modalButtonText: {
     fontSize: width * 0.04,
     color: 'white',
+    fontFamily: 'Poppins-Medium',
   },
 });

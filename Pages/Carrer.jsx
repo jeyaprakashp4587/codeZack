@@ -110,9 +110,10 @@ const Carrer = () => {
               <Text
                 style={{
                   color: Colors.veryDarkGrey,
-                  fontWeight: '700',
+                  // fontWeight: '700',
                   fontSize: width * 0.039,
                   letterSpacing: 0.5,
+                  fontFamily: 'Poppins-SemiBold',
                 }}>
                 {item?.name}
               </Text>
@@ -148,6 +149,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     // textAlign: 'center',
     marginBottom: 20,
+    fontFamily: 'Poppins-Medium',
   },
   careerImage: {
     alignSelf: 'center',
@@ -175,12 +177,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: width * 0.04,
     letterSpacing: 1.3,
+    fontFamily: 'Poppins-Medium',
   },
   footerText: {
     textAlign: 'center',
     padding: 20,
     fontSize: width * 0.03,
-    fontWeight: '600',
+    // fontWeight: '600',
+    fontFamily: 'Poppins-SemiBold',
     letterSpacing: 1,
   },
 });

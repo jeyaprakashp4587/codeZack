@@ -362,7 +362,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     borderRadius: 10,
     padding: 7,
-    fontWeight: '700',
+    // fontWeight: '700',
+    fontFamily: 'Poppins-SemiBold',
   },
   modalOverlay: {
     flex: 1,
@@ -382,5 +383,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: Colors.veryLightGrey,
   },
-  menuItemText: {fontSize: width * 0.038, letterSpacing: 1},
+  menuItemText: {
+    fontSize: width * 0.038,
+    letterSpacing: 1,
+    fontFamily: 'Poppins-Medium',
+  },
 });

@@ -109,6 +109,7 @@ const VideoTutorials = () => {
                         letterSpacing: 1,
                         fontSize: width * 0.035,
                         marginBottom: 5,
+                        fontFamily: 'Poppins-Medium',
                       }}>
                       {tool?.Tool}
                     </Text>
@@ -124,7 +125,12 @@ const VideoTutorials = () => {
                   columnGap: 10,
                 }}>
                 {item?.languages?.map((lang, index) => (
-                  <Text style={{color: Colors.mildGrey, letterSpacing: 1}}>
+                  <Text
+                    style={{
+                      color: Colors.mildGrey,
+                      letterSpacing: 1,
+                      fontFamily: 'Poppins-Medium',
+                    }}>
                     {lang}
                   </Text>
                 ))}
@@ -185,7 +191,12 @@ const VideoTutorials = () => {
                 }}
                 style={{borderWidth: 0, paddingVertical: 5}}
                 key={index}>
-                <Text style={{letterSpacing: 2, color: Colors.mildGrey}}>
+                <Text
+                  style={{
+                    letterSpacing: 2,
+                    color: Colors.mildGrey,
+                    fontFamily: 'Poppins-Medium',
+                  }}>
                   {i?.Tool}
                 </Text>
               </TouchableOpacity>

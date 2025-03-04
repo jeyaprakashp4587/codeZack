@@ -189,7 +189,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
     columnGap: 10,
-    // borderWidth: 1,
   },
   webviewContainer: {
     height: 250,
@@ -215,10 +214,12 @@ const styles = StyleSheet.create({
     marginBottom: height * 0.03,
     columnGap: 10,
     width: width * 0.9,
+    fontFamily: 'Poppins-Medium',
   },
   buttonText: {
     color: Colors.mildGrey,
-    fontWeight: '600',
+    // fontWeight: '600',
     letterSpacing: 1,
+    fontFamily: 'Poppins-SemiBold',
   },
 });

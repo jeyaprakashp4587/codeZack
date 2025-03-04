@@ -195,13 +195,13 @@ const Home = () => {
           }}>
           <Text
             style={{
-              // color: Colors.white,
               fontSize: width * 0.04,
               lineHeight: 30,
               letterSpacing: 1,
               borderTopRightRadius: 20,
               borderBottomRightRadius: 20,
-              fontWeight: '700',
+              // fontWeight: '700',
+              fontFamily: 'Poppins-SemiBold',
             }}>
             Hello👋 {user?.firstName}!
           </Text>
