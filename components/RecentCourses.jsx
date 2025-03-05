@@ -56,10 +56,11 @@ const RecentCourses = () => {
           style={{padding: 20, rowGap: 10}}>
           <Text
             style={{
-              fontWeight: '600',
+              // fontWeight: '600',
               fontSize: width * 0.035,
               letterSpacing: 1,
               color: Colors.veryDarkGrey,
+              fontFamily: 'Poppins-SemiBold',
             }}>
             {user?.Courses[newCourseIndex]?.Course_Name}
           </Text>

@@ -372,7 +372,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         </Text>
         {countWords(initialText) > wordThreshold && (
           <TouchableOpacity onPress={toggleExpanded} style={styles.showMore}>
-            <Text style={{color: '#595959'}}>
+            <Text style={{color: '#595959', fontFamily: 'Poppins-Medium'}}>
               {expanded ? 'Show less' : 'Show more'}
             </Text>
           </TouchableOpacity>
@@ -425,6 +425,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                   paddingHorizontal: 10,
                   paddingVertical: 5,
                   letterSpacing: 1,
+                  fontFamily: 'Poppins-Medium',
                 }}>
                 Expand view
               </Text>
@@ -454,10 +455,11 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             style={{flexDirection: 'row', alignItems: 'center', columnGap: 2}}>
             <Text
               style={{
-                fontFamily: font.poppins,
+                // fontFamily: font.poppins,
                 fontSize: width * 0.048,
                 minWidth: 10, // Ensure fixed width for the number
                 textAlign: 'center', // Align text properly
+                fontFamily: 'Poppins-Medium',
               }}>
               {likeCount}
             </Text>
@@ -478,7 +480,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             // borderWidth: 1,
             width: width * 0.2,
           }}>
-          <Text style={{fontFamily: font.poppins, fontSize: width * 0.048}}>
+          <Text style={{fontFamily: 'Poppins-Medium', fontSize: width * 0.048}}>
             {comments.length}
           </Text>
           <EvilIcons name="comment" size={width * 0.07} />
@@ -505,7 +507,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           value={newComment}
           onChangeText={setNewComment}
           placeholder="Add a comment..."
-          style={{borderWidth: 0, flex: 1}}
+          style={{borderWidth: 0, flex: 1, fontFamily: 'Poppins-Medium'}}
         />
         <TouchableOpacity
           onPress={handleSubmitComment}
@@ -516,7 +518,11 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
       {/* Show Liked Users Button */}
       <TouchableOpacity onPress={handleShowLikedUsers} style={styles.likeBtn}>
         <Text
-          style={{letterSpacing: 1, fontSize: width * 0.03, fontWeight: '600'}}>
+          style={{
+            letterSpacing: 1,
+            fontSize: width * 0.03,
+            fontFamily: 'Poppins-Medium',
+          }}>
           Show likes
         </Text>
       </TouchableOpacity>
@@ -553,6 +559,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                 marginBottom: height * 0.01,
                 letterSpacing: 2,
                 textAlign: 'center',
+                fontFamily: 'Poppins-Medium',
               }}>
               {modalContentType}
             </Text>
@@ -600,6 +607,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                         letterSpacing: 1,
                         flex: 1,
                         fontSize: width * 0.04,
+                        fontFamily: 'Poppins-Medium',
                       }}>
                       {item?.firstName} {item?.LastName}
                     </Text>
@@ -630,8 +638,9 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                               textAlign: 'center',
                               letterSpacing: 1.4,
                               color: Colors.violet,
-                              fontWeight: '600',
+                              // fontWeight: '600',
                               fontSize: width * 0.03,
+                              fontFamily: 'Poppins-Medium',
                             }}>
                             Show more
                           </Text>
@@ -642,7 +651,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                 }
               />
             ) : (
-              <Text>No Likes</Text>
+              <Text style={{fontFamily: 'Poppins-Medium'}}>No Likes</Text>
             )
           ) : comments?.length > 0 ? (
             <FlatList
@@ -688,11 +697,16 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                         color: Colors.veryDarkGrey,
                         letterSpacing: 1,
                         fontSize: width * 0.04,
+                        fontFamily: 'Poppins-Medium',
                       }}>
                       {item?.firstName} {item?.LastName}
                     </Text>
                     <Text
-                      style={{fontSize: width * 0.035, color: Colors.mildGrey}}>
+                      style={{
+                        fontSize: width * 0.035,
+                        color: Colors.mildGrey,
+                        fontFamily: 'Poppins-Medium',
+                      }}>
                       {item?.commentText}
                     </Text>
                   </View>
@@ -717,8 +731,9 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                             textAlign: 'center',
                             letterSpacing: 1.4,
                             color: Colors.violet,
-                            fontWeight: '600',
+                            // fontWeight: '600',
                             fontSize: width * 0.03,
+                            fontFamily: 'Poppins-Medium',
                           }}>
                           Show more
                         </Text>
@@ -735,7 +750,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
               }
             />
           ) : (
-            <Text>No Comments</Text>
+            <Text style={{fontFamily: 'Poppins-Medium'}}>No Comments</Text>
           )}
         </View>
       </Modal>
@@ -794,7 +809,9 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                   }}
                 />
                 {post?.Images?.length > 1 && (
-                  <Text>Scroll to view more images</Text>
+                  <Text style={{fontFamily: 'Poppins-Medium'}}>
+                    Scroll to view more images
+                  </Text>
                 )}
               </View>
             )}
@@ -873,6 +890,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                     textAlign: 'center',
                     letterSpacing: 1,
                     fontSize: width * 0.035,
+                    fontFamily: 'Poppins-Medium',
                   }}>
                   Delete
                 </Text>
@@ -887,7 +905,8 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
               fontSize: width * 0.035,
               letterSpacing: 0.8,
               textAlign: 'center',
-              fontWeight: '600',
+              // fontWeight: '600',
+              fontFamily: 'Poppins-SemiBold',
             }}>
             Share to{' '}
           </Text>
@@ -907,6 +926,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                   // borderWidth: 1,
                   width: '100%',
                   letterSpacing: 0.5,
+                  fontFamily: 'Poppins-Medium',
                 }}>
                 You Have No Connections To Share Posts
               </Text>
@@ -958,7 +978,8 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                     style={{
                       fontSize: width * 0.028,
                       textAlign: 'center',
-                      fontWeight: '600',
+                      // fontWeight: '600',
+                      fontFamily: 'Poppins-SemiBold',
                     }}>
                     {item?.firstName}
                   </Text>
@@ -980,8 +1001,9 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                           textAlign: 'center',
                           letterSpacing: 1.4,
                           color: Colors.violet,
-                          fontWeight: '600',
+                          // fontWeight: '600',
                           fontSize: width * 0.03,
+                          fontFamily: 'Poppins-SemiBold',
                         }}>
                         Show more
                       </Text>
@@ -1014,10 +1036,12 @@ export default React.memo(Posts);
 const styles = StyleSheet.create({
   userName: {
     fontSize: width * 0.037,
+    fontFamily: 'Poppins-Medium',
   },
   instituteText: {
     color: Colors.mildGrey,
     fontSize: width * 0.034,
+    fontFamily: 'Poppins-Medium',
   },
   deleteButton: {
     backgroundColor: 'red',
@@ -1030,6 +1054,7 @@ const styles = StyleSheet.create({
   },
   deleteText: {
     color: 'white',
+    fontFamily: 'Poppins-Medium',
   },
   postText: {
     marginVertical: 5,
@@ -1037,6 +1062,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     lineHeight: 20,
     fontSize: width * 0.035,
+    fontFamily: 'Poppins-Medium',
   },
   showMore: {
     marginVertical: 5,

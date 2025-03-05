@@ -130,9 +130,10 @@ const Companies = () => {
                   style={{
                     color: 'white',
                     textAlign: 'left',
-                    fontWeight: '700',
+                    // fontWeight: '700',
                     letterSpacing: 1,
                     fontSize: width * 0.05,
+                    fontFamily: 'Poppins-SemiBold',
                   }}>
                   {item?.company_name}
                 </Text>
@@ -142,6 +143,7 @@ const Companies = () => {
                     color: 'white',
                     letterSpacing: 1,
                     fontSize: width * 0.035,
+                    fontFamily: 'Poppins-SemiBold',
                   }}>
                   6 Weeks
                 </Text>
@@ -178,10 +180,11 @@ const Companies = () => {
                 <Text
                   style={{
                     color: 'white',
-                    fontWeight: '600',
+                    // fontWeight: '600',
                     textAlign: 'center',
                     letterSpacing: 1,
                     fontSize: width * 0.029,
+                    fontFamily: 'Poppins-SemiBold',
                   }}>
                   {user?.InterView?.some(
                     userComp => userComp?.companyName == item?.company_name,

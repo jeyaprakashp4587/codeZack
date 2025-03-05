@@ -150,6 +150,7 @@ const OtpVerification = () => {
             width: '100%',
             textAlign: 'center',
             marginBottom: 20,
+            fontFamily: 'Poppins-SemiBold',
           }}>
           Enter OTP
         </Text>
@@ -160,7 +161,12 @@ const OtpVerification = () => {
             fontSize: width * 0.03,
           }}>
           We send a otp to{' '}
-          <Text style={{color: Colors.veryDarkGrey, fontWeight: '600'}}>
+          <Text
+            style={{
+              color: Colors.veryDarkGrey,
+              fontWeight: '600',
+              fontFamily: 'Poppins-SemiBold',
+            }}>
             {email}
           </Text>
         </Text>
@@ -211,12 +217,14 @@ const OtpVerification = () => {
               textAlign: 'right',
               fontWeight: '600',
               color: !timeLimit <= 0 ? Colors.lightGrey : Colors.violet,
+              fontFamily: 'Poppins-Medium',
             }}>
             {timeLimit > 0 && (
               <Text
                 style={{
                   color: Colors.lightGrey,
                   marginRight: 20,
+                  fontFamily: 'Poppins-Medium',
                 }}>
                 {timeLimit}
               </Text>
@@ -233,7 +241,9 @@ const OtpVerification = () => {
             marginBottom: 20,
           }}>
           <AntDesign name="arrowleft" size={20} color={Colors.lightGrey} />
-          <Text style={{color: Colors.lightGrey}}>Back To Login</Text>
+          <Text style={{color: Colors.lightGrey, fontFamily: 'Poppins-Medium'}}>
+            Back To Login
+          </Text>
         </TouchableOpacity>
       </View>
     </LinearGradient>

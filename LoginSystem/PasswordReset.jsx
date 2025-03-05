@@ -105,11 +105,12 @@ const PasswordReset = () => {
           style={{
             color: Colors.veryDarkGrey,
             letterSpacing: 2,
-            fontWeight: '600',
+            // fontWeight: '600',
             fontSize: width * 0.053,
             width: '100%',
             textAlign: 'center',
             marginBottom: 20,
+            fontFamily: 'Poppins-SemiBold',
           }}>
           Forgot Password?
         </Text>
@@ -120,6 +121,7 @@ const PasswordReset = () => {
             letterSpacing: 1,
             width: '100%',
             marginBottom: 20,
+            fontFamily: 'Poppins-Medium',
           }}>
           No worries, we'll send you reset instructions.
         </Text>
@@ -129,6 +131,7 @@ const PasswordReset = () => {
             width: '100%',
             color: Colors.mildGrey,
             fontSize: width * 0.027,
+            fontFamily: 'Poppins-Medium',
           }}>
           Email
         </Text>
@@ -141,6 +144,7 @@ const PasswordReset = () => {
             width: '100%',
             paddingHorizontal: 10,
             marginBottom: 20,
+            fontFamily: 'Poppins-Medium',
           }}
           onChangeText={text => handleEmail(text)}
         />
@@ -157,7 +161,9 @@ const PasswordReset = () => {
             columnGap: 5,
             // borderWidth: 1,
           }}>
-          <Text style={{color: 'white', fontWeight: '600'}}>Send OTP</Text>
+          <Text style={{color: 'white', fontFamily: 'Poppins-SemiBold'}}>
+            Send OTP
+          </Text>
           {loading && <ActivityIndicator color={Colors.white} size={20} />}
         </TouchableOpacity>
         <TouchableOpacity
@@ -169,7 +175,9 @@ const PasswordReset = () => {
             marginBottom: 20,
           }}>
           <AntDesign name="arrowleft" size={20} color={Colors.lightGrey} />
-          <Text style={{color: Colors.lightGrey}}>Back To Login</Text>
+          <Text style={{color: Colors.lightGrey, fontFamily: 'Poppins-Medium'}}>
+            Back To Login
+          </Text>
         </TouchableOpacity>
       </View>
     </LinearGradient>

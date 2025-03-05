@@ -94,11 +94,12 @@ const SetPassword = () => {
           style={{
             color: Colors.veryDarkGrey,
             letterSpacing: 2,
-            fontWeight: '600',
+            // fontWeight: '600',
             fontSize: width * 0.053,
             width: '100%',
             textAlign: 'center',
             marginBottom: 5,
+            fontFamily: 'Poppins-SemiBold',
           }}>
           Set new password
         </Text>
@@ -107,6 +108,7 @@ const SetPassword = () => {
             letterSpacing: 1,
             color: Colors.mildGrey,
             fontSize: width * 0.03,
+            fontFamily: 'Poppins-Medium',
           }}>
           Must be at least 6 characters
         </Text>
@@ -118,6 +120,7 @@ const SetPassword = () => {
               color: Colors.mildGrey,
               letterSpacing: 1.4,
               fontSize: width * 0.03,
+              fontFamily: 'Poppins-Medium',
             }}>
             Password
           </Text>
@@ -130,6 +133,7 @@ const SetPassword = () => {
               width: '100%',
               paddingHorizontal: 10,
               marginBottom: 10,
+              fontFamily: 'Poppins-Medium',
             }}
             secureTextEntry
             onChangeText={text => (passwordRef.current = text)}
@@ -143,6 +147,7 @@ const SetPassword = () => {
               color: Colors.mildGrey,
               letterSpacing: 1.4,
               fontSize: width * 0.03,
+              fontFamily: 'Poppins-Medium',
             }}>
             Confirm Password
           </Text>
@@ -155,6 +160,7 @@ const SetPassword = () => {
               width: '100%',
               paddingHorizontal: 10,
               marginBottom: 10,
+              fontFamily: 'Poppins-Medium',
             }}
             secureTextEntry
             onChangeText={text => (confirmPasswordRef.current = text)}
@@ -170,7 +176,12 @@ const SetPassword = () => {
             marginBottom: 20,
           }}>
           <Text
-            style={{textAlign: 'center', color: 'white', fontWeight: '600'}}>
+            style={{
+              textAlign: 'center',
+              color: 'white',
+              // fontWeight: '600',
+              fontFamily: 'Poppins-SemiBold',
+            }}>
             Reset Password
           </Text>
         </TouchableOpacity>
@@ -183,7 +194,9 @@ const SetPassword = () => {
             marginBottom: 20,
           }}>
           <AntDesign name="arrowleft" size={20} color={Colors.lightGrey} />
-          <Text style={{color: Colors.lightGrey}}>Back To Login</Text>
+          <Text style={{color: Colors.lightGrey, fontFamily: 'Poppins-Medium'}}>
+            Back To Login
+          </Text>
         </TouchableOpacity>
       </View>
     </LinearGradient>

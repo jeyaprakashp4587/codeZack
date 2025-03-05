@@ -167,9 +167,10 @@ const Projects = () => {
                   <Text
                     style={{
                       fontSize: width * 0.03,
-                      fontWeight: '600',
+                      // fontWeight: '600',
                       letterSpacing: 0.5,
                       color: 'white',
+                      fontFamily: 'Poppins-SemiBold',
                     }}>
                     Rs: {item?.Technologies[0]?.Price} /-
                   </Text>
@@ -194,6 +195,7 @@ const Projects = () => {
                         letterSpacing: 1,
                         fontSize: width * 0.02,
                         color: Colors.veryLightGrey,
+                        fontFamily: 'Poppins-Medium',
                       }}
                       numberOfLines={2}>
                       24x7 Technical Support
@@ -216,6 +218,7 @@ const Projects = () => {
                         fontSize: width * 0.03,
                         textAlign: 'center',
                         letterSpacing: 1,
+                        fontFamily: 'Poppins-Medium',
                       }}>
                       View
                     </Text>

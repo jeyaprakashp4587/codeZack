@@ -196,6 +196,7 @@ const YourChallenges = props => {
                   fontWeight: '400',
                   fontSize: width * 0.025,
                   color: Colors.mildGrey,
+                  fontFamily: 'Poppins-Medium',
                 }}>
                 Choose Challenges
               </Text>
@@ -226,6 +227,7 @@ const YourChallenges = props => {
                     color: 'black',
                     maxWidth: '80%',
                     lineHeight: 25,
+                    fontFamily: 'Poppins-Medium',
                   }}>
                   {item?.ChallengeName}
                 </Text>
@@ -235,6 +237,7 @@ const YourChallenges = props => {
                     fontWeight: '600',
                     fontSize: width * 0.03,
                     textTransform: 'capitalize',
+                    fontFamily: 'Poppins-Medium',
                   }}>
                   {item?.ChallengeLevel}
                 </Text>
@@ -259,6 +262,7 @@ const YourChallenges = props => {
                     fontSize: height * 0.018,
                     letterSpacing: 1,
                     color: Colors.mildGrey,
+                    fontFamily: 'Poppins-Medium',
                   }}>
                   {item?.ChallengeType}
                 </Text>
@@ -267,6 +271,7 @@ const YourChallenges = props => {
                     fontSize: height * 0.018,
                     letterSpacing: 1,
                     color: Colors.violet,
+                    fontFamily: 'Poppins-Medium',
                   }}>
                   {item?.status}
                 </Text>

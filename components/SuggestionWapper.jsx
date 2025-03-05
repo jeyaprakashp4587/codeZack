@@ -67,6 +67,7 @@ const SuggestionWapper = ({refresh}) => {
               fontSize: width * 0.03,
               // fontWeight: '600',
               color: Colors.mildGrey,
+              fontFamily: 'Poppins-Medium',
             }}>
             Show more
           </Text>
@@ -147,6 +148,7 @@ const SuggestionWapper = ({refresh}) => {
                       textTransform: 'capitalize',
                       // fontWeight: '600',
                       letterSpacing: 1,
+                      fontFamily: 'Poppins-Medium',
                     }}
                     numberOfLines={1}>
                     {user.item?.firstName} {user.item?.LastName}
@@ -156,8 +158,9 @@ const SuggestionWapper = ({refresh}) => {
                     style={{
                       fontSize: width * 0.025,
                       color: Colors.mildGrey,
-                      fontWeight: '600',
+                      // fontWeight: '600',
                       letterSpacing: 1,
+                      fontFamily: 'Poppins-SemiBold',
                     }}>
                     {user.item?.InstitudeName}
                   </Text>

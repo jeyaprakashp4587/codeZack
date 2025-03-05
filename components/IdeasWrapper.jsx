@@ -109,6 +109,7 @@ const IdeasWrapper = () => {
                   letterSpacing: 1,
                   fontSize: width * 0.028,
                   fontWeight: '700',
+                  fontFamily: 'Poppins-Medium',
                 }}>
                 {item.name}
               </Text>

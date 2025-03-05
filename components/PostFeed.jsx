@@ -97,6 +97,7 @@ const PostFeed = () => {
                 fontSize: width * 0.04,
                 letterSpacing: 1,
                 textAlign: 'center',
+                fontFamily: 'Poppins-Medium',
               }}>
               No Posts there
             </Text>

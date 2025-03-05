@@ -171,6 +171,7 @@ const YourCourses = () => {
                   textAlign: 'center',
                   letterSpacing: 0.5,
                   fontSize: width * 0.031,
+                  fontFamily: 'Poppins-Medium',
                 }}>
                 Select course
               </Text>
@@ -225,6 +226,7 @@ const YourCourses = () => {
                       letterSpacing: 1,
                       color: Colors.veryDarkGrey,
                       fontSize: width * 0.035,
+                      fontFamily: 'Poppins-Medium',
                     }}>
                     Continue
                   </Text>
@@ -303,6 +305,7 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
     fontSize: width * 0.03,
     letterSpacing: 1,
+    fontFamily: 'Poppins-Medium',
   },
   techPoints: {
     fontWeight: '700',
@@ -312,6 +315,7 @@ const styles = StyleSheet.create({
   noCoursesText: {
     fontSize: width * 0.04,
     textAlign: 'center',
+    fontFamily: 'Poppins-Medium',
   },
   infoText: {
     color: Colors.mildGrey,
@@ -321,6 +325,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     lineHeight: 30,
     marginBottom: 20,
+    fontFamily: 'Poppins-Medium',
   },
   infoHighlight: {
     color: 'orange',
