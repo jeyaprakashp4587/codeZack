@@ -229,7 +229,7 @@ const AssignmentPlayGround = () => {
           flexShrink: 1,
           fontSize: width * 0.034,
           letterSpacing: 0.5,
-          fontFamily: 'Poppins-Medium',
+          fontFamily: 'Poppins-Light',
         }}>
         {option}
       </Text>
@@ -263,7 +263,7 @@ const AssignmentPlayGround = () => {
               letterSpacing: 1,
               fontSize: width * 0.025,
               borderColor: Colors.lightGrey,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: 'Poppins-Light',
             }}>
             {item.toUpperCase()}
           </Text>
@@ -303,7 +303,7 @@ const AssignmentPlayGround = () => {
               fontSize: width * 0.045,
               lineHeight: 30,
               letterSpacing: 1,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: 'Poppins-Light',
             }}>
             {currentQuiz[currentQuestionIndex].question_id}.{' '}
             {currentQuiz[currentQuestionIndex].question}
@@ -343,7 +343,7 @@ const AssignmentPlayGround = () => {
                     color: 'white',
                     letterSpacing: 1,
                     textAlign: 'center',
-                    fontFamily: 'Poppins-Medium',
+                    fontFamily: 'Poppins-Light',
                   }}>
                   Submit Quiz
                 </Text>
@@ -362,7 +362,7 @@ const AssignmentPlayGround = () => {
                     color: 'white',
                     letterSpacing: 1,
                     textAlign: 'center',
-                    fontFamily: 'Poppins-Medium',
+                    fontFamily: 'Poppins-Light',
                   }}>
                   Next
                 </Text>

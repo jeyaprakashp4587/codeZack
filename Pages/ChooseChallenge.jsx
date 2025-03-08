@@ -386,6 +386,6 @@ const styles = StyleSheet.create({
   menuItemText: {
     fontSize: width * 0.038,
     letterSpacing: 1,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-Light',
   },
 });

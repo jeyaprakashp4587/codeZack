@@ -34,7 +34,7 @@ const RelativeTime = ({time, fsize}) => {
       style={{
         fontSize: fsize ? fsize : width * 0.03,
         color: Colors.mildGrey,
-        fontFamily: 'Poppins-Medium',
+        fontFamily: 'Poppins-Light',
       }}>
       {relativeTime}
     </Text>

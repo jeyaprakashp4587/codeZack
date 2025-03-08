@@ -189,7 +189,7 @@ const Notifications = () => {
                   maxWidth: 180,
                   lineHeight: 22,
                   // fontWeight: '700',
-                  fontFamily: 'Poppins-SemiBold',
+                  fontFamily: 'Poppins-Light',
                 }}>
                 {item?.NotificationText}
               </Text>

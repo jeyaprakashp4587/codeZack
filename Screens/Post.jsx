@@ -415,7 +415,7 @@ const Post = () => {
                 fontSize: width * 0.035,
                 color: 'black',
                 letterSpacing: 1.4,
-                fontFamily: 'Poppins-Medium',
+                fontFamily: 'Poppins-Light',
                 // fontWeight: '700',
               }}>
               {uploadText}

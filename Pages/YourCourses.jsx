@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     lineHeight: 30,
     marginBottom: 20,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-Light',
   },
   infoHighlight: {
     color: 'orange',

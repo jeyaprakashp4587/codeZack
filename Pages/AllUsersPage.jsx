@@ -195,7 +195,7 @@ const AllUsersPage = () => {
                   style={{
                     textAlign: 'center',
                     color: Colors.mildGrey,
-                    fontFamily: 'Poppins-Medium',
+                    fontFamily: 'Poppins-Light',
                   }}>
                   Loading more suggestions...
                 </Text>

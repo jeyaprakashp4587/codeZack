@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     color: 'orange',
     fontSize: width * 0.045,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-Light',
   },
   webview: {
     height: height * 0.75,

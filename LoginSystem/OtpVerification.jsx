@@ -241,7 +241,7 @@ const OtpVerification = () => {
             marginBottom: 20,
           }}>
           <AntDesign name="arrowleft" size={20} color={Colors.lightGrey} />
-          <Text style={{color: Colors.lightGrey, fontFamily: 'Poppins-Medium'}}>
+          <Text style={{color: Colors.lightGrey, fontFamily: 'Poppins-Light'}}>
             Back To Login
           </Text>
         </TouchableOpacity>

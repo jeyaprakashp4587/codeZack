@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignSelf: 'center',
     zIndex: 10,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-Light',
   },
 
   signUpContainer: {
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
     color: 'orange',
     textDecorationLine: 'underline',
     paddingHorizontal: width * 0.025,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-Light',
     // fontWeight: '400', // Dynamic padding
   },
 });

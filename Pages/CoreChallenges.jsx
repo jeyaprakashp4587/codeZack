@@ -94,14 +94,14 @@ const CoreChallenges = () => {
           fontWeight: '600',
           letterSpacing: 1,
           fontSize: width * 0.03,
-          fontFamily: 'Poppins-Medium',
+          fontFamily: 'Poppins-Light',
         }}>
-        <Text style={{fontFamily: 'Poppins-Medium'}}>Inputs: </Text>
+        <Text style={{fontFamily: 'Poppins-Light'}}>Inputs: </Text>
         {item?.input_example}
       </Text>
       <Text
         style={{color: '#ee6c4d', letterSpacing: 1, fontSize: width * 0.03}}>
-        <Text style={{fontFamily: 'Poppins-Medium'}}>Output: </Text>{' '}
+        <Text style={{fontFamily: 'Poppins-Light'}}>Output: </Text>{' '}
         {item?.output_example}
       </Text>
       <TouchableOpacity

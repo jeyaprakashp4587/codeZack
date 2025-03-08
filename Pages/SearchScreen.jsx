@@ -305,7 +305,7 @@ const SearchScreen = ({navigation}) => {
                   letterSpacing: 1,
                   color: Colors.mildGrey,
                   flex: 1,
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: 'Poppins-Light',
                   // borderWidth: 1,
                 }}>
                 {item.firstName} {item.LastName}

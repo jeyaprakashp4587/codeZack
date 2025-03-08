@@ -218,7 +218,7 @@ const Projects = () => {
                         fontSize: width * 0.03,
                         textAlign: 'center',
                         letterSpacing: 1,
-                        fontFamily: 'Poppins-Medium',
+                        fontFamily: 'Poppins-Light ',
                       }}>
                       View
                     </Text>

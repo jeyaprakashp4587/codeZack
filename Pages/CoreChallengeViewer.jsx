@@ -39,7 +39,7 @@ const CoreChallengeViewer = () => {
             color: Colors.veryDarkGrey,
             letterSpacing: 1,
             fontSize: width * 0.045,
-            fontFamily: 'Poppins-Medium',
+            fontFamily: 'Poppins-Light',
           }}>
           <Text>{selectedChallenge?.question_id}.</Text>
           {selectedChallenge?.title}
@@ -60,12 +60,12 @@ const CoreChallengeViewer = () => {
             fontSize: width * 0.03,
             fontFamily: 'Poppins-SemiBold',
           }}>
-          <Text style={{fontFamily: 'Poppins-Medium'}}>Inputs: </Text>
+          <Text style={{fontFamily: 'Poppins-Light'}}>Inputs: </Text>
           {selectedChallenge?.input_example}
         </Text>
         <Text
           style={{color: '#ee6c4d', letterSpacing: 1, fontSize: width * 0.03}}>
-          <Text style={{fontFamily: 'Poppins-Medium'}}>Output: </Text>{' '}
+          <Text style={{fontFamily: 'Poppins-Light'}}>Output: </Text>{' '}
           {selectedChallenge?.output_example}
         </Text>
       </TouchableOpacity>

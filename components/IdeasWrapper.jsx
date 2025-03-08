@@ -105,11 +105,12 @@ const IdeasWrapper = () => {
               <Text
                 style={{
                   textAlign: 'center',
+
                   color: Colors.veryDarkGrey,
                   letterSpacing: 1,
                   fontSize: width * 0.028,
                   fontWeight: '700',
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: 'Poppins-Light',
                 }}>
                 {item.name}
               </Text>

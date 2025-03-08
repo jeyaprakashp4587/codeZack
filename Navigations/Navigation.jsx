@@ -83,7 +83,7 @@ const TabNavigation = () => {
             marginBottom: 5,
             color: Colors.mildGrey,
             letterSpacing: 1,
-            fontFamily: 'Poppins-Medium',
+            fontFamily: 'Poppins-Light',
           },
           tabBarHideOnKeyboard: true,
         }}>

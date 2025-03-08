@@ -468,7 +468,7 @@ const Profile = ({navigation}) => {
               color: Colors.veryDarkGrey,
               fontSize: width * 0.06,
               letterSpacing: 1,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: 'Poppins-Light',
             }}>
             {user?.firstName} {user?.LastName}
           </Text>
@@ -477,7 +477,7 @@ const Profile = ({navigation}) => {
               color: Colors.mildGrey,
               fontSize: width * 0.04,
               letterSpacing: 1,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: 'Poppins-Light',
             }}>
             {user?.Bio ? user?.Bio : 'I want to become a Winner'}
           </Text>
@@ -532,7 +532,7 @@ const Profile = ({navigation}) => {
                   letterSpacing: 1,
                   opacity: uploadActivityIndi ? 0.3 : 1,
                   paddingHorizontal: 15,
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: 'Poppins-Light',
                 }}
                 placeholderTextColor={Colors.lightGrey}
                 onChangeText={text => HandleAboutInput('FirstName', text)}
@@ -548,7 +548,7 @@ const Profile = ({navigation}) => {
                   letterSpacing: 1,
                   opacity: uploadActivityIndi ? 0.3 : 1,
                   paddingHorizontal: 15,
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: 'Poppins-Light',
                 }}
                 placeholderTextColor={Colors.lightGrey}
                 onChangeText={text => HandleAboutInput('LastName', text)}
@@ -564,7 +564,7 @@ const Profile = ({navigation}) => {
                   color: Colors.mildGrey,
                   letterSpacing: 1,
                   opacity: uploadActivityIndi ? 0.3 : 1,
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: 'Poppins-Light',
                 }}
                 placeholderTextColor={Colors.lightGrey}
                 onChangeText={text => HandleAboutInput('Bio', text)}
@@ -583,7 +583,7 @@ const Profile = ({navigation}) => {
                     color: Colors.violet,
                     textAlign: 'center',
                     letterSpacing: 2,
-                    fontFamily: 'Poppins-Medium',
+                    fontFamily: 'Poppins-Light',
                   }}>
                   Update
                 </Text>
@@ -598,7 +598,7 @@ const Profile = ({navigation}) => {
               color: Colors.veryDarkGrey,
               fontSize: width * 0.04,
               letterSpacing: 1,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: 'Poppins-Light',
             }}>
             {user?.InstitudeName}
           </Text>
@@ -607,7 +607,7 @@ const Profile = ({navigation}) => {
               color: Colors.mildGrey,
               fontSize: width * 0.04,
               letterSpacing: 1,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: 'Poppins-Light',
             }}>
             {user?.District}, {user?.State}
           </Text>
@@ -631,7 +631,7 @@ const Profile = ({navigation}) => {
               fontWeight: '600',
               color: Colors.mildGrey,
               letterSpacing: 1,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: 'Poppins-Light',
             }}>
             Connections
           </Text>
@@ -641,7 +641,7 @@ const Profile = ({navigation}) => {
               color: Colors.mildGrey,
               fontSize: width * 0.04,
               letterSpacing: 1,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: 'Poppins-Light',
             }}>
             {user?.Connections?.length}
           </Text>
@@ -652,7 +652,7 @@ const Profile = ({navigation}) => {
               fontWeight: '600',
               color: Colors.mildGrey,
               letterSpacing: 1,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: 'Poppins-Light',
             }}>
             Posts
           </Text>
@@ -662,7 +662,7 @@ const Profile = ({navigation}) => {
               color: Colors.mildGrey,
               fontSize: width * 0.04,
               letterSpacing: 1,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: 'Poppins-Light',
             }}>
             {user?.PostLength}
           </Text>
@@ -699,7 +699,7 @@ const Profile = ({navigation}) => {
               // fontWeight: '600',
               letterSpacing: 1,
               fontSize: width * 0.035,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: 'Poppins-Light',
             }}>
             Your Courses
           </Text>
@@ -714,7 +714,7 @@ const Profile = ({navigation}) => {
             padding: 15,
             borderRadius: 10,
             flexDirection: 'row',
-            justifyContent: 'space-between',
+            justifyContent: 'space-Light',
             width: '100%',
             // borderWidth: 0.2,
           }}>
@@ -724,7 +724,7 @@ const Profile = ({navigation}) => {
               // fontWeight: '600',
               letterSpacing: 1,
               fontSize: width * 0.035,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: 'Poppins-Light',
             }}>
             Log out
           </Text>

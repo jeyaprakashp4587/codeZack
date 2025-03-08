@@ -336,7 +336,7 @@ const InterviewPrep = () => {
                   lineHeight: 25,
                   color: '#ff5400',
                   fontSize: width * 0.034,
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: 'Poppins-Light',
                 }}>
                 Answer: {currentWeek?.sample_questions[currentQuestion]?.answer}
               </Text>
@@ -350,7 +350,7 @@ const InterviewPrep = () => {
                   color: Colors.mildGrey,
                   // fontWeight: '600',
                   fontSize: width * 0.034,
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: 'Poppins-Light',
                 }}>
                 Input: {currentWeek?.sample_questions[currentQuestion]?.input}
               </Text>
@@ -363,7 +363,7 @@ const InterviewPrep = () => {
                   color: Colors.mildGrey,
                   // fontWeight: '600',
                   fontSize: width * 0.03,
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: 'Poppins-Light',
                 }}>
                 Output: {currentWeek?.sample_questions[currentQuestion]?.output}
               </Text>
@@ -376,7 +376,7 @@ const InterviewPrep = () => {
                 color: '#1a535c',
                 fontWeight: '600',
                 fontSize: width * 0.024,
-                fontFamily: 'Poppins-Medium',
+                fontFamily: 'Poppins-Light',
               }}>
               Explanation:{' '}
               {currentWeek?.sample_questions[currentQuestion]?.explanation}
@@ -393,7 +393,7 @@ const InterviewPrep = () => {
                   columnGap: 5,
                 }}>
                 <Ionicons name="bulb-outline" color="#ffca3a" size={20} />
-                <Text style={{fontFamily: 'Poppins-Medium'}}>Hint</Text>
+                <Text style={{fontFamily: 'Poppins-Light'}}>Hint</Text>
               </TouchableOpacity>
             )}
             {/* show code  */}
@@ -404,7 +404,7 @@ const InterviewPrep = () => {
                   lineHeight: 25,
                   color: '#001233',
                   display: isShowHint ? 'flex' : 'none',
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: 'Poppins-Light',
                 }}>
                 code: {currentWeek?.sample_questions[currentQuestion]?.code}
               </Text>
@@ -444,7 +444,7 @@ const InterviewPrep = () => {
                       color: '#233d4d',
                       letterSpacing: 1,
                       fontSize: width * 0.03,
-                      fontFamily: 'Poppins-Medium',
+                      fontFamily: 'Poppins-Light',
                     }}>
                     previous
                   </Text>
@@ -471,7 +471,7 @@ const InterviewPrep = () => {
                       color: Colors.violet,
                       letterSpacing: 1,
                       fontSize: width * 0.03,
-                      fontFamily: 'Poppins-Medium',
+                      fontFamily: 'Poppins-Light',
                     }}>
                     Submit
                   </Text>
@@ -501,7 +501,7 @@ const InterviewPrep = () => {
                       color: Colors.violet,
                       letterSpacing: 1,
                       fontSize: width * 0.03,
-                      fontFamily: 'Poppins-Medium',
+                      fontFamily: 'Poppins-Light',
                     }}>
                     Next
                   </Text>
@@ -541,7 +541,7 @@ const InterviewPrep = () => {
                       borderWidth: 1,
                       alignSelf: 'center',
                       borderColor: 'white',
-                      fontFamily: 'Poppins-Medium',
+                      fontFamily: 'Poppins-Light',
                     }}>
                     {saveInfo ? 'saved' : 'Save your progress'}
                   </Text>

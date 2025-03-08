@@ -12,6 +12,7 @@ import {
   FlatList,
   ActivityIndicator,
   ToastAndroid,
+  InteractionManager,
 } from 'react-native';
 import {useData} from '../Context/Contexter';
 import HeadingText from '../utils/HeadingText';
@@ -81,16 +82,20 @@ const UserProfile = () => {
   // 🔹 Call `getSelectedUser()` when the screen is focused
   useFocusEffect(
     useCallback(() => {
-      if (!selectedUser?.firstName) {
-        getSelectedUser().then(() => fetchPosts({offsets: 0}));
-      }
+      InteractionManager.runAfterInteractions(() => {
+        if (!selectedUser?.firstName) {
+          getSelectedUser().then(() => fetchPosts({offsets: 0}));
+        }
+      });
     }, [selectedUser, setSelectedUser]),
   );
 
   useEffect(() => {
-    if (selectedUser?._id) {
-      getAllNetworks().then(data => setMutualFriend(data));
-    }
+    InteractionManager.runAfterInteractions(() => {
+      if (selectedUser?._id) {
+        getAllNetworks().then(data => setMutualFriend(data));
+      }
+    });
   }, [selectedUser]);
 
   // Find if the user is already a follower
@@ -145,9 +150,11 @@ const UserProfile = () => {
   }, [selectedUser, user]);
   // Check if the user is a follower when the selected user changes
   useEffect(() => {
-    if (selectedUser?._id) {
-      findExistsFollower();
-    }
+    InteractionManager.runAfterInteractions(() => {
+      if (selectedUser?._id) {
+        findExistsFollower();
+      }
+    });
   }, [selectedUser, findExistsFollower]);
   // get user networks members
   const [netWorksList, setNetworksList] = useState([]);
@@ -329,7 +336,7 @@ const UserProfile = () => {
           <Text
             style={{
               color: Colors.veryDarkGrey,
-              fontSize: width * 0.06,
+              fontSize: width * 0.05,
               letterSpacing: 1,
               fontFamily: 'Poppins-Medium',
             }}>

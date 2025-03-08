@@ -121,7 +121,7 @@ const PasswordReset = () => {
             letterSpacing: 1,
             width: '100%',
             marginBottom: 20,
-            fontFamily: 'Poppins-Medium',
+            fontFamily: 'Poppins-Light',
           }}>
           No worries, we'll send you reset instructions.
         </Text>
@@ -131,7 +131,7 @@ const PasswordReset = () => {
             width: '100%',
             color: Colors.mildGrey,
             fontSize: width * 0.027,
-            fontFamily: 'Poppins-Medium',
+            fontFamily: 'Poppins-Light',
           }}>
           Email
         </Text>
@@ -144,7 +144,7 @@ const PasswordReset = () => {
             width: '100%',
             paddingHorizontal: 10,
             marginBottom: 20,
-            fontFamily: 'Poppins-Medium',
+            fontFamily: 'Poppins-Light',
           }}
           onChangeText={text => handleEmail(text)}
         />
@@ -175,7 +175,7 @@ const PasswordReset = () => {
             marginBottom: 20,
           }}>
           <AntDesign name="arrowleft" size={20} color={Colors.lightGrey} />
-          <Text style={{color: Colors.lightGrey, fontFamily: 'Poppins-Medium'}}>
+          <Text style={{color: Colors.lightGrey, fontFamily: 'Poppins-Light'}}>
             Back To Login
           </Text>
         </TouchableOpacity>

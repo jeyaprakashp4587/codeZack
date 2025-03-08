@@ -148,7 +148,7 @@ const Challenge = ({navigation}) => {
                   // fontWeight: '600',
                   letterSpacing: 1,
                   paddingBottom: 10,
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: 'Poppins-Light',
                 }}>
                 {ch.ChallengeName}
               </Text>
@@ -158,7 +158,7 @@ const Challenge = ({navigation}) => {
                   bgColor: Colors.mildGrey,
                   lineHeight: 20,
                   fontSize: width * 0.026,
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: 'Poppins-Light',
                 }}>
                 {ch.content}
               </Text>
@@ -196,7 +196,7 @@ const Challenge = ({navigation}) => {
                   fontWeight: '600',
                   letterSpacing: 1,
                   paddingBottom: 10,
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: 'Poppins-Light',
                 }}>
                 {ch.ChallengeName}
               </Text>
@@ -206,7 +206,7 @@ const Challenge = ({navigation}) => {
                   bgColor: Colors.mildGrey,
                   lineHeight: 20,
                   fontSize: width * 0.026,
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: 'Poppins-Light',
                 }}>
                 {ch.content}
               </Text>

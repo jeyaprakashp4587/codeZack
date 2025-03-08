@@ -322,6 +322,6 @@ const styles = StyleSheet.create({
   modalButtonText: {
     fontSize: width * 0.04,
     color: 'white',
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-Light',
   },
 });

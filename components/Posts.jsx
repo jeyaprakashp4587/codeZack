@@ -1036,12 +1036,12 @@ export default React.memo(Posts);
 const styles = StyleSheet.create({
   userName: {
     fontSize: width * 0.037,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-Light',
   },
   instituteText: {
     color: Colors.mildGrey,
     fontSize: width * 0.034,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-Light',
   },
   deleteButton: {
     backgroundColor: 'red',
@@ -1054,7 +1054,7 @@ const styles = StyleSheet.create({
   },
   deleteText: {
     color: 'white',
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-Light',
   },
   postText: {
     marginVertical: 5,
@@ -1062,7 +1062,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     lineHeight: 20,
     fontSize: width * 0.035,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-Light',
   },
   showMore: {
     marginVertical: 5,

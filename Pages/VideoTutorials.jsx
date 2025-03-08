@@ -109,7 +109,7 @@ const VideoTutorials = () => {
                         letterSpacing: 1,
                         fontSize: width * 0.035,
                         marginBottom: 5,
-                        fontFamily: 'Poppins-Medium',
+                        fontFamily: 'Poppins-Light',
                       }}>
                       {tool?.Tool}
                     </Text>
@@ -129,7 +129,7 @@ const VideoTutorials = () => {
                     style={{
                       color: Colors.mildGrey,
                       letterSpacing: 1,
-                      fontFamily: 'Poppins-Medium',
+                      fontFamily: 'Poppins-Light',
                     }}>
                     {lang}
                   </Text>

@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     marginBottom: height * 0.03,
     columnGap: 10,
     width: width * 0.9,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-Light',
   },
   buttonText: {
     color: Colors.mildGrey,

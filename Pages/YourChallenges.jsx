@@ -262,7 +262,7 @@ const YourChallenges = props => {
                     fontSize: height * 0.018,
                     letterSpacing: 1,
                     color: Colors.mildGrey,
-                    fontFamily: 'Poppins-Medium',
+                    fontFamily: 'Poppins-Light',
                   }}>
                   {item?.ChallengeType}
                 </Text>
@@ -271,7 +271,7 @@ const YourChallenges = props => {
                     fontSize: height * 0.018,
                     letterSpacing: 1,
                     color: Colors.violet,
-                    fontFamily: 'Poppins-Medium',
+                    fontFamily: 'Poppins-Light',
                   }}>
                   {item?.status}
                 </Text>

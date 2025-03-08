@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     lineHeight: 27,
     letterSpacing: 0.9,
     paddingVertical: 10,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-Light',
   },
   asterisk: {
     color: 'orange',

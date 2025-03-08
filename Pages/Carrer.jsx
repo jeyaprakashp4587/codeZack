@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     // textAlign: 'center',
     marginBottom: 20,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-Light',
   },
   careerImage: {
     alignSelf: 'center',
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: width * 0.04,
     letterSpacing: 1.3,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-Light',
   },
   footerText: {
     textAlign: 'center',
