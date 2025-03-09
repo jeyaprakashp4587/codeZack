@@ -85,9 +85,15 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           },
         );
         if (res.status === 200) {
+          console.log(res.data);
+
           setLoadDelete(false);
           PostRBSheetRef.current.close();
-          setUser(prev => ({...prev, Posts: res.data.Posts}));
+          setUser(prev => ({
+            ...prev,
+            Posts: res.data.Posts,
+            PostLength: res.data.userPostLength,
+          }));
           ToastAndroid.show('Post deleted sucessfully', ToastAndroid.SHORT);
         }
       } catch (err) {

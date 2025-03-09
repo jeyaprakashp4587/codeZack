@@ -97,7 +97,7 @@ const Projects = () => {
     );
   }
   return (
-    <View>
+    <View style={{marginBottom: 10}}>
       <FlatList
         nestedScrollEnabled={true}
         data={projects}
@@ -139,23 +139,7 @@ const Projects = () => {
                       top: 0,
                     }}
                   />
-                  {/* discount label*/}
-                  {item?.Discount && (
-                    <Text
-                      style={{
-                        backgroundColor: '#ff6666',
-                        paddingHorizontal: 10,
-                        paddingVertical: 1,
-                        color: 'white',
-                        fontSize: width * 0.024,
-                        borderRadius: 20,
-                        alignSelf: 'flex-start',
-                        fontWeight: '600',
-                        letterSpacing: 1,
-                      }}>
-                      20%
-                    </Text>
-                  )}
+
                   <Text
                     style={{
                       // fontWeight: '400',
@@ -173,7 +157,7 @@ const Projects = () => {
                       color: 'white',
                       fontFamily: Font.Medium,
                     }}>
-                    Rs: {item?.Technologies[0]?.Price} /-
+                    Get Full Assets
                   </Text>
                   <View
                     style={{
@@ -181,25 +165,15 @@ const Projects = () => {
                       alignItems: 'center',
                       columnGap: 10,
                     }}>
-                    <FastImage
-                      priority={FastImage.priority.high}
-                      source={{
-                        uri: 'https://i.ibb.co/FDtYbfG/icons8-technical-support-80.png',
-                      }}
-                      style={{
-                        width: width * 0.06,
-                        aspectRatio: 1,
-                      }}
-                    />
                     <Text
                       style={{
                         letterSpacing: 1,
-                        fontSize: width * 0.02,
+                        fontSize: width * 0.025,
                         color: Colors.veryLightGrey,
                         fontFamily: Font.Regular,
                       }}
                       numberOfLines={2}>
-                      24x7 Technical Support
+                      Technical Support (Time Limit)
                     </Text>
                   </View>
                   <TouchableOpacity

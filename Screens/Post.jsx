@@ -35,6 +35,7 @@ import {SocketData} from '../Socket/SocketContext';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {TestIds, useRewardedAd} from 'react-native-google-mobile-ads';
 import FastImage from 'react-native-fast-image';
+import {Font} from '../constants/Font';
 
 const Post = () => {
   const {user, setUser} = useData();
@@ -177,11 +178,15 @@ const Post = () => {
             postId: res.data?.postId,
           });
           ToastAndroid.show('Uploaded Successfully', ToastAndroid.SHORT);
-          setUser(prev => ({...prev, Posts: res.data.Posts}));
+          setUser(prev => ({
+            ...prev,
+            Posts: res.data.Posts,
+            PostLength: res.data.userPostLength,
+          }));
 
           // show add after post upload sucessfully
           if (isLoaded) {
-            await show();
+            show();
           }
           // console.log(res.data.Posts);
           refreshFields();
@@ -270,7 +275,7 @@ const Post = () => {
           color: 'black',
           paddingVertical: 20,
           // fontWeight: '600',
-          fontFamily: 'Poppins-SemiBold',
+          fontFamily: Font.Regular,
         }}>
         ShowCase your Achivement to the World
       </Text>
@@ -288,6 +293,7 @@ const Post = () => {
               padding: 10,
               borderColor: Colors.veryLightGrey,
               letterSpacing: 1,
+              fontFamily: Font.Regular,
             }}
             ref={inputRef1}
             onChangeText={handlePostText}
@@ -303,6 +309,7 @@ const Post = () => {
               letterSpacing: 1,
               padding: 10,
               borderColor: Colors.veryLightGrey,
+              fontFamily: Font.Regular,
             }}
             placeholderTextColor={Colors.lightGrey}
           />
@@ -324,7 +331,7 @@ const Post = () => {
                 color: 'black',
                 letterSpacing: 1,
                 // fontWeight: '700',
-                fontFamily: 'Poppins-Medium',
+                fontFamily: 'Poppins-Regular',
               }}>
               Select Images
             </Text>
@@ -405,7 +412,7 @@ const Post = () => {
           }}>
           {uploadIndi ? (
             <ActivityIndicator
-              size={30}
+              size={20}
               color="black"
               style={{display: uploadIndi ? 'flex' : 'none'}}
             />
@@ -415,7 +422,7 @@ const Post = () => {
                 fontSize: width * 0.035,
                 color: 'black',
                 letterSpacing: 1.4,
-                fontFamily: 'Poppins-Light',
+                fontFamily: 'Poppins-Regular',
                 // fontWeight: '700',
               }}>
               {uploadText}
