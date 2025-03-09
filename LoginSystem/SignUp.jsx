@@ -161,12 +161,8 @@ const SignUp = ({navigation}) => {
         showsVerticalScrollIndicator={false}>
         <View
           style={{
-            // borderWidth: 1,
-            height: height * 0.95,
             flexDirection: 'column',
             justifyContent: 'center',
-            // alignItems: 'center',
-            // alignSelf: 'center',
           }}>
           <View
             style={{
@@ -180,7 +176,6 @@ const SignUp = ({navigation}) => {
                   styles.input,
                   {
                     borderColor: Colors.veryLightGrey,
-                    // borderWidth: 1,
                     elevation: 3,
                     letterSpacing: 1,
                     fontFamily: 'Poppins-Light',

@@ -18,6 +18,7 @@ import HeadingText from '../utils/HeadingText';
 import {Colors} from '../constants/Colors';
 import FastImage from 'react-native-fast-image';
 import PostSkeleton from '../Skeletons/PostSkeleton';
+import {Font} from '../constants/Font';
 
 const PostFeed = () => {
   const {user} = useData();
@@ -97,7 +98,7 @@ const PostFeed = () => {
                 fontSize: width * 0.04,
                 letterSpacing: 1,
                 textAlign: 'center',
-                fontFamily: 'Poppins-Light',
+                fontFamily: Font.Regular,
               }}>
               No Posts there
             </Text>

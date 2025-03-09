@@ -31,7 +31,7 @@ const HeadingText = props => {
           fontSize: width * 0.045,
           paddingVertical: 10,
           letterSpacing: 1,
-          fontFamily: 'Poppins-Light',
+          fontFamily: 'Poppins-Medium',
         }}
         allowFontScaling={false}>
         {props.text}{' '}

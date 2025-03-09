@@ -15,6 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
 import Skeleton from '../Skeletons/Skeleton';
 import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
+import {Font} from '../constants/Font';
 
 const Companies = () => {
   const navigation = useNavigation();
@@ -133,7 +134,7 @@ const Companies = () => {
                     // fontWeight: '700',
                     letterSpacing: 1,
                     fontSize: width * 0.05,
-                    fontFamily: 'Poppins-SemiBold',
+                    fontFamily: Font.SemiBold,
                   }}>
                   {item?.company_name}
                 </Text>
@@ -143,7 +144,7 @@ const Companies = () => {
                     color: 'white',
                     letterSpacing: 1,
                     fontSize: width * 0.035,
-                    fontFamily: 'Poppins-SemiBold',
+                    fontFamily: Font.Regular,
                   }}>
                   6 Weeks
                 </Text>
@@ -184,7 +185,7 @@ const Companies = () => {
                     textAlign: 'center',
                     letterSpacing: 1,
                     fontSize: width * 0.029,
-                    fontFamily: 'Poppins-SemiBold',
+                    fontFamily: Font.Regular,
                   }}>
                   {user?.InterView?.some(
                     userComp => userComp?.companyName == item?.company_name,

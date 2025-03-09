@@ -96,7 +96,8 @@ const styles = StyleSheet.create({
     color: 'black',
     letterSpacing: 1,
     fontSize: width * 0.03,
-    fontWeight: '600',
+    // fontWeight: '600',
+    fontFamily: 'Poppins-Medium',
     // lineHeight: height * 0.055,
   },
 });

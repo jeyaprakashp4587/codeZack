@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Colors} from '../constants/Colors';
 import FastImage from 'react-native-fast-image';
+import {Font} from '../constants/Font';
 
 const {width, height} = Dimensions.get('window');
 
@@ -105,12 +106,11 @@ const IdeasWrapper = () => {
               <Text
                 style={{
                   textAlign: 'center',
-
                   color: Colors.veryDarkGrey,
                   letterSpacing: 1,
                   fontSize: width * 0.028,
-                  fontWeight: '700',
-                  fontFamily: 'Poppins-Light',
+                  // fontWeight: '00',
+                  fontFamily: Font.SemiBold,
                 }}>
                 {item.name}
               </Text>
