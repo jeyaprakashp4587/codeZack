@@ -29,6 +29,7 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FastImage from 'react-native-fast-image';
 import WebView from 'react-native-webview';
+import {Font} from '../constants/Font';
 
 const InterviewPrep = () => {
   const {selectedCompany, user, setUser} = useData();
@@ -263,7 +264,7 @@ const InterviewPrep = () => {
             color: Colors.mildGrey,
             letterSpacing: 2,
             fontSize: width * 0.034,
-            fontFamily: 'Poppins-Medium',
+            fontFamily: Font.Regular,
           }}>
           Completed Weeks: {userMile?.currentWeek - 1 ?? 0}
         </Text>
@@ -286,18 +287,18 @@ const InterviewPrep = () => {
               // fontWeight: '600',
               letterSpacing: 2,
               fontSize: width * 0.03,
-              fontFamily: 'Poppins-SemiBold',
+              fontFamily: Font.Medium,
             }}>
             Focus Area: {currentWeek?.focus_area}
           </Text>
           <Text
             style={{
               // fontWeight: '600',
-              letterSpacing: 2,
+              letterSpacing: 1,
               color: 'black',
               lineHeight: 20,
-              fontSize: width * 0.023,
-              fontFamily: 'Poppins-SemiBold',
+              fontSize: width * 0.028,
+              fontFamily: Font.Regular,
             }}>
             Topics: {currentWeek?.topics}
           </Text>
@@ -318,7 +319,7 @@ const InterviewPrep = () => {
             }}>
             <Text
               style={{
-                letterSpacing: 2,
+                letterSpacing: 1,
                 // fontWeight: '600',
                 lineHeight: 25,
                 fontSize: width * 0.034,
@@ -336,7 +337,7 @@ const InterviewPrep = () => {
                   lineHeight: 25,
                   color: '#ff5400',
                   fontSize: width * 0.034,
-                  fontFamily: 'Poppins-Light',
+                  fontFamily: Font.Regular,
                 }}>
                 Answer: {currentWeek?.sample_questions[currentQuestion]?.answer}
               </Text>
@@ -350,7 +351,7 @@ const InterviewPrep = () => {
                   color: Colors.mildGrey,
                   // fontWeight: '600',
                   fontSize: width * 0.034,
-                  fontFamily: 'Poppins-Light',
+                  fontFamily: Font.Regular,
                 }}>
                 Input: {currentWeek?.sample_questions[currentQuestion]?.input}
               </Text>
@@ -363,7 +364,7 @@ const InterviewPrep = () => {
                   color: Colors.mildGrey,
                   // fontWeight: '600',
                   fontSize: width * 0.03,
-                  fontFamily: 'Poppins-Light',
+                  fontFamily: Font.Regular,
                 }}>
                 Output: {currentWeek?.sample_questions[currentQuestion]?.output}
               </Text>
@@ -376,7 +377,7 @@ const InterviewPrep = () => {
                 color: '#1a535c',
                 fontWeight: '600',
                 fontSize: width * 0.024,
-                fontFamily: 'Poppins-Light',
+                fontFamily: Font.Regular,
               }}>
               Explanation:{' '}
               {currentWeek?.sample_questions[currentQuestion]?.explanation}

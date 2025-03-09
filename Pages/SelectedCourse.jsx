@@ -22,6 +22,7 @@ import axios from 'axios';
 import Actitivity from '../hooks/ActivityHook';
 import HeadingText from '../utils/HeadingText';
 import FastImage from 'react-native-fast-image';
+import {Font} from '../constants/Font';
 const {width, height} = Dimensions.get('window');
 
 const SelectedCourse = ({navigation}) => {
@@ -214,12 +215,12 @@ const styles = StyleSheet.create({
     marginBottom: height * 0.03,
     columnGap: 10,
     width: width * 0.9,
-    fontFamily: 'Poppins-Light',
+    fontFamily: Font.Regular,
   },
   buttonText: {
     color: Colors.mildGrey,
     // fontWeight: '600',
     letterSpacing: 1,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: Font.Regular,
   },
 });

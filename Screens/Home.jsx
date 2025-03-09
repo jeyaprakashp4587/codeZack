@@ -39,6 +39,7 @@ import RecentCourses from '../components/RecentCourses';
 import AppOpenAd from '../Adds/AppOpenAdd';
 import FastImage from 'react-native-fast-image';
 import useOnlineStatus from '../hooks/ useOnlineStatus';
+import {Font} from '../constants/Font';
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
 
@@ -289,7 +290,12 @@ const Home = () => {
                 style={{flexDirection: 'column', rowGap: 10}}
                 onPress={() => navigation.navigate('VideoTutorial')}>
                 <EvilIcons name="play" size={50} />
-                <Text style={{letterSpacing: 2, color: Colors.mildGrey}}>
+                <Text
+                  style={{
+                    letterSpacing: 2,
+                    color: Colors.mildGrey,
+                    fontFamily: Font.Regular,
+                  }}>
                   Watch Tutorials
                 </Text>
               </TouchableOpacity>

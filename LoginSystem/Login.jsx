@@ -25,6 +25,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 import TypingEffect from '../utils/TypingEffect';
+import {Font} from '../constants/Font';
 const {width, height} = Dimensions.get('window');
 
 const Login = () => {
@@ -138,7 +139,8 @@ const Login = () => {
               style={{
                 paddingLeft: 10,
                 color: Colors.veryDarkGrey,
-                fontFamily: 'Poppins-Light',
+                fontFamily: Font.Regular,
+                // fontSize: width * 0.0,
               }}
               placeholder="Email"
               placeholderTextColor={Colors.mildGrey}
@@ -161,7 +163,7 @@ const Login = () => {
                 color: Colors.veryDarkGrey,
                 flex: 1,
                 borderColor: 'black',
-                fontFamily: 'Poppins-Light',
+                fontFamily: Font.Regular,
               }}
               placeholder="Password"
               placeholderTextColor={Colors.mildGrey}
@@ -206,7 +208,7 @@ const Login = () => {
                 color: Colors.violet,
                 letterSpacing: 1,
                 textAlign: 'right',
-                fontFamily: 'Poppins-Light',
+                fontFamily: Font.Regular,
               }}>
               Forgot Password?
             </Text>
@@ -221,7 +223,7 @@ const Login = () => {
             style={{
               color: Colors.mildGrey,
               // fontWeight: '400',
-              fontFamily: 'Poppins-Light',
+              fontFamily: Font.Regular,
             }}>
             Create New account
           </Text>
@@ -241,7 +243,7 @@ const styles = StyleSheet.create({
     fontSize: width * 0.09, // Dynamic font size
     color: 'hsl(0, 0%, 50%)',
     paddingBottom: height * 0.015, // Dynamic padding
-    fontFamily: 'Poppins-Medium',
+    fontFamily: Font.Regular,
   },
   imageContainer: {
     alignItems: 'center',
@@ -291,7 +293,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignSelf: 'center',
     zIndex: 10,
-    fontFamily: 'Poppins-Light',
+    fontFamily: Font.Regular,
   },
 
   signUpContainer: {
@@ -303,7 +305,7 @@ const styles = StyleSheet.create({
     color: 'orange',
     textDecorationLine: 'underline',
     paddingHorizontal: width * 0.025,
-    fontFamily: 'Poppins-Light',
+    fontFamily: Font.Regular,
     // fontWeight: '400', // Dynamic padding
   },
 });

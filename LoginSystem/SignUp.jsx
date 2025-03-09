@@ -23,6 +23,7 @@ import {useData} from '../Context/Contexter';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
 import HeadingText from '../utils/HeadingText';
+import {Font} from '../constants/Font';
 
 const {width, height} = Dimensions.get('window');
 
@@ -178,7 +179,7 @@ const SignUp = ({navigation}) => {
                     borderColor: Colors.veryLightGrey,
                     elevation: 3,
                     letterSpacing: 1,
-                    fontFamily: 'Poppins-Light',
+                    fontFamily: Font.Regular,
                   },
                 ]}
                 key={key}

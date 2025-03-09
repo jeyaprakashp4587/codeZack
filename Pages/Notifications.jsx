@@ -22,6 +22,7 @@ import useSocketEmit from '../Socket/useSocketEmit';
 import {SocketData} from '../Socket/SocketContext';
 import HeadingText from '../utils/HeadingText';
 import FastImage from 'react-native-fast-image';
+import {Font} from '../constants/Font';
 
 const Notifications = () => {
   const {user, setSelectedUser, setselectedPost} = useData();
@@ -189,7 +190,7 @@ const Notifications = () => {
                   maxWidth: 180,
                   lineHeight: 22,
                   // fontWeight: '700',
-                  fontFamily: 'Poppins-Light',
+                  fontFamily: Font.Regular,
                 }}>
                 {item?.NotificationText}
               </Text>

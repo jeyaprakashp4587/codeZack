@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text} from 'react-native';
 
 import {Colors} from '../constants/Colors';
+import {Font} from '../constants/Font';
 
 const PragraphText = props => {
   return (
@@ -14,7 +15,7 @@ const PragraphText = props => {
         paddingVertical: props.padding ? props.padding : 10,
         width: props.widht ? props.widht : 'auto',
         // fontWeight: props.fweight ?? '400',
-        fontFamily: 'Poppins-Medium',
+        fontFamily: Font.Regular,
       }}>
       {props.text}
     </Text>

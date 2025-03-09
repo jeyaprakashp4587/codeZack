@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Dimensions, Text} from 'react-native';
 import moment from 'moment';
 import {Colors} from '../constants/Colors';
+import {Font} from '../constants/Font';
 
 const RelativeTime = ({time, fsize}) => {
   const [relativeTime, setRelativeTime] = useState('');
@@ -34,7 +35,7 @@ const RelativeTime = ({time, fsize}) => {
       style={{
         fontSize: fsize ? fsize : width * 0.03,
         color: Colors.mildGrey,
-        fontFamily: 'Poppins-Light',
+        fontFamily: Font.Regular,
       }}>
       {relativeTime}
     </Text>

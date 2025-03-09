@@ -43,6 +43,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {TestIds, useRewardedAd} from 'react-native-google-mobile-ads';
 import {SocketData} from '../Socket/SocketContext';
 import FastImage from 'react-native-fast-image';
+import {Font} from '../constants/Font';
 
 const {width, height} = Dimensions.get('window');
 
@@ -481,11 +482,11 @@ const ChallengeDetail = () => {
               />
               <Text
                 style={{
-                  fontSize: width * 0.025,
+                  fontSize: width * 0.03,
                   color: Colors.violet,
                   letterSpacing: 0.5,
                   // fontWeight: '600',
-                  fontFamily: 'Poppins-SemiBold',
+                  fontFamily: Font.Regular,
                 }}>
                 Get UI Design
               </Text>
@@ -506,7 +507,8 @@ const ChallengeDetail = () => {
                   fontSize: width * 0.03,
                   letterSpacing: 2,
                   lineHeight: 27,
-                  fontWeight: '600',
+                  // fontWeight: '600',
+                  fontFamily: Font.Regular,
                 }}>
                 "Need Help with a Coding Error or Anything Else? Contact Our
                 Technical Engineer on WhatsApp!"
@@ -528,6 +530,7 @@ const ChallengeDetail = () => {
                     textAlign: 'center',
                     color: 'white',
                     letterSpacing: 1,
+                    fontFamily: Font.Regular,
                   }}>
                   Feel Free to ask
                 </Text>

@@ -26,6 +26,7 @@ import Ripple from 'react-native-material-ripple';
 import {useFocusEffect} from '@react-navigation/native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FastImage from 'react-native-fast-image';
+import {Font} from '../constants/Font';
 
 const {width, height} = Dimensions.get('window');
 
@@ -175,11 +176,14 @@ const ChooseChallenge = ({navigation}) => {
       </View>
       <View style={styles.spacing} />
       <View style={styles.header}>
-        <TopicsText
-          text="Choose Difficulty Level"
-          fszie={width * 0.043}
-          mb={1}
-        />
+        <Text
+          style={{
+            fontSize: width * 0.043,
+            letterSpacing: 1,
+            fontFamily: Font.Regular,
+          }}>
+          Choose Difficulty Level
+        </Text>
         <TouchableOpacity onPress={openMenu}>
           {/* <FontAwesomeIcon icon={faD} color={Colors.mildGrey} size={20} /> */}
           <Entypo
@@ -271,7 +275,8 @@ const ChooseChallenge = ({navigation}) => {
                       letterSpacing: 2,
                       color: Colors.mildGrey,
                       fontSize: width * 0.02,
-                      fontWeight: '600',
+                      // fontWeight: '600',
+                      fontFamily: Font.Regular,
                     }}>
                     Finished!
                   </Text>
@@ -347,6 +352,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     letterSpacing: 1,
     paddingVertical: 10,
+    fontFamily: Font.Regular,
   },
   technologiesContainer: {
     marginVertical: 15,
@@ -363,7 +369,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 7,
     // fontWeight: '700',
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: Font.Regular,
   },
   modalOverlay: {
     flex: 1,
@@ -386,6 +392,6 @@ const styles = StyleSheet.create({
   menuItemText: {
     fontSize: width * 0.038,
     letterSpacing: 1,
-    fontFamily: 'Poppins-Light',
+    fontFamily: Font.Regular,
   },
 });

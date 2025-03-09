@@ -16,6 +16,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Colors} from '../constants/Colors';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
+import {Font} from '../constants/Font';
 
 const RecentCourses = () => {
   const {width, height} = Dimensions.get('window');
@@ -44,7 +45,7 @@ const RecentCourses = () => {
           color: 'black',
           marginBottom: 10,
           // fontWeight: '700',
-          fontFamily: 'Poppins-Medium',
+          fontFamily: Font.Regular,
         }}>
         Recent Course
       </Text>
@@ -60,7 +61,7 @@ const RecentCourses = () => {
               fontSize: width * 0.035,
               letterSpacing: 1,
               color: Colors.veryDarkGrey,
-              fontFamily: 'Poppins-SemiBold',
+              fontFamily: Font.Regular,
             }}>
             {user?.Courses[newCourseIndex]?.Course_Name}
           </Text>

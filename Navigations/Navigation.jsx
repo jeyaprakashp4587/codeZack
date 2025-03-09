@@ -52,6 +52,7 @@ import {
 } from 'react-native-responsive-screen';
 
 import SelectedProject from '../Pages/SelectedProject';
+import {Font} from '../constants/Font';
 
 // Tab navigations functions
 const {width, height} = Dimensions.get('window');
@@ -83,7 +84,7 @@ const TabNavigation = () => {
             marginBottom: 5,
             color: Colors.mildGrey,
             letterSpacing: 1,
-            fontFamily: 'Poppins-Light',
+            fontFamily: Font.Regular,
           },
           tabBarHideOnKeyboard: true,
         }}>

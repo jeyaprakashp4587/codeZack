@@ -17,6 +17,7 @@ import {Dimensions} from 'react-native';
 import BannerAdd from '../Adds/BannerAdd';
 import {Colors} from '../constants/Colors';
 import FastImage from 'react-native-fast-image';
+import {Font} from '../constants/Font';
 
 const Challenge = ({navigation}) => {
   const {setselectedChallengeTopic} = useData();
@@ -148,7 +149,7 @@ const Challenge = ({navigation}) => {
                   // fontWeight: '600',
                   letterSpacing: 1,
                   paddingBottom: 10,
-                  fontFamily: 'Poppins-Light',
+                  fontFamily: Font.Regular,
                 }}>
                 {ch.ChallengeName}
               </Text>
@@ -158,7 +159,7 @@ const Challenge = ({navigation}) => {
                   bgColor: Colors.mildGrey,
                   lineHeight: 20,
                   fontSize: width * 0.026,
-                  fontFamily: 'Poppins-Light',
+                  fontFamily: Font.Regular,
                 }}>
                 {ch.content}
               </Text>
@@ -196,7 +197,7 @@ const Challenge = ({navigation}) => {
                   fontWeight: '600',
                   letterSpacing: 1,
                   paddingBottom: 10,
-                  fontFamily: 'Poppins-Light',
+                  fontFamily: Font.Regular,
                 }}>
                 {ch.ChallengeName}
               </Text>
@@ -206,7 +207,7 @@ const Challenge = ({navigation}) => {
                   bgColor: Colors.mildGrey,
                   lineHeight: 20,
                   fontSize: width * 0.026,
-                  fontFamily: 'Poppins-Light',
+                  fontFamily: Font.Regular,
                 }}>
                 {ch.content}
               </Text>

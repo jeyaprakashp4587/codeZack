@@ -33,6 +33,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import FastImage from 'react-native-fast-image';
 import MiniUserSkeleton from '../Skeletons/MiniUserSkeleton';
 import PostSkeleton from '../Skeletons/PostSkeleton';
+import {Font} from '../constants/Font';
 
 const UserProfile = () => {
   const {width, height} = Dimensions.get('window');
@@ -338,7 +339,7 @@ const UserProfile = () => {
               color: Colors.veryDarkGrey,
               fontSize: width * 0.05,
               letterSpacing: 1,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: Font.Regular,
             }}>
             {selectedUser?.firstName} {selectedUser?.LastName}
           </Text>
@@ -347,7 +348,7 @@ const UserProfile = () => {
               color: Colors.mildGrey,
               fontSize: width * 0.04,
               letterSpacing: 1,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: Font.Regular,
             }}>
             {selectedUser?.Bio ? selectedUser.Bio : 'Student'}
           </Text>
@@ -358,7 +359,7 @@ const UserProfile = () => {
               color: Colors.veryDarkGrey,
               fontSize: width * 0.04,
               letterSpacing: 1,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: Font.Regular,
             }}>
             {selectedUser?.InstitudeName}
           </Text>
@@ -367,7 +368,7 @@ const UserProfile = () => {
               color: Colors.mildGrey,
               fontSize: width * 0.04,
               letterSpacing: 1,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: Font.Regular,
             }}>
             {selectedUser?.District}, {selectedUser?.State}
           </Text>
@@ -403,7 +404,7 @@ const UserProfile = () => {
                   fontSize: width * 0.04,
                   color: 'white',
                   letterSpacing: 1,
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: Font.Regular,
                 }}>
                 Unfollow
               </Text>
@@ -427,7 +428,7 @@ const UserProfile = () => {
                   fontSize: width * 0.04,
                   color: 'white',
                   letterSpacing: 1,
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: Font.Regular,
                 }}>
                 Follow
               </Text>
@@ -440,7 +441,7 @@ const UserProfile = () => {
               fontWeight: '600',
               color: Colors.mildGrey,
               letterSpacing: 1,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: Font.Regular,
             }}>
             NetWorks
           </Text>
@@ -450,7 +451,7 @@ const UserProfile = () => {
               color: Colors.mildGrey,
               fontSize: width * 0.04,
               letterSpacing: 1,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: Font.Regular,
             }}>
             {selectedUser?.Connections?.length}
           </Text>
@@ -461,7 +462,7 @@ const UserProfile = () => {
               // fontWeight: '600',
               color: Colors.mildGrey,
               letterSpacing: 1,
-              fontFamily: 'Poppins-SemiBold',
+              fontFamily: Font.Regular,
             }}>
             Posts
           </Text>
@@ -471,7 +472,7 @@ const UserProfile = () => {
               color: Colors.mildGrey,
               fontSize: width * 0.04,
               letterSpacing: 1,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: Font.Regular,
             }}>
             {selectedUser?.PostLength}
           </Text>
@@ -507,7 +508,7 @@ const UserProfile = () => {
             style={{
               fontSize: width * 0.023,
               marginLeft: 10,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: Font.Regular,
             }}>
             {mutualFriend?.length > 0
               ? `You have ${mutualFriend.length} mutual ${
@@ -576,7 +577,7 @@ const UserProfile = () => {
               style={{
                 textAlign: 'center',
                 color: 'gray',
-                fontFamily: 'Poppins-Medium',
+                fontFamily: Font.Regular,
               }}>
               No more posts
             </Text>
@@ -635,7 +636,7 @@ const UserProfile = () => {
                 letterSpacing: 2,
                 textAlign: 'center',
                 color: 'black',
-                fontFamily: 'Poppins-Medium',
+                fontFamily: Font.Regular,
               }}>
               Networks
             </Text>
@@ -678,7 +679,7 @@ const UserProfile = () => {
                       letterSpacing: 1,
                       color: Colors.mildGrey,
                       flex: 1,
-                      fontFamily: 'Poppins-Medium',
+                      fontFamily: Font.Regular,
                       // borderWidth: 1,
                     }}>
                     {item?.firstName} {item?.lastName}
@@ -723,7 +724,7 @@ const UserProfile = () => {
                 color: Colors.mildGrey,
                 fontSize: width * 0.035,
                 letterSpacing: 2,
-                fontFamily: 'Poppins-Medium',
+                fontFamily: Font.Regular,
               }}>
               No Connetions
             </Text>
