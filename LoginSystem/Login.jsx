@@ -138,7 +138,7 @@ const Login = () => {
               style={{
                 paddingLeft: 10,
                 color: Colors.veryDarkGrey,
-                fontFamily: 'Poppins-Medium',
+                fontFamily: 'Poppins-Light',
               }}
               placeholder="Email"
               placeholderTextColor={Colors.mildGrey}
@@ -161,7 +161,7 @@ const Login = () => {
                 color: Colors.veryDarkGrey,
                 flex: 1,
                 borderColor: 'black',
-                fontFamily: 'Poppins-Medium',
+                fontFamily: 'Poppins-Light',
               }}
               placeholder="Password"
               placeholderTextColor={Colors.mildGrey}
@@ -206,7 +206,7 @@ const Login = () => {
                 color: Colors.violet,
                 letterSpacing: 1,
                 textAlign: 'right',
-                fontFamily: 'Poppins-Medium',
+                fontFamily: 'Poppins-Light',
               }}>
               Forgot Password?
             </Text>
@@ -217,7 +217,12 @@ const Login = () => {
           <Text style={styles.indicatorText}>OR</Text>
         </View>
         <View style={styles.signUpContainer}>
-          <Text style={{color: Colors.mildGrey, fontWeight: '400'}}>
+          <Text
+            style={{
+              color: Colors.mildGrey,
+              // fontWeight: '400',
+              fontFamily: 'Poppins-Light',
+            }}>
             Create New account
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate('signup')}>
@@ -269,7 +274,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
     textAlign: 'center',
     includeFontPadding: false,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-Light',
   },
   indicator: {
     width: '100%',

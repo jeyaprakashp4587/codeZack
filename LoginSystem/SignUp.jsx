@@ -183,7 +183,7 @@ const SignUp = ({navigation}) => {
                     // borderWidth: 1,
                     elevation: 3,
                     letterSpacing: 1,
-                    fontFamily: 'Poppins-Medium',
+                    fontFamily: 'Poppins-Light',
                   },
                 ]}
                 key={key}
