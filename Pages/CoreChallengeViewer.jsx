@@ -69,7 +69,6 @@ const CoreChallengeViewer = () => {
           {selectedChallenge?.output_example}
         </Text>
       </TouchableOpacity>
-
       {/* web view */}
       <View style={{flex: 1}}>
         <WebView
