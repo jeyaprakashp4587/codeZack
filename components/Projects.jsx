@@ -139,7 +139,6 @@ const Projects = () => {
                       top: 0,
                     }}
                   />
-
                   <Text
                     style={{
                       // fontWeight: '400',
@@ -159,22 +158,31 @@ const Projects = () => {
                     }}>
                     Get Full Assets
                   </Text>
-                  <View
+                  <Text
                     style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      columnGap: 10,
-                    }}>
-                    <Text
-                      style={{
-                        letterSpacing: 1,
-                        fontSize: width * 0.025,
-                        color: Colors.veryLightGrey,
-                        fontFamily: Font.Regular,
+                      letterSpacing: 1,
+                      fontSize: width * 0.025,
+                      color: Colors.veryLightGrey,
+                      fontFamily: Font.Regular,
+                    }}
+                    numberOfLines={2}>
+                    Technical Support (Time Limit)
+                  </Text>
+                  <View style={{flexDirection: 'row', columnGap: 10}}>
+                    <Image
+                      source={{
+                        uri: 'https://img.icons8.com/ios/100/android-os.png',
                       }}
-                      numberOfLines={2}>
-                      Technical Support (Time Limit)
-                    </Text>
+                      style={{width: 20, aspectRatio: 1, tintColor: 'white'}}
+                      resizeMode="contain"
+                    />
+                    <Image
+                      source={{
+                        uri: 'https://img.icons8.com/parakeet-line/100/globe.png',
+                      }}
+                      style={{width: 20, aspectRatio: 1, tintColor: 'white'}}
+                      resizeMode="contain"
+                    />
                   </View>
                   <TouchableOpacity
                     onPress={() => handleSelectProject(item)}

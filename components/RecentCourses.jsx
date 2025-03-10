@@ -47,7 +47,7 @@ const RecentCourses = () => {
           // fontWeight: '700',
           fontFamily: Font.Regular,
         }}>
-        Recent Course
+        Your Recent Course
       </Text>
       <View style={{borderRadius: 10, overflow: 'hidden'}}>
         <LinearGradient

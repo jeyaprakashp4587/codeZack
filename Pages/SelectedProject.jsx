@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Dimensions,
   Image,
   ScrollView,
@@ -8,30 +9,79 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useCallback} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import {useData} from '../Context/Contexter';
 import HeadingText from '../utils/HeadingText';
 import {Colors} from '../constants/Colors';
-import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
+import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
+import {Font} from '../constants/Font';
+import RNFS from 'react-native-fs';
 
 const SelectedProject = () => {
   const {selectedProject} = useData();
   const {width, height} = Dimensions.get('window');
-  //   console.log(selectedProject);
+  const {load, isLoaded, show, isClosed, isEarnedReward} = useInterstitialAd(
+    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/2804627935',
+    {
+      requestNonPersonalizedAdsOnly: false,
+    },
+  );
+  useEffect(() => {
+    load();
+  }, [load]);
+  useEffect(() => {
+    if (isClosed) {
+      load();
+    }
+  }, [isClosed]);
   // handle buy project
+  const driveUrl =
+    'https://drive.google.com/uc?export=download&id=1_DDhYfERJIl4S9BUDuNFiFskZYkoliNE';
+  const fileName = 'my_folder.zip';
+  const localPath = `${RNFS.DownloadDirectoryPath}/${fileName}`; // Saves in Downloads
+
   const handleBuyProject = useCallback(async () => {
-    ToastAndroid.show("We'll updated soon", ToastAndroid.SHORT);
+    if (Platform.OS === 'android') {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      );
+      if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+        Alert.alert('Permission Denied', 'Storage permission is required.');
+        return;
+      }
+    }
+
+    const options = {
+      fromUrl: driveUrl,
+      toFile: localPath,
+      background: true,
+      discretionary: true,
+    };
+    RNFS.downloadFile(options)
+      .promise.then(() => {
+        Alert.alert('Download Complete', 'Folder downloaded successfully!');
+      })
+      .catch(error => {
+        Alert.alert('Download Failed', error.message);
+      });
   }, []);
+  const [adCount, setAdCount] = useState(5);
+  const watchAdd = useCallback(async () => {
+    if (isLoaded) {
+      await show();
+    }
+    if (isEarnedReward) setAdCount(prev => prev - 1);
+  }, [isLoaded, isClosed, isEarnedReward, adCount]);
   return (
     <ScrollView
       style={{flex: 1, backgroundColor: 'white'}}
-      showsHorizontalScrollIndicator={false}>
+      showsVerticalScrollIndicator={false}>
       {/* header */}
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text={selectedProject?.name} />
       </View>
-      {/* contect */}
+      {/* contact */}
       <View
         style={{
           borderWidth: 0,
@@ -56,7 +106,7 @@ const SelectedProject = () => {
             letterSpacing: 1,
             // fontWeight: '600',
             color: Colors.mildGrey,
-            fontFamily: 'Poppins-Light',
+            fontFamily: 'Poppins-Regular',
           }}>
           Note! "If you purchase this project, our skilled software engineers
           will provide full support from scratch to completion. This project
@@ -72,7 +122,7 @@ const SelectedProject = () => {
             fontWeight: '600',
             fontSize: width * 0.045,
             letterSpacing: 0.5,
-            fontFamily: 'Poppins-Light',
+            fontFamily: 'Poppins-SemiBold',
           }}>
           Select your Technology
         </Text>
@@ -116,7 +166,7 @@ const SelectedProject = () => {
                       color: Colors.mildGrey,
                       letterSpacing: 1,
                       fontSize: width * 0.03,
-                      fontFamily: 'Poppins-Light',
+                      fontFamily: 'Poppins-Medium',
                     }}>
                     {tool?.TechName}
                   </Text>
@@ -130,52 +180,66 @@ const SelectedProject = () => {
               {/* price */}
               <Text
                 style={{
-                  fontWeight: '900',
+                  // fontWeight: '900',
                   color: Colors.violet,
                   letterSpacing: 1,
                   fontSize: width * 0.03,
                   marginBottom: 10,
-                  fontFamily: 'Poppins-Light',
+                  fontFamily: 'Poppins-Medium',
                 }}>
-                Price Rs: {tech?.Price} /-
+                Watch {adCount} Ads to unlock
               </Text>
-              <TouchableOpacity
-                style={{
-                  padding: 10,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: 5,
-                  backgroundColor: 'white',
-                }}
-                onPress={() => handleBuyProject()}>
-                <Text
+              {/* buttons */}
+              {adCount <= 0 ? (
+                <TouchableOpacity
                   style={{
-                    textAlign: 'center',
-                    letterSpacing: 1,
-                    fontSize: width * 0.035,
-                    color: Colors.mildGrey,
-                    fontFamily: 'Poppins-Light',
+                    padding: 10,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 5,
+                    backgroundColor: 'white',
+                  }}
+                  onPress={() => handleBuyProject()}>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      letterSpacing: 1,
+                      fontSize: width * 0.035,
+                      color: Colors.mildGrey,
+                      fontFamily: 'Poppins-Medium',
+                    }}>
+                    Get Project
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={watchAdd}
+                  style={{
+                    padding: 10,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 5,
+                    backgroundColor: 'white',
+                    backgroundColor: Colors.violet,
                   }}>
-                  Coming Soon
-                </Text>
-              </TouchableOpacity>
+                  {isLoaded ? (
+                    <Text
+                      style={{
+                        fontFamily: Font.Regular,
+                        fontSize: width * 0.036,
+                        letterSpacing: 1,
+                        color: 'white',
+                      }}>
+                      Watch add
+                    </Text>
+                  ) : (
+                    <ActivityIndicator color="white" size={20} />
+                  )}
+                </TouchableOpacity>
+              )}
             </View>
           ))}
         </View>
-        {/* text */}
-        <Text
-          style={{
-            color: Colors.veryDarkGrey,
-            fontSize: width * 0.03,
-            marginBottom: 30,
-            // fontWeight: '600',
-            letterSpacing: 0.7,
-            lineHeight: 20,
-            fontFamily: 'Poppins-SemiBold',
-          }}>
-          "Achieve success with our project! Get full support, UI assets, and
-          expert guidance. Start your journey today!"
-        </Text>
       </View>
     </ScrollView>
   );
