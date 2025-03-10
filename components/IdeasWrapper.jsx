@@ -107,9 +107,9 @@ const IdeasWrapper = () => {
                 style={{
                   textAlign: 'center',
                   color: Colors.veryDarkGrey,
-                  letterSpacing: 1,
+                  letterSpacing: 0.5,
                   fontSize: width * 0.028,
-                  // fontWeight: '00',
+
                   fontFamily: Font.SemiBold,
                 }}>
                 {item.name}
