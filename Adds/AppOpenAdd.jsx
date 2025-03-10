@@ -8,54 +8,45 @@ const AppOpenAd = () => {
     isLoaded: loadedAppOpen,
     isClosed: closedAppOpen,
     load: loadAppOpen,
+    isShowing: isAdShowing, // Fix: Use correct state to track ad display
   } = useAppOpenAd(
     __DEV__ ? TestIds.APP_OPEN : 'ca-app-pub-3257747925516984/6520210341',
     {requestNonPersonalizedAdsOnly: true},
   );
 
-  const isAdShowing = useRef(false);
-  const isAppActive = useRef(false);
   const lastAdShownTime = useRef(0);
 
   useEffect(() => {
-    loadAppOpen();
-  }, [loadAppOpen]);
+    loadAppOpen(); // Ensure ad is loaded on component mount
+  }, []);
+
+  // Function to show ad with a time limit (1-minute gap)
+  const showAdIfAvailable = () => {
+    const currentTime = Date.now();
+    if (currentTime - lastAdShownTime.current < 60000) {
+      console.log('Ad skipped: Less than 1 min since last ad.');
+      return;
+    }
+
+    if (loadedAppOpen && !isAdShowing) {
+      showAppOpen()
+        .then(() => {
+          lastAdShownTime.current = Date.now();
+        })
+        .catch(error => {
+          console.error('Ad Show Error:', error);
+        });
+    } else if (!loadedAppOpen) {
+      console.log('Ad not loaded yet, reloading...');
+      loadAppOpen();
+    }
+  };
 
   // Handle app state changes
   useEffect(() => {
     const handleAppStateChange = state => {
       if (state === 'active') {
-        if (!isAppActive.current) {
-          isAppActive.current = true; // Mark app as active
-          showAdIfAvailable();
-        }
-      } else {
-        isAppActive.current = false; // Reset app state when inactive
-      }
-    };
-
-    const showAdIfAvailable = () => {
-      const currentTime = Date.now();
-      if (currentTime - lastAdShownTime.current < 60000) {
-        return;
-      }
-
-      if (loadedAppOpen && !isAdShowing.current) {
-        isAdShowing.current = true;
-        try {
-          showAppOpen()
-            .then(() => {
-              lastAdShownTime.current = Date.now();
-            })
-            .catch(() => {})
-            .finally(() => {
-              isAdShowing.current = false;
-            });
-        } catch {
-          isAdShowing.current = false;
-        }
-      } else if (!loadedAppOpen) {
-        loadAppOpen();
+        showAdIfAvailable();
       }
     };
 
@@ -67,13 +58,15 @@ const AppOpenAd = () => {
     return () => {
       appStateListener.remove();
     };
-  }, [loadedAppOpen, showAppOpen, loadAppOpen]);
+  }, []);
 
+  // Reload ad when closed
   useEffect(() => {
-    if (closedAppOpen && !loadedAppOpen) {
+    if (closedAppOpen) {
+      console.log('Ad closed, reloading...');
       loadAppOpen();
     }
-  }, [closedAppOpen, loadedAppOpen, loadAppOpen]);
+  }, [closedAppOpen]);
 
   return null;
 };

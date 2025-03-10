@@ -1,13 +1,15 @@
 import {
   ActivityIndicator,
+  Alert,
   Dimensions,
-  Image,
   ScrollView,
   StyleSheet,
   Text,
-  ToastAndroid,
   TouchableOpacity,
   View,
+  PermissionsAndroid,
+  Platform,
+  ToastAndroid,
 } from 'react-native';
 import React, {useCallback, useState, useEffect} from 'react';
 import {useData} from '../Context/Contexter';
@@ -17,9 +19,12 @@ import FastImage from 'react-native-fast-image';
 import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
 import {Font} from '../constants/Font';
 import RNFS from 'react-native-fs';
+import FileViewer from 'react-native-file-viewer';
 
 const SelectedProject = () => {
   const {selectedProject} = useData();
+  console.log(selectedProject);
+
   const {width, height} = Dimensions.get('window');
   const {load, isLoaded, show, isClosed, isEarnedReward} = useInterstitialAd(
     __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/2804627935',
@@ -37,36 +42,40 @@ const SelectedProject = () => {
   }, [isClosed]);
   // handle buy project
   const driveUrl =
-    'https://drive.google.com/uc?export=download&id=1_DDhYfERJIl4S9BUDuNFiFskZYkoliNE';
-  const fileName = 'my_folder.zip';
-  const localPath = `${RNFS.DownloadDirectoryPath}/${fileName}`; // Saves in Downloads
-
+    'https://drive.google.com/uc?export=download&id=1Rkc4J3DBCcOf6XK-cy2MaOR7yHWnczU-';
+  const [downloadIndi, setDownloadIndi] = useState(false);
   const handleBuyProject = useCallback(async () => {
-    if (Platform.OS === 'android') {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-      );
-      if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
-        Alert.alert('Permission Denied', 'Storage permission is required.');
-        return;
+    try {
+      if (Platform.OS === 'android') {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        );
+        if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+          Alert.alert('Permission Denied', 'Storage permission is required.');
+          return;
+        }
       }
+      const localPath = `${RNFS.ExternalDirectoryPath}/my_folder.zip`;
+      setDownloadIndi(true);
+      const downloadResult = await RNFS.downloadFile({
+        fromUrl: driveUrl,
+        toFile: localPath,
+        background: true,
+        discretionary: true,
+      }).promise;
+      setDownloadIndi(false);
+      ToastAndroid.show('Downloaded sucessfully', ToastAndroid.SHORT);
+      setTimeout(() => {
+        FileViewer.open(localPath);
+      }, 1000);
+    } catch (error) {
+      setDownloadIndi(false);
+      ToastAndroid.show('Download Failed', ToastAndroid.SHORT);
     }
-
-    const options = {
-      fromUrl: driveUrl,
-      toFile: localPath,
-      background: true,
-      discretionary: true,
-    };
-    RNFS.downloadFile(options)
-      .promise.then(() => {
-        Alert.alert('Download Complete', 'Folder downloaded successfully!');
-      })
-      .catch(error => {
-        Alert.alert('Download Failed', error.message);
-      });
   }, []);
-  const [adCount, setAdCount] = useState(5);
+
+  const [adCount, setAdCount] = useState(0);
+  // Watch add to unlock get assets
   const watchAdd = useCallback(async () => {
     if (isLoaded) {
       await show();
@@ -108,12 +117,12 @@ const SelectedProject = () => {
             color: Colors.mildGrey,
             fontFamily: 'Poppins-Regular',
           }}>
-          Note! "If you purchase this project, our skilled software engineers
-          will provide full support from scratch to completion. This project
-          assets, including UI design, color schemes, and images, will be
-          prepared and provided by our expert technicians once your payment is
-          successfully processed. We're here to ensure a seamless and
-          professional experience throughout your project journey!"
+          Note! "If you get this project, our skilled software engineers will
+          provide full support from scratch to completion. This project assets,
+          including UI design, color schemes, and images, will be prepared and
+          provided by our expert technicians once your payment is successfully
+          processed. We're here to ensure a seamless and professional experience
+          throughout your project journey!"
         </Text>
         {/* selct tech */}
         <Text
@@ -178,17 +187,20 @@ const SelectedProject = () => {
                 </View>
               ))}
               {/* price */}
-              <Text
-                style={{
-                  // fontWeight: '900',
-                  color: Colors.violet,
-                  letterSpacing: 1,
-                  fontSize: width * 0.03,
-                  marginBottom: 10,
-                  fontFamily: 'Poppins-Medium',
-                }}>
-                Watch {adCount} Ads to unlock
-              </Text>
+              {adCount > 0 && (
+                <Text
+                  style={{
+                    // fontWeight: '900',
+                    color: Colors.violet,
+                    letterSpacing: 1,
+                    fontSize: width * 0.03,
+                    marginBottom: 10,
+                    fontFamily: 'Poppins-Medium',
+                  }}>
+                  Watch {adCount} Ads to unlock
+                </Text>
+              )}
+
               {/* buttons */}
               {adCount <= 0 ? (
                 <TouchableOpacity
@@ -198,18 +210,24 @@ const SelectedProject = () => {
                     alignItems: 'center',
                     borderRadius: 5,
                     backgroundColor: 'white',
+                    borderColor: Colors.violet,
+                    borderWidth: 0.6,
                   }}
                   onPress={() => handleBuyProject()}>
-                  <Text
-                    style={{
-                      textAlign: 'center',
-                      letterSpacing: 1,
-                      fontSize: width * 0.035,
-                      color: Colors.mildGrey,
-                      fontFamily: 'Poppins-Medium',
-                    }}>
-                    Get Project
-                  </Text>
+                  {downloadIndi ? (
+                    <ActivityIndicator size={23} color="black" />
+                  ) : (
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        letterSpacing: 1,
+                        fontSize: width * 0.035,
+                        color: Colors.mildGrey,
+                        fontFamily: 'Poppins-Medium',
+                      }}>
+                      Get Project
+                    </Text>
+                  )}
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity

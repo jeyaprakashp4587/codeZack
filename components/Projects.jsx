@@ -56,14 +56,14 @@ const Projects = () => {
   useEffect(() => {
     load();
   }, [load]);
-  // Reload the ad after it is closed
+  // Reload the add after it is closed
   useEffect(() => {
     if (isClosed) {
       load();
     }
   }, [isClosed, load]);
 
-  //   handle select project and navigate
+  //handle select project and navigate
   const navigation = useNavigation();
   const handleSelectProject = useCallback(
     async project => {
