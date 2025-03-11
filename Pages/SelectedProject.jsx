@@ -23,8 +23,6 @@ import FileViewer from 'react-native-file-viewer';
 
 const SelectedProject = () => {
   const {selectedProject} = useData();
-  console.log(selectedProject);
-
   const {width, height} = Dimensions.get('window');
   const {load, isLoaded, show, isClosed, isEarnedReward} = useInterstitialAd(
     __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/2804627935',
@@ -41,8 +39,6 @@ const SelectedProject = () => {
     }
   }, [isClosed]);
   // handle buy project
-  const driveUrl =
-    'https://drive.google.com/uc?export=download&id=1Rkc4J3DBCcOf6XK-cy2MaOR7yHWnczU-';
   const [downloadIndi, setDownloadIndi] = useState(false);
   const handleBuyProject = useCallback(async () => {
     try {
@@ -55,10 +51,10 @@ const SelectedProject = () => {
           return;
         }
       }
-      const localPath = `${RNFS.ExternalDirectoryPath}/my_folder.zip`;
+      const localPath = `${RNFS.ExternalDirectoryPath}/${selectedProject?.name}.zip`;
       setDownloadIndi(true);
       const downloadResult = await RNFS.downloadFile({
-        fromUrl: driveUrl,
+        fromUrl: `https://drive.google.com/uc?export=download&id=${selectedProject?.driveId}`,
         toFile: localPath,
         background: true,
         discretionary: true,

@@ -303,7 +303,7 @@ const ChooseChallenge = ({navigation}) => {
                 setSelectedChallenge(item);
               }}
               style={{
-                borderWidth: 1,
+                borderWidth: 0.5,
                 borderColor: Colors.violet,
                 borderRadius: 50,
               }}>
@@ -331,16 +331,18 @@ const styles = StyleSheet.create({
   flatList: {
     alignSelf: 'center',
     width: '100%',
-    paddingHorizontal: 15,
+    // paddingHorizontal: 15,
     marginBottom: 10,
   },
   challengeContainer: {
     padding: 20,
     backgroundColor: 'white',
-    borderRadius: 5,
-    elevation: 2,
+    // elevation: 2,
     marginTop: 15,
-    margin: 5,
+    borderWidth: 0,
+    borderTopWidth: 0.5,
+    borderBottomWidth: 0.5,
+    borderColor: Colors.veryLightGrey,
   },
   challengeImage: {
     width: '100%',

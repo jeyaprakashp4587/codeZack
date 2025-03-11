@@ -91,8 +91,8 @@ const Projects = () => {
           paddingHorizontal: 15,
           // borderWidth: 1,
         }}>
-        <Skeleton width={width * 0.6} height={height * 0.14} radius={20} />
-        <Skeleton width={width * 0.6} height={height * 0.14} radius={20} />
+        <Skeleton width={width * 0.6} height={height * 0.2} radius={20} />
+        <Skeleton width={width * 0.6} height={height * 0.2} radius={20} />
       </View>
     );
   }
@@ -117,7 +117,8 @@ const Projects = () => {
               <LinearGradient
                 colors={[
                   'rgb(0, 0, 0)',
-                  'rgba(13, 13, 13, 0.83)',
+                  'rgba(13, 13, 13, 0.88)',
+                  'rgba(22, 22, 22, 0.62)',
                   'rgba(255, 255, 255, 0.2)',
                 ]}
                 start={{x: 0, y: 0}}
@@ -130,7 +131,7 @@ const Projects = () => {
                       uri: 'https://img.icons8.com/color/96/fairytale.png',
                       priority: FastImage.priority.high,
                     }}
-                    resizeMode="contain"
+                    resizeMode="center"
                     style={{
                       position: 'absolute',
                       width: width * 0.05,
@@ -168,7 +169,7 @@ const Projects = () => {
                     numberOfLines={2}>
                     Technical Support (Time Limit)
                   </Text>
-                  <View style={{flexDirection: 'row', columnGap: 10}}>
+                  {/* <View style={{flexDirection: 'row', columnGap: 10}}>
                     <Image
                       source={{
                         uri: 'https://img.icons8.com/ios/100/android-os.png',
@@ -183,7 +184,7 @@ const Projects = () => {
                       style={{width: 20, aspectRatio: 1, tintColor: 'white'}}
                       resizeMode="contain"
                     />
-                  </View>
+                  </View> */}
                   <TouchableOpacity
                     onPress={() => handleSelectProject(item)}
                     style={{
@@ -193,6 +194,7 @@ const Projects = () => {
                       borderRadius: 15,
                       marginTop: 10,
                       backgroundColor: 'rgba(255, 255, 255, 0.20)',
+                      // borderWidth: 0.5,
                     }}>
                     {/* git log update*/}
                     <Text
