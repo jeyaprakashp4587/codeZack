@@ -629,10 +629,10 @@ const Profile = ({navigation}) => {
           }}>
           <Text
             style={{
-              fontWeight: '600',
+              // fontWeight: '600',
               color: Colors.mildGrey,
               letterSpacing: 1,
-              fontFamily: Font.Regular,
+              fontFamily: Font.Medium,
             }}>
             Connections
           </Text>
@@ -653,7 +653,7 @@ const Profile = ({navigation}) => {
               fontWeight: '600',
               color: Colors.mildGrey,
               letterSpacing: 1,
-              fontFamily: Font.Regular,
+              fontFamily: Font.Medium,
             }}>
             Posts
           </Text>
@@ -902,7 +902,7 @@ const Profile = ({navigation}) => {
                       style={{
                         letterSpacing: 1,
                         fontSize: width * 0.035,
-                        fontFamily: 'Poppins-Medium',
+                        fontFamily: Font.Regular,
                       }}>
                       {item?.firstName.trim()}
                     </Text>
@@ -910,7 +910,7 @@ const Profile = ({navigation}) => {
                       style={{
                         letterSpacing: 1,
                         fontSize: width * 0.035,
-                        fontFamily: 'Poppins-Medium',
+                        fontFamily: Font.Regular,
                       }}>
                       {item?.lastName}
                     </Text>

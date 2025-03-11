@@ -12,14 +12,12 @@ import {
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import MobileAds from 'react-native-google-mobile-ads';
 import {PaperProvider} from 'react-native-paper';
-import CodePush from 'react-native-code-push';
 
 const {width} = Dimensions.get('window');
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
   strict: false,
 });
-let check = {checkFrequency: CodePush.CheckFrequency.ON_APP_START};
 
 const App = () => {
   useEffect(() => {
@@ -51,7 +49,7 @@ const App = () => {
   );
 };
 
-export default CodePush(check)(App);
+export default App;
 
 const styles = StyleSheet.create({
   cn: {

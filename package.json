@@ -36,7 +36,6 @@
     "react-native": "0.76.0",
     "react-native-asset": "^2.1.1",
     "react-native-calendars": "^1.1307.0",
-    "react-native-code-push": "^9.0.1",
     "react-native-fast-image": "^8.6.3",
     "react-native-file-viewer": "^2.1.5",
     "react-native-fs": "^2.20.0",

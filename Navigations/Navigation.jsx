@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Dimensions, Image, View} from 'react-native';
 import {
   NavigationContainer,
@@ -50,16 +50,30 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-
 import SelectedProject from '../Pages/SelectedProject';
 import {Font} from '../constants/Font';
-
+import useSocketOn from '../Socket/useSocketOn';
+import {SocketData} from '../Socket/SocketContext';
 // Tab navigations functions
 const {width, height} = Dimensions.get('window');
 const Tab = createBottomTabNavigator();
-
 // Tab Navigator functions
 const TabNavigation = () => {
+  const socket = SocketData();
+  const navigationState = useNavigationState(state => state);
+  // create sockets for get badges
+  const [feedBadge, setFeedBadge] = useState(false);
+  const [homeBadge, setHomeBagde] = useState(false);
+  useSocketOn(socket, 'getFeedBadge', async data => {
+    if ('Feed' != navigationState?.routes[navigationState?.index]?.name) {
+      setFeedBadge(true);
+    }
+  });
+  useSocketOn(socket, 'getHomeBadge', async data => {
+    if ('Home' != navigationState?.routes[navigationState?.index]?.name) {
+      setHomeBagde(true);
+    }
+  });
   return (
     <View style={{flex: 1}}>
       <Tab.Navigator
@@ -107,6 +121,14 @@ const TabNavigation = () => {
                 resizeMode="contain"
               />
             ),
+            tabBarBadge: homeBadge ? '' : null,
+            tabBarBadgeStyle: {
+              backgroundColor: 'red',
+              borderWidth: 3,
+              borderColor: 'white',
+              position: 'absolute',
+              top: 15,
+            },
           }}
         />
         <Tab.Screen
@@ -128,6 +150,14 @@ const TabNavigation = () => {
                 resizeMode="contain"
               />
             ),
+            tabBarBadge: feedBadge ? '' : null,
+            tabBarBadgeStyle: {
+              backgroundColor: 'red',
+              borderWidth: 3,
+              borderColor: 'white',
+              position: 'absolute',
+              top: 15,
+            },
           }}
         />
         <Tab.Screen
@@ -135,11 +165,6 @@ const TabNavigation = () => {
           component={Challenge}
           options={{
             tabBarIcon: ({color, focused}) => (
-              // <MaterialCommunityIcons
-              //   name="sword-cross"
-              //   size={width * 0.06}
-              //   color={color}
-              // />
               <Image
                 source={{
                   uri: focused
