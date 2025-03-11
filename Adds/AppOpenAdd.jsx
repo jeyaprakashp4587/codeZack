@@ -1,5 +1,5 @@
 import {AppState} from 'react-native';
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useAppOpenAd, TestIds} from 'react-native-google-mobile-ads';
 
 const AppOpenAd = () => {
@@ -8,19 +8,18 @@ const AppOpenAd = () => {
     isLoaded: loadedAppOpen,
     isClosed: closedAppOpen,
     load: loadAppOpen,
-    isShowing: isAdShowing, // Fix: Use correct state to track ad display
   } = useAppOpenAd(
     __DEV__ ? TestIds.APP_OPEN : 'ca-app-pub-3257747925516984/6520210341',
     {requestNonPersonalizedAdsOnly: true},
   );
 
   const lastAdShownTime = useRef(0);
+  const [isAdShowing, setIsAdShowing] = useState(false);
 
   useEffect(() => {
     loadAppOpen(); // Ensure ad is loaded on component mount
   }, []);
 
-  // Function to show ad with a time limit (1-minute gap)
   const showAdIfAvailable = () => {
     const currentTime = Date.now();
     if (currentTime - lastAdShownTime.current < 60000) {
@@ -29,12 +28,15 @@ const AppOpenAd = () => {
     }
 
     if (loadedAppOpen && !isAdShowing) {
+      setIsAdShowing(true);
       showAppOpen()
         .then(() => {
           lastAdShownTime.current = Date.now();
+          setIsAdShowing(false);
         })
         .catch(error => {
           console.error('Ad Show Error:', error);
+          setIsAdShowing(false);
         });
     } else if (!loadedAppOpen) {
       console.log('Ad not loaded yet, reloading...');
@@ -42,11 +44,10 @@ const AppOpenAd = () => {
     }
   };
 
-  // Handle app state changes
   useEffect(() => {
     const handleAppStateChange = state => {
       if (state === 'active') {
-        showAdIfAvailable();
+        setTimeout(() => showAdIfAvailable(), 500);
       }
     };
 
@@ -55,12 +56,9 @@ const AppOpenAd = () => {
       handleAppStateChange,
     );
 
-    return () => {
-      appStateListener.remove();
-    };
+    return () => appStateListener.remove();
   }, []);
 
-  // Reload ad when closed
   useEffect(() => {
     if (closedAppOpen) {
       console.log('Ad closed, reloading...');
