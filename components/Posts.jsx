@@ -615,7 +615,8 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                         flex: 1,
                         fontSize: width * 0.04,
                         fontFamily: Font.Medium,
-                      }}>
+                      }}
+                      numberOfLines={1}>
                       {item?.firstName} {item?.LastName}
                     </Text>
                     <RelativeTime time={item?.LikedTime} />
@@ -705,7 +706,8 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                         letterSpacing: 1,
                         fontSize: width * 0.04,
                         fontFamily: Font.Medium,
-                      }}>
+                      }}
+                      numberOfLines={1}>
                       {item?.firstName} {item?.LastName}
                     </Text>
                     <Text
@@ -987,7 +989,8 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                       textAlign: 'center',
                       // fontWeight: '600',
                       fontFamily: Font.Regular,
-                    }}>
+                    }}
+                    numberOfLines={1}>
                     {item?.firstName}
                   </Text>
                 </TouchableOpacity>

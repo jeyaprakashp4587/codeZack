@@ -15,8 +15,6 @@ import {profileApi} from '../Api';
 import {useData} from '../Context/Contexter';
 import Posts from './Posts';
 import HeadingText from '../utils/HeadingText';
-import {Colors} from '../constants/Colors';
-import FastImage from 'react-native-fast-image';
 import PostSkeleton from '../Skeletons/PostSkeleton';
 import {Font} from '../constants/Font';
 
@@ -131,5 +129,3 @@ const PostFeed = () => {
 };
 
 export default PostFeed;
-
-const styles = StyleSheet.create({});
