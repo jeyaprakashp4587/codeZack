@@ -17,6 +17,7 @@ import {Colors} from '../constants/Colors';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 import {Font} from '../constants/Font';
+import PragraphText from '../utils/PragraphText';
 
 const RecentCourses = () => {
   const {width, height} = Dimensions.get('window');
@@ -38,7 +39,7 @@ const RecentCourses = () => {
   }
   return (
     <View style={{paddingHorizontal: 15, marginVertical: 10}}>
-      <Text
+      {/* <Text
         style={{
           fontSize: width * 0.042,
           letterSpacing: 1,
@@ -48,7 +49,8 @@ const RecentCourses = () => {
           fontFamily: Font.Regular,
         }}>
         Your Recent Course
-      </Text>
+      </Text> */}
+      <PragraphText text="Your Recent Course" color="black" fweight={700} />
       <View style={{borderRadius: 10, overflow: 'hidden'}}>
         <LinearGradient
           colors={['#fff9f3', '#eef7fe']}

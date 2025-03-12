@@ -36,9 +36,9 @@ import Skeleton from '../Skeletons/Skeleton';
 import useFCMToken from '../hooks/useFCMToken';
 import IdeasWrapper from '../components/IdeasWrapper';
 import RecentCourses from '../components/RecentCourses';
-import AppOpenAd from '../Adds/AppOpenAdd';
+// import AppOpenAd from '../Adds/AppOpenAdd';
 import FastImage from 'react-native-fast-image';
-import useOnlineStatus from '../hooks/ useOnlineStatus';
+// import useOnlineStatus from '../hooks/useOnlineStatus';
 import {Font} from '../constants/Font';
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
@@ -57,7 +57,7 @@ const Home = () => {
   // setonlineStatus
   // useOnlineStatus();
   // config app open add
-  AppOpenAd();
+  // AppOpenAd();
   // Loading ui effect
   useEffect(() => {
     getNotifications();
@@ -91,7 +91,6 @@ const Home = () => {
       );
       if (status == 200 && data) {
         setUnseenCount(data.notiLength);
-        console.log(data.notiLength);
       }
     } catch (error) {
       ToastAndroid.show('Failed to fetch notifications');
@@ -233,7 +232,7 @@ const Home = () => {
             onPress={() => navigation.navigate('search')}
             placeholder="Search"
             placeholderTextColor={Colors.lightGrey}
-            style={{letterSpacing: 1}}
+            style={{letterSpacing: 1, fontFamily: Font.Regular}}
           />
         </TouchableOpacity>
         {/* Ideas wrapper */}

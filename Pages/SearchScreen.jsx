@@ -24,6 +24,7 @@ import Skeleton from '../Skeletons/Skeleton';
 import SuggestionWapper from '../components/SuggestionWapper';
 import FastImage from 'react-native-fast-image';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import {Font} from '../constants/Font';
 
 const SearchScreen = ({navigation}) => {
   // -------------- //
@@ -142,7 +143,7 @@ const SearchScreen = ({navigation}) => {
                   style={{
                     letterSpacing: 1,
                     color: Colors.mildGrey,
-                    fontFamily: 'Poppins-Medium',
+                    fontFamily: Font.Regular,
                   }}
                   numberOfLines={1}>
                   {item.firstName} {item.LastName}
@@ -153,7 +154,7 @@ const SearchScreen = ({navigation}) => {
                     letterSpacing: 1,
                     color: Colors.mildGrey,
                     fontSize: width * 0.03,
-                    fontFamily: 'Poppins-Medium',
+                    fontFamily: Font.Regular,
                   }}>
                   {item.InstitudeName}
                 </Text>
@@ -191,7 +192,7 @@ const SearchScreen = ({navigation}) => {
             color: Colors.lightGrey,
             marginTop: 20,
             textAlign: 'center',
-            fontFamily: 'Poppins-Medium',
+            fontFamily: Font.Regular,
           }}>
           No result found!
         </Text>
@@ -234,7 +235,7 @@ const SearchScreen = ({navigation}) => {
             // borderWidth: 1,
             flex: 1,
             padding: 10,
-            fontFamily: 'Poppins-Medium',
+            fontFamily: Font.Regular,
           }}
           focusable={true}
           onChangeText={handleSearch}
@@ -328,7 +329,7 @@ const SearchScreen = ({navigation}) => {
             style={{
               paddingTop: 10,
               // fontWeight: '700',
-              fontFamily: 'Poppins-SemiBold',
+              fontFamily: Font.Medium,
             }}>
             Results of ({userName.current}){' '}
           </Text>
