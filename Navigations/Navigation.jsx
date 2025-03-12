@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Dimensions, Image, View} from 'react-native';
 import {
   NavigationContainer,
@@ -63,7 +63,7 @@ const TabNavigation = () => {
   const navigationState = useNavigationState(state => state);
   // create sockets for get badges
   const [feedBadge, setFeedBadge] = useState(false);
-  const [homeBadge, setHomeBagde] = useState(false);
+  const [homeBadge, setHomeBadge] = useState(false);
   useSocketOn(socket, 'getFeedBadge', async data => {
     if ('Feed' != navigationState?.routes[navigationState?.index]?.name) {
       setFeedBadge(true);
@@ -71,9 +71,16 @@ const TabNavigation = () => {
   });
   useSocketOn(socket, 'getHomeBadge', async data => {
     if ('Home' != navigationState?.routes[navigationState?.index]?.name) {
-      setHomeBagde(true);
+      setHomeBadge(true);
     }
   });
+  // clear socket badge when user focus particular screen
+  useEffect(() => {
+    const currentScreen =
+      navigationState?.routes?.[navigationState.index]?.name;
+    if (currentScreen === 'Feed') setFeedBadge(false);
+    if (currentScreen === 'Home') setHomeBadge(false);
+  }, [navigationState]);
   return (
     <View style={{flex: 1}}>
       <Tab.Navigator

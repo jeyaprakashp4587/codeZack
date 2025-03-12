@@ -127,7 +127,7 @@ const SuggestionWapper = ({refresh}) => {
                   }}
                 />
                 {/* online status dot */}
-                <View
+                {/* <View
                   style={{
                     position: 'absolute',
                     top: height * 0.072,
@@ -139,7 +139,7 @@ const SuggestionWapper = ({refresh}) => {
                     borderWidth: 1.3,
                     borderColor: 'white',
                   }}
-                />
+                /> */}
                 <View style={{borderWidth: 0, flex: 1}}>
                   <Text
                     style={{

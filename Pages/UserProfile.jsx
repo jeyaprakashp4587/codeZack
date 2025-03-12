@@ -320,7 +320,7 @@ const UserProfile = () => {
             }}
           />
           {/* online dot indicator */}
-          <View
+          {/* <View
             style={{
               position: 'absolute',
               top: 80,
@@ -332,7 +332,7 @@ const UserProfile = () => {
               borderWidth: 3,
               borderColor: 'white',
             }}
-          />
+          /> */}
           {/* User Name and Bio */}
           <Text
             style={{
