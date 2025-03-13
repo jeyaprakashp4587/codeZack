@@ -296,7 +296,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         {receivingUserId: receiverId, postId},
         response => {
           if (response.success) {
-            ToastAndroid.show('post send sucessfully', ToastAndroid.SHORT);
+            ToastAndroid.show('post shared sucessfully', ToastAndroid.SHORT);
             PostRBSheetRef.current.close();
           } else {
             ToastAndroid.show(

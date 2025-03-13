@@ -65,6 +65,9 @@ const CourseDetails = () => {
             'You are already enrolled in this Tool',
             ToastAndroid.BOTTOM,
           );
+          setselectedTechnology({web: item.web, name: item.name});
+          // Navigate to "learn" screen immediately
+          navigation.navigate('learn');
           setLoading(false);
         }
       } catch (error) {

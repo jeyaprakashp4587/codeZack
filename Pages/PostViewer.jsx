@@ -8,7 +8,6 @@ import {profileApi} from '../Api';
 import {useData} from '../Context/Contexter';
 import HeadingText from '../utils/HeadingText';
 import Skeleton from '../Skeletons/Skeleton';
-import BannerAdd from '../Adds/BannerAdd';
 
 const PostViewer = () => {
   const {selectedPost} = useData();
@@ -27,7 +26,6 @@ const PostViewer = () => {
     }
   }, [selectedPost]);
   useEffect(() => {
-    z;
     getPostDetail();
   }, []);
   return (
