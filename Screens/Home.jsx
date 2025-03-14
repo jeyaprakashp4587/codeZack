@@ -38,6 +38,9 @@ import IdeasWrapper from '../components/IdeasWrapper';
 import RecentCourses from '../components/RecentCourses';
 import AppOpenAd from '../Adds/AppOpenAdd';
 import FastImage from 'react-native-fast-image';
+const ChallengesBanner = React.lazy(() =>
+  import('../components/ChallengesBanner'),
+);
 // import useOnlineStatus from '../hooks/useOnlineStatus';
 import {Font} from '../constants/Font';
 // Dimensions for layout
@@ -146,7 +149,6 @@ const Home = () => {
               ]}
             />
           </TouchableOpacity>
-
           <Pressable
             style={{
               position: 'relative',
@@ -237,6 +239,15 @@ const Home = () => {
         </TouchableOpacity>
         {/* Ideas wrapper */}
         <IdeasWrapper />
+        {/* challenges Banner  */}
+        <Suspense
+          fallback={
+            <View style={{margin: 15}}>
+              <Skeleton width="100%" height={height * 0.2} radius={10} />
+            </View>
+          }>
+          <ChallengesBanner />
+        </Suspense>
         {/* premium projects */}
         <Suspense
           fallback={
