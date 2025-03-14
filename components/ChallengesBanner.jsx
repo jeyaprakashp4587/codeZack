@@ -5,7 +5,7 @@ import {Font} from '../constants/Font';
 
 const ChallengesBanner = () => {
   const {width, height} = Dimensions.get('window');
-  const datalist = () => (
+  return (
     <View
       style={{
         // borderWidth: 1,
@@ -36,11 +36,6 @@ const ChallengesBanner = () => {
         style={{width: 120, aspectRatio: 1}}
         resizeMode="contain"
       />
-    </View>
-  );
-  return (
-    <View>
-      <Carousel />
     </View>
   );
 };
