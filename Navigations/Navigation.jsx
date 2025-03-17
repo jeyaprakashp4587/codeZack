@@ -54,6 +54,7 @@ import SelectedProject from '../Pages/SelectedProject';
 import {Font} from '../constants/Font';
 import useSocketOn from '../Socket/useSocketOn';
 import {SocketData} from '../Socket/SocketContext';
+import ChallengesBanner from '../components/ChallengesBanner';
 // Tab navigations functions
 const {width, height} = Dimensions.get('window');
 const Tab = createBottomTabNavigator();
@@ -462,6 +463,13 @@ const StackNavigations = () => {
         <Stack.Screen
           name="selectedProject"
           component={SelectedProject}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="challengeBanner"
+          component={ChallengesBanner}
           options={{
             headerShown: false,
           }}

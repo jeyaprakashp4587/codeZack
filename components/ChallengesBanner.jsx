@@ -1,11 +1,24 @@
 import {Dimensions, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import FastImage from 'react-native-fast-image';
 import {Font} from '../constants/Font';
 import {Colors} from '../constants/Colors';
+import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ChallengesBanner = () => {
   const {width, height} = Dimensions.get('window');
+  const naviagte = useNavigation();
+  const [showBanner, setShowBanner] = useState(true);
+  useEffect(() => {
+    try {
+      const clickedcount = AsyncStorage.getItem('clickcount');
+      if (clickedcount) {
+        setShowBanner(false);
+      }
+    } catch (error) {}
+  }, []);
+  if (!showBanner) return null;
   return (
     <View
       style={{
@@ -13,7 +26,6 @@ const ChallengesBanner = () => {
         padding: 10,
         borderRadius: 10,
         flexDirection: 'row',
-        // justifyContent: 'space-between',
         alignItems: 'center',
         elevation: 2,
         backgroundColor: 'white',
@@ -32,6 +44,10 @@ const ChallengesBanner = () => {
           Get More Web & App Challenges
         </Text>
         <TouchableOpacity
+          onPress={async () => {
+            naviagte.navigate('Code');
+            await AsyncStorage.setItem('clickedcount', 1);
+          }}
           style={{
             borderWidth: 0.8,
             flexDirection: 'row',
@@ -39,6 +55,7 @@ const ChallengesBanner = () => {
             alignItems: 'center',
             borderRadius: 20,
             width: '70%',
+            borderColor: Colors.violet,
           }}>
           <Text
             style={{
@@ -48,7 +65,6 @@ const ChallengesBanner = () => {
               padding: 5,
               textAlign: 'center',
               color: Colors.violet,
-              // fontWeight: '700',
             }}>
             Explore
           </Text>

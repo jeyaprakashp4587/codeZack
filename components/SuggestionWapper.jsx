@@ -8,10 +8,6 @@ import {
   View,
 } from 'react-native';
 import {Colors} from '../constants/Colors';
-import Ripple from 'react-native-material-ripple';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faTimes} from '@fortawesome/free-solid-svg-icons';
-import {faEye} from '@fortawesome/free-regular-svg-icons';
 import {LinearGradient} from 'react-native-linear-gradient';
 import ParagraphText from '../utils/PragraphText';
 import {functionApi} from '../Api';
@@ -63,7 +59,7 @@ const SuggestionWapper = ({refresh}) => {
           <Text
             style={{
               // textDecorationLine: 'underline',
-              letterSpacing: 1,
+              letterSpacing: 0.7,
               fontSize: width * 0.03,
               // fontWeight: '600',
               color: Colors.mildGrey,
@@ -122,24 +118,8 @@ const SuggestionWapper = ({refresh}) => {
                     width: width * 0.14,
                     height: height * 0.07,
                     borderRadius: 50,
-                    // borderWidth: 1,
-                    // resizeMode: 'contain',
                   }}
                 />
-                {/* online status dot */}
-                {/* <View
-                  style={{
-                    position: 'absolute',
-                    top: height * 0.072,
-                    zIndex: 10,
-                    left: width * 0.14,
-                    padding: width * 0.01,
-                    backgroundColor: user?.item?.onlineStatus ? 'Green' : 'red',
-                    borderRadius: 50,
-                    borderWidth: 1.3,
-                    borderColor: 'white',
-                  }}
-                /> */}
                 <View style={{borderWidth: 0, flex: 1}}>
                   <Text
                     style={{
@@ -147,7 +127,7 @@ const SuggestionWapper = ({refresh}) => {
                       color: Colors.veryDarkGrey,
                       textTransform: 'capitalize',
                       // fontWeight: '600',
-                      letterSpacing: 1,
+                      letterSpacing: 0.5,
                       fontFamily: 'Poppins-Medium',
                     }}
                     numberOfLines={1}>

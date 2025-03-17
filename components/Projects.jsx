@@ -145,7 +145,7 @@ const Projects = () => {
                       // fontWeight: '400',
                       letterSpacing: 1,
                       color: 'white',
-                      fontFamily: 'Poppins-Medium',
+                      fontFamily: Font.SemiBold,
                     }}>
                     {item?.name}
                   </Text>

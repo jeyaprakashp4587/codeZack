@@ -214,7 +214,6 @@ const ChallengeDetail = () => {
 
       if (res.data === 'completed') {
         setChallengeStatus('completed');
-        console.log('success');
         ToastAndroid.show('Wow! you made it', ToastAndroid.SHORT);
         await handleUploadPost();
         try {
