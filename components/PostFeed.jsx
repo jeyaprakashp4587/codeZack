@@ -27,6 +27,7 @@ const PostFeed = () => {
   const POSTS_PER_PAGE = 10;
   const [refreshing, setRefreshing] = useState(false);
   const {width, height} = Dimensions.get('window');
+  const [loading, setLoading] = useState(true);
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     getConnectionPosts(1).then(() => {
@@ -61,8 +62,8 @@ const PostFeed = () => {
   );
 
   useEffect(() => {
-    getConnectionPosts();
-  }, [getConnectionPosts]);
+    getConnectionPosts().then(() => setLoading(false));
+  }, []);
 
   const handleLoadMore = () => {
     if (!loadingMore && hasMore) {
@@ -73,7 +74,21 @@ const PostFeed = () => {
       });
     }
   };
-
+  // render postSkeleton ui when api was get the post data from server
+  if (loading)
+    return (
+      <View
+        style={{
+          flexDirection: 'column',
+          rowGap: 10,
+          flex: 1,
+          backgroundColor: 'white',
+        }}>
+        <PostSkeleton />
+        <PostSkeleton />
+        <PostSkeleton />
+      </View>
+    );
   return (
     <View style={{borderWidth: 0, backgroundColor: 'white', flex: 1}}>
       <View style={{paddingHorizontal: 15}}>

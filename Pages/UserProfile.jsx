@@ -16,7 +16,6 @@ import {
 } from 'react-native';
 import {useData} from '../Context/Contexter';
 import HeadingText from '../utils/HeadingText';
-import Fontisto from 'react-native-vector-icons/Fontisto';
 import Ripple from 'react-native-material-ripple';
 import {Colors, pageView} from '../constants/Colors';
 import Posts from '../components/Posts';
@@ -631,7 +630,7 @@ const UserProfile = () => {
             />
             <Text
               style={{
-                fontSize: width * 0.03,
+                fontSize: width * 0.035,
                 marginBottom: height * 0.03,
                 letterSpacing: 2,
                 textAlign: 'center',
@@ -657,30 +656,26 @@ const UserProfile = () => {
                     flexDirection: 'row',
                     columnGap: 15,
                     alignItems: 'center',
-                    borderBottomWidth: 1,
                     paddingBottom: 10,
-                    // marginHorizontal: 15,
                     borderColor: Colors.veryLightGrey,
-                    // justifyContent: "center",
-                    marginVertical: 10,
+                    marginVertical: 5,
                   }}>
                   <Image
                     source={{uri: item?.profileImg}}
                     style={{
-                      width: width * 0.14,
-                      height: height * 0.07,
                       borderRadius: 50,
                       resizeMode: 'cover',
+                      width: width * 0.13,
+                      aspectRatio: 1,
                     }}
                   />
-
                   <Text
                     style={{
-                      letterSpacing: 1,
-                      color: Colors.mildGrey,
+                      letterSpacing: 0.3,
+                      color: Colors.veryDarkGrey,
                       flex: 1,
                       fontFamily: Font.Regular,
-                      // borderWidth: 1,
+                      fontSize: width * 0.035,
                     }}>
                     {item?.firstName} {item?.lastName}
                   </Text>

@@ -1,6 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {StyleSheet, Text, ToastAndroid, View} from 'react-native';
-
+import {Dimensions, StyleSheet, Text, ToastAndroid, View} from 'react-native';
 import Posts from '../components/Posts';
 import {useEffect} from 'react';
 import axios from 'axios';
@@ -8,26 +7,35 @@ import {profileApi} from '../Api';
 import {useData} from '../Context/Contexter';
 import HeadingText from '../utils/HeadingText';
 import Skeleton from '../Skeletons/Skeleton';
+import PostSkeleton from '../Skeletons/PostSkeleton';
+import {Font} from '../constants/Font';
 
 const PostViewer = () => {
+  const {width} = Dimensions.get('window');
   const {selectedPost} = useData();
   const [post, setPost] = useState();
+  const [loading, setLoading] = useState(true);
   const getPostDetail = useCallback(async () => {
     try {
       const res = await axios.get(
         `${profileApi}/Post/getPostDetails/${selectedPost}`,
       );
-      if (res.data) {
+      if (res.data && res.status === '200') {
         setPost(res.data);
-        console.log(post?.SenderDetails);
+        setLoading(false);
+      } else {
+        setLoading(false);
       }
     } catch (error) {
+      // setLoading(false);
       ToastAndroid.show('Error fetch posts', ToastAndroid.SHORT);
     }
   }, [selectedPost]);
   useEffect(() => {
     getPostDetail();
   }, []);
+  // render skeletion ui effect when api get posts from Server
+  if (loading) return <PostSkeleton />;
   return (
     <View style={{backgroundColor: 'white', flex: 1}}>
       <View style={{paddingHorizontal: 15}}>
@@ -43,11 +51,15 @@ const PostViewer = () => {
           // updateLikeCount={updateLikeCount} // Function to update like count
         />
       ) : (
-        <View
-          style={{paddingHorizontal: 15, flexDirection: 'column', rowGap: 10}}>
-          <Skeleton width="95%" height={30} radius={20} />
-          <Skeleton width="95%" height={100} radius={20} />
-          <Skeleton width="95%" height={150} radius={20} />
+        <View style={{paddingHorizontal: 15}}>
+          <Text
+            style={{
+              fontSize: width * 0.036,
+              fontFamily: Font.Regular,
+              letterSpacing: 0.6,
+            }}>
+            Post not available
+          </Text>
         </View>
       )}
     </View>

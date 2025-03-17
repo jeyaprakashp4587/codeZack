@@ -180,7 +180,6 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         setComments([...comments, res.data.comment]);
         setNewComment('');
         emitEvent('CommentNotiToUploader', {
-          Time: moment().format('YYYY-MM-DDTHH:mm:ss'),
           postId: post?._id,
           senderId: senderDetails?._id,
         });
@@ -566,7 +565,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                 marginBottom: height * 0.01,
                 letterSpacing: 2,
                 textAlign: 'center',
-                fontFamily: Font.Medium,
+                fontFamily: Font.Regular,
               }}>
               {modalContentType}
             </Text>
@@ -586,10 +585,10 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                       flexDirection: 'row',
                       alignItems: 'center',
                       columnGap: 10,
-                      borderTopWidth: 1,
+                      // borderTopWidth: 1,
                       borderColor: Colors.veryLightGrey,
                       paddingVertical: 10,
-                      marginTop: 10,
+                      // marginTop: 10,
                     }}
                     onPress={() => {
                       navigation.navigate('userprofile');
@@ -600,7 +599,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                       source={{uri: item?.profile}}
                       priority={FastImage.priority.high}
                       style={{
-                        width: width * 0.15,
+                        width: width * 0.13,
                         // height: height * 0.05,
                         aspectRatio: 1,
                         borderRadius: 50,
@@ -611,9 +610,9 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                     <Text
                       style={{
                         color: Colors.veryDarkGrey,
-                        letterSpacing: 1,
+                        letterSpacing: 0.3,
                         flex: 1,
-                        fontSize: width * 0.04,
+                        fontSize: width * 0.035,
                         fontFamily: Font.Medium,
                       }}
                       numberOfLines={1}>
@@ -676,10 +675,10 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                     flexDirection: 'row',
                     alignItems: 'center',
                     columnGap: 10,
-                    borderTopWidth: 1,
+                    // borderTopWidth: 1,
                     borderColor: Colors.veryLightGrey,
                     paddingVertical: 10,
-                    marginTop: 5,
+                    // marginTop: 5,
                   }}
                   onPress={() => {
                     navigation.navigate('userprofile');
@@ -691,7 +690,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                       // priority: FastImage.priority.high,
                     }}
                     style={{
-                      width: width * 0.15,
+                      width: width * 0.13,
                       // height: height * 0.05,
                       borderRadius: 50,
                       borderWidth: 0.5,
@@ -703,7 +702,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                     <Text
                       style={{
                         color: Colors.veryDarkGrey,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                         fontSize: width * 0.04,
                         fontFamily: Font.Medium,
                       }}

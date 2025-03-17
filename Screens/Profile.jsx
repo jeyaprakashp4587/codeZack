@@ -848,7 +848,7 @@ const Profile = ({navigation}) => {
                 marginBottom: height * 0.03,
                 letterSpacing: 1,
                 textAlign: 'center',
-                fontFamily: 'Poppins-Medium',
+                fontFamily: Font.Regular,
               }}>
               Connections
             </Text>
@@ -876,10 +876,10 @@ const Profile = ({navigation}) => {
                   }}
                   style={{
                     flexDirection: 'row',
-                    marginTop: 10,
+                    marginTop: 5,
                     alignItems: 'center',
                     columnGap: 15,
-                    borderTopWidth: 0.5,
+                    // borderTopWidth: 0.5,
                     paddingVertical: 10,
                     borderColor: Colors.veryLightGrey,
                   }}>
@@ -887,7 +887,7 @@ const Profile = ({navigation}) => {
                     priority={FastImage.priority.high}
                     source={{uri: item?.profileImg}}
                     style={{
-                      width: width * 0.15,
+                      width: width * 0.13,
                       borderRadius: 50,
                       aspectRatio: 1,
                     }}
