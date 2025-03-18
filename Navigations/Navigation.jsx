@@ -273,7 +273,7 @@ const StackNavigations = () => {
   return (
     <View style={{flex: 1}}>
       <Stack.Navigator
-        initialRouteName="updatePageScreen"
+        initialRouteName="splash"
         screenOptions={{
           headerShown: false,
           animation: 'slide_from_right',
