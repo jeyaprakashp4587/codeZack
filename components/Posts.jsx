@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 import React, {useCallback, useEffect, useState, useRef} from 'react';
 import {Colors, font} from '../constants/Colors';
-import {faComments, faHeart} from '@fortawesome/free-regular-svg-icons';
 import {Dimensions} from 'react-native';
 import axios from 'axios';
 import {useData} from '../Context/Contexter';
@@ -189,6 +188,10 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
       // console.error("Error submitting comment:", error);
     }
   }, [newComment, comments, user]);
+  // handle delete commands
+  const deleteCommend = useCallback(async () => {
+    const {} = await axios.post(`${profileApi}/Post/deletePost`, {});
+  }, []);
   // get liked user using pagination
   const [likedUsers, setLikedUsers] = useState([]);
   const [likedUserSkip, setLikedUserSkip] = useState(0);
