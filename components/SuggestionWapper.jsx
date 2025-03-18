@@ -86,7 +86,7 @@ const SuggestionWapper = ({refresh}) => {
               borderRadius: 7,
               overflow: 'hidden',
               marginRight: 10,
-              borderWidth: 0.7,
+              // borderWidth: 0.2,
               borderColor: Colors.veryLightGrey,
             }}>
             <LinearGradient

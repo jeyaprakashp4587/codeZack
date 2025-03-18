@@ -12,7 +12,7 @@ import {
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import MobileAds from 'react-native-google-mobile-ads';
 import {PaperProvider} from 'react-native-paper';
-
+import {checkAppVersion} from './hooks/checkAppVersion';
 const {width} = Dimensions.get('window');
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
@@ -22,6 +22,7 @@ configureReanimatedLogger({
 const App = () => {
   useEffect(() => {
     // createNotificationChannel();
+    checkAppVersion();
     MobileAds()
       .initialize()
       .then(adapter => {

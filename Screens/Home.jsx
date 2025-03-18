@@ -200,8 +200,6 @@ const Home = () => {
               fontSize: width * 0.04,
               lineHeight: 30,
               letterSpacing: 1,
-              borderTopRightRadius: 20,
-              borderBottomRightRadius: 20,
               // fontWeight: '700',
               fontFamily: 'Poppins-SemiBold',
             }}>

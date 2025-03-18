@@ -3,8 +3,10 @@ import {AppState} from 'react-native';
 import axios from 'axios';
 import {profileApi} from '../Api';
 import {useData} from '../Context/Contexter';
+import {useNavigation} from '@react-navigation/native';
 
 const useOnlineStatus = () => {
+  const navigate = useNavigation();
   const {user} = useData();
   const updateOnlineStatus = useCallback(async onlinestatus => {
     try {

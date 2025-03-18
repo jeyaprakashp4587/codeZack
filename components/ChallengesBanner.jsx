@@ -18,7 +18,7 @@ const ChallengesBanner = () => {
       }
     } catch (error) {}
   }, []);
-  if (!showBanner) return null;
+  // if (!showBanner) return null;
   return (
     <View
       style={{

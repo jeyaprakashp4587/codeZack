@@ -55,6 +55,7 @@ import {Font} from '../constants/Font';
 import useSocketOn from '../Socket/useSocketOn';
 import {SocketData} from '../Socket/SocketContext';
 import ChallengesBanner from '../components/ChallengesBanner';
+import UpdatePage from '../components/UpdatePage';
 // Tab navigations functions
 const {width, height} = Dimensions.get('window');
 const Tab = createBottomTabNavigator();
@@ -272,7 +273,7 @@ const StackNavigations = () => {
   return (
     <View style={{flex: 1}}>
       <Stack.Navigator
-        // initialRouteName="splash"
+        initialRouteName="updatePageScreen"
         screenOptions={{
           headerShown: false,
           animation: 'slide_from_right',
@@ -474,6 +475,13 @@ const StackNavigations = () => {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="updatePageScreen"
+          component={UpdatePage}
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack.Navigator>
     </View>
   );
@@ -490,6 +498,7 @@ const AppNavigator = () => {
     'otpVerification',
     'setPassword',
     'passwordReset',
+    'updatePageScreen',
   ].includes(currentScreen);
   return (
     <View style={{flex: 1}}>

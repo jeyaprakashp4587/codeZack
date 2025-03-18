@@ -185,12 +185,16 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
       }
     } catch (error) {
       ToastAndroid.show('Error on Comment', ToastAndroid.SHORT);
-      // console.error("Error submitting comment:", error);
     }
   }, [newComment, comments, user]);
   // handle delete commands
   const deleteCommend = useCallback(async () => {
-    const {} = await axios.post(`${profileApi}/Post/deletePost`, {});
+    const {status, data} = await axios.post(`${profileApi}/Post/deletePost`, {
+      params: {
+        postId: post?._id,
+        commentedBy: user?._id,
+      },
+    });
   }, []);
   // get liked user using pagination
   const [likedUsers, setLikedUsers] = useState([]);
