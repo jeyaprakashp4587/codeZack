@@ -43,6 +43,7 @@ const ChallengesBanner = React.lazy(() =>
 );
 // import useOnlineStatus from '../hooks/useOnlineStatus';
 import {Font} from '../constants/Font';
+import {checkAppVersion} from '../hooks/checkAppVersion';
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
 
@@ -64,6 +65,7 @@ const Home = () => {
   // Loading ui effect
   useEffect(() => {
     getNotifications();
+    checkAppVersion(navigation);
     setTimeout(() => {
       setUiLoading(true);
       // load add
