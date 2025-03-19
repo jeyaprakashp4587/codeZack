@@ -50,7 +50,16 @@ const RecentCourses = () => {
         }}>
         Your Recent Course
       </Text> */}
-      <PragraphText text="Your Recent Course" color="black" fweight={700} />
+      {/* <PragraphText text="Your Recent Course" color="black" fweight={700} /> */}
+      <Text
+        style={{
+          fontFamily: Font.Medium,
+          fontWeight: '600',
+          fontSize: width * 0.042,
+          marginBottom: 10,
+        }}>
+        Your Recent courses
+      </Text>
       <View style={{borderRadius: 10, overflow: 'hidden'}}>
         <LinearGradient
           colors={['#fff9f3', '#eef7fe']}

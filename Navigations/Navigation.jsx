@@ -502,7 +502,7 @@ const AppNavigator = () => {
   ].includes(currentScreen);
   return (
     <View style={{flex: 1}}>
-      {shouldShowBanner && <BannerAdd />}
+      {/* {shouldShowBanner && <BannerAdd />} */}
       <StackNavigations />
     </View>
   );

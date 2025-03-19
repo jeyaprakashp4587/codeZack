@@ -68,13 +68,29 @@ const SplashScreen = () => {
         }}>
         <FastImage
           source={require('../assets/CZ.png')}
+          priority={FastImage.priority.high}
           style={{
-            width: width * 0.5,
-            borderRadius: 50,
+            width: width * 0.6,
+            borderRadius: 35,
             aspectRatio: 1,
+            // borderWidth: 1,
           }}
+          resizeMode="contain"
         />
       </View>
+      <FastImage
+        source={{
+          uri: 'https://i.ibb.co/LDt33vr6/freepik-adjust-48199.png',
+          priority: FastImage.priority.high,
+        }}
+        style={{
+          width: width * 1,
+          height: 200,
+          position: 'absolute',
+          bottom: 0,
+          opacity: 0.25,
+        }}
+      />
     </View>
   );
 };

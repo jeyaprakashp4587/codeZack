@@ -17,41 +17,40 @@ const HomeSkeleton = () => {
             radius={width * 0.075}
           />
           <View style={{flexDirection: 'row', columnGap: 10}}>
-            <Skeleton
-              width={width * 0.1}
-              height={height * 0.06}
-              radius={width * 0.025}
-            />
-            <Skeleton
-              width={width * 0.1}
-              height={height * 0.06}
-              radius={width * 0.025}
-            />
+            <Skeleton width={width * 0.12} height={height * 0.06} radius={50} />
           </View>
         </View>
         {/* row */}
         <View style={{marginTop: 10, flexDirection: 'column', rowGap: 10}}>
           <Skeleton width="100%" height={height * 0.03} radius={width * 0.25} />
-          <Skeleton width="100%" height={height * 0.03} radius={width * 0.25} />
         </View>
-        <View style={[styles.row, styles.marginVertical]}>
+        <View
+          style={{
+            flexDirection: 'row',
+            gap: 10,
+            // borderWidth: 1,
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            marginVertical: 10,
+            alignItems: 'center',
+          }}>
           <Skeleton
-            width={width * 0.2}
+            width={width * 0.45}
             height={height * 0.1}
             radius={width * 0.025}
           />
           <Skeleton
-            width={width * 0.2}
+            width={width * 0.45}
             height={height * 0.1}
             radius={width * 0.025}
           />
           <Skeleton
-            width={width * 0.2}
+            width={width * 0.45}
             height={height * 0.1}
             radius={width * 0.025}
           />
           <Skeleton
-            width={width * 0.2}
+            width={width * 0.45}
             height={height * 0.1}
             radius={width * 0.025}
           />

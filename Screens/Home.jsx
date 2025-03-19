@@ -256,7 +256,16 @@ const Home = () => {
             </View>
           }>
           <View style={{paddingHorizontal: 15}}>
-            <PragraphText text="Premium projects" color="black" fweight={700} />
+            {/* <PragraphText text="Premium projects" color="black" fweight={700} /> */}
+            <Text
+              style={{
+                fontFamily: Font.Medium,
+                fontWeight: '600',
+                fontSize: width * 0.042,
+                marginBottom: 10,
+              }}>
+              Premium projects
+            </Text>
           </View>
           <PremiumProjects />
         </Suspense>
@@ -270,11 +279,15 @@ const Home = () => {
             </View>
           }>
           <View style={{paddingHorizontal: 15}}>
-            <PragraphText
-              text="Tutorials & Preparations"
-              color="black"
-              fweight={700}
-            />
+            <Text
+              style={{
+                fontFamily: Font.Medium,
+                fontWeight: '600',
+                fontSize: width * 0.042,
+                marginBottom: 10,
+              }}>
+              Tutorials & Preparations
+            </Text>
           </View>
           <View
             style={{

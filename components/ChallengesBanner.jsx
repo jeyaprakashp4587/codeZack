@@ -30,6 +30,7 @@ const ChallengesBanner = () => {
         elevation: 2,
         backgroundColor: 'white',
         paddingHorizontal: 20,
+        marginVertical: 15,
       }}>
       <View
         style={{flex: 1, borderWidth: 0, flexDirection: 'column', rowGap: 10}}>
