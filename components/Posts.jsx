@@ -29,6 +29,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import FastImage from 'react-native-fast-image';
 import MiniUserSkeleton from '../Skeletons/MiniUserSkeleton';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const {width, height} = Dimensions.get('window');
 import {
@@ -499,9 +500,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           <EvilIcons name="comment" size={width * 0.07} />
         </TouchableOpacity>
 
-        <View style={{borderWidth: 0}}>
-          <RelativeTime time={post?.Time} fsize={width * 0.033} />
-        </View>
+        <RelativeTime time={post?.Time} fsize={width * 0.033} />
       </View>
       {/* Add New Comment */}
       <View
@@ -678,14 +677,11 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
               renderItem={({item}) => (
                 <TouchableOpacity
                   style={{
-                    // borderWidth: 1,
                     flexDirection: 'row',
                     alignItems: 'center',
                     columnGap: 10,
-                    // borderTopWidth: 1,
                     borderColor: Colors.veryLightGrey,
                     paddingVertical: 10,
-                    // marginTop: 5,
                   }}
                   onPress={() => {
                     navigation.navigate('userprofile');
@@ -694,11 +690,10 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                   <FastImage
                     source={{
                       uri: item?.profile,
-                      // priority: FastImage.priority.high,
                     }}
+                    priority={FastImage.priority.high}
                     style={{
                       width: width * 0.13,
-                      // height: height * 0.05,
                       borderRadius: 50,
                       borderWidth: 0.5,
                       borderColor: Colors.veryLightGrey,
@@ -725,7 +720,6 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                       {item?.commentText}
                     </Text>
                   </View>
-
                   <RelativeTime time={item?.commentedAt} />
                 </TouchableOpacity>
               )}
@@ -746,7 +740,6 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                             textAlign: 'center',
                             letterSpacing: 1.4,
                             color: Colors.violet,
-                            // fontWeight: '600',
                             fontSize: width * 0.03,
                             fontFamily: Font.Regular,
                           }}>
@@ -950,6 +943,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
               horizontal
               style={{borderWidth: 0}}
               data={netWorksList}
+              showsHorizontalScrollIndicator={false}
               contentContainerStyle={{borderWidth: 1, alignItems: 'center'}}
               renderItem={({item}) => (
                 <TouchableOpacity
