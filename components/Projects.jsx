@@ -97,7 +97,7 @@ const Projects = () => {
     );
   }
   return (
-    <View>
+    <View style={{marginBottom: 15}}>
       <FlatList
         nestedScrollEnabled={true}
         data={projects}

@@ -248,6 +248,8 @@ const Home = () => {
           }>
           <ChallengesBanner />
         </Suspense>
+        {/* Recent courses */}
+        <RecentCourses />
         {/* premium projects */}
         <Suspense
           fallback={
@@ -263,14 +265,13 @@ const Home = () => {
                 fontWeight: '600',
                 fontSize: width * 0.042,
                 marginBottom: 10,
+                letterSpacing: 0.5,
               }}>
               Premium projects
             </Text>
           </View>
           <PremiumProjects />
         </Suspense>
-        {/* Recent courses */}
-        <RecentCourses />
         {/* companies */}
         <Suspense
           fallback={
@@ -285,6 +286,7 @@ const Home = () => {
                 fontWeight: '600',
                 fontSize: width * 0.042,
                 marginBottom: 10,
+                letterSpacing: 0.3,
               }}>
               Tutorials & Preparations
             </Text>

@@ -9,12 +9,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const ChallengesBanner = () => {
   const {width, height} = Dimensions.get('window');
   const naviagte = useNavigation();
-  const [showBanner, setShowBanner] = useState(true);
+  const [showBanner, setShowBanner] = useState(false);
   useEffect(() => {
     try {
       const clickedcount = AsyncStorage.getItem('clickcount');
       if (clickedcount) {
-        setShowBanner(false);
+        setShowBanner(true);
       }
     } catch (error) {}
   }, []);
@@ -28,9 +28,9 @@ const ChallengesBanner = () => {
         flexDirection: 'row',
         alignItems: 'center',
         elevation: 2,
-        backgroundColor: 'white',
         paddingHorizontal: 20,
         marginVertical: 15,
+        backgroundColor: 'white',
       }}>
       <View
         style={{flex: 1, borderWidth: 0, flexDirection: 'column', rowGap: 10}}>
@@ -40,7 +40,7 @@ const ChallengesBanner = () => {
             fontSize: width * 0.04,
             fontFamily: Font.Medium,
             lineHeight: 25,
-            letterSpacing: 0.2,
+            letterSpacing: 0.3,
           }}>
           Get More Web & App Challenges
         </Text>
@@ -50,22 +50,23 @@ const ChallengesBanner = () => {
             await AsyncStorage.setItem('clickedcount', 1);
           }}
           style={{
-            borderWidth: 0.8,
+            // borderWidth: 0.8,
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: 20,
             width: '70%',
             borderColor: Colors.violet,
+            backgroundColor: Colors.violet,
           }}>
           <Text
             style={{
-              fontFamily: Font.Regular,
+              fontFamily: Font.Medium,
               letterSpacing: 0.6,
               fontSize: width * 0.033,
-              padding: 5,
+              padding: 7,
               textAlign: 'center',
-              color: Colors.violet,
+              color: Colors.white,
             }}>
             Explore
           </Text>
@@ -76,7 +77,7 @@ const ChallengesBanner = () => {
           uri: 'https://i.ibb.co/Z6gZmMZ2/12083375-Wavy-Bus-20-Single-04.jpg',
           priority: FastImage.priority.high,
         }}
-        style={{width: 120, aspectRatio: 1}}
+        style={{width: width * 0.35, aspectRatio: 1}}
         resizeMode="contain"
       />
     </View>
