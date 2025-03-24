@@ -35,22 +35,22 @@ const HomeSkeleton = () => {
             alignItems: 'center',
           }}>
           <Skeleton
-            width={width * 0.45}
+            width={width * 0.4}
             height={height * 0.1}
             radius={width * 0.025}
           />
           <Skeleton
-            width={width * 0.45}
+            width={width * 0.4}
             height={height * 0.1}
             radius={width * 0.025}
           />
           <Skeleton
-            width={width * 0.45}
+            width={width * 0.4}
             height={height * 0.1}
             radius={width * 0.025}
           />
           <Skeleton
-            width={width * 0.45}
+            width={width * 0.4}
             height={height * 0.1}
             radius={width * 0.025}
           />

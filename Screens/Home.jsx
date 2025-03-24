@@ -317,7 +317,7 @@ const Home = () => {
                 <EvilIcons name="play" size={50} />
                 <Text
                   style={{
-                    letterSpacing: 2,
+                    letterSpacing: 1,
                     color: Colors.mildGrey,
                     fontFamily: Font.Regular,
                   }}>
