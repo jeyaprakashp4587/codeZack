@@ -186,7 +186,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
       ToastAndroid.show('Error on Comment', ToastAndroid.SHORT);
     }
   }, [newComment, comments, user]);
-  // handle delete commands
+  // handle delete commands ------------
   const deleteCommend = useCallback(async commentID => {
     try {
       const {status} = await axios.post(`${profileApi}/Post/deleteComment`, {
@@ -197,7 +197,14 @@ const Posts = ({post, index, admin, senderDetails}) => {
       });
       if (status === 200) {
         setCommentLoading(prev => prev - 1);
-        // if server was send success status then filter and remove the commet id from
+        // if server was send success status then filter and remove the comment id from previos comments
+        const filterdComments = comments?.filter(
+          comments => commentID != comments._id,
+        );
+        if (filterdComments) {
+          setComments(filterdComments);
+          ToastAndroid.show('Comment deleted', ToastAndroid.SHORT);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -891,9 +898,10 @@ const Posts = ({post, index, admin, senderDetails}) => {
                 {selectedComment?.commentText}
               </Text>
             </View>
-            <View>
+            <TouchableOpacity
+              onPress={() => deleteCommend(selectedComment?._id)}>
               <AntDesign size={20} name="delete" />
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
