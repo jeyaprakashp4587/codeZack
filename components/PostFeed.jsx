@@ -1,14 +1,4 @@
-import {
-  ActivityIndicator,
-  Dimensions,
-  FlatList,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  Text,
-  ToastAndroid,
-  View,
-} from 'react-native';
+import {Dimensions, FlatList, RefreshControl, Text, View} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import axios from 'axios';
 import {profileApi} from '../Api';

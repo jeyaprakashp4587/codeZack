@@ -30,7 +30,6 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import FastImage from 'react-native-fast-image';
 import MiniUserSkeleton from '../Skeletons/MiniUserSkeleton';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
 const {width, height} = Dimensions.get('window');
 import {
   widthPercentageToDP as wp,
@@ -40,7 +39,7 @@ import {SocketData} from '../Socket/SocketContext';
 import Skeleton from '../Skeletons/Skeleton';
 import {Font} from '../constants/Font';
 
-const Posts = ({post, index, admin, senderDetails, elevation}) => {
+const Posts = ({post, index, admin, senderDetails}) => {
   const initialText = post?.PostText;
   const {user, setUser, setSelectedUser} = useData();
   const navigation = useNavigation();
@@ -51,17 +50,19 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
   const [expanded, setExpanded] = useState(false);
   const [likeCount, setLikeCount] = useState();
   const [LoadDelete, setLoadDelete] = useState(false);
+  const [commentShowModel, setCommandModelShow] = useState(false);
+  const [selectedComment, setSelectedComment] = useState();
   // console.log(post);
-
   useEffect(() => {
     if (post?.Like !== undefined && post?.Like !== null) {
       setLikeCount(post?.Like);
     }
   }, [post?.Like]);
   const [comments, setComments] = useState(post?.Comments || []);
+  const [commentsLength, setCommentsLength] = useState();
   useEffect(() => {
-    setComments(post?.Comments);
-  }, [post?.Comments]);
+    setCommentsLength(post?.CommentsLength);
+  }, [post?.CommentsLength]);
   // List of comments
   const [newComment, setNewComment] = useState(''); // Track new comment
   const [liked, setLiked] = useState(
@@ -85,8 +86,6 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
           },
         );
         if (res.status === 200) {
-          console.log(res.data);
-
           setLoadDelete(false);
           PostRBSheetRef.current.close();
           setUser(prev => ({
@@ -125,8 +124,6 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
         );
         if (response.status === 200) {
           setLikeCount(prev => prev + 1);
-          // console.log('liked user', response.data.likedUser);
-
           emitEvent('LikeNotiToUploader', {
             Time: moment().format('YYYY-MM-DDTHH:mm:ss'),
             postId: post?._id,
@@ -178,6 +175,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
       if (res.status === 200) {
         // console.log(res.data.comment);
         setComments([...comments, res.data.comment]);
+        setCommentsLength(prev => prev + 1);
         setNewComment('');
         emitEvent('CommentNotiToUploader', {
           postId: post?._id,
@@ -189,13 +187,21 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
     }
   }, [newComment, comments, user]);
   // handle delete commands
-  const deleteCommend = useCallback(async () => {
-    const {status, data} = await axios.post(`${profileApi}/Post/deletePost`, {
-      params: {
-        postId: post?._id,
-        commentedBy: user?._id,
-      },
-    });
+  const deleteCommend = useCallback(async commentID => {
+    try {
+      const {status} = await axios.post(`${profileApi}/Post/deleteComment`, {
+        params: {
+          postId: post?._id,
+          commentedId: commentID,
+        },
+      });
+      if (status === 200) {
+        setCommentLoading(prev => prev - 1);
+        // if server was send success status then filter and remove the commet id from
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
   // get liked user using pagination
   const [likedUsers, setLikedUsers] = useState([]);
@@ -247,8 +253,6 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
       );
       if (res.status === 200) {
         setComments(res.data.comments);
-        // console.log(res.data.comments);
-        // console.log('comments', comments);
         setCommentSkip(prevSkip => prevSkip + 10);
         setCommentHasMore(res.data.hasMore);
       }
@@ -495,7 +499,7 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
             width: width * 0.2,
           }}>
           <Text style={{fontFamily: Font.Regular, fontSize: width * 0.048}}>
-            {comments.length}
+            {commentsLength}
           </Text>
           <EvilIcons name="comment" size={width * 0.07} />
         </TouchableOpacity>
@@ -683,6 +687,10 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
                     borderColor: Colors.veryLightGrey,
                     paddingVertical: 10,
                   }}
+                  onLongPress={() => {
+                    setCommandModelShow(true);
+                    setSelectedComment(item);
+                  }}
                   onPress={() => {
                     navigation.navigate('userprofile');
                     setSelectedUser(item?.userId);
@@ -824,6 +832,69 @@ const Posts = ({post, index, admin, senderDetails, elevation}) => {
               </View>
             )}
           />
+        </View>
+      </Modal>
+      {/* model for show comments details */}
+      <Modal
+        transparent={true}
+        visible={commentShowModel}
+        onRequestClose={() => setCommandModelShow(false)}
+        animationType="slide">
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+          }}>
+          <View
+            style={{
+              backgroundColor: 'white',
+              flexDirection: 'row',
+              padding: 15,
+              alignItems: 'center',
+              width: '70%',
+              justifyContent: 'space-between',
+              columnGap: 10,
+            }}>
+            <FastImage
+              source={{
+                uri: selectedComment?.profile,
+              }}
+              priority={FastImage.priority.high}
+              style={{
+                width: width * 0.13,
+                borderRadius: 50,
+                borderWidth: 0.5,
+                borderColor: Colors.veryLightGrey,
+                aspectRatio: 1,
+              }}
+            />
+            <View style={{flex: 1}}>
+              <Text
+                style={{
+                  color: Colors.veryDarkGrey,
+                  letterSpacing: 0.5,
+                  fontSize: width * 0.04,
+                  fontFamily: Font.Medium,
+                }}
+                numberOfLines={1}>
+                {selectedComment?.firstName} {selectedComment?.LastName}
+              </Text>
+              <Text
+                style={{
+                  fontSize: width * 0.035,
+                  color: Colors.mildGrey,
+                  fontFamily: Font.Regular,
+                }}>
+                {selectedComment?.commentText}
+              </Text>
+            </View>
+            <View>
+              <AntDesign size={20} name="delete" />
+            </View>
+          </View>
         </View>
       </Modal>
       {/* Rb sheet for show options for posts */}
