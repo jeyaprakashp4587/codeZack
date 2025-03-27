@@ -130,15 +130,31 @@ const Post = () => {
   // Upload image to Firebase
   const hostImage = useCallback(async imageUri => {
     try {
-      const storageRef = ref(storage, `Image/${Date.now()}.jpeg`);
-      const response = await fetch(imageUri);
-      const blob = await response.blob();
-      await uploadBytes(storageRef, blob);
-      await updateMetadata(storageRef, {
-        contentType: 'image/jpeg',
-        cacheControl: 'public,max-age=31536000',
+      // const storageRef = ref(storage, `Image/${Date.now()}.jpeg`);
+      // const response = await fetch(imageUri);
+      // const blob = await response.blob();
+      // await uploadBytes(storageRef, blob);
+      // await updateMetadata(storageRef, {
+      //   contentType: 'image/jpeg',
+      //   cacheControl: 'public,max-age=31536000',
+      // });
+      // return await getDownloadURL(storageRef);
+      const data = new FormData();
+      data.append('file', {
+        uri: imageUri,
+        type: 'image/jpeg',
+        name: 'Post.jpg',
       });
-      return await getDownloadURL(storageRef);
+      data.append('api_key', '1z2Ft0vr7dBtH4BW1fuDhZXHox8');
+      let res = await fetch(
+        'https://api.cloudinary.com/v1_1/dogo7hkhy/image/upload',
+        {
+          method: 'POST',
+          body: data,
+        },
+      );
+      let result = await res.json();
+      return result.secure_url;
     } catch (error) {
       console.error('Error uploading file:', error);
       throw error;
