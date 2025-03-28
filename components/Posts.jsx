@@ -61,8 +61,8 @@ const Posts = ({post, index, admin, senderDetails}) => {
   const [comments, setComments] = useState(post?.Comments || []);
   const [commentsLength, setCommentsLength] = useState();
   useEffect(() => {
-    setCommentsLength(post?.CommentsLength);
-  }, [post?.CommentsLength]);
+    setCommentsLength(post?.CommentCount);
+  }, [post?.CommentCount]);
   // List of comments
   const [newComment, setNewComment] = useState(''); // Track new comment
   const [liked, setLiked] = useState(

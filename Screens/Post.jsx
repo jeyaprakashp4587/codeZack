@@ -106,7 +106,7 @@ const Post = () => {
               return await hostImage(asset.uri);
             } catch (error) {
               console.error(`Error uploading image: ${asset.uri}`, error);
-              return null; // Handle individual image upload failures
+              return null;
             }
           }),
         );
@@ -145,6 +145,7 @@ const Post = () => {
         type: 'image/jpeg',
         name: 'Post.jpg',
       });
+      data.append('upload_preset', 'ml_default');
       data.append('api_key', '1z2Ft0vr7dBtH4BW1fuDhZXHox8');
       let res = await fetch(
         'https://api.cloudinary.com/v1_1/dogo7hkhy/image/upload',
@@ -154,7 +155,7 @@ const Post = () => {
         },
       );
       let result = await res.json();
-      return result.secure_url;
+      return await result.secure_url;
     } catch (error) {
       console.error('Error uploading file:', error);
       throw error;
@@ -329,38 +330,40 @@ const Post = () => {
             }}
             placeholderTextColor={Colors.lightGrey}
           />
-          <TouchableOpacity
-            onPress={selectImage}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              columnGap: 10,
-              backgroundColor: Colors.white,
-              justifyContent: 'center',
-              height: height * 0.06,
-              borderRadius: 50,
-              borderWidth: 0.3,
-            }}>
-            <Text
+          {images.length < 5 && (
+            <TouchableOpacity
+              onPress={selectImage}
               style={{
-                fontSize: width * 0.035,
-                color: 'black',
-                letterSpacing: 1,
-                // fontWeight: '700',
-                fontFamily: 'Poppins-Regular',
+                flexDirection: 'row',
+                alignItems: 'center',
+                columnGap: 10,
+                backgroundColor: Colors.white,
+                justifyContent: 'center',
+                height: height * 0.06,
+                borderRadius: 50,
+                borderWidth: 0.3,
               }}>
-              Select Images
-            </Text>
-            {uploadImgIndi ? (
-              <ActivityIndicator size={15} color="black" />
-            ) : (
-              <FontAwesomeIcon
-                icon={faImage}
-                size={width * 0.05}
-                color="black"
-              />
-            )}
-          </TouchableOpacity>
+              <Text
+                style={{
+                  fontSize: width * 0.035,
+                  color: 'black',
+                  letterSpacing: 1,
+                  // fontWeight: '700',
+                  fontFamily: 'Poppins-Regular',
+                }}>
+                Select Images
+              </Text>
+              {uploadImgIndi ? (
+                <ActivityIndicator size={15} color="black" />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faImage}
+                  size={width * 0.05}
+                  color="black"
+                />
+              )}
+            </TouchableOpacity>
+          )}
         </View>
         {/* show selected images  */}
         <ScrollView
