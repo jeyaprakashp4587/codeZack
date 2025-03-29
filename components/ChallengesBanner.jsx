@@ -13,12 +13,13 @@ const ChallengesBanner = () => {
   useEffect(() => {
     try {
       const clickedcount = AsyncStorage.getItem('clickcount');
-      if (clickedcount) {
+      if (clickedcount == 'counted') {
+        console.log(clickedcount);
         setShowBanner(true);
       }
     } catch (error) {}
   }, []);
-  // if (!showBanner) return null;
+  if (!showBanner) return null;
   return (
     <View
       style={{
@@ -47,7 +48,7 @@ const ChallengesBanner = () => {
         <TouchableOpacity
           onPress={async () => {
             naviagte.navigate('Code');
-            await AsyncStorage.setItem('clickedcount', 1);
+            await AsyncStorage.setItem('clickedcount', 'counted');
           }}
           style={{
             // borderWidth: 0.8,

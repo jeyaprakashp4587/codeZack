@@ -137,7 +137,7 @@ const SelectedCourse = ({navigation}) => {
           style={styles.button}
           onPress={HandleAddCourse}>
           {loading ? (
-            <ActivityIndicator color={Colors.mildGrey} size={17} />
+            <ActivityIndicator color={Colors.mildGrey} size={20} />
           ) : (
             <Text style={styles.buttonText}>Let's Begin</Text>
           )}
@@ -222,5 +222,6 @@ const styles = StyleSheet.create({
     // fontWeight: '600',
     letterSpacing: 1,
     fontFamily: Font.Regular,
+    fontSize: width * 0.035,
   },
 });

@@ -363,14 +363,14 @@ const ChallengeDetail = () => {
         {selectedChallenge?.sample_image || selectedChallenge?.level ? (
           <View style={{flexDirection: 'column', rowGap: 10, marginTop: 25}}>
             {selectedChallenge?.level === 'newbie' ? (
-              <Text>
+              <Text style={{fontFamily: Font.Light, letterSpacing: 0.4}}>
                 We Don't have assets for{' '}
                 <Text
                   style={{
                     color: 'orange',
                     fontWeight: '600',
                     textTransform: 'capitalize',
-                    fontFamily: 'Poppins-Medium',
+                    fontFamily: Font.Regular,
                   }}>
                   {selectedChallenge?.level}
                 </Text>{' '}

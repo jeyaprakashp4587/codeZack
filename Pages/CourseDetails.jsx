@@ -53,10 +53,7 @@ const CourseDetails = () => {
           setLoading(false);
           // Log the activity if course is successfully added
           try {
-            await Actitivity(
-              user?._id,
-              `${selectedCourse.name} Successfully Added.`,
-            );
+            await Actitivity(user?._id, `${item.name} Successfully Added.`);
           } catch (error) {
             // console.log(error);
           }

@@ -19,6 +19,8 @@ import TopicsText from '../utils/TopicsText';
 import moment from 'moment';
 import Skeleton from '../Skeletons/Skeleton';
 import {useNavigation} from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
+import {Font} from '../constants/Font';
 
 const YourActivity = () => {
   const {width, height} = Dimensions.get('window');
@@ -133,22 +135,37 @@ const YourActivity = () => {
           <FlatList
             nestedScrollEnabled={true}
             data={activitiesList}
+            horizontal
+            style={{marginTop: 20}}
+            showsHorizontalScrollIndicator={false}
             renderItem={({item, index}) => (
-              <Text
-                key={index}
+              <LinearGradient
+                colors={['#003366', Colors.white]}
+                start={{x: 1, y: 0}}
+                end={{x: 1, y: 1}}
                 style={{
-                  // borderWidth: 1,
-                  padding: width * 0.03,
-                  fontSize: width * 0.03,
-                  color: Colors.mildGrey,
-                  marginTop: 10,
-                  borderRadius: 5,
-                  backgroundColor: Colors.veryLightGrey,
-                  letterSpacing: 1.5,
-                  fontFamily: 'Poppins-Medium',
+                  padding: 20,
+                  height: 100,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginRight: 10,
+                  borderRadius: 10,
+                  elevation: 2,
+                  margin: 5,
+                  marginLeft: 4,
                 }}>
-                {index + 1}. {item.activityName}
-              </Text>
+                <Text
+                  key={index}
+                  style={{
+                    fontSize: width * 0.035,
+                    color: Colors.white,
+                    fontFamily: Font.Regular,
+                    letterSpacing: 0.5,
+                    textAlign: 'center',
+                  }}>
+                  {index + 1}. {item.activityName}
+                </Text>
+              </LinearGradient>
             )}
           />
         ) : (
@@ -157,7 +174,7 @@ const YourActivity = () => {
               letterSpacing: 1,
               color: Colors.mildGrey,
               fontSize: width * 0.03,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: Font.Regular,
             }}>
             No Activities there in this date
           </Text>

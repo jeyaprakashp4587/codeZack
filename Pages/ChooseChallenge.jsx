@@ -228,13 +228,16 @@ const ChooseChallenge = ({navigation}) => {
           <View style={styles.challengeContainer} key={index}>
             {/* Challenge Item Layout */}
             <View>
-              <ParagraphText
-                text={item.title}
-                fsize={width * 0.05}
-                padding={5}
-                color="black"
-                fontWeight={600}
-              />
+              <Text
+                style={{
+                  color: Colors.veryDarkGrey,
+                  fontSize: width * 0.05,
+                  padding: 5,
+                  fontFamily: Font.Medium,
+                  letterSpacing: 1,
+                }}>
+                {item.title}
+              </Text>
               <ParagraphText
                 text={item.level ? item.level : difficultyInfo}
                 fsize={15}
@@ -281,7 +284,6 @@ const ChooseChallenge = ({navigation}) => {
                     Finished!
                   </Text>
                 )}
-
                 <Feather
                   name="check-circle"
                   size={20}
@@ -303,9 +305,11 @@ const ChooseChallenge = ({navigation}) => {
                 setSelectedChallenge(item);
               }}
               style={{
-                borderWidth: 0.5,
-                borderColor: Colors.violet,
-                borderRadius: 50,
+                // borderWidth: 0.5,
+                // borderColor: Colors.violet,
+                // borderRadius: 50,
+                backgroundColor: Colors.violet,
+                borderRadius: 5,
               }}>
               <Text style={styles.viewChallengeButtonText}>View Challenge</Text>
             </Ripple>
@@ -365,11 +369,11 @@ const styles = StyleSheet.create({
   technologyIcon: {width: width * 0.08, height: width * 0.08},
   linearGradient: {borderRadius: 10, padding: 2, justifyContent: 'center'},
   viewChallengeButtonText: {
-    color: Colors.violet,
+    color: Colors.white,
     letterSpacing: 1,
     textAlign: 'center',
     borderRadius: 10,
-    padding: 7,
+    padding: 10,
     // fontWeight: '700',
     fontFamily: Font.Regular,
   },
