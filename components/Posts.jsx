@@ -59,7 +59,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
     }
   }, [post?.Like]);
   const [comments, setComments] = useState(post?.Comments || []);
-  const [commentsLength, setCommentsLength] = useState();
+  const [commentsLength, setCommentsLength] = useState(post?.CommentCount);
   useEffect(() => {
     setCommentsLength(post?.CommentCount);
   }, [post?.CommentCount]);
@@ -171,9 +171,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
           commentTime: moment().format('YYYY-MM-DDTHH:mm:ss'),
         },
       );
-
       if (res.status === 200) {
-        // console.log(res.data.comment);
         setComments([...comments, res.data.comment]);
         setCommentsLength(prev => prev + 1);
         setNewComment('');
@@ -232,7 +230,6 @@ const Posts = ({post, index, admin, senderDetails}) => {
         setLikedUsers(res.data.likedUsers);
         setLikedUserSkip(prevSkip => prevSkip + 10);
         setLikedUserHasMore(res.data.hasMore);
-        // console.log('fetch liked user', res.data.likedUsers);
       }
     } catch (err) {
       console.error('Failed to fetch liked users:', err);
@@ -241,7 +238,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
       setLikedUserLoading(false);
     }
   }, []);
-  // get all commants
+  // get all comments
   const [commentSkip, setCommentSkip] = useState(0);
   const [commentHasMore, setCommentHasMore] = useState(true);
   const [commentLoading, setCommentLoading] = useState(false);
@@ -265,7 +262,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
       }
     } catch (error) {
       console.error('Failed to fetch comments:', error);
-      ToastAndroid.show('Failed to fetch comments', ToastAndroid.show());
+      ToastAndroid.show('Failed to fetch comments', ToastAndroid.SHORT);
     } finally {
       setCommentLoading(false);
     }
@@ -506,6 +503,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
             width: width * 0.2,
           }}>
           <Text style={{fontFamily: Font.Regular, fontSize: width * 0.048}}>
+            {/* {commentsLength} */}
             {commentsLength}
           </Text>
           <EvilIcons name="comment" size={width * 0.07} />
