@@ -921,7 +921,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
           container: {
             borderTopLeftRadius: 20, // Optional for rounded corners
             borderTopRightRadius: 20,
-            height: height * 0.38, // Alternatively, you can set the height here
+            height: height * 0.45, // Alternatively, you can set the height here
           },
           wrapper: {
             backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
