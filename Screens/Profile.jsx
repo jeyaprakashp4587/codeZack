@@ -688,8 +688,6 @@ const Profile = ({navigation}) => {
             borderRadius: 10,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            // width: width * 0.9,
-            // borderWidth: 0.2,
             width: '100%',
             borderBottomWidth: 0.4,
             borderColor: Colors.veryLightGrey,
@@ -698,7 +696,7 @@ const Profile = ({navigation}) => {
             style={{
               color: Colors.veryDarkGrey,
               // fontWeight: '600',
-              letterSpacing: 1,
+              letterSpacing: 0.5,
               fontSize: width * 0.035,
               fontFamily: Font.Regular,
             }}>
@@ -723,7 +721,7 @@ const Profile = ({navigation}) => {
             style={{
               color: Colors.veryDarkGrey,
               // fontWeight: '600',
-              letterSpacing: 1,
+              letterSpacing: 0.5,
               fontSize: width * 0.035,
               fontFamily: Font.Regular,
             }}>
@@ -745,7 +743,7 @@ const Profile = ({navigation}) => {
                 fontSize: width * 0.06,
                 letterSpacing: 1,
                 color: Colors.veryDarkGrey,
-                fontFamily: 'Poppins-Medium',
+                fontFamily: Font.Medium,
               }}>
               Posts
             </Text>
