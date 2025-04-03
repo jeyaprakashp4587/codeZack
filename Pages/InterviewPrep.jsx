@@ -125,17 +125,16 @@ const InterviewPrep = () => {
   const setQuestionLength = useCallback(async () => {
     setSaveLoading(true);
     try {
-      // console.log('Current Question:', questionCount.current); // Logs the current value
       const {status, data} = await axios.post(
         `${profileApi}/InterView/setQuestionLength`,
         {
           userId: user?._id,
           companyName: selectedCompany?.company_name || selectedCompany,
-          currentQuestion: questionCount.current, // Send the updated value
+          currentQuestion: questionCount.current,
         },
       );
       if (status === 200) {
-        setUser(prev => ({...prev, InterView: data.InterView})); // Update user state
+        setUser(prev => ({...prev, InterView: data.InterView}));
         setSaveInfo(true);
         setSaveLoading(false);
         ToastAndroid.show('Saved', ToastAndroid.SHORT);
@@ -143,7 +142,7 @@ const InterviewPrep = () => {
     } catch (error) {
       setSaveLoading(false);
       ToastAndroid.show('Error saving, Try Again', ToastAndroid.SHORT);
-      console.error('Error sending question length:', error); // Log error
+      console.error('Error sending question length:', error);
     }
   }, []);
 
