@@ -91,6 +91,7 @@ const InterviewPrep = () => {
       setSaveInfo(false);
       questionCount.current += 1;
       AddCout.current += 1;
+      console.log(userMile?.currentWeek);
       // Show interstitial ad every 10 questions
       if (AddCout.current % 10 === 0 && interestIsLoaded) {
         // await showInterest();
@@ -106,7 +107,7 @@ const InterviewPrep = () => {
     } catch (error) {
       console.error('Error in increaseCount:', error);
     }
-  }, [rewardIsLoaded, interestIsLoaded, showInterest, showReward]);
+  }, [rewardIsLoaded, interestIsLoaded, showInterest, showReward, userMile]);
   const decreaseCount = () => {
     try {
       setSaveInfo(false);
@@ -169,7 +170,7 @@ const InterviewPrep = () => {
   // Fetch user milestone when `selectedCompany` or `user` changes
   useEffect(() => {
     findCompanyName();
-  }, [selectedCompany, user]);
+  }, [selectedCompany]);
   // Set current week whenever `userMile` updates
   useEffect(() => {
     setWeek(userMile?.currentWeek);
@@ -183,8 +184,9 @@ const InterviewPrep = () => {
   };
   // submit task
   const submitTask = useCallback(async () => {
-    if (userMile?.currentWeek - 1 >= 6) {
-      console.log('Current Week:', userMile?.currentWeek);
+    console.log('Current userMile:', userMile); // Debugging
+    console.log('Current userMile?.currentWeek:', currentWeek?.week); // Debugging
+    if (currentWeek?.week == 6) {
       ToastAndroid.show(
         'Congrats!, you finished your preparations',
         ToastAndroid.SHORT,
@@ -194,7 +196,7 @@ const InterviewPrep = () => {
           user?._id,
           `Finished ${
             selectedCompany?.company_name || selectedCompany
-          } Prepations`,
+          } Preparations`,
         );
       } catch (error) {
         console.error('Error calling Actitivity:', error);
@@ -207,7 +209,6 @@ const InterviewPrep = () => {
         companyName: selectedCompany?.company_name || selectedCompany,
       });
       if (response.data) {
-        // console.log(response.data);
         setWeek(response.data.week);
         setUser(prev => ({...prev, InterView: response.data.userInterView}));
         setCurrentQuestion(0);
@@ -217,7 +218,7 @@ const InterviewPrep = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [user, selectedCompany]);
+  }, [user, selectedCompany, currentWeek]);
   // render ui
   if (!currentWeek) {
     return (
@@ -370,18 +371,20 @@ const InterviewPrep = () => {
               </Text>
             )}
             {/* this is explanatio is common */}
-            <Text
-              style={{
-                letterSpacing: 1.3,
-                lineHeight: 20,
-                color: '#1a535c',
-                fontWeight: '600',
-                fontSize: width * 0.024,
-                fontFamily: Font.Regular,
-              }}>
-              Explanation:{' '}
-              {currentWeek?.sample_questions[currentQuestion]?.explanation}
-            </Text>
+            {currentWeek?.sample_questions[currentQuestion]?.explanation && (
+              <Text
+                style={{
+                  letterSpacing: 1.3,
+                  lineHeight: 20,
+                  color: '#1a535c',
+                  fontWeight: '600',
+                  fontSize: width * 0.024,
+                  fontFamily: Font.Regular,
+                }}>
+                Explanation:{' '}
+                {currentWeek?.sample_questions[currentQuestion]?.explanation}
+              </Text>
+            )}
             {/* hint only for coding */}
             {currentWeek?.week > 1 && (
               <TouchableOpacity
