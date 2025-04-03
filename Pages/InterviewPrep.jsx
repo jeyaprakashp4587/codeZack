@@ -30,6 +30,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FastImage from 'react-native-fast-image';
 import WebView from 'react-native-webview';
 import {Font} from '../constants/Font';
+import {useNavigation} from '@react-navigation/native';
 
 const InterviewPrep = () => {
   const {selectedCompany, user, setUser} = useData();
@@ -42,6 +43,7 @@ const InterviewPrep = () => {
   const AddCout = useRef(0);
   const [saveInfo, setSaveInfo] = useState(false);
   const [saveLoading, setSaveLoading] = useState(false);
+  const navigation = useNavigation();
   // load and destructure Reward add
   const {
     load: loadReward,
@@ -143,7 +145,7 @@ const InterviewPrep = () => {
       ToastAndroid.show('Error saving, Try Again', ToastAndroid.SHORT);
       console.error('Error sending question length:', error); // Log error
     }
-  }, []); // Add dependencies to the useCallback
+  }, []);
 
   // Find user milestone for the selected company
   const findCompanyName = async () => {
@@ -152,9 +154,11 @@ const InterviewPrep = () => {
     );
     if (companyName) {
       setUserMile(companyName);
-      console.log(companyName);
       setCurrentQuestion(companyName?.currentQuestionLength);
       questionCount.current = companyName?.currentQuestionLength;
+      if (companyName?.currentWeek > 6) {
+        navigation.navigate('interviewSucess');
+      }
     }
   };
   const setWeek = weekIndex => {
@@ -184,31 +188,25 @@ const InterviewPrep = () => {
   };
   // submit task
   const submitTask = useCallback(async () => {
-    console.log('Current userMile:', userMile); // Debugging
-    console.log('Current userMile?.currentWeek:', currentWeek?.week); // Debugging
-    if (currentWeek?.week == 6) {
-      ToastAndroid.show(
-        'Congrats!, you finished your preparations',
-        ToastAndroid.SHORT,
-      );
-      try {
-        await Actitivity(
-          user?._id,
-          `Finished ${
-            selectedCompany?.company_name || selectedCompany
-          } Preparations`,
-        );
-      } catch (error) {
-        console.error('Error calling Actitivity:', error);
-      }
-      return;
-    }
     try {
       const response = await axios.post(`${profileApi}/InterView/submitTask`, {
         userId: user?._id,
         companyName: selectedCompany?.company_name || selectedCompany,
       });
       if (response.data) {
+        if (currentWeek?.week == 6) {
+          navigation.navigate('interviewSucess');
+          try {
+            await Actitivity(
+              user?._id,
+              `Finished ${
+                selectedCompany?.company_name || selectedCompany
+              } Preparations`,
+            );
+          } catch (error) {
+            console.error('Error calling Actitivity:', error);
+          }
+        }
         setWeek(response.data.week);
         setUser(prev => ({...prev, InterView: response.data.userInterView}));
         setCurrentQuestion(0);
