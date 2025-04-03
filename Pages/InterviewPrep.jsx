@@ -30,7 +30,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FastImage from 'react-native-fast-image';
 import WebView from 'react-native-webview';
 import {Font} from '../constants/Font';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
 const InterviewPrep = () => {
   const {selectedCompany, user, setUser} = useData();
@@ -157,6 +157,8 @@ const InterviewPrep = () => {
       questionCount.current = companyName?.currentQuestionLength;
       if (companyName?.currentWeek > 6) {
         navigation.navigate('interviewSucess');
+        setCurrentQuestion(0);
+        setCurrentWeek(1);
       }
     }
   };
@@ -171,13 +173,17 @@ const InterviewPrep = () => {
     }
   };
   // Fetch user milestone when `selectedCompany` or `user` changes
-  useEffect(() => {
-    findCompanyName();
-  }, [selectedCompany]);
-  // Set current week whenever `userMile` updates
-  useEffect(() => {
-    setWeek(userMile?.currentWeek);
-  }, [userMile]);
+  useFocusEffect(
+    useCallback(() => {
+      findCompanyName();
+    }, [selectedCompany]),
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      setWeek(userMile?.currentWeek);
+    }, [userMile]),
+  );
   // show hint
   const showHint = () => {
     setIsShowHind(true);
@@ -264,7 +270,7 @@ const InterviewPrep = () => {
             fontSize: width * 0.034,
             fontFamily: Font.Regular,
           }}>
-          Completed Weeks: {userMile?.currentWeek - 1 ?? 0}
+          Completed Weeks: {currentWeek?.week - 1 ?? 0}
         </Text>
       </View>
       {/* sections */}
@@ -273,7 +279,6 @@ const InterviewPrep = () => {
           style={{paddingHorizontal: 15, flexDirection: 'column', rowGap: 10}}>
           <Text
             style={{
-              // fontWeight: '600',
               letterSpacing: 2,
               fontSize: width * 0.044,
               fontFamily: 'Poppins-SemiBold',
@@ -282,7 +287,6 @@ const InterviewPrep = () => {
           </Text>
           <Text
             style={{
-              // fontWeight: '600',
               letterSpacing: 2,
               fontSize: width * 0.03,
               fontFamily: Font.Medium,
@@ -291,7 +295,6 @@ const InterviewPrep = () => {
           </Text>
           <Text
             style={{
-              // fontWeight: '600',
               letterSpacing: 1,
               color: 'black',
               lineHeight: 20,
@@ -306,7 +309,6 @@ const InterviewPrep = () => {
         <View style={{paddingHorizontal: 15, marginTop: 20}}>
           <View
             style={{
-              // borderWidth: 0.7,
               padding: 20,
               borderColor: Colors.lightGrey,
               borderRadius: 5,
@@ -318,7 +320,6 @@ const InterviewPrep = () => {
             <Text
               style={{
                 letterSpacing: 1,
-                // fontWeight: '600',
                 lineHeight: 25,
                 fontSize: width * 0.034,
                 fontFamily: 'Poppins-SemiBold',

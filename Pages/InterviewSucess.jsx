@@ -1,19 +1,50 @@
 import {
+  ActivityIndicator,
   Dimensions,
   StyleSheet,
   Text,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import FastImage from 'react-native-fast-image';
 import {useData} from '../Context/Contexter';
 import {Font} from '../constants/Font';
 import {Colors} from '../constants/Colors';
+import {profileApi} from '../Api';
+import axios from 'axios';
+import {useNavigation} from '@react-navigation/native';
 const {width} = Dimensions.get('window');
 
 const InterviewSucess = () => {
-  const {selectedCompany} = useData();
+  const {selectedCompany, user, setUser} = useData();
+  const navigate = useNavigation();
+  const [loading, setLoading] = useState(false);
+  // reset the user selected interview company
+  const setQuestionLength = useCallback(async () => {
+    try {
+      setLoading(true);
+      const {status, data} = await axios.post(
+        `${profileApi}/InterView/setQuestionLength`,
+        {
+          userId: user?._id,
+          companyName: selectedCompany?.company_name || selectedCompany,
+          currentQuestion: 0,
+          resetWeek: true,
+        },
+      );
+      if (status === 200) {
+        setUser(prev => ({...prev, InterView: data.InterView}));
+        navigate.replace('InterviewDetail');
+        setLoading(false);
+      }
+    } catch (error) {
+      ToastAndroid.show('Error loading Try Again', ToastAndroid.SHORT);
+      console.error('Error sending question length:', error);
+      setLoading(false);
+    }
+  }, []);
   return (
     <View
       style={{
@@ -22,6 +53,7 @@ const InterviewSucess = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        rowGap: 20,
       }}>
       <FastImage
         source={{
@@ -34,30 +66,40 @@ const InterviewSucess = () => {
       <Text
         style={{
           fontFamily: Font.Regular,
-          fontSize: width * 0.038,
+          fontSize: width * 0.045,
           letterSpacing: 0.4,
           textAlign: 'center',
+          lineHeight: 30,
         }}>
-        Your are completed {selectedCompany?.company_name} preparation.
+        You are completed {selectedCompany?.company_name} InterView preparation.
       </Text>
       <TouchableOpacity
+        onPress={setQuestionLength}
         style={{
           width: '80%',
-          padding: 15,
+          padding: 10,
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
+          backgroundColor: Colors.violet,
+          borderRadius: 50,
         }}>
-        <Text
-          style={{
-            textAlign: 'center',
-            color: Colors.white,
-            fontFamily: Font.Regular,
-            letterSpacing: 0.4,
-          }}>
-          Prepare Again
-        </Text>
+        {loading ? (
+          <ActivityIndicator color={Colors.white} size={25} />
+        ) : (
+          <Text
+            style={{
+              textAlign: 'center',
+              color: Colors.white,
+              fontFamily: Font.Regular,
+              letterSpacing: 0.4,
+            }}>
+            Prepare Again
+          </Text>
+        )}
       </TouchableOpacity>
     </View>
   );
 };
+
+export default InterviewSucess;
