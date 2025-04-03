@@ -1,9 +1,17 @@
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import FastImage from 'react-native-fast-image';
 import {useData} from '../Context/Contexter';
 import {Font} from '../constants/Font';
-const {width, height} = Dimensions.get('window');
+import {Colors} from '../constants/Colors';
+const {width} = Dimensions.get('window');
+
 const InterviewSucess = () => {
   const {selectedCompany} = useData();
   return (
@@ -32,10 +40,24 @@ const InterviewSucess = () => {
         }}>
         Your are completed {selectedCompany?.company_name} preparation.
       </Text>
+      <TouchableOpacity
+        style={{
+          width: '80%',
+          padding: 15,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Text
+          style={{
+            textAlign: 'center',
+            color: Colors.white,
+            fontFamily: Font.Regular,
+            letterSpacing: 0.4,
+          }}>
+          Prepare Again
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
-
-export default InterviewSucess;
-
-const styles = StyleSheet.create({});
