@@ -33,6 +33,7 @@ const App = () => {
         <ContextProvider>
           <SocketProvider>
             <View style={styles.cn}>
+
               <SafeAreaView style={{flex: 1}}>
                 <NavigationContainer>
                   <AppNavigator />
