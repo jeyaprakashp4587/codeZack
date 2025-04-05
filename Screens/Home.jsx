@@ -13,6 +13,7 @@ import {
   AppState,
   Vibration,
   ToastAndroid,
+  NativeModules,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
 import HomeSkeleton from '../Skeletons/HomeSkeleton';
@@ -46,7 +47,7 @@ import {Font} from '../constants/Font';
 import {checkAppVersion} from '../hooks/checkAppVersion';
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
-
+const {BridgeModule} = NativeModules;
 const Home = () => {
   const navigation = useNavigation();
   const {user, setUser} = useData();
@@ -54,7 +55,11 @@ const Home = () => {
   const [suggestRefresh, setSuggestRefresh] = useState(false);
   const [unseenCount, setUnseenCount] = useState(0);
   const socket = SocketData();
+  const [test, setTest] = useState();
   const [refresh, setRefresh] = useState(false);
+  useEffect(() => {
+    BridgeModule.getNativeString().then(data => setTest(data));
+  }, []);
   // init firebase notification
   useFCMToken();
   // app open add
@@ -188,6 +193,7 @@ const Home = () => {
             />
           </Pressable>
         </View>
+        <Text>{test}</Text>
         {/* greeding and notification */}
         <View
           style={{
