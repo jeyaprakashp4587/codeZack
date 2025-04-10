@@ -5,7 +5,7 @@ import {BannerAd, BannerAdSize, TestIds} from 'react-native-google-mobile-ads';
 const BannerAdd = () => {
   const bannerId = __DEV__
     ? TestIds.BANNER // Use test ad unit in development
-    : 'ca-app-pub-3257747925516984/6303091060'; // Use your AdMob unit ID in production
+    : 'ca-app-pub-3257747925516984/6972244634'; // Use your AdMob unit ID in production
 
   const [adInfo, setAdInfo] = useState('');
 

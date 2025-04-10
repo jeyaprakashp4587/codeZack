@@ -25,7 +25,7 @@ const SelectedProject = () => {
   const {selectedProject} = useData();
   const {width, height} = Dimensions.get('window');
   const {load, isLoaded, show, isClosed, isEarnedReward} = useInterstitialAd(
-    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/2804627935',
+    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/9392069002',
     {
       requestNonPersonalizedAdsOnly: false,
     },

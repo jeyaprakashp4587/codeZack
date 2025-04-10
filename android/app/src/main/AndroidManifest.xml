@@ -30,9 +30,10 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
+      <activity android:name=".KotlinScreen"/>
       <meta-data
       android:name="com.google.android.gms.ads.APPLICATION_ID"  
-      android:value="ca-app-pub-3257747925516984~1169765027"
+      android:value="ca-app-pub-3257747925516984~4355063428"
       tools:replace="android:value"/>
       <!--  -->
       <service

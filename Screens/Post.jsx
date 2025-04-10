@@ -54,7 +54,7 @@ const Post = () => {
   const emitEvent = useSocketEmit(socket);
   // load and destructure Reward add
   const {load, isLoaded, show, isClosed} = useRewardedAd(
-    __DEV__ ? TestIds.REWARDED : 'ca-app-pub-3257747925516984/5831080677',
+    __DEV__ ? TestIds.REWARDED : 'ca-app-pub-3257747925516984/2148003800',
     {
       requestNonPersonalizedAdsOnly: false,
     },

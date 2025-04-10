@@ -4,7 +4,10 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.Promise
+import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
+
+
 
 class BridgeModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
@@ -16,10 +19,12 @@ class BridgeModule(reactContext: ReactApplicationContext) : ReactContextBaseJava
         val myString = "Hello from Kotlin!"
         promise.resolve(myString)
     }
-    @ReactMethod
-    fun navigateToSecondScreen() {
-        val intent = Intent(this, KotlinScreen::class.java)
-            startActivity(intent)
-    }
+   @ReactMethod
+fun navigateNative() {
+    val intent = Intent(reactApplicationContext, KotlinScreen::class.java)
+    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    reactApplicationContext.startActivity(intent)
+}
 
 }
+

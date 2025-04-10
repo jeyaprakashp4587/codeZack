@@ -51,7 +51,7 @@ const InterviewPrep = () => {
     show: showReward,
     isLoaded: rewardIsLoaded,
   } = useRewardedAd(
-    __DEV__ ? TestIds.REWARDED : 'ca-app-pub-3257747925516984/5831080677',
+    __DEV__ ? TestIds.REWARDED : 'ca-app-pub-3257747925516984/2148003800',
     {requestNonPersonalizedAdsOnly: true},
   );
 
@@ -71,7 +71,7 @@ const InterviewPrep = () => {
     show: showInterest,
     isLoaded: interestIsLoaded,
   } = useInterstitialAd(
-    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/2804627935',
+    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/9392069002',
     {
       requestNonPersonalizedAdsOnly: true,
     },

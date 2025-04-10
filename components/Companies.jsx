@@ -23,7 +23,7 @@ const Companies = () => {
   const {setSelectedCompany, user} = useData();
   // destructuring and load add
   const {load, isLoaded, show, isClosed} = useInterstitialAd(
-    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/2804627935',
+    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/9392069002',
     {requestNonPersonalizedAdsOnly: true},
   );
   useEffect(() => {

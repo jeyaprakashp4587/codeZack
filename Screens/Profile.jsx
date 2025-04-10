@@ -62,7 +62,7 @@ const Profile = ({navigation}) => {
   const RBSheetRef = useRef();
   // load and destructure intrestial add
   const {load, show, isClosed, isLoaded} = useInterstitialAd(
-    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/2804627935',
+    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/9392069002',
     {requestNonPersonalizedAdsOnly: true},
   );
   useEffect(() => {
