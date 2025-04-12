@@ -11,8 +11,6 @@ import {
   View,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
-import TopicsText from '../utils/TopicsText';
-import HrLine from '../utils/HrLine';
 import {functionApi} from '../Api';
 import axios from 'axios';
 import {useData} from '../Context/Contexter';
@@ -185,12 +183,11 @@ const Notifications = () => {
                 numberOfLines={2}
                 style={{
                   color: 'black',
-                  letterSpacing: 1,
+                  letterSpacing: 0.8,
                   fontSize: width * 0.033,
                   maxWidth: 180,
                   lineHeight: 22,
-                  // fontWeight: '700',
-                  fontFamily: Font.Regular,
+                  fontFamily: Font.Medium,
                 }}>
                 {item?.NotificationText}
               </Text>

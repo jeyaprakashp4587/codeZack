@@ -81,8 +81,8 @@ const TabNavigation = () => {
   useEffect(() => {
     const currentScreen =
       navigationState?.routes?.[navigationState.index]?.name;
-    if (currentScreen === 'Feed') setFeedBadge(false);
-    if (currentScreen === 'Home') setHomeBadge(false);
+    if (currentScreen == 'Tab') setFeedBadge(false);
+    if (currentScreen == 'Tab') setHomeBadge(false);
   }, [navigationState]);
   return (
     <View style={{flex: 1}}>

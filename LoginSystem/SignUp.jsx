@@ -188,7 +188,7 @@ const SignUp = ({navigation}) => {
                 ref={refs[key]}
                 onFocus={() => key === 'Gender' && setShowGenderModal(true)}
                 onChangeText={text => handleInput(key, text.trim())}
-                value={formData[key]}
+                value={key == 'Gender' ? formData[key] : null}
               />
             ))}
           </View>

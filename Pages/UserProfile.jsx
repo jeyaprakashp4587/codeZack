@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useEffect, useRef} from 'react';
+import React, {useState, useCallback, useEffect, useRef, Suspense} from 'react';
 import {
   Dimensions,
   Image,
@@ -228,7 +228,6 @@ const UserProfile = () => {
         });
         if (response.status === 200) {
           const newPosts = response.data.posts;
-          // console.log(response.data);
           if (newPosts.length < 5) {
             setHasMore(false); // No more posts to fetch
           }
@@ -523,67 +522,73 @@ const UserProfile = () => {
       {/* post */}
       <HrLine />
       {/* post */}
-      <FlatList
-        data={selectedUserPost}
-        // keyExtractor={item => item._id}
-        style={{borderWidth: 0, paddingBottom: 20}}
-        renderItem={({item, index}) => (
-          <Posts
-            post={item}
-            index={index}
-            admin={false}
-            senderDetails={{
-              id: selectedUser?._id,
-              Images: {
-                profile: selectedUser?.Images?.profile,
-              },
-              firstName: selectedUser?.firstName,
-              LastName: selectedUser?.LastName,
-              InstitudeName: selectedUser?.InstitudeName,
-            }}
-          />
-        )}
-        nestedScrollEnabled={true}
-        ListFooterComponent={
-          postLoading ? (
-            <PostSkeleton />
-          ) : hasMore ? (
-            <View style={{paddingHorizontal: 15}}>
-              <TouchableOpacity
-                onPress={() => {
-                  fetchPosts(offset);
-                }}
-                style={{
-                  padding: 10,
-                  borderWidth: 0.5,
-                  borderRadius: 50,
-                  borderColor: Colors.violet,
-                }}>
-                <Text
+      <Suspense
+        fallback={
+          <View style={{margin: 15}}>
+            <Skeleton width="100%" height={height * 0.2} radius={10} />
+          </View>
+        }>
+        <FlatList
+          data={selectedUserPost}
+          // keyExtractor={item => item._id}
+          style={{borderWidth: 0, paddingBottom: 20}}
+          renderItem={({item, index}) => (
+            <Posts
+              post={item}
+              index={index}
+              admin={false}
+              senderDetails={{
+                id: selectedUser?._id,
+                Images: {
+                  profile: selectedUser?.Images?.profile,
+                },
+                firstName: selectedUser?.firstName,
+                LastName: selectedUser?.LastName,
+                InstitudeName: selectedUser?.InstitudeName,
+              }}
+            />
+          )}
+          nestedScrollEnabled={true}
+          ListFooterComponent={
+            postLoading ? (
+              <PostSkeleton />
+            ) : hasMore ? (
+              <View style={{paddingHorizontal: 15}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    fetchPosts(offset);
+                  }}
                   style={{
-                    textAlign: 'center',
-                    letterSpacing: 1.4,
-                    color: Colors.violet,
-                    // fontWeight: '600',
-                    fontFamily: 'Poppins-SemiBold',
+                    padding: 10,
+                    borderWidth: 0.5,
+                    borderRadius: 50,
+                    borderColor: Colors.violet,
                   }}>
-                  Show more
-                </Text>
-              </TouchableOpacity>
-            </View>
-          ) : (
-            <Text
-              style={{
-                textAlign: 'center',
-                color: 'gray',
-                fontFamily: Font.Regular,
-              }}>
-              No more posts
-            </Text>
-          )
-        }
-      />
-
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      letterSpacing: 1.4,
+                      color: Colors.violet,
+                      // fontWeight: '600',
+                      fontFamily: 'Poppins-SemiBold',
+                    }}>
+                    Show more
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <Text
+                style={{
+                  textAlign: 'center',
+                  color: 'gray',
+                  fontFamily: Font.Regular,
+                }}>
+                No more posts
+              </Text>
+            )
+          }
+        />
+      </Suspense>
       {/* model for show networks list */}
       <RBSheet
         ref={RBSheetRef}

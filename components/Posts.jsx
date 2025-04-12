@@ -1155,7 +1155,7 @@ const styles = StyleSheet.create({
   postText: {
     marginVertical: 5,
     color: Colors.veryDarkGrey,
-    letterSpacing: 1,
+    letterSpacing: 0.4,
     lineHeight: 20,
     fontSize: width * 0.035,
     fontFamily: Font.Regular,

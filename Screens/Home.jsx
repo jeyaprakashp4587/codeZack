@@ -60,9 +60,7 @@ const Home = () => {
   useEffect(() => {
     BridgeModule.getNativeString().then(data => setTest(data));
   }, []);
-  const handleNative = () => {
-    BridgeModule?.navigateNative();
-  };
+
   // init firebase notification
   useFCMToken();
   // app open add
@@ -167,8 +165,7 @@ const Home = () => {
               borderRadius: 50,
               borderColor: Colors.veryLightGrey,
             }}
-            // onPress={() => navigation.navigate('notifications')}
-            onPress={handleNative}>
+            onPress={() => navigation.navigate('notifications')}>
             {/* notificatio badge */}
             <Text
               style={{
@@ -197,7 +194,6 @@ const Home = () => {
             />
           </Pressable>
         </View>
-        <Text>{test}</Text>
         {/* greeding and notification */}
         <View
           style={{

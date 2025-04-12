@@ -53,6 +53,7 @@ import FastImage from 'react-native-fast-image';
 import MiniUserSkeleton from '../Skeletons/MiniUserSkeleton';
 import PostSkeleton from '../Skeletons/PostSkeleton';
 import {Font} from '../constants/Font';
+const lazyPost = React.lazy(() => import('../components/Posts'));
 
 const Profile = ({navigation}) => {
   const {user, setUser, setSelectedUser} = useData();
