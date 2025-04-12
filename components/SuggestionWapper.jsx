@@ -17,6 +17,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
 import {TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import truncateText from '../hooks/truncateText';
 
 const SuggestionWapper = ({refresh}) => {
   const {width, height} = Dimensions.get('window');
@@ -131,7 +132,10 @@ const SuggestionWapper = ({refresh}) => {
                       fontFamily: 'Poppins-Medium',
                     }}
                     numberOfLines={1}>
-                    {user.item?.firstName} {user.item?.LastName}
+                    {truncateText(
+                      user.item?.firstName + ' ' + user.item?.LastName,
+                    )}
+                    {/* {user.item?.firstName} {user.item?.LastName} */}
                   </Text>
                   <Text
                     numberOfLines={1}
@@ -142,7 +146,7 @@ const SuggestionWapper = ({refresh}) => {
                       letterSpacing: 1,
                       fontFamily: 'Poppins-SemiBold',
                     }}>
-                    {user.item?.InstitudeName}
+                    {truncateText(user.item?.InstitudeName)}
                   </Text>
                 </View>
               </TouchableOpacity>

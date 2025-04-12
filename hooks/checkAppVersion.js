@@ -20,8 +20,6 @@ export const checkAppVersion = async navigation => {
   try {
     const currentVersion = DeviceInfo.getVersion().trim();
     const latestVersion = await fetchLatestVersionFromBackend();
-    console.log(currentVersion);
-    console.log(latestVersion);
 
     if (currentVersion !== latestVersion) {
       navigation.navigate('updatePageScreen');

@@ -53,6 +53,7 @@ import FastImage from 'react-native-fast-image';
 import MiniUserSkeleton from '../Skeletons/MiniUserSkeleton';
 import PostSkeleton from '../Skeletons/PostSkeleton';
 import {Font} from '../constants/Font';
+import truncateText from '../hooks/truncateText';
 const lazyPost = React.lazy(() => import('../components/Posts'));
 
 const Profile = ({navigation}) => {
@@ -120,16 +121,33 @@ const Profile = ({navigation}) => {
     async (imageUri, imageType) => {
       setUploadIndicator(imageType);
       try {
-        const storageRef = ref(storage, 'Image/' + Date.now() + '.jpeg');
-        const response = await fetch(imageUri);
-        const blob = await response.blob();
-        await uploadBytes(storageRef, blob);
-        await updateMetadata(storageRef, {
-          contentType: 'image/jpeg',
-          cacheControl: 'public,max-age=31536000',
+        // const storageRef = ref(storage, 'Image/' + Date.now() + '.jpeg');
+        // const response = await fetch(imageUri);
+        // const blob = await response.blob();
+        // await uploadBytes(storageRef, blob);
+        // await updateMetadata(storageRef, {
+        //   contentType: 'image/jpeg',
+        //   cacheControl: 'public,max-age=31536000',
+        // });
+        // const downloadURL = await getDownloadURL(storageRef);
+        // return downloadURL;
+        const data = new FormData();
+        data.append('file', {
+          uri: imageUri,
+          type: 'image/jpeg',
+          name: 'Profile.jpg',
         });
-        const downloadURL = await getDownloadURL(storageRef);
-        return downloadURL;
+        data.append('upload_preset', 'ml_default');
+        data.append('api_key', '1z2Ft0vr7dBtH4BW1fuDhZXHox8');
+        let res = await fetch(
+          'https://api.cloudinary.com/v1_1/dogo7hkhy/image/upload',
+          {
+            method: 'POST',
+            body: data,
+          },
+        );
+        let result = await res.json();
+        return await result.secure_url;
       } catch (error) {
         console.error('Error uploading file:', error);
         throw error;
@@ -466,6 +484,7 @@ const Profile = ({navigation}) => {
 
           {/* User Name and Bio */}
           <Text
+            numberOfLines={2}
             style={{
               color: Colors.veryDarkGrey,
               fontSize: width * 0.06,
@@ -477,9 +496,13 @@ const Profile = ({navigation}) => {
           <Text
             style={{
               color: Colors.mildGrey,
-              fontSize: width * 0.04,
+              fontSize: width * 0.034,
               letterSpacing: 1,
               fontFamily: Font.Regular,
+              flexWrap: 'wrap',
+              // borderWidth: 1,
+              // borderColor: 'black',
+              width: '80%',
             }}>
             {user?.Bio ? user?.Bio : 'I want to become a Winner'}
           </Text>
@@ -568,6 +591,7 @@ const Profile = ({navigation}) => {
                   opacity: uploadActivityIndi ? 0.3 : 1,
                   fontFamily: Font.Regular,
                 }}
+                maxLength={50}
                 placeholderTextColor={Colors.lightGrey}
                 onChangeText={text => HandleAboutInput('Bio', text)}
               />
@@ -602,7 +626,8 @@ const Profile = ({navigation}) => {
               letterSpacing: 1,
               fontFamily: Font.Regular,
             }}>
-            {user?.InstitudeName}
+            {truncateText(user?.InstitudeName, 20)}
+            {/* {user?.InstitudeName} */}
           </Text>
           <Text
             style={{
@@ -631,7 +656,7 @@ const Profile = ({navigation}) => {
           <Text
             style={{
               // fontWeight: '600',
-              color: Colors.mildGrey,
+              color: Colors.veryDarkGrey,
               letterSpacing: 1,
               fontFamily: Font.Medium,
             }}>
@@ -640,7 +665,7 @@ const Profile = ({navigation}) => {
           <Text
             style={{
               textAlign: 'center',
-              color: Colors.mildGrey,
+              color: Colors.veryDarkGrey,
               fontSize: width * 0.04,
               letterSpacing: 1,
               fontFamily: Font.Regular,
@@ -652,7 +677,7 @@ const Profile = ({navigation}) => {
           <Text
             style={{
               fontWeight: '600',
-              color: Colors.mildGrey,
+              color: Colors.veryDarkGrey,
               letterSpacing: 1,
               fontFamily: Font.Medium,
             }}>
@@ -661,7 +686,7 @@ const Profile = ({navigation}) => {
           <Text
             style={{
               textAlign: 'center',
-              color: Colors.mildGrey,
+              color: Colors.veryDarkGrey,
               fontSize: width * 0.04,
               letterSpacing: 1,
               fontFamily: Font.Regular,
@@ -679,8 +704,8 @@ const Profile = ({navigation}) => {
           justifyContent: 'center',
           alignItems: 'center',
           rowGap: 10,
-          marginVertical: 10,
-          // marginBottom: 30,
+          // marginVertical: 10,
+          marginBottom: 30,
         }}>
         <TouchableOpacity
           onPress={() => navigation.navigate('yourcourse')}
@@ -698,8 +723,8 @@ const Profile = ({navigation}) => {
               color: Colors.veryDarkGrey,
               // fontWeight: '600',
               letterSpacing: 0.5,
-              fontSize: width * 0.035,
-              fontFamily: Font.Regular,
+              fontSize: width * 0.042,
+              fontFamily: Font.Medium,
             }}>
             Your Courses
           </Text>
@@ -723,8 +748,8 @@ const Profile = ({navigation}) => {
               color: Colors.veryDarkGrey,
               // fontWeight: '600',
               letterSpacing: 0.5,
-              fontSize: width * 0.035,
-              fontFamily: Font.Regular,
+              fontSize: width * 0.042,
+              fontFamily: Font.Medium,
             }}>
             Log out
           </Text>

@@ -38,6 +38,7 @@ import {
 import {SocketData} from '../Socket/SocketContext';
 import Skeleton from '../Skeletons/Skeleton';
 import {Font} from '../constants/Font';
+import truncateText from '../hooks/truncateText';
 
 const Posts = ({post, index, admin, senderDetails}) => {
   const initialText = post?.PostText;
@@ -373,10 +374,14 @@ const Posts = ({post, index, admin, senderDetails}) => {
               : user?.firstName + ' ' + user?.LastName}
           </Text>
           <Text style={styles.instituteText} numberOfLines={1}>
-            {senderDetails ? senderDetails?.InstitudeName : user?.InstitudeName}
+            {truncateText(
+              senderDetails
+                ? senderDetails?.InstitudeName
+                : user?.InstitudeName,
+            )}
+            {/* {senderDetails ? senderDetails?.InstitudeName : user?.InstitudeName} */}
           </Text>
         </View>
-
         <TouchableOpacity
           onPress={() => {
             PostRBSheetRef.current.open();

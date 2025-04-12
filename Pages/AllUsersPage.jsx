@@ -18,6 +18,7 @@ import {TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import HeadingText from '../utils/HeadingText';
 import FastImage from 'react-native-fast-image';
+import truncateText from '../hooks/truncateText';
 
 const AllUsersPage = () => {
   const {width, height} = Dimensions.get('window');
@@ -173,7 +174,8 @@ const AllUsersPage = () => {
                           fontFamily: 'Poppins-Medium',
                         }}
                         numberOfLines={1}>
-                        {item?.InstitudeName}
+                        {truncateText(item?.InstitudeName, 20)}
+                        {/* {item?.InstitudeName} */}
                       </Text>
                     </View>
                   </View>
