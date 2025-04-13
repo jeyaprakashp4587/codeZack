@@ -18,6 +18,7 @@ import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import Skeleton from '../Skeletons/Skeleton';
 import FastImage from 'react-native-fast-image';
+import {Font} from '../constants/Font';
 
 const Placement = () => {
   const {width, height} = Dimensions.get('window');
@@ -72,6 +73,7 @@ const Placement = () => {
               color: Colors.veryDarkGrey,
               letterSpacing: 1,
               fontWeight: '600',
+              fontFamily: Font.Regular,
             }}>
             No Jobs
           </Text>
@@ -100,6 +102,7 @@ const Placement = () => {
             fontWeight: '600',
             color: Colors.veryDarkGrey,
             letterSpacing: 1,
+            fontFamily: Font.Medium,
           }}>
           Recommended Jobs{' '}
         </Text>
@@ -111,6 +114,7 @@ const Placement = () => {
             borderRadius: 10,
             borderWidth: 1,
             fontSize: width * 0.035,
+            fontFamily: Font.Medium,
           }}>
           {jobs?.length}
         </Text>
@@ -129,9 +133,9 @@ const Placement = () => {
               borderColor: Colors.lightGrey,
               borderRadius: 10,
               flexDirection: 'column',
-              rowGap: 20,
+              rowGap: 10,
               marginHorizontal: 15,
-              elevation: 3,
+              elevation: 2,
               backgroundColor: 'white',
               marginVertical: 8,
             }}>
@@ -144,7 +148,7 @@ const Placement = () => {
                 borderRadius: 10,
                 padding: 10,
                 flexDirection: 'column',
-                rowGap: 15,
+                rowGap: 7,
                 borderColor: item?.BgColor,
                 // elevation: 4,
               }}>
@@ -165,6 +169,8 @@ const Placement = () => {
                     borderRadius: 20,
                     letterSpacing: 2,
                     paddingHorizontal: 10,
+                    fontFamily: Font.Regular,
+                    fontSize: width * 0.03,
                   }}>
                   {item?.Date}
                 </Text>
@@ -179,10 +185,20 @@ const Placement = () => {
                   alignItems: 'center',
                 }}>
                 <View>
-                  <Text style={{fontSize: width * 0.04}}>
+                  <Text
+                    style={{
+                      fontSize: width * 0.04,
+                      fontFamily: Font.Medium,
+                      letterSpacing: 0.3,
+                    }}>
                     {item?.CompanyName}
                   </Text>
-                  <Text style={{fontWeight: '400', fontSize: width * 0.045}}>
+                  <Text
+                    style={{
+                      fontWeight: '400',
+                      fontSize: width * 0.045,
+                      fontFamily: Font.SemiBold,
+                    }}>
                     {item?.JobTitle}
                   </Text>
                 </View>
@@ -191,6 +207,7 @@ const Placement = () => {
                     priority={FastImage.priority.high}
                     source={{uri: item?.CompanyLogo}}
                     style={{width: 50, height: 50, resizeMode: 'contain'}}
+                    resizeMode="contain"
                   />
                 </View>
               </View>
@@ -212,6 +229,8 @@ const Placement = () => {
                       // paddingHorizontal: 10,
                       paddingVertical: 2,
                       color: Colors.mildGrey,
+                      fontFamily: Font.Medium,
+                      letterSpacing: 0.3,
                     }}>
                     {i}
                   </Text>
@@ -223,8 +242,9 @@ const Placement = () => {
                 style={{
                   fontWeight: '400',
                   fontSize: width * 0.035,
-                  letterSpacing: 1,
+                  letterSpacing: 0.3,
                   // color: Colors.mildGrey,
+                  fontFamily: Font.Medium,
                 }}>
                 {item?.JobLocation}
               </Text>

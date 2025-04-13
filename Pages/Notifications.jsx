@@ -41,8 +41,6 @@ const Notifications = () => {
     if (loading || !hasMore) return;
     setLoading(true);
     try {
-      console.log('Fetching notifications...');
-
       const res = await axios.get(
         `${functionApi}/Notifications/getNotifications/${user?._id}`,
         {
