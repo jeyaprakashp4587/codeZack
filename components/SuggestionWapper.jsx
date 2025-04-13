@@ -18,6 +18,7 @@ import {useData} from '../Context/Contexter';
 import {TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import truncateText from '../hooks/truncateText';
+import {Font} from '../constants/Font';
 
 const SuggestionWapper = ({refresh}) => {
   const {width, height} = Dimensions.get('window');
@@ -45,14 +46,22 @@ const SuggestionWapper = ({refresh}) => {
     return <View></View>;
   }
   return (
-    <View style={{flexDirection: 'column', rowGap: 5}}>
+    <View style={{flexDirection: 'column', rowGap: 5, marginTop: 20}}>
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        <ParagraphText text="Suggestions" color="black" fweight={700} />
+        <Text
+          style={{
+            color: Colors.veryDarkGrey,
+            letterSpacing: 0.3,
+            fontSize: width * 0.043,
+            fontFamily: Font.Medium,
+          }}>
+          Suggestions
+        </Text>
         <TouchableOpacity
           onPress={() => {
             HandleShowMore();

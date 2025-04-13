@@ -37,12 +37,11 @@ import Skeleton from '../Skeletons/Skeleton';
 import useFCMToken from '../hooks/useFCMToken';
 import IdeasWrapper from '../components/IdeasWrapper';
 import RecentCourses from '../components/RecentCourses';
-import AppOpenAd from '../Adds/AppOpenAdd';
+// import AppOpenAd from '../Adds/AppOpenAdd';
 import FastImage from 'react-native-fast-image';
 const ChallengesBanner = React.lazy(() =>
   import('../components/ChallengesBanner'),
 );
-// import useOnlineStatus from '../hooks/useOnlineStatus';
 import {Font} from '../constants/Font';
 import {checkAppVersion} from '../hooks/checkAppVersion';
 // Dimensions for layout
@@ -60,14 +59,13 @@ const Home = () => {
   useEffect(() => {
     BridgeModule.getNativeString().then(data => setTest(data));
   }, []);
-
   // init firebase notification
   useFCMToken();
   // app open add
   // setonlineStatus
   // useOnlineStatus();
   // config app open add
-  AppOpenAd();
+  // AppOpenAd();
   // Loading ui effect
   useEffect(() => {
     getNotifications();

@@ -39,24 +39,13 @@ const RecentCourses = () => {
   }
   return (
     <View style={{paddingHorizontal: 15, marginVertical: 10}}>
-      {/* <Text
-        style={{
-          fontSize: width * 0.042,
-          letterSpacing: 1,
-          color: 'black',
-          marginBottom: 10,
-          // fontWeight: '700',
-          fontFamily: Font.Regular,
-        }}>
-        Your Recent Course
-      </Text> */}
-      {/* <PragraphText text="Your Recent Course" color="black" fweight={700} /> */}
       <Text
         style={{
           fontFamily: Font.Medium,
           fontWeight: '600',
           fontSize: width * 0.042,
           marginBottom: 10,
+          letterSpacing: 0.2,
         }}>
         Your Recent courses
       </Text>
