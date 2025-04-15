@@ -2,7 +2,7 @@ const Api = !__DEV__
   ? 'https://codezackserver.onrender.com'
   : 'http://192.168.43.90:8080';
 const SocketApi = !__DEV__
-  ? 'https://codezackserver2-1yev.onrender.com'
+  ? 'https://codezackserver2.onrender.com'
   : 'http://192.168.43.90:3000';
 const loginApi = !__DEV__
   ? 'https://codezackserver.onrender.com'
@@ -16,7 +16,6 @@ const functionApi = !__DEV__
 const challengesApi = !__DEV__
   ? 'https://codezackserver.onrender.com'
   : 'http://192.168.43.90:8080';
-
 // -----
 module.exports = {
   Api,
