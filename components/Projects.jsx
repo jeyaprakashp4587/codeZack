@@ -71,7 +71,7 @@ const Projects = () => {
         navigation.navigate('selectedProject');
         setSelectedProject(project);
         if (isLoaded) {
-          await show();
+          // await show();
         }
       } catch (error) {
         console.log(error);
