@@ -175,45 +175,49 @@ const Posts = ({post, index, admin, senderDetails}) => {
         setComments([...comments, res.data.comment]);
         setCommentsLength(prev => prev + 1);
         setNewComment('');
-        emitEvent('CommentNotiToUploader', {
-          postId: post?._id,
-          senderId: senderDetails?._id,
-        });
+        if (user?._id != senderDetails?._id) {
+          emitEvent('CommentNotiToUploader', {
+            postId: post?._id,
+            senderId: senderDetails?._id,
+          });
+        }
       }
     } catch (error) {
       ToastAndroid.show('Error on Comment', ToastAndroid.SHORT);
     }
   }, [newComment, comments, user]);
   // handle delete commands ------------
-  const deleteCommend = useCallback(async commentID => {
-    try {
-      if (!commentID) {
-        console.log(commentID);
-        return;
-      }
-      const {status} = await axios.post(`${profileApi}/Post/deleteComment`, {
-        postId: post?._id,
-        commentedId: commentID,
-      });
-      if (status == 200) {
-        console.log('sucess');
-        setCommentsLength(prev => prev - 1);
-        setCommandModelShow(false);
-        // if server was send success status then filter and remove the comment id from previos comments
-        const filterdComments = comments?.filter(
-          comments => commentID != comments._id,
-        );
-        if (filterdComments) {
-          setComments(filterdComments);
-          ToastAndroid.show('Comment deleted', ToastAndroid.SHORT);
+  const deleteCommend = useCallback(
+    async commentID => {
+      try {
+        if (!commentID) {
+          console.log(commentID);
+          return;
         }
+        const {status} = await axios.post(`${profileApi}/Post/deleteComment`, {
+          postId: post?._id,
+          commentedId: commentID,
+        });
+        if (status == 200) {
+          setCommentsLength(prev => prev - 1);
+          setCommandModelShow(false);
+          // if server was send success status then filter and remove the comment id from previos comments
+          const filterdComments = comments?.filter(
+            comments => commentID != comments._id,
+          );
+          if (filterdComments) {
+            setComments(filterdComments);
+            ToastAndroid.show('Comment deleted', ToastAndroid.SHORT);
+          }
+        }
+      } catch (error) {
+        console.log(error);
+        setCommandModelShow(false);
+        ToastAndroid.show('delete comment failed', ToastAndroid.SHORT);
       }
-    } catch (error) {
-      console.log(error);
-      setCommandModelShow(false);
-      ToastAndroid.show('delete comment failed', ToastAndroid.SHORT);
-    }
-  }, []);
+    },
+    [comments, user],
+  );
   // get liked user using pagination
   const [likedUsers, setLikedUsers] = useState([]);
   const [likedUserSkip, setLikedUserSkip] = useState(0);
@@ -511,6 +515,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
             columnGap: 2,
             // borderWidth: 1,
             width: width * 0.2,
+            // justifyContent: 'center',
           }}>
           <Text style={{fontFamily: Font.Regular, fontSize: width * 0.048}}>
             {/* {commentsLength} */}
@@ -1129,7 +1134,7 @@ export default React.memo(Posts);
 const styles = StyleSheet.create({
   userName: {
     fontSize: width * 0.037,
-    fontFamily: Font.Regular,
+    fontFamily: Font.Medium,
   },
   instituteText: {
     color: Colors.mildGrey,
