@@ -97,15 +97,13 @@ const TabNavigation = () => {
           tabBarInactiveTintColor: Colors.mildGrey,
           tabBarStyle: {
             height: hp('10%'),
-            paddingBottom: 10,
+            paddingBottom: 0,
             overflow: 'hidden',
             borderTopWidth: 0,
             elevation: 0,
           },
           tabBarLabelStyle: {
             fontSize: width * 0.021,
-            marginTop: -15,
-            marginBottom: 5,
             color: Colors.mildGrey,
             letterSpacing: 1,
             fontFamily: Font.Regular,

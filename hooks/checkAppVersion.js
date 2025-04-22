@@ -22,7 +22,7 @@ export const checkAppVersion = async navigation => {
     const latestVersion = await fetchLatestVersionFromBackend();
 
     if (currentVersion !== latestVersion) {
-      navigation.navigate('updatePageScreen');
+      // navigation.replace('updatePageScreen');
     }
   } catch (error) {
     console.error('Error checking app version:', error);

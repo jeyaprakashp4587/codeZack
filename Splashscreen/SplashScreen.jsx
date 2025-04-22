@@ -78,19 +78,6 @@ const SplashScreen = () => {
           resizeMode="contain"
         />
       </View>
-      <FastImage
-        source={{
-          uri: 'https://i.ibb.co/LDt33vr6/freepik-adjust-48199.png',
-          priority: FastImage.priority.high,
-        }}
-        style={{
-          width: width * 1,
-          height: 200,
-          position: 'absolute',
-          bottom: 0,
-          opacity: 0.25,
-        }}
-      />
     </View>
   );
 };
