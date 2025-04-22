@@ -1011,7 +1011,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
           </Text>
           <View
             style={{
-              justifyContent: 'flex-start',
+              justifyContent: 'center',
               alignItems: 'center',
               // borderWidth: 1,
               flexDirection: 'row',
@@ -1035,7 +1035,12 @@ const Posts = ({post, index, admin, senderDetails}) => {
               style={{borderWidth: 0}}
               data={netWorksList}
               showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{borderWidth: 1, alignItems: 'center'}}
+              contentContainerStyle={{
+                width: '100%',
+                // borderWidth: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
               renderItem={({item}) => (
                 <TouchableOpacity
                   onPress={() => {
@@ -1061,19 +1066,6 @@ const Posts = ({post, index, admin, senderDetails}) => {
                       borderWidth: 3,
                     }}
                   />
-                  <View
-                    style={{
-                      position: 'absolute',
-                      top: hp('6.5%'),
-                      zIndex: 10,
-                      left: wp('12%'),
-                      padding: width * 0.017,
-                      backgroundColor: item?.onlineStatus ? 'green' : 'red',
-                      borderRadius: 50,
-                      borderWidth: 3,
-                      borderColor: 'white',
-                    }}
-                  />
                   <Text
                     style={{
                       fontSize: width * 0.028,
@@ -1093,7 +1085,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
                       onPress={getNetworksList}
                       style={{
                         padding: 10,
-                        borderWidth: 0.5,
+                        // borderWidth: 0.5,
                         borderRadius: 50,
                         borderColor: Colors.violet,
                       }}>

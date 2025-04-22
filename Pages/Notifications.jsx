@@ -147,7 +147,7 @@ const Notifications = () => {
         <FlatList
           nestedScrollEnabled={true}
           showsVerticalScrollIndicator={false}
-          data={notificationList}
+          data={notificationList.reverse()}
           keyExtractor={item => item.NotificationId}
           style={{marginTop: 10}}
           renderItem={({item, index}) => (

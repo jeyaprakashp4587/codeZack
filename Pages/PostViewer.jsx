@@ -13,6 +13,8 @@ import {Font} from '../constants/Font';
 const PostViewer = () => {
   const {width} = Dimensions.get('window');
   const {selectedPost} = useData();
+  console.log(selectedPost);
+
   const [post, setPost] = useState();
   const [loading, setLoading] = useState(true);
   const getPostDetail = useCallback(async () => {
@@ -20,7 +22,7 @@ const PostViewer = () => {
       const res = await axios.get(
         `${profileApi}/Post/getPostDetails/${selectedPost}`,
       );
-      if (res.data && res.status === '200') {
+      if (res.data && res.status === 200) {
         setPost(res.data);
         setLoading(false);
       } else {

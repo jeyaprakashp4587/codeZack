@@ -176,8 +176,8 @@ const SignUp = ({navigation}) => {
                 style={[
                   styles.input,
                   {
-                    borderColor: Colors.veryLightGrey,
-                    elevation: 3,
+                    borderColor: Colors.white,
+                    elevation: 1.2,
                     letterSpacing: 1,
                     fontFamily: Font.Regular,
                   },
