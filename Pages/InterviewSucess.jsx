@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import FastImage from 'react-native-fast-image';
 import {useData} from '../Context/Contexter';
 import {Font} from '../constants/Font';
@@ -15,12 +15,33 @@ import {Colors} from '../constants/Colors';
 import {profileApi} from '../Api';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
+import {TestIds, useRewardedAd} from 'react-native-google-mobile-ads';
 const {width} = Dimensions.get('window');
 
 const InterviewSucess = () => {
   const {selectedCompany, user, setUser} = useData();
   const navigate = useNavigation();
   const [loading, setLoading] = useState(false);
+  // inint add
+  const {
+    load: loadReward,
+    isClosed: rewardClosed,
+    show: showReward,
+    isLoaded: rewardIsLoaded,
+  } = useRewardedAd(
+    __DEV__ ? TestIds.REWARDED : 'ca-app-pub-3257747925516984/2148003800',
+    {requestNonPersonalizedAdsOnly: true},
+  );
+  useEffect(() => {
+    loadReward(); // Load rewarded ad on initial render
+  }, [loadReward]);
+
+  useEffect(() => {
+    if (rewardClosed) {
+      loadReward(); // Reload ad if it's closed
+    }
+  }, [rewardClosed, loadReward]);
+  // load reward and destructure Reward add
   // reset the user selected interview company
   const setQuestionLength = useCallback(async () => {
     try {
@@ -36,6 +57,7 @@ const InterviewSucess = () => {
       );
       if (status === 200) {
         setUser(prev => ({...prev, InterView: data.InterView}));
+        await showReward();
         navigate.replace('InterviewDetail');
         setLoading(false);
       }
@@ -45,6 +67,7 @@ const InterviewSucess = () => {
       setLoading(false);
     }
   }, []);
+
   return (
     <View
       style={{

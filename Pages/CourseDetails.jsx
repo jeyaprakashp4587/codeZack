@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -18,6 +18,7 @@ import {challengesApi} from '../Api';
 import Actitivity from '../hooks/ActivityHook';
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
+import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
 
 const {width, height} = Dimensions.get('window');
 
@@ -25,7 +26,26 @@ const CourseDetails = () => {
   const {selectedCourse, setselectedTechnology, user, setUser} = useData();
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
-
+  // init add load
+  const {
+    load: loadInterest,
+    isClosed: interestClosed,
+    show: showInterest,
+    isLoaded: interestIsLoaded,
+  } = useInterstitialAd(
+    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/9392069002',
+    {
+      requestNonPersonalizedAdsOnly: true,
+    },
+  );
+  useEffect(() => {
+    loadInterest();
+  }, [loadInterest]);
+  useEffect(() => {
+    if (interestClosed) {
+      loadInterest();
+    }
+  }, [interestClosed, loadInterest]);
   const HandleCourse = useCallback(
     async item => {
       try {
@@ -43,6 +63,9 @@ const CourseDetails = () => {
         if (res.data != 'Enrolled') {
           // Set the selected technology
           setselectedTechnology({web: item.web, name: item.name});
+          if (interestIsLoaded) {
+            showInterest();
+          }
           // Navigate to "learn" screen immediately
           navigation.navigate('learn');
           setUser(prev => ({...prev, Courses: res.data.Tech}));
@@ -124,7 +147,7 @@ const CourseDetails = () => {
                 borderColor: Colors.mildGrey,
               }}>
               {loading ? (
-                <ActivityIndicator color={Colors.mildGrey} />
+                <ActivityIndicator color={Colors.mildGrey} size={28} />
               ) : (
                 <Text
                   style={{

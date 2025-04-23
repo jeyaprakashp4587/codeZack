@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Alert,
   Dimensions,
   FlatList,
   Image,
@@ -31,6 +32,8 @@ import FastImage from 'react-native-fast-image';
 import WebView from 'react-native-webview';
 import {Font} from '../constants/Font';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment';
 
 const InterviewPrep = () => {
   const {selectedCompany, user, setUser} = useData();
@@ -192,6 +195,7 @@ const InterviewPrep = () => {
     }
   };
   // submit task
+
   const submitTask = useCallback(async () => {
     try {
       const response = await axios.post(`${profileApi}/InterView/submitTask`, {
@@ -199,7 +203,7 @@ const InterviewPrep = () => {
         companyName: selectedCompany?.company_name || selectedCompany,
       });
       if (response.data) {
-        if (currentWeek?.week == 6) {
+        if (currentWeek?.week === 6) {
           navigation.navigate('interviewSucess');
           try {
             await Actitivity(
@@ -212,8 +216,13 @@ const InterviewPrep = () => {
             console.error('Error calling Actitivity:', error);
           }
         }
+        const now = moment().toISOString();
+        await AsyncStorage.setItem(`interview-week-access-${user?._id}`, now);
         setWeek(response.data.week);
-        setUser(prev => ({...prev, InterView: response.data.userInterView}));
+        setUser(prev => ({
+          ...prev,
+          InterView: response.data.userInterView,
+        }));
         setCurrentQuestion(0);
       } else {
         throw new Error('Unexpected response from the server');
@@ -222,6 +231,26 @@ const InterviewPrep = () => {
       console.log(error);
     }
   }, [user, selectedCompany, currentWeek]);
+  const handleNextWeek = async () => {
+    const key = `interview-week-access-${user?._id}`;
+    const lastAccess = await AsyncStorage.getItem(key);
+    if (lastAccess) {
+      const last = moment(lastAccess);
+      const now = moment();
+      const diffInDays = now.diff(last, 'days');
+      if (diffInDays < 2) {
+        Alert.alert(
+          'Please Wait',
+          `You can access the next week after ${2 - diffInDays} more day(s).`,
+        );
+        setQuestionLength();
+        return;
+      }
+    }
+    // Now it's okay to submit
+    submitTask();
+  };
+
   // render ui
   if (!currentWeek) {
     return (
@@ -455,7 +484,7 @@ const InterviewPrep = () => {
               {/* next and submit button setting */}
               {currentQuestion == currentWeek?.sample_questions?.length - 1 ? (
                 <TouchableOpacity
-                  onPress={submitTask}
+                  onPress={handleNextWeek}
                   style={{
                     // backgroundColor: Colors.violet,
                     padding: 7,

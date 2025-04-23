@@ -16,7 +16,11 @@ import {useData} from '../Context/Contexter';
 import HeadingText from '../utils/HeadingText';
 import {Colors} from '../constants/Colors';
 import FastImage from 'react-native-fast-image';
-import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
+import {
+  TestIds,
+  useInterstitialAd,
+  useRewardedAd,
+} from 'react-native-google-mobile-ads';
 import {Font} from '../constants/Font';
 import RNFS from 'react-native-fs';
 import FileViewer from 'react-native-file-viewer';
@@ -24,8 +28,8 @@ import FileViewer from 'react-native-file-viewer';
 const SelectedProject = () => {
   const {selectedProject} = useData();
   const {width, height} = Dimensions.get('window');
-  const {load, isLoaded, show, isClosed, isEarnedReward} = useInterstitialAd(
-    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/9392069002',
+  const {load, show, isLoaded, isEarnedReward, isClosed} = useRewardedAd(
+    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/2148003800',
     {
       requestNonPersonalizedAdsOnly: false,
     },
@@ -51,6 +55,10 @@ const SelectedProject = () => {
           return;
         }
       }
+      if (isLoaded) {
+        show();
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
       const localPath = `${RNFS.ExternalDirectoryPath}/${selectedProject?.name}.zip`;
       setDownloadIndi(true);
       const downloadResult = await RNFS.downloadFile({
@@ -60,7 +68,7 @@ const SelectedProject = () => {
         discretionary: true,
       }).promise;
       setDownloadIndi(false);
-      ToastAndroid.show('Downloaded sucessfully', ToastAndroid.SHORT);
+      ToastAndroid.show('Downloaded successfully', ToastAndroid.SHORT);
       setTimeout(() => {
         FileViewer.open(localPath);
       }, 1000);
@@ -73,9 +81,6 @@ const SelectedProject = () => {
   const [adCount, setAdCount] = useState(0);
   // Watch add to unlock get assets
   const watchAdd = useCallback(async () => {
-    if (isLoaded) {
-      await show();
-    }
     if (isEarnedReward) setAdCount(prev => prev - 1);
   }, [isLoaded, isClosed, isEarnedReward, adCount]);
   return (
@@ -196,7 +201,6 @@ const SelectedProject = () => {
                   Watch {adCount} Ads to unlock
                 </Text>
               )}
-
               {/* buttons */}
               {adCount <= 0 ? (
                 <TouchableOpacity
@@ -204,21 +208,21 @@ const SelectedProject = () => {
                     padding: 10,
                     justifyContent: 'center',
                     alignItems: 'center',
-                    borderRadius: 5,
-                    backgroundColor: 'white',
+                    borderRadius: 50,
+                    backgroundColor: Colors.violet,
                     borderColor: Colors.violet,
                     borderWidth: 0.6,
                   }}
                   onPress={() => handleBuyProject()}>
                   {downloadIndi ? (
-                    <ActivityIndicator size={23} color="black" />
+                    <ActivityIndicator size={25} color={Colors.white} />
                   ) : (
                     <Text
                       style={{
                         textAlign: 'center',
                         letterSpacing: 1,
                         fontSize: width * 0.035,
-                        color: Colors.mildGrey,
+                        color: Colors.white,
                         fontFamily: 'Poppins-Medium',
                       }}>
                       Get Project
