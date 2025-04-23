@@ -203,7 +203,7 @@ const Post = () => {
 
           // show add after post upload sucessfully
           if (isLoaded) {
-            show();
+            // show();
           }
           // console.log(res.data.Posts);
           refreshFields();

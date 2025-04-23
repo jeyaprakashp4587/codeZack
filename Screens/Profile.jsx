@@ -68,7 +68,7 @@ const Profile = ({navigation}) => {
     {requestNonPersonalizedAdsOnly: true},
   );
   useEffect(() => {
-    load();
+    // load();
   }, [load]);
   useEffect(() => {
     if (isClosed) {
@@ -98,7 +98,7 @@ const Profile = ({navigation}) => {
               if (uri) {
                 // show add after select image
                 if (isLoaded) {
-                  show();
+                  // show();
                 }
                 hostImage(uri, imageType)
                   .then(imageUri => {
@@ -225,7 +225,7 @@ const Profile = ({navigation}) => {
         setAboutUpdate(false);
         // show add after update
         if (isLoaded) {
-          await show();
+          // await show();
         }
         // close the modal after update
       }

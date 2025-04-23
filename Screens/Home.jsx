@@ -228,7 +228,7 @@ const Home = () => {
           <EvilIcons
             name="search"
             size={width * 0.07}
-            color={Colors.veryDarkGrey}
+            color={Colors.lightGrey}
           />
           <TextInput
             onPress={() => navigation.navigate('search')}

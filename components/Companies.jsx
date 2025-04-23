@@ -40,7 +40,7 @@ const Companies = () => {
       navigation.navigate('InterviewDetail');
       setSelectedCompany(name);
       if (isLoaded) {
-        await show();
+        // await show();
       }
     },
     [isLoaded, show],

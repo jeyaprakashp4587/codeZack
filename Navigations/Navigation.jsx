@@ -95,10 +95,9 @@ const TabNavigation = () => {
         tabBarActiveTintColor: Colors.violet,
         tabBarInactiveTintColor: Colors.mildGrey,
         tabBarStyle: {
-          // height: 90,
           borderTopWidth: 0,
           elevation: 0,
-          // borderWidth: 10,
+          height: 70,
         },
         tabBarLabelStyle: {
           fontSize: width * 0.021,
@@ -107,6 +106,11 @@ const TabNavigation = () => {
           fontFamily: Font.Regular,
         },
         tabBarHideOnKeyboard: true,
+        tabBarItemStyle: {
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
       }}>
       <Tab.Screen
         name="Home"
@@ -122,7 +126,7 @@ const TabNavigation = () => {
               style={{
                 width: width * 0.06,
                 height: width * 0.06,
-                tintColor: color, // This will apply a tint to your image if needed
+                tintColor: color,
               }}
               resizeMode="contain"
             />

@@ -52,10 +52,10 @@ const Notifications = () => {
         res.data.notifications.length > 0
       ) {
         setNotificationList(prev => [...prev, ...res.data.notifications]);
-        setPage(prev => prev + 1); // Increment page
-        setTotalPages(res.data.totalPages); // Store total pages
+        setPage(prev => prev + 1);
+        setTotalPages(res.data.totalPages);
         if (page >= res.data.totalPages) {
-          setHasMore(false); // No more pages
+          setHasMore(false);
         }
       } else {
         setHasMore(false);
@@ -64,7 +64,7 @@ const Notifications = () => {
       console.error('Error fetching notifications:', error);
     }
     setLoading(false);
-  }, [user?._id, page, hasMore]);
+  }, [page, hasMore]);
 
   // Handle notification click
   const handleNotificationClick = useCallback(
