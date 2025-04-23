@@ -66,7 +66,9 @@ const AllUsersPage = () => {
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text="Grow Your Network" />
       </View>
-      {suggestions?.length <= 0 && <Text>No more suggestion</Text>}
+      {suggestions?.length <= 0 && (
+        <Text style={{paddingHorizontal: 15}}>No more suggestion</Text>
+      )}
       <View
         style={{
           borderWidth: 0,
