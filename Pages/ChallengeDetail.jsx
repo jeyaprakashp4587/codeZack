@@ -74,16 +74,54 @@ const ChallengeDetail = () => {
   const emitEvent = useSocketEmit(socket);
   const postText = useMemo(
     () => [
-      `Thrilled to announce that I’ve just completed a challenging ${selectedChallenge?.ChallengeType} project! The task was ${selectedChallenge?.ChallengeName}. Check out the details in the link below!`,
-      `Excited to share that I’ve finished a new ${selectedChallenge?.ChallengeType} challenge! It was called ${selectedChallenge?.ChallengeName}. Check out more info below!`,
-      `Happy to say I’ve completed another ${selectedChallenge?.ChallengeType} project! The challenge was ${selectedChallenge?.ChallengeName}. Here’s the link to know more!`,
-      `Proud to announce that I’ve finished the ${selectedChallenge?.ChallengeName} challenge, which was a ${selectedChallenge?.ChallengeType} project! Check the link below!`,
-      `Just wrapped up an amazing ${selectedChallenge?.ChallengeType} project called ${selectedChallenge?.ChallengeName}! Take a look at the details below!`,
-      `Completed a fantastic ${selectedChallenge?.ChallengeType} challenge today! The project was ${selectedChallenge?.ChallengeName}. Check out more below!`,
-      `Feeling accomplished! I’ve just completed the ${selectedChallenge?.ChallengeType} project named ${selectedChallenge?.ChallengeName}. Have a look at the details below!`,
-      `Done with another challenging ${selectedChallenge?.ChallengeType} project! It was called ${selectedChallenge?.ChallengeName}. Check the link below!`,
-      `Finished a tricky ${selectedChallenge?.ChallengeType} challenge named ${selectedChallenge?.ChallengeName}. Check out the details below!`,
-      `Successfully completed the ${selectedChallenge?.ChallengeName} project, which was part of a challenging ${selectedChallenge?.ChallengeType}. Check out the link below!`,
+      `Thrilled to announce that I’ve just completed a challenging ${
+        selectedChallenge?.ChallengeType
+      } project! The task was ${
+        selectedChallenge?.ChallengeName || selectedChallenge?.title
+      }. Check out the details in the link below!`,
+      `Excited to share that I’ve finished a new ${
+        selectedChallenge?.ChallengeType
+      } challenge! It was called ${
+        selectedChallenge?.ChallengeName || selectedChallenge?.title
+      }. Check out more info below!`,
+      `Happy to say I’ve completed another ${
+        selectedChallenge?.ChallengeType
+      } project! The challenge was ${
+        selectedChallenge?.ChallengeName || selectedChallenge?.title
+      }. Here’s the link to know more!`,
+      `Proud to announce that I’ve finished the ${
+        selectedChallenge?.ChallengeName || selectedChallenge?.title
+      } challenge, which was a ${
+        selectedChallenge?.ChallengeType
+      } project! Check the link below!`,
+      `Just wrapped up an amazing ${
+        selectedChallenge?.ChallengeType
+      } project called ${
+        selectedChallenge?.ChallengeName || selectedChallenge?.title
+      }! Take a look at the details below!`,
+      `Completed a fantastic ${
+        selectedChallenge?.ChallengeType
+      } challenge today! The project was ${
+        selectedChallenge?.ChallengeName || selectedChallenge?.title
+      }. Check out more below!`,
+      `Feeling accomplished! I’ve just completed the ${
+        selectedChallenge?.ChallengeType
+      } project named ${
+        selectedChallenge?.ChallengeName || selectedChallenge?.title
+      }. Have a look at the details below!`,
+      `Done with another challenging ${
+        selectedChallenge?.ChallengeType
+      } project! It was called ${
+        selectedChallenge?.ChallengeName || selectedChallenge?.title
+      }. Check the link below!`,
+      `Finished a tricky ${selectedChallenge?.ChallengeType} challenge named ${
+        selectedChallenge?.ChallengeName || selectedChallenge?.title
+      }. Check out the details below!`,
+      `Successfully completed the ${
+        selectedChallenge?.ChallengeName || selectedChallenge?.title
+      } project, which was part of a challenging ${
+        selectedChallenge?.ChallengeType
+      }. Check out the link below!`,
     ],
     [uploadForm.GitRepo],
   );

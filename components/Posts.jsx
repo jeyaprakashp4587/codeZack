@@ -128,7 +128,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
           emitEvent('LikeNotiToUploader', {
             Time: moment().format('YYYY-MM-DDTHH:mm:ss'),
             postId: post?._id,
-            senderId: senderDetails?._id,
+            senderId: senderDetails?.id || senderDetails?._id,
           });
         }
       } catch (error) {
@@ -172,20 +172,21 @@ const Posts = ({post, index, admin, senderDetails}) => {
         },
       );
       if (res.status === 200) {
-        setComments([...comments, res.data.comment]);
+        setComments([res.data.comment, ...comments]);
         setCommentsLength(prev => prev + 1);
         setNewComment('');
-        if (user?._id != senderDetails?._id) {
+        if (user?._id != (senderDetails?.id || senderDetails?._id)) {
           emitEvent('CommentNotiToUploader', {
+            Time: moment().format('YYYY-MM-DDTHH:mm:ss'),
             postId: post?._id,
-            senderId: senderDetails?._id,
+            senderId: senderDetails?.id || senderDetails?._id,
           });
         }
       }
     } catch (error) {
       ToastAndroid.show('Error on Comment', ToastAndroid.SHORT);
     }
-  }, [newComment, comments, user, emitEvent]);
+  }, [newComment, comments, user, emitEvent, senderDetails]);
   // handle delete commands ------------
   const deleteCommend = useCallback(
     async commentID => {
@@ -607,7 +608,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
                 <FlatList
                   nestedScrollEnabled={true}
                   showsVerticalScrollIndicator={false}
-                  data={likedUsers}
+                  data={likedUsers.sort(like => like?.LikedTime)}
                   keyExtractor={item => item?.userId}
                   renderItem={({item}) => (
                     <TouchableOpacity
@@ -695,7 +696,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
               <FlatList
                 nestedScrollEnabled={true}
                 showsVerticalScrollIndicator={false}
-                data={comments}
+                data={comments.sort(com => com?.commentedAt)}
                 keyExtractor={(item, index) =>
                   item?.commentedBy?.userId ?? index.toString()
                 }

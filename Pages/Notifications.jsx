@@ -51,7 +51,7 @@ const Notifications = () => {
         Array.isArray(res.data.notifications) &&
         res.data.notifications.length > 0
       ) {
-        setNotificationList(prev => [...prev, ...res.data.notifications]);
+        setNotificationList(prev => [...res.data.notifications, ...prev]);
         setPage(prev => prev + 1);
         setTotalPages(res.data.totalPages);
         if (page >= res.data.totalPages) {
@@ -147,7 +147,7 @@ const Notifications = () => {
         <FlatList
           nestedScrollEnabled={true}
           showsVerticalScrollIndicator={false}
-          data={notificationList.reverse()}
+          data={notificationList.sort(noti => noti.Time)}
           keyExtractor={item => item.NotificationId}
           style={{marginTop: 10}}
           renderItem={({item, index}) => (
@@ -161,7 +161,8 @@ const Notifications = () => {
                 alignItems: 'center',
                 columnGap: 20,
                 backgroundColor: item?.seen ? 'white' : Colors.veryLightGrey,
-                borderBottomWidth: 0.5,
+                borderBottomWidth:
+                  notificationList.length - 1 == index ? 0 : 0.5,
                 borderColor: Colors.lightGrey,
               }}>
               <FastImage

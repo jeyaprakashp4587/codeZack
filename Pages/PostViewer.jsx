@@ -13,7 +13,6 @@ import {Font} from '../constants/Font';
 const PostViewer = () => {
   const {width} = Dimensions.get('window');
   const {selectedPost} = useData();
-  console.log(selectedPost);
 
   const [post, setPost] = useState();
   const [loading, setLoading] = useState(true);
