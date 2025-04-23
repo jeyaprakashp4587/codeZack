@@ -39,10 +39,7 @@ const SelectedCourse = ({navigation}) => {
         courseName: selectedCourse.name,
         userId: user?._id,
       });
-
-      // Check if the response contains user data (Email field presence indicates success)
       if (res.data != 'Enrolled') {
-        // Update user data and show success alert
         setLoading(false);
         setUser(prev => ({...prev, Courses: res.data.courses}));
         try {
@@ -50,21 +47,17 @@ const SelectedCourse = ({navigation}) => {
         } catch (error) {
           console.log(error);
         }
-
-        // Navigate to course details screen
         navigation.navigate('courseDetails');
       } else if (res.data == 'Enrolled') {
         setLoading(false);
-        // Handle the case where the course couldn't be added (server returned an error message)
         ToastAndroid.show(
           'You are already enrolled in this course',
-          ToastAndroid.BOTTOM,
+          ToastAndroid.SHORT,
         );
         navigation.navigate('courseDetails');
       }
     } catch (error) {
       setLoading(false);
-      // Handle network errors or other unforeseen issues
       console.error('Error adding course:', error);
       Alert.alert(
         'Error',

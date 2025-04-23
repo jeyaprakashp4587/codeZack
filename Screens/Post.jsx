@@ -221,7 +221,7 @@ const Post = () => {
         setUploadIndi(false);
       }
     }
-  }, [isLoaded, show, postText, images]);
+  }, [isLoaded, show, postText, images, emitEvent]);
 
   // Refresh input fields
   const refreshFields = () => {

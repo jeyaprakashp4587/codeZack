@@ -136,7 +136,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
         ToastAndroid.show('Error on like', ToastAndroid.SHORT);
       }
     },
-    [user],
+    [user, emitEvent],
   );
 
   const handleUnlike = useCallback(
@@ -185,7 +185,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
     } catch (error) {
       ToastAndroid.show('Error on Comment', ToastAndroid.SHORT);
     }
-  }, [newComment, comments, user]);
+  }, [newComment, comments, user, emitEvent]);
   // handle delete commands ------------
   const deleteCommend = useCallback(
     async commentID => {
@@ -913,7 +913,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
                 {selectedComment?.commentText}
               </Text>
             </View>
-            {selectedComment?.userId && user?._id && (
+            {selectedComment?.userId == user?._id && (
               <TouchableOpacity
                 onPress={() => deleteCommend(selectedComment?._id)}>
                 <AntDesign size={20} name="delete" />

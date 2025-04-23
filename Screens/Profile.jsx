@@ -891,6 +891,7 @@ const Profile = ({navigation}) => {
           ) : (
             <FlatList
               nestedScrollEnabled={true}
+              showsVerticalScrollIndicator={false}
               data={netWorksList}
               renderItem={({item}) => (
                 <TouchableOpacity
