@@ -114,6 +114,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
 
   const handleLike = useCallback(
     async postId => {
+      console.log(senderDetails);
       setLiked(true);
       try {
         const response = await axios.post(
@@ -125,11 +126,13 @@ const Posts = ({post, index, admin, senderDetails}) => {
         );
         if (response.status === 200) {
           setLikeCount(prev => prev + 1);
-          emitEvent('LikeNotiToUploader', {
-            Time: moment().format('YYYY-MM-DDTHH:mm:ss'),
-            postId: post?._id,
-            senderId: senderDetails?.id || senderDetails?._id,
-          });
+          if (senderDetails) {
+            emitEvent('LikeNotiToUploader', {
+              Time: moment().format('YYYY-MM-DDTHH:mm:ss'),
+              postId: post?._id,
+              senderId: senderDetails?.id || senderDetails?._id,
+            });
+          }
         }
       } catch (error) {
         setLiked(false);
@@ -163,6 +166,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
   const handleSubmitComment = useCallback(async () => {
     if (newComment.trim() === '') return;
     try {
+      console.log(senderDetails);
       const res = await axios.post(
         `${profileApi}/Post/commentPost/${post._id}`,
         {
@@ -175,7 +179,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
         setComments([res.data.comment, ...comments]);
         setCommentsLength(prev => prev + 1);
         setNewComment('');
-        if (user?._id != (senderDetails?.id || senderDetails?._id)) {
+        if (senderDetails) {
           emitEvent('CommentNotiToUploader', {
             Time: moment().format('YYYY-MM-DDTHH:mm:ss'),
             postId: post?._id,

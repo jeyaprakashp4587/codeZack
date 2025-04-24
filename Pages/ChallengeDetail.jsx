@@ -520,8 +520,8 @@ const ChallengeDetail = () => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 columnGap: 5,
-                borderColor: Colors.violet,
-                borderRadius: 5,
+                borderColor: Colors.veryDarkGrey,
+                borderRadius: 50,
                 borderWidth: 0.3,
                 justifyContent: 'center',
                 padding: 10,
@@ -536,10 +536,9 @@ const ChallengeDetail = () => {
               <Text
                 style={{
                   fontSize: width * 0.03,
-                  color: Colors.violet,
-                  letterSpacing: 0.5,
-                  // fontWeight: '600',
-                  fontFamily: Font.Regular,
+                  color: Colors.veryDarkGrey,
+                  letterSpacing: 0.3,
+                  fontFamily: Font.Medium,
                 }}>
                 Get UI Design
               </Text>

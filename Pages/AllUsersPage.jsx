@@ -19,6 +19,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import HeadingText from '../utils/HeadingText';
 import FastImage from 'react-native-fast-image';
 import truncateText from '../hooks/truncateText';
+import {Font} from '../constants/Font';
 
 const AllUsersPage = () => {
   const {width, height} = Dimensions.get('window');
@@ -101,7 +102,7 @@ const AllUsersPage = () => {
                 borderWidth: 0,
                 width: '40%',
                 flex: 1,
-                elevation: 3,
+                elevation: 2,
                 borderRadius: 10,
                 overflow: 'hidden',
                 marginBottom: 20,
@@ -166,7 +167,10 @@ const AllUsersPage = () => {
                           // fontWeight: '700',
                           fontFamily: 'Poppins-SemiBold',
                         }}>
-                        {item?.firstName} {item?.LastName}
+                        {truncateText(
+                          item?.firstName + ' ' + item?.LastName,
+                          10,
+                        )}
                       </Text>
                       <Text
                         style={{
@@ -176,8 +180,16 @@ const AllUsersPage = () => {
                           fontFamily: 'Poppins-Medium',
                         }}
                         numberOfLines={1}>
-                        {truncateText(item?.InstitudeName, 20)}
+                        {truncateText(item?.InstitudeName, 15)}
                         {/* {item?.InstitudeName} */}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: width * 0.023,
+                          fontFamily: Font.Regular,
+                          letterSpacing: 0.4,
+                        }}>
+                        {item?.District}
                       </Text>
                     </View>
                   </View>

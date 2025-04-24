@@ -167,12 +167,19 @@ const YourChallenges = props => {
             <Skeleton width="100%" height={200} radius={10} />
           </View>
         ) : (
-          <View>
+          <View
+            style={{
+              flex: 1,
+
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
             <Text
               style={{
-                letterSpacing: 2,
+                letterSpacing: 1,
                 paddingHorizontal: 15,
-                fontSize: width * 0.03,
+                fontSize: width * 0.035,
                 color: 'black',
                 fontWeight: '600',
                 fontFamily: 'Poppins-SemiBold',
@@ -182,20 +189,20 @@ const YourChallenges = props => {
             <Ripple
               onPress={() => navigation.navigate('Code')}
               style={{
-                borderWidth: 0.5,
+                // borderWidth: 0.5,
                 padding: 10,
                 marginHorizontal: 15,
                 marginTop: 20,
-                borderRadius: 5,
-                borderColor: Colors.lightGrey,
+                borderRadius: 50,
+                // borderColor: Colors.lightGrey,
+                backgroundColor: Colors.violet,
               }}>
               <Text
                 style={{
                   textAlign: 'center',
                   letterSpacing: 1,
-                  fontWeight: '400',
                   fontSize: width * 0.025,
-                  color: Colors.mildGrey,
+                  color: Colors.white,
                   fontFamily: 'Poppins-Medium',
                 }}>
                 Choose Challenges
