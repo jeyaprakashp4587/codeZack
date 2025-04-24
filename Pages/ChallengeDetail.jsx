@@ -171,16 +171,33 @@ const ChallengeDetail = () => {
   const uploadSnap = async imgUri => {
     setImageLoad(true);
     try {
-      const storageRef = ref(storage, `Image/${Date.now()}.jpeg`);
-      const response = await fetch(imgUri);
-      const blob = await response.blob();
-      await uploadBytes(storageRef, blob);
-      await updateMetadata(storageRef, {
-        contentType: 'image/jpeg',
-        cacheControl: 'public,max-age=31536000',
+      // const storageRef = ref(storage, `Image/${Date.now()}.jpeg`);
+      // const response = await fetch(imgUri);
+      // const blob = await response.blob();
+      // await uploadBytes(storageRef, blob);
+      // await updateMetadata(storageRef, {
+      //   contentType: 'image/jpeg',
+      //   cacheControl: 'public,max-age=31536000',
+      // });
+      // const downloadURL = await getDownloadURL(storageRef);
+      // return downloadURL;
+      const data = new FormData();
+      data.append('file', {
+        uri: imgUri,
+        type: 'image/jpeg',
+        name: 'Post.jpg',
       });
-      const downloadURL = await getDownloadURL(storageRef);
-      return downloadURL;
+      data.append('upload_preset', 'ml_default');
+      data.append('api_key', '1z2Ft0vr7dBtH4BW1fuDhZXHox8');
+      let res = await fetch(
+        'https://api.cloudinary.com/v1_1/dogo7hkhy/image/upload',
+        {
+          method: 'POST',
+          body: data,
+        },
+      );
+      let result = await res.json();
+      return await result.secure_url;
     } catch (error) {
       console.error('Error uploading image:', error);
     } finally {
@@ -193,8 +210,7 @@ const ChallengeDetail = () => {
     try {
       const result = await launchImageLibrary({
         mediaType: 'photo',
-        selectionLimit: 0,
-        // Allow multiple image selection
+        selectionLimit: 4,
       });
 
       if (!result.didCancel && result.assets) {
