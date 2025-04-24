@@ -987,6 +987,7 @@ const Profile = ({navigation}) => {
           width: '80%',
           alignSelf: 'center',
           borderRadius: 10,
+          justifyContent: 'flex-start',
         }}>
         <View style={{flexDirection: 'column', rowGap: 10}}>
           <Text style={{fontFamily: 'Poppins-Medium'}}>
