@@ -195,7 +195,7 @@ const SignUp = ({navigation}) => {
           <View style={{height: height * 0.02}} />
           <Ripple onPress={handleSignUp} style={styles.signUpButton}>
             {actiloading ? (
-              <ActivityIndicator size={width * 0.05} color={Colors.white} />
+              <ActivityIndicator size={width * 0.063} color={Colors.white} />
             ) : (
               <Text style={styles.signUpText}>Signup</Text>
             )}
