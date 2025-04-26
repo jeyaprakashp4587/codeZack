@@ -14,12 +14,11 @@ const ChallengesBanner = () => {
     try {
       const clickedcount = AsyncStorage.getItem('clickcount');
       if (clickedcount == 'counted') {
-        console.log(clickedcount);
         setShowBanner(true);
       }
     } catch (error) {}
   }, []);
-  if (!showBanner) return null;
+  if (showBanner) return null;
   return (
     <View
       style={{
