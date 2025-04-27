@@ -106,104 +106,61 @@ const Projects = () => {
         renderItem={({item, index}) => (
           <View
             style={{
-              borderRadius: 10,
+              borderRadius: 5,
               overflow: 'hidden',
               width: width * 0.7,
               marginRight: 10,
               opacity: 0.9,
               marginLeft: index == 0 && 15,
+              height: height * 0.2,
+              elevation: 2,
+              margin: 3,
             }}>
-            <ImageBackground source={{uri: item?.img}} resizeMode="cover">
+            <ImageBackground
+              source={{uri: item?.img}}
+              resizeMode="cover"
+              style={{flex: 1}}>
               <LinearGradient
-                colors={[
-                  'rgb(0, 0, 0)',
-                  'rgba(13, 13, 13, 0.88)',
-                  'rgba(22, 22, 22, 0.62)',
-                  'rgba(255, 255, 255, 0.2)',
-                ]}
-                start={{x: 0, y: 0}}
+                colors={['white', 'white', 'rgba(255, 255, 255, 0.12)']}
+                start={{x: 1, y: 1}}
                 end={{x: 1, y: 0}}
-                style={{flex: 1, padding: 20}}>
-                <View style={{rowGap: 5}}>
-                  {/* crown icons */}
-                  <FastImage
-                    source={{
-                      uri: 'https://img.icons8.com/color/96/fairytale.png',
-                      priority: FastImage.priority.high,
-                    }}
-                    resizeMode="center"
-                    style={{
-                      position: 'absolute',
-                      width: width * 0.05,
-                      aspectRatio: 1,
-                      right: 0,
-                      top: 0,
-                    }}
-                  />
+                style={{
+                  flex: 1,
+                  padding: 20,
+                  justifyContent: 'flex-end',
+                  paddingBottom: 10,
+                }}>
+                <View
+                  style={{
+                    rowGap: 2,
+                    // borderWidth: 2,
+                  }}>
                   <Text
                     style={{
-                      // fontWeight: '400',
                       letterSpacing: 1,
-                      color: 'white',
+                      color: 'black',
                       fontFamily: Font.SemiBold,
                     }}>
                     {item?.name}
                   </Text>
-                  <Text
-                    style={{
-                      fontSize: width * 0.03,
-                      // fontWeight: '600',
-                      letterSpacing: 0.5,
-                      color: 'white',
-                      fontFamily: Font.Medium,
-                    }}>
-                    Get Full Assets
-                  </Text>
-                  <Text
-                    style={{
-                      letterSpacing: 1,
-                      fontSize: width * 0.025,
-                      color: Colors.veryLightGrey,
-                      fontFamily: Font.Regular,
-                    }}
-                    numberOfLines={2}>
-                    Technical Support (Time Limit)
-                  </Text>
-                  {/* <View style={{flexDirection: 'row', columnGap: 10}}>
-                    <Image
-                      source={{
-                        uri: 'https://img.icons8.com/ios/100/android-os.png',
-                      }}
-                      style={{width: 20, aspectRatio: 1, tintColor: 'white'}}
-                      resizeMode="contain"
-                    />
-                    <Image
-                      source={{
-                        uri: 'https://img.icons8.com/parakeet-line/100/globe.png',
-                      }}
-                      style={{width: 20, aspectRatio: 1, tintColor: 'white'}}
-                      resizeMode="contain"
-                    />
-                  </View> */}
                   <TouchableOpacity
                     onPress={() => handleSelectProject(item)}
                     style={{
-                      // borderWidth: 0.4,
-                      borderColor: 'white',
+                      borderWidth: 0.4,
+                      borderColor: 'black',
                       padding: 7,
                       borderRadius: 15,
                       marginTop: 10,
-                      backgroundColor: 'rgba(255, 255, 255, 0.20)',
-                      // borderWidth: 0.5,
+                      // backgroundColor: 'rgba(255, 255, 255, 0.20)',
+                      backgroundColor: Colors.violet,
                     }}>
-                    {/* git log update*/}
                     <Text
                       style={{
                         color: 'white',
                         fontSize: width * 0.03,
                         textAlign: 'center',
                         letterSpacing: 1,
-                        fontFamily: Font.Light,
+                        fontFamily: Font.Medium,
                       }}>
                       View
                     </Text>

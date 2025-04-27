@@ -9,16 +9,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const ChallengesBanner = () => {
   const {width, height} = Dimensions.get('window');
   const naviagte = useNavigation();
-  const [showBanner, setShowBanner] = useState(false);
   useEffect(() => {
     const fetchClickedCount = async () => {
       try {
         const clickedcount = await AsyncStorage.getItem('clickedcount');
-        console.log(clickedcount);
-        // if (clickedcount === 'counted') {
-        //   // setShowBanner(true);
-        //   // console.log('ok', clickedcount);
-        // }
         {
           clickedcount === 'counted' ? null : (
             <View
@@ -54,7 +48,6 @@ const ChallengesBanner = () => {
                   onPress={async () => {
                     naviagte.navigate('Code');
                     await AsyncStorage.setItem('clickedcount', 'counted');
-                    console.log(showBanner);
                   }}
                   style={{
                     // borderWidth: 0.8,
