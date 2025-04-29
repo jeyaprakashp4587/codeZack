@@ -767,7 +767,7 @@ const Profile = ({navigation}) => {
             <Text
               style={{
                 fontSize: width * 0.06,
-                letterSpacing: 1,
+                letterSpacing: 0.3,
                 color: Colors.veryDarkGrey,
                 fontFamily: Font.Medium,
               }}>

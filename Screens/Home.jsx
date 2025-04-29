@@ -239,15 +239,6 @@ const Home = () => {
         </TouchableOpacity>
         {/* Ideas wrapper */}
         <IdeasWrapper />
-        {/* challenges Banner  */}
-        <Suspense
-          fallback={
-            <View style={{margin: 15}}>
-              <Skeleton width="100%" height={height * 0.2} radius={10} />
-            </View>
-          }>
-          <ChallengesBanner />
-        </Suspense>
         {/* Recent courses */}
         <RecentCourses />
         {/* premium projects */}
@@ -265,7 +256,7 @@ const Home = () => {
                 fontWeight: '600',
                 fontSize: width * 0.042,
                 marginBottom: 10,
-                letterSpacing: 0.5,
+                letterSpacing: 0.3,
               }}>
               Premium projects
             </Text>

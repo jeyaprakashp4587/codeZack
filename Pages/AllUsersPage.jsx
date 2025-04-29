@@ -20,6 +20,7 @@ import HeadingText from '../utils/HeadingText';
 import FastImage from 'react-native-fast-image';
 import truncateText from '../hooks/truncateText';
 import {Font} from '../constants/Font';
+import Skeleton from '../Skeletons/Skeleton';
 
 const AllUsersPage = () => {
   const {width, height} = Dimensions.get('window');
@@ -59,9 +60,28 @@ const AllUsersPage = () => {
   }, [user]);
   // Load suggestions on component mount
   useEffect(() => {
-    fetchSuggestions();
+    fetchSuggestions().finally(() => setUiLoad(false));
   }, []);
-
+  const [uiload, setUiLoad] = useState(true);
+  if (uiload) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: Colors.white,
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          rowGap: 10,
+          paddingHorizontal: 15,
+          paddingTop: 20,
+        }}>
+        {Array.from({length: 10}).map((index, item) => (
+          <Skeleton width={width * 0.4} height={100} radius={10} />
+        ))}
+      </View>
+    );
+  }
   return (
     <View style={{backgroundColor: 'white', flex: 1}}>
       <View style={{paddingHorizontal: 15}}>

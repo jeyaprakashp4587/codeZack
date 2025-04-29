@@ -15,13 +15,34 @@ import {profileApi} from '../Api';
 import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
+import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
 const {width, height} = Dimensions.get('window');
+
 const InterViewDetails = () => {
   const {selectedCompany, setSelectedCompany, user, setUser} = useData();
   const {width, height} = Dimensions.get('window');
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-  // check company is lresy exists
+  const {
+    load: loadInterest,
+    isClosed: interestClosed,
+    show: showInterest,
+    isLoaded: interestIsLoaded,
+  } = useInterstitialAd(
+    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/9392069002',
+    {
+      requestNonPersonalizedAdsOnly: true,
+    },
+  );
+  useEffect(() => {
+    loadInterest();
+  }, [loadInterest]);
+  useEffect(() => {
+    if (interestClosed) {
+      loadInterest();
+    }
+  }, [interestClosed, loadInterest]);
+  // check company is already exists
   const checkCompanyExists = () => {
     const existingInterview = user?.InterView?.some(
       interview =>
@@ -29,7 +50,6 @@ const InterViewDetails = () => {
         selectedCompany?.company_name,
     );
     if (existingInterview) {
-      // Navigate to the desired screen if the company exists
       navigation.replace('InterviewPreparation');
     }
   };
@@ -39,7 +59,6 @@ const InterViewDetails = () => {
     const res = await axios.post(
       `${profileApi}/InterView/getParticularCompany`,
       {
-        // selectedcompany in initlaly have company name then its have whole compant data
         companyName: selectedCompany || selectedCompany?.company_name,
       },
     );
@@ -65,14 +84,15 @@ const InterViewDetails = () => {
         companyName: selectedCompany?.company_name || selectedCompany,
         userId: user?._id,
       });
-
       if (res.status === 200) {
+        if (interestIsLoaded) {
+          showInterest();
+        }
         setUser(prev => ({...prev, InterView: res.data.User}));
-        navigation.navigate('InterviewPreparation');
+        navigation.replace('InterviewPreparation');
         // console.log(res.data.message); // Success message
       } else if (res.status === 400 && res.data.message === 'Exists') {
         navigation.replace('InterviewPreparation');
-        // console.log('Company interview entry already exists.');
       }
     } catch (error) {
       if (
@@ -80,7 +100,6 @@ const InterViewDetails = () => {
         error.response.status === 400 &&
         error.response.data.message === 'Exists'
       ) {
-        // console.log('Company interview entry already exists.');
         navigation.replace('InterviewPreparation');
       } else {
         console.error('An error occurred:', error.message);
@@ -189,11 +208,11 @@ const InterViewDetails = () => {
           }}>
           {/* */}
           {loading ? (
-            <ActivityIndicator color={Colors.veryDarkGrey} size={20} />
+            <ActivityIndicator color={Colors.veryDarkGrey} size={23} />
           ) : (
             <Text
               style={{
-                letterSpacing: 2,
+                letterSpacing: 0.5,
                 color: Colors.veryDarkGrey,
                 // fontWeight: '600',
                 fontFamily: 'Poppins-SemiBold',

@@ -23,18 +23,38 @@ import Actitivity from '../hooks/ActivityHook';
 import HeadingText from '../utils/HeadingText';
 import FastImage from 'react-native-fast-image';
 import {Font} from '../constants/Font';
+import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
 const {width, height} = Dimensions.get('window');
 
 const SelectedCourse = ({navigation}) => {
   const {selectedCourse, user, setUser} = useData();
   // console.log(selectedCourse);
+  const {
+    load: loadInterest,
+    isClosed: interestClosed,
+    show: showInterest,
+    isLoaded: interestIsLoaded,
+  } = useInterstitialAd(
+    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/9392069002',
+    {
+      requestNonPersonalizedAdsOnly: true,
+    },
+  );
+  useEffect(() => {
+    loadInterest();
+  }, [loadInterest]);
+  useEffect(() => {
+    if (interestClosed) {
+      loadInterest();
+    }
+  }, [interestClosed, loadInterest]);
   const [loading, setLoading] = useState(false);
   const HandleAddCourse = async () => {
-    // console.log(user);
-
     setLoading(true);
     try {
-      // Send request to add course
+      if (interestIsLoaded) {
+        await showInterest();
+      }
       const res = await axios.post(`${challengesApi}/Courses/addCourse`, {
         courseName: selectedCourse.name,
         userId: user?._id,
@@ -130,7 +150,7 @@ const SelectedCourse = ({navigation}) => {
           style={styles.button}
           onPress={HandleAddCourse}>
           {loading ? (
-            <ActivityIndicator color={Colors.mildGrey} size={25} />
+            <ActivityIndicator color={Colors.white} size={23} />
           ) : (
             <Text style={styles.buttonText}>Let's Begin</Text>
           )}
@@ -199,21 +219,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: height * 0.015,
     borderRadius: 50,
-    borderColor: '#004080',
+    borderColor: Colors.violet,
     elevation: 2,
     alignSelf: 'center',
-    backgroundColor: 'white',
+    backgroundColor: Colors.violet,
     borderWidth: 1,
     marginTop: height * 0.03,
     marginBottom: height * 0.03,
     columnGap: 10,
     width: width * 0.9,
     fontFamily: Font.Regular,
+    overflow: 'hidden',
   },
   buttonText: {
-    color: Colors.mildGrey,
+    color: Colors.white,
     // fontWeight: '600',
-    letterSpacing: 1,
+    letterSpacing: 0.3,
     fontFamily: Font.Medium,
     fontSize: width * 0.035,
   },

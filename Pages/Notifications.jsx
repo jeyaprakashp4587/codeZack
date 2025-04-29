@@ -21,6 +21,7 @@ import {SocketData} from '../Socket/SocketContext';
 import HeadingText from '../utils/HeadingText';
 import FastImage from 'react-native-fast-image';
 import {Font} from '../constants/Font';
+import Skeleton from '../Skeletons/Skeleton';
 
 const Notifications = () => {
   const {user, setSelectedUser, setselectedPost} = useData();
@@ -107,9 +108,27 @@ const Notifications = () => {
   );
   // Fetch notifications when the component mounts
   useEffect(() => {
-    getNotifications();
+    getNotifications().finally(() => setUiLoad(false));
   }, []);
-
+  const [uiload, setUiLoad] = useState(true);
+  // return ui load
+  if (uiload) {
+    return (
+      <View
+        style={{
+          backgroundColor: 'white',
+          flex: 1,
+          paddingTop: 20,
+          rowGap: 5,
+          flexDirection: 'column',
+        }}>
+        {Array.from({length: 10}).map((index, item) => (
+          <Skeleton width={width} height={80} />
+        ))}
+      </View>
+    );
+  }
+  // ui
   return (
     <View style={pageView}>
       <View style={{paddingHorizontal: 15}}>

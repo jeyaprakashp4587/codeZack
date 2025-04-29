@@ -29,7 +29,7 @@ const SelectedProject = () => {
   const {selectedProject} = useData();
   const {width, height} = Dimensions.get('window');
   const {load, show, isLoaded, isEarnedReward, isClosed} = useRewardedAd(
-    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/2148003800',
+    __DEV__ ? TestIds.REWARDED : 'ca-app-pub-3257747925516984/2148003800',
     {
       requestNonPersonalizedAdsOnly: false,
     },

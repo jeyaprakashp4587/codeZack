@@ -99,7 +99,7 @@ const InterviewPrep = () => {
       console.log(userMile?.currentWeek);
       // Show interstitial ad every 10 questions
       if (AddCout.current % 10 === 0 && interestIsLoaded) {
-        // await showInterest();
+        await showInterest();
       }
       // Show rewarded ad every 5 questions (but not on multiples of 10)
       if (

@@ -9,7 +9,7 @@ import {
   ToastAndroid,
   ActivityIndicator,
 } from 'react-native';
-import {Colors, pageView} from '../constants/Colors';
+import {Colors, font, pageView} from '../constants/Colors';
 import {useData} from '../Context/Contexter';
 import HeadingText from '../utils/HeadingText';
 import TopicsText from '../utils/TopicsText';
@@ -19,6 +19,7 @@ import Actitivity from '../hooks/ActivityHook';
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
+import {Font} from '../constants/Font';
 
 const {width, height} = Dimensions.get('window');
 
@@ -139,25 +140,25 @@ const CourseDetails = () => {
             <TouchableOpacity
               onPress={() => HandleCourse(item)}
               style={{
-                backgroundColor: 'white',
+                backgroundColor: Colors.violet,
                 borderRadius: 90,
                 width: '100%',
                 padding: 10,
                 borderWidth: 0.8,
-                borderColor: Colors.mildGrey,
+                borderColor: Colors.violet,
               }}>
               {loading ? (
-                <ActivityIndicator color={Colors.mildGrey} size={28} />
+                <ActivityIndicator color={Colors.mildGrey} size={25} />
               ) : (
                 <Text
                   style={{
-                    color: 'black',
+                    color: Colors.white,
                     textAlign: 'center',
                     letterSpacing: 1,
                     fontSize: width * 0.04,
                     fontFamily: 'Poppins-Medium',
                   }}>
-                  Start
+                  start
                 </Text>
               )}
             </TouchableOpacity>
@@ -188,11 +189,11 @@ const styles = StyleSheet.create({
   },
   basicText: {
     color: Colors.veryDarkGrey,
-    fontSize: width * 0.04,
+    fontSize: width * 0.038,
     lineHeight: 27,
     letterSpacing: 0.9,
     paddingVertical: 10,
-    fontFamily: 'Poppins-Light',
+    fontFamily: Font.Regular,
   },
   asterisk: {
     color: 'orange',

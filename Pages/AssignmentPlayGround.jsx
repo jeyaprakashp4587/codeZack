@@ -172,6 +172,7 @@ const AssignmentPlayGround = () => {
       );
       if (res.status === 200) {
         setUser(prev => ({...prev, Assignments: res.data.Assignments}));
+        Alert.alert(`You passed. Score: ${score}`);
         setCurrentQuestionIndex(0);
         try {
           Actitivity(

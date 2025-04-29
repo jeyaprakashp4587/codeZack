@@ -112,7 +112,7 @@ const Projects = () => {
               marginRight: 10,
               opacity: 0.9,
               marginLeft: index == 0 && 15,
-              height: height * 0.2,
+              height: height * 0.22,
               elevation: 2,
               margin: 3,
             }}>
