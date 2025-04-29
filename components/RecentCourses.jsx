@@ -34,9 +34,6 @@ const RecentCourses = () => {
     }
   }, [user?.Courses]);
 
-  if (user?.Courses?.length <= 0) {
-    return null;
-  }
   return (
     <View style={{paddingHorizontal: 15, marginVertical: 10}}>
       <Text

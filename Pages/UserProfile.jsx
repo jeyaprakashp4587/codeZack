@@ -84,7 +84,9 @@ const UserProfile = () => {
     useCallback(() => {
       InteractionManager.runAfterInteractions(() => {
         if (!selectedUser?.firstName) {
-          getSelectedUser().then(() => fetchPosts({offsets: 0}));
+          getSelectedUser().then(() => {
+            fetchPosts({offsets: 0}), setUiLoad(false);
+          });
         }
       });
     }, [selectedUser, setSelectedUser]),
@@ -163,7 +165,7 @@ const UserProfile = () => {
   const [hasMoreNetworks, setHasMoreNetworks] = useState(true);
   const getNetworksList = useCallback(async () => {
     RBSheetRef.current.open();
-    if (networkListLoadding || !hasMoreNetworks) return; // Prevent duplicate requests
+    if (networkListLoadding || !hasMoreNetworks) return;
     setNetworkListLoading(true);
     try {
       const res = await axios.get(
@@ -181,16 +183,14 @@ const UserProfile = () => {
         setNetworksList(prev => [...prev, ...res.data.users]);
         setNetWorkListPage(prev => prev + 1);
         setHasMoreNetworks(res.data.hasMore);
-        // console.log(res.data.users);
       }
     } catch (error) {
       console.error('Error fetching networks list:', error);
     } finally {
       setNetworkListLoading(false);
     }
-  }, [netWorkListPage]);
+  }, [netWorkListPage, selectedUser, selectedUser?._id]);
   // get all connection id for check mutual
-
   const getAllNetworks = useCallback(async () => {
     try {
       if (selectedUser?.Connections?.length > 0) {
@@ -210,7 +210,7 @@ const UserProfile = () => {
         ToastAndroid.SHORT,
       );
     }
-  }, [selectedUser]);
+  }, [selectedUser, selectedUser?._id]);
   const [mutualFriend, setMutualFriend] = useState([]);
   // fetch user posts
   const [postLoading, setPostLoading] = useState(false);
@@ -243,28 +243,31 @@ const UserProfile = () => {
     [selectedUser],
   );
   // render ui
-  if (!selectedUser?.firstName || !selectedUser?.State) {
-    <View style={pageView}>
-      <Skeleton width="100%" height={height * 0.3} radius={10} mt={10} />
-      <View
-        style={{
-          position: 'absolute',
-          top: height * 0.22,
-          zIndex: 10,
-          left: width * 0.11,
-        }}>
-        <Skeleton
-          width={width * 0.26}
-          height={height * 0.13}
-          radius={50}
-          mt={10}
-        />
+  const [uiLoad, setUiLoad] = useState(true);
+  if (uiLoad) {
+    return (
+      <View style={pageView}>
+        <Skeleton width="100%" height={height * 0.3} radius={10} mt={10} />
+        <View
+          style={{
+            position: 'absolute',
+            top: height * 0.22,
+            zIndex: 10,
+            left: width * 0.11,
+          }}>
+          <Skeleton
+            width={width * 0.26}
+            height={height * 0.13}
+            radius={50}
+            mt={10}
+          />
+        </View>
+        <Skeleton width="100%" height={height * 0.2} radius={10} mt={10} />
+        <Skeleton width="100%" height={height * 0.11} radius={10} mt={10} />
+        <Skeleton width="100%" height={height * 0.11} radius={10} mt={10} />
+        <Skeleton width="100%" height={height * 0.11} radius={10} mt={10} />
       </View>
-      <Skeleton width="100%" height={height * 0.2} radius={10} mt={10} />
-      <Skeleton width="100%" height={height * 0.11} radius={10} mt={10} />
-      <Skeleton width="100%" height={height * 0.11} radius={10} mt={10} />
-      <Skeleton width="100%" height={height * 0.11} radius={10} mt={10} />
-    </View>;
+    );
   }
   //
   return (
@@ -655,6 +658,7 @@ const UserProfile = () => {
                   onPress={() => {
                     navigation.navigate('userprofile');
                     setSelectedUser(item.id);
+                    RBSheetRef.current.close();
                   }}
                   key={index}
                   style={{

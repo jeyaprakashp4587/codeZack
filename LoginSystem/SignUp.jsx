@@ -262,6 +262,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: width * 0.03,
     paddingVertical: height * 0.015,
     borderWidth: 1,
+    color: Colors.mildGrey,
   },
   signUpButton: {
     flexDirection: 'row',

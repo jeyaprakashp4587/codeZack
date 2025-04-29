@@ -44,9 +44,6 @@ const AllUsersPage = () => {
         `${functionApi}/suggestions/getAllSuggestions/${user?._id}?skip=${skip}&limit=${limit}`,
       );
       const {data, hasMore} = response.data;
-      if (data) {
-        console.log(data);
-      }
       setSuggestions(prev => [...prev, ...data]);
       setRefresh(false);
       // Append new suggestions
@@ -57,7 +54,7 @@ const AllUsersPage = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [user]);
+  }, [user, hasMore, skip]);
   // Load suggestions on component mount
   useEffect(() => {
     fetchSuggestions().finally(() => setUiLoad(false));
@@ -108,6 +105,7 @@ const AllUsersPage = () => {
           refreshing={true}
           data={suggestions}
           showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           numColumns={2}
           columnWrapperStyle={{gap: 20}}
           keyExtractor={(item, index) => `${item?._id || index}`}
