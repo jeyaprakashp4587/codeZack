@@ -137,7 +137,7 @@ const TabNavigation = () => {
             borderWidth: 3,
             borderColor: 'white',
             position: 'absolute',
-            top: 15,
+            top: 0,
           },
         }}
       />
@@ -166,7 +166,7 @@ const TabNavigation = () => {
             borderWidth: 3,
             borderColor: 'white',
             position: 'absolute',
-            top: 15,
+            top: 0,
           },
         }}
       />

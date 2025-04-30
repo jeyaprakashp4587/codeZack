@@ -32,8 +32,11 @@ const RecentCourses = () => {
           : user?.Courses?.length - 1;
       setNewCourseIndex(index);
     }
+    console.log(user?.Courses);
   }, [user?.Courses]);
-
+  if (user?.Courses?.length == 0) {
+    return null;
+  }
   return (
     <View style={{paddingHorizontal: 15, marginVertical: 10}}>
       <Text

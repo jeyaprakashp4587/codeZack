@@ -173,15 +173,19 @@ const SignUp = ({navigation}) => {
             }}>
             {Object.keys(formData).map(key => (
               <TextInput
-                style={[
-                  styles.input,
-                  {
-                    borderColor: Colors.white,
-                    elevation: 1.2,
-                    letterSpacing: 1,
-                    fontFamily: Font.Regular,
-                  },
-                ]}
+                style={{
+                  marginTop: height * 0.005,
+                  backgroundColor: 'white',
+                  borderRadius: 5,
+                  paddingHorizontal: width * 0.03,
+                  paddingVertical: height * 0.015,
+                  borderWidth: 1,
+                  borderColor: Colors.white,
+                  elevation: 1.2,
+                  letterSpacing: 1,
+                  fontFamily: Font.Regular,
+                  color: 'black',
+                }}
                 key={key}
                 placeholder={key.replace('_', ' ')}
                 placeholderTextColor={Colors.mildGrey}
@@ -254,15 +258,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     letterSpacing: 1,
     fontFamily: 'Poppins-Medium',
-  },
-  input: {
-    marginTop: height * 0.005,
-    backgroundColor: 'white',
-    borderRadius: 5,
-    paddingHorizontal: width * 0.03,
-    paddingVertical: height * 0.015,
-    borderWidth: 1,
-    color: Colors.mildGrey,
   },
   signUpButton: {
     flexDirection: 'row',
