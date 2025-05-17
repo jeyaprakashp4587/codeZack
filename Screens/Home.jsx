@@ -4,16 +4,13 @@ import {
   Text,
   View,
   ScrollView,
-  Image,
   TextInput,
   TouchableOpacity,
   Pressable,
   Dimensions,
   RefreshControl,
-  AppState,
   Vibration,
   ToastAndroid,
-  NativeModules,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
 import HomeSkeleton from '../Skeletons/HomeSkeleton';
@@ -68,7 +65,6 @@ const Home = () => {
     checkAppVersion(navigation);
     setTimeout(() => {
       setUiLoading(true);
-      navigation.navigate('courseReccommandation');
       // load add
     }, 500);
   }, []);

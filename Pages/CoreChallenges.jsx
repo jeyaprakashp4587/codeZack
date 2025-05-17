@@ -108,14 +108,14 @@ const CoreChallenges = () => {
         onPress={() => handleSelectChallenge(item)}
         style={{
           padding: 7,
-          borderRadius: 5,
           borderColor: Colors.violet,
           borderWidth: 0.5,
-          borderRadius: 50,
+          borderRadius: 10,
+          backgroundColor: Colors.violet,
         }}>
         <Text
           style={{
-            color: Colors.violet,
+            color: Colors.white,
             textAlign: 'center',
             letterSpacing: 1,
             fontSize: width * 0.033,

@@ -57,7 +57,8 @@ import {SocketData} from '../Socket/SocketContext';
 import ChallengesBanner from '../components/ChallengesBanner';
 import UpdatePage from '../components/UpdatePage';
 import InterviewSucess from '../Pages/InterviewSucess';
-import CourseRecommendation from '../Pages/CourseRecemandation';
+import IntroScreen from '../Pages/IntroScreen';
+
 // Tab navigations functions
 const {width, height} = Dimensions.get('window');
 const Tab = createBottomTabNavigator();
@@ -273,7 +274,7 @@ const StackNavigations = () => {
   return (
     <View style={{flex: 1}}>
       <Stack.Navigator
-        initialRouteName="splash"
+        initialRouteName="introScreen"
         screenOptions={{
           headerShown: false,
           animation: 'slide_from_right',
@@ -490,8 +491,8 @@ const StackNavigations = () => {
           }}
         />
         <Stack.Screen
-          name="courseReccommandation"
-          component={CourseRecommendation}
+          name="introScreen"
+          component={IntroScreen}
           options={{
             headerShown: false,
           }}

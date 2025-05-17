@@ -73,8 +73,8 @@ const AllUsersPage = () => {
           paddingHorizontal: 15,
           paddingTop: 20,
         }}>
-        {Array.from({length: 10}).map((index, item) => (
-          <Skeleton width={width * 0.4} height={100} radius={10} />
+        {Array.from({length: 18}).map((index, item) => (
+          <Skeleton width={width * 0.43} height={120} radius={10} />
         ))}
       </View>
     );

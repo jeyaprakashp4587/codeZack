@@ -750,8 +750,7 @@ const ChallengeDetail = () => {
             }}>
             <Text
               style={{
-                fontSize: width * 0.034,
-                // fontWeight: '600',
+                fontSize: width * 0.044,
                 letterSpacing: 1,
                 fontFamily: 'Poppins-SemiBold',
               }}>
@@ -763,9 +762,10 @@ const ChallengeDetail = () => {
                 borderWidth: 1,
                 padding: 15,
                 fontSize: width * 0.03,
-                letterSpacing: 1,
+                // letterSpacing: 1,
                 borderColor: Colors.veryLightGrey,
                 borderRadius: 5,
+                fontFamily: Font.Medium,
               }}
               placeholderTextColor={Colors.mildGrey}
               onChangeText={text => HandleText('GitRepo', text)}
@@ -777,7 +777,7 @@ const ChallengeDetail = () => {
                 borderWidth: 1,
                 padding: 15,
                 fontSize: width * 0.03,
-                letterSpacing: 1,
+                // letterSpacing: 1,
                 borderColor: Colors.veryLightGrey,
                 borderRadius: 5,
                 fontFamily: 'Poppins-Medium',
