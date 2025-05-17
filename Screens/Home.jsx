@@ -68,6 +68,7 @@ const Home = () => {
     checkAppVersion(navigation);
     setTimeout(() => {
       setUiLoading(true);
+      navigation.navigate('courseReccommandation');
       // load add
     }, 500);
   }, []);

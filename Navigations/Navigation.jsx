@@ -57,6 +57,7 @@ import {SocketData} from '../Socket/SocketContext';
 import ChallengesBanner from '../components/ChallengesBanner';
 import UpdatePage from '../components/UpdatePage';
 import InterviewSucess from '../Pages/InterviewSucess';
+import CourseRecommendation from '../Pages/CourseRecemandation';
 // Tab navigations functions
 const {width, height} = Dimensions.get('window');
 const Tab = createBottomTabNavigator();
@@ -484,6 +485,13 @@ const StackNavigations = () => {
         <Stack.Screen
           name="interviewSucess"
           component={InterviewSucess}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="courseReccommandation"
+          component={CourseRecommendation}
           options={{
             headerShown: false,
           }}
