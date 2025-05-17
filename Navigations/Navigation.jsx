@@ -21,7 +21,6 @@ import CourseDetails from '../Pages/CourseDetails';
 import ChooseChallenge from '../Pages/ChooseChallenge';
 import ChallengeDetail from '../Pages/ChallengeDetail';
 import YourCourses from '../Pages/YourCourses';
-import YourRewards from '../Pages/YourReward';
 import Placement from '../Screens/Placement';
 import SplashScreen from '../Splashscreen/SplashScreen';
 import YourChallenges from '../Pages/YourChallenges';
@@ -274,7 +273,7 @@ const StackNavigations = () => {
   return (
     <View style={{flex: 1}}>
       <Stack.Navigator
-        initialRouteName="introScreen"
+        initialRouteName="splash"
         screenOptions={{
           headerShown: false,
           animation: 'slide_from_right',
@@ -349,11 +348,7 @@ const StackNavigations = () => {
           component={YourCourses}
           options={{headerShown: false}}
         />
-        <Stack.Screen
-          name="yourrewards"
-          component={YourRewards}
-          options={{headerShown: false}}
-        />
+
         <Stack.Screen
           name="search"
           component={SearchScreen}

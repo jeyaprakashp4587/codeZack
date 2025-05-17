@@ -6,15 +6,16 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useMemo, useRef, useState} from 'react';
 import Carousel from 'react-native-reanimated-carousel';
 import {Colors, font} from '../constants/Colors';
 import {Font} from '../constants/Font';
 import FastImage from 'react-native-fast-image';
+import {useNavigation} from '@react-navigation/native';
 
 const IntroScreen = () => {
-  const {width} = Dimensions.get('window');
-  const data = [
+  const {width, height} = Dimensions.get('window');
+  const data = useMemo(() => [
     {
       title: 'Learn. Code. Challenge',
       message:
@@ -32,11 +33,15 @@ const IntroScreen = () => {
       message: 'Get the latest job updates and career opportunities in tech',
       img: 'https://i.ibb.co/MD5nvdTX/18734235-Tiny-people-searching-for-business-opportunities.jpg',
     },
-  ];
-
+  ]);
+  const navigation = useNavigation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const carouselRef = useRef(null);
   const handleNext = () => {
+    if (currentIndex == 2) {
+      navigation.replace('login');
+      return;
+    }
     const nextIndex = (currentIndex + 1) % data.length;
     carouselRef.current.scrollTo({
       index: nextIndex,
@@ -51,17 +56,16 @@ const IntroScreen = () => {
         ref={carouselRef}
         width={width}
         data={data}
-        style={{
-          borderWidth: 1,
-          flex: 1,
-        }}
+        height={height * 0.9}
+        // style={{borderWidth: 1}}
+        onSnapToItem={setCurrentIndex}
         renderItem={({item}) => (
           <View
             style={{
               flex: 1,
               flexDirection: 'column',
               alignItems: 'center',
-              justifyContent: 'center',
+              justifyContent: 'flex-end',
               padding: 20,
               rowGap: 10,
             }}>
@@ -82,32 +86,33 @@ const IntroScreen = () => {
               style={{
                 textAlign: 'center',
                 fontFamily: Font.Medium,
-                letterSpacing: 0.2,
+                letterSpacing: 0.25,
+                lineHeight: 25,
               }}>
               {item.message}
             </Text>
-            <TouchableOpacity
-              onPress={handleNext}
-              style={{
-                borderWidth: 1,
-                backgroundColor: Colors.violet,
-                width: '80%',
-                borderRadius: 50,
-                padding: 10,
-              }}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontSize: width * 0.04,
-                  fontFamily: Font.Medium,
-                  color: Colors.white,
-                }}>
-                Next
-              </Text>
-            </TouchableOpacity>
           </View>
         )}
       />
+      <TouchableOpacity
+        onPress={handleNext}
+        style={{
+          borderWidth: 1,
+          backgroundColor: Colors.violet,
+          width: '80%',
+          borderRadius: 50,
+          padding: 10,
+        }}>
+        <Text
+          style={{
+            textAlign: 'center',
+            fontSize: width * 0.04,
+            fontFamily: Font.Medium,
+            color: Colors.white,
+          }}>
+          {currentIndex === 2 ? 'Get Start' : 'Next'}
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };

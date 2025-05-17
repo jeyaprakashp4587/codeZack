@@ -9,6 +9,7 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Colors} from '../constants/Colors';
 import {useNavigation} from '@react-navigation/native';
+import {Font} from '../constants/Font';
 
 const HeadingText = props => {
   const {width} = Dimensions.get('window');
@@ -30,8 +31,8 @@ const HeadingText = props => {
           color: props.color ?? 'black',
           fontSize: width * 0.045,
           paddingVertical: 10,
-          letterSpacing: 1,
-          fontFamily: 'Poppins-Medium',
+          letterSpacing: 0.3,
+          fontFamily: Font.SemiBold,
         }}
         allowFontScaling={false}>
         {props.text}{' '}

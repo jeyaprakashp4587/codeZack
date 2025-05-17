@@ -347,9 +347,9 @@ const Post = () => {
                 style={{
                   fontSize: width * 0.035,
                   color: 'black',
-                  letterSpacing: 1,
+                  letterSpacing: 0.4,
                   // fontWeight: '700',
-                  fontFamily: 'Poppins-Regular',
+                  fontFamily: Font.SemiBold,
                 }}>
                 Select Images
               </Text>
@@ -422,7 +422,7 @@ const Post = () => {
             flexDirection: 'row',
             alignItems: 'center',
             columnGap: 10,
-            backgroundColor: 'white',
+            backgroundColor: Colors.violet,
             justifyContent: 'center',
             height: height * 0.06,
             borderRadius: 50,
@@ -432,16 +432,16 @@ const Post = () => {
           {uploadIndi ? (
             <ActivityIndicator
               size={20}
-              color="black"
+              color={Colors.white}
               style={{display: uploadIndi ? 'flex' : 'none'}}
             />
           ) : (
             <Text
               style={{
                 fontSize: width * 0.035,
-                color: 'black',
-                letterSpacing: 1.4,
-                fontFamily: 'Poppins-Regular',
+                color: Colors.white,
+                letterSpacing: 0.2,
+                fontFamily: Font.SemiBold,
                 // fontWeight: '700',
               }}>
               {uploadText}

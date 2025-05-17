@@ -28,7 +28,6 @@ const SuggestionWapper = React.lazy(() =>
 );
 import useSocketOn from '../Socket/useSocketOn';
 import {SocketData} from '../Socket/SocketContext';
-import PragraphText from '../utils/PragraphText';
 const Companies = React.lazy(() => import('../components/Companies'));
 import Skeleton from '../Skeletons/Skeleton';
 import useFCMToken from '../hooks/useFCMToken';
@@ -330,6 +329,7 @@ const Home = () => {
             <SuggestionWapper refresh={suggestRefresh} />
           </View>
         </Suspense>
+        {/* Animated component */}
       </ScrollView>
     </View>
   );

@@ -32,15 +32,14 @@ const SplashScreen = () => {
           Email: email,
         });
         if (response.status == 200 && response.data.user) {
-          // setActivityIndicator(false);
           setUser(response.data.user);
-          nav.navigate('Tab');
+          nav.replace('Tab');
         } else {
           setActivityIndicator(false);
-          nav.navigate('login'); // Navigate to login screen if email not found
+          nav.navigate('login');
         }
       } else {
-        nav.navigate('login');
+        nav.navigate('introScreen');
       }
     } catch (error) {
       console.error('Error during auto-login:', error);

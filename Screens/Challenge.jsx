@@ -149,7 +149,7 @@ const Challenge = ({navigation}) => {
                   // fontWeight: '600',
                   letterSpacing: 1,
                   paddingBottom: 10,
-                  fontFamily: Font.Regular,
+                  fontFamily: Font.SemiBold,
                 }}>
                 {ch.ChallengeName}
               </Text>
@@ -159,7 +159,7 @@ const Challenge = ({navigation}) => {
                   bgColor: Colors.mildGrey,
                   lineHeight: 20,
                   fontSize: width * 0.026,
-                  fontFamily: Font.Regular,
+                  fontFamily: Font.Medium,
                 }}>
                 {ch.content}
               </Text>
@@ -197,7 +197,7 @@ const Challenge = ({navigation}) => {
                   fontWeight: '600',
                   letterSpacing: 1,
                   paddingBottom: 10,
-                  fontFamily: Font.Regular,
+                  fontFamily: Font.SemiBold,
                 }}>
                 {ch.ChallengeName}
               </Text>
@@ -207,7 +207,7 @@ const Challenge = ({navigation}) => {
                   bgColor: Colors.mildGrey,
                   lineHeight: 20,
                   fontSize: width * 0.026,
-                  fontFamily: Font.Regular,
+                  fontFamily: Font.Medium,
                 }}>
                 {ch.content}
               </Text>
