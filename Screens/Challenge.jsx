@@ -120,7 +120,7 @@ const Challenge = ({navigation}) => {
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text="Challenges" color={Colors.veryDarkGrey} />
       </View>
-      {/* Tech chalenege */}
+      {/* Tech challenges */}
       <View
         style={{
           borderWidth: 0,
