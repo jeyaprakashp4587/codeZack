@@ -262,12 +262,11 @@ const TabNavigation = () => {
 
 // Stack navigations
 const Stack = createNativeStackNavigator();
-
 const StackNavigations = () => {
   return (
     <View style={{flex: 1}}>
       <Stack.Navigator
-        initialRouteName="GetStart"
+        initialRouteName="splash"
         screenOptions={{
           headerShown: false,
           animation: 'slide_from_right',
@@ -448,7 +447,7 @@ const StackNavigations = () => {
           component={AllUsersPage}
           options={{
             headerShown: false,
-            // animation: 'slide_from_bottom',
+            animation: 'slide_from_bottom',
           }}
         />
         <Stack.Screen
@@ -477,6 +476,7 @@ const StackNavigations = () => {
           component={InterviewSucess}
           options={{
             headerShown: false,
+            animation: 'slide_from_bottom',
           }}
         />
         <Stack.Screen

@@ -27,7 +27,6 @@ const Placement = () => {
   const getAllJobs = useCallback(async () => {
     const res = await axios.get(`${functionApi}/Jobs/getAllJobs`);
     if (res.status == 200) {
-      // console.log(res.data.jobs[0]?.Jobs);
       setjobs(res.data.jobs[0]?.Jobs);
     } else if (res.status(404)) {
       setjobs([]);
@@ -115,6 +114,7 @@ const Placement = () => {
             borderWidth: 1,
             fontSize: width * 0.035,
             fontFamily: Font.Medium,
+            height: 20,
           }}>
           {jobs?.length}
         </Text>

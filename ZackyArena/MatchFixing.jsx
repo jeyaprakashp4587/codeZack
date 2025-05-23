@@ -9,19 +9,28 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {Colors, font} from '../constants/Colors';
 import {Font} from '../constants/Font';
 import FastImage from 'react-native-fast-image';
+import {useNavigation} from '@react-navigation/native';
 
 const MatchFixing = () => {
   const {width, height} = Dimensions.get('window');
+  const navigation = useNavigation();
   // finding opponent steps and states
   const [findingOpponent, setFindingOpponent] = useState(false);
   const [opponent, setOpponent] = useState();
-  const findOpponent = useCallback(() => {
+  const findOpponent = useCallback(async () => {
     setTimeout(() => {
       setFindingOpponent(true);
+      getRandomQuestions();
     }, 2000);
   }, []);
   // getting arena question from server and states
-  const [gettingQuestions, setGettingRandomQuestions] = useState(false);
+  const [gettingQuestions, setGettingRandomQuestions] = useState(true);
+  const getRandomQuestions = useCallback(async () => {
+    setGettingRandomQuestions(false);
+    setTimeout(() => {
+      navigation.navigate('arenaGround');
+    }, 1000);
+  }, []);
   useEffect(() => {
     findOpponent();
   }, []);
@@ -157,8 +166,10 @@ const MatchFixing = () => {
           }}>
           {!gettingQuestions ? 'Getting Question...' : ' '}
         </Text>
-        {!gettingQuestions && (
+        {!gettingQuestions ? (
           <ActivityIndicator size={40} color={Colors.white} />
+        ) : (
+          <Text>""</Text>
         )}
       </View>
     </View>
