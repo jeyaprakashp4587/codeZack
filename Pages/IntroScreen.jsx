@@ -97,7 +97,7 @@ const IntroScreen = () => {
       <TouchableOpacity
         onPress={handleNext}
         style={{
-          borderWidth: 1,
+          // borderWidth: 1,
           backgroundColor: Colors.violet,
           width: '80%',
           borderRadius: 50,

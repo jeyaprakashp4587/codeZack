@@ -722,8 +722,8 @@ const Profile = ({navigation}) => {
             style={{
               color: Colors.veryDarkGrey,
               // fontWeight: '600',
-              letterSpacing: 0.5,
-              fontSize: width * 0.042,
+              // letterSpacing: 0.5,
+              fontSize: width * 0.04,
               fontFamily: Font.Medium,
             }}>
             Your Courses
@@ -747,8 +747,8 @@ const Profile = ({navigation}) => {
             style={{
               color: Colors.veryDarkGrey,
               // fontWeight: '600',
-              letterSpacing: 0.5,
-              fontSize: width * 0.042,
+              // letterSpacing: 0.,
+              fontSize: width * 0.04,
               fontFamily: Font.Medium,
             }}>
             Log out

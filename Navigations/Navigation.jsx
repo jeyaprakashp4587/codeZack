@@ -48,9 +48,9 @@ import ChallengesBanner from '../components/ChallengesBanner';
 import UpdatePage from '../components/UpdatePage';
 import InterviewSucess from '../Pages/InterviewSucess';
 import IntroScreen from '../Pages/IntroScreen';
-import GetStart from '../ZackyArena/GetStart';
-import ArenaGround from '../ZackyArena/ArenaGround';
-import MatchFixing from '../ZackyArena/MatchFixing';
+// import GetStart from '../ZackyArena/GetStart';
+// import ArenaGround from '../ZackyArena/ArenaGround';
+// import MatchFixing from '../ZackyArena/MatchFixing';
 
 // Tab navigations functions
 const {width, height} = Dimensions.get('window');
@@ -486,7 +486,8 @@ const StackNavigations = () => {
             headerShown: false,
           }}
         />
-        <Stack.Screen
+        {/*  
+          <Stack.Screen
           name="GetStart"
           component={GetStart}
           options={{
@@ -506,7 +507,7 @@ const StackNavigations = () => {
           options={{
             headerShown: false,
           }}
-        />
+        /> */}
       </Stack.Navigator>
     </View>
   );

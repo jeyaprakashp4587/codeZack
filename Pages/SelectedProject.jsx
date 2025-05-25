@@ -46,7 +46,7 @@ const SelectedProject = () => {
   const [downloadIndi, setDownloadIndi] = useState(false);
   const handleBuyProject = useCallback(async () => {
     try {
-      if (Platform.OS === 'android') {
+      if (Platform.OS === 'android' && Platform.Version < 30) {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
         );
@@ -77,7 +77,6 @@ const SelectedProject = () => {
       ToastAndroid.show('Download Failed', ToastAndroid.SHORT);
     }
   }, []);
-
   const [adCount, setAdCount] = useState(0);
   // Watch add to unlock get assets
   const watchAdd = useCallback(async () => {

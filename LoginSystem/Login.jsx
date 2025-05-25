@@ -223,7 +223,7 @@ const Login = () => {
             style={{
               color: Colors.mildGrey,
               // fontWeight: '400',
-              fontFamily: Font.Regular,
+              fontFamily: Font.SemiBold,
             }}>
             Create New account
           </Text>
@@ -295,7 +295,6 @@ const styles = StyleSheet.create({
     zIndex: 10,
     fontFamily: Font.Regular,
   },
-
   signUpContainer: {
     flexDirection: 'row',
     alignSelf: 'center',
@@ -305,8 +304,8 @@ const styles = StyleSheet.create({
     color: 'orange',
     textDecorationLine: 'underline',
     paddingHorizontal: width * 0.025,
-    fontFamily: Font.Regular,
-    // fontWeight: '400', // Dynamic padding
+    fontFamily: Font.SemiBold,
+    // fontSize: width * 0.02,
   },
 });
 

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Text, View, Animated, StyleSheet, Dimensions} from 'react-native';
+import {Font} from '../constants/Font';
 
 const {width, height} = Dimensions.get('window'); // Get the window width
 
@@ -96,9 +97,7 @@ const styles = StyleSheet.create({
     color: 'black',
     letterSpacing: 1,
     fontSize: width * 0.03,
-    // fontWeight: '600',
-    fontFamily: 'Poppins-Medium',
-    // lineHeight: height * 0.055,
+    fontFamily: Font.SemiBold,
   },
 });
 

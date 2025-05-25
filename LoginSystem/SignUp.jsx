@@ -13,8 +13,6 @@ import {
   Dimensions,
   ToastAndroid,
 } from 'react-native';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCode} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Ripple from 'react-native-material-ripple';
 import {loginApi} from '../Api';
@@ -36,12 +34,9 @@ const SignUp = ({navigation}) => {
     Password: React.createRef(),
     Confirm_Password: React.createRef(),
     Gender: React.createRef(),
-    DOB: React.createRef(),
-    Degree_name: React.createRef(),
     Institute_Name: React.createRef(),
     State: React.createRef(),
     District: React.createRef(),
-    Nationality: React.createRef(),
   }).current;
 
   const [formData, setFormData] = useState({
@@ -51,12 +46,9 @@ const SignUp = ({navigation}) => {
     Password: '',
     Confirm_Password: '',
     Gender: '',
-    DOB: '',
-    Degree_name: '',
     Institute_Name: '',
     State: '',
     District: '',
-    Nationality: '',
   });
 
   const [showGenderModal, setShowGenderModal] = useState(false);
