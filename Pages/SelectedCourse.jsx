@@ -109,7 +109,7 @@ const SelectedCourse = ({navigation}) => {
             source={{uri: selectedCourse?.img}}
             style={styles.courseImage}
             priority={FastImage.priority.high}
-            resizeMode="center"
+            resizeMode="contain"
           />
         ) : (
           <Skeleton width={width * 0.9} height={250} />
@@ -177,11 +177,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   courseImage: {
-    width: '90%',
-    height: 250,
+    width: width * 0.6,
     alignSelf: 'center',
-    // resizeMode: 'contain',
     marginBottom: height * 0.02,
+    aspectRatio: 1,
+    // borderWidth: 1,
   },
   section: {
     marginVertical: height * 0.015,

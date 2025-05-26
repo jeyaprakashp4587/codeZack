@@ -16,6 +16,7 @@ import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
 import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
+import {Font} from '../constants/Font';
 const {width, height} = Dimensions.get('window');
 
 const InterViewDetails = () => {
@@ -164,7 +165,7 @@ const InterViewDetails = () => {
         </Text>
         <Text
           style={{
-            letterSpacing: 2,
+            letterSpacing: 0.3,
             color: Colors.veryDarkGrey,
             // fontWeight: '600',
             fontSize: width * 0.04,
@@ -174,8 +175,8 @@ const InterViewDetails = () => {
         </Text>
         <Text
           style={{
-            letterSpacing: 2,
-            color: Colors.mildGrey,
+            letterSpacing: 0.2,
+            color: Colors.veryDarkGrey,
             // fontWeight: '600',
             fontSize: width * 0.04,
             fontFamily: 'Poppins-SemiBold',
@@ -184,19 +185,19 @@ const InterViewDetails = () => {
         </Text>
         <Text
           style={{
-            letterSpacing: 1,
+            letterSpacing: 0.2,
             lineHeight: 30,
             color: Colors.violet,
             // fontWeight: '600',
             fontSize: width * 0.035,
-            fontFamily: 'Poppins-SemiBold',
+            fontFamily: Font.Medium,
           }}>
           "Step Up, Skill Up – Land Your Dream Job in Your Dream Company!"
         </Text>
         <TouchableOpacity
           onPress={() => handleAddInterview()}
           style={{
-            // backgroundColor: 'white',
+            backgroundColor: Colors.violet,
             borderWidth: 0.4,
             borderColor: '#2b2d42',
             padding: 15,
@@ -208,13 +209,12 @@ const InterViewDetails = () => {
           }}>
           {/* */}
           {loading ? (
-            <ActivityIndicator color={Colors.veryDarkGrey} size={23} />
+            <ActivityIndicator color={Colors.white} size={23} />
           ) : (
             <Text
               style={{
                 letterSpacing: 0.5,
-                color: Colors.veryDarkGrey,
-                // fontWeight: '600',
+                color: Colors.white,
                 fontFamily: 'Poppins-SemiBold',
               }}>
               Let's Start

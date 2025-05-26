@@ -148,7 +148,7 @@ const CourseDetails = () => {
                 borderColor: Colors.violet,
               }}>
               {loading ? (
-                <ActivityIndicator color={Colors.mildGrey} size={25} />
+                <ActivityIndicator color={Colors.white} size={25} />
               ) : (
                 <Text
                   style={{

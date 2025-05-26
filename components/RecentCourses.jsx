@@ -18,12 +18,28 @@ import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 import {Font} from '../constants/Font';
 import PragraphText from '../utils/PragraphText';
+import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
 
 const RecentCourses = () => {
   const {width, height} = Dimensions.get('window');
   const {user, setselectedTechnology} = useData();
   const navigation = useNavigation();
   const [newCourseIndex, setNewCourseIndex] = useState(null);
+  // load intrestial add
+  const {load, isClosed, show, isLoaded} = useInterstitialAd(
+    __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-3257747925516984/9392069002',
+    {
+      requestNonPersonalizedAdsOnly: true,
+    },
+  );
+  useEffect(() => {
+    load();
+  }, [load]);
+  useEffect(() => {
+    if (isClosed) {
+      load();
+    }
+  }, [isClosed]);
   useEffect(() => {
     if (user?.Courses) {
       const index =
@@ -71,6 +87,9 @@ const RecentCourses = () => {
             renderItem={({item, index}) => (
               <TouchableOpacity
                 onPress={() => {
+                  if (isLoaded) {
+                    show();
+                  }
                   navigation.navigate('learn');
                   setselectedTechnology({
                     web: item.TechWeb,
