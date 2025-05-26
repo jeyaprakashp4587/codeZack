@@ -1,5 +1,12 @@
 import React, {useCallback, useState} from 'react';
-import {Dimensions, StyleSheet, Text, ToastAndroid, View} from 'react-native';
+import {
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  Text,
+  ToastAndroid,
+  View,
+} from 'react-native';
 import Posts from '../components/Posts';
 import {useEffect} from 'react';
 import axios from 'axios';
@@ -9,11 +16,12 @@ import HeadingText from '../utils/HeadingText';
 import Skeleton from '../Skeletons/Skeleton';
 import PostSkeleton from '../Skeletons/PostSkeleton';
 import {Font} from '../constants/Font';
+import {useNavigation} from '@react-navigation/native';
 
 const PostViewer = () => {
   const {width} = Dimensions.get('window');
   const {selectedPost} = useData();
-
+  const navigation = useNavigation();
   const [post, setPost] = useState();
   const [loading, setLoading] = useState(true);
   const getPostDetail = useCallback(async () => {
@@ -30,6 +38,7 @@ const PostViewer = () => {
     } catch (error) {
       // setLoading(false);
       ToastAndroid.show('Error fetch posts', ToastAndroid.SHORT);
+      navigation.goBack();
     }
   }, [selectedPost]);
   useEffect(() => {
@@ -38,7 +47,7 @@ const PostViewer = () => {
   // render skeletion ui effect when api get posts from Server
   if (loading) return <PostSkeleton />;
   return (
-    <View style={{backgroundColor: 'white', flex: 1}}>
+    <ScrollView style={{backgroundColor: 'white', flex: 1}}>
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text="Post" />
       </View>
@@ -63,7 +72,7 @@ const PostViewer = () => {
           </Text>
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 };
 

@@ -48,6 +48,9 @@ import ChallengesBanner from '../components/ChallengesBanner';
 import UpdatePage from '../components/UpdatePage';
 import InterviewSucess from '../Pages/InterviewSucess';
 import IntroScreen from '../Pages/IntroScreen';
+import ProjectPost from '../Freelancer/ProjectPost';
+import UploadProject from '../Freelancer/UploadProject';
+import ProjectDetails from '../Freelancer/ProjectDetails';
 // import GetStart from '../ZackyArena/GetStart';
 // import ArenaGround from '../ZackyArena/ArenaGround';
 // import MatchFixing from '../ZackyArena/MatchFixing';
@@ -486,28 +489,27 @@ const StackNavigations = () => {
             headerShown: false,
           }}
         />
-        {/*  
-          <Stack.Screen
-          name="GetStart"
-          component={GetStart}
+        <Stack.Screen
+          name="ProjectPost"
+          component={ProjectPost}
           options={{
             headerShown: false,
           }}
         />
         <Stack.Screen
-          name="arenaGround"
-          component={ArenaGround}
+          name="uploadProject"
+          component={UploadProject}
           options={{
             headerShown: false,
           }}
         />
         <Stack.Screen
-          name="matchFixing"
-          component={MatchFixing}
+          name="projectDetails"
+          component={ProjectDetails}
           options={{
             headerShown: false,
           }}
-        /> */}
+        />
       </Stack.Navigator>
     </View>
   );

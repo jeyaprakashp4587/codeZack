@@ -40,6 +40,7 @@ const ChallengesBanner = React.lazy(() =>
 );
 import {Font} from '../constants/Font';
 import {checkAppVersion} from '../hooks/checkAppVersion';
+import FreelancerBanner from '../Freelancer/FreelancerBanner';
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
 const Home = () => {
@@ -237,6 +238,8 @@ const Home = () => {
         <IdeasWrapper />
         {/* Recent courses */}
         <RecentCourses />
+        {/* Freelancer project */}
+        <FreelancerBanner />
         {/* premium projects */}
         <Suspense
           fallback={

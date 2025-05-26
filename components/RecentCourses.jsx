@@ -60,7 +60,7 @@ const RecentCourses = () => {
           fontWeight: '600',
           fontSize: width * 0.042,
           marginBottom: 10,
-          letterSpacing: 0.25,
+          letterSpacing: 0.26,
         }}>
         Your Recent courses
       </Text>
