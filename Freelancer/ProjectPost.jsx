@@ -5,10 +5,11 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Colors} from '../constants/Colors';
 import HeadingText from '../utils/HeadingText';
 import PostSkeleton from '../Skeletons/PostSkeleton';
@@ -16,21 +17,45 @@ import ProjectDetails from './ProjectDetails';
 import {Font} from '../constants/Font';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
+import {profileApi} from '../Api';
 
 const ProjectPost = () => {
   const {width} = Dimensions.get('window');
   const navigation = useNavigation();
+  // get all projects from server
+  const [projects, setProjects] = useState([]);
+  const getAllProjects = useCallback(async () => {
+    try {
+      const {status, data} = await axios.get(
+        `${profileApi}/Freelancing/getAllProjects`,
+      );
+      if (status === 200) {
+        setProjects(data.projects);
+      } else {
+        setProjects([]);
+      }
+    } catch (error) {
+      ToastAndroid.show('error on get projects', ToastAndroid.SHORT);
+    }
+  }, []);
+  //
+  useEffect(() => {
+    getAllProjects();
+  }, []);
   return (
     <View style={{backgroundColor: Colors.white, flex: 1}}>
       {/* header */}
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text="explore projects" />
       </View>
-      <ScrollView style={{borderWidth: 0}}>
+      <ScrollView
+        style={{borderWidth: 0, paddingTop: 10}}
+        showsVerticalScrollIndicator={false}>
         <FlatList
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{rowGap: 10, marginBottom: 10}}
-          data={Array.from({length: 4})}
+          data={projects}
           renderItem={({item}) => <ProjectDetails post={item} />}
         />
       </ScrollView>
@@ -39,7 +64,7 @@ const ProjectPost = () => {
         onPress={() => navigation.navigate('uploadProject')}
         style={{
           borderWidth: 0,
-          backgroundColor: Colors.veryDarkGrey,
+          backgroundColor: Colors.violet,
           padding: 15,
           flexDirection: 'row',
           justifyContent: 'center',

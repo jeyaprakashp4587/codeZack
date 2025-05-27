@@ -3,12 +3,11 @@ import React, {useRef, useCallback, useState} from 'react';
 import {
   View,
   TextInput,
-  Button,
-  StyleSheet,
-  ScrollView,
   ToastAndroid,
   TouchableOpacity,
   Text,
+  StyleSheet,
+  ScrollView,
 } from 'react-native';
 import {profileApi} from '../Api';
 import {useData} from '../Context/Contexter';
@@ -17,39 +16,33 @@ import {Colors} from '../constants/Colors';
 import {Font} from '../constants/Font';
 
 const UploadProject = () => {
-  const formRef = useRef({
-    projectTitle: '',
-    description: '',
-    whatsApp: '',
-    mobileNumber: '',
-    skills: [],
-  });
   const {user} = useData();
+
+  // Input states
+  const [projectTitle, setProjectTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [whatsApp, setWhatsApp] = useState('');
+  const [mobileNumber, setMobileNumber] = useState('');
+  const [skillsInput, setSkillsInput] = useState('');
+
   const showToast = useCallback(message => {
     ToastAndroid.show(message, ToastAndroid.SHORT);
   }, []);
 
-  const handleInputChange = useCallback(
-    (field, value) => {
-      try {
-        if (field === 'skills') {
-          formRef.current.skills = value
-            .split(',')
-            .map(skill => skill.trim())
-            .filter(skill => skill.length > 0);
-        } else {
-          formRef.current[field] = value;
-        }
-      } catch (error) {
-        showToast('Error updating input');
-      }
-    },
-    [showToast],
-  );
+  const getFormData = () => ({
+    projectTitle,
+    description,
+    whatsApp,
+    mobileNumber,
+    skills: skillsInput
+      .split(',')
+      .map(skill => skill.trim())
+      .filter(skill => skill.length > 0),
+  });
 
   const validateForm = useCallback(() => {
     const {projectTitle, description, whatsApp, mobileNumber, skills} =
-      formRef.current;
+      getFormData();
 
     if (!projectTitle.trim()) {
       showToast('Project title is required');
@@ -60,11 +53,11 @@ const UploadProject = () => {
       return false;
     }
     if (!whatsApp.trim()) {
-      showToast('whats app number is required');
+      showToast('WhatsApp number is required');
       return false;
     }
     if (!/^\d{10}$/.test(whatsApp)) {
-      showToast('whats app number must be 10 digits');
+      showToast('WhatsApp number must be 10 digits');
       return false;
     }
     if (!mobileNumber.trim()) {
@@ -81,76 +74,97 @@ const UploadProject = () => {
     }
 
     return true;
-  }, [showToast]);
-  // load indi
+  }, [
+    projectTitle,
+    description,
+    whatsApp,
+    mobileNumber,
+    skillsInput,
+    showToast,
+  ]);
+
   const [loading, setLoading] = useState(false);
+
+  const resetForm = () => {
+    setProjectTitle('');
+    setDescription('');
+    setWhatsApp('');
+    setMobileNumber('');
+    setSkillsInput('');
+  };
+
   const handleSubmit = useCallback(async () => {
+    if (!validateForm()) return;
+
     try {
-      if (validateForm()) {
-        setLoading(true);
-        const {data, status} = await axios.post(
-          `${profileApi}/Freelancing/submitProject`,
-          {
-            ...formRef.current,
-            uId: user?._id,
-          },
-        );
-        if (status === 200) {
-          setLoading(false);
-          showToast('Form submitted successfully!');
-        }
+      setLoading(true);
+      const payload = {
+        ...getFormData(),
+        uId: user?._id,
+      };
+
+      const {data, status} = await axios.post(
+        `${profileApi}/Freelancing/submitProject`,
+        payload,
+      );
+
+      if (status === 200) {
+        showToast('Form submitted successfully!');
+        resetForm();
       }
     } catch (error) {
-      setLoading(false);
       console.error('Submission Error:', error);
       showToast('Something went wrong during submission');
+    } finally {
+      setLoading(false);
     }
-  }, [validateForm, showToast]);
+  }, [validateForm, getFormData, user, showToast]);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View>
         <HeadingText text="project requirements" />
       </View>
-      <View
-        style={{
-          rowGap: 10,
-          flex: 1,
-        }}>
+      <View style={{rowGap: 10, flex: 1}}>
         <TextInput
-          placeholderTextColor={Colors.mildGrey}
           placeholder="Project Title"
+          placeholderTextColor={Colors.mildGrey}
           style={styles.input}
-          onChangeText={text => handleInputChange('projectTitle', text)}
+          value={projectTitle}
+          onChangeText={setProjectTitle}
         />
         <TextInput
           placeholder="Description"
-          style={[styles.input, {height: 100}]}
           placeholderTextColor={Colors.mildGrey}
+          style={[styles.input, {height: 100}]}
           multiline
-          onChangeText={text => handleInputChange('description', text)}
+          value={description}
+          onChangeText={setDescription}
         />
         <TextInput
-          placeholder="what's app Number"
+          placeholder="What's App Number"
           placeholderTextColor={Colors.mildGrey}
           style={styles.input}
           keyboardType="phone-pad"
           maxLength={10}
-          onChangeText={text => handleInputChange('whatsApp', text)}
+          value={whatsApp}
+          onChangeText={setWhatsApp}
         />
         <TextInput
           placeholder="Mobile Number"
-          style={styles.input}
           placeholderTextColor={Colors.mildGrey}
+          style={styles.input}
           keyboardType="phone-pad"
           maxLength={10}
-          onChangeText={text => handleInputChange('mobileNumber', text)}
+          value={mobileNumber}
+          onChangeText={setMobileNumber}
         />
         <TextInput
           placeholder="Skills (comma separated)"
           placeholderTextColor={Colors.mildGrey}
           style={styles.input}
-          onChangeText={text => handleInputChange('skills', text)}
+          value={skillsInput}
+          onChangeText={setSkillsInput}
         />
         <TouchableOpacity
           onPress={handleSubmit}
@@ -167,7 +181,7 @@ const UploadProject = () => {
               letterSpacing: 0.25,
               textAlign: 'center',
             }}>
-            upload
+            {loading ? 'Submitting...' : 'Upload'}
           </Text>
         </TouchableOpacity>
       </View>

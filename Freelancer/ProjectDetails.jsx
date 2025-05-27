@@ -1,12 +1,14 @@
 import {
+  Alert,
   Dimensions,
   Image,
+  Linking,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Font} from '../constants/Font';
 import FastImage from 'react-native-fast-image';
 import {Colors} from '../constants/Colors';
@@ -15,15 +17,49 @@ import {useData} from '../Context/Contexter';
 const ProjectDetails = ({post}) => {
   const {user} = useData();
   const {width, height} = Dimensions.get('window');
+  //open whats app
+  const countryCode = '+91';
+  const handleWhatsAppPress = useCallback(() => {
+    const fullNumber = `${countryCode.replace('+', '')}${post?.mN}`;
+    const url = `https://wa.me/${fullNumber}`;
+    Linking.canOpenURL(url)
+      .then(supported => {
+        if (supported) {
+          Linking.openURL(url);
+        } else {
+          Alert.alert(
+            'Error',
+            'WhatsApp is not installed or the URL is invalid.',
+          );
+        }
+      })
+      .catch(err => console.error('WhatsApp error:', err));
+  }, [post?.mN]);
+
+  const handleCallPress = useCallback(() => {
+    const url = `tel:${countryCode}${post?.pN}`;
+    Linking.canOpenURL(url)
+      .then(supported => {
+        if (supported) {
+          Linking.openURL(url);
+        } else {
+          Alert.alert('Error', 'Cannot initiate a phone call.');
+        }
+      })
+      .catch(err => console.error('Call error:', err));
+  }, [post?.pN]);
   return (
     <View
       style={{
         borderWidth: 0,
         backgroundColor: Colors.white,
         padding: 15,
-        elevation: 3,
-        borderRadius: 10,
-        marginHorizontal: 15,
+        // elevation: 3,
+        // borderRadius: 10,
+        // marginHorizontal: 15,
+        rowGap: 10,
+        borderBottomWidth: 1,
+        borderColor: Colors.veryLightGrey,
       }}>
       {/* header */}
       <View
@@ -45,20 +81,21 @@ const ProjectDetails = ({post}) => {
       <View>
         <Text style={{fontFamily: Font.Medium}}>Skills Required:</Text>
         <View style={{flexDirection: 'row', columnGap: 10}}>
-          <Text style={{fontFamily: Font.Regular}}>Html</Text>
-          <Text style={{fontFamily: Font.Regular}}>Css</Text>
-          <Text style={{fontFamily: Font.Regular}}>Js</Text>
+          {post?.skills?.map(i => (
+            <Text style={{fontFamily: Font.Regular}}>{i?.tech}</Text>
+          ))}
         </View>
       </View>
       {/* contact */}
       <View style={{rowGap: 10}}>
         <TouchableOpacity
+          onPress={handleWhatsAppPress}
           style={{
             flexDirection: 'row',
             alignItems: 'center',
             columnGap: 5,
             backgroundColor: 'white',
-            borderWidth: 1,
+            borderWidth: 0.5,
             borderColor: Colors.mildGrey,
             justifyContent: 'center',
             borderRadius: 90,
@@ -75,20 +112,20 @@ const ProjectDetails = ({post}) => {
               aspectRatio: 1,
             }}
           />
-          <Text style={{fontFamily: Font.Regular}}> +91 9025167302</Text>
+          <Text style={{fontFamily: Font.Regular}}> +91 {post?.mN}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
             flexDirection: 'row',
             alignItems: 'center',
             columnGap: 5,
-            backgroundColor: Colors.violet,
-            borderWidth: 1,
+            backgroundColor: 'rgba(0, 15, 27, 0.69)',
             borderColor: Colors.mildGrey,
             justifyContent: 'center',
             borderRadius: 90,
             padding: 10,
-          }}>
+          }}
+          onPress={handleCallPress}>
           <Image
             style={{
               width: 20,
@@ -101,7 +138,7 @@ const ProjectDetails = ({post}) => {
           />
           <Text style={{fontFamily: Font.Regular, color: Colors.white}}>
             {' '}
-            +91 9025167302
+            +91 {post?.pN}
           </Text>
         </TouchableOpacity>
       </View>
