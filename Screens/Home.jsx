@@ -196,10 +196,9 @@ const Home = () => {
           }}>
           <Text
             style={{
-              fontSize: width * 0.04,
+              fontSize: width * 0.045,
               lineHeight: 30,
-              letterSpacing: 1,
-              // fontWeight: '700',
+              letterSpacing: 0.3,
               fontFamily: 'Poppins-SemiBold',
             }}>
             Hello👋 {user?.firstName}!

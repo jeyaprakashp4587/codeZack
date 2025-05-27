@@ -117,7 +117,6 @@ const Login = () => {
         colors={['#fff9f3', '#eef7fe']}
         start={{x: 0, y: 1}}
         end={{x: 1, y: 1}}>
-        {/* <View style={{borderWidth: 1, flex: 1, height: '100%'}}> */}
         <View style={styles.imageContainer}>
           <FastImage
             style={styles.image}
@@ -206,7 +205,7 @@ const Login = () => {
               onPress={() => navigation.navigate('passwordReset')}
               style={{
                 color: Colors.violet,
-                letterSpacing: 1,
+                letterSpacing: 0.3,
                 textAlign: 'right',
                 fontFamily: Font.Regular,
               }}>
@@ -271,25 +270,24 @@ const styles = StyleSheet.create({
   },
 
   loginText: {
-    letterSpacing: 1,
-    fontSize: width * 0.035, // Dynamic font size
+    letterSpacing: 0.3,
+    fontSize: width * 0.035,
     color: Colors.white,
     textAlign: 'center',
     includeFontPadding: false,
-    fontFamily: 'Poppins-Light',
+    fontFamily: Font.Medium,
   },
   indicator: {
     width: '100%',
-    height: height * 0.002, // Dynamic height for indicator line
+    height: height * 0.002,
     backgroundColor: Colors.veryLightGrey,
-    marginVertical: height * 0.025, // Dynamic margin
+    marginVertical: height * 0.025,
     position: 'relative',
   },
   indicatorText: {
     position: 'absolute',
     color: Colors.mildGrey,
-    // backgroundColor: 'white',
-    top: -height * 0.012, // Dynamic position adjustment
+    top: -height * 0.012,
     textAlign: 'center',
     alignSelf: 'center',
     zIndex: 10,
