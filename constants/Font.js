@@ -1,6 +1,6 @@
 export const Font = {
-  SemiBold: 'Poppins-SemiBold',
-  Light: 'Poppins-Light',
-  Regular: 'Poppins-Regular',
-  Medium: 'Poppins-Medium',
+  SemiBold: 'Roboto-SemiBold',
+  Light: 'Roboto-Light',
+  Regular: 'Roboto-Regular',
+  Medium: 'Roboto-Medium',
 };

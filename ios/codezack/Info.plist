@@ -49,12 +49,10 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Poppins-Light.ttf</string>
-		<string>Poppins-Medium.ttf</string>
-		<string>Poppins-Regular.ttf</string>
-		<string>Poppins-SemiBold.ttf</string>
+		<string>Roboto-Light.ttf</string>
 		<string>Roboto-Medium.ttf</string>
-		<string>Rowdies-Regular.ttf</string>
+		<string>Roboto-Regular.ttf</string>
+		<string>Roboto-SemiBold.ttf</string>
 	</array>
 </dict>
 </plist>

@@ -2,28 +2,20 @@
   "migIndex": 1,
   "data": [
     {
-      "path": "assets/fonts/Poppins-Light.ttf",
-      "sha1": "e247a92158e112f8bf7b638c8d95381d66b00dbb"
-    },
-    {
-      "path": "assets/fonts/Poppins-Medium.ttf",
-      "sha1": "283f21b44efbdbf276ba802be2d949a36bbc4233"
-    },
-    {
-      "path": "assets/fonts/Poppins-Regular.ttf",
-      "sha1": "fdd3002e7d814ee47c1c1b8487c72c6bbb3a2d00"
-    },
-    {
-      "path": "assets/fonts/Poppins-SemiBold.ttf",
-      "sha1": "8a4ace9392d06bcb7f8ea2f5169b07e4c383a90d"
+      "path": "assets/fonts/Roboto-Light.ttf",
+      "sha1": "318b44c0a32848f78bf11d4fbf3355d00647a796"
     },
     {
       "path": "assets/fonts/Roboto-Medium.ttf",
       "sha1": "fa5192203f85ddb667579e1bdf26f12098bb873b"
     },
     {
-      "path": "assets/fonts/Rowdies-Regular.ttf",
-      "sha1": "2f7b1ab72139c78cfe7abbd49fab9b1bebf44d57"
+      "path": "assets/fonts/Roboto-Regular.ttf",
+      "sha1": "3bff51436aa7eb995d84cfc592cc63e1316bb400"
+    },
+    {
+      "path": "assets/fonts/Roboto-SemiBold.ttf",
+      "sha1": "9ca139684fe902c8310dd82991648376ac9838db"
     }
   ]
 }

@@ -52,12 +52,12 @@ const ProjectPost = () => {
       <ScrollView
         style={{borderWidth: 0, paddingTop: 10}}
         showsVerticalScrollIndicator={false}>
-        {!projects.length <= 0 ? (
+        {projects.length <= 0 ? (
           <View
             style={{
               justifyContent: 'center',
               alignItems: 'center',
-              borderWidth: 1,
+              // borderWidth: 1,
               flex: 1,
               alignSelf: 'center',
             }}>
