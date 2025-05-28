@@ -473,7 +473,7 @@ const ChallengeDetail = () => {
                   fontWeight: '600',
                   color: 'orange',
                   textTransform: 'capitalize',
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: Font.Medium,
                 }}>
                 {selectedChallenge?.level}
               </Text>
@@ -499,7 +499,7 @@ const ChallengeDetail = () => {
                 fontSize: width * 0.03,
                 fontWeight: '600',
                 letterSpacing: 0.5,
-                fontFamily: 'Poppins-Medium',
+                fontFamily: Font.Medium,
               }}>
               You can use also other frameworks or languages
             </Text>
@@ -646,7 +646,7 @@ const ChallengeDetail = () => {
                     color: Colors.violet,
                     fontSize: width * 0.04,
                     letterSpacing: 1,
-                    fontFamily: 'Poppins-Medium',
+                    fontFamily: Font.Medium,
                   }}>
                   How to upload
                 </Text>
@@ -688,7 +688,7 @@ const ChallengeDetail = () => {
                   style={{
                     textDecorationLine: 'underline',
                     letterSpacing: 1,
-                    fontFamily: 'Poppins-Medium',
+                    fontFamily: Font.Medium,
                   }}>
                   Close
                 </Text>
@@ -849,7 +849,7 @@ const ChallengeDetail = () => {
                   color: 'white',
                   letterSpacing: 1,
                   textAlign: 'center',
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: Font.Medium,
                 }}>
                 Upload
               </Text>

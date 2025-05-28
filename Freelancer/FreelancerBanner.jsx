@@ -37,10 +37,10 @@ const FreelancerBanner = () => {
           alignItems: 'center',
           justifyContent: 'space-between',
           columnGap: 30,
-          backgroundColor: Colors.white,
+          backgroundColor: 'rgba(13, 102, 185, 0.12)',
           padding: 10,
-          //   borderRadius: 14,
-          elevation: 2,
+          borderRadius: 10,
+          // elevation: 2,
         }}>
         <FastImage
           source={{
@@ -56,6 +56,7 @@ const FreelancerBanner = () => {
               fontFamily: Font.SemiBold,
               fontSize: width * 0.044,
               letterSpacing: 0.2,
+              lineHeight: 25,
             }}>
             Get paid for your coding skills.
           </Text>

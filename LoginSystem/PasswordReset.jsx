@@ -16,6 +16,7 @@ import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {loginApi} from '../Api';
 import LinearGradient from 'react-native-linear-gradient';
+import {Font} from '../constants/Font';
 
 const PasswordReset = () => {
   const {width} = Dimensions.get('window');
@@ -110,7 +111,7 @@ const PasswordReset = () => {
             width: '100%',
             textAlign: 'center',
             marginBottom: 20,
-            fontFamily: 'Poppins-SemiBold',
+            fontFamily: Font.SemiBold,
           }}>
           Forgot Password?
         </Text>
@@ -121,7 +122,7 @@ const PasswordReset = () => {
             letterSpacing: 1,
             width: '100%',
             marginBottom: 20,
-            fontFamily: 'Poppins-Light',
+            fontFamily: Font.Medium,
           }}>
           No worries, we'll send you reset instructions.
         </Text>
@@ -131,7 +132,7 @@ const PasswordReset = () => {
             width: '100%',
             color: Colors.mildGrey,
             fontSize: width * 0.027,
-            fontFamily: 'Poppins-Light',
+            fontFamily: Font.Medium,
           }}>
           Email
         </Text>
@@ -144,7 +145,7 @@ const PasswordReset = () => {
             width: '100%',
             paddingHorizontal: 10,
             marginBottom: 20,
-            fontFamily: 'Poppins-Light',
+            fontFamily: Font.Medium,
           }}
           onChangeText={text => handleEmail(text)}
         />
@@ -161,7 +162,7 @@ const PasswordReset = () => {
             columnGap: 5,
             // borderWidth: 1,
           }}>
-          <Text style={{color: 'white', fontFamily: 'Poppins-SemiBold'}}>
+          <Text style={{color: 'white', fontFamily: Font.SemiBold}}>
             Send OTP
           </Text>
           {loading && <ActivityIndicator color={Colors.white} size={20} />}
@@ -175,7 +176,7 @@ const PasswordReset = () => {
             marginBottom: 20,
           }}>
           <AntDesign name="arrowleft" size={20} color={Colors.lightGrey} />
-          <Text style={{color: Colors.lightGrey, fontFamily: 'Poppins-Light'}}>
+          <Text style={{color: Colors.lightGrey, fontFamily: Font.Medium}}>
             Back To Login
           </Text>
         </TouchableOpacity>

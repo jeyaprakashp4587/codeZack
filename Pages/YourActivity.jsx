@@ -127,7 +127,7 @@ const YourActivity = () => {
           style={{
             letterSpacing: 1,
             fontWeight: 'bold',
-            fontFamily: 'Poppins-Medium',
+            fontFamily: Font.Medium,
           }}>
           Date: {selectedDate ?? ''}
         </Text>

@@ -21,6 +21,7 @@ import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import HeadingText from '../utils/HeadingText';
 import Skeleton from '../Skeletons/Skeleton';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {Font} from '../constants/Font';
 
 const VideoTutorials = () => {
   const {width, height} = Dimensions.get('window');
@@ -109,7 +110,7 @@ const VideoTutorials = () => {
                         letterSpacing: 1,
                         fontSize: width * 0.035,
                         marginBottom: 5,
-                        fontFamily: 'Poppins-Light',
+                        fontFamily: Font.Regular,
                       }}>
                       {tool?.Tool}
                     </Text>
@@ -129,7 +130,7 @@ const VideoTutorials = () => {
                     style={{
                       color: Colors.mildGrey,
                       letterSpacing: 1,
-                      fontFamily: 'Poppins-Light',
+                      fontFamily: Font.Regular,
                     }}>
                     {lang}
                   </Text>
@@ -195,7 +196,7 @@ const VideoTutorials = () => {
                   style={{
                     letterSpacing: 2,
                     color: Colors.mildGrey,
-                    fontFamily: 'Poppins-Medium',
+                    fontFamily: Font.Medium,
                   }}>
                   {i?.Tool}
                 </Text>

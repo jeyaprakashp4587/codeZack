@@ -16,6 +16,7 @@ import {challengesApi} from '../Api';
 import Skeleton from '../Skeletons/Skeleton';
 import {debounce} from 'lodash';
 import HeadingText from '../utils/HeadingText';
+import {Font} from '../constants/Font';
 
 const CoreChallenges = () => {
   const {selectedChallengeTopic, setSelectedChallenge} = useData();
@@ -73,7 +74,7 @@ const CoreChallenges = () => {
           letterSpacing: 1,
           fontSize: width * 0.045,
           // fontWeight: '700',
-          fontFamily: 'Poppins-SemiBold',
+          fontFamily: Font.SemiBold,
         }}>
         <Text>{item?.question_id}.</Text>
         {item?.title}
@@ -84,7 +85,7 @@ const CoreChallenges = () => {
           color: Colors.mildGrey,
           lineHeight: 20,
           fontSize: width * 0.03,
-          fontFamily: 'Poppins-Medium',
+          fontFamily: Font.Medium,
         }}>
         {item?.description}
       </Text>
@@ -94,14 +95,14 @@ const CoreChallenges = () => {
           fontWeight: '600',
           letterSpacing: 1,
           fontSize: width * 0.03,
-          fontFamily: 'Poppins-Light',
+          fontFamily: Font.Regular,
         }}>
-        <Text style={{fontFamily: 'Poppins-Light'}}>Inputs: </Text>
+        <Text style={{fontFamily: Font.Regular}}>Inputs: </Text>
         {item?.input_example}
       </Text>
       <Text
         style={{color: '#ee6c4d', letterSpacing: 1, fontSize: width * 0.03}}>
-        <Text style={{fontFamily: 'Poppins-Light'}}>Output: </Text>{' '}
+        <Text style={{fontFamily: Font.Regular}}>Output: </Text>{' '}
         {item?.output_example}
       </Text>
       <TouchableOpacity
@@ -120,7 +121,7 @@ const CoreChallenges = () => {
             letterSpacing: 1,
             fontSize: width * 0.033,
             // fontWeight: '700',
-            fontFamily: 'Poppins-SemiBold',
+            fontFamily: Font.SemiBold,
           }}>
           Take a Look
         </Text>

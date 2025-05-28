@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   courseName: {
     fontSize: width * 0.065,
     color: Colors.mildGrey,
-    fontFamily: font.poppins,
+    fontFamily: Font.Medium,
     marginBottom: height * 0.02,
     paddingHorizontal: 15,
   },

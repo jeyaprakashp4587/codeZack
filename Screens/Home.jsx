@@ -199,7 +199,7 @@ const Home = () => {
               fontSize: width * 0.045,
               lineHeight: 30,
               letterSpacing: 0.3,
-              fontFamily: 'Poppins-SemiBold',
+              fontFamily: Font.SemiBold,
             }}>
             Hello👋 {user?.firstName}!
           </Text>

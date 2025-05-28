@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Colors} from '../constants/Colors';
+import {Font} from '../constants/Font';
 
 const TopicsText = props => {
   return (
@@ -12,7 +13,7 @@ const TopicsText = props => {
         letterSpacing: props.lp ? props.lp : 1,
         // fontWeight: props.fontWeight ?? '400',
         lineHeight: props.ln && props.ln,
-        fontFamily: 'Poppins-SemiBold',
+        fontFamily: Font.SemiBold,
       }}>
       {props.text}
     </Text>

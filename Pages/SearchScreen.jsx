@@ -175,7 +175,7 @@ const SearchScreen = ({navigation}) => {
                     padding: 5,
                     paddingHorizontal: 25,
                     color: Colors.violet,
-                    fontFamily: 'Poppins-Medium',
+                    fontFamily: Font.Medium,
                   }}>
                   View
                 </Text>

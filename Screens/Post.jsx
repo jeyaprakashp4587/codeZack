@@ -278,7 +278,7 @@ const Post = () => {
             fontSize: width * 0.045,
             letterSpacing: 1.4,
             color: 'black',
-            fontFamily: 'Poppins-Medium',
+            fontFamily: Font.Medium,
           }}>
           {user?.firstName} {user?.LastName}
         </Text>

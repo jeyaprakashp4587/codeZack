@@ -124,7 +124,7 @@ const CourseDetails = () => {
                 letterSpacing: 1,
                 lineHeight: height * 0.035,
                 color: Colors.mildGrey,
-                fontFamily: 'Poppins-Medium',
+                fontFamily: Font.Medium,
               }}>
               {item.details}
             </Text>
@@ -156,7 +156,7 @@ const CourseDetails = () => {
                     textAlign: 'center',
                     letterSpacing: 1,
                     fontSize: width * 0.04,
-                    fontFamily: 'Poppins-Medium',
+                    fontFamily: Font.Medium,
                   }}>
                   start
                 </Text>

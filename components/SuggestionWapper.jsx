@@ -46,7 +46,7 @@ const SuggestionWapper = ({refresh}) => {
     return <View></View>;
   }
   return (
-    <View style={{flexDirection: 'column', rowGap: 5, marginTop: 20}}>
+    <View style={{flexDirection: 'column', rowGap: 15, marginTop: 20}}>
       <View
         style={{
           flexDirection: 'row',

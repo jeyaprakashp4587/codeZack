@@ -159,7 +159,7 @@ const InterViewDetails = () => {
             fontSize: width * 0.09,
             // fontWeight: '600',
             letterSpacing: 1,
-            fontFamily: 'Poppins-SemiBold',
+            fontFamily: Font.SemiBold,
           }}>
           {company?.company_name}
         </Text>
@@ -169,7 +169,7 @@ const InterViewDetails = () => {
             color: Colors.veryDarkGrey,
             // fontWeight: '600',
             fontSize: width * 0.04,
-            fontFamily: 'Poppins-SemiBold',
+            fontFamily: Font.SemiBold,
           }}>
           Duration: {company?.preparation_duration}
         </Text>
@@ -179,7 +179,7 @@ const InterViewDetails = () => {
             color: Colors.veryDarkGrey,
             // fontWeight: '600',
             fontSize: width * 0.04,
-            fontFamily: 'Poppins-SemiBold',
+            fontFamily: Font.SemiBold,
           }}>
           Weeks: {company?.weeks?.length}
         </Text>
@@ -215,7 +215,7 @@ const InterViewDetails = () => {
               style={{
                 letterSpacing: 0.5,
                 color: Colors.white,
-                fontFamily: 'Poppins-SemiBold',
+                fontFamily: Font.SemiBold,
               }}>
               Let's Start
             </Text>

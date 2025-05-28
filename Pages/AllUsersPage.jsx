@@ -183,7 +183,7 @@ const AllUsersPage = () => {
                           color: Colors.veryDarkGrey,
                           letterSpacing: 0.7,
                           // fontWeight: '700',
-                          fontFamily: 'Poppins-SemiBold',
+                          fontFamily: Font.SemiBold,
                         }}>
                         {truncateText(
                           item?.firstName + ' ' + item?.LastName,
@@ -195,7 +195,7 @@ const AllUsersPage = () => {
                           letterSpacing: 0.5,
                           fontSize: width * 0.028,
                           color: Colors.mildGrey,
-                          fontFamily: 'Poppins-Medium',
+                          fontFamily: Font.Medium,
                         }}
                         numberOfLines={1}>
                         {truncateText(item?.InstitudeName, 15)}
@@ -229,7 +229,7 @@ const AllUsersPage = () => {
                   style={{
                     textAlign: 'center',
                     color: Colors.mildGrey,
-                    fontFamily: 'Poppins-Light',
+                    fontFamily: Font.Medium,
                   }}>
                   Loading more suggestions...
                 </Text>

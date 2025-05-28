@@ -15,6 +15,7 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import axios from 'axios';
 import {loginApi} from '../Api';
 import LinearGradient from 'react-native-linear-gradient';
+import {Font} from '../constants/Font';
 const OtpVerification = () => {
   const {width} = Dimensions.get('window');
   const {email} = useRoute().params;
@@ -150,7 +151,7 @@ const OtpVerification = () => {
             width: '100%',
             textAlign: 'center',
             marginBottom: 20,
-            fontFamily: 'Poppins-SemiBold',
+            fontFamily: Font.SemiBold,
           }}>
           Enter OTP
         </Text>
@@ -165,7 +166,7 @@ const OtpVerification = () => {
             style={{
               color: Colors.veryDarkGrey,
               fontWeight: '600',
-              fontFamily: 'Poppins-SemiBold',
+              fontFamily: Font.SemiBold,
             }}>
             {email}
           </Text>
@@ -217,14 +218,14 @@ const OtpVerification = () => {
               textAlign: 'right',
               fontWeight: '600',
               color: !timeLimit <= 0 ? Colors.lightGrey : Colors.violet,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: Font.Medium,
             }}>
             {timeLimit > 0 && (
               <Text
                 style={{
                   color: Colors.lightGrey,
                   marginRight: 20,
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: Font.Medium,
                 }}>
                 {timeLimit}
               </Text>
@@ -241,7 +242,7 @@ const OtpVerification = () => {
             marginBottom: 20,
           }}>
           <AntDesign name="arrowleft" size={20} color={Colors.lightGrey} />
-          <Text style={{color: Colors.lightGrey, fontFamily: 'Poppins-Light'}}>
+          <Text style={{color: Colors.lightGrey, fontFamily: Font.Light}}>
             Back To Login
           </Text>
         </TouchableOpacity>

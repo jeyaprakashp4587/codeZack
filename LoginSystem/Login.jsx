@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
     color: Colors.veryDarkGrey,
     letterSpacing: 1,
     // fontWeight: '600',
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: Font.SemiBold,
   },
   inputsWrapper: {
     flexDirection: 'column',

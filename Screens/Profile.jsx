@@ -803,7 +803,7 @@ const Profile = ({navigation}) => {
                       letterSpacing: 1.4,
                       color: Colors.violet,
                       // fontWeight: '600',
-                      fontFamily: 'Poppins-SemiBold',
+                      fontFamily: Font.SemiBold,
                     }}>
                     Show more
                   </Text>
@@ -814,7 +814,7 @@ const Profile = ({navigation}) => {
                 style={{
                   textAlign: 'center',
                   color: 'gray',
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: Font.Medium,
                 }}>
                 No more posts
               </Text>
@@ -885,7 +885,7 @@ const Profile = ({navigation}) => {
               <Skeleton width="95%" height={40} radius={30} />
             </View>
           ) : netWorksList.length <= 0 ? (
-            <Text style={{letterSpacing: 0.5, fontFamily: 'Poppins-Medium'}}>
+            <Text style={{letterSpacing: 0.5, fontFamily: Font.Medium}}>
               No Connections
             </Text>
           ) : (
@@ -965,7 +965,7 @@ const Profile = ({navigation}) => {
                           letterSpacing: 1.4,
                           color: Colors.violet,
                           // fontWeight: '600',
-                          fontFamily: 'Poppins-SemiBold',
+                          fontFamily: Font.SemiBold,
                         }}>
                         Show more
                       </Text>
@@ -990,7 +990,7 @@ const Profile = ({navigation}) => {
           justifyContent: 'flex-start',
         }}>
         <View style={{flexDirection: 'column', rowGap: 10}}>
-          <Text style={{fontFamily: 'Poppins-Medium'}}>
+          <Text style={{fontFamily: Font.Medium}}>
             Are you sure want to logout
           </Text>
           <View

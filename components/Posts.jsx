@@ -466,7 +466,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
                   paddingHorizontal: 10,
                   paddingVertical: 5,
                   letterSpacing: 1,
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: Font.Medium,
                 }}>
                 Expand view
               </Text>

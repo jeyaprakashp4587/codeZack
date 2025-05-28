@@ -157,7 +157,7 @@ const Notifications = () => {
               color: Colors.veryDarkGrey,
               letterSpacing: 1,
               // fontWeight: '600',
-              fontFamily: 'Poppins-SemiBold',
+              fontFamily: Font.SemiBold,
             }}>
             No Notifications there
           </Text>
@@ -240,7 +240,7 @@ const Notifications = () => {
                       letterSpacing: 1.4,
                       color: Colors.violet,
                       // fontWeight: '600',
-                      fontFamily: 'Poppins-SemiBold',
+                      fontFamily: Font.SemiBold,
                     }}>
                     Show more
                   </Text>

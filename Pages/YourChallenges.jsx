@@ -22,6 +22,7 @@ import Skeleton from '../Skeletons/Skeleton';
 import {TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
+import {Font} from '../constants/Font';
 
 const YourChallenges = props => {
   const navigation = useNavigation();
@@ -149,7 +150,7 @@ const YourChallenges = props => {
                 borderBottomWidth: 1,
                 borderRadius: 50,
                 borderColor: item.color,
-                fontFamily: 'Poppins-Medium',
+                fontFamily: Font.Medium,
               }}>
               {item.Name}
             </Text>
@@ -182,7 +183,7 @@ const YourChallenges = props => {
                 fontSize: width * 0.035,
                 color: 'black',
                 fontWeight: '600',
-                fontFamily: 'Poppins-SemiBold',
+                fontFamily: Font.SemiBold,
               }}>
               Nothing Is There!
             </Text>
@@ -203,7 +204,7 @@ const YourChallenges = props => {
                   letterSpacing: 1,
                   fontSize: width * 0.025,
                   color: Colors.white,
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: Font.Medium,
                 }}>
                 Choose Challenges
               </Text>

@@ -17,6 +17,7 @@ import Actitivity from '../hooks/ActivityHook';
 import Skeleton from '../Skeletons/Skeleton';
 import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
 import HeadingText from '../utils/HeadingText';
+import {Font} from '../constants/Font';
 
 const AssignmentPlayGround = () => {
   const {assignmentType, user, setUser} = useData();
@@ -230,7 +231,7 @@ const AssignmentPlayGround = () => {
           flexShrink: 1,
           fontSize: width * 0.034,
           letterSpacing: 0.5,
-          fontFamily: 'Poppins-Light',
+          fontFamily: Font.Regular,
         }}>
         {option}
       </Text>
@@ -264,7 +265,7 @@ const AssignmentPlayGround = () => {
               letterSpacing: 1,
               fontSize: width * 0.025,
               borderColor: Colors.lightGrey,
-              fontFamily: 'Poppins-Light',
+              fontFamily: Font.Regular,
             }}>
             {item.toUpperCase()}
           </Text>
@@ -282,7 +283,7 @@ const AssignmentPlayGround = () => {
               : 'red',
           fontWeight: '700',
           letterSpacing: 1,
-          fontFamily: 'Poppins-SemiBold',
+          fontFamily: Font.SemiBold,
         }}>
         {difficultyInfo.toUpperCase()}
       </Text>
@@ -304,7 +305,7 @@ const AssignmentPlayGround = () => {
               fontSize: width * 0.045,
               lineHeight: 30,
               letterSpacing: 1,
-              fontFamily: 'Poppins-Light',
+              fontFamily: Font.Regular,
             }}>
             {currentQuiz[currentQuestionIndex].question_id}.{' '}
             {currentQuiz[currentQuestionIndex].question}
@@ -344,7 +345,7 @@ const AssignmentPlayGround = () => {
                     color: 'white',
                     letterSpacing: 1,
                     textAlign: 'center',
-                    fontFamily: 'Poppins-Light',
+                    fontFamily: Font.Regular,
                   }}>
                   Submit Quiz
                 </Text>
@@ -363,7 +364,7 @@ const AssignmentPlayGround = () => {
                     color: 'white',
                     letterSpacing: 1,
                     textAlign: 'center',
-                    fontFamily: 'Poppins-Light',
+                    fontFamily: Font.Regular,
                   }}>
                   Next
                 </Text>

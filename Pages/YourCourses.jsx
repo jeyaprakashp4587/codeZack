@@ -19,6 +19,7 @@ import {useNavigation} from '@react-navigation/native';
 import Ripple from 'react-native-material-ripple';
 import {Modal} from 'react-native-paper';
 import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
+import {Font} from '../constants/Font';
 
 const {width, height} = Dimensions.get('window');
 
@@ -171,7 +172,7 @@ const YourCourses = () => {
                   textAlign: 'center',
                   letterSpacing: 0.5,
                   fontSize: width * 0.031,
-                  fontFamily: 'Poppins-Medium',
+                  fontFamily: Font.Medium,
                 }}>
                 Select course
               </Text>
@@ -226,7 +227,7 @@ const YourCourses = () => {
                       letterSpacing: 1,
                       color: Colors.veryDarkGrey,
                       fontSize: width * 0.035,
-                      fontFamily: 'Poppins-Medium',
+                      fontFamily: Font.Medium,
                     }}>
                     Continue
                   </Text>
@@ -305,7 +306,7 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
     fontSize: width * 0.03,
     letterSpacing: 1,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: Font.Medium,
   },
   techPoints: {
     fontWeight: '700',
@@ -315,7 +316,7 @@ const styles = StyleSheet.create({
   noCoursesText: {
     fontSize: width * 0.04,
     textAlign: 'center',
-    fontFamily: 'Poppins-Medium',
+    fontFamily: Font.Medium,
   },
   infoText: {
     color: Colors.mildGrey,
@@ -325,7 +326,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     lineHeight: 30,
     marginBottom: 20,
-    fontFamily: 'Poppins-Light',
+    fontFamily: Font.Regular,
   },
   infoHighlight: {
     color: 'orange',

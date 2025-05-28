@@ -573,7 +573,7 @@ const UserProfile = () => {
                       letterSpacing: 1.4,
                       color: Colors.violet,
                       // fontWeight: '600',
-                      fontFamily: 'Poppins-SemiBold',
+                      fontFamily: Font.SemiBold,
                     }}>
                     Show more
                   </Text>
@@ -713,7 +713,7 @@ const UserProfile = () => {
                           letterSpacing: 1.4,
                           color: Colors.violet,
                           // fontWeight: '600',
-                          fontFamily: 'Poppins-SemiBold',
+                          fontFamily: Font.SemiBold,
                         }}>
                         Show more
                       </Text>

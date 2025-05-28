@@ -53,7 +53,7 @@ const RecentCourses = () => {
     return null;
   }
   return (
-    <View style={{paddingHorizontal: 15, marginVertical: 10}}>
+    <View style={{paddingHorizontal: 15, marginTop: 10}}>
       <Text
         style={{
           fontFamily: Font.Medium,
@@ -66,7 +66,7 @@ const RecentCourses = () => {
       </Text>
       <View style={{borderRadius: 10, overflow: 'hidden'}}>
         <LinearGradient
-          colors={['#fff9f3', '#eef7fe']}
+          colors={['rgba(85, 87, 88, 0.03)', 'rgba(85, 87, 88, 0.03)']}
           start={{x: 0, y: 1}}
           end={{x: 1, y: 1}}
           style={{padding: 20, rowGap: 10}}>

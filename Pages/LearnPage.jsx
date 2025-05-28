@@ -6,6 +6,7 @@ import HeadingText from '../utils/HeadingText';
 import {useData} from '../Context/Contexter';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Skeleton from '../Skeletons/Skeleton';
+import {Font} from '../constants/Font';
 
 const {width, height} = Dimensions.get('window');
 
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     color: 'orange',
     fontSize: width * 0.045,
-    fontFamily: 'Poppins-Light',
+    fontFamily: Font.Regular,
   },
   webview: {
     height: height * 0.75,

@@ -310,7 +310,7 @@ const InterviewPrep = () => {
             style={{
               letterSpacing: 2,
               fontSize: width * 0.044,
-              fontFamily: 'Poppins-SemiBold',
+              fontFamily: Font.SemiBold,
             }}>
             week: {currentWeek?.week ?? 0}
           </Text>
@@ -351,7 +351,7 @@ const InterviewPrep = () => {
                 letterSpacing: 1,
                 lineHeight: 25,
                 fontSize: width * 0.034,
-                fontFamily: 'Poppins-SemiBold',
+                fontFamily: Font.SemiBold,
               }}>
               {currentQuestion + 1}
               {')'}.Question:{' '}

@@ -12,6 +12,7 @@ import {Colors, pageView} from '../constants/Colors';
 import TopicsText from '../utils/TopicsText';
 import WebView from 'react-native-webview';
 import HeadingText from '../utils/HeadingText';
+import {Font} from '../constants/Font';
 
 const CoreChallengeViewer = () => {
   const {width, height} = Dimensions.get('window');
@@ -39,7 +40,7 @@ const CoreChallengeViewer = () => {
             color: Colors.veryDarkGrey,
             letterSpacing: 1,
             fontSize: width * 0.045,
-            fontFamily: 'Poppins-Light',
+            fontFamily: Font.Regular,
           }}>
           <Text>{selectedChallenge?.question_id}.</Text>
           {selectedChallenge?.title}
@@ -58,14 +59,14 @@ const CoreChallengeViewer = () => {
             // fontWeight: '600',
             letterSpacing: 1,
             fontSize: width * 0.03,
-            fontFamily: 'Poppins-SemiBold',
+            fontFamily: Font.SemiBold,
           }}>
-          <Text style={{fontFamily: 'Poppins-Light'}}>Inputs: </Text>
+          <Text style={{fontFamily: Font.Regular}}>Inputs: </Text>
           {selectedChallenge?.input_example}
         </Text>
         <Text
           style={{color: '#ee6c4d', letterSpacing: 1, fontSize: width * 0.03}}>
-          <Text style={{fontFamily: 'Poppins-Light'}}>Output: </Text>{' '}
+          <Text style={{fontFamily: Font.Regular}}>Output: </Text>{' '}
           {selectedChallenge?.output_example}
         </Text>
       </TouchableOpacity>

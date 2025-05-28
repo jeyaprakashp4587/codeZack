@@ -100,7 +100,7 @@ const IdeasWrapper = () => {
                 // elevation: 0.8,
                 overflow: 'hidden',
                 marginBottom: 10,
-                backgroundColor: item.color,
+                // backgroundColor: item.color,
               }}
               onPress={() => item.function()}>
               <Text
@@ -109,7 +109,6 @@ const IdeasWrapper = () => {
                   color: Colors.veryDarkGrey,
                   letterSpacing: 0.5,
                   fontSize: width * 0.028,
-
                   fontFamily: Font.SemiBold,
                 }}>
                 {item.name}

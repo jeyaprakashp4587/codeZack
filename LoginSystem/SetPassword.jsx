@@ -15,6 +15,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
 import {loginApi} from '../Api';
 import LinearGradient from 'react-native-linear-gradient';
+import {Font} from '../constants/Font';
 
 const SetPassword = () => {
   const {width} = Dimensions.get('window');
@@ -99,7 +100,7 @@ const SetPassword = () => {
             width: '100%',
             textAlign: 'center',
             marginBottom: 5,
-            fontFamily: 'Poppins-SemiBold',
+            fontFamily: Font.SemiBold,
           }}>
           Set new password
         </Text>
@@ -108,7 +109,7 @@ const SetPassword = () => {
             letterSpacing: 1,
             color: Colors.mildGrey,
             fontSize: width * 0.03,
-            fontFamily: 'Poppins-Medium',
+            fontFamily: Font.Medium,
           }}>
           Must be at least 6 characters
         </Text>
@@ -120,7 +121,7 @@ const SetPassword = () => {
               color: Colors.mildGrey,
               letterSpacing: 1.4,
               fontSize: width * 0.03,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: Font.Medium,
             }}>
             Password
           </Text>
@@ -133,7 +134,7 @@ const SetPassword = () => {
               width: '100%',
               paddingHorizontal: 10,
               marginBottom: 10,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: Font.Medium,
             }}
             secureTextEntry
             onChangeText={text => (passwordRef.current = text)}
@@ -147,7 +148,7 @@ const SetPassword = () => {
               color: Colors.mildGrey,
               letterSpacing: 1.4,
               fontSize: width * 0.03,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: Font.Medium,
             }}>
             Confirm Password
           </Text>
@@ -160,7 +161,7 @@ const SetPassword = () => {
               width: '100%',
               paddingHorizontal: 10,
               marginBottom: 10,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: Font.Medium,
             }}
             secureTextEntry
             onChangeText={text => (confirmPasswordRef.current = text)}
@@ -180,7 +181,7 @@ const SetPassword = () => {
               textAlign: 'center',
               color: 'white',
               // fontWeight: '600',
-              fontFamily: 'Poppins-SemiBold',
+              fontFamily: Font.SemiBold,
             }}>
             Reset Password
           </Text>
@@ -194,7 +195,7 @@ const SetPassword = () => {
             marginBottom: 20,
           }}>
           <AntDesign name="arrowleft" size={20} color={Colors.lightGrey} />
-          <Text style={{color: Colors.lightGrey, fontFamily: 'Poppins-Light'}}>
+          <Text style={{color: Colors.lightGrey, fontFamily: Font.Light}}>
             Back To Login
           </Text>
         </TouchableOpacity>

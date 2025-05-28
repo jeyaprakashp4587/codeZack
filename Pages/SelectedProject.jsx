@@ -115,7 +115,7 @@ const SelectedProject = () => {
             letterSpacing: 1,
             // fontWeight: '600',
             color: Colors.mildGrey,
-            fontFamily: 'Poppins-Regular',
+            fontFamily: Font.SemiBold,
           }}>
           Note! "If you get this project, our skilled software engineers will
           provide full support from scratch to completion. This project assets,
@@ -131,7 +131,7 @@ const SelectedProject = () => {
             fontWeight: '600',
             fontSize: width * 0.045,
             letterSpacing: 0.5,
-            fontFamily: 'Poppins-SemiBold',
+            fontFamily: Font.SemiBold,
           }}>
           Select your Technology
         </Text>
@@ -154,7 +154,7 @@ const SelectedProject = () => {
                   fontWeight: '600',
                   color: Colors.veryDarkGrey,
                   marginBottom: 10,
-                  fontFamily: 'Poppins-SemiBold',
+                  fontFamily: Font.SemiBold,
                 }}>
                 Project Type: {tech?.TechType}
               </Text>
@@ -175,7 +175,7 @@ const SelectedProject = () => {
                       color: Colors.mildGrey,
                       letterSpacing: 1,
                       fontSize: width * 0.03,
-                      fontFamily: 'Poppins-Medium',
+                      fontFamily: Font.Medium,
                     }}>
                     {tool?.TechName}
                   </Text>
@@ -195,7 +195,7 @@ const SelectedProject = () => {
                     letterSpacing: 1,
                     fontSize: width * 0.03,
                     marginBottom: 10,
-                    fontFamily: 'Poppins-Medium',
+                    fontFamily: Font.Medium,
                   }}>
                   Watch {adCount} Ads to unlock
                 </Text>
@@ -222,7 +222,7 @@ const SelectedProject = () => {
                         letterSpacing: 1,
                         fontSize: width * 0.035,
                         color: Colors.white,
-                        fontFamily: 'Poppins-Medium',
+                        fontFamily: Font.Medium,
                       }}>
                       Get Project
                     </Text>
