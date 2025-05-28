@@ -46,18 +46,38 @@ const ProjectPost = () => {
   return (
     <View style={{backgroundColor: Colors.white, flex: 1}}>
       {/* header */}
-      <View style={{paddingHorizontal: 15}}>
+      <View style={{paddingHorizontal: 15, borderWidth: 0}}>
         <HeadingText text="explore projects" />
       </View>
       <ScrollView
         style={{borderWidth: 0, paddingTop: 10}}
         showsVerticalScrollIndicator={false}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{rowGap: 10, marginBottom: 10}}
-          data={projects}
-          renderItem={({item}) => <ProjectDetails post={item} />}
-        />
+        {!projects.length <= 0 ? (
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderWidth: 1,
+              flex: 1,
+              alignSelf: 'center',
+            }}>
+            <FastImage
+              source={{uri: 'https://i.ibb.co/0scNLNQ/rb-4986.png'}}
+              style={{width: width * 0.65, aspectRatio: 1}}
+              priority={FastImage.priority.high}
+            />
+            <Text style={{fontFamily: Font.Medium, fontSize: width * 0.05}}>
+              No projects found
+            </Text>
+          </View>
+        ) : (
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{rowGap: 10, marginBottom: 10}}
+            data={projects}
+            renderItem={({item}) => <ProjectDetails post={item} />}
+          />
+        )}
       </ScrollView>
       {/* show hire button */}
       <TouchableOpacity
