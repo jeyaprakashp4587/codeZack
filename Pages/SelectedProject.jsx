@@ -111,11 +111,10 @@ const SelectedProject = () => {
         <Text
           style={{
             fontSize: width * 0.03,
-            lineHeight: 20,
-            letterSpacing: 1,
-            // fontWeight: '600',
+            lineHeight: 25,
+            letterSpacing: 0.7,
             color: Colors.mildGrey,
-            fontFamily: Font.SemiBold,
+            fontFamily: Font.Medium,
           }}>
           Note! "If you get this project, our skilled software engineers will
           provide full support from scratch to completion. This project assets,
@@ -130,28 +129,27 @@ const SelectedProject = () => {
             color: Colors.veryDarkGrey,
             fontWeight: '600',
             fontSize: width * 0.045,
-            letterSpacing: 0.5,
+            letterSpacing: 0.3,
             fontFamily: Font.SemiBold,
           }}>
           Select your Technology
         </Text>
-        <View>
+        <View style={{borderWidth: 0}}>
           {selectedProject?.Technologies?.map((tech, index) => (
             <View
               key={index}
               style={{
                 borderWidth: 0,
-                padding: 15,
+                // padding: 15,
                 marginBottom: 20,
-                elevation: 2,
+                // elevation: 2,
                 backgroundColor: 'white',
                 borderRadius: 5,
               }}>
               <Text
                 style={{
-                  fontSize: width * 0.035,
-                  letterSpacing: 1,
-                  fontWeight: '600',
+                  fontSize: width * 0.04,
+                  letterSpacing: 0.5,
                   color: Colors.veryDarkGrey,
                   marginBottom: 10,
                   fontFamily: Font.SemiBold,

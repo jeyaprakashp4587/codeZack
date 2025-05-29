@@ -99,9 +99,8 @@ const TabNavigation = () => {
         },
         tabBarLabelStyle: {
           fontSize: width * 0.021,
-          color: Colors.mildGrey,
           letterSpacing: 1,
-          fontFamily: Font.Regular,
+          fontFamily: Font.Medium,
         },
         tabBarHideOnKeyboard: true,
         tabBarItemStyle: {

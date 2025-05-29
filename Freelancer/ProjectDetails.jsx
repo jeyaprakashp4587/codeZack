@@ -119,7 +119,7 @@ const ProjectDetails = ({post}) => {
             flexDirection: 'row',
             alignItems: 'center',
             columnGap: 5,
-            backgroundColor: 'rgba(0, 15, 27, 0.69)',
+            backgroundColor: 'rgba(133, 200, 255, 0.69)',
             borderColor: Colors.mildGrey,
             justifyContent: 'center',
             borderRadius: 90,
@@ -130,13 +130,13 @@ const ProjectDetails = ({post}) => {
             style={{
               width: 20,
               aspectRatio: 1,
-              tintColor: Colors.white,
+              tintColor: Colors.veryDarkGrey,
             }}
             source={{
               uri: 'https://i.ibb.co/GQdWb5Vf/telephone.png',
             }}
           />
-          <Text style={{fontFamily: Font.Regular, color: Colors.white}}>
+          <Text style={{fontFamily: Font.Regular, color: Colors.veryDarkGrey}}>
             {' '}
             +91 {post?.pN}
           </Text>

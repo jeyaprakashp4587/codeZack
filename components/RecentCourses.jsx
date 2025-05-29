@@ -58,11 +58,11 @@ const RecentCourses = () => {
         style={{
           fontFamily: Font.Medium,
           fontWeight: '600',
-          fontSize: width * 0.042,
+          fontSize: width * 0.041,
           marginBottom: 10,
-          letterSpacing: 0.26,
+          letterSpacing: 0.25,
         }}>
-        Your Recent courses
+        {user?.Courses[newCourseIndex]?.Course_Name}
       </Text>
       <View style={{borderRadius: 10, overflow: 'hidden'}}>
         <LinearGradient
@@ -70,16 +70,6 @@ const RecentCourses = () => {
           start={{x: 0, y: 1}}
           end={{x: 1, y: 1}}
           style={{padding: 20, rowGap: 10}}>
-          <Text
-            style={{
-              // fontWeight: '600',
-              fontSize: width * 0.035,
-              letterSpacing: 1,
-              color: Colors.veryDarkGrey,
-              fontFamily: Font.Regular,
-            }}>
-            {user?.Courses[newCourseIndex]?.Course_Name}
-          </Text>
           <FlatList
             nestedScrollEnabled={true}
             data={user.Courses[newCourseIndex]?.Technologies}

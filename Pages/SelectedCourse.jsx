@@ -10,6 +10,7 @@ import {
   Dimensions,
   ToastAndroid,
   ActivityIndicator,
+  ImageBackground,
 } from 'react-native';
 import {useData} from '../Context/Contexter';
 import {Colors, font, pageView} from '../constants/Colors';
@@ -24,6 +25,7 @@ import HeadingText from '../utils/HeadingText';
 import FastImage from 'react-native-fast-image';
 import {Font} from '../constants/Font';
 import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
+import LinearGradient from 'react-native-linear-gradient';
 const {width, height} = Dimensions.get('window');
 
 const SelectedCourse = ({navigation}) => {
@@ -88,58 +90,55 @@ const SelectedCourse = ({navigation}) => {
 
   return (
     <ScrollView style={styles.pageView} showsVerticalScrollIndicator={false}>
+      {/* heading text */}
       <View
         style={{
-          // borderWidth: 1,
-          borderColor: 'red',
-          flex: 1,
-          height: height * 0.92,
-          flexDirection: 'column',
-          justifyContent: 'center',
+          paddingHorizontal: 15,
         }}>
-        <View
+        <HeadingText text="Selected Course" />
+      </View>
+      {/* Body content */}
+      <View style={{borderWidth: 0, flex: 1}}>
+        <FastImage
+          source={{uri: selectedCourse?.img, priority: FastImage.priority.high}}
+          resizeMode="contain"
           style={{
-            paddingHorizontal: 15,
-            flex: 1,
-          }}>
-          <HeadingText text={selectedCourse?.name} />
-        </View>
-        {selectedCourse?.img ? (
-          <FastImage
-            source={{uri: selectedCourse?.img}}
-            style={styles.courseImage}
-            priority={FastImage.priority.high}
-            resizeMode="contain"
-          />
-        ) : (
-          <Skeleton width={width * 0.9} height={250} />
-        )}
+            width: width * 0.9,
+            aspectRatio: 1,
+            // borderWidth: 1,
+            alignSelf: 'center',
+          }}
+        />
         <View style={styles.section}>
-          <TopicsText
-            text="Course Intro"
-            mb={2}
-            color="black"
-            fszie={height * 0.024}
-            fontWeight={900}
-          />
-          <PragraphText
-            text={selectedCourse?.introduction}
-            fsize={width * 0.034}
-          />
+          <Text
+            style={{
+              fontSize: width * 0.05,
+              fontFamily: Font.SemiBold,
+              marginVertical: 10,
+            }}>
+            {selectedCourse?.name}
+          </Text>
+          <Text
+            style={{
+              fontSize: width * 0.04,
+              color: Colors.veryDarkGrey,
+              fontFamily: Font.Regular,
+              letterSpacing: 0.3,
+              lineHeight: 25,
+            }}>
+            {selectedCourse?.introduction}
+          </Text>
         </View>
         <View style={{paddingHorizontal: 15}}>
-          <TopicsText
-            text="Technologies"
-            mb={20}
-            color="black"
-            fszie={width * 0.04}
-          />
           <View style={styles.technologiesContainer}>
             {selectedCourse?.technologies.map((icon, index) => (
               <FastImage
                 source={{uri: icon.icon}}
-                style={{width: 30, height: 30}}
-                resizeMode="center"
+                style={{
+                  width: 30,
+                  height: 30,
+                }}
+                resizeMode="contain"
               />
             ))}
           </View>
@@ -152,7 +151,7 @@ const SelectedCourse = ({navigation}) => {
           {loading ? (
             <ActivityIndicator color={Colors.white} size={23} />
           ) : (
-            <Text style={styles.buttonText}>Let's Begin</Text>
+            <Text style={styles.buttonText}>Let's begin</Text>
           )}
         </Ripple>
       </View>
@@ -234,8 +233,8 @@ const styles = StyleSheet.create({
   buttonText: {
     color: Colors.white,
     // fontWeight: '600',
-    letterSpacing: 0.3,
-    fontFamily: Font.Medium,
-    fontSize: width * 0.035,
+    // letterSpacing: 0.3,
+    fontFamily: Font.Regular,
+    fontSize: width * 0.046,
   },
 });

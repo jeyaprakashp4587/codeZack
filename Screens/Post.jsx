@@ -254,7 +254,7 @@ const Post = () => {
           alignItems: 'center',
           columnGap: 10,
           paddingHorizontal: 15,
-          marginTop: 20,
+          marginVertical: 20,
         }}>
         <FastImage
           priority={FastImage.priority.high}
@@ -275,27 +275,14 @@ const Post = () => {
         />
         <Text
           style={{
-            fontSize: width * 0.045,
-            letterSpacing: 1.4,
+            fontSize: width * 0.05,
+            letterSpacing: 0.5,
             color: 'black',
             fontFamily: Font.Medium,
           }}>
           {user?.firstName} {user?.LastName}
         </Text>
       </View>
-      {/* text */}
-      <Text
-        style={{
-          fontSize: width * 0.025,
-          textAlign: 'center',
-          letterSpacing: 1,
-          color: 'black',
-          paddingVertical: 20,
-          // fontWeight: '600',
-          fontFamily: Font.Regular,
-        }}>
-        ShowCase your Achivement to the World
-      </Text>
       {/* inputs wrapper */}
       <ScrollView
         showsHorizontalScrollIndicator={false}
@@ -347,8 +334,7 @@ const Post = () => {
                 style={{
                   fontSize: width * 0.035,
                   color: 'black',
-                  letterSpacing: 0.4,
-                  // fontWeight: '700',
+                  letterSpacing: 0.25,
                   fontFamily: Font.SemiBold,
                 }}>
                 Select Images

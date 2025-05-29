@@ -138,8 +138,7 @@ const Home = () => {
               style={[
                 styles.profileImage,
                 {
-                  width: width * 0.16,
-                  // height: width * 0.13,
+                  width: width * 0.18,
                   borderRadius: 50,
                   borderWidth: 2,
                   borderColor: Colors.veryLightGrey,

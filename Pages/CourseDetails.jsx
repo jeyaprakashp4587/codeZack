@@ -155,10 +155,10 @@ const CourseDetails = () => {
                     color: Colors.white,
                     textAlign: 'center',
                     letterSpacing: 1,
-                    fontSize: width * 0.04,
+                    fontSize: width * 0.05,
                     fontFamily: Font.Medium,
                   }}>
-                  start
+                  Start
                 </Text>
               )}
             </TouchableOpacity>

@@ -19,23 +19,29 @@ import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {profileApi} from '../Api';
+import Skeleton from '../Skeletons/Skeleton';
 
 const ProjectPost = () => {
   const {width} = Dimensions.get('window');
   const navigation = useNavigation();
   // get all projects from server
   const [projects, setProjects] = useState([]);
+  const [loadSkeleton, setLoadSkeleton] = useState(false);
   const getAllProjects = useCallback(async () => {
     try {
+      setLoadSkeleton(true);
       const {status, data} = await axios.get(
         `${profileApi}/Freelancing/getAllProjects`,
       );
       if (status === 200) {
+        setLoadSkeleton(false);
         setProjects(data.projects);
       } else {
+        setLoadSkeleton(false);
         setProjects([]);
       }
     } catch (error) {
+      setLoadSkeleton(false);
       ToastAndroid.show('error on get projects', ToastAndroid.SHORT);
     }
   }, []);
@@ -52,7 +58,11 @@ const ProjectPost = () => {
       <ScrollView
         style={{borderWidth: 0, paddingTop: 10}}
         showsVerticalScrollIndicator={false}>
-        {projects.length <= 0 ? (
+        {loadSkeleton ? (
+          Array.from({length: 3}).map(() => (
+            <Skeleton width={width} height={200} />
+          ))
+        ) : projects.length <= 0 ? (
           <View
             style={{
               justifyContent: 'center',

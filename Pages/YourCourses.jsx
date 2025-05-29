@@ -28,12 +28,12 @@ const YourCourses = () => {
 
   const color = useMemo(
     () => [
-      {color1: '#F7E7CD', color2: '#F7E7CD'},
-      {color1: '#DDD8F6', color2: '#DDD8F6'},
-      {color1: '#a8dadc', color2: '#a8dadc'},
-      {color1: '#98c1d9', color2: '#98c1d9'},
-      {color1: '#abc4ff', color2: '#abc4ff'},
-      {color1: '#b3e6cc', color2: '#ecf9f2'},
+      {color1: 'rgba(241, 229, 159, 0.53)', color2: '#F7E7CD'},
+      {color1: 'rgba(170, 155, 226, 0.42)', color2: '#DDD8F6'},
+      {color1: 'rgba(159, 185, 241, 0.53)', color2: '#a8dadc'},
+      {color1: 'rgba(173, 241, 159, 0.53)', color2: '#98c1d9'},
+      {color1: 'rgba(241, 159, 159, 0.53)', color2: '#abc4ff'},
+      {color1: 'rgba(159, 236, 241, 0.53)', color2: '#ecf9f2'},
       {color1: '#b3e6cc', color2: '#ecf9f2'},
       {color1: '#b3e6cc', color2: '#ecf9f2'},
     ],
@@ -189,8 +189,7 @@ const YourCourses = () => {
                 style={[
                   styles.courseContainer,
                   {
-                    backgroundColor: color[index % color.length].color1, // Apply dynamic background color
-                    borderColor: color[index % color.length].color2, // Apply dynamic border color
+                    backgroundColor: color[index % color.length].color1, // Apply dynamic background
                   },
                 ]}>
                 <View style={{flexDirection: 'column', rowGap: 5}}>
@@ -284,7 +283,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
     flexDirection: 'column',
-    borderWidth: 1,
+    // borderWidth: 1,
     padding: 10,
     marginBottom: 10,
     borderRadius: 5,

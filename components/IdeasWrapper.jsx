@@ -43,25 +43,25 @@ const IdeasWrapper = () => {
       {
         name: 'Choose your Carrer',
         function: carrerNav,
-        color: 'hsl(30, 100%, 94%)',
+        color: 'hsla(31, 100.00%, 93.90%, 0.30)',
         icon: 'https://i.ibb.co/gddf19J/programming.png',
       },
       {
         name: 'Your Courses',
         function: courseNav,
-        color: 'hsl(278, 83%, 95%)',
+        color: 'hsla(277, 84.00%, 95.10%, 0.30)',
         icon: 'https://i.ibb.co/NmNqJpx/certificate.png',
       },
       {
         name: 'Assignments',
         function: assignmentNav,
-        color: '#E7F9EE',
+        color: 'rgba(210, 248, 213, 0.3))',
         icon: 'https://i.ibb.co/N19pNf3/assignment.png',
       },
       {
         name: 'Your Activities',
         function: activityNav,
-        color: 'hsl(200, 86%, 93%)',
+        color: 'hsla(201, 88.60%, 93.10%, 0.30)',
         icon: 'https://i.ibb.co/B3CdkDM/calendar.png',
       },
     ],
@@ -100,7 +100,7 @@ const IdeasWrapper = () => {
                 // elevation: 0.8,
                 overflow: 'hidden',
                 marginBottom: 10,
-                // backgroundColor: item.color,
+                backgroundColor: item.color,
               }}
               onPress={() => item.function()}>
               <Text
@@ -108,7 +108,7 @@ const IdeasWrapper = () => {
                   textAlign: 'center',
                   color: Colors.veryDarkGrey,
                   letterSpacing: 0.5,
-                  fontSize: width * 0.028,
+                  fontSize: width * 0.03,
                   fontFamily: Font.SemiBold,
                 }}>
                 {item.name}
