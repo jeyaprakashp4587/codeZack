@@ -235,7 +235,7 @@ const Home = () => {
         {/* Ideas wrapper */}
         <IdeasWrapper />
         {/* Recent courses */}
-        <RecentCourses />
+        {/* <RecentCourses /> */}
         {/* Freelancer project */}
         <FreelancerBanner />
         {/* premium projects */}
@@ -305,9 +305,10 @@ const Home = () => {
                 <EvilIcons name="play" size={50} />
                 <Text
                   style={{
-                    letterSpacing: 1,
+                    letterSpacing: 0.3,
                     color: Colors.mildGrey,
-                    fontFamily: Font.Regular,
+                    fontFamily: Font.Medium,
+                    fontSize: width * 0.04,
                   }}>
                   Watch Tutorials
                 </Text>

@@ -62,11 +62,11 @@ const RecentCourses = () => {
           marginBottom: 10,
           letterSpacing: 0.25,
         }}>
-        {user?.Courses[newCourseIndex]?.Course_Name}
+        {user?.Courses[newCourseIndex]?.Course_Name} ( Recent course )
       </Text>
       <View style={{borderRadius: 10, overflow: 'hidden'}}>
         <LinearGradient
-          colors={['rgba(85, 87, 88, 0.03)', 'rgba(85, 87, 88, 0.03)']}
+          colors={['rgba(247, 91, 91, 0.1)', 'rgba(91, 114, 247, 0.1)']}
           start={{x: 0, y: 1}}
           end={{x: 1, y: 1}}
           style={{padding: 20, rowGap: 10}}>
@@ -96,7 +96,8 @@ const RecentCourses = () => {
                 <FastImage
                   priority={FastImage.priority.high}
                   source={{uri: item?.TechIcon}}
-                  style={{width: width * 0.1, aspectRatio: 1}}
+                  style={{width: width * 0.2, aspectRatio: 1}}
+                  resizeMode="contain"
                 />
               </TouchableOpacity>
             )}

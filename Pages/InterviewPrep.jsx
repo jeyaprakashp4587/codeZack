@@ -295,8 +295,8 @@ const InterviewPrep = () => {
         <Text
           style={{
             color: Colors.mildGrey,
-            letterSpacing: 2,
-            fontSize: width * 0.034,
+            letterSpacing: 0.25,
+            fontSize: width * 0.04,
             fontFamily: Font.Regular,
           }}>
           Completed Weeks: {currentWeek?.week - 1 ?? 0}
@@ -305,29 +305,34 @@ const InterviewPrep = () => {
       {/* sections */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
-          style={{paddingHorizontal: 15, flexDirection: 'column', rowGap: 10}}>
+          style={{
+            paddingHorizontal: 15,
+            flexDirection: 'column',
+            rowGap: 10,
+            marginTop: 20,
+          }}>
           <Text
             style={{
-              letterSpacing: 2,
-              fontSize: width * 0.044,
+              letterSpacing: 0,
+              fontSize: width * 0.08,
               fontFamily: Font.SemiBold,
             }}>
             week: {currentWeek?.week ?? 0}
           </Text>
           <Text
             style={{
-              letterSpacing: 2,
-              fontSize: width * 0.03,
+              letterSpacing: 0.3,
+              fontSize: width * 0.04,
               fontFamily: Font.Medium,
             }}>
             Focus Area: {currentWeek?.focus_area}
           </Text>
           <Text
             style={{
-              letterSpacing: 1,
+              letterSpacing: 0.3,
               color: 'black',
               lineHeight: 20,
-              fontSize: width * 0.028,
+              fontSize: width * 0.035,
               fontFamily: Font.Regular,
             }}>
             Topics: {currentWeek?.topics}
@@ -348,9 +353,9 @@ const InterviewPrep = () => {
             }}>
             <Text
               style={{
-                letterSpacing: 1,
+                letterSpacing: 0.3,
                 lineHeight: 25,
-                fontSize: width * 0.034,
+                fontSize: width * 0.04,
                 fontFamily: Font.SemiBold,
               }}>
               {currentQuestion + 1}
@@ -361,7 +366,7 @@ const InterviewPrep = () => {
             {currentWeek?.week == 1 && (
               <Text
                 style={{
-                  letterSpacing: 2,
+                  letterSpacing: 0,
                   lineHeight: 25,
                   color: '#ff5400',
                   fontSize: width * 0.034,
@@ -374,7 +379,7 @@ const InterviewPrep = () => {
             {currentWeek?.week > 1 && (
               <Text
                 style={{
-                  letterSpacing: 2,
+                  letterSpacing: 0,
                   lineHeight: 25,
                   color: Colors.mildGrey,
                   // fontWeight: '600',
@@ -387,7 +392,7 @@ const InterviewPrep = () => {
             {currentWeek?.week > 1 && (
               <Text
                 style={{
-                  letterSpacing: 2,
+                  letterSpacing: 0,
                   lineHeight: 25,
                   color: Colors.mildGrey,
                   // fontWeight: '600',
@@ -401,11 +406,11 @@ const InterviewPrep = () => {
             {currentWeek?.sample_questions[currentQuestion]?.explanation && (
               <Text
                 style={{
-                  letterSpacing: 1.3,
+                  letterSpacing: 0.3,
                   lineHeight: 20,
                   color: '#1a535c',
                   fontWeight: '600',
-                  fontSize: width * 0.024,
+                  fontSize: width * 0.03,
                   fontFamily: Font.Regular,
                 }}>
                 Explanation:{' '}
@@ -431,7 +436,7 @@ const InterviewPrep = () => {
             {currentWeek?.week > 1 && (
               <Text
                 style={{
-                  letterSpacing: 2,
+                  letterSpacing: 0.3,
                   lineHeight: 25,
                   color: '#001233',
                   display: isShowHint ? 'flex' : 'none',
@@ -473,7 +478,7 @@ const InterviewPrep = () => {
                     style={{
                       textAlign: 'center',
                       color: '#233d4d',
-                      letterSpacing: 1,
+                      letterSpacing: 0,
                       fontSize: width * 0.03,
                       fontFamily: 'Poppins-Light',
                     }}>
@@ -500,7 +505,7 @@ const InterviewPrep = () => {
                     style={{
                       textAlign: 'center',
                       color: Colors.violet,
-                      letterSpacing: 1,
+                      letterSpacing: 0,
                       fontSize: width * 0.03,
                       fontFamily: 'Poppins-Light',
                     }}>
@@ -530,7 +535,7 @@ const InterviewPrep = () => {
                     style={{
                       textAlign: 'center',
                       color: Colors.violet,
-                      letterSpacing: 1,
+                      letterSpacing: 0,
                       fontSize: width * 0.03,
                       fontFamily: 'Poppins-Light',
                     }}>
@@ -551,10 +556,11 @@ const InterviewPrep = () => {
                 borderWidth: 0.3,
                 borderColor: Colors.lightGrey,
                 padding: 10,
-                borderRadius: 5,
+                borderRadius: 50,
+                backgroundColor: Colors.violet,
               }}>
               {saveLoading ? (
-                <ActivityIndicator color={Colors.veryDarkGrey} />
+                <ActivityIndicator color={Colors.white} />
               ) : (
                 <View
                   style={{
@@ -566,10 +572,9 @@ const InterviewPrep = () => {
                   <Text
                     style={{
                       textAlign: 'center',
-                      letterSpacing: 1,
-                      color: saveInfo ? 'green' : Colors.mildGrey,
-                      fontSize: width * 0.03,
-                      borderWidth: 1,
+                      letterSpacing: 0.3,
+                      color: Colors.white,
+                      fontSize: width * 0.04,
                       alignSelf: 'center',
                       borderColor: 'white',
                       fontFamily: 'Poppins-Light',
@@ -577,9 +582,17 @@ const InterviewPrep = () => {
                     {saveInfo ? 'saved' : 'Save your progress'}
                   </Text>
                   {saveInfo ? (
-                    <AntDesign name="check" size={width * 0.04} color="green" />
+                    <AntDesign
+                      name="check"
+                      size={width * 0.04}
+                      color={Colors.white}
+                    />
                   ) : (
-                    <SimpleLineIcons name="cloud-upload" size={width * 0.04} />
+                    <SimpleLineIcons
+                      name="cloud-upload"
+                      size={width * 0.04}
+                      color={Colors.white}
+                    />
                   )}
                 </View>
               )}

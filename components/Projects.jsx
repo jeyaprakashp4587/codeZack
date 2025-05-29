@@ -135,7 +135,7 @@ const Projects = () => {
                   }}>
                   <Text
                     style={{
-                      letterSpacing: 1,
+                      letterSpacing: 0.4,
                       color: 'black',
                       fontFamily: Font.SemiBold,
                     }}>
@@ -144,9 +144,9 @@ const Projects = () => {
                   <TouchableOpacity
                     onPress={() => handleSelectProject(item)}
                     style={{
-                      borderWidth: 0.4,
-                      borderColor: 'black',
-                      padding: 7,
+                      // borderWidth: 0.4,
+                      // borderColor: 'black',
+                      padding: 8,
                       borderRadius: 15,
                       marginTop: 10,
                       // backgroundColor: 'rgba(255, 255, 255, 0.20)',
@@ -155,9 +155,9 @@ const Projects = () => {
                     <Text
                       style={{
                         color: 'white',
-                        fontSize: width * 0.03,
+                        fontSize: width * 0.033,
                         textAlign: 'center',
-                        letterSpacing: 1,
+                        letterSpacing: 0.4,
                         fontFamily: Font.Medium,
                       }}>
                       View

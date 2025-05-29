@@ -78,6 +78,7 @@ const IdeasWrapper = () => {
           alignItems: 'center',
           justifyContent: 'space-between',
           marginHorizontal: 15,
+          marginBottom: 0,
         }}>
         <FlatList
           nestedScrollEnabled={true}
@@ -86,8 +87,8 @@ const IdeasWrapper = () => {
           numColumns={2}
           columnWrapperStyle={{
             justifyContent: 'space-between',
-            padding: 2,
           }}
+          contentContainerStyle={{rowGap: 10}}
           renderItem={({item, index}) => (
             <Ripple
               style={{
@@ -97,9 +98,7 @@ const IdeasWrapper = () => {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
-                // elevation: 0.8,
                 overflow: 'hidden',
-                marginBottom: 10,
                 backgroundColor: item.color,
               }}
               onPress={() => item.function()}>
@@ -108,7 +107,7 @@ const IdeasWrapper = () => {
                   textAlign: 'center',
                   color: Colors.veryDarkGrey,
                   letterSpacing: 0.5,
-                  fontSize: width * 0.03,
+                  fontSize: width * 0.028,
                   fontFamily: Font.SemiBold,
                 }}>
                 {item.name}
