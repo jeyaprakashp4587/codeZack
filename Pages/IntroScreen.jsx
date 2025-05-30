@@ -101,7 +101,7 @@ const IntroScreen = () => {
           backgroundColor: Colors.violet,
           width: '80%',
           borderRadius: 50,
-          padding: 10,
+          padding: 15,
         }}>
         <Text
           style={{

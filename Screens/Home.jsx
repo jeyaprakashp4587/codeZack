@@ -207,7 +207,7 @@ const Home = () => {
         <TouchableOpacity
           onPress={() => navigation.navigate('search')}
           style={{
-            borderWidth: 1,
+            // borderWidth: 1,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'flex-start',
@@ -215,10 +215,9 @@ const Home = () => {
             borderRadius: 25,
             paddingHorizontal: 10,
             borderColor: Colors.veryLightGrey,
-            marginVertical: 10,
+            marginVertical: 20,
             height: height * 0.06,
             backgroundColor: '#F6F6F6',
-            // backgroundColor: Colors.veryLightGrey,
           }}>
           <EvilIcons
             name="search"

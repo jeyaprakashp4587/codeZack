@@ -73,7 +73,6 @@ const IdeasWrapper = () => {
       <View
         style={{
           flexDirection: 'row',
-          // borderWidth: 1,
           flexWrap: 'wrap',
           alignItems: 'center',
           justifyContent: 'space-between',
