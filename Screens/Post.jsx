@@ -28,7 +28,7 @@ import {
 } from 'firebase/storage';
 import {storage} from '../Firebase/Firebase';
 import axios from 'axios';
-import {profileApi} from '../Api';
+import {Api, profileApi} from '../Api';
 import moment from 'moment';
 import useSocketEmit from '../Socket/useSocketEmit';
 import {SocketData} from '../Socket/SocketContext';
@@ -404,6 +404,7 @@ const Post = () => {
         {/* post Button */}
         <Ripple
           onPress={handleUpload}
+          // onPress={uploadFile}
           style={{
             flexDirection: 'row',
             alignItems: 'center',
