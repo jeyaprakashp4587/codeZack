@@ -31,10 +31,6 @@ import FastImage from 'react-native-fast-image';
 import MiniUserSkeleton from '../Skeletons/MiniUserSkeleton';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 const {width, height} = Dimensions.get('window');
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
 import {SocketData} from '../Socket/SocketContext';
 import Skeleton from '../Skeletons/Skeleton';
 import {Font} from '../constants/Font';

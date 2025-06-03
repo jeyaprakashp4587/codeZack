@@ -30,13 +30,6 @@ import HrLine from '../utils/HrLine';
 import {useData} from '../Context/Contexter';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {launchImageLibrary} from 'react-native-image-picker'; // Updated Image Picker import
-import {storage} from '../Firebase/Firebase';
-import {
-  getDownloadURL,
-  ref,
-  updateMetadata,
-  uploadBytes,
-} from 'firebase/storage';
 import axios from 'axios';
 import {loginApi, profileApi} from '../Api';
 import Skeleton from '../Skeletons/Skeleton';
@@ -488,7 +481,7 @@ const Profile = ({navigation}) => {
             style={{
               color: Colors.veryDarkGrey,
               fontSize: width * 0.06,
-              letterSpacing: 1,
+              letterSpacing: 0.3,
               fontFamily: Font.Regular,
             }}>
             {user?.firstName} {user?.LastName}
@@ -497,7 +490,7 @@ const Profile = ({navigation}) => {
             style={{
               color: Colors.mildGrey,
               fontSize: width * 0.034,
-              letterSpacing: 1,
+              letterSpacing: 0.3,
               fontFamily: Font.Regular,
               flexWrap: 'wrap',
               // borderWidth: 1,
@@ -623,7 +616,7 @@ const Profile = ({navigation}) => {
             style={{
               color: Colors.veryDarkGrey,
               fontSize: width * 0.04,
-              letterSpacing: 1,
+              letterSpacing: 0.3,
               fontFamily: Font.Regular,
             }}>
             {truncateText(user?.InstitudeName, 20)}
@@ -633,7 +626,7 @@ const Profile = ({navigation}) => {
             style={{
               color: Colors.mildGrey,
               fontSize: width * 0.04,
-              letterSpacing: 1,
+              letterSpacing: 0.4,
               fontFamily: Font.Regular,
             }}>
             {user?.District}, {user?.State}
@@ -657,7 +650,7 @@ const Profile = ({navigation}) => {
             style={{
               // fontWeight: '600',
               color: Colors.veryDarkGrey,
-              letterSpacing: 1,
+              letterSpacing: 0.3,
               fontFamily: Font.Medium,
             }}>
             Connections
@@ -667,7 +660,7 @@ const Profile = ({navigation}) => {
               textAlign: 'center',
               color: Colors.veryDarkGrey,
               fontSize: width * 0.04,
-              letterSpacing: 1,
+              letterSpacing: 0.3,
               fontFamily: Font.Regular,
             }}>
             {user?.Connections?.length}
@@ -688,7 +681,7 @@ const Profile = ({navigation}) => {
               textAlign: 'center',
               color: Colors.veryDarkGrey,
               fontSize: width * 0.04,
-              letterSpacing: 1,
+              letterSpacing: 0.3,
               fontFamily: Font.Regular,
             }}>
             {user?.PostLength}
@@ -747,7 +740,7 @@ const Profile = ({navigation}) => {
             style={{
               color: Colors.veryDarkGrey,
               // fontWeight: '600',
-              // letterSpacing: 0.,
+              letterSpacing: 0.3,
               fontSize: width * 0.04,
               fontFamily: Font.Medium,
             }}>
@@ -800,7 +793,7 @@ const Profile = ({navigation}) => {
                   <Text
                     style={{
                       textAlign: 'center',
-                      letterSpacing: 1.4,
+                      letterSpacing: 0.3,
                       color: Colors.violet,
                       // fontWeight: '600',
                       fontFamily: Font.SemiBold,
@@ -870,7 +863,7 @@ const Profile = ({navigation}) => {
               style={{
                 fontSize: width * 0.04,
                 marginBottom: height * 0.03,
-                letterSpacing: 1,
+                letterSpacing: 0.3,
                 textAlign: 'center',
                 fontFamily: Font.Regular,
               }}>
@@ -885,7 +878,7 @@ const Profile = ({navigation}) => {
               <Skeleton width="95%" height={40} radius={30} />
             </View>
           ) : netWorksList.length <= 0 ? (
-            <Text style={{letterSpacing: 0.5, fontFamily: Font.Medium}}>
+            <Text style={{letterSpacing: 0.3, fontFamily: Font.Medium}}>
               No Connections
             </Text>
           ) : (
@@ -925,7 +918,7 @@ const Profile = ({navigation}) => {
                     }}>
                     <Text
                       style={{
-                        letterSpacing: 1,
+                        letterSpacing: 0.3,
                         fontSize: width * 0.035,
                         fontFamily: Font.Regular,
                       }}>
@@ -933,7 +926,7 @@ const Profile = ({navigation}) => {
                     </Text>
                     <Text
                       style={{
-                        letterSpacing: 1,
+                        letterSpacing: 0.3,
                         fontSize: width * 0.035,
                         fontFamily: Font.Regular,
                       }}>
@@ -962,7 +955,7 @@ const Profile = ({navigation}) => {
                       <Text
                         style={{
                           textAlign: 'center',
-                          letterSpacing: 1.4,
+                          letterSpacing: 0.3,
                           color: Colors.violet,
                           // fontWeight: '600',
                           fontFamily: Font.SemiBold,

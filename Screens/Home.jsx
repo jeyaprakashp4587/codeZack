@@ -54,27 +54,6 @@ const Home = () => {
   const [refresh, setRefresh] = useState(false);
   // init firebase notification
   useFCMToken();
-  const [userData, setUserData] = useState({
-    name: 'jeya',
-    image: 'dfr',
-    details: 'ok',
-  });
-  const check = async () => {
-    const res = await axios.post(`${functionApi}/Portfolio/getPortfolio`, {
-      portName: 'Name',
-      userId: user?._id,
-      userEmail: 'pjeya8080@gmail.com',
-      userData,
-    });
-  };
-  useEffect(() => {
-    check();
-  }, []);
-  // app open add
-  // setonlineStatus
-  // useOnlineStatus();
-  // config app open add
-  // AppOpenAd();
   // Loading ui effect
   useEffect(() => {
     getNotifications();
@@ -250,7 +229,7 @@ const Home = () => {
         {/* Ideas wrapper */}
         <IdeasWrapper />
         {/* Recent courses */}
-        {/* <RecentCourses /> */}
+        <RecentCourses />
         {/* Freelancer project */}
         <FreelancerBanner />
         {/* premium projects */}
