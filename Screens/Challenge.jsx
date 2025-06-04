@@ -14,7 +14,6 @@ import PragraphText from '../utils/PragraphText';
 import {useData} from '../Context/Contexter';
 import {ScrollView} from 'react-native';
 import {Dimensions} from 'react-native';
-import BannerAdd from '../Adds/BannerAdd';
 import {Colors} from '../constants/Colors';
 import FastImage from 'react-native-fast-image';
 import {Font} from '../constants/Font';

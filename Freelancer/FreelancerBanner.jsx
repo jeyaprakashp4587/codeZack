@@ -1,19 +1,34 @@
 import {
   Dimensions,
+  Modal,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import FastImage from 'react-native-fast-image';
 import {Colors} from '../constants/Colors';
 import {Font} from '../constants/Font';
 import {useNavigation} from '@react-navigation/native';
+import {useData} from '../Context/Contexter';
 
 const FreelancerBanner = () => {
   const {width, height} = Dimensions.get('window');
+  const {user} = useData();
   const navigation = useNavigation();
+  const [showModel, setShowModel] = useState(false);
+  const handleNavigate = () => {
+    try {
+      if (user?.Challenges?.length <= 3) {
+        setShowModel(true);
+        return;
+      } else {
+        navigation.navigate('ProjectPost');
+      }
+    } catch (error) {}
+  };
+
   return (
     <View
       style={{
@@ -61,7 +76,7 @@ const FreelancerBanner = () => {
             Get paid for your coding skills.
           </Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('ProjectPost')}
+            onPress={handleNavigate}
             style={{
               backgroundColor: Colors.violet,
               padding: 8,
@@ -80,6 +95,64 @@ const FreelancerBanner = () => {
           </TouchableOpacity>
         </View>
       </View>
+      <Modal transparent={true} visible={showModel}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.46)',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <View
+            style={{
+              backgroundColor: Colors.white,
+              margin: 20,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: 15,
+              borderRadius: 14,
+              rowGap: 10,
+            }}>
+            <FastImage
+              style={{width: width * 0.4, aspectRatio: 1}}
+              source={{
+                uri: 'https://i.ibb.co/Rp6m2rcP/padlock.png',
+                priority: FastImage.priority.high,
+              }}
+              resizeMode="contain"
+            />
+            <Text
+              style={{
+                fontFamily: Font.Medium,
+                letterSpacing: 0.3,
+                textAlign: 'center',
+                lineHeight: 23,
+              }}>
+              To unlock this feature, You need to complete 5 web/app challenges
+            </Text>
+            <TouchableOpacity
+              style={{
+                backgroundColor: Colors.violet,
+                width: width * 0.4,
+                padding: 10,
+                borderRadius: 50,
+              }}
+              onPress={() => {
+                navigation.navigate('Code'), setShowModel(false);
+              }}>
+              <Text
+                style={{
+                  fontFamily: Font.Regular,
+                  color: Colors.white,
+                  textAlign: 'center',
+                }}>
+                Try it!
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };

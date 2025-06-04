@@ -42,7 +42,7 @@ const ProjectPost = () => {
       }
     } catch (error) {
       setLoadSkeleton(false);
-      ToastAndroid.show('error on get projects', ToastAndroid.SHORT);
+      // ToastAndroid.show('error on get projects', ToastAndroid.SHORT);
     }
   }, []);
   //

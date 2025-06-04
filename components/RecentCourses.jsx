@@ -62,7 +62,8 @@ const RecentCourses = () => {
           marginBottom: 10,
           letterSpacing: 0.25,
         }}>
-        {user?.Courses[newCourseIndex]?.Course_Name} ( Recent course )
+        {/* {user?.Courses[newCourseIndex]?.Course_Name} */}
+        Recent Courses
       </Text>
       <View style={{borderRadius: 10, overflow: 'hidden'}}>
         <LinearGradient

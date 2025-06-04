@@ -5,10 +5,6 @@ import AppNavigator from './Navigations/Navigation';
 import {SocketProvider} from './Socket/SocketContext';
 import {ContextProvider} from './Context/Contexter';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {
-  configureReanimatedLogger,
-  ReanimatedLogLevel,
-} from 'react-native-reanimated';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import MobileAds from 'react-native-google-mobile-ads';
 import {PaperProvider} from 'react-native-paper';

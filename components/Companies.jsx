@@ -52,7 +52,6 @@ const Companies = () => {
       const res = await axios.get(`${profileApi}/InterView/getCompanyDetails`);
       if (res.status === 200) {
         let companies = res.data;
-        console.log(res.data);
         // Find all companies the user is enrolled in
         const enrolledCompanies = companies.filter(item =>
           user?.InterView?.some(

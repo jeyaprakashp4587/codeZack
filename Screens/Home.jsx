@@ -43,17 +43,16 @@ import FreelancerBanner from '../Freelancer/FreelancerBanner';
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
 const Home = () => {
-  const navigation = useNavigation();
   const {user, setUser} = useData();
   const [UiLoading, setUiLoading] = useState(false);
   const [suggestRefresh, setSuggestRefresh] = useState(false);
   const [unseenCount, setUnseenCount] = useState(0);
   const socket = SocketData();
-  const [test, setTest] = useState();
+  const navigation = useNavigation();
   const [refresh, setRefresh] = useState(false);
   // Loading ui effect
+  useFCMToken();
   useEffect(() => {
-    useFCMToken();
     getNotifications();
     checkAppVersion(navigation);
     setTimeout(() => {
@@ -246,7 +245,7 @@ const Home = () => {
                 marginBottom: 10,
                 letterSpacing: 0.3,
               }}>
-              Premium projects
+              Pro-Level Projects
             </Text>
           </View>
           <PremiumProjects />
@@ -327,7 +326,6 @@ const Home = () => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',

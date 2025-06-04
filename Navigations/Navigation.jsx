@@ -28,7 +28,7 @@ import SearchScreen from '../Pages/SearchScreen';
 import Assignment from '../Pages/Assignmnets/Assignments';
 import PostViewer from '../Pages/PostViewer';
 import ChallengeViewer from '../Pages/Challenges/ChallengeViewer';
-import AssignmentPlayGround from '../Pages/AssignmentPlayGround';
+import AssignmentPlayGround from '../Pages/Assignmnets/AssignmentPlayGround';
 import CoreChallenges from '../Pages/Challenges/CoreChallenges';
 import CoreChallengeViewer from '../Pages/Challenges/CoreChallengeViewer';
 import VideoTutorials from '../Pages/VideoTutorials';
