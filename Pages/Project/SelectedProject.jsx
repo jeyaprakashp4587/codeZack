@@ -16,11 +16,7 @@ import {useData} from '../../Context/Contexter';
 import HeadingText from '../../utils/HeadingText';
 import {Colors} from '../../constants/Colors';
 import FastImage from 'react-native-fast-image';
-import {
-  TestIds,
-  useInterstitialAd,
-  useRewardedAd,
-} from 'react-native-google-mobile-ads';
+import {TestIds, useRewardedAd} from 'react-native-google-mobile-ads';
 import {Font} from '../../constants/Font';
 import RNFS from 'react-native-fs';
 import FileViewer from 'react-native-file-viewer';
@@ -55,10 +51,11 @@ const SelectedProject = () => {
           return;
         }
       }
+
       if (isLoaded) {
-        show();
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await show();
       }
+
       const localPath = `${RNFS.ExternalDirectoryPath}/${selectedProject?.name}.zip`;
       setDownloadIndi(true);
       const downloadResult = await RNFS.downloadFile({
@@ -67,6 +64,7 @@ const SelectedProject = () => {
         background: true,
         discretionary: true,
       }).promise;
+
       setDownloadIndi(false);
       ToastAndroid.show('Downloaded successfully', ToastAndroid.SHORT);
       setTimeout(() => {
@@ -76,7 +74,8 @@ const SelectedProject = () => {
       setDownloadIndi(false);
       ToastAndroid.show('Download Failed', ToastAndroid.SHORT);
     }
-  }, []);
+  }, [isLoaded, selectedProject]);
+
   const [adCount, setAdCount] = useState(0);
   // Watch add to unlock get assets
   const watchAdd = useCallback(async () => {

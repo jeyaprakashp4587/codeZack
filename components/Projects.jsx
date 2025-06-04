@@ -15,7 +15,6 @@ import axios from 'axios';
 import {Colors, font} from '../constants/Colors';
 import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
-import {TestIds, useRewardedAd} from 'react-native-google-mobile-ads';
 import Skeleton from '../Skeletons/Skeleton';
 import {Font} from '../constants/Font';
 
@@ -44,23 +43,6 @@ const Projects = () => {
       setLoading(false);
     });
   }, []);
-  // load and destructuring add
-  const {load, isLoaded, show, isClosed} = useRewardedAd(
-    __DEV__ ? TestIds.REWARDED : 'ca-app-pub-3257747925516984/2148003800',
-    {
-      requestNonPersonalizedAdsOnly: true,
-    },
-  );
-  useEffect(() => {
-    load();
-  }, [load]);
-  // Reload the add after it is closed
-  useEffect(() => {
-    if (isClosed) {
-      load();
-    }
-  }, [isClosed, load]);
-
   //handle select project and navigate
   const navigation = useNavigation();
   const handleSelectProject = useCallback(
@@ -68,14 +50,11 @@ const Projects = () => {
       try {
         navigation.navigate('selectedProject');
         setSelectedProject(project);
-        if (isLoaded) {
-          // await show();
-        }
       } catch (error) {
         console.log(error);
       }
     },
-    [navigation, isLoaded, show],
+    [navigation],
   );
 
   if (projects.length <= 0) {
