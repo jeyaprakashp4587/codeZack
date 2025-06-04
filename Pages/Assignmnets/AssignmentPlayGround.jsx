@@ -1,7 +1,7 @@
 import React, {useState, useMemo, useCallback, useEffect, useRef} from 'react';
-import TopicsText from '../utils/TopicsText';
-import {functionApi} from '../Api';
-import {useData} from '../Context/Contexter';
+import TopicsText from '../../utils/TopicsText';
+import {functionApi} from '../../Api';
+import {useData} from '../../Context/Contexter';
 import axios from 'axios';
 import {
   View,
@@ -11,13 +11,13 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import PragraphText from '../utils/PragraphText';
-import {Colors} from '../constants/Colors';
-import Actitivity from '../hooks/ActivityHook';
-import Skeleton from '../Skeletons/Skeleton';
+import PragraphText from '../../utils/PragraphText';
+import {Colors} from '../../constants/Colors';
+import Actitivity from '../../hooks/ActivityHook';
+import Skeleton from '../../Skeletons/Skeleton';
 import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
-import HeadingText from '../utils/HeadingText';
-import {Font} from '../constants/Font';
+import HeadingText from '../../utils/HeadingText';
+import {Font} from '../../constants/Font';
 
 const AssignmentPlayGround = () => {
   const {assignmentType, user, setUser} = useData();

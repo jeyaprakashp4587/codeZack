@@ -12,18 +12,18 @@ import {
   ActivityIndicator,
   ImageBackground,
 } from 'react-native';
-import {useData} from '../Context/Contexter';
-import {Colors, font, pageView} from '../constants/Colors';
-import Skeleton from '../Skeletons/Skeleton';
+import {useData} from '../../Context/Contexter';
+import {Colors, font, pageView} from '../../constants/Colors';
+import Skeleton from '../../Skeletons/Skeleton';
 import Ripple from 'react-native-material-ripple';
-import TopicsText from '../utils/TopicsText';
-import PragraphText from '../utils/PragraphText';
-import {challengesApi} from '../Api';
+import TopicsText from '../../utils/TopicsText';
+import PragraphText from '../../utils/PragraphText';
+import {challengesApi} from '../../Api';
 import axios from 'axios';
-import Actitivity from '../hooks/ActivityHook';
-import HeadingText from '../utils/HeadingText';
+import Actitivity from '../../hooks/ActivityHook';
+import HeadingText from '../../utils/HeadingText';
 import FastImage from 'react-native-fast-image';
-import {Font} from '../constants/Font';
+import {Font} from '../../constants/Font';
 import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
 import LinearGradient from 'react-native-linear-gradient';
 const {width, height} = Dimensions.get('window');

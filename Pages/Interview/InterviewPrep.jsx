@@ -12,14 +12,14 @@ import {
   View,
 } from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {useData} from '../Context/Contexter';
-import {Colors, pageView} from '../constants/Colors';
+import {useData} from '../../Context/Contexter';
+import {Colors, pageView} from '../../constants/Colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
-import {profileApi} from '../Api';
-import Actitivity from '../hooks/ActivityHook';
-import Skeleton from '../Skeletons/Skeleton';
-import HeadingText from '../utils/HeadingText';
+import {profileApi} from '../../Api';
+import Actitivity from '../../hooks/ActivityHook';
+import Skeleton from '../../Skeletons/Skeleton';
+import HeadingText from '../../utils/HeadingText';
 import Ripple from 'react-native-material-ripple';
 import {
   TestIds,
@@ -30,7 +30,7 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FastImage from 'react-native-fast-image';
 import WebView from 'react-native-webview';
-import {Font} from '../constants/Font';
+import {Font} from '../../constants/Font';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';

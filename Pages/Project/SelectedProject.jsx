@@ -12,16 +12,16 @@ import {
   ToastAndroid,
 } from 'react-native';
 import React, {useCallback, useState, useEffect} from 'react';
-import {useData} from '../Context/Contexter';
-import HeadingText from '../utils/HeadingText';
-import {Colors} from '../constants/Colors';
+import {useData} from '../../Context/Contexter';
+import HeadingText from '../../utils/HeadingText';
+import {Colors} from '../../constants/Colors';
 import FastImage from 'react-native-fast-image';
 import {
   TestIds,
   useInterstitialAd,
   useRewardedAd,
 } from 'react-native-google-mobile-ads';
-import {Font} from '../constants/Font';
+import {Font} from '../../constants/Font';
 import RNFS from 'react-native-fs';
 import FileViewer from 'react-native-file-viewer';
 

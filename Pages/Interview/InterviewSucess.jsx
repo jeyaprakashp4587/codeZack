@@ -9,10 +9,10 @@ import {
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import FastImage from 'react-native-fast-image';
-import {useData} from '../Context/Contexter';
-import {Font} from '../constants/Font';
-import {Colors} from '../constants/Colors';
-import {profileApi} from '../Api';
+import {useData} from '../../Context/Contexter';
+import {Font} from '../../constants/Font';
+import {Colors} from '../../constants/Colors';
+import {profileApi} from '../../Api';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import {TestIds, useRewardedAd} from 'react-native-google-mobile-ads';

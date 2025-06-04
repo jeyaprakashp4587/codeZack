@@ -9,17 +9,17 @@ import {
   ToastAndroid,
   ActivityIndicator,
 } from 'react-native';
-import {Colors, font, pageView} from '../constants/Colors';
-import {useData} from '../Context/Contexter';
-import HeadingText from '../utils/HeadingText';
-import TopicsText from '../utils/TopicsText';
+import {Colors, font, pageView} from '../../constants/Colors';
+import {useData} from '../../Context/Contexter';
+import HeadingText from '../../utils/HeadingText';
+import TopicsText from '../../utils/TopicsText';
 import axios from 'axios';
-import {challengesApi} from '../Api';
-import Actitivity from '../hooks/ActivityHook';
+import {challengesApi} from '../../Api';
+import Actitivity from '../../hooks/ActivityHook';
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
-import {Font} from '../constants/Font';
+import {Font} from '../../constants/Font';
 
 const {width, height} = Dimensions.get('window');
 

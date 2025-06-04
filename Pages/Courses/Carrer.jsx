@@ -10,14 +10,14 @@ import {
   ImageBackground,
   InteractionManager,
 } from 'react-native';
-import {Colors, font, pageView} from '../constants/Colors';
-import {useData} from '../Context/Contexter';
+import {Colors, font, pageView} from '../../constants/Colors';
+import {useData} from '../../Context/Contexter';
 import {Dimensions} from 'react-native';
-import Skeleton from '../Skeletons/Skeleton';
+import Skeleton from '../../Skeletons/Skeleton';
 import {useNavigation} from '@react-navigation/native';
-import HeadingText from '../utils/HeadingText';
+import HeadingText from '../../utils/HeadingText';
 import axios from 'axios';
-import {challengesApi} from '../Api';
+import {challengesApi} from '../../Api';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 import {BlurView} from '@react-native-community/blur';

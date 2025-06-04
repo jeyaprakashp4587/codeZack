@@ -1,12 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Dimensions, ToastAndroid} from 'react-native';
 import {WebView} from 'react-native-webview';
-import {Colors} from '../constants/Colors';
-import HeadingText from '../utils/HeadingText';
-import {useData} from '../Context/Contexter';
+import {Colors} from '../../constants/Colors';
+import HeadingText from '../../utils/HeadingText';
+import {useData} from '../../Context/Contexter';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import Skeleton from '../Skeletons/Skeleton';
-import {Font} from '../constants/Font';
+import Skeleton from '../../Skeletons/Skeleton';
+import {Font} from '../../constants/Font';
 
 const {width, height} = Dimensions.get('window');
 

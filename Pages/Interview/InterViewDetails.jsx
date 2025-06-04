@@ -8,15 +8,15 @@ import {
   View,
 } from 'react-native';
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {Colors, pageView} from '../constants/Colors';
-import {useData} from '../Context/Contexter';
+import {Colors, pageView} from '../../constants/Colors';
+import {useData} from '../../Context/Contexter';
 import axios from 'axios';
-import {profileApi} from '../Api';
+import {profileApi} from '../../Api';
 import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
 import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
-import {Font} from '../constants/Font';
+import {Font} from '../../constants/Font';
 const {width, height} = Dimensions.get('window');
 
 const InterViewDetails = () => {

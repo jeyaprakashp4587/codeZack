@@ -7,12 +7,12 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import {useData} from '../Context/Contexter';
-import {Colors, pageView} from '../constants/Colors';
-import TopicsText from '../utils/TopicsText';
+import {useData} from '../../Context/Contexter';
+import {Colors, pageView} from '../../constants/Colors';
+import TopicsText from '../../utils/TopicsText';
 import WebView from 'react-native-webview';
-import HeadingText from '../utils/HeadingText';
-import {Font} from '../constants/Font';
+import HeadingText from '../../utils/HeadingText';
+import {Font} from '../../constants/Font';
 
 const CoreChallengeViewer = () => {
   const {width, height} = Dimensions.get('window');

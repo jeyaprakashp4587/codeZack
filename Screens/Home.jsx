@@ -33,7 +33,6 @@ import Skeleton from '../Skeletons/Skeleton';
 import useFCMToken from '../hooks/useFCMToken';
 import IdeasWrapper from '../components/IdeasWrapper';
 import RecentCourses from '../components/RecentCourses';
-// import AppOpenAd from '../Adds/AppOpenAdd';
 import FastImage from 'react-native-fast-image';
 const ChallengesBanner = React.lazy(() =>
   import('../components/ChallengesBanner'),
@@ -52,10 +51,9 @@ const Home = () => {
   const socket = SocketData();
   const [test, setTest] = useState();
   const [refresh, setRefresh] = useState(false);
-  // init firebase notification
-  useFCMToken();
   // Loading ui effect
   useEffect(() => {
+    useFCMToken();
     getNotifications();
     checkAppVersion(navigation);
     setTimeout(() => {
@@ -94,7 +92,6 @@ const Home = () => {
       console.error('Failed to fetch notifications length:', error);
     }
   }, [user]);
-  // socket
   // update the socket
   useSocketOn(socket, 'updateNoti', async data => {
     if (data) {

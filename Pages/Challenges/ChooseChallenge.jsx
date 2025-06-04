@@ -12,21 +12,21 @@ import {
   RefreshControl,
   InteractionManager,
 } from 'react-native';
-import {Colors, pageView} from '../constants/Colors';
-import {useData} from '../Context/Contexter';
-import HeadingText from '../utils/HeadingText';
-import TopicsText from '../utils/TopicsText';
-import ParagraphText from '../utils/PragraphText';
+import {Colors, pageView} from '../../constants/Colors';
+import {useData} from '../../Context/Contexter';
+import HeadingText from '../../utils/HeadingText';
+import TopicsText from '../../utils/TopicsText';
+import ParagraphText from '../../utils/PragraphText';
 import Feather from 'react-native-vector-icons/Feather';
 import {LinearGradient} from 'react-native-linear-gradient';
 import axios from 'axios';
-import {challengesApi} from '../Api';
-import Skeleton from '../Skeletons/Skeleton';
+import {challengesApi} from '../../Api';
+import Skeleton from '../../Skeletons/Skeleton';
 import Ripple from 'react-native-material-ripple';
 import {useFocusEffect} from '@react-navigation/native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FastImage from 'react-native-fast-image';
-import {Font} from '../constants/Font';
+import {Font} from '../../constants/Font';
 
 const {width, height} = Dimensions.get('window');
 

@@ -15,13 +15,13 @@ import {PaperProvider} from 'react-native-paper';
 const {width} = Dimensions.get('window');
 
 const App = () => {
-   useEffect(() => {
-     MobileAds()
-       .initialize()
-       .then(adapter => {
-         console.log('Google Mobile Ads initialized');
-       });
-   }, []);
+  useEffect(() => {
+    MobileAds()
+      .initialize()
+      .then(adapter => {
+        console.log('Google Mobile Ads initialized');
+      });
+  }, []);
   return (
     <GestureHandlerRootView>
       <PaperProvider>

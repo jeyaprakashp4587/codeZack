@@ -15,14 +15,14 @@ import {
   ToastAndroid,
   Linking,
 } from 'react-native';
-import Skeleton from '../Skeletons/Skeleton';
-import {Colors, pageView} from '../constants/Colors';
-import {useData} from '../Context/Contexter';
-import HeadingText from '../utils/HeadingText';
-import TopicsText from '../utils/TopicsText';
-import PragraphText from '../utils/PragraphText';
+import Skeleton from '../../Skeletons/Skeleton';
+import {Colors, pageView} from '../../constants/Colors';
+import {useData} from '../../Context/Contexter';
+import HeadingText from '../../utils/HeadingText';
+import TopicsText from '../../utils/TopicsText';
+import PragraphText from '../../utils/PragraphText';
 import axios from 'axios';
-import {challengesApi} from '../Api';
+import {challengesApi} from '../../Api';
 import {faImage} from '@fortawesome/free-regular-svg-icons';
 import Ripple from 'react-native-material-ripple';
 import {
@@ -32,18 +32,18 @@ import {
   uploadBytes,
 } from 'firebase/storage';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {storage} from '../Firebase/Firebase';
+import {storage} from '../../Firebase/Firebase';
 import moment from 'moment';
-import useSocketEmit from '../Socket/useSocketEmit';
+import useSocketEmit from '../../Socket/useSocketEmit';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import WebView from 'react-native-webview';
-import Actitivity from '../hooks/ActivityHook';
+import Actitivity from '../../hooks/ActivityHook';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {TestIds, useRewardedAd} from 'react-native-google-mobile-ads';
-import {SocketData} from '../Socket/SocketContext';
+import {SocketData} from '../../Socket/SocketContext';
 import FastImage from 'react-native-fast-image';
-import {Font} from '../constants/Font';
+import {Font} from '../../constants/Font';
 
 const {width, height} = Dimensions.get('window');
 

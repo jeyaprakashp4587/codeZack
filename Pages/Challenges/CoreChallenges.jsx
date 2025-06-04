@@ -7,16 +7,16 @@ import {
   View,
 } from 'react-native';
 import React, {useCallback, useState} from 'react';
-import PragraphText from '../utils/PragraphText';
-import {useData} from '../Context/Contexter';
-import {Colors, pageView} from '../constants/Colors';
+import PragraphText from '../../utils/PragraphText';
+import {useData} from '../../Context/Contexter';
+import {Colors, pageView} from '../../constants/Colors';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-import {challengesApi} from '../Api';
-import Skeleton from '../Skeletons/Skeleton';
+import {challengesApi} from '../../Api';
+import Skeleton from '../../Skeletons/Skeleton';
 import {debounce} from 'lodash';
-import HeadingText from '../utils/HeadingText';
-import {Font} from '../constants/Font';
+import HeadingText from '../../utils/HeadingText';
+import {Font} from '../../constants/Font';
 
 const CoreChallenges = () => {
   const {selectedChallengeTopic, setSelectedChallenge} = useData();

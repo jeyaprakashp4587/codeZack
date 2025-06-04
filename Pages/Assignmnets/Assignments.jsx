@@ -10,10 +10,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Colors} from '../constants/Colors';
-import {useData} from '../Context/Contexter';
+import {Colors} from '../../constants/Colors';
+import {useData} from '../../Context/Contexter';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import HeadingText from '../utils/HeadingText';
+import HeadingText from '../../utils/HeadingText';
 import FastImage from 'react-native-fast-image';
 
 const Assignments = () => {

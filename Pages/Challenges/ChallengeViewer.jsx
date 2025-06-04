@@ -10,11 +10,11 @@ import {
   InteractionManager,
 } from 'react-native';
 
-import {useData} from '../Context/Contexter';
+import {useData} from '../../Context/Contexter';
 import axios from 'axios';
-import {challengesApi} from '../Api';
-import TopicsText from '../utils/TopicsText';
-import {Colors} from '../constants/Colors';
+import {challengesApi} from '../../Api';
+import TopicsText from '../../utils/TopicsText';
+import {Colors} from '../../constants/Colors';
 import WebView from 'react-native-webview';
 
 const ChallengeViewer = () => {

@@ -8,18 +8,18 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import HeadingText from '../utils/HeadingText';
-import {Colors, pageView} from '../constants/Colors';
-import {useData} from '../Context/Contexter';
+import HeadingText from '../../utils/HeadingText';
+import {Colors, pageView} from '../../constants/Colors';
+import {useData} from '../../Context/Contexter';
 import axios from 'axios';
-import {challengesApi} from '../Api';
+import {challengesApi} from '../../Api';
 import {ScrollView} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 import Ripple from 'react-native-material-ripple';
 import {Modal} from 'react-native-paper';
 import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
-import {Font} from '../constants/Font';
+import {Font} from '../../constants/Font';
 
 const {width, height} = Dimensions.get('window');
 

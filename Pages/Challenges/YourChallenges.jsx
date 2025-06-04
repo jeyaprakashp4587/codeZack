@@ -10,19 +10,19 @@ import {
 import {Dimensions} from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import {ScrollView} from 'react-native';
-import {Colors, pageView} from '../constants/Colors';
-import HeadingText from '../utils/HeadingText';
-import HrLine from '../utils/HrLine';
-import {challengesApi} from '../Api';
+import {Colors, pageView} from '../../constants/Colors';
+import HeadingText from '../../utils/HeadingText';
+import HrLine from '../../utils/HrLine';
+import {challengesApi} from '../../Api';
 import axios from 'axios';
-import {useData} from '../Context/Contexter';
+import {useData} from '../../Context/Contexter';
 const {width, height} = Dimensions.get('window');
-import ParagraphText from '../utils/PragraphText';
-import Skeleton from '../Skeletons/Skeleton';
+import ParagraphText from '../../utils/PragraphText';
+import Skeleton from '../../Skeletons/Skeleton';
 import {TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
-import {Font} from '../constants/Font';
+import {Font} from '../../constants/Font';
 
 const YourChallenges = props => {
   const navigation = useNavigation();
