@@ -69,7 +69,7 @@ const TypingEffect = () => {
             style={[
               styles.welcomeText,
               {
-                fontSize: width * 0.045, // Responsive font size
+                fontSize: width * 0.047, // Responsive font size
               },
             ]}>
             {item.word + ' '}
@@ -90,13 +90,13 @@ const styles = StyleSheet.create({
   },
   wordContainer: {
     flexDirection: 'row',
-    marginBottom: 2, // Adjust line spacing
+    marginBottom: 4,
   },
   welcomeText: {
     textAlign: 'center',
     color: 'black',
-    letterSpacing: 1,
-    fontSize: width * 0.03,
+    letterSpacing: 0.3,
+    fontSize: width * 0.9,
     fontFamily: Font.SemiBold,
   },
 });

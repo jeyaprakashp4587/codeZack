@@ -1,311 +1,345 @@
-import React, {useRef, useState, useCallback} from 'react';
+import React, {useState} from 'react';
 import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
   View,
-  Alert,
-  ActivityIndicator,
-  Modal,
-  TouchableOpacity,
+  Text,
   TextInput,
+  StyleSheet,
   Dimensions,
+  TouchableOpacity,
   ToastAndroid,
+  Modal,
+  Pressable,
+  ScrollView,
 } from 'react-native';
-import axios from 'axios';
-import Ripple from 'react-native-material-ripple';
-import {loginApi} from '../Api';
-import {Colors, font, pageView} from '../constants/Colors';
-import {useData} from '../Context/Contexter';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  interpolate,
+  Extrapolate,
+} from 'react-native-reanimated';
+import {Font} from '../constants/Font';
+import {Colors} from '../constants/Colors';
 import LinearGradient from 'react-native-linear-gradient';
 import HeadingText from '../utils/HeadingText';
-import {Font} from '../constants/Font';
 
 const {width, height} = Dimensions.get('window');
 
-const SignUp = ({navigation}) => {
-  // References to each input
-  const refs = useRef({
-    First_Name: React.createRef(),
-    Last_Name: React.createRef(),
-    Email: React.createRef(),
-    Password: React.createRef(),
-    Confirm_Password: React.createRef(),
-    Gender: React.createRef(),
-    Institute_Name: React.createRef(),
-    State: React.createRef(),
-    District: React.createRef(),
-  }).current;
-
+const SignUp = () => {
+  const offset = useSharedValue(0);
+  const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
-    First_Name: '',
-    Last_Name: '',
-    Email: '',
-    Password: '',
-    Confirm_Password: '',
-    Gender: '',
-    Institute_Name: '',
-    State: '',
-    District: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    gender: '',
+    district: '',
+    city: '',
+    institution: '',
   });
-
   const [showGenderModal, setShowGenderModal] = useState(false);
-  const [actiloading, setActiloading] = useState(false);
-  const {setUser} = useData();
-  const handleInput = useCallback((name, value) => {
-    setFormData(prev => ({...prev, [name]: value}));
-  }, []);
 
-  const validateForm = () => {
-    let isValid = true;
-    const {Password, Confirm_Password, Email} = formData;
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{translateX: offset.value}],
+  }));
 
-    for (let key in formData) {
-      if (!formData[key]) {
-        refs[key].current.setNativeProps({
-          style: {borderColor: 'red', borderWidth: 1, borderRadius: 5},
-        });
-        isValid = false;
-        ToastAndroid.show(
-          'Please Fill the requires Fields',
-          ToastAndroid.BOTTOM,
+  const handleNext = () => {
+    const validation = validateStep(step);
+    if (validation) {
+      const next = step + 1;
+      setStep(next);
+      offset.value = withTiming(-width * next, {duration: 300});
+    }
+  };
+
+  const validateStep = current => {
+    let newErrors = {};
+    switch (current) {
+      case 0:
+        if (!formData.firstName.trim())
+          newErrors.firstName = 'First name is required';
+        if (!formData.lastName.trim())
+          newErrors.lastName = 'Last name is required';
+        if (!formData.gender) newErrors.gender = 'Select gender';
+        break;
+      case 1:
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+          newErrors.email = 'Valid email required';
+        if (formData.password.length < 6)
+          newErrors.password = 'Min 6 characters';
+        if (formData.password !== formData.confirmPassword)
+          newErrors.confirmPassword = 'Passwords do not match';
+        break;
+      case 2:
+        if (!formData.district) newErrors.district = 'District required';
+        if (!formData.city) newErrors.city = 'City required';
+        if (!formData.institution)
+          newErrors.institution = 'Institution name required';
+        break;
+    }
+    if (Object.keys(newErrors).length > 0) {
+      ToastAndroid.show(Object.values(newErrors)[0], ToastAndroid.SHORT);
+      return false;
+    }
+    return true;
+  };
+
+  const handleChange = (field, value) => {
+    setFormData({...formData, [field]: value});
+  };
+
+  const renderStep = currentStep => {
+    switch (currentStep) {
+      case 0:
+        return (
+          <View style={styles.stepBox}>
+            <Text style={styles.label}>Tell me {'\n'} about you</Text>
+            <TextInput
+              style={styles.input}
+              value={formData.firstName}
+              onChangeText={text => handleChange('firstName', text)}
+              placeholder="Enter first name"
+              placeholderTextColor="#888"
+            />
+            <TextInput
+              style={styles.input}
+              value={formData.lastName}
+              onChangeText={text => handleChange('lastName', text)}
+              placeholder="Enter last name"
+              placeholderTextColor="#888"
+            />
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => setShowGenderModal(true)}>
+              <Text
+                style={{
+                  color: Colors.mildGrey,
+                  fontFamily: Font.Medium,
+                  letterSpacing: 0.25,
+                }}>
+                {formData.gender || 'Select your gender'}
+              </Text>
+            </TouchableOpacity>
+
+            <Modal visible={showGenderModal} transparent animationType="fade">
+              <View style={styles.modalBackdrop}>
+                <View style={styles.modalContent}>
+                  {['Male', 'Female', 'Other'].map(g => (
+                    <Pressable
+                      key={g}
+                      onPress={() => {
+                        handleChange('gender', g);
+                        setShowGenderModal(false);
+                      }}>
+                      <Text style={styles.modalOption}>{g}</Text>
+                    </Pressable>
+                  ))}
+                </View>
+              </View>
+            </Modal>
+          </View>
         );
-      } else {
-        refs[key].current.setNativeProps({
-          style: {borderColor: Colors.veryLightGrey, borderWidth: 1},
-        });
-      }
+      case 1:
+        return (
+          <View style={styles.stepBox}>
+            <Text style={styles.label}>Setup {'\n'}Your information</Text>
+            <TextInput
+              style={styles.input}
+              value={formData.email}
+              onChangeText={text => handleChange('email', text)}
+              placeholder="Enter email"
+              placeholderTextColor="#888"
+            />
+            <TextInput
+              style={styles.input}
+              secureTextEntry
+              value={formData.password}
+              onChangeText={text => handleChange('password', text)}
+              placeholder="Enter password"
+              placeholderTextColor="#888"
+            />
+            <TextInput
+              style={styles.input}
+              secureTextEntry
+              value={formData.confirmPassword}
+              onChangeText={text => handleChange('confirmPassword', text)}
+              placeholder="Confirm password"
+              placeholderTextColor="#888"
+            />
+          </View>
+        );
+      case 2:
+        return (
+          <View style={styles.stepBox}>
+            <Text style={styles.label}>Where are you {'\n'}coming from? </Text>
+            <TextInput
+              style={styles.input}
+              value={formData.district}
+              onChangeText={text => handleChange('district', text)}
+              placeholder="Enter district"
+              placeholderTextColor="#888"
+            />
+            <TextInput
+              style={styles.input}
+              value={formData.city}
+              onChangeText={text => handleChange('city', text)}
+              placeholder="Enter city"
+              placeholderTextColor="#888"
+            />
+            <TextInput
+              style={styles.input}
+              value={formData.institution}
+              onChangeText={text => handleChange('institution', text)}
+              placeholder="Enter institution name"
+              placeholderTextColor="#888"
+            />
+          </View>
+        );
     }
-
-    if (Password !== Confirm_Password) {
-      refs.Confirm_Password.current.setNativeProps({
-        style: {borderColor: 'red', borderWidth: 1},
-      });
-      Alert.alert('Passwords do not match!');
-      isValid = false;
-    }
-
-    const emailRegex = /\S+@\S+\.\S+/;
-    if (!emailRegex.test(Email)) {
-      refs.Email.current.setNativeProps({
-        style: {borderColor: 'red', borderWidth: 1},
-      });
-      isValid = false;
-    }
-
-    return isValid;
   };
+  // pagination dots
+  const PaginationDots = ({stepOffset}) => {
+    const dotCount = 3;
 
-  const handleSignUp = async () => {
-    setActiloading(true);
-    if (validateForm()) {
-      try {
-        const response = await axios.post(`${loginApi}/LogIn/signUp`, formData);
-        if (response.data.message == 'SignUp Sucessfully') {
-          ToastAndroid.show('Signup Successfully', ToastAndroid.BOTTOM);
-          await AsyncStorage.setItem('Email', response.data.user.Email);
-          navigation.navigate('Tab');
-          setUser(response.data.user);
-        } else if (response.data === 'Email has Already Been Taken') {
-          // Alert.alert();
-          ToastAndroid.show(
-            'Email has already been taken',
-            ToastAndroid.BOTTOM,
-          );
-        }
-      } catch (error) {
-        console.error(error);
-        Alert.alert('Signup failed. Try again.');
-      } finally {
-        setActiloading(false);
-      }
-    } else {
-      setActiloading(false);
-    }
-  };
+    return (
+      <View style={styles.dotsContainer}>
+        {Array.from({length: dotCount}).map((_, i) => {
+          const dotStyle = useAnimatedStyle(() => {
+            const inputRange = [-width * (i + 1), -width * i, -width * (i - 1)];
+            const scale = interpolate(
+              stepOffset.value,
+              inputRange,
+              [0.8, 1.4, 0.8],
+              Extrapolate.CLAMP,
+            );
+            const opacity = interpolate(
+              stepOffset.value,
+              inputRange,
+              [0.3, 1, 0.3],
+              Extrapolate.CLAMP,
+            );
+            return {
+              transform: [{scale}],
+              opacity,
+            };
+          });
 
-  const handleGenderSelect = gender => {
-    handleInput('Gender', gender);
-    setShowGenderModal(false);
+          return <Animated.View key={i} style={[styles.dot, dotStyle]} />;
+        })}
+      </View>
+    );
   };
 
   return (
     <LinearGradient
-      style={{
-        paddingHorizontal: width * 0.05,
-        // paddingBottom: height * 0.02,
-        flex: 1,
-        justifyContent: 'center',
-        // alignItems: 'center',
-        flexDirection: 'column',
-        // borderWidth: 1,
-      }}
+      style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}
       colors={['#fff9f3', '#eef7fe']}
       start={{x: 0, y: 1}}
       end={{x: 1, y: 1}}>
-      {/* <Text style={styles.headerText}>Sign Up</Text> */}
-      <View>
-        <HeadingText text="sign up" />
-      </View>
-      <ScrollView
-        style={{flex: 1, borderWidth: 0}}
-        showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
             flexDirection: 'column',
-            justifyContent: 'center',
+            justifyContent: 'space-between',
+            // borderWidth: 1,
+            flex: 1,
+            height: height * 1,
           }}>
-          <View
-            style={{
-              flexDirection: 'column',
-              rowGap: 5,
-              paddingHorizontal: width * 0.01,
-            }}>
-            {Object.keys(formData).map(key => (
-              <TextInput
-                style={{
-                  marginTop: height * 0.005,
-                  backgroundColor: 'white',
-                  borderRadius: 5,
-                  paddingHorizontal: width * 0.03,
-                  paddingVertical: height * 0.015,
-                  borderWidth: 1,
-                  borderColor: Colors.white,
-                  elevation: 1.2,
-                  letterSpacing: 1,
-                  fontFamily: Font.Regular,
-                  color: 'black',
-                }}
-                key={key}
-                placeholder={key.replace('_', ' ')}
-                placeholderTextColor={Colors.mildGrey}
-                ref={refs[key]}
-                onFocus={() => key === 'Gender' && setShowGenderModal(true)}
-                onChangeText={text => handleInput(key, text.trim())}
-                value={key == 'Gender' ? formData[key] : null}
-              />
+          <View style={{paddingHorizontal: 15}}>
+            <HeadingText text="Sign up" />
+          </View>
+          <Animated.View style={[styles.slider, animatedStyle]}>
+            {[0, 1, 2].map(i => (
+              <View key={i} style={styles.step}>
+                {renderStep(i)}
+              </View>
             ))}
-          </View>
-          <View style={{height: height * 0.02}} />
-          <Ripple onPress={handleSignUp} style={styles.signUpButton}>
-            {actiloading ? (
-              <ActivityIndicator size={width * 0.063} color={Colors.white} />
-            ) : (
-              <Text style={styles.signUpText}>Signup</Text>
-            )}
-          </Ripple>
+          </Animated.View>
+          <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
+            <Text style={styles.nextText}>
+              {step === 3 ? 'Submit' : 'Next'}
+            </Text>
+          </TouchableOpacity>
+          <PaginationDots stepOffset={offset} />
         </View>
-        <Modal
-          visible={showGenderModal}
-          transparent={true}
-          animationType="slide">
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <Text style={styles.modalHeader}>Select Gender</Text>
-              <TouchableOpacity
-                style={styles.modalButton}
-                onPress={() => handleGenderSelect('Male')}>
-                <Text style={styles.modalButtonText}>Male</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.modalButton}
-                onPress={() => handleGenderSelect('Female')}>
-                <Text style={styles.modalButtonText}>Female</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.modalButton}
-                onPress={() => setShowGenderModal(false)}>
-                <Text style={styles.modalButtonText}>Cancel</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
       </ScrollView>
     </LinearGradient>
   );
 };
 
-export default React.memo(SignUp);
-
 const styles = StyleSheet.create({
-  headerText: {
-    fontSize: width * 0.09,
-    color: 'hsl(0, 0%, 50%)',
-    paddingBottom: height * 0.01,
-    fontFamily: Font.Medium,
-  },
-  imageContainer: {
-    paddingBottom: height * 0.02,
-  },
-  image: {
-    width: width * 0.7,
-    height: height * 0.4,
-    alignSelf: 'center',
-  },
-  subText: {
-    textAlign: 'center',
-    color: Colors.veryDarkGrey,
-    fontWeight: '600',
-    letterSpacing: 1,
-    fontFamily: Font.Medium,
-  },
-  signUpButton: {
+  slider: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: height * 0.015,
-    borderRadius: 5,
-    width: '97%',
-    alignSelf: 'center',
-    marginBottom: 10,
-    borderWidth: 0.4,
-    borderColor: Colors.lightGrey,
-    backgroundColor: Colors.violet,
-    columnGap: 10,
-    marginHorizontal: width * 0.1,
-  },
-  signUpText: {
-    fontSize: width * 0.037,
-    color: Colors.white,
-    letterSpacing: 1.5,
-    fontFamily: Font.Medium,
-  },
-  backgroundIcon: {
-    position: 'absolute',
-    zIndex: -10,
-    top: height * 0.5,
-    alignSelf: 'center',
-  },
-  modalContainer: {
+    width: width * 5,
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    // borderWidth: 1,
   },
-  modalContent: {
-    width: width * 0.8,
-    backgroundColor: 'white',
-    padding: height * 0.02,
-    borderRadius: 10,
+  step: {width: width, justifyContent: 'center', padding: 20},
+  stepBox: {rowGap: 10},
+  label: {
+    fontSize: width * 0.1,
+    fontFamily: Font.SemiBold,
+    marginBottom: 10,
+  },
+  input: {
+    backgroundColor: Colors.white,
+    padding: 15,
+    color: Colors.veryDarkGrey,
+    fontSize: width * 0.036,
+    fontFamily: Font.Regular,
+    letterSpacing: 0.25,
+  },
+  nextBtn: {
+    backgroundColor: Colors.violet,
+    padding: 15,
+    margin: 20,
+    borderRadius: 100,
     alignItems: 'center',
   },
-  modalHeader: {
-    fontSize: width * 0.05,
-    marginBottom: height * 0.02,
+  nextText: {
+    color: Colors.white,
+    fontFamily: Font.SemiBold,
+    fontSize: width * 0.04,
+    letterSpacing: 0.3,
   },
   modalButton: {
-    padding: height * 0.015,
-    borderRadius: 5,
-    backgroundColor: Colors.violet,
-    marginTop: height * 0.01,
-    width: '100%',
+    padding: 12,
+    borderRadius: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
     alignItems: 'center',
   },
-  modalButtonText: {
-    fontSize: width * 0.04,
-    color: 'white',
-    fontFamily: Font.Light,
+  modalBackdrop: {
+    flex: 1,
+    backgroundColor: '#000000aa',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+  },
+  modalOption: {
+    fontSize: width * 0.045,
+    marginVertical: 10,
+    color: Colors.veryDarkGrey,
+    textAlign: 'center',
+  },
+  dotsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingBottom: 30,
+    gap: 10,
+  },
+  dot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: 'rgb(17, 66, 129)',
   },
 });
+
+export default SignUp;
