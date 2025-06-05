@@ -12,12 +12,15 @@ import {Colors} from '../constants/Colors';
 import {Font} from '../constants/Font';
 import {useNavigation} from '@react-navigation/native';
 import {useData} from '../Context/Contexter';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Ripple from 'react-native-material-ripple';
 
 const FreelancerBanner = () => {
   const {width, height} = Dimensions.get('window');
   const {user} = useData();
   const navigation = useNavigation();
   const [showModel, setShowModel] = useState(false);
+  const [showBanner, setShowBanner] = useState(true);
   const handleNavigate = () => {
     try {
       if (user?.Challenges?.length <= 3) {
@@ -28,6 +31,8 @@ const FreelancerBanner = () => {
       }
     } catch (error) {}
   };
+  // return empty ui
+  if (!showBanner) return null;
 
   return (
     <View
@@ -35,13 +40,13 @@ const FreelancerBanner = () => {
         paddingHorizontal: 15,
         borderWidth: 0,
         borderColor: Colors.lightGrey,
-        marginVertical: 15,
+        // marginVertical: 15,
       }}>
       <Text
         style={{
           fontFamily: Font.Medium,
-          fontSize: width * 0.045,
-          letterSpacing: 0.26,
+          fontSize: width * 0.041,
+          letterSpacing: 0.25,
           marginBottom: 10,
         }}>
         Freelancing
@@ -59,13 +64,30 @@ const FreelancerBanner = () => {
         }}>
         <FastImage
           source={{
-            uri: 'https://i.ibb.co/bMsNhktm/11879394-Work-from-home.jpg',
+            uri: 'https://i.ibb.co/9mHPQysq/happy-freelancer-with-computer-home-young-man-sitting-armchair-using-laptop-chatting-online-smiling.png',
             priority: FastImage.priority.high,
           }}
           resizeMode="contain"
-          style={{width: width * 0.35, aspectRatio: 1, zIndex: -10}}
+          style={{width: width * 0.35, aspectRatio: 1, zIndex: 10}}
         />
         <View style={{flex: 1, borderWidth: 0, rowGap: 10}}>
+          {/* times icons */}
+          <Ripple
+            onPress={() => setShowBanner(false)}
+            style={{
+              position: 'absolute',
+              right: 0,
+              top: -15,
+              backgroundColor: Colors.veryLightGrey,
+              borderRadius: 90,
+              width: 20,
+              aspectRatio: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <FontAwesome5 name="times" size={12} />
+          </Ripple>
+          {/*  */}
           <Text
             style={{
               fontFamily: Font.SemiBold,
@@ -95,7 +117,7 @@ const FreelancerBanner = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <Modal transparent={true} visible={showModel}>
+      <Modal transparent={true} visible={showModel} collapsable={true}>
         <View
           style={{
             flex: 1,
@@ -135,7 +157,7 @@ const FreelancerBanner = () => {
               style={{
                 backgroundColor: Colors.violet,
                 width: width * 0.4,
-                padding: 10,
+                padding: 7,
                 borderRadius: 50,
               }}
               onPress={() => {

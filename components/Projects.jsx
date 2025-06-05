@@ -61,12 +61,10 @@ const Projects = () => {
     return (
       <View
         style={{
-          // paddingHorizontal: 15,
           marginBottom: 5,
           flexDirection: 'row',
           columnGap: 10,
           paddingHorizontal: 15,
-          // borderWidth: 1,
         }}>
         <Skeleton width={width * 0.6} height={height * 0.2} radius={20} />
         <Skeleton width={width * 0.6} height={height * 0.2} radius={20} />
@@ -74,7 +72,17 @@ const Projects = () => {
     );
   }
   return (
-    <View style={{marginBottom: 15}}>
+    <View>
+      <Text
+        style={{
+          fontFamily: Font.Medium,
+          fontSize: width * 0.041,
+          marginBottom: 10,
+          letterSpacing: 0.25,
+          paddingHorizontal: 15,
+        }}>
+        Pro-level projects
+      </Text>
       <FlatList
         nestedScrollEnabled={true}
         data={projects}

@@ -107,13 +107,13 @@ const Home = () => {
   if (!UiLoading) return <HomeSkeleton />;
 
   return (
-    <View style={{backgroundColor: 'white', flex: 1}}>
-      <ScrollView
-        scrollEventThrottle={16}
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl refreshing={refresh} onRefresh={refreshUser} />
-        }>
+    <ScrollView
+      scrollEventThrottle={16}
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl refreshing={refresh} onRefresh={refreshUser} />
+      }>
+      <View style={{flex: 1, backgroundColor: Colors.white, rowGap: 10}}>
         {/* header */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.navigate('profile')}>
@@ -183,6 +183,7 @@ const Home = () => {
             justifyContent: 'space-between',
             paddingHorizontal: 15,
             flexWrap: 'wrap',
+            // borderWidth: 1,
           }}>
           <Text
             style={{
@@ -206,9 +207,9 @@ const Home = () => {
             borderRadius: 25,
             paddingHorizontal: 10,
             borderColor: Colors.veryLightGrey,
-            marginVertical: 20,
             height: height * 0.06,
             backgroundColor: '#F6F6F6',
+            // borderWidth: 1,
           }}>
           <EvilIcons
             name="search"
@@ -235,19 +236,6 @@ const Home = () => {
               <Skeleton width="100%" height={height * 0.2} radius={10} />
             </View>
           }>
-          <View style={{paddingHorizontal: 15}}>
-            {/* <PragraphText text="Premium projects" color="black" fweight={700} /> */}
-            <Text
-              style={{
-                fontFamily: Font.Medium,
-                fontWeight: '600',
-                fontSize: width * 0.042,
-                marginBottom: 10,
-                letterSpacing: 0.3,
-              }}>
-              Pro-Level Projects
-            </Text>
-          </View>
           <PremiumProjects />
         </Suspense>
         {/* companies */}
@@ -257,18 +245,6 @@ const Home = () => {
               <Skeleton width="100%" height={height * 0.2} radius={10} />
             </View>
           }>
-          <View style={{paddingHorizontal: 15}}>
-            <Text
-              style={{
-                fontFamily: Font.Medium,
-                fontWeight: '600',
-                fontSize: width * 0.042,
-                marginBottom: 10,
-                letterSpacing: 0.3,
-              }}>
-              Tutorials & Preparations
-            </Text>
-          </View>
           <View
             style={{
               flexDirection: 'column',
@@ -286,7 +262,6 @@ const Home = () => {
                 borderRadius: 10,
                 borderWidth: 1,
                 borderColor: Colors.veryLightGrey,
-                // paddingHorizontal: 15,
                 marginHorizontal: 15,
               }}>
               <TouchableOpacity
@@ -321,9 +296,8 @@ const Home = () => {
             <SuggestionWapper refresh={suggestRefresh} />
           </View>
         </Suspense>
-        {/* Animated component */}
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({
@@ -332,6 +306,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 15,
     alignItems: 'center',
+    // borderWidth: 1,
   },
   profileImage: {resizeMode: 'cover'},
   headerIcons: {flexDirection: 'row', gap: 10},

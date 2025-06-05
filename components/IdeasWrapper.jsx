@@ -3,7 +3,6 @@ import React, {useCallback, useMemo} from 'react';
 import Ripple from 'react-native-material-ripple';
 import {debounce} from 'lodash';
 import {useNavigation} from '@react-navigation/native';
-import LinearGradient from 'react-native-linear-gradient';
 import {Colors} from '../constants/Colors';
 import FastImage from 'react-native-fast-image';
 import {Font} from '../constants/Font';
@@ -77,7 +76,7 @@ const IdeasWrapper = () => {
           alignItems: 'center',
           justifyContent: 'space-between',
           marginHorizontal: 15,
-          marginBottom: 0,
+          // borderWidth: 1,
         }}>
         <FlatList
           nestedScrollEnabled={true}

@@ -84,11 +84,9 @@ const Companies = () => {
     return (
       <View
         style={{
-          // paddingHorizontal: 15,
           marginBottom: 10,
           flexDirection: 'row',
           columnGap: 10,
-          // borderWidth: 1,
           paddingHorizontal: 15,
         }}>
         <Skeleton width={width * 0.6} height={height * 0.14} radius={20} />
@@ -98,7 +96,17 @@ const Companies = () => {
   }
   //
   return (
-    <View style={{paddingLeft: 0, marginBottom: 10}}>
+    <View>
+      <Text
+        style={{
+          fontFamily: Font.Medium,
+          fontSize: width * 0.041,
+          marginBottom: 10,
+          letterSpacing: 0.25,
+          paddingHorizontal: 15,
+        }}>
+        Interview preparation kit
+      </Text>
       <FlatList
         nestedScrollEnabled={true}
         horizontal

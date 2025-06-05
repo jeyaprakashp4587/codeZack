@@ -53,17 +53,16 @@ const RecentCourses = () => {
     return null;
   }
   return (
-    <View style={{paddingHorizontal: 15, marginTop: 10}}>
+    <View style={{paddingHorizontal: 15}}>
       <Text
         style={{
           fontFamily: Font.Medium,
-          fontWeight: '600',
           fontSize: width * 0.041,
           marginBottom: 10,
           letterSpacing: 0.25,
         }}>
         {/* {user?.Courses[newCourseIndex]?.Course_Name} */}
-        Recent Courses
+        Your recent courses
       </Text>
       <View style={{borderRadius: 10, overflow: 'hidden'}}>
         <LinearGradient
