@@ -25,12 +25,6 @@ import axios from 'axios';
 import {challengesApi} from '../../Api';
 import {faImage} from '@fortawesome/free-regular-svg-icons';
 import Ripple from 'react-native-material-ripple';
-import {
-  getDownloadURL,
-  ref,
-  updateMetadata,
-  uploadBytes,
-} from 'firebase/storage';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {storage} from '../../Firebase/Firebase';
 import moment from 'moment';
@@ -56,6 +50,8 @@ const ChallengeDetail = () => {
   const [imgLoad, setImageLoad] = useState(false);
   const [images, setImages] = useState([]);
   const socket = SocketData();
+  console.log(selectedChallenge);
+
   // load and destructure Reward add
   const {load, isLoaded, show, isClosed} = useRewardedAd(
     __DEV__ ? TestIds.REWARDED : 'ca-app-pub-3257747925516984/5831080677',
@@ -228,7 +224,7 @@ const ChallengeDetail = () => {
 
   const isValidGitHubRepo = url => {
     const gitHubRegex =
-      /^https:\/\/github\.com\/[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+$/;
+      /^(https?:\/\/)?([\w\-]+(\.[\w\-]+)+)(\/[\w\-./?%&=]*)?$/;
     return gitHubRegex.test(url);
   };
 
@@ -638,7 +634,6 @@ const ChallengeDetail = () => {
                   borderRadius: 5,
                   alignItems: 'center',
                   borderColor: Colors.violet,
-                  // backgroundColor: '#80bfff',
                   display: uploadTut ? 'none' : 'flex',
                 }}>
                 <Text
@@ -762,7 +757,6 @@ const ChallengeDetail = () => {
                 borderWidth: 1,
                 padding: 15,
                 fontSize: width * 0.03,
-                // letterSpacing: 1,
                 borderColor: Colors.veryLightGrey,
                 borderRadius: 5,
                 fontFamily: Font.Medium,
@@ -777,11 +771,9 @@ const ChallengeDetail = () => {
                 borderWidth: 1,
                 padding: 15,
                 fontSize: width * 0.03,
-                // letterSpacing: 1,
                 borderColor: Colors.veryLightGrey,
                 borderRadius: 5,
                 fontFamily: 'Poppins-Medium',
-                // paddingLeft: 15,
               }}
               placeholderTextColor={Colors.mildGrey}
             />
@@ -828,7 +820,6 @@ const ChallengeDetail = () => {
                       height: height * 0.3,
                       marginRight: 10,
                       borderRadius: 10,
-                      // resizeMode: 'contain',
                     }}
                   />
                 )}
@@ -856,13 +847,8 @@ const ChallengeDetail = () => {
             </Ripple>
           </View>
         ) : ChallengeStatus == 'completed' ? (
-          // <TouchableOpacity
-          //
-          //   }}>
-          //
           <Text></Text>
         ) : null}
-        {/* view completed postviewer */}
       </ScrollView>
     </View>
   );

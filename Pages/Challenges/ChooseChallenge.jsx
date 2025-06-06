@@ -302,7 +302,11 @@ const ChooseChallenge = ({navigation}) => {
               rippleColor="lightgrey"
               onPress={() => {
                 navigation.navigate('challengeDetail');
-                setSelectedChallenge(item);
+                setSelectedChallenge({
+                  ChallengeName: item?.ChallengeName || item?.title,
+                  ChallengeType: item?.ChallengeType || item?.ChallengeType,
+                  ChallengeLevel: item?.ChallengeLevel || item?.level,
+                });
               }}
               style={{
                 // borderWidth: 0.5,

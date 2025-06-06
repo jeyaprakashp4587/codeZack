@@ -17,7 +17,7 @@ const IntroScreen = () => {
   const {width, height} = Dimensions.get('window');
   const data = useMemo(() => [
     {
-      title: 'Learn. Code. Challenge',
+      title: 'Learn. Code. Prepare. Hired',
       message:
         'Explore coding tutorials, practice with challenges, and level up your skills',
       img: 'https://i.ibb.co/gxCPg5C/209091878-10951137.jpg',

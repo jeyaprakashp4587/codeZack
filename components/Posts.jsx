@@ -1007,7 +1007,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
               borderColor: Colors.veryLightGrey,
               // borderBottomWidth: 1,
               paddingVertical: width * 0.04,
-              fontSize: width * 0.035,
+              fontSize: width * 0.04,
               letterSpacing: 0.8,
               textAlign: 'center',
               // fontWeight: '600',
@@ -1019,110 +1019,110 @@ const Posts = ({post, index, admin, senderDetails}) => {
             style={{
               justifyContent: 'center',
               alignItems: 'center',
-              // borderWidth: 1,
               flexDirection: 'row',
               columnGap: 10,
             }}>
-            {netWorksList.length <= 0 && (
+            {netWorksList.length <= 0 ? (
               <Text
                 style={{
-                  fontSize: width * 0.03,
+                  fontSize: width * 0.035,
                   textAlign: 'center',
-                  // borderWidth: 1,
                   width: '100%',
-                  letterSpacing: 0.5,
+                  letterSpacing: 0.25,
                   fontFamily: Font.Medium,
                 }}>
                 You Have No Connections To Share Posts
               </Text>
-            )}
-            <FlatList
-              horizontal
-              style={{borderWidth: 0}}
-              data={netWorksList}
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{
-                width: '100%',
-                // borderWidth: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              renderItem={({item}) => (
-                <TouchableOpacity
-                  onPress={() => {
-                    handleSharePost(item?.id, post?._id);
-                  }}
-                  style={{
-                    borderWidth: 0,
-                    marginRight: 10,
-                    position: 'relative',
-                  }}>
-                  <FastImage
-                    priority={FastImage.priority.high}
-                    source={{
-                      uri: item?.profileImg
-                        ? item?.profileImg
-                        : 'https://i.ibb.co/3T4mNMm/man.png',
+            ) : (
+              <FlatList
+                horizontal
+                style={{borderWidth: 0}}
+                data={netWorksList}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={item => item?._id}
+                initialNumToRender={5}
+                contentContainerStyle={{
+                  width: '100%',
+                  // borderWidth: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                renderItem={({item}) => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      handleSharePost(item?.id, post?._id);
                     }}
                     style={{
-                      width: width * 0.18,
-                      aspectRatio: 1,
-                      borderRadius: 50,
-                      borderColor: Colors.veryLightGrey,
-                      borderWidth: 3,
-                    }}
-                  />
-                  <Text
-                    style={{
-                      fontSize: width * 0.028,
-                      textAlign: 'center',
-                      // fontWeight: '600',
-                      fontFamily: Font.Regular,
-                    }}
-                    numberOfLines={1}>
-                    {item?.firstName}
-                  </Text>
-                </TouchableOpacity>
-              )}
-              ListFooterComponent={
-                <View>
-                  {hasMoreNetworks && !networkListLoadding && (
-                    <TouchableOpacity
-                      onPress={getNetworksList}
+                      borderWidth: 0,
+                      marginRight: 10,
+                      position: 'relative',
+                    }}>
+                    <FastImage
+                      priority={FastImage.priority.high}
+                      source={{
+                        uri: item?.profileImg
+                          ? item?.profileImg
+                          : 'https://i.ibb.co/3T4mNMm/man.png',
+                      }}
                       style={{
-                        padding: 10,
-                        // borderWidth: 0.5,
+                        width: width * 0.18,
+                        aspectRatio: 1,
                         borderRadius: 50,
-                        borderColor: Colors.violet,
-                      }}>
-                      <Text
+                        borderColor: Colors.veryLightGrey,
+                        borderWidth: 3,
+                      }}
+                    />
+                    <Text
+                      style={{
+                        fontSize: width * 0.028,
+                        textAlign: 'center',
+                        // fontWeight: '600',
+                        fontFamily: Font.Regular,
+                      }}
+                      numberOfLines={1}>
+                      {item?.firstName}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+                ListFooterComponent={
+                  <View>
+                    {hasMoreNetworks && !networkListLoadding && (
+                      <TouchableOpacity
+                        onPress={getNetworksList}
                         style={{
-                          textAlign: 'center',
-                          letterSpacing: 1.4,
-                          color: Colors.violet,
-                          // fontWeight: '600',
-                          fontSize: width * 0.03,
-                          fontFamily: Font.SemiBold,
+                          padding: 10,
+                          borderRadius: 50,
+                          borderColor: Colors.violet,
                         }}>
-                        Show more
-                      </Text>
-                    </TouchableOpacity>
-                  )}
-                  {networkListLoadding && (
-                    <View style={{flexDirection: 'row', columnGap: 5}}>
-                      {Array.from({length: 4}).map((_, index) => (
-                        <Skeleton
-                          key={index}
-                          width={width * 0.17}
-                          height={height * 0.09}
-                          radius={60}
-                        />
-                      ))}
-                    </View>
-                  )}
-                </View>
-              }
-            />
+                        <Text
+                          style={{
+                            textAlign: 'center',
+                            letterSpacing: 1.4,
+                            color: Colors.violet,
+                            // fontWeight: '600',
+                            fontSize: width * 0.03,
+                            fontFamily: Font.SemiBold,
+                          }}>
+                          Show more
+                        </Text>
+                      </TouchableOpacity>
+                    )}
+                    {networkListLoadding && (
+                      <View style={{flexDirection: 'row', columnGap: 5}}>
+                        {Array.from({length: 4}).map((_, index) => (
+                          <Skeleton
+                            key={index}
+                            width={width * 0.17}
+                            height={height * 0.09}
+                            radius={60}
+                          />
+                        ))}
+                      </View>
+                    )}
+                  </View>
+                }
+              />
+            )}
           </View>
         </View>
       </RBSheet>

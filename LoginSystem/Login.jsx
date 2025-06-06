@@ -124,7 +124,7 @@ const Login = () => {
             priority={FastImage.priority.high}
             resizeMode="contain"
           />
-          <TypingEffect />
+          {/* <TypingEffect /> */}
         </View>
         <View style={styles.inputsWrapper}>
           <View
@@ -132,6 +132,7 @@ const Login = () => {
               height: height * 0.055,
               backgroundColor: 'white',
               borderRadius: 5,
+              // elevation: 2,
             }}>
             <TextInput
               spellCheck={true}
@@ -205,9 +206,8 @@ const Login = () => {
               onPress={() => navigation.navigate('passwordReset')}
               style={{
                 color: Colors.violet,
-                letterSpacing: 0.3,
                 textAlign: 'right',
-                fontFamily: Font.Regular,
+                fontFamily: Font.Medium,
               }}>
               Forgot Password?
             </Text>
@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: width * 0.6,
+    width: width * 0.9,
     alignSelf: 'center',
     aspectRatio: 1,
     borderRadius: 20,
@@ -268,7 +268,6 @@ const styles = StyleSheet.create({
     marginVertical: height * 0.025,
     rowGap: 10,
   },
-
   loginText: {
     letterSpacing: 0.3,
     fontSize: width * 0.035,
@@ -299,7 +298,7 @@ const styles = StyleSheet.create({
     marginVertical: height * 0.025, // Dynamic margin
   },
   signUpLink: {
-    color: 'orange',
+    color: Colors.violet,
     textDecorationLine: 'underline',
     paddingHorizontal: width * 0.025,
     fontFamily: Font.SemiBold,

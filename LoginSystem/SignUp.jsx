@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,8 @@ import {
   Modal,
   Pressable,
   ScrollView,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import Animated, {
   useSharedValue,
@@ -22,12 +24,18 @@ import {Font} from '../constants/Font';
 import {Colors} from '../constants/Colors';
 import LinearGradient from 'react-native-linear-gradient';
 import HeadingText from '../utils/HeadingText';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
+import {loginApi} from '../Api';
+import {useData} from '../Context/Contexter';
 
 const {width, height} = Dimensions.get('window');
 
 const SignUp = () => {
   const offset = useSharedValue(0);
   const [step, setStep] = useState(0);
+  const navigation = useNavigation();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -35,12 +43,12 @@ const SignUp = () => {
     password: '',
     confirmPassword: '',
     gender: '',
-    district: '',
+    state: '',
     city: '',
     institution: '',
   });
   const [showGenderModal, setShowGenderModal] = useState(false);
-
+  const {setUser} = useData();
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{translateX: offset.value}],
   }));
@@ -73,7 +81,7 @@ const SignUp = () => {
           newErrors.confirmPassword = 'Passwords do not match';
         break;
       case 2:
-        if (!formData.district) newErrors.district = 'District required';
+        if (!formData.state) newErrors.state = 'District required';
         if (!formData.city) newErrors.city = 'City required';
         if (!formData.institution)
           newErrors.institution = 'Institution name required';
@@ -87,8 +95,30 @@ const SignUp = () => {
   };
 
   const handleChange = (field, value) => {
-    setFormData({...formData, [field]: value});
+    setFormData({...formData, [field]: value.trim()});
   };
+  // handle submit
+  const [actiLoading, setActiloading] = useState(false);
+  const handleSubmit = useCallback(async () => {
+    try {
+      setActiloading(true);
+      if (!validateStep()) return;
+      const response = await axios.post(`${loginApi}/LogIn/signUp`, formData);
+      if (response.data.message == 'SignUp Sucessfully') {
+        ToastAndroid.show('Signup Successfully', ToastAndroid.BOTTOM);
+        navigation.replace('Tab');
+        setUser(response.data.user);
+        await AsyncStorage.setItem('Email', response.data.user.Email);
+      } else if (response.data === 'Email has Already Been Taken') {
+        ToastAndroid.show('Email has already been taken', ToastAndroid.BOTTOM);
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Signup failed. Try again.');
+    } finally {
+      setActiloading(false);
+    }
+  }, [formData]);
 
   const renderStep = currentStep => {
     switch (currentStep) {
@@ -176,16 +206,16 @@ const SignUp = () => {
             <Text style={styles.label}>Where are you {'\n'}coming from? </Text>
             <TextInput
               style={styles.input}
-              value={formData.district}
-              onChangeText={text => handleChange('district', text)}
-              placeholder="Enter district"
+              value={formData.state}
+              onChangeText={text => handleChange('state', text)}
+              placeholder="Enter your state"
               placeholderTextColor="#888"
             />
             <TextInput
               style={styles.input}
               value={formData.city}
               onChangeText={text => handleChange('city', text)}
-              placeholder="Enter city"
+              placeholder="Enter your city"
               placeholderTextColor="#888"
             />
             <TextInput
@@ -257,10 +287,16 @@ const SignUp = () => {
               </View>
             ))}
           </Animated.View>
-          <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
-            <Text style={styles.nextText}>
-              {step === 3 ? 'Submit' : 'Next'}
-            </Text>
+          <TouchableOpacity
+            style={styles.nextBtn}
+            onPress={step === 2 ? handleSubmit : handleNext}>
+            {actiLoading ? (
+              <ActivityIndicator color={Colors.white} size={width * 0.04} />
+            ) : (
+              <Text style={styles.nextText}>
+                {step === 2 ? 'Submit' : 'Next'}
+              </Text>
+            )}
           </TouchableOpacity>
           <PaginationDots stepOffset={offset} />
         </View>

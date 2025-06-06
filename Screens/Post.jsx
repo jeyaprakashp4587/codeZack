@@ -299,6 +299,8 @@ const Post = () => {
               letterSpacing: 1,
               fontFamily: Font.Regular,
             }}
+            multiline={true}
+            maxLength={200}
             ref={inputRef1}
             onChangeText={handlePostText}
             placeholderTextColor={Colors.lightGrey}
