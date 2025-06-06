@@ -87,6 +87,8 @@ const Projects = () => {
         nestedScrollEnabled={true}
         data={projects}
         horizontal
+        estimatedItemSize={250}
+        initialNumToRender={2}
         showsHorizontalScrollIndicator={false}
         renderItem={({item, index}) => (
           <View

@@ -114,14 +114,15 @@ const PostFeed = () => {
               </Text>
             </View>
           ) : (
-            <FlatList
+            <FlashList
               nestedScrollEnabled={true}
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
-              data={posts.reverse()}
+              data={posts}
               showsVerticalScrollIndicator={false}
               keyExtractor={item => item._id}
+              initialNumToRender={2}
               renderItem={({item, index}) => (
                 <Posts
                   post={item.Posts}

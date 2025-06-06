@@ -77,7 +77,7 @@ const FreelancerBanner = () => {
             style={{
               position: 'absolute',
               right: 0,
-              top: -15,
+              top: -14,
               backgroundColor: Colors.veryLightGrey,
               borderRadius: 90,
               width: 20,
@@ -85,7 +85,7 @@ const FreelancerBanner = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <FontAwesome5 name="times" size={12} />
+            <FontAwesome5 name="times" size={13} color="rgb(0, 0, 0)" />
           </Ripple>
           {/*  */}
           <Text

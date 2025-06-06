@@ -533,7 +533,8 @@ const UserProfile = () => {
         }>
         <FlatList
           data={selectedUserPost}
-          // keyExtractor={item => item._id}
+          initialNumToRender={2}
+          keyExtractor={item => item._id}
           style={{borderWidth: 0, paddingBottom: 20}}
           renderItem={({item, index}) => (
             <Posts
@@ -653,6 +654,7 @@ const UserProfile = () => {
               nestedScrollEnabled={true}
               showsVerticalScrollIndicator={false}
               data={netWorksList}
+              initialNumToRender={2}
               renderItem={({item, index}) => (
                 <TouchableOpacity
                   onPress={() => {

@@ -8,6 +8,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import MobileAds from 'react-native-google-mobile-ads';
 import {PaperProvider} from 'react-native-paper';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 const {width} = Dimensions.get('window');
 
 const App = () => {
@@ -19,22 +20,24 @@ const App = () => {
       });
   }, []);
   return (
-    <GestureHandlerRootView>
-      <PaperProvider>
-        <ContextProvider>
-          <SocketProvider>
-            <View style={styles.cn}>
-              <SafeAreaView style={{flex: 1}}>
-                <NavigationContainer>
-                  <AppNavigator />
-                </NavigationContainer>
-                <StatusBar backgroundColor="white" barStyle="dark-content" />
-              </SafeAreaView>
-            </View>
-          </SocketProvider>
-        </ContextProvider>
-      </PaperProvider>
-    </GestureHandlerRootView>
+    <SafeAreaProvider>
+      <GestureHandlerRootView>
+        <PaperProvider>
+          <ContextProvider>
+            <SocketProvider>
+              <View style={styles.cn}>
+                <SafeAreaView style={{flex: 1}}>
+                  <NavigationContainer>
+                    <AppNavigator />
+                  </NavigationContainer>
+                  <StatusBar backgroundColor="white" barStyle="dark-content" />
+                </SafeAreaView>
+              </View>
+            </SocketProvider>
+          </ContextProvider>
+        </PaperProvider>
+      </GestureHandlerRootView>
+    </SafeAreaProvider>
   );
 };
 

@@ -124,7 +124,7 @@ const Login = () => {
             priority={FastImage.priority.high}
             resizeMode="contain"
           />
-          {/* <TypingEffect /> */}
+          <TypingEffect />
         </View>
         <View style={styles.inputsWrapper}>
           <View

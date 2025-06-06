@@ -110,6 +110,7 @@ const SearchScreen = ({navigation}) => {
     if (users?.length > 0) {
       return (
         <FlatList
+          initialNumToRender={2}
           nestedScrollEnabled={true}
           showsVerticalScrollIndicator={false}
           data={users}

@@ -433,6 +433,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
         <FlatList
           showsHorizontalScrollIndicator={false}
           data={post?.Images}
+          initialNumToRender={2}
           horizontal
           style={{marginTop: 10}}
           renderItem={({item, index}) => (
@@ -608,6 +609,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
                 <FlatList
                   nestedScrollEnabled={true}
                   showsVerticalScrollIndicator={false}
+                  initialNumToRender={2}
                   data={likedUsers.sort(like => like?.LikedTime)}
                   keyExtractor={item => item?.userId}
                   renderItem={({item}) => (
@@ -695,6 +697,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
             ) : comments?.length > 0 ? (
               <FlatList
                 nestedScrollEnabled={true}
+                initialNumToRender={2}
                 showsVerticalScrollIndicator={false}
                 data={comments.sort(com => com?.commentedAt)}
                 keyExtractor={(item, index) =>
@@ -825,6 +828,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
             showsHorizontalScrollIndicator={false}
             data={post?.Images}
             horizontal
+            initialNumToRender={2}
             pagingEnabled
             renderItem={({item}) => (
               <View
@@ -1038,9 +1042,9 @@ const Posts = ({post, index, admin, senderDetails}) => {
                 horizontal
                 style={{borderWidth: 0}}
                 data={netWorksList}
+                initialNumToRender={2}
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={item => item?._id}
-                initialNumToRender={5}
                 contentContainerStyle={{
                   width: '100%',
                   // borderWidth: 1,

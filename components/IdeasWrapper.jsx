@@ -66,7 +66,12 @@ const IdeasWrapper = () => {
     ],
     [carrerNav, courseNav, activityNav, assignmentNav],
   );
-
+  {
+    /* <Card icon="💻" title="Choose Your Career" color="bg-[#F0F4FF]" />
+  <Card icon="📘" title="Your Courses" color="bg-[#FFF2F8]" />
+  <Card icon="📝" title="Assignments" color="bg-[#F0FFF4]" />
+  <Card icon="📅" */
+  }
   return (
     <View style={{flex: 1}}>
       <View
@@ -83,6 +88,7 @@ const IdeasWrapper = () => {
           data={IdeaData}
           keyExtractor={item => item._id}
           numColumns={2}
+          initialNumToRender={2}
           columnWrapperStyle={{
             justifyContent: 'space-between',
           }}
@@ -92,36 +98,35 @@ const IdeasWrapper = () => {
               style={{
                 width: '48%',
                 borderRadius: 10,
-                height: height * 0.09,
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
                 overflow: 'hidden',
                 backgroundColor: item.color,
+                rowGap: 10,
+                paddingVertical: 10,
               }}
               onPress={() => item.function()}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  color: Colors.veryDarkGrey,
-                  letterSpacing: 0.5,
-                  fontSize: width * 0.028,
-                  fontFamily: Font.SemiBold,
-                }}>
-                {item.name}
-              </Text>
               {/* icons */}
               <FastImage
                 priority={FastImage.priority.high}
                 source={{uri: item.icon}}
                 style={{
-                  width: 40,
-                  height: 40,
-                  position: 'absolute',
-                  left: width * 0.04,
-                  opacity: 0.4,
+                  width: width * 0.1,
+                  aspectRatio: 1,
+                  opacity: 0.68,
                 }}
               />
+              <Text
+                style={{
+                  textAlign: 'center',
+                  color: Colors.violet,
+                  letterSpacing: 0.3,
+                  fontSize: width * 0.03,
+                  fontFamily: Font.SemiBold,
+                }}>
+                {item.name}
+              </Text>
             </Ripple>
           )}
         />

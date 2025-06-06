@@ -103,6 +103,7 @@ const AllUsersPage = () => {
           scrollEnabled
           refreshControl={<RefreshControl refreshing={refresh} />}
           refreshing={true}
+          initialNumToRender={2}
           data={suggestions}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
@@ -110,8 +111,9 @@ const AllUsersPage = () => {
           columnWrapperStyle={{gap: 20}}
           keyExtractor={(item, index) => `${item?._id || index}`}
           key={'2-columns'}
-          renderItem={({item}) => (
+          renderItem={({item, index}) => (
             <TouchableOpacity
+              key={index}
               onPress={() => {
                 Navigation.navigate('userprofile');
                 setSelectedUser(item._id);
@@ -120,7 +122,7 @@ const AllUsersPage = () => {
                 borderWidth: 0,
                 width: '40%',
                 flex: 1,
-                elevation: 2,
+                // elevation: 2,
                 borderRadius: 10,
                 overflow: 'hidden',
                 marginBottom: 20,
@@ -144,9 +146,9 @@ const AllUsersPage = () => {
                 <LinearGradient
                   colors={[
                     'rgba(0,0,0,0.1)',
-                    'hsl(0, 0%, 97%)',
-                    'hsl(0, 0%, 100%)',
-                    Colors.white,
+                    'hsla(0, 0.00%, 4.70%, 0.43)',
+                    'hsl(0, 0.00%, 0.80%)',
+                    'hsl(0, 0.00%, 0.80%)',
                   ]}
                   start={{x: 0, y: 0}}
                   end={{x: 0, y: 1}}
@@ -180,9 +182,8 @@ const AllUsersPage = () => {
                       <Text
                         style={{
                           fontSize: width * 0.034,
-                          color: Colors.veryDarkGrey,
+                          color: Colors.white,
                           letterSpacing: 0.7,
-                          // fontWeight: '700',
                           fontFamily: Font.SemiBold,
                         }}>
                         {truncateText(
@@ -194,7 +195,7 @@ const AllUsersPage = () => {
                         style={{
                           letterSpacing: 0.5,
                           fontSize: width * 0.028,
-                          color: Colors.mildGrey,
+                          color: Colors.white,
                           fontFamily: Font.Medium,
                         }}
                         numberOfLines={1}>
@@ -206,6 +207,7 @@ const AllUsersPage = () => {
                           fontSize: width * 0.023,
                           fontFamily: Font.Regular,
                           letterSpacing: 0.4,
+                          color: Colors.white,
                         }}>
                         {item?.District}
                       </Text>

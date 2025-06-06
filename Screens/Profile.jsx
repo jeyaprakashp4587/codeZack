@@ -771,6 +771,7 @@ const Profile = ({navigation}) => {
         {/* posts */}
         <FlatList
           data={user?.Posts}
+          initialNumToRender={2}
           keyExtractor={item => item._id}
           style={{borderWidth: 0, paddingBottom: 10}}
           renderItem={({item, index}) => (
@@ -886,6 +887,7 @@ const Profile = ({navigation}) => {
               nestedScrollEnabled={true}
               showsVerticalScrollIndicator={false}
               data={netWorksList}
+              initialNumToRender={2}
               renderItem={({item}) => (
                 <TouchableOpacity
                   onPress={() => {

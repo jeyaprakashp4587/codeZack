@@ -82,6 +82,7 @@ const VideoTutorials = () => {
       <View style={{paddingHorizontal: 15, marginTop: 15}}>
         <FlatList
           nestedScrollEnabled={true}
+          initialNumToRender={2}
           data={allTutorials}
           renderItem={({item, index}) => (
             <View

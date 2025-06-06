@@ -213,6 +213,7 @@ const YourChallenges = props => {
         )
       ) : (
         <FlatList
+          initialNumToRender={2}
           nestedScrollEnabled={true}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}

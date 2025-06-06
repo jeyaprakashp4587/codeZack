@@ -791,6 +791,7 @@ const ChallengeDetail = () => {
             {images.length > 0 ? (
               <FlatList
                 horizontal
+                initialNumToRender={2}
                 data={images}
                 renderItem={({item}) => (
                   <FastImage

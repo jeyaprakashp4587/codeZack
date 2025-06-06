@@ -94,7 +94,8 @@ const TabNavigation = () => {
         tabBarStyle: {
           borderTopWidth: 0,
           elevation: 0,
-          height: height * 0.09,
+          height: 65,
+          // borderWidth: 2,
         },
         tabBarLabelStyle: {
           fontSize: width * 0.021,
@@ -106,6 +107,7 @@ const TabNavigation = () => {
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
+          // borderWidth: 1,
         },
       }}>
       <Tab.Screen

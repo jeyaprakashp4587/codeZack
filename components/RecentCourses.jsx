@@ -71,6 +71,7 @@ const RecentCourses = () => {
           end={{x: 1, y: 1}}
           style={{padding: 20, rowGap: 10}}>
           <FlatList
+            initialNumToRender={2}
             nestedScrollEnabled={true}
             data={user.Courses[newCourseIndex]?.Technologies}
             horizontal

@@ -164,6 +164,7 @@ const Notifications = () => {
         </View>
       ) : (
         <FlatList
+          initialNumToRender={2}
           nestedScrollEnabled={true}
           showsVerticalScrollIndicator={false}
           data={notificationList.sort(noti => noti.Time)}

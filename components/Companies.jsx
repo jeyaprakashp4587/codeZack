@@ -110,6 +110,7 @@ const Companies = () => {
       <FlatList
         nestedScrollEnabled={true}
         horizontal
+        initialNumToRender={2}
         showsHorizontalScrollIndicator={false}
         data={companies}
         renderItem={({item, index}) => (

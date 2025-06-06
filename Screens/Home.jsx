@@ -272,8 +272,8 @@ const Home = () => {
                   style={{
                     letterSpacing: 0.3,
                     color: Colors.mildGrey,
-                    fontFamily: Font.Medium,
-                    fontSize: width * 0.04,
+                    fontFamily: Font.Regular,
+                    fontSize: width * 0.035,
                   }}>
                   Watch Tutorials
                 </Text>

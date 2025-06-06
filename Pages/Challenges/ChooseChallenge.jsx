@@ -233,6 +233,7 @@ const ChooseChallenge = ({navigation}) => {
       <FlatList
         nestedScrollEnabled={true}
         data={Challenges}
+        initialNumToRender={2}
         showsVerticalScrollIndicator={false}
         style={styles.flatList}
         renderItem={({item, index}) => (

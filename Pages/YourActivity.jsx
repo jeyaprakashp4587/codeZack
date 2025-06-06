@@ -134,6 +134,7 @@ const YourActivity = () => {
         {activitiesList.length > 0 ? (
           <FlatList
             nestedScrollEnabled={true}
+            initialNumToRender={2}
             data={activitiesList}
             horizontal
             style={{marginTop: 20}}
