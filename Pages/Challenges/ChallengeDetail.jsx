@@ -26,7 +26,6 @@ import {challengesApi} from '../../Api';
 import {faImage} from '@fortawesome/free-regular-svg-icons';
 import Ripple from 'react-native-material-ripple';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {storage} from '../../Firebase/Firebase';
 import moment from 'moment';
 import useSocketEmit from '../../Socket/useSocketEmit';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
@@ -156,8 +155,6 @@ const ChallengeDetail = () => {
       if (res.data && res.status == 200) {
         setSelectedChallenge(res.data.challenge);
         checkChallengeStatus();
-
-        // console.log(res.data.challenge);
       }
     } catch (error) {
       console.error('Error fetching particular challenge:', error);
@@ -387,9 +384,7 @@ const ChallengeDetail = () => {
   const [refreshing, setRefreshing] = useState(false);
   const HandleRefresh = () => {
     setRefreshing(true);
-    Promise.all([getParticularChallenge()]).then(data => {
-      setRefreshing(false);
-    });
+    getParticularChallenge().then(() => setRefreshing(false));
   };
   // ------
   return (
@@ -398,11 +393,10 @@ const ChallengeDetail = () => {
         backgroundColor: 'white',
         flex: 1,
         paddingHorizontal: 15,
-        // paddingBottom: 20,
       }}>
       <HeadingText text="Challenge Details" />
       <ScrollView
-        style={{flex: 1, marginBottom: 10}}
+        style={{flex: 1, marginBottom: 20}}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
@@ -413,14 +407,18 @@ const ChallengeDetail = () => {
         {selectedChallenge?.sample_image || selectedChallenge?.level ? (
           <View style={{flexDirection: 'column', rowGap: 10, marginTop: 25}}>
             {selectedChallenge?.level === 'newbie' ? (
-              <Text style={{fontFamily: Font.Light, letterSpacing: 0.4}}>
-                We Don't have assets for{' '}
+              <Text
+                style={{
+                  fontFamily: Font.Regular,
+                  fontSize: width * 0.035,
+                  letterSpacing: 0.3,
+                }}>
+                We Don't have ui design for{' '}
                 <Text
                   style={{
-                    color: 'orange',
-                    fontWeight: '600',
-                    textTransform: 'capitalize',
-                    fontFamily: Font.Regular,
+                    color: Colors.violet,
+                    fontFamily: Font.SemiBold,
+                    fontSize: width * 0.05,
                   }}>
                   {selectedChallenge?.level}
                 </Text>{' '}
@@ -466,16 +464,15 @@ const ChallengeDetail = () => {
               }}>
               <Text
                 style={{
-                  fontWeight: '600',
-                  color: 'orange',
-                  textTransform: 'capitalize',
-                  fontFamily: Font.Medium,
+                  color: Colors.violet,
+                  fontFamily: Font.Regular,
+                  textTransform: 'uppercase',
                 }}>
                 {selectedChallenge?.level}
               </Text>
             </View>
             {/* tools and assets */}
-            <View style={{flexDirection: 'row', columnGap: 20}}>
+            <View style={{flexDirection: 'row', columnGap: 10}}>
               {selectedChallenge?.technologies?.map((i, index) => (
                 <FastImage
                   key={index}
@@ -488,25 +485,19 @@ const ChallengeDetail = () => {
                 />
               ))}
             </View>
-            {/* info */}
-            <Text
-              style={{
-                color: Colors.violet,
-                fontSize: width * 0.03,
-                fontWeight: '600',
-                letterSpacing: 0.5,
-                fontFamily: Font.Medium,
-              }}>
-              You can use also other frameworks or languages
-            </Text>
             <View>
               {selectedChallenge?.rules?.map((rule, index) => (
-                <PragraphText
+                <Text
                   key={index}
-                  text={['* ', rule]}
-                  fsize={width * 0.035}
-                  padding={3}
-                />
+                  style={{
+                    fontSize: width * 0.035,
+                    color: Colors.veryDarkGrey,
+                    letterSpacing: 0.25,
+                    marginBottom: 10,
+                    lineHeight: 20,
+                  }}>
+                  {index + 1}.{')'} {rule}
+                </Text>
               ))}
             </View>
             {/* get ui design */}
@@ -517,26 +508,19 @@ const ChallengeDetail = () => {
                 alignItems: 'center',
                 columnGap: 5,
                 borderColor: Colors.veryDarkGrey,
-                borderRadius: 50,
+                borderRadius: 5,
                 borderWidth: 0.3,
                 justifyContent: 'center',
                 padding: 10,
               }}>
-              <FastImage
-                source={{
-                  uri: 'https://img.icons8.com/badges/100/create-icon.png',
-                }}
-                resizeMode="contain"
-                style={{width: width * 0.04, aspectRatio: 1}}
-              />
               <Text
                 style={{
-                  fontSize: width * 0.03,
+                  fontSize: width * 0.035,
                   color: Colors.veryDarkGrey,
                   letterSpacing: 0.3,
-                  fontFamily: Font.Medium,
+                  fontFamily: Font.SemiBold,
                 }}>
-                Get UI Design
+                Get ui design
               </Text>
             </TouchableOpacity>
             {/* support wrapper */}
@@ -552,10 +536,9 @@ const ChallengeDetail = () => {
               <Text
                 style={{
                   color: 'black',
-                  fontSize: width * 0.03,
-                  letterSpacing: 2,
+                  fontSize: width * 0.034,
+                  letterSpacing: 0.3,
                   lineHeight: 27,
-                  // fontWeight: '600',
                   fontFamily: Font.Regular,
                 }}>
                 "Need Help with a Coding Error or Anything Else? Contact Our
@@ -577,7 +560,7 @@ const ChallengeDetail = () => {
                   style={{
                     textAlign: 'center',
                     color: 'white',
-                    letterSpacing: 1,
+                    letterSpacing: 0.3,
                     fontFamily: Font.Regular,
                   }}>
                   Feel Free to ask
@@ -638,12 +621,12 @@ const ChallengeDetail = () => {
                 }}>
                 <Text
                   style={{
-                    color: Colors.violet,
+                    color: Colors.veryDarkGrey,
                     fontSize: width * 0.04,
-                    letterSpacing: 1,
+                    letterSpacing: 0.3,
                     fontFamily: Font.Medium,
                   }}>
-                  How to upload
+                  How to upload the project?
                 </Text>
               </TouchableOpacity>
             )}
@@ -735,19 +718,16 @@ const ChallengeDetail = () => {
             </View>
           </View>
         ) : null}
-
         {ChallengeStatus == 'pending' ? (
           <View
             style={{
-              marginVertical: 10,
+              marginVertical: 30,
               rowGap: 10,
-              padding: 2,
             }}>
             <Text
               style={{
                 fontSize: width * 0.044,
-                letterSpacing: 1,
-                fontFamily: 'Poppins-SemiBold',
+                fontFamily: Font.SemiBold,
               }}>
               Upload Your Challenge
             </Text>
@@ -756,10 +736,10 @@ const ChallengeDetail = () => {
               style={{
                 borderWidth: 1,
                 padding: 15,
-                fontSize: width * 0.03,
+                fontSize: width * 0.033,
                 borderColor: Colors.veryLightGrey,
                 borderRadius: 5,
-                fontFamily: Font.Medium,
+                fontFamily: Font.Regular,
               }}
               placeholderTextColor={Colors.mildGrey}
               onChangeText={text => HandleText('GitRepo', text)}
@@ -770,10 +750,10 @@ const ChallengeDetail = () => {
               style={{
                 borderWidth: 1,
                 padding: 15,
-                fontSize: width * 0.03,
+                fontSize: width * 0.033,
                 borderColor: Colors.veryLightGrey,
                 borderRadius: 5,
-                fontFamily: 'Poppins-Medium',
+                fontFamily: Font.Regular,
               }}
               placeholderTextColor={Colors.mildGrey}
             />
@@ -802,7 +782,7 @@ const ChallengeDetail = () => {
                 />
               )}
               <PragraphText
-                text="Upload Snapshot"
+                text="Upload images"
                 padding={1}
                 fsize={width * 0.03}
               />

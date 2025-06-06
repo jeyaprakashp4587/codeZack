@@ -1,4 +1,11 @@
-import {Dimensions, FlatList, RefreshControl, Text, View} from 'react-native';
+import {
+  Dimensions,
+  FlatList,
+  RefreshControl,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import axios from 'axios';
 import {profileApi} from '../Api';
@@ -84,51 +91,52 @@ const PostFeed = () => {
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text="Post Feeds" />
       </View>
-
-      <View style={{paddingHorizontal: 0, flex: 1, height: '80%'}}>
-        {posts.length <= 0 ? (
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignContent: 'center',
-              // borderWidth: 1,
-              borderColor: 'red',
-            }}>
-            <Text
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={{paddingHorizontal: 0, flex: 1, height: '80%'}}>
+          {posts.length <= 0 ? (
+            <View
               style={{
-                fontSize: width * 0.04,
-                letterSpacing: 1,
-                textAlign: 'center',
-                fontFamily: Font.Regular,
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignContent: 'center',
+                // borderWidth: 1,
+                borderColor: 'red',
               }}>
-              No Posts there
-            </Text>
-          </View>
-        ) : (
-          <FlatList
-            nestedScrollEnabled={true}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-            data={posts}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={item => item._id}
-            renderItem={({item, index}) => (
-              <Posts
-                post={item.Posts}
-                senderDetails={item.SenderDetails}
-                index={index}
-                admin={false}
-              />
-            )}
-            onEndReachedThreshold={0.5}
-            onEndReached={handleLoadMore}
-            ListFooterComponent={loadingMore ? <PostSkeleton /> : null}
-          />
-        )}
-      </View>
+              <Text
+                style={{
+                  fontSize: width * 0.04,
+                  letterSpacing: 1,
+                  textAlign: 'center',
+                  fontFamily: Font.Regular,
+                }}>
+                No Posts there
+              </Text>
+            </View>
+          ) : (
+            <FlatList
+              nestedScrollEnabled={true}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+              data={posts.reverse()}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={item => item._id}
+              renderItem={({item, index}) => (
+                <Posts
+                  post={item.Posts}
+                  senderDetails={item.SenderDetails}
+                  index={index}
+                  admin={false}
+                />
+              )}
+              onEndReachedThreshold={0.5}
+              onEndReached={handleLoadMore}
+              ListFooterComponent={loadingMore ? <PostSkeleton /> : null}
+            />
+          )}
+        </View>
+      </ScrollView>
     </View>
   );
 };

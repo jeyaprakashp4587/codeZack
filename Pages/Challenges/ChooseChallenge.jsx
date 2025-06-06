@@ -139,6 +139,17 @@ const ChooseChallenge = ({navigation}) => {
       setUserCompletedChallenges(filter);
     }
   }, [user]);
+  // handleChoose
+  const handleChooseChallenge = useCallback(item => {
+    InteractionManager.runAfterInteractions(() => {
+      navigation.navigate('challengeDetail');
+      setSelectedChallenge({
+        ChallengeName: item?.ChallengeName || item?.title,
+        ChallengeType: item?.ChallengeType || item?.ChallengeType,
+        ChallengeLevel: item?.ChallengeLevel || item?.level,
+      });
+    });
+  }, []);
   // render loading
   if (loading) {
     return (
@@ -301,12 +312,7 @@ const ChooseChallenge = ({navigation}) => {
             <Ripple
               rippleColor="lightgrey"
               onPress={() => {
-                navigation.navigate('challengeDetail');
-                setSelectedChallenge({
-                  ChallengeName: item?.ChallengeName || item?.title,
-                  ChallengeType: item?.ChallengeType || item?.ChallengeType,
-                  ChallengeLevel: item?.ChallengeLevel || item?.level,
-                });
+                handleChooseChallenge(item);
               }}
               style={{
                 // borderWidth: 0.5,

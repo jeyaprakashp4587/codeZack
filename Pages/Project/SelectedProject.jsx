@@ -122,17 +122,6 @@ const SelectedProject = () => {
           processed. We're here to ensure a seamless and professional experience
           throughout your project journey!"
         </Text>
-        {/* selct tech */}
-        <Text
-          style={{
-            color: Colors.veryDarkGrey,
-            fontWeight: '600',
-            fontSize: width * 0.045,
-            letterSpacing: 0.3,
-            fontFamily: Font.SemiBold,
-          }}>
-          Select your Technology
-        </Text>
         <View style={{borderWidth: 0}}>
           {selectedProject?.Technologies?.map((tech, index) => (
             <View
