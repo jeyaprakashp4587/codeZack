@@ -143,20 +143,23 @@ const CourseDetails = () => {
                 backgroundColor: Colors.violet,
                 borderRadius: 90,
                 width: '100%',
-                padding: 10,
+                // padding: 10,
+                height: height * 0.065,
                 borderWidth: 0.8,
                 borderColor: Colors.violet,
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
               {loading ? (
-                <ActivityIndicator color={Colors.white} size={25} />
+                <ActivityIndicator color={Colors.white} />
               ) : (
                 <Text
                   style={{
                     color: Colors.white,
                     textAlign: 'center',
                     letterSpacing: 1,
-                    fontSize: width * 0.05,
-                    fontFamily: Font.Medium,
+                    fontSize: width * 0.04,
+                    fontFamily: Font.Regular,
                   }}>
                   Start
                 </Text>

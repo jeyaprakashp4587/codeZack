@@ -112,15 +112,16 @@ const SelectedCourse = ({navigation}) => {
         <View style={styles.section}>
           <Text
             style={{
-              fontSize: width * 0.05,
+              fontSize: width * 0.07,
               fontFamily: Font.SemiBold,
               marginVertical: 10,
+              flexWrap: 'wrap',
             }}>
             {selectedCourse?.name}
           </Text>
           <Text
             style={{
-              fontSize: width * 0.04,
+              fontSize: width * 0.035,
               color: Colors.veryDarkGrey,
               fontFamily: Font.Regular,
               letterSpacing: 0.3,
@@ -149,7 +150,7 @@ const SelectedCourse = ({navigation}) => {
           style={styles.button}
           onPress={HandleAddCourse}>
           {loading ? (
-            <ActivityIndicator color={Colors.white} size={23} />
+            <ActivityIndicator color={Colors.white} />
           ) : (
             <Text style={styles.buttonText}>Let's begin</Text>
           )}
@@ -169,10 +170,10 @@ const styles = StyleSheet.create({
     borderColor: 'red',
   },
   courseName: {
-    fontSize: width * 0.065,
+    fontSize: width * 0.08,
     color: Colors.mildGrey,
     fontFamily: Font.Medium,
-    marginBottom: height * 0.02,
+    // marginBottom: height * 0.02,
     paddingHorizontal: 15,
   },
   courseImage: {
@@ -185,6 +186,7 @@ const styles = StyleSheet.create({
   section: {
     marginVertical: height * 0.015,
     paddingHorizontal: 15,
+    rowGap: 10,
   },
   sectionTitle: {
     color: Colors.mildGrey,
@@ -216,7 +218,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: height * 0.015,
+    // padding: height * 0.015,
     borderRadius: 50,
     borderColor: Colors.violet,
     elevation: 2,
@@ -229,12 +231,11 @@ const styles = StyleSheet.create({
     width: width * 0.9,
     fontFamily: Font.Regular,
     overflow: 'hidden',
+    height: height * 0.07,
   },
   buttonText: {
     color: Colors.white,
-    // fontWeight: '600',
-    // letterSpacing: 0.3,
     fontFamily: Font.Regular,
-    fontSize: width * 0.046,
+    fontSize: width * 0.043,
   },
 });

@@ -294,7 +294,7 @@ const SignUp = () => {
             style={styles.nextBtn}
             onPress={step === 2 ? handleSubmit : handleNext}>
             {actiLoading ? (
-              <ActivityIndicator color={Colors.white} size={width * 0.052} />
+              <ActivityIndicator color={Colors.white} />
             ) : (
               <Text style={styles.nextText}>
                 {step === 2 ? 'Submit' : 'Next'}
@@ -332,10 +332,12 @@ const styles = StyleSheet.create({
   },
   nextBtn: {
     backgroundColor: Colors.violet,
-    padding: 15,
+    // padding: 15,
     margin: 20,
     borderRadius: 100,
     alignItems: 'center',
+    height: height * 0.064,
+    justifyContent: 'center',
   },
   nextText: {
     color: Colors.white,

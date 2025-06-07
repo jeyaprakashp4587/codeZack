@@ -64,47 +64,45 @@ const RecentCourses = () => {
         {/* {user?.Courses[newCourseIndex]?.Course_Name} */}
         Your recent courses
       </Text>
-      <View style={{borderRadius: 10, overflow: 'hidden'}}>
-        <LinearGradient
-          colors={['rgba(247, 91, 91, 0.1)', 'rgba(91, 114, 247, 0.1)']}
-          start={{x: 0, y: 1}}
-          end={{x: 1, y: 1}}
-          style={{padding: 20, rowGap: 10}}>
-          <FlatList
-            initialNumToRender={2}
-            nestedScrollEnabled={true}
-            data={user.Courses[newCourseIndex]?.Technologies}
-            horizontal
-            renderItem={({item, index}) => (
-              <TouchableOpacity
-                onPress={() => {
-                  if (isLoaded) {
-                    show();
-                  }
-                  navigation.navigate('learn');
-                  setselectedTechnology({
-                    web: item.TechWeb,
-                    name: item.TechName,
-                  });
-                }}
-                key={index}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  columnGap: 5,
-                  marginRight: 20,
-                }}>
-                <FastImage
-                  priority={FastImage.priority.high}
-                  source={{uri: item?.TechIcon}}
-                  style={{width: width * 0.2, aspectRatio: 1}}
-                  resizeMode="contain"
-                />
-              </TouchableOpacity>
-            )}
-          />
-        </LinearGradient>
-        {/* </ImageBackground> */}
+      <View
+        style={{
+          backgroundColor: 'rgba(0, 0, 0, 0.05)',
+          borderRadius: 10,
+          padding: 10,
+        }}>
+        <FlatList
+          initialNumToRender={2}
+          nestedScrollEnabled={true}
+          data={user.Courses[newCourseIndex]?.Technologies}
+          horizontal
+          renderItem={({item, index}) => (
+            <TouchableOpacity
+              onPress={() => {
+                if (isLoaded) {
+                  show();
+                }
+                navigation.navigate('learn');
+                setselectedTechnology({
+                  web: item.TechWeb,
+                  name: item.TechName,
+                });
+              }}
+              key={index}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                columnGap: 5,
+                marginRight: 20,
+              }}>
+              <FastImage
+                priority={FastImage.priority.high}
+                source={{uri: item?.TechIcon}}
+                style={{width: width * 0.2, aspectRatio: 1}}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          )}
+        />
       </View>
     </View>
   );

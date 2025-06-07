@@ -138,8 +138,8 @@ const SuggestionWapper = ({refresh}) => {
                       color: Colors.veryDarkGrey,
                       textTransform: 'capitalize',
                       // fontWeight: '600',
-                      letterSpacing: 0.5,
-                      fontFamily: 'Poppins-Medium',
+                      letterSpacing: 0.3,
+                      fontFamily: Font.Medium,
                     }}
                     numberOfLines={1}>
                     {truncateText(
@@ -153,8 +153,8 @@ const SuggestionWapper = ({refresh}) => {
                       fontSize: width * 0.025,
                       color: Colors.mildGrey,
                       // fontWeight: '600',
-                      letterSpacing: 1,
-                      fontFamily: 'Poppins-SemiBold',
+                      letterSpacing: 0.3,
+                      fontFamily: Font.Regular,
                     }}>
                     {truncateText(user.item?.InstitudeName)}
                   </Text>

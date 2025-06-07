@@ -134,7 +134,7 @@ const Projects = () => {
                   <TouchableOpacity
                     onPress={() => handleSelectProject(item)}
                     style={{
-                      padding: 8,
+                      padding: 9,
                       borderRadius: 15,
                       marginTop: 10,
                       backgroundColor: Colors.violet,

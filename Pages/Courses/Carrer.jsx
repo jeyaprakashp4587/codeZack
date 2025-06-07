@@ -21,6 +21,7 @@ import {challengesApi} from '../../Api';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 import {BlurView} from '@react-native-community/blur';
+import {Font} from '../../constants/Font';
 
 const {width, height} = Dimensions.get('window');
 const Carrer = () => {
@@ -112,8 +113,8 @@ const Carrer = () => {
                   color: Colors.veryDarkGrey,
                   // fontWeight: '700',
                   fontSize: width * 0.039,
-                  letterSpacing: 0.5,
-                  fontFamily: 'Poppins-SemiBold',
+                  letterSpacing: 0.3,
+                  fontFamily: Font.Medium,
                 }}>
                 {item?.name}
               </Text>

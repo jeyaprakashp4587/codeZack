@@ -1,14 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-  StatusBar,
-  ImageBackground,
-  FlatList,
-} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import HeadingText from '../utils/HeadingText';
 import PragraphText from '../utils/PragraphText';
 import {useData} from '../Context/Contexter';
@@ -21,17 +12,6 @@ import {Font} from '../constants/Font';
 const Challenge = ({navigation}) => {
   const {setselectedChallengeTopic} = useData();
   const {width, height} = Dimensions.get('window');
-  // Memoize the challenge data to avoid recalculating the array on every render
-  // right wrapper left wrapper
-  //   "https://i.ibb.co/6DzKrYd/icons8-swift-240.png"
-  // "https://i.ibb.co/xfCGvhK/icons8-react-native-480.png"
-  // "https://i.ibb.co/X2jw9bT/icons8-kotlin-480.png"
-  // "https://i.ibb.co/HxY5tgj/icons8-javascript-240.png"
-  // "https://i.ibb.co/gVV6xx5/icons8-java-480.png"
-  // "https://i.ibb.co/vB0Z46W/icons8-html-240.png"
-  // "https://i.ibb.co/wpRyJ9Q/icons8-c-240.png"
-  // "https://i.ibb.co/hmFKgGc/icons8-bootstrap-480.png"
-  // "https://i.ibb.co/1ZK8nFT/css-3.png"
   const rightWrapper = useMemo(() => [
     {
       ChallengeName: 'Your Challenges',

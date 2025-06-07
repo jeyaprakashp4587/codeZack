@@ -200,16 +200,16 @@ const InterViewDetails = () => {
             backgroundColor: Colors.violet,
             borderWidth: 0.4,
             borderColor: '#2b2d42',
-            padding: 15,
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: 40,
             columnGap: 10,
+            height: height * 0.065,
           }}>
           {/* */}
           {loading ? (
-            <ActivityIndicator color={Colors.white} size={23} />
+            <ActivityIndicator color={Colors.white} />
           ) : (
             <Text
               style={{

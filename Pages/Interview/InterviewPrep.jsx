@@ -480,7 +480,7 @@ const InterviewPrep = () => {
                       color: '#233d4d',
                       letterSpacing: 0,
                       fontSize: width * 0.03,
-                      fontFamily: 'Poppins-Light',
+                      fontFamily: Font.Regular,
                     }}>
                     previous
                   </Text>
@@ -507,7 +507,7 @@ const InterviewPrep = () => {
                       color: Colors.violet,
                       letterSpacing: 0,
                       fontSize: width * 0.03,
-                      fontFamily: 'Poppins-Light',
+                      fontFamily: Font.Regular,
                     }}>
                     Submit
                   </Text>
@@ -537,7 +537,7 @@ const InterviewPrep = () => {
                       color: Colors.violet,
                       letterSpacing: 0,
                       fontSize: width * 0.03,
-                      fontFamily: 'Poppins-Light',
+                      fontFamily: Font.Regular,
                     }}>
                     Next
                   </Text>
@@ -555,9 +555,11 @@ const InterviewPrep = () => {
               style={{
                 borderWidth: 0.3,
                 borderColor: Colors.lightGrey,
-                padding: 10,
                 borderRadius: 50,
                 backgroundColor: Colors.violet,
+                height: height * 0.055,
+                justifyContent: 'center',
+                alignItems: 'center',
               }}>
               {saveLoading ? (
                 <ActivityIndicator color={Colors.white} />
@@ -574,10 +576,10 @@ const InterviewPrep = () => {
                       textAlign: 'center',
                       letterSpacing: 0.3,
                       color: Colors.white,
-                      fontSize: width * 0.04,
+                      fontSize: width * 0.03,
                       alignSelf: 'center',
                       borderColor: 'white',
-                      fontFamily: 'Poppins-Light',
+                      fontFamily: Font.Medium,
                     }}>
                     {saveInfo ? 'saved' : 'Save your progress'}
                   </Text>

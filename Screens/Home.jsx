@@ -113,7 +113,7 @@ const Home = () => {
       refreshControl={
         <RefreshControl refreshing={refresh} onRefresh={refreshUser} />
       }>
-      <View style={{flex: 1, backgroundColor: Colors.white, rowGap: 10}}>
+      <View style={{flex: 1, backgroundColor: Colors.white, rowGap: 15}}>
         {/* header */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.navigate('profile')}>

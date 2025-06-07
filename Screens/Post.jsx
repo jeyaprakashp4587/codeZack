@@ -312,7 +312,7 @@ const Post = () => {
             style={{
               color: Colors.mildGrey,
               borderBottomWidth: 1,
-              letterSpacing: 1,
+              letterSpacing: 0.5,
               padding: 10,
               borderColor: Colors.veryLightGrey,
               fontFamily: Font.Regular,
@@ -342,7 +342,7 @@ const Post = () => {
                 Select Images
               </Text>
               {uploadImgIndi ? (
-                <ActivityIndicator size={15} color="black" />
+                <ActivityIndicator color="black" />
               ) : (
                 <FontAwesomeIcon
                   icon={faImage}
