@@ -62,37 +62,40 @@ const SignUp = () => {
     }
   };
 
-  const validateStep = current => {
-    let newErrors = {};
-    switch (current) {
-      case 0:
-        if (!formData.firstName.trim())
-          newErrors.firstName = 'First name is required';
-        if (!formData.lastName.trim())
-          newErrors.lastName = 'Last name is required';
-        if (!formData.gender) newErrors.gender = 'Select gender';
-        break;
-      case 1:
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
-          newErrors.email = 'Valid email required';
-        if (formData.password.length < 6)
-          newErrors.password = 'Min 6 characters';
-        if (formData.password !== formData.confirmPassword)
-          newErrors.confirmPassword = 'Passwords do not match';
-        break;
-      case 2:
-        if (!formData.state) newErrors.state = 'District required';
-        if (!formData.city) newErrors.city = 'City required';
-        if (!formData.institution)
-          newErrors.institution = 'Institution name required';
-        break;
-    }
-    if (Object.keys(newErrors).length > 0) {
-      ToastAndroid.show(Object.values(newErrors)[0], ToastAndroid.SHORT);
-      return false;
-    }
-    return true;
-  };
+  const validateStep = useCallback(
+    current => {
+      let newErrors = {};
+      switch (current) {
+        case 0:
+          if (!formData.firstName.trim())
+            newErrors.firstName = 'First name is required';
+          if (!formData.lastName.trim())
+            newErrors.lastName = 'Last name is required';
+          if (!formData.gender) newErrors.gender = 'Select gender';
+          break;
+        case 1:
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+            newErrors.email = 'Valid email required';
+          if (formData.password.length < 6)
+            newErrors.password = 'Min 6 characters';
+          if (formData.password !== formData.confirmPassword)
+            newErrors.confirmPassword = 'Passwords do not match';
+          break;
+        case 2:
+          if (!formData.state) newErrors.state = 'District required';
+          if (!formData.city) newErrors.city = 'City required';
+          if (!formData.institution)
+            newErrors.institution = 'Institution name required';
+          break;
+      }
+      if (Object.keys(newErrors).length > 0) {
+        ToastAndroid.show(Object.values(newErrors)[0], ToastAndroid.SHORT);
+        return false;
+      }
+      return true;
+    },
+    [formData],
+  );
 
   const handleChange = (field, value) => {
     setFormData({...formData, [field]: value});
@@ -102,7 +105,7 @@ const SignUp = () => {
   const handleSubmit = useCallback(async () => {
     try {
       setActiloading(true);
-      if (!validateStep) return;
+      if (!validateStep(step)) return;
       const response = await axios.post(`${loginApi}/LogIn/signUp`, formData);
       if (response.data.message == 'SignUp Sucessfully') {
         ToastAndroid.show('Signup Successfully', ToastAndroid.BOTTOM);
@@ -291,7 +294,7 @@ const SignUp = () => {
             style={styles.nextBtn}
             onPress={step === 2 ? handleSubmit : handleNext}>
             {actiLoading ? (
-              <ActivityIndicator color={Colors.white} size={width * 0.048} />
+              <ActivityIndicator color={Colors.white} size={width * 0.052} />
             ) : (
               <Text style={styles.nextText}>
                 {step === 2 ? 'Submit' : 'Next'}
