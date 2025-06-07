@@ -114,7 +114,7 @@ const PostFeed = () => {
               </Text>
             </View>
           ) : (
-            <FlashList
+            <FlatList
               nestedScrollEnabled={true}
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

@@ -72,8 +72,8 @@ const SuggestionWapper = ({refresh}) => {
               letterSpacing: 0.7,
               fontSize: width * 0.03,
               // fontWeight: '600',
-              color: Colors.mildGrey,
-              fontFamily: 'Poppins-Medium',
+              color: Colors.veryDarkGrey,
+              fontFamily: Font.Medium,
             }}>
             Show more
           </Text>

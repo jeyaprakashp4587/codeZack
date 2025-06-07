@@ -49,7 +49,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
   const [LoadDelete, setLoadDelete] = useState(false);
   const [commentShowModel, setCommandModelShow] = useState(false);
   const [selectedComment, setSelectedComment] = useState();
-  // console.log(post);
+  console.log(post);
   useEffect(() => {
     if (post?.Like !== undefined && post?.Like !== null) {
       setLikeCount(post?.Like);
@@ -94,7 +94,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
         }
       } catch (err) {
         setLoadDelete(false);
-        // console.log(err);
+        console.log(err);
         ToastAndroid.show('Error while post delete', ToastAndroid.SHORT);
       }
     },
@@ -212,7 +212,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
           }
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         setCommandModelShow(false);
         ToastAndroid.show('delete comment failed', ToastAndroid.SHORT);
       }
@@ -243,12 +243,12 @@ const Posts = ({post, index, admin, senderDetails}) => {
         setLikedUserHasMore(res.data.hasMore);
       }
     } catch (err) {
-      console.error('Failed to fetch liked users:', err);
+      // console.error('Failed to fetch liked users:', err);
       ToastAndroid.show('Failed to fetch liked users', ToastAndroid.SHORT);
     } finally {
       setLikedUserLoading(false);
     }
-  }, []);
+  }, [post]);
   // get all comments
   const [commentSkip, setCommentSkip] = useState(0);
   const [commentHasMore, setCommentHasMore] = useState(true);
@@ -259,7 +259,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
     if (commentLoading || !commentHasMore) return;
     setCommentLoading(true);
     try {
-      // console.log('Fetching comments...');
+      console.log('Fetching comments...');
       const res = await axios.get(
         `${profileApi}/Post/getComments/${post?._id}`,
         {
@@ -272,7 +272,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
         setCommentHasMore(res.data.hasMore);
       }
     } catch (error) {
-      console.error('Failed to fetch comments:', error);
+      // console.error('Failed to fetch comments:', error);
       ToastAndroid.show('Failed to fetch comments', ToastAndroid.SHORT);
     } finally {
       setCommentLoading(false);
@@ -280,7 +280,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
   }, [commentSkip, commentHasMore, commentLoading]);
 
   //
-  // console.log(post?.Images);
+  console.log(post?.Images);
 
   const [showImageModel, setShowImageModel] = useState(false);
   // fetch connections lists
@@ -292,7 +292,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
     if (networkListLoadding || !hasMoreNetworks) return; // Prevent duplicate requests
     setNetworkListLoading(true);
     try {
-      console.log('fetch networks');
+      // console.log('fetch networks');
       const res = await axios.get(
         `${profileApi}/Following/getNetworks/${user?._id}`,
         {
@@ -308,7 +308,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
         setHasMoreNetworks(res.data.hasMore);
       }
     } catch (error) {
-      console.error('Error fetching networks list:', error);
+      // console.error('Error fetching networks list:', error);
     } finally {
       setNetworkListLoading(false);
     }
@@ -433,7 +433,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
         <FlatList
           showsHorizontalScrollIndicator={false}
           data={post?.Images}
-          initialNumToRender={2}
+          initialNumToRender={1}
           horizontal
           style={{marginTop: 10}}
           renderItem={({item, index}) => (
@@ -609,7 +609,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
                 <FlatList
                   nestedScrollEnabled={true}
                   showsVerticalScrollIndicator={false}
-                  initialNumToRender={2}
+                  initialNumToRender={1}
                   data={likedUsers.sort(like => like?.LikedTime)}
                   keyExtractor={item => item?.userId}
                   renderItem={({item}) => (
@@ -697,7 +697,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
             ) : comments?.length > 0 ? (
               <FlatList
                 nestedScrollEnabled={true}
-                initialNumToRender={2}
+                initialNumToRender={1}
                 showsVerticalScrollIndicator={false}
                 data={comments.sort(com => com?.commentedAt)}
                 keyExtractor={(item, index) =>
@@ -828,7 +828,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
             showsHorizontalScrollIndicator={false}
             data={post?.Images}
             horizontal
-            initialNumToRender={2}
+            initialNumToRender={1}
             pagingEnabled
             renderItem={({item}) => (
               <View
@@ -1042,7 +1042,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
                 horizontal
                 style={{borderWidth: 0}}
                 data={netWorksList}
-                initialNumToRender={2}
+                initialNumToRender={1}
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={item => item?._id}
                 contentContainerStyle={{

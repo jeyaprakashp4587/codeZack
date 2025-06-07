@@ -94,7 +94,7 @@ const TabNavigation = () => {
         tabBarStyle: {
           borderTopWidth: 0,
           elevation: 0,
-          height: 65,
+          height: 70,
           // borderWidth: 2,
         },
         tabBarLabelStyle: {

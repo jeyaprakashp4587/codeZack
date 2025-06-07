@@ -127,18 +127,16 @@ const Projects = () => {
                       letterSpacing: 0.4,
                       color: 'black',
                       fontFamily: Font.SemiBold,
+                      fontSize: width * 0.04,
                     }}>
                     {item?.name}
                   </Text>
                   <TouchableOpacity
                     onPress={() => handleSelectProject(item)}
                     style={{
-                      // borderWidth: 0.4,
-                      // borderColor: 'black',
                       padding: 8,
                       borderRadius: 15,
                       marginTop: 10,
-                      // backgroundColor: 'rgba(255, 255, 255, 0.20)',
                       backgroundColor: Colors.violet,
                     }}>
                     <Text

@@ -16,6 +16,7 @@ import {useData} from '../Context/Contexter';
 import Skeleton from '../Skeletons/Skeleton';
 import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
 import {Font} from '../constants/Font';
+import {Colors} from '../constants/Colors';
 
 const Companies = () => {
   const navigation = useNavigation();
@@ -134,7 +135,7 @@ const Companies = () => {
                 flex: 1,
                 columnGap: 15,
               }}>
-              <View style={{borderWidth: 0, flex: 1}}>
+              <View style={{borderWidth: 0, flex: 1, rowGap: 5}}>
                 <Text
                   style={{
                     color: 'white',
@@ -162,8 +163,9 @@ const Companies = () => {
                   source={{uri: item?.companyLogo}}
                   style={{
                     resizeMode: 'contain',
-                    width: width * 0.25,
+                    width: width * 0.35,
                     height: height * 0.08,
+                    // aspectRatio: 1,
                   }}
                 />
               </View>
@@ -182,18 +184,16 @@ const Companies = () => {
                   // padding: 10,
                   width: '100%',
                   borderRadius: 20,
-                  paddingHorizontal: 10,
-                  paddingVertical: 7,
+                  padding: 10,
                   backgroundColor: 'rgba(255, 255, 255, 0.2)',
                 }}>
                 <Text
                   style={{
-                    color: 'white',
-                    // fontWeight: '600',
+                    color: Colors.white,
                     textAlign: 'center',
-                    letterSpacing: 1,
+                    letterSpacing: 0.3,
                     fontSize: width * 0.029,
-                    fontFamily: Font.Regular,
+                    fontFamily: Font.SemiBold,
                   }}>
                   {user?.InterView?.some(
                     userComp => userComp?.companyName == item?.company_name,

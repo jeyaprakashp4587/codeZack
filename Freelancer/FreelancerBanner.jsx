@@ -51,49 +51,65 @@ const FreelancerBanner = () => {
         }}>
         Freelancing
       </Text>
+      {/* wrapper */}
       <View
         style={{
-          flexDirection: 'row',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'space-between',
-          columnGap: 30,
-          backgroundColor: 'rgba(13, 102, 185, 0.12)',
-          padding: 10,
+          backgroundColor: 'rgba(13, 93, 185, 0.15)',
+          padding: 15,
           borderRadius: 10,
-          // elevation: 2,
+          overflow: 'hidden',
+          rowGap: 10,
         }}>
+        <View style={{borderWidth: 0, width: '100%'}}>
+          {/* times icons */}
+          <Ripple
+            onPress={() => setShowBanner(false)}
+            style={{
+              backgroundColor: Colors.veryLightGrey,
+              borderRadius: 90,
+              width: 25,
+              aspectRatio: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              alignSelf: 'flex-end',
+            }}>
+            <FontAwesome5 name="times" size={13} color="rgb(0, 0, 0)" />
+          </Ripple>
+        </View>
+        {/* content wrapper */}
         <FastImage
           source={{
             uri: 'https://i.ibb.co/9mHPQysq/happy-freelancer-with-computer-home-young-man-sitting-armchair-using-laptop-chatting-online-smiling.png',
             priority: FastImage.priority.high,
           }}
-          resizeMode="contain"
-          style={{width: width * 0.35, aspectRatio: 1, zIndex: 10}}
+          resizeMode="cover"
+          style={{
+            width: width * 0.35,
+            aspectRatio: 1,
+            zIndex: 10,
+            position: 'absolute',
+            bottom: -8,
+            left: 10,
+          }}
         />
-        <View style={{flex: 1, borderWidth: 0, rowGap: 10}}>
-          {/* times icons */}
-          <Ripple
-            onPress={() => setShowBanner(false)}
-            style={{
-              position: 'absolute',
-              right: 0,
-              top: -14,
-              backgroundColor: Colors.veryLightGrey,
-              borderRadius: 90,
-              width: 20,
-              aspectRatio: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <FontAwesome5 name="times" size={13} color="rgb(0, 0, 0)" />
-          </Ripple>
-          {/*  */}
+        <View
+          style={{
+            // borderWidth: 1,
+            flex: 1,
+            justifyContent: 'flex-end',
+            alignSelf: 'flex-end',
+            width: '50%',
+            rowGap: 15,
+          }}>
           <Text
             style={{
               fontFamily: Font.SemiBold,
-              fontSize: width * 0.044,
+              fontSize: width * 0.05,
               letterSpacing: 0.2,
-              lineHeight: 25,
+              lineHeight: 30,
             }}>
             Get paid for your coding skills.
           </Text>
@@ -103,6 +119,7 @@ const FreelancerBanner = () => {
               backgroundColor: Colors.violet,
               padding: 8,
               borderRadius: 90,
+              width: '80%',
             }}>
             <Text
               style={{

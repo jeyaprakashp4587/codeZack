@@ -95,14 +95,14 @@ const SignUp = () => {
   };
 
   const handleChange = (field, value) => {
-    setFormData({...formData, [field]: value.trim()});
+    setFormData({...formData, [field]: value});
   };
   // handle submit
   const [actiLoading, setActiloading] = useState(false);
   const handleSubmit = useCallback(async () => {
     try {
       setActiloading(true);
-      if (!validateStep()) return;
+      if (!validateStep) return;
       const response = await axios.post(`${loginApi}/LogIn/signUp`, formData);
       if (response.data.message == 'SignUp Sucessfully') {
         ToastAndroid.show('Signup Successfully', ToastAndroid.BOTTOM);
@@ -291,7 +291,7 @@ const SignUp = () => {
             style={styles.nextBtn}
             onPress={step === 2 ? handleSubmit : handleNext}>
             {actiLoading ? (
-              <ActivityIndicator color={Colors.white} size={width * 0.04} />
+              <ActivityIndicator color={Colors.white} size={width * 0.048} />
             ) : (
               <Text style={styles.nextText}>
                 {step === 2 ? 'Submit' : 'Next'}
