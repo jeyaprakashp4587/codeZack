@@ -52,7 +52,7 @@ const Notifications = () => {
         Array.isArray(res.data.notifications) &&
         res.data.notifications.length > 0
       ) {
-        setNotificationList(prev => [...res.data.notifications, ...prev]);
+        setNotificationList(prev => [...prev, ...res.data.notifications]);
         setPage(prev => prev + 1);
         setTotalPages(res.data.totalPages);
         if (page >= res.data.totalPages) {
@@ -170,6 +170,7 @@ const Notifications = () => {
           data={notificationList.sort(noti => noti.Time)}
           keyExtractor={item => item.NotificationId}
           style={{marginTop: 10}}
+          key={item => item.NotificationId}
           renderItem={({item, index}) => (
             <TouchableOpacity
               onPress={() => handleNotificationClick(item)}

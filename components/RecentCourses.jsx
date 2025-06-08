@@ -66,7 +66,7 @@ const RecentCourses = () => {
       </Text>
       <View
         style={{
-          backgroundColor: 'rgba(0, 0, 0, 0.05)',
+          // backgroundColor: 'rgba(0, 0, 0, 0.05)',
           borderRadius: 10,
           padding: 10,
         }}>
