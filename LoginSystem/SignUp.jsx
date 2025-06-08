@@ -116,7 +116,6 @@ const SignUp = () => {
         ToastAndroid.show('Email has already been taken', ToastAndroid.BOTTOM);
       }
     } catch (error) {
-      console.error(error);
       Alert.alert('Signup failed. Try again.');
     } finally {
       setActiloading(false);

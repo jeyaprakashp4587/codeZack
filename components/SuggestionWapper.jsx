@@ -29,7 +29,6 @@ const SuggestionWapper = ({refresh}) => {
     const res = await axios.get(`${functionApi}/Suggestions/users/${user._id}`);
     if (res.data) {
       setProfiles(res.data);
-      // console.log(res.data);
       if (res.data.length <= 0) trigger(false);
     }
     return res.data;

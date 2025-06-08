@@ -39,20 +39,18 @@ const PasswordReset = () => {
 
     try {
       const emailExists = await checkEmail(); // Await checkEmail response
-      console.log('Email exists:', emailExists); // Debugging log
+
       if (emailExists) {
         setLoading(false);
-        console.log('Email verified. Navigating to OTP Verification.');
+
         nav.navigate('otpVerification', {email: email.toLowerCase()});
       } else {
-        console.log("Email doesn't exist.");
         ToastAndroid.show(
           "Email doesn't exist, try another email",
           ToastAndroid.SHORT,
         );
       }
     } catch (error) {
-      //   console.error('Error in sendOtp:', error.message);
       ToastAndroid.show(
         'Something went wrong. Please try again.',
         ToastAndroid.LONG,
@@ -62,18 +60,15 @@ const PasswordReset = () => {
 
   const checkEmail = useCallback(async () => {
     try {
-      console.log('Sending email verification request...');
       const res = await axios.post(`${loginApi}/LogIn/splash`, {
         Email: email.toLowerCase().trim(),
       });
       if (res.status == 200) {
-        // console.log(res.data);
         return true; // Email exists
       } else {
         return false;
       }
     } catch (error) {
-      console.log('Error in checkEmail:', error.message);
       return false;
     }
   }, [loginApi, email]);

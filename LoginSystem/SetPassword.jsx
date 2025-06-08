@@ -65,9 +65,7 @@ const SetPassword = () => {
       } else {
         alert(result.message || 'Failed to reset password. Try again later.');
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }, [email, nav]);
 
   return (

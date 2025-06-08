@@ -113,7 +113,6 @@ const UploadProject = () => {
         resetForm();
       }
     } catch (error) {
-      console.error('Submission Error:', error);
       showToast('Something went wrong during submission');
     } finally {
       setLoading(false);

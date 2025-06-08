@@ -32,9 +32,7 @@ const Projects = () => {
       if (status == 200 && data) {
         setProjects(data.projects[0]?.Projects);
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }, [projects]);
   // call the function using useeffect
   useEffect(() => {
@@ -50,9 +48,7 @@ const Projects = () => {
       try {
         navigation.navigate('selectedProject');
         setSelectedProject(project);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
     [navigation],
   );

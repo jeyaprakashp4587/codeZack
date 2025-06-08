@@ -99,7 +99,6 @@ const AssignmentPlayGround = () => {
         `${functionApi}/Assignment/getAssignments/${ChallengeTopic}`,
       );
       if (res.data) {
-        console.log(res.data);
         const {easy, medium, hard} = res.data;
         let data = [];
         switch (level) {
@@ -120,7 +119,6 @@ const AssignmentPlayGround = () => {
       }
     } catch (err) {
       setError('Failed to load challenges. Please try again.');
-      console.error('Error fetching challenges:', err);
     }
   }, []); // No unnecessary re-renders
   useEffect(() => {
@@ -155,7 +153,7 @@ const AssignmentPlayGround = () => {
         score += 1;
       }
     });
-    // console.log('Score calculated:', score);
+
     const passingScore = difficultyInfo.toLowerCase() === 'easy' ? 5 : 15;
     if (score < passingScore || score === 0) {
       Alert.alert(`Try Again!, You did not pass. Score: ${score}`);
@@ -180,12 +178,9 @@ const AssignmentPlayGround = () => {
             user?._id,
             `Finished ${difficultyInfo} Level ${assignmentType} assignment`,
           );
-        } catch (error) {
-          console.log(error);
-        }
+        } catch (error) {}
       }
     } catch (error) {
-      console.error('Error submitting assignment:', error);
       Alert.alert(
         'Error',
         'Something went wrong while submitting your assignment. Please try again.',

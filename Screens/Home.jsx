@@ -200,34 +200,35 @@ const Home = () => {
         <TouchableOpacity
           onPress={() => navigation.navigate('search')}
           style={{
-            // borderWidth: 1,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'flex-start',
             marginHorizontal: 15,
             borderRadius: 25,
             paddingHorizontal: 10,
-            borderColor: Colors.veryLightGrey,
             height: height * 0.06,
             backgroundColor: '#F6F6F6',
-            // borderWidth: 1,
           }}>
           <EvilIcons
             name="search"
             size={width * 0.07}
-            color={Colors.lightGrey}
+            color={Colors.veryDarkGrey}
           />
           <TextInput
             onPress={() => navigation.navigate('search')}
             placeholder="Search"
-            placeholderTextColor={Colors.lightGrey}
-            style={{letterSpacing: 1, fontFamily: Font.Regular}}
+            placeholderTextColor={Colors.veryDarkGrey}
+            style={{
+              letterSpacing: 0.5,
+              fontFamily: Font.Regular,
+              color: Colors.veryDarkGrey,
+            }}
           />
         </TouchableOpacity>
         {/* Ideas wrapper */}
         <IdeasWrapper />
         {/* Recent courses */}
-        <RecentCourses />
+        {/* <RecentCourses /> */}
         {/* Freelancer project */}
         <FreelancerBanner />
         {/* premium projects */}

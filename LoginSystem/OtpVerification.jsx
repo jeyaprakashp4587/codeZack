@@ -97,10 +97,7 @@ const OtpVerification = () => {
         email,
         otp,
       });
-      console.log('OTP sent successfully');
-    } catch (error) {
-      console.error('Error sending OTP:', error);
-    }
+    } catch (error) {}
   }, []);
 
   useEffect(() => {

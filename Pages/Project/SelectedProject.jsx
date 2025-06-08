@@ -68,7 +68,17 @@ const SelectedProject = () => {
       setDownloadIndi(false);
       ToastAndroid.show('Downloaded successfully', ToastAndroid.SHORT);
       setTimeout(() => {
-        FileViewer.open(localPath);
+        FileViewer.open(localPath)
+          .then(() => {
+            // File opened successfully, no need to do anything
+          })
+          .catch(error => {
+            Alert.alert(
+              'Can’t Open File 😕',
+              'Looks like your device doesn’t have a compatible app to open this file.\n\n👉 Please go to your Downloads folder and open it manually.',
+              [{text: 'OK'}],
+            );
+          });
       }, 1000);
     } catch (error) {
       setDownloadIndi(false);
@@ -172,74 +182,33 @@ const SelectedProject = () => {
                   />
                 </View>
               ))}
-              {/* price */}
-              {adCount > 0 && (
-                <Text
-                  style={{
-                    // fontWeight: '900',
-                    color: Colors.violet,
-                    letterSpacing: 1,
-                    fontSize: width * 0.03,
-                    marginBottom: 10,
-                    fontFamily: Font.Medium,
-                  }}>
-                  Watch {adCount} Ads to unlock
-                </Text>
-              )}
-              {/* buttons */}
-              {adCount <= 0 ? (
-                <TouchableOpacity
-                  style={{
-                    padding: 10,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 50,
-                    backgroundColor: Colors.violet,
-                    borderColor: Colors.violet,
-                    borderWidth: 0.6,
-                  }}
-                  onPress={() => handleBuyProject()}>
-                  {downloadIndi ? (
-                    <ActivityIndicator size={25} color={Colors.white} />
-                  ) : (
-                    <Text
-                      style={{
-                        textAlign: 'center',
-                        letterSpacing: 1,
-                        fontSize: width * 0.035,
-                        color: Colors.white,
-                        fontFamily: Font.Medium,
-                      }}>
-                      Get Project
-                    </Text>
-                  )}
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  onPress={watchAdd}
-                  style={{
-                    padding: 10,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 5,
-                    backgroundColor: 'white',
-                    backgroundColor: Colors.violet,
-                  }}>
-                  {isLoaded ? (
-                    <Text
-                      style={{
-                        fontFamily: Font.Regular,
-                        fontSize: width * 0.036,
-                        letterSpacing: 1,
-                        color: 'white',
-                      }}>
-                      Watch add
-                    </Text>
-                  ) : (
-                    <ActivityIndicator color="white" size={20} />
-                  )}
-                </TouchableOpacity>
-              )}
+              <TouchableOpacity
+                style={{
+                  // padding: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 50,
+                  backgroundColor: Colors.violet,
+                  borderColor: Colors.violet,
+                  borderWidth: 0.6,
+                  height: height * 0.055,
+                }}
+                onPress={() => handleBuyProject()}>
+                {downloadIndi ? (
+                  <ActivityIndicator size={25} color={Colors.white} />
+                ) : (
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      letterSpacing: 1,
+                      fontSize: width * 0.035,
+                      color: Colors.white,
+                      fontFamily: Font.Medium,
+                    }}>
+                    Get Project
+                  </Text>
+                )}
+              </TouchableOpacity>
             </View>
           ))}
         </View>

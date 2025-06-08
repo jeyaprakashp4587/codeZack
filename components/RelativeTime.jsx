@@ -17,7 +17,6 @@ const RelativeTime = ({time, fsize}) => {
           const formattedTime = moment(time).fromNow();
           setRelativeTime(formattedTime);
         } else {
-          console.warn('Invalid time format:', time);
           setRelativeTime('Invalid time');
         }
       } else {

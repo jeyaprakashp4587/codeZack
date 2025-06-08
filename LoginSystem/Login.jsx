@@ -29,8 +29,6 @@ import {Font} from '../constants/Font';
 const {width, height} = Dimensions.get('window');
 
 const Login = () => {
-  // console.log(loginApi);
-
   const {setUser} = useData();
   const navigation = useNavigation();
   const [hidePassword, setHidePassword] = useState(true);

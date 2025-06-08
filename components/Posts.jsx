@@ -49,7 +49,6 @@ const Posts = ({post, index, admin, senderDetails}) => {
   const [LoadDelete, setLoadDelete] = useState(false);
   const [commentShowModel, setCommandModelShow] = useState(false);
   const [selectedComment, setSelectedComment] = useState();
-  console.log(post);
   useEffect(() => {
     if (post?.Like !== undefined && post?.Like !== null) {
       setLikeCount(post?.Like);
@@ -94,7 +93,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
         }
       } catch (err) {
         setLoadDelete(false);
-        console.log(err);
+
         ToastAndroid.show('Error while post delete', ToastAndroid.SHORT);
       }
     },
@@ -161,7 +160,6 @@ const Posts = ({post, index, admin, senderDetails}) => {
   const handleSubmitComment = useCallback(async () => {
     if (newComment.trim() === '') return;
     try {
-      console.log(senderDetails);
       const res = await axios.post(
         `${profileApi}/Post/commentPost/${post._id}`,
         {
@@ -191,7 +189,6 @@ const Posts = ({post, index, admin, senderDetails}) => {
     async commentID => {
       try {
         if (!commentID) {
-          console.log(commentID);
           return;
         }
         const {status} = await axios.post(`${profileApi}/Post/deleteComment`, {
@@ -211,7 +208,6 @@ const Posts = ({post, index, admin, senderDetails}) => {
           }
         }
       } catch (error) {
-        // console.log(error);
         setCommandModelShow(false);
         ToastAndroid.show('delete comment failed', ToastAndroid.SHORT);
       }
@@ -260,7 +256,6 @@ const Posts = ({post, index, admin, senderDetails}) => {
     if (commentLoading || !commentHasMore) return;
     setCommentLoading(true);
     try {
-      console.log('Fetching comments...');
       const res = await axios.get(
         `${profileApi}/Post/getComments/${post?._id}`,
         {
@@ -279,10 +274,6 @@ const Posts = ({post, index, admin, senderDetails}) => {
       setCommentLoading(false);
     }
   }, [commentSkip, commentHasMore, commentLoading]);
-
-  //
-  console.log(post?.Images);
-
   const [showImageModel, setShowImageModel] = useState(false);
   // fetch connections lists
   const [netWorksList, setNetworksList] = useState([]);
@@ -293,7 +284,6 @@ const Posts = ({post, index, admin, senderDetails}) => {
     if (networkListLoadding || !hasMoreNetworks) return; // Prevent duplicate requests
     setNetworkListLoading(true);
     try {
-      // console.log('fetch networks');
       const res = await axios.get(
         `${profileApi}/Following/getNetworks/${user?._id}`,
         {
@@ -507,6 +497,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
                 uri: liked
                   ? 'https://i.ibb.co/gFmg88xD/like.png'
                   : 'https://i.ibb.co/1GhhCK8C/thumbs-up.png',
+                priority: FastImage.priority.high,
               }}
               resizeMode="contain"
               style={{width: width * 0.05, aspectRatio: 1}}
@@ -527,9 +518,11 @@ const Posts = ({post, index, admin, senderDetails}) => {
             {/* {commentsLength} */}
             {commentsLength}
           </Text>
-
           <FastImage
-            source={{uri: 'https://i.ibb.co/ych16fj7/speech-bubble.png'}}
+            source={{
+              uri: 'https://i.ibb.co/ych16fj7/speech-bubble.png',
+              priority: FastImage.priority.high,
+            }}
             resizeMode="contain"
             style={{width: width * 0.05, aspectRatio: 1}}
           />
