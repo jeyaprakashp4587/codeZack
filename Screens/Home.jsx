@@ -186,8 +186,9 @@ const Home = () => {
             // borderWidth: 1,
           }}>
           <Text
+            numberOfLines={2}
             style={{
-              fontSize: width * 0.045,
+              fontSize: width * 0.05,
               lineHeight: 30,
               letterSpacing: 0.3,
               fontFamily: Font.SemiBold,
@@ -304,9 +305,8 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 15,
     alignItems: 'center',
-    // borderWidth: 1,
+    paddingHorizontal: 15,
   },
   profileImage: {resizeMode: 'cover'},
   headerIcons: {flexDirection: 'row', gap: 10},

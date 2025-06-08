@@ -31,7 +31,7 @@ const HomeSkeleton = () => {
             // borderWidth: 1,
             flexWrap: 'wrap',
             justifyContent: 'space-between',
-            marginVertical: 10,
+            marginVertical: 5,
             alignItems: 'center',
           }}>
           <Skeleton

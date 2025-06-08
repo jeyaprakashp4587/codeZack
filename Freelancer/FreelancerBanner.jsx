@@ -62,6 +62,7 @@ const FreelancerBanner = () => {
           borderRadius: 10,
           overflow: 'hidden',
           rowGap: 10,
+          // borderWidth: 1,
         }}>
         <View style={{borderWidth: 0, width: '100%'}}>
           {/* times icons */}
@@ -119,7 +120,7 @@ const FreelancerBanner = () => {
               backgroundColor: Colors.violet,
               padding: 8,
               borderRadius: 90,
-              width: '80%',
+              width: '85%',
             }}>
             <Text
               style={{

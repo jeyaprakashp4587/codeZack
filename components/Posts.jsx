@@ -11,6 +11,7 @@ import {
   ToastAndroid,
   ActivityIndicator,
   Linking,
+  BackHandler,
 } from 'react-native';
 import React, {useCallback, useEffect, useState, useRef} from 'react';
 import {Colors, font} from '../constants/Colors';
@@ -26,7 +27,6 @@ import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import useSocketEmit from '../Socket/useSocketEmit';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import FastImage from 'react-native-fast-image';
 import MiniUserSkeleton from '../Skeletons/MiniUserSkeleton';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -110,7 +110,6 @@ const Posts = ({post, index, admin, senderDetails}) => {
 
   const handleLike = useCallback(
     async postId => {
-      console.log(senderDetails);
       setLiked(true);
       try {
         const response = await axios.post(
@@ -122,7 +121,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
         );
         if (response.status === 200) {
           setLikeCount(prev => prev + 1);
-          if (senderDetails) {
+          if (senderDetails && user?._id != senderDetails?._id) {
             emitEvent('LikeNotiToUploader', {
               Time: moment().format('YYYY-MM-DDTHH:mm:ss'),
               postId: post?._id,
@@ -219,6 +218,8 @@ const Posts = ({post, index, admin, senderDetails}) => {
     },
     [comments, user],
   );
+
+  const postDetail = useRef(null);
   // get liked user using pagination
   const [likedUsers, setLikedUsers] = useState([]);
   const [likedUserSkip, setLikedUserSkip] = useState(0);
@@ -226,7 +227,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
   const [likedUserLoading, setLikedUserLoading] = useState(false);
   const handleShowLikedUsers = useCallback(async () => {
     setModalContentType('likes');
-    setIsModalVisible(true);
+    postDetail.current.open();
     if (likedUserLoading || !likedUserHasMore) return;
     setLikedUserLoading(true);
     try {
@@ -255,7 +256,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
   const [commentLoading, setCommentLoading] = useState(false);
   const handleShowComments = useCallback(async () => {
     setModalContentType('comments');
-    setIsModalVisible(true);
+    postDetail.current.open();
     if (commentLoading || !commentHasMore) return;
     setCommentLoading(true);
     try {
@@ -490,7 +491,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
             width: width * 0.1, // Fixed width for the container
           }}>
           <View
-            style={{flexDirection: 'row', alignItems: 'center', columnGap: 2}}>
+            style={{flexDirection: 'row', alignItems: 'center', columnGap: 5}}>
             <Text
               style={{
                 // fontFamily: font.poppins,
@@ -501,10 +502,14 @@ const Posts = ({post, index, admin, senderDetails}) => {
               }}>
               {likeCount}
             </Text>
-            <EvilIcons
-              name="like"
-              size={width * 0.08}
-              color={liked ? 'red' : Colors.veryDarkGrey}
+            <FastImage
+              source={{
+                uri: liked
+                  ? 'https://i.ibb.co/gFmg88xD/like.png'
+                  : 'https://i.ibb.co/1GhhCK8C/thumbs-up.png',
+              }}
+              resizeMode="contain"
+              style={{width: width * 0.05, aspectRatio: 1}}
             />
           </View>
         </TouchableOpacity>
@@ -514,16 +519,20 @@ const Posts = ({post, index, admin, senderDetails}) => {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            columnGap: 2,
-            // borderWidth: 1,
+            columnGap: 5,
+
             width: width * 0.2,
-            // justifyContent: 'center',
           }}>
           <Text style={{fontFamily: Font.Regular, fontSize: width * 0.048}}>
             {/* {commentsLength} */}
             {commentsLength}
           </Text>
-          <EvilIcons name="comment" size={width * 0.07} />
+
+          <FastImage
+            source={{uri: 'https://i.ibb.co/ych16fj7/speech-bubble.png'}}
+            resizeMode="contain"
+            style={{width: width * 0.05, aspectRatio: 1}}
+          />
         </TouchableOpacity>
 
         <RelativeTime time={post?.Time} fsize={width * 0.033} />
@@ -565,203 +574,115 @@ const Posts = ({post, index, admin, senderDetails}) => {
         </Text>
       </TouchableOpacity>
       {/* Modal for displaying liked users or comments */}
-      <Modal
-        visible={isModalVisible}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={() => setIsModalVisible(false)}>
-        <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.42)'}}>
-          <View style={styles.modalBackground}>
-            <View
-              style={{
-                // borderWidth: 1,
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                rowGap: 10,
-                // borderBottomWidth: 1,
-                borderColor: Colors.veryLightGrey,
-                marginBottom: 10,
-              }}>
-              {/* bar */}
-              <View
-                style={{
-                  width: 50,
-                  height: 3,
-                  backgroundColor: Colors.lightGrey,
-                  borderRadius: 50,
-                }}
-              />
-              <Text
-                style={{
-                  fontSize: width * 0.04,
-                  marginBottom: height * 0.01,
-                  letterSpacing: 2,
-                  textAlign: 'center',
-                  fontFamily: Font.Regular,
-                }}>
-                {modalContentType}
-              </Text>
-            </View>
-            {/* show likes and comments */}
-            {modalContentType === 'likes' ? (
-              likedUsers?.length > 0 ? (
-                <FlatList
-                  nestedScrollEnabled={true}
-                  showsVerticalScrollIndicator={false}
-                  initialNumToRender={1}
-                  data={likedUsers.sort(like => like?.LikedTime)}
-                  keyExtractor={item => item?.userId}
-                  renderItem={({item}) => (
-                    <TouchableOpacity
-                      style={{
-                        // borderWidth: 1,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        columnGap: 10,
-                        // borderTopWidth: 1,
-                        borderColor: Colors.veryLightGrey,
-                        paddingVertical: 10,
-                        // marginTop: 10,
-                      }}
-                      onPress={() => {
-                        navigation.navigate('userprofile');
-                        setSelectedUser(item?.userId);
-                      }}>
-                      {item?.LikedUser}
-                      <FastImage
-                        source={{uri: item?.profile}}
-                        priority={FastImage.priority.high}
-                        style={{
-                          width: width * 0.13,
-                          // height: height * 0.05,
-                          aspectRatio: 1,
-                          borderRadius: 50,
-                          borderWidth: 0.5,
-                          borderColor: Colors.veryLightGrey,
-                        }}
-                      />
-                      <Text
-                        style={{
-                          color: Colors.veryDarkGrey,
-                          letterSpacing: 0.3,
-                          flex: 1,
-                          fontSize: width * 0.035,
-                          fontFamily: Font.Medium,
-                        }}
-                        numberOfLines={1}>
-                        {item?.firstName} {item?.LastName}
-                      </Text>
-                      <RelativeTime time={item?.LikedTime} />
-                    </TouchableOpacity>
-                  )}
-                  ListFooterComponent={
-                    <View style={{padding: 20}}>
-                      {likedUserLoading &&
-                        Array.from({length: 5}).map((_, index) => (
-                          <View style={{marginBottom: 10}}>
-                            <MiniUserSkeleton />
-                          </View>
-                        ))}
-
-                      {likedUserHasMore && !likedUserLoading && (
-                        <View style={{padding: 20}}>
-                          <TouchableOpacity
-                            onPress={handleShowLikedUsers}
-                            style={{
-                              padding: 10,
-                              borderWidth: 0.5,
-                              borderRadius: 50,
-                              borderColor: Colors.violet,
-                            }}>
-                            <Text
-                              style={{
-                                textAlign: 'center',
-                                letterSpacing: 1.4,
-                                color: Colors.violet,
-                                // fontWeight: '600',
-                                fontSize: width * 0.03,
-                                fontFamily: Font.Medium,
-                              }}>
-                              Show more
-                            </Text>
-                          </TouchableOpacity>
-                        </View>
-                      )}
-                    </View>
-                  }
-                />
-              ) : (
-                <Text style={{fontFamily: Font.Medium}}>No Likes</Text>
-              )
-            ) : comments?.length > 0 ? (
+      <RBSheet
+        ref={postDetail}
+        useNativeDriver={true}
+        customStyles={{
+          container: {
+            borderTopLeftRadius: 20, // Optional for rounded corners
+            borderTopRightRadius: 20,
+            height: height * 0.7, // Alternatively, you can set the height here
+          },
+          wrapper: {
+            backgroundColor: 'rgba(0, 0, 0, 0.7)', // Semi-transparent background
+          },
+          draggableIcon: {
+            backgroundColor: '#cccccc',
+          },
+        }}
+        draggable={true}
+        customModalProps={{
+          animationType: 'slide',
+          statusBarTranslucent: true,
+        }}>
+        <View
+          style={{
+            // borderWidth: 1,
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            rowGap: 10,
+            // borderBottomWidth: 1,
+            borderColor: Colors.veryLightGrey,
+            marginBottom: 10,
+          }}>
+          <Text
+            style={{
+              fontSize: width * 0.04,
+              marginBottom: height * 0.01,
+              letterSpacing: 0.4,
+              textAlign: 'center',
+              fontFamily: Font.Medium,
+            }}>
+            {modalContentType}
+          </Text>
+        </View>
+        {/* show likes and comments */}
+        <View style={{paddingHorizontal: 15}}>
+          {modalContentType === 'likes' ? (
+            likedUsers?.length > 0 ? (
               <FlatList
                 nestedScrollEnabled={true}
-                initialNumToRender={1}
                 showsVerticalScrollIndicator={false}
-                data={comments.sort(com => com?.commentedAt)}
-                keyExtractor={(item, index) =>
-                  item?.commentedBy?.userId ?? index.toString()
-                }
+                initialNumToRender={1}
+                data={likedUsers.sort(like => like?.LikedTime)}
+                keyExtractor={item => item?.userId}
                 renderItem={({item}) => (
                   <TouchableOpacity
                     style={{
+                      // borderWidth: 1,
                       flexDirection: 'row',
                       alignItems: 'center',
                       columnGap: 10,
+                      // borderTopWidth: 1,
                       borderColor: Colors.veryLightGrey,
                       paddingVertical: 10,
-                    }}
-                    onLongPress={() => {
-                      setCommandModelShow(true);
-                      setSelectedComment(item);
+                      // marginTop: 10,
                     }}
                     onPress={() => {
                       navigation.navigate('userprofile');
                       setSelectedUser(item?.userId);
                     }}>
+                    {item?.LikedUser}
                     <FastImage
-                      source={{
-                        uri: item?.profile,
-                      }}
+                      source={{uri: item?.profile}}
                       priority={FastImage.priority.high}
                       style={{
                         width: width * 0.13,
+                        // height: height * 0.05,
+                        aspectRatio: 1,
                         borderRadius: 50,
                         borderWidth: 0.5,
                         borderColor: Colors.veryLightGrey,
-                        aspectRatio: 1,
                       }}
                     />
-                    <View style={{flex: 1}}>
-                      <Text
-                        style={{
-                          color: Colors.veryDarkGrey,
-                          letterSpacing: 0.5,
-                          fontSize: width * 0.04,
-                          fontFamily: Font.Medium,
-                        }}
-                        numberOfLines={1}>
-                        {item?.firstName} {item?.LastName}
-                      </Text>
-                      <Text
-                        style={{
-                          fontSize: width * 0.035,
-                          color: Colors.mildGrey,
-                          fontFamily: Font.Regular,
-                        }}>
-                        {item?.commentText}
-                      </Text>
-                    </View>
-                    <RelativeTime time={item?.commentedAt} />
+                    <Text
+                      style={{
+                        color: Colors.veryDarkGrey,
+                        letterSpacing: 0.3,
+                        flex: 1,
+                        fontSize: width * 0.035,
+                        fontFamily: Font.Medium,
+                      }}
+                      numberOfLines={1}>
+                      {item?.firstName} {item?.LastName}
+                    </Text>
+                    <RelativeTime time={item?.LikedTime} />
                   </TouchableOpacity>
                 )}
                 ListFooterComponent={
-                  <View>
-                    {commentHasMore && !commentLoading && (
-                      <View style={{padding: 10}}>
+                  <View style={{padding: 20}}>
+                    {likedUserLoading &&
+                      Array.from({length: 5}).map((_, index) => (
+                        <View style={{marginBottom: 10}}>
+                          <MiniUserSkeleton />
+                        </View>
+                      ))}
+
+                    {likedUserHasMore && !likedUserLoading && (
+                      <View style={{padding: 20}}>
                         <TouchableOpacity
-                          onPress={handleShowComments}
+                          onPress={handleShowLikedUsers}
                           style={{
                             padding: 10,
                             borderWidth: 0.5,
@@ -773,29 +694,122 @@ const Posts = ({post, index, admin, senderDetails}) => {
                               textAlign: 'center',
                               letterSpacing: 1.4,
                               color: Colors.violet,
+                              // fontWeight: '600',
                               fontSize: width * 0.03,
-                              fontFamily: Font.Regular,
+                              fontFamily: Font.Medium,
                             }}>
                             Show more
                           </Text>
                         </TouchableOpacity>
                       </View>
                     )}
-                    {commentLoading &&
-                      Array.from({length: 5}).map((_, index) => (
-                        <View style={{marginBottom: 10}}>
-                          <MiniUserSkeleton />
-                        </View>
-                      ))}
                   </View>
                 }
               />
             ) : (
-              <Text style={{fontFamily: Font.Regular}}>No Comments</Text>
-            )}
-          </View>
+              <Text style={{fontFamily: Font.Medium}}>No Likes</Text>
+            )
+          ) : comments?.length > 0 ? (
+            <FlatList
+              nestedScrollEnabled={true}
+              initialNumToRender={1}
+              showsVerticalScrollIndicator={false}
+              data={comments.sort(com => com?.commentedAt)}
+              keyExtractor={(item, index) =>
+                item?.commentedBy?.userId ?? index.toString()
+              }
+              renderItem={({item}) => (
+                <TouchableOpacity
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    columnGap: 10,
+                    borderColor: Colors.veryLightGrey,
+                    paddingVertical: 10,
+                  }}
+                  onLongPress={() => {
+                    setCommandModelShow(true);
+                    setSelectedComment(item);
+                  }}
+                  onPress={() => {
+                    navigation.navigate('userprofile');
+                    setSelectedUser(item?.userId);
+                  }}>
+                  <FastImage
+                    source={{
+                      uri: item?.profile,
+                    }}
+                    priority={FastImage.priority.high}
+                    style={{
+                      width: width * 0.13,
+                      borderRadius: 50,
+                      borderWidth: 0.5,
+                      borderColor: Colors.veryLightGrey,
+                      aspectRatio: 1,
+                    }}
+                  />
+                  <View style={{flex: 1}}>
+                    <Text
+                      style={{
+                        color: Colors.veryDarkGrey,
+                        letterSpacing: 0.5,
+                        fontSize: width * 0.04,
+                        fontFamily: Font.Medium,
+                      }}
+                      numberOfLines={1}>
+                      {item?.firstName} {item?.LastName}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: width * 0.035,
+                        color: Colors.mildGrey,
+                        fontFamily: Font.Regular,
+                      }}>
+                      {item?.commentText}
+                    </Text>
+                  </View>
+                  <RelativeTime time={item?.commentedAt} />
+                </TouchableOpacity>
+              )}
+              ListFooterComponent={
+                <View>
+                  {commentHasMore && !commentLoading && (
+                    <View style={{padding: 10}}>
+                      <TouchableOpacity
+                        onPress={handleShowComments}
+                        style={{
+                          padding: 10,
+                          borderWidth: 0.5,
+                          borderRadius: 50,
+                          borderColor: Colors.violet,
+                        }}>
+                        <Text
+                          style={{
+                            textAlign: 'center',
+                            letterSpacing: 1.4,
+                            color: Colors.violet,
+                            fontSize: width * 0.03,
+                            fontFamily: Font.Regular,
+                          }}>
+                          Show more
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                  {commentLoading &&
+                    Array.from({length: 5}).map((_, index) => (
+                      <View style={{marginBottom: 10}}>
+                        <MiniUserSkeleton />
+                      </View>
+                    ))}
+                </View>
+              }
+            />
+          ) : (
+            <Text style={{fontFamily: Font.Regular}}>No Comments</Text>
+          )}
         </View>
-      </Modal>
+      </RBSheet>
       {/* model for show images */}
       <Modal
         visible={showImageModel}
@@ -861,7 +875,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
           />
         </View>
       </Modal>
-      {/* model for show comments details */}
+      {/* model for show comments details  and deletion*/}
       <Modal
         transparent={true}
         visible={commentShowModel}
@@ -930,7 +944,6 @@ const Posts = ({post, index, admin, senderDetails}) => {
       {/* Rb sheet for show options for posts */}
       <RBSheet
         ref={PostRBSheetRef}
-        // height={250} // Specify the desired height in pixels
         useNativeDriver={true}
         customStyles={{
           container: {
@@ -945,32 +958,11 @@ const Posts = ({post, index, admin, senderDetails}) => {
             backgroundColor: '#cccccc',
           },
         }}
+        draggable={true}
         customModalProps={{
           animationType: 'slide',
           statusBarTranslucent: true,
         }}>
-        {/* model header */}
-        <View
-          style={{
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            rowGap: 10,
-            borderBottomWidth: 1,
-            borderColor: Colors.veryLightGrey,
-            marginBottom: 10,
-          }}>
-          {/* bar */}
-          <View
-            style={{
-              width: width * 0.15,
-              height: 5,
-              backgroundColor: Colors.lightGrey,
-              borderRadius: 50,
-              marginVertical: 20,
-            }}
-          />
-        </View>
         {/* options content */}
         <View
           style={{
