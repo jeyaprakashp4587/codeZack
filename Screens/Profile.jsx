@@ -14,11 +14,11 @@ import {
   View,
   TextInput,
   ActivityIndicator,
-  InteractionManager,
   RefreshControl,
   Dimensions,
   FlatList,
   ToastAndroid,
+  Modal,
 } from 'react-native';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import {Colors, pageView} from '../constants/Colors';
@@ -35,7 +35,7 @@ import {loginApi, profileApi} from '../Api';
 import Skeleton from '../Skeletons/Skeleton';
 import Posts from '../components/Posts';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {Modal, TouchableRipple} from 'react-native-paper';
+import {TouchableRipple} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
   widthPercentageToDP as wp,
@@ -47,7 +47,6 @@ import MiniUserSkeleton from '../Skeletons/MiniUserSkeleton';
 import PostSkeleton from '../Skeletons/PostSkeleton';
 import {Font} from '../constants/Font';
 import truncateText from '../hooks/truncateText';
-const lazyPost = React.lazy(() => import('../components/Posts'));
 
 const Profile = ({navigation}) => {
   const {user, setUser, setSelectedUser} = useData();
@@ -218,7 +217,7 @@ const Profile = ({navigation}) => {
         setAboutUpdate(false);
         // show add after update
         if (isLoaded) {
-          // await show();
+          await show();
         }
         // close the modal after update
       }
@@ -500,116 +499,122 @@ const Profile = ({navigation}) => {
             {user?.Bio ? user?.Bio : 'I want to become a Winner'}
           </Text>
           {/* Update User Info Modal */}
-          {aboutUpdate && (
+          <Modal
+            visible={aboutUpdate}
+            style={{flex: 1}}
+            collapsable
+            transparent>
             <View
               style={{
-                // borderWidth: 1,
-                borderColor: Colors.veryLightGrey,
-                width: '100%',
-                // height: 300,
-                position: 'absolute',
-                alignSelf: 'center',
-                backgroundColor: 'white',
-                zIndex: 10,
-                top: height * 0.2,
-                borderRadius: 4,
-                padding: 20,
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                rowGap: 10,
-                elevation: 2,
+                justifyContent: 'center',
+                flex: 1,
+                alignItems: 'center',
+                backgroundColor: 'rgba(0, 0, 0, 0.28)',
               }}>
-              <ActivityIndicator
-                size={40}
-                color={Colors.veryDarkGrey}
+              <View
                 style={{
-                  position: 'absolute',
-                  zIndex: 90,
+                  borderWidth: 1,
+                  borderColor: Colors.veryLightGrey,
+                  width: '80%',
                   alignSelf: 'center',
-                  top: '50%',
-                  display: uploadActivityIndi ? 'flex' : 'none',
-                }}
-              />
-              <TouchableOpacity
-                style={{
-                  justifyContent: 'flex-end',
-                  borderWidth: 0,
-                  alignItems: 'flex-end',
-                }}
-                onPress={() => setAboutUpdate(false)}>
-                <FontAwesomeIcon icon={faTimes} size={width * 0.06} />
-              </TouchableOpacity>
-              <TextInput
-                placeholder="First Name"
-                style={{
-                  borderRadius: 3,
-                  borderWidth: 0.4,
-                  padding: 10,
-                  borderColor: Colors.mildGrey,
-                  color: Colors.mildGrey,
-                  letterSpacing: 1,
-                  opacity: uploadActivityIndi ? 0.3 : 1,
-                  paddingHorizontal: 15,
-                  fontFamily: Font.Regular,
-                }}
-                placeholderTextColor={Colors.lightGrey}
-                onChangeText={text => HandleAboutInput('FirstName', text)}
-              />
-              <TextInput
-                placeholder="Last Name"
-                style={{
-                  borderRadius: 3,
-                  borderWidth: 0.4,
-                  padding: 10,
-                  borderColor: Colors.mildGrey,
-                  color: Colors.mildGrey,
-                  letterSpacing: 1,
-                  opacity: uploadActivityIndi ? 0.3 : 1,
-                  paddingHorizontal: 15,
-                  fontFamily: Font.Regular,
-                }}
-                placeholderTextColor={Colors.lightGrey}
-                onChangeText={text => HandleAboutInput('LastName', text)}
-              />
-              <TextInput
-                placeholder="Bio"
-                style={{
-                  borderRadius: 3,
-                  borderWidth: 0.4,
-                  padding: 10,
-                  paddingHorizontal: 15,
-                  borderColor: Colors.mildGrey,
-                  color: Colors.mildGrey,
-                  letterSpacing: 1,
-                  opacity: uploadActivityIndi ? 0.3 : 1,
-                  fontFamily: Font.Regular,
-                }}
-                maxLength={50}
-                placeholderTextColor={Colors.lightGrey}
-                onChangeText={text => HandleAboutInput('Bio', text)}
-              />
-              <TouchableOpacity
-                onPress={() => HandleUpdate()}
-                style={{
-                  // backgroundColor: Colors.violet,
-                  padding: 8,
-                  borderRadius: 5,
-                  borderWidth: 0.5,
-                  borderColor: Colors.violet,
+                  backgroundColor: 'white',
+                  borderRadius: 15,
+                  padding: 20,
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  rowGap: 10,
                 }}>
-                <Text
+                <ActivityIndicator
+                  size={40}
+                  color={Colors.veryDarkGrey}
                   style={{
-                    color: Colors.violet,
-                    textAlign: 'center',
-                    letterSpacing: 2,
+                    position: 'absolute',
+                    zIndex: 90,
+                    alignSelf: 'center',
+                    top: '50%',
+                    display: uploadActivityIndi ? 'flex' : 'none',
+                  }}
+                />
+                <TouchableOpacity
+                  style={{
+                    justifyContent: 'flex-end',
+                    borderWidth: 0,
+                    alignItems: 'flex-end',
+                  }}
+                  onPress={() => setAboutUpdate(false)}>
+                  <FontAwesomeIcon icon={faTimes} size={width * 0.06} />
+                </TouchableOpacity>
+                <TextInput
+                  placeholder="First Name"
+                  style={{
+                    borderRadius: 3,
+                    borderWidth: 0.4,
+                    padding: 10,
+                    borderColor: Colors.veryDarkGrey,
+                    color: Colors.veryDarkGrey,
+                    letterSpacing: 0.5,
+                    opacity: uploadActivityIndi ? 0.3 : 1,
+                    paddingHorizontal: 15,
                     fontFamily: Font.Regular,
+                  }}
+                  placeholderTextColor={Colors.veryDarkGrey}
+                  onChangeText={text => HandleAboutInput('FirstName', text)}
+                />
+                <TextInput
+                  placeholder="Last Name"
+                  style={{
+                    borderRadius: 3,
+                    borderWidth: 0.4,
+                    padding: 10,
+                    borderColor: Colors.veryDarkGrey,
+                    color: Colors.veryDarkGrey,
+                    letterSpacing: 0.5,
+                    opacity: uploadActivityIndi ? 0.3 : 1,
+                    paddingHorizontal: 15,
+                    fontFamily: Font.Regular,
+                  }}
+                  placeholderTextColor={Colors.veryDarkGrey}
+                  onChangeText={text => HandleAboutInput('LastName', text)}
+                />
+                <TextInput
+                  placeholder="Bio"
+                  style={{
+                    borderRadius: 3,
+                    borderWidth: 0.4,
+                    padding: 10,
+                    borderColor: Colors.veryDarkGrey,
+                    color: Colors.veryDarkGrey,
+                    letterSpacing: 0.5,
+                    opacity: uploadActivityIndi ? 0.3 : 1,
+                    paddingHorizontal: 15,
+                    fontFamily: Font.Regular,
+                  }}
+                  maxLength={30}
+                  multiline={true}
+                  placeholderTextColor={Colors.veryDarkGrey}
+                  onChangeText={text => HandleAboutInput('Bio', text)}
+                />
+                <TouchableOpacity
+                  onPress={() => HandleUpdate()}
+                  style={{
+                    padding: 10,
+                    borderRadius: 50,
+                    borderWidth: 0.5,
+                    backgroundColor: Colors.violet,
                   }}>
-                  Update
-                </Text>
-              </TouchableOpacity>
+                  <Text
+                    style={{
+                      color: Colors.white,
+                      textAlign: 'center',
+                      letterSpacing: 0.5,
+                      fontFamily: Font.SemiBold,
+                    }}>
+                    Update
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          )}
-
+          </Modal>
           {/* Institute Name and Location */}
           <View style={{height: 5}} />
           <Text
@@ -976,50 +981,58 @@ const Profile = ({navigation}) => {
       <Modal
         visible={snackVisible}
         onDismiss={onDismissSnackBar}
-        contentContainerStyle={{
-          backgroundColor: 'white',
-          padding: 20,
-          width: '80%',
-          alignSelf: 'center',
-          borderRadius: 10,
-          justifyContent: 'flex-start',
-        }}>
-        <View style={{flexDirection: 'column', rowGap: 10}}>
-          <Text style={{fontFamily: Font.Medium}}>
-            Are you sure want to logout
-          </Text>
+        transparent
+        collapsable={true}>
+        <View
+          style={{
+            justifyContent: 'center',
+            flex: 1,
+            alignItems: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0.17)',
+          }}>
           <View
             style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
+              backgroundColor: Colors.white,
+              padding: 30,
+              borderRadius: 10,
+              rowGap: 20,
             }}>
-            <TouchableRipple
+            <Text style={{fontFamily: Font.Medium, fontSize: width * 0.04}}>
+              Are you sure want to logout
+            </Text>
+            <View
               style={{
-                // backgroundColor: Colors.violet,
-                paddingVertical: 5,
-                paddingHorizontal: 10,
-                borderRadius: 10,
-                borderWidth: 0.7,
-                borderColor: Colors.violet,
-              }}
-              onPress={() => {
-                setSnackVisible(false);
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                columnGap: 20,
               }}>
-              <Text>Cancel</Text>
-            </TouchableRipple>
-            <TouchableRipple
-              style={{
-                backgroundColor: Colors.violet,
-                paddingVertical: 5,
-                paddingHorizontal: 20,
-                borderRadius: 10,
-              }}
-              onPress={() => {
-                handleLogOut();
-              }}>
-              <Text style={{color: 'white'}}>Yes</Text>
-            </TouchableRipple>
+              <TouchableRipple
+                style={{
+                  paddingHorizontal: 10,
+                  paddingVertical: 5,
+                  borderRadius: 10,
+                  borderWidth: 0.7,
+                  borderColor: Colors.violet,
+                }}
+                onPress={() => {
+                  setSnackVisible(false);
+                }}>
+                <Text>Cancel</Text>
+              </TouchableRipple>
+              <TouchableRipple
+                style={{
+                  backgroundColor: Colors.violet,
+                  paddingVertical: 5,
+                  paddingHorizontal: 20,
+                  borderRadius: 10,
+                }}
+                onPress={() => {
+                  handleLogOut();
+                }}>
+                <Text style={{color: 'white'}}>Yes</Text>
+              </TouchableRipple>
+            </View>
           </View>
         </View>
       </Modal>

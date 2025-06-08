@@ -53,16 +53,18 @@ const SelectedProject = () => {
       }
 
       if (isLoaded) {
-        await show();
+        // await show();
       }
 
-      const localPath = `${RNFS.ExternalDirectoryPath}/${selectedProject?.name}.zip`;
+      const localPath = `${RNFS.DownloadDirectoryPath}/${selectedProject?.name}.zip`;
       setDownloadIndi(true);
       const downloadResult = await RNFS.downloadFile({
         fromUrl: `https://drive.google.com/uc?export=download&id=${selectedProject?.driveId}`,
         toFile: localPath,
         background: true,
         discretionary: true,
+        progress: true,
+        progressDivider: 100,
       }).promise;
 
       setDownloadIndi(false);
