@@ -292,7 +292,6 @@ const Home = () => {
           }>
           <View
             style={{
-              paddingHorizontal: 15,
               marginBottom: 10,
             }}>
             <SuggestionWapper refresh={suggestRefresh} />

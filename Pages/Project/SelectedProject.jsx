@@ -53,10 +53,10 @@ const SelectedProject = () => {
       }
 
       if (isLoaded) {
-        // await show();
+        await show();
       }
 
-      const localPath = `${RNFS.DownloadDirectoryPath}/${selectedProject?.name}.zip`;
+      const localPath = `${RNFS.DocumentDirectoryPath}/${selectedProject?.name}.zip`;
       setDownloadIndi(true);
       const downloadResult = await RNFS.downloadFile({
         fromUrl: `https://drive.google.com/uc?export=download&id=${selectedProject?.driveId}`,
@@ -71,20 +71,18 @@ const SelectedProject = () => {
       ToastAndroid.show('Downloaded successfully', ToastAndroid.SHORT);
       setTimeout(() => {
         FileViewer.open(localPath)
-          .then(() => {
-            // File opened successfully, no need to do anything
-          })
+          .then(() => {})
           .catch(error => {
             Alert.alert(
               'Can’t Open File 😕',
-              'Looks like your device doesn’t have a compatible app to open this file.\n\n👉 Please go to your Downloads folder and open it manually.',
+              'Looks like your device doesn’t have a compatible app to open this file.\n\n👉 Please go to your Documents folder and open it manually.',
               [{text: 'OK'}],
             );
           });
       }, 1000);
     } catch (error) {
       setDownloadIndi(false);
-      ToastAndroid.show('Download Failed', ToastAndroid.SHORT);
+      ToastAndroid.show(`Download Failed ${error}`, ToastAndroid.LONG);
     }
   }, [isLoaded, selectedProject]);
 
@@ -193,7 +191,7 @@ const SelectedProject = () => {
                   backgroundColor: Colors.violet,
                   borderColor: Colors.violet,
                   borderWidth: 0.6,
-                  height: height * 0.055,
+                  height: height * 0.065,
                 }}
                 onPress={() => handleBuyProject()}>
                 {downloadIndi ? (
@@ -202,7 +200,7 @@ const SelectedProject = () => {
                   <Text
                     style={{
                       textAlign: 'center',
-                      letterSpacing: 1,
+                      // letterSpacing: 1,
                       fontSize: width * 0.035,
                       color: Colors.white,
                       fontFamily: Font.Medium,

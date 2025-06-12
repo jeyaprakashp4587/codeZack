@@ -349,8 +349,7 @@ const SearchScreen = ({navigation}) => {
         ))}
       <View
         style={{
-          // display: suggestDisplay ? 'flex' : 'none',
-          paddingHorizontal: 15,
+          marginTop: 20,
         }}>
         <SuggestionWapper />
       </View>

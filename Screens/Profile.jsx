@@ -47,6 +47,7 @@ import MiniUserSkeleton from '../Skeletons/MiniUserSkeleton';
 import PostSkeleton from '../Skeletons/PostSkeleton';
 import {Font} from '../constants/Font';
 import truncateText from '../hooks/truncateText';
+import SuggestionWapper from '../components/SuggestionWapper';
 
 const Profile = ({navigation}) => {
   const {user, setUser, setSelectedUser} = useData();
@@ -702,8 +703,7 @@ const Profile = ({navigation}) => {
           justifyContent: 'center',
           alignItems: 'center',
           rowGap: 10,
-          // marginVertical: 10,
-          marginBottom: 30,
+          marginBottom: 20,
         }}>
         <TouchableOpacity
           onPress={() => navigation.navigate('yourcourse')}
@@ -758,10 +758,16 @@ const Profile = ({navigation}) => {
           />
         </TouchableOpacity>
       </View>
+      {/* show connection suggestion, if user dont have connection */}
+      {user?.Connections?.length <= 0 && (
+        <View style={{marginBottom: 20}}>
+          <SuggestionWapper />
+        </View>
+      )}
       {/* posts */}
       <View style={{paddingBottom: height * 0.08}}>
         <View style={{paddingHorizontal: 15}}>
-          {user?.PostLength > 0 && (
+          {user?.P2ostLength > 0 && (
             <Text
               style={{
                 fontSize: width * 0.06,
@@ -773,9 +779,45 @@ const Profile = ({navigation}) => {
             </Text>
           )}
         </View>
+        {/* show post indicator */}
+        {user?.PostLength > 0 && (
+          <View
+            style={{
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              rowGap: 10,
+              marginBottom: 10,
+            }}>
+            <Text
+              style={{
+                color: Colors.veryDarkGrey,
+                fontFamily: Font.Medium,
+                fontSize: width * 0.04,
+              }}>
+              Upload your achivements
+            </Text>
+            <TouchableOpacity
+              style={{
+                backgroundColor: Colors.violet,
+                padding: 10,
+                paddingHorizontal: 25,
+                borderRadius: 100,
+              }}>
+              <Text
+                style={{
+                  color: Colors.white,
+                  fontFamily: Font.Medium,
+                  fontSize: width * 0.035,
+                }}>
+                Post now
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
         {/* posts */}
         <FlatList
-          data={user?.Posts}
+          data={user?.Posts2}
           initialNumToRender={2}
           keyExtractor={item => item._id}
           style={{borderWidth: 0, paddingBottom: 10}}
