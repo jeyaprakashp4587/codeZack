@@ -280,7 +280,7 @@ const UserProfile = () => {
       </View>
 
       {/* About Section */}
-      <View style={{borderWidth: 0}}>
+      <View>
         <FastImage
           source={{
             uri: selectedUser?.Images?.coverImg
@@ -288,7 +288,8 @@ const UserProfile = () => {
               : 'https://i.ibb.co/Fh1fwGm/2151777507.jpg',
           }}
           priority={FastImage.priority.high}
-          style={{width: '100%', height: height * 0.2, resizeMode: 'cover'}}
+          // resizeMode="center"
+          style={{width: width, height: height * 0.2}}
         />
         <View
           style={{
@@ -320,20 +321,6 @@ const UserProfile = () => {
               aspectRatio: 1,
             }}
           />
-          {/* online dot indicator */}
-          {/* <View
-            style={{
-              position: 'absolute',
-              top: 80,
-              zIndex: 10,
-              left: width * 0.23,
-              padding: width * 0.017,
-              backgroundColor: selectedUser?.onlineStatus ? 'Green' : 'red',
-              borderRadius: 50,
-              borderWidth: 3,
-              borderColor: 'white',
-            }}
-          /> */}
           {/* User Name and Bio */}
           <Text
             style={{

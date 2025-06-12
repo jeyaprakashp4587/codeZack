@@ -228,7 +228,7 @@ const Home = () => {
         {/* Ideas wrapper */}
         <IdeasWrapper />
         {/* Recent courses */}
-        {/* <RecentCourses /> */}
+        <RecentCourses />
         {/* Freelancer project */}
         <FreelancerBanner />
         {/* premium projects */}

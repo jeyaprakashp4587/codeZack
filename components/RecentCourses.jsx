@@ -64,12 +64,11 @@ const RecentCourses = () => {
         {/* {user?.Courses[newCourseIndex]?.Course_Name} */}
         Your recent courses
       </Text>
-      <View
-        style={{
-          // backgroundColor: 'rgba(0, 0, 0, 0.05)',
-          borderRadius: 10,
-          padding: 10,
-        }}>
+      <LinearGradient
+        colors={['rgba(127, 208, 233, 0.65)', 'rgba(159,126,205,0.65)']}
+        style={{padding: 20, borderRadius: 10}}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 1}}>
         <FlatList
           initialNumToRender={2}
           nestedScrollEnabled={true}
@@ -93,6 +92,9 @@ const RecentCourses = () => {
                 alignItems: 'center',
                 columnGap: 5,
                 marginRight: 20,
+                backgroundColor: 'rgba(255, 255, 255, 0.16)',
+                borderRadius: 100,
+                padding: 5,
               }}>
               <FastImage
                 priority={FastImage.priority.high}
@@ -103,7 +105,7 @@ const RecentCourses = () => {
             </TouchableOpacity>
           )}
         />
-      </View>
+      </LinearGradient>
     </View>
   );
 };

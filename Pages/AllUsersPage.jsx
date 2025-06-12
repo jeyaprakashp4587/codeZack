@@ -146,9 +146,9 @@ const AllUsersPage = () => {
                 <LinearGradient
                   colors={[
                     'rgba(0,0,0,0.1)',
-                    'hsla(0, 0.00%, 4.70%, 0.43)',
-                    'hsl(0, 0.00%, 0.80%)',
-                    'hsl(0, 0.00%, 0.80%)',
+                    'hsla(0, 0.00%, 99.20%, 0.43)',
+                    'hsla(0, 0.00%, 100.00%, 0.57)',
+                    'hsla(0, 0.00%, 100.00%, 0.90)',
                   ]}
                   start={{x: 0, y: 0}}
                   end={{x: 0, y: 1}}
@@ -173,7 +173,7 @@ const AllUsersPage = () => {
                       style={{
                         width: width * 0.15,
                         aspectRatio: 1,
-                        borderWidth: 3,
+                        borderWidth: 2,
                         borderColor: Colors.white,
                         borderRadius: 50,
                       }}
@@ -182,7 +182,7 @@ const AllUsersPage = () => {
                       <Text
                         style={{
                           fontSize: width * 0.034,
-                          color: Colors.white,
+                          color: Colors.veryDarkGrey,
                           letterSpacing: 0.7,
                           fontFamily: Font.SemiBold,
                         }}>
@@ -195,7 +195,7 @@ const AllUsersPage = () => {
                         style={{
                           letterSpacing: 0.5,
                           fontSize: width * 0.028,
-                          color: Colors.white,
+                          color: Colors.veryDarkGrey,
                           fontFamily: Font.Medium,
                         }}
                         numberOfLines={1}>
@@ -207,7 +207,7 @@ const AllUsersPage = () => {
                           fontSize: width * 0.023,
                           fontFamily: Font.Regular,
                           letterSpacing: 0.4,
-                          color: Colors.white,
+                          color: Colors.veryDarkGrey,
                         }}>
                         {item?.District}
                       </Text>
