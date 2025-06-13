@@ -767,7 +767,7 @@ const Profile = ({navigation}) => {
       {/* posts */}
       <View style={{paddingBottom: height * 0.08}}>
         <View style={{paddingHorizontal: 15}}>
-          {user?.P2ostLength > 0 && (
+          {user?.PostLength > 0 && (
             <Text
               style={{
                 fontSize: width * 0.06,
@@ -780,7 +780,7 @@ const Profile = ({navigation}) => {
           )}
         </View>
         {/* show post indicator */}
-        {user?.PostLength > 0 && (
+        {user?.PostLength <= 0 && (
           <View
             style={{
               flexDirection: 'column',
@@ -817,7 +817,7 @@ const Profile = ({navigation}) => {
         )}
         {/* posts */}
         <FlatList
-          data={user?.Posts2}
+          data={user?.Posts}
           initialNumToRender={2}
           keyExtractor={item => item._id}
           style={{borderWidth: 0, paddingBottom: 10}}
