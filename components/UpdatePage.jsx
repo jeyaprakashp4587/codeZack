@@ -36,7 +36,7 @@ const UpdatePage = () => {
         style={{
           fontSize: width * 0.045,
           fontFamily: Font.SemiBold,
-          letterSpacing: 0.6,
+          // letterSpacing: 0.6,
           lineHeight: 30,
           textAlign: 'center',
         }}>
@@ -49,17 +49,18 @@ const UpdatePage = () => {
           );
         }}
         style={{
-          //   borderWidth: 0.5,
           width: '90%',
-          padding: 10,
+          height: height * 0.056,
           borderRadius: 25,
           backgroundColor: Colors.violet,
+          justifyContent: 'center',
+          alignItems: 'center',
         }}>
         <Text
           style={{
             fontFamily: Font.Medium,
             textAlign: 'center',
-            letterSpacing: 0.6,
+            // letterSpacing: 0.6,
             color: 'white',
           }}>
           Update
