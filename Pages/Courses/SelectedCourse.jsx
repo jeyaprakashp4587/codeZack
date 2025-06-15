@@ -106,7 +106,7 @@ const SelectedCourse = ({navigation}) => {
         style={{
           paddingHorizontal: 15,
         }}>
-        <HeadingText text="Selected Course" />
+        <HeadingText text="Selected course" />
       </View>
       {/* Body content */}
       <View style={{borderWidth: 0, flex: 1}}>

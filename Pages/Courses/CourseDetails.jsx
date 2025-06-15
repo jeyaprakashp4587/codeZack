@@ -56,14 +56,13 @@ const CourseDetails = () => {
           TechName: item.name,
           CourseName: selectedCourse.name,
           TechIcon: item.icon,
-          TechWeb: item.web,
+
           UserId: user?._id,
         });
-
         // Check the response
         if (res.data != 'Enrolled') {
           // Set the selected technology
-          setselectedTechnology({web: item.web, name: item.name});
+          setselectedTechnology({name: item.name});
           if (interestIsLoaded) {
             showInterest();
           }
@@ -86,7 +85,7 @@ const CourseDetails = () => {
             'You are already enrolled in this Tool',
             ToastAndroid.BOTTOM,
           );
-          setselectedTechnology({web: item.web, name: item.name});
+          setselectedTechnology({name: item.name});
           // Navigate to "learn" screen immediately
           navigation.navigate('learn');
           setLoading(false);
@@ -103,7 +102,7 @@ const CourseDetails = () => {
   return (
     <View style={styles.container}>
       <View style={{paddingHorizontal: 15}}>
-        <HeadingText text="Course Details" />
+        <HeadingText text="Course details" />
       </View>
       <FlatList
         nestedScrollEnabled={true}

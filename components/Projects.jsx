@@ -104,7 +104,7 @@ const Projects = () => {
               resizeMode="cover"
               style={{flex: 1}}>
               <LinearGradient
-                colors={['white', 'white', 'rgba(255, 255, 255, 0.12)']}
+                colors={['white', 'white', 'rgba(255, 255, 255, 0)']}
                 start={{x: 1, y: 1}}
                 end={{x: 1, y: 0}}
                 style={{

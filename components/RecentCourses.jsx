@@ -82,7 +82,6 @@ const RecentCourses = () => {
                 }
                 navigation.navigate('learn');
                 setselectedTechnology({
-                  web: item.TechWeb,
                   name: item.TechName,
                 });
               }}
@@ -94,12 +93,12 @@ const RecentCourses = () => {
                 marginRight: 20,
                 backgroundColor: 'rgba(255, 255, 255, 0.16)',
                 borderRadius: 100,
-                padding: 5,
+                padding: 10,
               }}>
               <FastImage
                 priority={FastImage.priority.high}
                 source={{uri: item?.TechIcon}}
-                style={{width: width * 0.15, aspectRatio: 1}}
+                style={{width: width * 0.1, aspectRatio: 1}}
                 resizeMode="contain"
               />
             </TouchableOpacity>

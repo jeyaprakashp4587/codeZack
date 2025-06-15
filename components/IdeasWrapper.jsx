@@ -120,7 +120,7 @@ const IdeasWrapper = () => {
               <Text
                 style={{
                   textAlign: 'center',
-                  color: Colors.violet,
+                  color: Colors.veryDarkGrey,
                   letterSpacing: 0.3,
                   fontSize: width * 0.03,
                   fontFamily: Font.SemiBold,
