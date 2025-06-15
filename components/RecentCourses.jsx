@@ -99,7 +99,7 @@ const RecentCourses = () => {
               <FastImage
                 priority={FastImage.priority.high}
                 source={{uri: item?.TechIcon}}
-                style={{width: width * 0.2, aspectRatio: 1}}
+                style={{width: width * 0.15, aspectRatio: 1}}
                 resizeMode="contain"
               />
             </TouchableOpacity>

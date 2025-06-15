@@ -29,7 +29,7 @@ const HeadingText = props => {
       <Text
         style={{
           color: props.color ?? 'black',
-          fontSize: width * 0.045,
+          fontSize: width * 0.05,
           paddingVertical: 10,
           letterSpacing: 0.3,
           fontFamily: Font.SemiBold,

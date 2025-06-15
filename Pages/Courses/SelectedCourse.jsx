@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Image,
   ScrollView,
@@ -51,27 +51,38 @@ const SelectedCourse = ({navigation}) => {
     }
   }, [interestClosed, loadInterest]);
   const [loading, setLoading] = useState(false);
-  const HandleAddCourse = async () => {
+
+  const HandleAddCourse = useCallback(async () => {
     setLoading(true);
     try {
       if (interestIsLoaded) {
         await showInterest();
       }
+
       const res = await axios.post(`${challengesApi}/Courses/addCourse`, {
         courseName: selectedCourse.name,
         userId: user?._id,
       });
-      if (res.data != 'Enrolled') {
-        setLoading(false);
-        setUser(prev => ({...prev, Courses: res.data.courses}));
+
+      if (res.data !== 'Enrolled') {
+        const updatedCourses = res.data.courses;
+
+        setUser(prev => {
+          if (!updatedCourses || !Array.isArray(updatedCourses)) return prev;
+          return {
+            ...prev,
+            Courses: updatedCourses,
+          };
+        });
+
         try {
           await Actitivity(user?._id, `${selectedCourse.name} Added`);
-        } catch (error) {
-          console.log(error);
+        } catch (err) {
+          console.log(err);
         }
+
         navigation.navigate('courseDetails');
-      } else if (res.data == 'Enrolled') {
-        setLoading(false);
+      } else {
         ToastAndroid.show(
           'You are already enrolled in this course',
           ToastAndroid.SHORT,
@@ -79,15 +90,15 @@ const SelectedCourse = ({navigation}) => {
         navigation.navigate('courseDetails');
       }
     } catch (error) {
-      setLoading(false);
       console.error('Error adding course:', error);
       Alert.alert(
         'Error',
         'An error occurred while adding the course. Please try again.',
       );
+    } finally {
+      setLoading(false);
     }
-  };
-
+  }, [user, selectedCourse, interestIsLoaded, navigation]);
   return (
     <ScrollView style={styles.pageView} showsVerticalScrollIndicator={false}>
       {/* heading text */}

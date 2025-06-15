@@ -25,7 +25,6 @@ const {width, height} = Dimensions.get('window');
 
 const YourCourses = () => {
   const {user, setUser, setselectedTechnology} = useData();
-
   const color = useMemo(
     () => [
       {color1: 'rgba(241, 229, 159, 0.53)', color2: '#F7E7CD'},
@@ -180,7 +179,6 @@ const YourCourses = () => {
           </View>
         ) : (
           <FlatList
-            nestedScrollEnabled={true}
             data={user?.Courses}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({item, index}) => (
