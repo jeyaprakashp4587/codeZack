@@ -19,15 +19,14 @@ import {challengesApi} from '../../Api';
 import StudyBoxUi from '../../components/StudyBoxUi';
 
 const {width, height} = Dimensions.get('window');
-const levels = ['beginner', 'intermediate', 'advanced'];
 
 const LearnPage = () => {
   const {selectedTechnology, user} = useData();
-
+  const levels = ['beginner', 'intermediate', 'advanced'];
   const [courseData, setCourseData] = useState([]);
   const [topicLength, setTopicLength] = useState(0);
   const [topicLevel, setTopicLevel] = useState(0);
-
+  const [isFinishes, setIsFinished] = useState(false);
   // Fetch user topic progress
   const findTopicLength = useCallback(async () => {
     const userCourse = user?.Courses?.find(course =>
@@ -73,6 +72,8 @@ const LearnPage = () => {
     },
     [selectedTechnology, topicLevel],
   );
+  // check if all level are finished
+  const checkAllLevelFinished = useCallback(async () => {}, []);
 
   // On component mount
   useEffect(() => {
@@ -112,7 +113,6 @@ const LearnPage = () => {
         userId: user?._id,
         TechName: selectedTechnology?.name,
       });
-
       if (res.status === 200) {
         setTopicLength(0);
         setTopicLevel(prev => prev + 1);
