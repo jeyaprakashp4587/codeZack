@@ -203,7 +203,7 @@ const Notifications = () => {
                 numberOfLines={2}
                 style={{
                   color: 'black',
-                  letterSpacing: 0.8,
+                  letterSpacing: 0.3,
                   fontSize: width * 0.033,
                   maxWidth: 180,
                   lineHeight: 22,
