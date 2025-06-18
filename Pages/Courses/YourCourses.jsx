@@ -115,7 +115,7 @@ const YourCourses = () => {
     async tech => {
       try {
         navigation.navigate('learn');
-        setselectedTechnology({web: tech.TechWeb, name: tech.TechName});
+        setselectedTechnology({icon: tech.TechIcon, name: tech.TechName});
         if (isLoaded) {
           await show();
         }

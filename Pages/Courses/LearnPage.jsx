@@ -17,6 +17,7 @@ import {Font} from '../../constants/Font';
 import axios from 'axios';
 import {challengesApi} from '../../Api';
 import StudyBoxUi from '../../components/StudyBoxUi';
+import FastImage from 'react-native-fast-image';
 
 const {width, height} = Dimensions.get('window');
 
@@ -27,6 +28,8 @@ const LearnPage = () => {
   const [topicLength, setTopicLength] = useState(0);
   const [topicLevel, setTopicLevel] = useState(0);
   const [isFinishes, setIsFinished] = useState(false);
+  const [showModel, setShowModel] = useState(false);
+  const [selectedQuiz, setSelectedQuiz] = useState();
   // Fetch user topic progress
   const findTopicLength = useCallback(async () => {
     const userCourse = user?.Courses?.find(course =>
@@ -94,11 +97,11 @@ const LearnPage = () => {
       });
 
       if (res.status === 200) {
-        setTopicLength(prev => prev + 1);
-
         if (topicLength >= courseData.length - 1) {
           await handleSetTopicLevel();
+          retur;
         }
+        setTopicLength(prev => prev + 1);
       }
     } catch (error) {
       ToastAndroid.show('Failed to update topic length', ToastAndroid.SHORT);
@@ -137,12 +140,57 @@ const LearnPage = () => {
         <HeadingText text="Study Area" />
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.contentWrapper}>
-          <ImageBackground
-            source={{uri: 'https://i.ibb.co/PGMhBBCv/v904-nunny-012-f.jpg'}}
-            style={styles.imageBackground}
-            resizeMode="stretch"
+        <ImageBackground
+          source={{uri: 'https://i.ibb.co/PGMhBBCv/v904-nunny-012-f.jpg'}}
+          style={styles.imageBackground}
+          resizeMode="stretch"
+        />
+        <View
+          style={{
+            // borderWidth: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            flex: 1,
+            flexDirection: 'row',
+            paddingHorizontal: 15,
+          }}>
+          <View style={{flex: 1, borderWidth: 0, rowGap: 5}}>
+            <Text style={{fontFamily: Font.SemiBold, fontSize: width * 0.05}}>
+              Level: {levels[topicLevel]}
+            </Text>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: Colors.violet,
+                  padding: 5,
+                  borderRadius: 5,
+                  paddingHorizontal: 10,
+                }}>
+                <Text
+                  style={{
+                    fontFamily: Font.Regular,
+                    color: Colors.white,
+                    fontSize: width * 0.034,
+                  }}>
+                  Select language: Eng/Tam
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <FastImage
+            source={{
+              uri: selectedTechnology?.icon,
+              priority: FastImage.priority.high,
+            }}
+            style={{
+              width: width * 0.3,
+              aspectRatio: 1,
+              // borderWidth: 1,
+            }}
+            resizeMode="contain"
           />
+        </View>
+        <View style={styles.contentWrapper}>
           {/* courseData, topicLength, handleSetTopicsLength */}
           <StudyBoxUi
             courseData={courseData}
@@ -172,7 +220,7 @@ const styles = StyleSheet.create({
   contentWrapper: {
     flex: 1,
     height: height,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     padding: 20,
   },
@@ -185,42 +233,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     height: height,
-    // borderWidth: 1,
     zIndex: -100,
     right: -width * 0.15,
     opacity: 0.7,
-  },
-  topicContainer: {
-    flexDirection: 'column',
-    rowGap: 10,
-
-    // borderWidth: 1,
-  },
-  topicTitle: {
-    fontFamily: Font.SemiBold,
-    color: Colors.veryDarkGrey,
-    fontSize: width * 0.065,
-    lineHeight: 30,
-  },
-  topicCode: {
-    backgroundColor: 'rgba(170, 173, 170, 0.1)',
-    padding: 15,
-    borderRadius: 20,
-    fontFamily: Font.Regular,
-    fontSize: width * 0.035,
-    lineHeight: 23,
-    color: Colors.mildGrey,
-  },
-  topicContent: {
-    color: Colors.veryDarkGrey,
-    fontFamily: Font.Medium,
-    fontSize: width * 0.035,
-    lineHeight: 20,
-  },
-  topicOutput: {
-    color: Colors.veryDarkGrey,
-    fontFamily: Font.Regular,
-    fontSize: width * 0.033,
-    lineHeight: 20,
   },
 });

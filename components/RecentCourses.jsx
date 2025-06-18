@@ -83,6 +83,7 @@ const RecentCourses = () => {
                 navigation.navigate('learn');
                 setselectedTechnology({
                   name: item.TechName,
+                  icon: item.TechIcon,
                 });
               }}
               key={index}

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useCallback, useState, useMemo} from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   Dimensions,
   StyleSheet,
+  ToastAndroid,
 } from 'react-native';
 import Animated, {
   useSharedValue,
@@ -18,8 +19,13 @@ import {Colors} from '../constants/Colors';
 const {width, height} = Dimensions.get('window');
 
 const StudyBoxUi = ({courseData, topicLength, handleSetTopicsLength}) => {
-  const currentTopic = courseData[topicLength];
+  const [quizValid, setQuizValid] = useState(false);
   const translateX = useSharedValue(0);
+
+  const currentTopic = useMemo(
+    () => courseData[topicLength],
+    [courseData, topicLength],
+  );
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -27,12 +33,30 @@ const StudyBoxUi = ({courseData, topicLength, handleSetTopicsLength}) => {
     };
   });
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
+    if (!quizValid) {
+      ToastAndroid.show('Choose the quiz option', ToastAndroid.SHORT);
+      return;
+    }
+
     translateX.value = withTiming(-width, {duration: 400}, () => {
       translateX.value = 0;
-      runOnJS(handleSetTopicsLength)();
+      runOnJS(handleSetTopicsLength)(); // Correctly passed as function
+      runOnJS(setQuizValid)(false); // reset state for next topic
     });
-  };
+  }, [quizValid, handleSetTopicsLength]);
+
+  const handleSelectOption = useCallback(
+    option => {
+      if (option === currentTopic?.quiz?.answer) {
+        setQuizValid(true);
+      } else {
+        setQuizValid(false);
+        ToastAndroid.show('Wrong answer', ToastAndroid.SHORT);
+      }
+    },
+    [currentTopic],
+  );
 
   if (!currentTopic) return null;
 
@@ -45,8 +69,38 @@ const StudyBoxUi = ({courseData, topicLength, handleSetTopicsLength}) => {
           Content: {currentTopic?.content}
         </Text>
         <Text style={styles.topicOutput}>Output: {currentTopic?.output}</Text>
-        <TouchableOpacity onPress={handleNext} style={styles.button}>
-          <Text style={styles.buttonText}>Next</Text>
+
+        {/* Quiz Section */}
+        <View style={{rowGap: 10}}>
+          <Text style={styles.quizTitle}>Quiz:</Text>
+          <Text style={styles.quizQuestion}>
+            {currentTopic?.quiz?.question}
+          </Text>
+
+          <View style={{rowGap: 5}}>
+            {currentTopic?.quiz?.options?.map((option, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => handleSelectOption(option)}
+                style={styles.quizOption}>
+                <Text style={styles.optionText}>{option}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
+        <TouchableOpacity
+          onPress={handleNext}
+          style={[
+            styles.nextBtn,
+            {
+              backgroundColor: quizValid
+                ? Colors.violet
+                : 'rgba(54, 56, 53, 0.32)',
+              borderColor: quizValid ? Colors.violet : 'rgba(54, 56, 53, 0.32)',
+            },
+          ]}>
+          <Text style={{color: Colors.white}}>Next</Text>
         </TouchableOpacity>
       </Animated.View>
     </View>
@@ -85,21 +139,41 @@ const styles = StyleSheet.create({
   },
   topicOutput: {
     marginBottom: 20,
-    color: 'rgb(16, 24, 37)',
+    color: 'rgb(10, 27, 54)',
     fontSize: width * 0.034,
+    fontFamily: Font.Medium,
+    letterSpacing: 0.3,
   },
-  button: {
+  quizTitle: {
+    fontFamily: Font.SemiBold,
+    fontSize: width * 0.06,
+  },
+  quizQuestion: {
+    fontSize: width * 0.04,
+    fontFamily: Font.Medium,
+    color: Colors.veryDarkGrey,
+  },
+  quizOption: {
+    padding: 10,
+    backgroundColor: 'rgba(59, 59, 59, 0.1)',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 5,
+  },
+  optionText: {
+    textAlign: 'center',
+    width: '100%',
+    fontFamily: Font.Medium,
+    fontSize: width * 0.03,
+  },
+  nextBtn: {
     height: height * 0.056,
     borderWidth: 1,
     borderColor: Colors.violet,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 50,
-    backgroundColor: Colors.violet,
-  },
-  buttonText: {
-    color: Colors.white,
-    textAlign: 'center',
+    marginTop: 10,
   },
 });
 
