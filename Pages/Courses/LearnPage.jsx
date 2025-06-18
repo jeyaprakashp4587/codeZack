@@ -65,6 +65,8 @@ const LearnPage = () => {
 
         if (res.status === 200 && res.data?.courseData) {
           setCourseData(res.data.courseData);
+          // check if user finish - means user reach almost course ladt data
+          checkAllLevelFinished(res.data.courseData?.length);
         }
       } catch (error) {
         ToastAndroid.show('Error fetching topics', ToastAndroid.SHORT);
@@ -73,17 +75,15 @@ const LearnPage = () => {
     [selectedTechnology, topicLevel],
   );
   // check if all level are finished
-  const checkAllLevelFinished = useCallback(async () => {}, []);
-
-  // On component mount
-  useEffect(() => {
-    const load = async () => {
-      const data = await findTopicLength();
-      await getTechCourse(data.TopicLevel);
-    };
-    load();
-  }, [findTopicLength]);
-
+  const checkAllLevelFinished = useCallback(
+    async courseLength => {
+      try {
+        if (courseLength - 1 == topicLength) {
+        }
+      } catch (error) {}
+    },
+    [selectedTechnology, topicLength, topicLevel],
+  );
   // Advance topic length
   const handleSetTopicsLength = useCallback(async () => {
     try {
@@ -123,6 +123,14 @@ const LearnPage = () => {
     }
   }, [topicLevel, user, selectedTechnology]);
 
+  // On component mount
+  useEffect(() => {
+    const load = async () => {
+      const data = await findTopicLength();
+      await getTechCourse(data.TopicLevel);
+    };
+    load();
+  }, [findTopicLength]);
   return (
     <View style={styles.container}>
       <View style={styles.header}>

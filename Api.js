@@ -1,16 +1,12 @@
 import {ProductionAPIKEY, devKey} from '@env';
-const Api = !__DEV__ ? `${ProductionAPIKEY}` : `${devKey}`;
-const SocketApi = !__DEV__ ? `${ProductionAPIKEY}` : `${devKey}`;
-const loginApi = !__DEV__ ? `${ProductionAPIKEY}` : `${devKey}`;
-const profileApi = !__DEV__ ? `${ProductionAPIKEY}` : `${devKey}`;
-const functionApi = !__DEV__ ? `${ProductionAPIKEY}` : `${devKey}`;
-const challengesApi = !__DEV__ ? `${ProductionAPIKEY}` : `${devKey}`;
-// -----
+
+const baseURL = __DEV__ ? devKey : ProductionAPIKEY;
+
 module.exports = {
-  Api,
-  loginApi,
-  SocketApi,
-  profileApi,
-  functionApi,
-  challengesApi,
+  Api: baseURL,
+  loginApi: baseURL,
+  SocketApi: baseURL,
+  profileApi: baseURL,
+  functionApi: baseURL,
+  challengesApi: baseURL,
 };

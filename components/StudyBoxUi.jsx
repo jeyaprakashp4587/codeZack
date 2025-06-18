@@ -12,8 +12,10 @@ import Animated, {
   withTiming,
   runOnJS,
 } from 'react-native-reanimated';
+import {Font} from '../constants/Font';
+import {Colors} from '../constants/Colors';
 
-const {width} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 const StudyBoxUi = ({courseData, topicLength, handleSetTopicsLength}) => {
   const currentTopic = courseData[topicLength];
@@ -43,8 +45,8 @@ const StudyBoxUi = ({courseData, topicLength, handleSetTopicsLength}) => {
           Content: {currentTopic?.content}
         </Text>
         <Text style={styles.topicOutput}>Output: {currentTopic?.output}</Text>
-        <TouchableOpacity onPress={handleNext}>
-          <Text style={styles.buttonText}>Next ▶️</Text>
+        <TouchableOpacity onPress={handleNext} style={styles.button}>
+          <Text style={styles.buttonText}>Next</Text>
         </TouchableOpacity>
       </Animated.View>
     </View>
@@ -59,36 +61,44 @@ const styles = StyleSheet.create({
   topicContainer: {
     width: '100%',
     padding: 20,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: 'rgba(233, 235, 232, 0.15)',
     borderRadius: 16,
   },
   topicTitle: {
-    fontSize: 20,
+    fontSize: width * 0.08,
     fontWeight: 'bold',
     marginBottom: 10,
   },
   topicCode: {
     fontFamily: 'monospace',
-    backgroundColor: '#000',
-    color: '#0f0',
+    backgroundColor: 'rgba(36, 36, 35, 0.23)',
+    color: 'rgb(17, 17, 16)',
     padding: 10,
     borderRadius: 8,
     marginBottom: 10,
   },
   topicContent: {
     marginBottom: 10,
-    fontSize: 16,
+    fontSize: width * 0.04,
+    lineHeight: 22,
+    fontFamily: Font.Medium,
   },
   topicOutput: {
     marginBottom: 20,
-    fontSize: 16,
-    color: '#555',
+    color: 'rgb(16, 24, 37)',
+    fontSize: width * 0.034,
+  },
+  button: {
+    height: height * 0.056,
+    borderWidth: 1,
+    borderColor: Colors.violet,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 50,
+    backgroundColor: Colors.violet,
   },
   buttonText: {
-    color: 'white',
-    backgroundColor: '#007bff',
-    padding: 10,
-    borderRadius: 8,
+    color: Colors.white,
     textAlign: 'center',
   },
 });
