@@ -18,6 +18,7 @@ import axios from 'axios';
 import {challengesApi} from '../../Api';
 import StudyBoxUi from '../../components/StudyBoxUi';
 import FastImage from 'react-native-fast-image';
+import Skeleton from '../../Skeletons/Skeleton';
 
 const {width, height} = Dimensions.get('window');
 
@@ -30,6 +31,7 @@ const LearnPage = () => {
   const [isFinishes, setIsFinished] = useState(false);
   const [showModel, setShowModel] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState();
+  const [load, setLoad] = useState(false);
   // Fetch user topic progress
   const findTopicLength = useCallback(async () => {
     const userCourse = user?.Courses?.find(course =>
@@ -99,7 +101,7 @@ const LearnPage = () => {
       if (res.status === 200) {
         if (topicLength >= courseData.length - 1) {
           await handleSetTopicLevel();
-          retur;
+          return;
         }
         setTopicLength(prev => prev + 1);
       }
@@ -112,7 +114,7 @@ const LearnPage = () => {
   const handleSetTopicLevel = useCallback(async () => {
     try {
       const res = await axios.post(`${challengesApi}/Courses/setTopicLevel`, {
-        TopicLevel: levels[topicLevel],
+        TopicLevel: topicLevel + 1,
         userId: user?._id,
         TechName: selectedTechnology?.name,
       });
@@ -134,6 +136,19 @@ const LearnPage = () => {
     };
     load();
   }, [findTopicLength]);
+  // load skeleton ui
+  if (load) {
+    return (
+      <View style={{backgroundColor: Colors.white, flex: 1, rowGap: 15}}>
+        <Skeleton width={width} height={height * 0.1} />
+        <Skeleton width={width} height={height * 0.4} />
+        <Skeleton width={width} height={height * 0.3} />
+        <Skeleton width={width} height={height * 0.3} />
+      </View>
+    );
+  }
+
+  // main ui
   return (
     <View style={styles.container}>
       <View style={styles.header}>
