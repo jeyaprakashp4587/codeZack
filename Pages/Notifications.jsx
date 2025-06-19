@@ -239,7 +239,7 @@ const Notifications = () => {
                   <Text
                     style={{
                       textAlign: 'center',
-                      letterSpacing: 1.4,
+                      // letterSpacing: 1.4,
                       color: Colors.violet,
                       // fontWeight: '600',
                       fontFamily: Font.SemiBold,

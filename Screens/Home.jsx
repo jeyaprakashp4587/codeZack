@@ -219,7 +219,7 @@ const Home = () => {
             placeholder="Search"
             placeholderTextColor={Colors.veryDarkGrey}
             style={{
-              letterSpacing: 0.5,
+              // letterSpacing: 0.5,
               fontFamily: Font.Regular,
               color: Colors.veryDarkGrey,
             }}

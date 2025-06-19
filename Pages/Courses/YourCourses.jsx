@@ -90,6 +90,7 @@ const YourCourses = () => {
     // });
   }, []);
   // techs
+  const levels = ['beginner', 'intermediate', 'advanced'];
   const [showTech, setShowTech] = useState(false);
   const [selectTechs, setSelectedTechs] = useState([]);
   const hideModal = useCallback(() => setShowTech(false), []);
@@ -197,11 +198,12 @@ const YourCourses = () => {
                       <FastImage
                         priority={FastImage.priority.high}
                         source={{uri: tech?.TechIcon}}
-                        style={{width: width * 0.06, aspectRatio: 1}}
+                        style={{width: width * 0.1, aspectRatio: 1}}
+                        resizeMode="contain"
                       />
                       <Text style={styles.techName}>{tech?.TechName}</Text>
                       <Text style={styles.techPoints}>
-                        Points ({tech?.Points}/10)
+                        Current Level: {levels[tech?.TechCurrentLevel]}
                       </Text>
                     </View>
                   ))}
@@ -301,13 +303,11 @@ const styles = StyleSheet.create({
   },
   techName: {
     textTransform: 'capitalize',
-    fontSize: width * 0.03,
-    letterSpacing: 1,
-    fontFamily: Font.Medium,
+    fontSize: width * 0.04,
+    // letterSpacing: 1,
+    fontFamily: Font.SemiBold,
   },
   techPoints: {
-    fontWeight: '700',
-    letterSpacing: 1,
     fontSize: width * 0.03,
   },
   noCoursesText: {

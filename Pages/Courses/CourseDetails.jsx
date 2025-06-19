@@ -62,7 +62,7 @@ const CourseDetails = () => {
         // Check the response
         if (res.data != 'Enrolled') {
           // Set the selected technology
-          setselectedTechnology({name: item.name});
+          setselectedTechnology({name: item.name, icon: item.icon});
           if (interestIsLoaded) {
             showInterest();
           }
@@ -85,7 +85,7 @@ const CourseDetails = () => {
             'You are already enrolled in this Tool',
             ToastAndroid.BOTTOM,
           );
-          setselectedTechnology({name: item.name});
+          setselectedTechnology({name: item.name, icon: item.icon});
           // Navigate to "learn" screen immediately
           navigation.navigate('learn');
           setLoading(false);

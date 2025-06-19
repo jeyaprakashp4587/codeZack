@@ -31,30 +31,32 @@ const LearnPage = () => {
   const [isFinishes, setIsFinished] = useState(false);
   const [showModel, setShowModel] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState();
-  const [load, setLoad] = useState(false);
+  const [load, setLoad] = useState({uiload: false, boxLoad: false});
   // Fetch user topic progress
   const findTopicLength = useCallback(async () => {
-    const userCourse = user?.Courses?.find(course =>
-      course?.Technologies?.some(
-        tech => tech?.TechName === selectedTechnology?.name,
-      ),
-    );
-
-    if (userCourse) {
-      const userTech = userCourse?.Technologies?.find(
-        tech => tech?.TechName === selectedTechnology?.name,
+    try {
+      setLoad({uiload: true});
+      const userCourse = user?.Courses?.find(course =>
+        course?.Technologies?.some(
+          tech => tech?.TechName === selectedTechnology?.name,
+        ),
       );
-
-      if (userTech) {
-        setTopicLength(userTech.currentTopicLength || 0);
-        setTopicLevel(userTech.TechCurrentLevel || 0);
-        return {
-          TopicLevel: userTech.TechCurrentLevel || 0,
-        };
+      if (userCourse) {
+        const userTech = userCourse?.Technologies?.find(
+          tech => tech?.TechName === selectedTechnology?.name,
+        );
+        if (userTech) {
+          setTopicLength(userTech.currentTopicLength || 0);
+          setTopicLevel(userTech.TechCurrentLevel || 0);
+          return {
+            TopicLevel: userTech.TechCurrentLevel || 0,
+          };
+        }
       }
+      return {TopicLevel: 0};
+    } catch (error) {
+      ToastAndroid.show('error on find user topics', ToastAndroid.SHORT);
     }
-
-    return {TopicLevel: 0};
   }, [user, selectedTechnology]);
 
   // Get course data for the current level
@@ -70,8 +72,7 @@ const LearnPage = () => {
 
         if (res.status === 200 && res.data?.courseData) {
           setCourseData(res.data.courseData);
-          // check if user finish - means user reach almost course ladt data
-          checkAllLevelFinished(res.data.courseData?.length);
+          setLoad({uiload: false});
         }
       } catch (error) {
         ToastAndroid.show('Error fetching topics', ToastAndroid.SHORT);
@@ -79,19 +80,11 @@ const LearnPage = () => {
     },
     [selectedTechnology, topicLevel],
   );
-  // check if all level are finished
-  const checkAllLevelFinished = useCallback(
-    async courseLength => {
-      try {
-        if (courseLength - 1 == topicLength) {
-        }
-      } catch (error) {}
-    },
-    [selectedTechnology, topicLength, topicLevel],
-  );
+
   // Advance topic length
   const handleSetTopicsLength = useCallback(async () => {
     try {
+      setLoad({boxLoad: true});
       const res = await axios.post(`${challengesApi}/Courses/setTopicLength`, {
         Topiclength: topicLength,
         userId: user?._id,
@@ -104,6 +97,7 @@ const LearnPage = () => {
           return;
         }
         setTopicLength(prev => prev + 1);
+        setLoad({boxLoad: false});
       }
     } catch (error) {
       ToastAndroid.show('Failed to update topic length', ToastAndroid.SHORT);
@@ -113,6 +107,7 @@ const LearnPage = () => {
   // Advance topic level
   const handleSetTopicLevel = useCallback(async () => {
     try {
+      setLoad({uiload: true});
       const res = await axios.post(`${challengesApi}/Courses/setTopicLevel`, {
         TopicLevel: topicLevel + 1,
         userId: user?._id,
@@ -122,6 +117,7 @@ const LearnPage = () => {
         setTopicLength(0);
         setTopicLevel(prev => prev + 1);
         await getTechCourse(topicLevel + 1);
+        setLoad({uiload: false});
       }
     } catch (error) {
       ToastAndroid.show('Failed to update topic level', ToastAndroid.SHORT);
@@ -137,9 +133,12 @@ const LearnPage = () => {
     load();
   }, [findTopicLength]);
   // load skeleton ui
-  if (load) {
+  if (load.uiload) {
     return (
       <View style={{backgroundColor: Colors.white, flex: 1, rowGap: 15}}>
+        <View style={styles.header}>
+          <HeadingText text="Study Area" />
+        </View>
         <Skeleton width={width} height={height * 0.1} />
         <Skeleton width={width} height={height * 0.4} />
         <Skeleton width={width} height={height * 0.3} />
@@ -169,7 +168,13 @@ const LearnPage = () => {
             flexDirection: 'row',
             paddingHorizontal: 15,
           }}>
-          <View style={{flex: 1, borderWidth: 0, rowGap: 5}}>
+          <View
+            style={{
+              flex: 1,
+              // borderWidth: 1,
+              rowGap: 10,
+              // justifyContent: 'space-between',
+            }}>
             <Text style={{fontFamily: Font.SemiBold, fontSize: width * 0.05}}>
               Level: {levels[topicLevel]}
             </Text>
@@ -207,11 +212,15 @@ const LearnPage = () => {
         </View>
         <View style={styles.contentWrapper}>
           {/* courseData, topicLength, handleSetTopicsLength */}
-          <StudyBoxUi
-            courseData={courseData}
-            topicLength={topicLength}
-            handleSetTopicsLength={handleSetTopicsLength}
-          />
+          {load.boxLoad ? (
+            <Skeleton width={width * 0.9} height={height * 0.8} radius={20} />
+          ) : (
+            <StudyBoxUi
+              courseData={courseData}
+              topicLength={topicLength}
+              handleSetTopicsLength={handleSetTopicsLength}
+            />
+          )}
         </View>
       </ScrollView>
     </View>
@@ -229,7 +238,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: width * 0.05,
+    paddingHorizontal: 15,
     marginTop: 10,
   },
   contentWrapper: {

@@ -23,6 +23,7 @@ import {TestIds, useInterstitialAd} from 'react-native-google-mobile-ads';
 const RecentCourses = () => {
   const {width, height} = Dimensions.get('window');
   const {user, setselectedTechnology} = useData();
+  const levels = ['beginner', 'intermediate', 'advanced'];
   const navigation = useNavigation();
   const [newCourseIndex, setNewCourseIndex] = useState(null);
   // load intrestial add
@@ -49,6 +50,15 @@ const RecentCourses = () => {
       setNewCourseIndex(index);
     }
   }, [user?.Courses]);
+  // get percentage
+  const getProgressPercentage = (
+    currentTopicLength,
+    totalTopicsPerLevel = 20,
+  ) => {
+    return Math.round((currentTopicLength / totalTopicsPerLevel) * 100);
+  };
+  console.log(user.Courses[newCourseIndex]?.Technologies);
+
   if (user?.Courses?.length == 0) {
     return null;
   }
@@ -72,6 +82,7 @@ const RecentCourses = () => {
         <FlatList
           initialNumToRender={2}
           nestedScrollEnabled={true}
+          showsHorizontalScrollIndicator={false}
           data={user.Courses[newCourseIndex]?.Technologies}
           horizontal
           renderItem={({item, index}) => (
@@ -88,20 +99,77 @@ const RecentCourses = () => {
               }}
               key={index}
               style={{
-                flexDirection: 'row',
+                flexDirection: 'column',
                 alignItems: 'center',
                 columnGap: 5,
                 marginRight: 20,
                 backgroundColor: 'rgba(255, 255, 255, 0.16)',
-                borderRadius: 100,
+                borderRadius: 10,
                 padding: 10,
+                justifyContent: 'center',
               }}>
               <FastImage
                 priority={FastImage.priority.high}
                 source={{uri: item?.TechIcon}}
-                style={{width: width * 0.1, aspectRatio: 1}}
+                style={{width: width * 0.12, aspectRatio: 1}}
                 resizeMode="contain"
               />
+              {levels.map((level, levelIndex) => {
+                const isCurrentLevel = item.TechCurrentLevel === levelIndex;
+                const currentLength = isCurrentLevel
+                  ? item.currentTopicLength
+                  : 0;
+                const progress = getProgressPercentage(currentLength);
+
+                return (
+                  <View
+                    key={levelIndex}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      columnGap: 5,
+                      marginVertical: 4,
+                    }}>
+                    <Text
+                      style={{
+                        textTransform: 'capitalize',
+                        fontFamily: Font.Medium,
+                        fontSize: width * 0.034,
+                        color: 'rgba(44, 46, 46, 0.6)',
+                      }}>
+                      {level}
+                    </Text>
+                    <View
+                      style={{
+                        width: width * 0.3,
+                        height: 8,
+                        borderRadius: 100,
+                        backgroundColor: 'rgba(76, 76, 77, 0.09)',
+                        overflow: 'hidden',
+                      }}>
+                      <View
+                        style={{
+                          backgroundColor: isCurrentLevel
+                            ? '#34D399'
+                            : '#D1D5DB',
+                          width: `${progress}%`,
+                          height: '100%',
+                          borderRadius: 100,
+                        }}
+                      />
+                    </View>
+                    <Text
+                      style={{
+                        fontFamily: Font.Medium,
+                        fontSize: width * 0.03,
+                        marginLeft: 4,
+                        color: isCurrentLevel ? '#111827' : '#9CA3AF',
+                      }}>
+                      {isCurrentLevel ? `${progress}%` : '0%'}
+                    </Text>
+                  </View>
+                );
+              })}
             </TouchableOpacity>
           )}
         />

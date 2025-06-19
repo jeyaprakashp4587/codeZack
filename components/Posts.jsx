@@ -627,10 +627,8 @@ const Posts = ({post, index, admin, senderDetails}) => {
                       flexDirection: 'row',
                       alignItems: 'center',
                       columnGap: 10,
-                      // borderTopWidth: 1,
                       borderColor: Colors.veryLightGrey,
-                      paddingVertical: 10,
-                      // marginTop: 10,
+                      marginBottom: 20,
                     }}
                     onPress={() => {
                       navigation.navigate('userprofile');

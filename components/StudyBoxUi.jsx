@@ -97,7 +97,7 @@ const StudyBoxUi = ({courseData, topicLength, handleSetTopicsLength}) => {
               backgroundColor: quizValid
                 ? Colors.violet
                 : 'rgba(54, 56, 53, 0.32)',
-              borderColor: quizValid ? Colors.violet : 'rgba(54, 56, 53, 0.32)',
+              borderColor: quizValid ? Colors.violet : 'rgba(54, 56, 53, 0)',
             },
           ]}>
           <Text style={{color: Colors.white}}>Next</Text>
@@ -114,9 +114,10 @@ const styles = StyleSheet.create({
   },
   topicContainer: {
     width: '100%',
-    padding: 20,
+    padding: 10,
     backgroundColor: 'rgba(233, 235, 232, 0.15)',
     borderRadius: 16,
+    // borderWidth: 1,
   },
   topicTitle: {
     fontSize: width * 0.08,
