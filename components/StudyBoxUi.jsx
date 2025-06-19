@@ -6,6 +6,7 @@ import {
   Dimensions,
   StyleSheet,
   ToastAndroid,
+  Modal,
 } from 'react-native';
 import Animated, {
   useSharedValue,

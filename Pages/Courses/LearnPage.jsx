@@ -8,6 +8,7 @@ import {
   ScrollView,
   ImageBackground,
   TouchableOpacity,
+  Modal,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import {Colors} from '../../constants/Colors';
@@ -29,8 +30,6 @@ const LearnPage = () => {
   const [topicLength, setTopicLength] = useState(0);
   const [topicLevel, setTopicLevel] = useState(0);
   const [isFinishes, setIsFinished] = useState(false);
-  const [showModel, setShowModel] = useState(false);
-  const [selectedQuiz, setSelectedQuiz] = useState();
   const [load, setLoad] = useState({uiload: false, boxLoad: false});
   // Fetch user topic progress
   const findTopicLength = useCallback(async () => {
@@ -132,6 +131,7 @@ const LearnPage = () => {
     };
     load();
   }, [findTopicLength]);
+
   // load skeleton ui
   if (load.uiload) {
     return (
@@ -175,27 +175,14 @@ const LearnPage = () => {
               rowGap: 10,
               // justifyContent: 'space-between',
             }}>
-            <Text style={{fontFamily: Font.SemiBold, fontSize: width * 0.05}}>
+            <Text
+              style={{
+                fontFamily: Font.SemiBold,
+                fontSize: width * 0.05,
+                textTransform: 'capitalize',
+              }}>
               Level: {levels[topicLevel]}
             </Text>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: Colors.violet,
-                  padding: 5,
-                  borderRadius: 5,
-                  paddingHorizontal: 10,
-                }}>
-                <Text
-                  style={{
-                    fontFamily: Font.Regular,
-                    color: Colors.white,
-                    fontSize: width * 0.034,
-                  }}>
-                  Select language: Eng/Tam
-                </Text>
-              </TouchableOpacity>
-            </View>
           </View>
           <FastImage
             source={{

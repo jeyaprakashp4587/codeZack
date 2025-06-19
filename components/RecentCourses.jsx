@@ -103,7 +103,7 @@ const RecentCourses = () => {
                 alignItems: 'center',
                 columnGap: 5,
                 marginRight: 20,
-                backgroundColor: 'rgba(255, 255, 255, 0.16)',
+                backgroundColor: 'rgba(255, 255, 255, 0.07)',
                 borderRadius: 10,
                 padding: 10,
                 justifyContent: 'center',
@@ -114,62 +114,65 @@ const RecentCourses = () => {
                 style={{width: width * 0.12, aspectRatio: 1}}
                 resizeMode="contain"
               />
-              {levels.map((level, levelIndex) => {
-                const isCurrentLevel = item.TechCurrentLevel === levelIndex;
-                const currentLength = isCurrentLevel
-                  ? item.currentTopicLength
-                  : 0;
-                const progress = getProgressPercentage(currentLength);
+              <View>
+                {levels.map((level, levelIndex) => {
+                  const isCurrentLevel = item.TechCurrentLevel === levelIndex;
+                  const currentLength = isCurrentLevel
+                    ? item.currentTopicLength
+                    : 0;
+                  const progress = getProgressPercentage(currentLength);
 
-                return (
-                  <View
-                    key={levelIndex}
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      columnGap: 5,
-                      marginVertical: 4,
-                    }}>
-                    <Text
-                      style={{
-                        textTransform: 'capitalize',
-                        fontFamily: Font.Medium,
-                        fontSize: width * 0.034,
-                        color: 'rgba(44, 46, 46, 0.6)',
-                      }}>
-                      {level}
-                    </Text>
+                  return (
                     <View
+                      key={levelIndex}
                       style={{
-                        width: width * 0.3,
-                        height: 8,
-                        borderRadius: 100,
-                        backgroundColor: 'rgba(76, 76, 77, 0.09)',
-                        overflow: 'hidden',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        columnGap: 5,
+                        marginVertical: 4,
+                        // borderWidth: 1,
+                        justifyContent: 'space-between',
                       }}>
+                      <Text
+                        style={{
+                          textTransform: 'capitalize',
+                          fontFamily: Font.Medium,
+                          fontSize: width * 0.034,
+                          color: isCurrentLevel ? '#111827' : '#9CA3AF',
+                        }}>
+                        {level}
+                      </Text>
                       <View
                         style={{
-                          backgroundColor: isCurrentLevel
-                            ? '#34D399'
-                            : '#D1D5DB',
-                          width: `${progress}%`,
-                          height: '100%',
+                          width: width * 0.3,
+                          height: 8,
                           borderRadius: 100,
-                        }}
-                      />
+                          backgroundColor: 'rgba(48, 46, 46, 0.05)',
+                          overflow: 'hidden',
+                        }}>
+                        <View
+                          style={{
+                            backgroundColor: isCurrentLevel
+                              ? '#34D399'
+                              : '#D1D5DB',
+                            width: `${progress}%`,
+                            height: '100%',
+                            borderRadius: 100,
+                          }}
+                        />
+                      </View>
+                      <Text
+                        style={{
+                          fontFamily: Font.Medium,
+                          fontSize: width * 0.03,
+                          color: isCurrentLevel ? '#111827' : '#9CA3AF',
+                        }}>
+                        {isCurrentLevel ? `${progress}%` : '0%'}
+                      </Text>
                     </View>
-                    <Text
-                      style={{
-                        fontFamily: Font.Medium,
-                        fontSize: width * 0.03,
-                        marginLeft: 4,
-                        color: isCurrentLevel ? '#111827' : '#9CA3AF',
-                      }}>
-                      {isCurrentLevel ? `${progress}%` : '0%'}
-                    </Text>
-                  </View>
-                );
-              })}
+                  );
+                })}
+              </View>
             </TouchableOpacity>
           )}
         />
