@@ -57,7 +57,6 @@ const RecentCourses = () => {
   ) => {
     return Math.round((currentTopicLength / totalTopicsPerLevel) * 100);
   };
-  console.log(user.Courses[newCourseIndex]?.Technologies);
 
   if (user?.Courses?.length == 0) {
     return null;

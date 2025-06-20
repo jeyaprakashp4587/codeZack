@@ -30,11 +30,16 @@ const LearnPage = () => {
   const [topicLength, setTopicLength] = useState(0);
   const [topicLevel, setTopicLevel] = useState(0);
   const [isFinishes, setIsFinished] = useState(false);
-  const [load, setLoad] = useState({uiload: false, boxLoad: false});
+  const [load, setLoad] = useState({
+    uiload: false,
+    boxLoad: false,
+    completedUi: false,
+  });
   // Fetch user topic progress
   const findTopicLength = useCallback(async () => {
     try {
       setLoad({uiload: true});
+      //
       const userCourse = user?.Courses?.find(course =>
         course?.Technologies?.some(
           tech => tech?.TechName === selectedTechnology?.name,
@@ -47,6 +52,14 @@ const LearnPage = () => {
         if (userTech) {
           setTopicLength(userTech.currentTopicLength || 0);
           setTopicLevel(userTech.TechCurrentLevel || 0);
+          // check if user finish user last level
+          if (
+            levels[userTech.TechCurrentLevel] >= 19 &&
+            levels.length1 - 1 === levels[userTech.currentTopicLength]
+          ) {
+            setLoad({completedUi: true, uiload: false});
+            return;
+          }
           return {
             TopicLevel: userTech.TechCurrentLevel || 0,
           };
@@ -62,6 +75,7 @@ const LearnPage = () => {
   const getTechCourse = useCallback(
     async (levelIndex = topicLevel) => {
       try {
+        // first check if user complete last level
         const res = await axios.get(`${challengesApi}/Courses/getTechCourse`, {
           params: {
             TechName: selectedTechnology?.name?.toLowerCase(),
@@ -106,6 +120,11 @@ const LearnPage = () => {
   // Advance topic level
   const handleSetTopicLevel = useCallback(async () => {
     try {
+      // check id user finished all levels
+      if (levels.length - 1 === levels[topicLevel]) {
+        setLoad({completedUi: true});
+        return;
+      }
       setLoad({uiload: true});
       const res = await axios.post(`${challengesApi}/Courses/setTopicLevel`, {
         TopicLevel: topicLevel + 1,
