@@ -68,12 +68,11 @@ const SuggestionWapper = ({refresh}) => {
           }}>
           <Text
             style={{
-              // textDecorationLine: 'underline',
-              letterSpacing: 0.7,
+              letterSpacing: 0.3,
               fontSize: width * 0.03,
-              // fontWeight: '600',
               color: Colors.veryDarkGrey,
               fontFamily: Font.Medium,
+              textDecorationLine: 'underline',
             }}>
             Show more
           </Text>

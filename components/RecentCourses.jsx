@@ -63,16 +63,36 @@ const RecentCourses = () => {
   }
   return (
     <View style={{paddingHorizontal: 15}}>
-      <Text
+      <View
         style={{
-          fontFamily: Font.Medium,
-          fontSize: width * 0.041,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          // borderWidth: 1,
           marginBottom: 10,
-          letterSpacing: 0.25,
         }}>
-        {/* {user?.Courses[newCourseIndex]?.Course_Name} */}
-        Your recent courses
-      </Text>
+        <Text
+          style={{
+            fontFamily: Font.Medium,
+            fontSize: width * 0.041,
+            letterSpacing: 0.25,
+            color: Colors.veryDarkGrey,
+          }}>
+          Your recent courses
+        </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('yourcourse')}>
+          <Text
+            style={{
+              letterSpacing: 0.3,
+              fontSize: width * 0.03,
+              color: Colors.veryDarkGrey,
+              fontFamily: Font.Medium,
+              textDecorationLine: 'underline',
+            }}>
+            See all
+          </Text>
+        </TouchableOpacity>
+      </View>
       <LinearGradient
         colors={['rgba(127, 208, 233, 0.65)', 'rgba(159,126,205,0.65)']}
         style={{
@@ -122,9 +142,21 @@ const RecentCourses = () => {
               <View>
                 {levels.map((level, levelIndex) => {
                   const isCurrentLevel = item.TechCurrentLevel === levelIndex;
-                  const currentLength = isCurrentLevel
-                    ? item.currentTopicLength
-                    : 0;
+                  let currentLength;
+                  let BarColor;
+                  let txtColor;
+                  if (levelIndex < item.TechCurrentLevel) {
+                    currentLength = 100;
+                    txtColor = 'rgb(18, 18, 19)';
+                    BarColor = '#34D399';
+                  } else if (isCurrentLevel) {
+                    currentLength = item.currentTopicLength;
+                    txtColor = '#111827';
+                    BarColor = '#34D399';
+                  } else {
+                    currentLength = 0;
+                    txtColor = 'rgb(111, 111, 114)';
+                  }
                   const progress = getProgressPercentage(currentLength);
 
                   return (
@@ -143,7 +175,7 @@ const RecentCourses = () => {
                           textTransform: 'capitalize',
                           fontFamily: Font.Medium,
                           fontSize: width * 0.034,
-                          color: isCurrentLevel ? '#111827' : '#9CA3AF',
+                          color: txtColor,
                         }}>
                         {level}
                       </Text>
@@ -157,9 +189,7 @@ const RecentCourses = () => {
                         }}>
                         <View
                           style={{
-                            backgroundColor: isCurrentLevel
-                              ? '#34D399'
-                              : '#D1D5DB',
+                            backgroundColor: BarColor,
                             width: `${progress}%`,
                             height: '100%',
                             borderRadius: 100,
@@ -170,9 +200,9 @@ const RecentCourses = () => {
                         style={{
                           fontFamily: Font.Medium,
                           fontSize: width * 0.03,
-                          color: isCurrentLevel ? '#111827' : '#9CA3AF',
+                          color: txtColor,
                         }}>
-                        {isCurrentLevel ? `${progress}%` : '0%'}
+                        {isCurrentLevel ? `${progress}%` : `${currentLength}%`}
                       </Text>
                     </View>
                   );

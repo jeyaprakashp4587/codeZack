@@ -39,24 +39,6 @@ const YourCourses = () => {
     [],
   ); // Memoize colors to prevent unnecessary re-calculations
   const navigation = useNavigation();
-  // const HandleRemoveCourse = useCallback(
-  //   async crName => {
-  //     try {
-  //       const res = await axios.post(`${challengesApi}/Courses/removeCourse`, {
-  //         userId: user?._id,
-  //         CourseName: crName,
-  //       });
-
-  //       if (res.status === 200) {
-  //         setUser(prev => ({...prev, Courses: res.data.course}));
-  //       }
-  //     } catch (error) {
-  //       console.error('Error removing course:', error);
-  //       // Handle the error (e.g., show notification to user)
-  //     }
-  //   },
-  //   [user?._id, setUser],
-  // );
 
   const [refresh, setRefresh] = useState(false);
   // get user courses
@@ -212,7 +194,10 @@ const YourCourses = () => {
                       />
                       <Text style={styles.techName}>{tech?.TechName}</Text>
                       <Text style={styles.techPoints}>
-                        Current Level: {levels[tech?.TechCurrentLevel]}
+                        {levels.length - 1 == tech?.TechCurrentLevel &&
+                        tech?.currentTopicLength >= 19
+                          ? 'Completed'
+                          : `Current Level: ${levels[tech?.TechCurrentLevel]}`}
                       </Text>
                     </View>
                   ))}
@@ -249,19 +234,18 @@ const YourCourses = () => {
       <Modal
         visible={showTech}
         onDismiss={hideModal}
-        anima
         contentContainerStyle={{
           backgroundColor: 'white',
           padding: 20,
           width: '80%',
           margin: 'auto',
+          borderRadius: 20,
         }}>
         {selectTechs?.map((tech, index) => (
           <TouchableOpacity
             onPress={() => handleNavLearn(tech)}
             key={index}
             style={{
-              // borderWidth: 1,
               flexDirection: 'row',
               alignItems: 'center',
               columnGap: 5,
@@ -269,7 +253,11 @@ const YourCourses = () => {
               padding: 10,
               borderRadius: 5,
               backgroundColor: 'white',
-              elevation: 2,
+              borderLeftWidth: 0,
+              borderWidth: 0,
+              borderTopWidth: index == 1 ? 0.5 : 0,
+              borderBottomWidth: index == 1 ? 0.5 : 0,
+              borderColor: Colors.veryLightGrey,
             }}>
             <FastImage
               priority={FastImage.priority.high}
@@ -318,6 +306,7 @@ const styles = StyleSheet.create({
   },
   techPoints: {
     fontSize: width * 0.03,
+    fontFamily: Font.SemiBold,
   },
   noCoursesText: {
     fontSize: width * 0.04,

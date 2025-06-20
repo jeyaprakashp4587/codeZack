@@ -20,6 +20,7 @@ import {challengesApi} from '../../Api';
 import StudyBoxUi from '../../components/StudyBoxUi';
 import FastImage from 'react-native-fast-image';
 import Skeleton from '../../Skeletons/Skeleton';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('window');
 
@@ -95,27 +96,39 @@ const LearnPage = () => {
   );
 
   // Advance topic length
-  const handleSetTopicsLength = useCallback(async () => {
-    try {
-      setLoad({boxLoad: true});
-      const res = await axios.post(`${challengesApi}/Courses/setTopicLength`, {
-        Topiclength: topicLength,
-        userId: user?._id,
-        TechName: selectedTechnology?.name,
-      });
+  const handleSetTopicsLength = useCallback(() => {
+    setTopicLength(prev => prev + 1);
+  }, []);
+  const navigation = useNavigation();
+  useEffect(() => {
+    const focusListener = navigation.addListener('blur', async () => {
+      const setLength = useCallback(async () => {
+        try {
+          setLoad({boxLoad: true});
+          const res = await axios.post(
+            `${challengesApi}/Courses/setTopicLength`,
+            {
+              Topiclength: topicLength,
+              userId: user?._id,
+              TechName: selectedTechnology?.name,
+            },
+          );
 
-      if (res.status === 200) {
-        if (topicLength >= courseData.length - 1) {
-          await handleSetTopicLevel();
-          return;
+          if (res.status === 200 && topicLength >= courseData.length - 1) {
+            await handleSetTopicLevel();
+          }
+        } catch (err) {
+          ToastAndroid.show('Failed to sync topic length', ToastAndroid.SHORT);
+        } finally {
+          setLoad({boxLoad: false});
         }
-        setTopicLength(prev => prev + 1);
-        setLoad({boxLoad: false});
-      }
-    } catch (error) {
-      ToastAndroid.show('Failed to update topic length', ToastAndroid.SHORT);
-    }
-  }, [topicLength, courseData, user, selectedTechnology]);
+        await setLength();
+      }, [topicLength]);
+    });
+    return () => {
+      navigation.removeListener('blur', focusListener);
+    };
+  }, [navigation]);
 
   // Advance topic level
   const handleSetTopicLevel = useCallback(async () => {
@@ -165,7 +178,68 @@ const LearnPage = () => {
       </View>
     );
   }
-
+  // render completed screen ui
+  if (load.completedUi) {
+    return (
+      <ImageBackground
+        source={{uri: 'https://i.ibb.co/PGMhBBCv/v904-nunny-012-f.jpg'}}
+        style={{
+          width: '100%',
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        resizeMode="stretch">
+        <View
+          style={{
+            backgroundColor: Colors.white,
+            padding: 15,
+            borderRadius: 15,
+            justifyContent: 'center',
+            alignItems: 'center',
+            rowGap: 10,
+          }}>
+          <FastImage
+            source={{
+              uri: 'https://i.ibb.co/5gyVs2pg/raising-hand-concept-illustration.png',
+              priority: FastImage.priority.high,
+            }}
+            style={{width: width * 0.7, aspectRatio: 1}}
+          />
+          <Text
+            style={{
+              fontSize: width * 0.07,
+              textAlign: 'center',
+              fontFamily: Font.SemiBold,
+            }}>
+            Congrats!
+          </Text>
+          <Text style={{fontFamily: Font.Medium, fontSize: width * 0.04}}>
+            You fininshed {selectedTechnology?.name} course
+          </Text>
+          <TouchableOpacity
+            onPress={() => setLoad({completedUi: false})}
+            style={{
+              backgroundColor: Colors.violet,
+              height: height * 0.056,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 100,
+              width: width * 0.5,
+            }}>
+            <Text
+              style={{
+                color: Colors.white,
+                fontFamily: Font.Medium,
+                fontSize: width * 0.034,
+              }}>
+              Close
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
+    );
+  }
   // main ui
   return (
     <View style={styles.container}>
