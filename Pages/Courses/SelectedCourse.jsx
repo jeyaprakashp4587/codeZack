@@ -121,51 +121,79 @@ const SelectedCourse = ({navigation}) => {
           }}
         />
         <View style={styles.section}>
-          <Text
-            style={{
-              fontSize: width * 0.07,
-              fontFamily: Font.SemiBold,
-              marginVertical: 10,
-              flexWrap: 'wrap',
-            }}>
-            {selectedCourse?.name}
-          </Text>
-          <Text
-            style={{
-              fontSize: width * 0.035,
-              color: Colors.veryDarkGrey,
-              fontFamily: Font.Regular,
-              letterSpacing: 0.3,
-              lineHeight: 25,
-            }}>
-            {selectedCourse?.introduction}
-          </Text>
-        </View>
-        <View style={{paddingHorizontal: 15}}>
-          <View style={styles.technologiesContainer}>
-            {selectedCourse?.technologies.map((icon, index) => (
-              <FastImage
-                source={{uri: icon.icon}}
-                style={{
-                  width: 30,
-                  height: 30,
-                }}
-                resizeMode="contain"
-              />
-            ))}
+          <View style={{borderWidth: 0, rowGap: 5}}>
+            <Text
+              style={{
+                fontSize: width * 0.05,
+                fontFamily: Font.SemiBold,
+                flexWrap: 'wrap',
+              }}>
+              Course Name:
+            </Text>
+            <Text
+              style={{
+                fontSize: width * 0.05,
+                fontFamily: Font.SemiBold,
+                flexWrap: 'wrap',
+              }}>
+              {selectedCourse?.name}
+            </Text>
           </View>
+          <View style={{borderWidth: 0, rowGap: 5}}>
+            <Text
+              style={{
+                fontSize: width * 0.05,
+                fontFamily: Font.SemiBold,
+                flexWrap: 'wrap',
+              }}>
+              Context:
+            </Text>
+            <Text
+              style={{
+                fontSize: width * 0.035,
+                color: Colors.veryDarkGrey,
+                fontFamily: Font.Regular,
+                letterSpacing: 0.3,
+                lineHeight: 25,
+              }}>
+              {selectedCourse?.introduction}
+            </Text>
+          </View>
+          <View style={{borderWidth: 0, rowGap: 5}}>
+            <Text
+              style={{
+                fontSize: width * 0.05,
+                fontFamily: Font.SemiBold,
+                flexWrap: 'wrap',
+              }}>
+              Technologies:
+            </Text>
+            <View style={styles.technologiesContainer}>
+              {selectedCourse?.technologies.map((icon, index) => (
+                <FastImage
+                  key={index}
+                  source={{uri: icon.icon}}
+                  style={{
+                    width: 30,
+                    height: 30,
+                  }}
+                  resizeMode="contain"
+                />
+              ))}
+            </View>
+          </View>
+          <Ripple
+            rippleColor={Colors.violet}
+            rippleOpacity={1}
+            style={styles.button}
+            onPress={HandleAddCourse}>
+            {loading ? (
+              <ActivityIndicator color={Colors.white} />
+            ) : (
+              <Text style={styles.buttonText}>Let's begin</Text>
+            )}
+          </Ripple>
         </View>
-        <Ripple
-          rippleColor={Colors.violet}
-          rippleOpacity={1}
-          style={styles.button}
-          onPress={HandleAddCourse}>
-          {loading ? (
-            <ActivityIndicator color={Colors.white} />
-          ) : (
-            <Text style={styles.buttonText}>Let's begin</Text>
-          )}
-        </Ripple>
       </View>
     </ScrollView>
   );
@@ -197,7 +225,7 @@ const styles = StyleSheet.create({
   section: {
     marginVertical: height * 0.015,
     paddingHorizontal: 15,
-    rowGap: 10,
+    rowGap: 13,
   },
   sectionTitle: {
     color: Colors.mildGrey,
@@ -236,17 +264,15 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: Colors.violet,
     borderWidth: 1,
-    marginTop: height * 0.03,
-    marginBottom: height * 0.03,
     columnGap: 10,
     width: width * 0.9,
     fontFamily: Font.Regular,
     overflow: 'hidden',
-    height: height * 0.07,
+    height: height * 0.065,
   },
   buttonText: {
     color: Colors.white,
-    fontFamily: Font.Regular,
+    fontFamily: Font.Medium,
     fontSize: width * 0.043,
   },
 });

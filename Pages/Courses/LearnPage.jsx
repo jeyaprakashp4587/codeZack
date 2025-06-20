@@ -246,6 +246,6 @@ const styles = StyleSheet.create({
     height: height,
     zIndex: -100,
     right: -width * 0.15,
-    opacity: 0.7,
+    opacity: 0.5,
   },
 });

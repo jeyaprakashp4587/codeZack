@@ -76,7 +76,13 @@ const RecentCourses = () => {
       </Text>
       <LinearGradient
         colors={['rgba(127, 208, 233, 0.65)', 'rgba(159,126,205,0.65)']}
-        style={{padding: 20, borderRadius: 10}}
+        style={{
+          padding: 20,
+          borderRadius: 10,
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
         start={{x: 0, y: 1}}
         end={{x: 1, y: 1}}>
         <FlatList

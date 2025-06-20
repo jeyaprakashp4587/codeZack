@@ -156,9 +156,9 @@ const CourseDetails = () => {
                   style={{
                     color: Colors.white,
                     textAlign: 'center',
-                    letterSpacing: 1,
+                    // letterSpacing: 1,
                     fontSize: width * 0.04,
-                    fontFamily: Font.Regular,
+                    fontFamily: Font.Medium,
                   }}>
                   Start
                 </Text>

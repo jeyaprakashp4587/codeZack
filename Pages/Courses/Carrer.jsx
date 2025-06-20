@@ -76,6 +76,7 @@ const Carrer = () => {
           nestedScrollEnabled={true}
           data={courses}
           keyExtractor={(_, index) => index}
+          key={(_, index) => index}
           renderItem={({item, index}) => (
             <TouchableOpacity
               onPress={() => {
@@ -119,8 +120,9 @@ const Carrer = () => {
                 {item?.name}
               </Text>
               <View style={{flexDirection: 'row', columnGap: 10}}>
-                {item?.technologies?.map(tech => (
+                {item?.technologies?.map((tech, index) => (
                   <FastImage
+                    key={index}
                     priority={FastImage.priority.high}
                     source={{uri: tech.icon}}
                     style={{width: 20, height: 20}}

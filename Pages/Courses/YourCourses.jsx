@@ -141,40 +141,49 @@ const YourCourses = () => {
         // }
       >
         {user?.Courses?.length <= 0 ? (
-          <View>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              // borderWidth: 1,
+              flex: 1,
+              height: height,
+              rowGap: 15,
+            }}>
             <FastImage
               source={{
-                uri: 'https://i.ibb.co/z2yHfJ0/35496095-2211-w026-n002-2760-B-p1-2760.jpg',
+                uri: 'https://i.ibb.co/MDYKYTtm/8724495-3968350.jpg',
               }}
               style={{
-                width: width * 0.9,
-                height: height * 0.3,
-                // aspectRatio: 1,
+                width: width * 0.7,
+                aspectRatio: 1,
                 alignSelf: 'center',
+                borderRadius: 10,
               }}
               resizeMode="contain"
             />
-            <Text style={styles.noCoursesText}>You Have No Courses</Text>
+            <Text style={styles.noCoursesText}>You have no courses</Text>
             <TouchableOpacity
               onPress={() => navigation.navigate('carrerScreen')}
               style={{
                 borderWidth: 0.8,
-                padding: 15,
                 borderRadius: 50,
                 justifyContent: 'center',
                 alignItems: 'center',
                 flexDirection: 'column',
-                borderColor: Colors.lightGrey,
-                marginTop: 20,
+                borderColor: Colors.violet,
+                backgroundColor: Colors.violet,
+                width: '60%',
+                height: height * 0.06,
               }}>
               <Text
                 style={{
                   textAlign: 'center',
-                  letterSpacing: 0.5,
-                  fontSize: width * 0.031,
+                  fontSize: width * 0.035,
                   fontFamily: Font.Medium,
+                  color: Colors.white,
                 }}>
-                Select course
+                Select Course
               </Text>
             </TouchableOpacity>
           </View>
