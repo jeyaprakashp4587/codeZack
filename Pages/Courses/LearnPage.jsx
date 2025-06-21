@@ -8,7 +8,6 @@ import {
   ScrollView,
   ImageBackground,
   TouchableOpacity,
-  Modal,
   ActivityIndicator,
 } from 'react-native';
 import {Colors} from '../../constants/Colors';
@@ -20,6 +19,7 @@ import {challengesApi} from '../../Api';
 import StudyBoxUi from '../../components/StudyBoxUi';
 import FastImage from 'react-native-fast-image';
 import Skeleton from '../../Skeletons/Skeleton';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const {width, height} = Dimensions.get('window');
 
@@ -61,10 +61,7 @@ const LearnPage = () => {
           setTopicLevel(levelIndex);
 
           // Check if course is finished
-          const isLastLevel = levelIndex >= levels.length - 1;
-          const isLastTopic = currentTopicLen > 19;
-
-          if (isLastLevel && isLastTopic) {
+          if (userTech.TechStatus === 'completed') {
             setLoad(prev => ({...prev, completedUi: true, uiload: false}));
             return {TopicLevel: levelIndex};
           }
@@ -153,9 +150,11 @@ const LearnPage = () => {
         userId: user?._id,
         TechName: selectedTechnology?.name,
         TopicLength: isLastLevel ? topicLength + 1 : 0,
+        TechStatus: isLastLevel ? true : false,
       });
 
       if (res.status === 200) {
+        setUser(prev => ({...prev, Course: res.data.newTech}));
         if (isLastLevel) {
           setLoad(prev => ({...prev, completedUi: true, uiload: false}));
         } else {
@@ -274,8 +273,9 @@ const LearnPage = () => {
             alignItems: 'center',
             flexDirection: 'row',
             paddingHorizontal: 15,
+            borderWidth: 1,
           }}>
-          <View style={{flex: 1, rowGap: 10}}>
+          <View style={{flex: 1, rowGap: 10, borderWidth: 1}}>
             <Text
               style={{
                 fontFamily: Font.SemiBold,
@@ -284,6 +284,39 @@ const LearnPage = () => {
               }}>
               Level: {levels[topicLevel]}
             </Text>
+            <View style={{flexDirection: 'row', borderWidth: 1}}>
+              <TouchableOpacity
+                style={{
+                  borderColor: Colors.mildGrey,
+                  borderWidth: 0.7,
+                  padding: 7,
+                }}>
+                <Text
+                  style={{
+                    fontFamily: Font.SemiBold,
+                    fontSize: width * 0.034,
+                    textTransform: 'capitalize',
+                  }}>
+                  {levels[topicLevel]}
+                </Text>
+                <FontAwesome name="caret-down" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  borderColor: Colors.mildGrey,
+                  borderWidth: 0.7,
+                  padding: 7,
+                }}>
+                <Text
+                  style={{
+                    fontFamily: Font.SemiBold,
+                    fontSize: width * 0.034,
+                    textTransform: 'capitalize',
+                  }}>
+                  Topic
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
           <FastImage
             source={{
