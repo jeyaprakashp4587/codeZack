@@ -11,7 +11,6 @@ import {
   Modal,
   ActivityIndicator,
 } from 'react-native';
-import {WebView} from 'react-native-webview';
 import {Colors} from '../../constants/Colors';
 import HeadingText from '../../utils/HeadingText';
 import {useData} from '../../Context/Contexter';
@@ -27,6 +26,7 @@ const {width, height} = Dimensions.get('window');
 const LearnPage = () => {
   const {selectedTechnology, user} = useData();
   const levels = ['beginner', 'intermediate', 'advanced'];
+
   const [courseData, setCourseData] = useState([]);
   const [topicLength, setTopicLength] = useState(0);
   const [topicLevel, setTopicLevel] = useState(0);
@@ -37,47 +37,52 @@ const LearnPage = () => {
     completedUi: false,
     save: false,
   });
+
   // Fetch user topic progress
   const findTopicLength = useCallback(async () => {
     try {
-      setLoad({uiload: true});
-      //
+      setLoad(prev => ({...prev, uiload: true}));
       const userCourse = user?.Courses?.find(course =>
         course?.Technologies?.some(
           tech => tech?.TechName === selectedTechnology?.name,
         ),
       );
+
       if (userCourse) {
-        const userTech = userCourse?.Technologies?.find(
+        const userTech = userCourse.Technologies.find(
           tech => tech?.TechName === selectedTechnology?.name,
         );
+
         if (userTech) {
-          setTopicLength(userTech.currentTopicLength || 0);
-          setTopicLevel(userTech.TechCurrentLevel || 0);
-          // check if user finish user last level
-          if (
-            levels[userTech.TechCurrentLevel] >= 19 &&
-            levels.length1 - 1 === levels[userTech.currentTopicLength]
-          ) {
-            setLoad({completedUi: true, uiload: false});
-            return;
+          const levelIndex = userTech.TechCurrentLevel || 0;
+          const currentTopicLen = userTech.currentTopicLength || 0;
+
+          setTopicLength(currentTopicLen);
+          setTopicLevel(levelIndex);
+
+          // Check if course is finished
+          const isLastLevel = levelIndex >= levels.length - 1;
+          const isLastTopic = currentTopicLen >= 19;
+
+          if (isLastLevel && isLastTopic) {
+            setLoad(prev => ({...prev, completedUi: true, uiload: false}));
+            return {TopicLevel: levelIndex};
           }
-          return {
-            TopicLevel: userTech.TechCurrentLevel || 0,
-          };
+
+          return {TopicLevel: levelIndex};
         }
       }
       return {TopicLevel: 0};
     } catch (error) {
-      ToastAndroid.show('error on find user topics', ToastAndroid.SHORT);
+      ToastAndroid.show('Error finding user topics', ToastAndroid.SHORT);
+      return {TopicLevel: 0};
     }
   }, [user, selectedTechnology]);
 
-  // Get course data for the current level
+  // Fetch course data
   const getTechCourse = useCallback(
-    async (levelIndex = topicLevel) => {
+    async levelIndex => {
       try {
-        // first check if user complete last level
         const res = await axios.get(`${challengesApi}/Courses/getTechCourse`, {
           params: {
             TechName: selectedTechnology?.name?.toLowerCase(),
@@ -87,45 +92,45 @@ const LearnPage = () => {
 
         if (res.status === 200 && res.data?.courseData) {
           setCourseData(res.data.courseData);
-          setLoad({uiload: false});
+          setLoad(prev => ({...prev, uiload: false}));
         }
       } catch (error) {
         ToastAndroid.show('Error fetching topics', ToastAndroid.SHORT);
       }
     },
-    [selectedTechnology, topicLevel],
+    [selectedTechnology],
   );
-  // handle the next topic length
+
+  // Move to next topic
   const handleTopicLength = useCallback(async () => {
     if (topicLength >= courseData.length - 1) {
-      await handleTopicLength();
+      await handleSetTopicLevel();
       return;
     }
-    setLoad({boxLoad: true});
+    setLoad(prev => ({...prev, boxLoad: true}));
     setIsSaved(false);
+
     const delay = setTimeout(() => {
-      setLoad({boxLoad: false});
+      setTopicLength(prev => prev + 1);
+      setLoad(prev => ({...prev, boxLoad: false}));
     }, 600);
-    setTopicLength(prev => prev + 1);
 
     return () => clearTimeout(delay);
-  }, [topicLevel, topicLength, courseData]);
-  // save topic length
+  }, [topicLength, courseData]);
+
+  // Save current topic progress
   const saveTopicsLength = useCallback(async () => {
     try {
-      setLoad({save: true});
+      setLoad(prev => ({...prev, save: true}));
       const res = await axios.post(`${challengesApi}/Courses/setTopicLength`, {
         Topiclength: topicLength,
         userId: user?._id,
         TechName: selectedTechnology?.name,
       });
+
       if (res.status === 200) {
-        if (topicLength >= courseData.length - 1) {
-          await handleSetTopicLevel();
-          return;
-        }
         setIsSaved(true);
-        setLoad({save: false});
+        setLoad(prev => ({...prev, save: false}));
       }
     } catch (error) {
       ToastAndroid.show('Failed to update topic length', ToastAndroid.SHORT);
@@ -135,38 +140,39 @@ const LearnPage = () => {
   // Advance topic level
   const handleSetTopicLevel = useCallback(async () => {
     try {
-      // check id user finished all levels
-      if (levels.length - 1 == levels[topicLevel]) {
-        setLoad({completedUi: true});
-        return;
-      }
-      setLoad({uiload: true});
+      setLoad(prev => ({...prev, uiload: true}));
+      const isLastLevel = topicLevel >= levels.length - 1;
+
       const res = await axios.post(`${challengesApi}/Courses/setTopicLevel`, {
-        TopicLevel: topicLevel + 1,
+        TopicLevel: isLastLevel ? topicLevel : topicLevel + 1,
         userId: user?._id,
         TechName: selectedTechnology?.name,
       });
+
       if (res.status === 200) {
-        setTopicLength(0);
-        setTopicLevel(prev => prev + 1);
-        await getTechCourse(topicLevel + 1);
-        setLoad({uiload: false});
+        if (isLastLevel) {
+          setLoad(prev => ({...prev, completedUi: true}));
+        } else {
+          setTopicLevel(prev => prev + 1);
+          setTopicLength(0);
+          await getTechCourse(topicLevel + 1);
+          setLoad(prev => ({...prev, uiload: false}));
+        }
       }
     } catch (error) {
       ToastAndroid.show('Failed to update topic level', ToastAndroid.SHORT);
     }
-  }, [topicLevel, user, selectedTechnology]);
+  }, [topicLevel, user, selectedTechnology, getTechCourse]);
 
-  // On component mount
+  // Load on mount
   useEffect(() => {
-    const load = async () => {
+    const loadData = async () => {
       const data = await findTopicLength();
       await getTechCourse(data.TopicLevel);
     };
-    load();
-  }, [findTopicLength]);
+    loadData();
+  }, [findTopicLength, getTechCourse]);
 
-  // load skeleton ui
   if (load.uiload) {
     return (
       <View style={{backgroundColor: Colors.white, flex: 1, rowGap: 15}}>
@@ -180,7 +186,7 @@ const LearnPage = () => {
       </View>
     );
   }
-  // render completed screen ui
+
   if (load.completedUi) {
     return (
       <ImageBackground
@@ -217,10 +223,10 @@ const LearnPage = () => {
             Congrats!
           </Text>
           <Text style={{fontFamily: Font.Medium, fontSize: width * 0.04}}>
-            You fininshed {selectedTechnology?.name} course
+            You finished {selectedTechnology?.name} course
           </Text>
           <TouchableOpacity
-            onPress={() => setLoad({completedUi: false})}
+            onPress={() => setLoad(prev => ({...prev, completedUi: false}))}
             style={{
               backgroundColor: Colors.violet,
               height: height * 0.056,
@@ -242,7 +248,7 @@ const LearnPage = () => {
       </ImageBackground>
     );
   }
-  // main ui
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -256,20 +262,12 @@ const LearnPage = () => {
         />
         <View
           style={{
-            // borderWidth: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            flex: 1,
             flexDirection: 'row',
             paddingHorizontal: 15,
           }}>
-          <View
-            style={{
-              flex: 1,
-              // borderWidth: 1,
-              rowGap: 10,
-              // justifyContent: 'space-between',
-            }}>
+          <View style={{flex: 1, rowGap: 10}}>
             <Text
               style={{
                 fontFamily: Font.SemiBold,
@@ -284,16 +282,11 @@ const LearnPage = () => {
               uri: selectedTechnology?.icon,
               priority: FastImage.priority.high,
             }}
-            style={{
-              width: width * 0.3,
-              aspectRatio: 1,
-              // borderWidth: 1,
-            }}
+            style={{width: width * 0.3, aspectRatio: 1}}
             resizeMode="contain"
           />
         </View>
         <View style={styles.contentWrapper}>
-          {/* courseData, topicLength, handleSetTopicsLength */}
           {load.boxLoad ? (
             <Skeleton width={width * 0.9} height={height * 0.8} radius={20} />
           ) : (
@@ -303,10 +296,8 @@ const LearnPage = () => {
               handleSetTopicsLength={handleTopicLength}
             />
           )}
-          {/* save button */}
-          {}
           <TouchableOpacity
-            onPress={() => saveTopicsLength()}
+            onPress={saveTopicsLength}
             style={{
               backgroundColor: Colors.violet,
               height: height * 0.065,
