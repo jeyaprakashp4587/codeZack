@@ -9,6 +9,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Modal,
+  ActivityIndicator,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import {Colors} from '../../constants/Colors';
@@ -20,7 +21,6 @@ import {challengesApi} from '../../Api';
 import StudyBoxUi from '../../components/StudyBoxUi';
 import FastImage from 'react-native-fast-image';
 import Skeleton from '../../Skeletons/Skeleton';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('window');
 
@@ -30,11 +30,12 @@ const LearnPage = () => {
   const [courseData, setCourseData] = useState([]);
   const [topicLength, setTopicLength] = useState(0);
   const [topicLevel, setTopicLevel] = useState(0);
-  const [isFinishes, setIsFinished] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
   const [load, setLoad] = useState({
     uiload: false,
     boxLoad: false,
     completedUi: false,
+    save: false,
   });
   // Fetch user topic progress
   const findTopicLength = useCallback(async () => {
@@ -94,47 +95,48 @@ const LearnPage = () => {
     },
     [selectedTechnology, topicLevel],
   );
-
-  // Advance topic length
-  const handleSetTopicsLength = useCallback(() => {
+  // handle the next topic length
+  const handleTopicLength = useCallback(async () => {
+    if (topicLength >= courseData.length - 1) {
+      await handleTopicLength();
+      return;
+    }
+    setLoad({boxLoad: true});
+    setIsSaved(false);
+    const delay = setTimeout(() => {
+      setLoad({boxLoad: false});
+    }, 600);
     setTopicLength(prev => prev + 1);
-  }, []);
-  const navigation = useNavigation();
-  useEffect(() => {
-    const focusListener = navigation.addListener('blur', async () => {
-      const setLength = useCallback(async () => {
-        try {
-          setLoad({boxLoad: true});
-          const res = await axios.post(
-            `${challengesApi}/Courses/setTopicLength`,
-            {
-              Topiclength: topicLength,
-              userId: user?._id,
-              TechName: selectedTechnology?.name,
-            },
-          );
 
-          if (res.status === 200 && topicLength >= courseData.length - 1) {
-            await handleSetTopicLevel();
-          }
-        } catch (err) {
-          ToastAndroid.show('Failed to sync topic length', ToastAndroid.SHORT);
-        } finally {
-          setLoad({boxLoad: false});
+    return () => clearTimeout(delay);
+  }, [topicLevel, topicLength, courseData]);
+  // save topic length
+  const saveTopicsLength = useCallback(async () => {
+    try {
+      setLoad({save: true});
+      const res = await axios.post(`${challengesApi}/Courses/setTopicLength`, {
+        Topiclength: topicLength,
+        userId: user?._id,
+        TechName: selectedTechnology?.name,
+      });
+      if (res.status === 200) {
+        if (topicLength >= courseData.length - 1) {
+          await handleSetTopicLevel();
+          return;
         }
-        await setLength();
-      }, [topicLength]);
-    });
-    return () => {
-      navigation.removeListener('blur', focusListener);
-    };
-  }, [navigation]);
+        setIsSaved(true);
+        setLoad({save: false});
+      }
+    } catch (error) {
+      ToastAndroid.show('Failed to update topic length', ToastAndroid.SHORT);
+    }
+  }, [topicLength, courseData, user, selectedTechnology]);
 
   // Advance topic level
   const handleSetTopicLevel = useCallback(async () => {
     try {
       // check id user finished all levels
-      if (levels.length - 1 === levels[topicLevel]) {
+      if (levels.length - 1 == levels[topicLevel]) {
         setLoad({completedUi: true});
         return;
       }
@@ -298,9 +300,34 @@ const LearnPage = () => {
             <StudyBoxUi
               courseData={courseData}
               topicLength={topicLength}
-              handleSetTopicsLength={handleSetTopicsLength}
+              handleSetTopicsLength={handleTopicLength}
             />
           )}
+          {/* save button */}
+          {}
+          <TouchableOpacity
+            onPress={() => saveTopicsLength()}
+            style={{
+              backgroundColor: Colors.violet,
+              height: height * 0.065,
+              width: '100%',
+              borderRadius: 5,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            {load.save ? (
+              <ActivityIndicator color={Colors.white} />
+            ) : (
+              <Text
+                style={{
+                  textAlign: 'center',
+                  color: Colors.white,
+                  fontFamily: Font.Medium,
+                }}>
+                {isSaved ? 'Saved' : 'Save your progress'}
+              </Text>
+            )}
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>
