@@ -62,12 +62,13 @@ const LearnPage = () => {
 
           // Check if course is finished
           const isLastLevel = levelIndex >= levels.length - 1;
-          const isLastTopic = currentTopicLen >= 19;
+          const isLastTopic = currentTopicLen > 19;
 
           if (isLastLevel && isLastTopic) {
             setLoad(prev => ({...prev, completedUi: true, uiload: false}));
             return {TopicLevel: levelIndex};
           }
+          console.log(levelIndex, currentTopicLen);
 
           return {TopicLevel: levelIndex};
         }
@@ -104,7 +105,7 @@ const LearnPage = () => {
   // Move to next topic
   const handleTopicLength = useCallback(async () => {
     if (topicLength >= courseData.length - 1) {
-      await handleSetTopicLevel();
+      await saveTopicsLength();
       return;
     }
     setLoad(prev => ({...prev, boxLoad: true}));
@@ -121,14 +122,19 @@ const LearnPage = () => {
   // Save current topic progress
   const saveTopicsLength = useCallback(async () => {
     try {
+      console.log(topicLength, topicLevel);
+
       setLoad(prev => ({...prev, save: true}));
       const res = await axios.post(`${challengesApi}/Courses/setTopicLength`, {
-        Topiclength: topicLength,
+        Topiclength: topicLength + 1,
         userId: user?._id,
         TechName: selectedTechnology?.name,
       });
 
       if (res.status === 200) {
+        if (topicLength >= courseData.length - 1) {
+          await handleSetTopicLevel();
+        }
         setIsSaved(true);
         setLoad(prev => ({...prev, save: false}));
       }
@@ -142,27 +148,29 @@ const LearnPage = () => {
     try {
       setLoad(prev => ({...prev, uiload: true}));
       const isLastLevel = topicLevel >= levels.length - 1;
-
       const res = await axios.post(`${challengesApi}/Courses/setTopicLevel`, {
         TopicLevel: isLastLevel ? topicLevel : topicLevel + 1,
         userId: user?._id,
         TechName: selectedTechnology?.name,
+        TopicLength: isLastLevel ? topicLength + 1 : 0,
       });
 
       if (res.status === 200) {
         if (isLastLevel) {
-          setLoad(prev => ({...prev, completedUi: true}));
+          setLoad(prev => ({...prev, completedUi: true, uiload: false}));
         } else {
           setTopicLevel(prev => prev + 1);
           setTopicLength(0);
-          await getTechCourse(topicLevel + 1);
+          if (!isLastLevel) {
+            await getTechCourse(topicLevel + 1);
+          }
           setLoad(prev => ({...prev, uiload: false}));
         }
       }
     } catch (error) {
       ToastAndroid.show('Failed to update topic level', ToastAndroid.SHORT);
     }
-  }, [topicLevel, user, selectedTechnology, getTechCourse]);
+  }, [topicLevel, user, selectedTechnology, getTechCourse, topicLength]);
 
   // Load on mount
   useEffect(() => {
