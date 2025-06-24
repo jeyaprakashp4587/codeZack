@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -25,7 +25,7 @@ const {width, height} = Dimensions.get('window');
 
 const LearnPage = () => {
   const {selectedTechnology, user} = useData();
-  const levels = ['beginner', 'intermediate', 'advanced'];
+  const levels = useMemo(() => ['beginner', 'intermediate', 'advanced'], []);
 
   const [courseData, setCourseData] = useState([]);
   const [topicLength, setTopicLength] = useState(0);
@@ -42,6 +42,7 @@ const LearnPage = () => {
   const findTopicLength = useCallback(async () => {
     try {
       setLoad(prev => ({...prev, uiload: true}));
+      console.log('trigge fm find');
       const userCourse = user?.Courses?.find(course =>
         course?.Technologies?.some(
           tech => tech?.TechName === selectedTechnology?.name,
@@ -75,29 +76,26 @@ const LearnPage = () => {
       ToastAndroid.show('Error finding user topics', ToastAndroid.SHORT);
       return {TopicLevel: 0};
     }
-  }, [user, selectedTechnology]);
+  }, []);
 
   // Fetch course data
-  const getTechCourse = useCallback(
-    async levelIndex => {
-      try {
-        const res = await axios.get(`${challengesApi}/Courses/getTechCourse`, {
-          params: {
-            TechName: selectedTechnology?.name?.toLowerCase(),
-            level: levels[levelIndex],
-          },
-        });
+  const getTechCourse = useCallback(async levelIndex => {
+    try {
+      const res = await axios.get(`${challengesApi}/Courses/getTechCourse`, {
+        params: {
+          TechName: selectedTechnology?.name?.toLowerCase(),
+          level: levels[levelIndex],
+        },
+      });
 
-        if (res.status === 200 && res.data?.courseData) {
-          setCourseData(res.data.courseData);
-          setLoad(prev => ({...prev, uiload: false}));
-        }
-      } catch (error) {
-        ToastAndroid.show('Error fetching topics', ToastAndroid.SHORT);
+      if (res.status === 200 && res.data?.courseData) {
+        setCourseData(res.data.courseData);
+        setLoad(prev => ({...prev, uiload: false}));
       }
-    },
-    [selectedTechnology],
-  );
+    } catch (error) {
+      ToastAndroid.show('Error fetching topics', ToastAndroid.SHORT);
+    }
+  }, []);
 
   // Move to next topic
   const handleTopicLength = useCallback(async () => {
@@ -169,16 +167,17 @@ const LearnPage = () => {
     } catch (error) {
       ToastAndroid.show('Failed to update topic level', ToastAndroid.SHORT);
     }
-  }, [topicLevel, user, selectedTechnology, getTechCourse, topicLength]);
+  }, [topicLevel, user, selectedTechnology, topicLength]);
 
   // Load on mount
   useEffect(() => {
     const loadData = async () => {
-      const data = await findTopicLength();
-      await getTechCourse(data.TopicLevel);
+      // const data = await findTopicLength();
+      // await getTechCourse(data.TopicLevel);
+      console.log('trigge fm load');
     };
     loadData();
-  }, [findTopicLength, getTechCourse]);
+  }, []);
 
   if (load.uiload) {
     return (
@@ -278,19 +277,14 @@ const LearnPage = () => {
           <View style={{flex: 1, rowGap: 10, borderWidth: 1}}>
             <Text
               style={{
-                fontFamily: Font.SemiBold,
+                // fontFamily: Font.SemiBold,
                 fontSize: width * 0.05,
                 textTransform: 'capitalize',
               }}>
               Level: {levels[topicLevel]}
             </Text>
             <View style={{flexDirection: 'row', borderWidth: 1}}>
-              <TouchableOpacity
-                style={{
-                  borderColor: Colors.mildGrey,
-                  borderWidth: 0.7,
-                  padding: 7,
-                }}>
+              <TouchableOpacity style={styles.toggle}>
                 <Text
                   style={{
                     fontFamily: Font.SemiBold,
@@ -301,12 +295,7 @@ const LearnPage = () => {
                 </Text>
                 <FontAwesome name="caret-down" />
               </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  borderColor: Colors.mildGrey,
-                  borderWidth: 0.7,
-                  padding: 7,
-                }}>
+              <TouchableOpacity style={styles.toggle}>
                 <Text
                   style={{
                     fontFamily: Font.SemiBold,
@@ -315,6 +304,7 @@ const LearnPage = () => {
                   }}>
                   Topic
                 </Text>
+                <FontAwesome name="caret-down" />
               </TouchableOpacity>
             </View>
           </View>
@@ -399,5 +389,12 @@ const styles = StyleSheet.create({
     zIndex: -100,
     right: -width * 0.15,
     opacity: 0.5,
+  },
+  toggle: {
+    borderColor: Colors.mildGrey,
+    borderWidth: 0.7,
+    padding: 7,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

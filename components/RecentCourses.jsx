@@ -98,12 +98,23 @@ const RecentCourses = () => {
         style={{
           padding: 20,
           borderRadius: 10,
-          flexDirection: 'row',
+          flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
+          rowGap: 10,
         }}
         start={{x: 0, y: 1}}
         end={{x: 1, y: 1}}>
+        <Text
+          style={{
+            fontSize: width * 0.04,
+            fontFamily: Font.Medium,
+            textAlign: 'left',
+            width: '100%',
+            color: Colors.violet,
+          }}>
+          {user.Courses[newCourseIndex]?.Course_Name}
+        </Text>
         <FlatList
           initialNumToRender={2}
           nestedScrollEnabled={true}
