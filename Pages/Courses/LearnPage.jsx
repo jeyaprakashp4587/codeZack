@@ -9,6 +9,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   ActivityIndicator,
+  Modal,
 } from 'react-native';
 import {Colors} from '../../constants/Colors';
 import HeadingText from '../../utils/HeadingText';
@@ -26,11 +27,12 @@ const {width, height} = Dimensions.get('window');
 const LearnPage = () => {
   const {selectedTechnology, user} = useData();
   const levels = useMemo(() => ['beginner', 'intermediate', 'advanced'], []);
-
+  const [toggle, setToggle] = useState('level');
   const [courseData, setCourseData] = useState([]);
   const [topicLength, setTopicLength] = useState(0);
   const [topicLevel, setTopicLevel] = useState(0);
   const [isSaved, setIsSaved] = useState(false);
+  const [showToggle, setShowToggle] = useState(false);
   const [load, setLoad] = useState({
     uiload: false,
     boxLoad: false,
@@ -172,8 +174,8 @@ const LearnPage = () => {
   // Load on mount
   useEffect(() => {
     const loadData = async () => {
-      // const data = await findTopicLength();
-      // await getTechCourse(data.TopicLevel);
+      const data = await findTopicLength();
+      await getTechCourse(data.TopicLevel);
       console.log('trigge fm load');
     };
     loadData();
@@ -272,9 +274,9 @@ const LearnPage = () => {
             alignItems: 'center',
             flexDirection: 'row',
             paddingHorizontal: 15,
-            borderWidth: 1,
+            // borderWidth: 1,
           }}>
-          <View style={{flex: 1, rowGap: 10, borderWidth: 1}}>
+          <View style={{flex: 1, rowGap: 10, borderWidth: 0}}>
             <Text
               style={{
                 // fontFamily: Font.SemiBold,
@@ -283,8 +285,12 @@ const LearnPage = () => {
               }}>
               Level: {levels[topicLevel]}
             </Text>
-            <View style={{flexDirection: 'row', borderWidth: 1}}>
-              <TouchableOpacity style={styles.toggle}>
+            <View style={{flexDirection: 'row', borderWidth: 0}}>
+              <TouchableOpacity
+                style={styles.toggle}
+                onPress={() => {
+                  setToggle('level'), setShowToggle(true);
+                }}>
                 <Text
                   style={{
                     fontFamily: Font.SemiBold,
@@ -293,9 +299,13 @@ const LearnPage = () => {
                   }}>
                   {levels[topicLevel]}
                 </Text>
-                <FontAwesome name="caret-down" />
+                <FontAwesome name="caret-down" size={width * 0.04} />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.toggle}>
+              <TouchableOpacity
+                style={styles.toggle}
+                onPress={() => {
+                  setToggle('topic'), setShowToggle(true);
+                }}>
                 <Text
                   style={{
                     fontFamily: Font.SemiBold,
@@ -304,7 +314,7 @@ const LearnPage = () => {
                   }}>
                   Topic
                 </Text>
-                <FontAwesome name="caret-down" />
+                <FontAwesome name="caret-down" size={width * 0.04} />
               </TouchableOpacity>
             </View>
           </View>
@@ -352,6 +362,74 @@ const LearnPage = () => {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      {/* model for show toggles */}
+      <Modal
+        transparent
+        visible={showToggle}
+        animationType="slide"
+        onRequestClose={() => setShowToggle(false)}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.66)',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              backgroundColor: 'white',
+              padding: 15,
+              borderRadius: 10,
+              width: '60%',
+              justifyContent: 'center',
+            }}>
+            {toggle === 'level'
+              ? levels.map((level, index) => (
+                  <TouchableOpacity
+                    style={{
+                      borderWidth: index == 1 ? 0.5 : 0,
+                      borderRightWidth: 0,
+                      borderLeftWidth: 0,
+                      borderColor: Colors.lightGrey,
+                      padding: 10,
+                    }}>
+                    <Text
+                      style={{
+                        textTransform: 'capitalize',
+                        fontSize: width * 0.04,
+                        fontFamily: Font.Regular,
+                        padding: 10,
+                        textAlign: 'center',
+                      }}>
+                      {level}
+                    </Text>
+                  </TouchableOpacity>
+                ))
+              : courseData?.map((course, index) => (
+                  <TouchableOpacity
+                    style={{
+                      borderWidth:
+                        index == 0 || index == courseData?.length - 1 ? 0.5 : 0,
+                      borderRightWidth: 0,
+                      borderLeftWidth: 0,
+                      borderColor: Colors.lightGrey,
+                      padding: 10,
+                    }}>
+                    <Text
+                      style={{
+                        textTransform: 'capitalize',
+                        fontSize: width * 0.04,
+                        fontFamily: Font.Regular,
+                        padding: 10,
+                        textAlign: 'center',
+                      }}>
+                      {course?.title}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -391,10 +469,12 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   toggle: {
-    borderColor: Colors.mildGrey,
-    borderWidth: 0.7,
+    borderColor: 'rgba(23, 24, 23, 0.22)',
+    borderWidth: 0.5,
     padding: 7,
     flexDirection: 'row',
     alignItems: 'center',
+    columnGap: 5,
+    paddingHorizontal: 14,
   },
 });
