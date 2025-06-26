@@ -41,7 +41,8 @@ const LearnPage = () => {
     completedUi: false,
     save: false,
   });
-
+  const [maxUnlockedTopicIndex, setMaxUnlockedTopicIndex] = useState(0);
+  const [maxUnlockedLevelIndex, setMaxUnlockedLevelIndex] = useState(0);
   // Fetch user topic progress
   const findTopicLength = useCallback(async () => {
     try {
@@ -141,6 +142,10 @@ const LearnPage = () => {
   // Advance topic level
   const handleSetTopicLevel = useCallback(async () => {
     try {
+      if (isCompleted) {
+        setLoad(prev => ({...prev, completedUi: true}));
+        return;
+      }
       setLoad(prev => ({...prev, uiload: true}));
       const isLastLevel = topicLevel >= levels.length - 1;
       const res = await axios.post(`${challengesApi}/Courses/setTopicLevel`, {
@@ -167,12 +172,16 @@ const LearnPage = () => {
     } catch (error) {
       ToastAndroid.show('Failed to update topic level', ToastAndroid.SHORT);
     }
-  }, [topicLevel, user, selectedTechnology, topicLength]);
+  }, [topicLevel, user, selectedTechnology, topicLength, isCompleted]);
 
   // Load on mount
   useEffect(() => {
     const loadData = async () => {
       const data = await findTopicLength();
+      const topicIUnlocked = data?.TopicLength || 0;
+      const levelUnlocked = data?.TopicLevel || 0;
+      setMaxUnlockedTopicIndex(topicIUnlocked);
+      setMaxUnlockedLevelIndex(levelUnlocked);
       await getTechCourse(data.TopicLevel);
     };
     loadData();
@@ -376,11 +385,13 @@ const LearnPage = () => {
           }}>
           {toggle == 'level' ? (
             levels.map((level, index) => {
-              const enabledLevel = index <= topicLevel;
+              const enabledLevel = index <= maxUnlockedLevelIndex;
               return (
                 <TouchableOpacity
                   key={index}
-                  onPress={() => {
+                  onPress={async () => {
+                    setTopicLevel(index);
+                    await getTechCourse(index);
                     setShowToggle(false);
                   }}
                   style={{
@@ -420,15 +431,8 @@ const LearnPage = () => {
               showsVerticalScrollIndicator={false}
               keyExtractor={(item, index) => index.toString()}
               scrollsToTop={true}
-              // indicatorStyle="white"
               renderItem={({item, index}) => {
-                const enabledLevel =
-                  index <=
-                  findTopicLength().then(data =>
-                    data?.TopicLength > topicLength
-                      ? data?.TopicLength
-                      : topicLength,
-                  );
+                const enabledLevel = index <= maxUnlockedTopicIndex;
                 return (
                   <TouchableOpacity
                     onPress={() => {
