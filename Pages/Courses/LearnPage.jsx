@@ -9,7 +9,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   ActivityIndicator,
-  Modal,
+  FlatList,
 } from 'react-native';
 import {Colors} from '../../constants/Colors';
 import HeadingText from '../../utils/HeadingText';
@@ -21,6 +21,7 @@ import StudyBoxUi from '../../components/StudyBoxUi';
 import FastImage from 'react-native-fast-image';
 import Skeleton from '../../Skeletons/Skeleton';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {Modal} from 'react-native-paper';
 
 const {width, height} = Dimensions.get('window');
 
@@ -33,6 +34,7 @@ const LearnPage = () => {
   const [topicLevel, setTopicLevel] = useState(0);
   const [isSaved, setIsSaved] = useState(false);
   const [showToggle, setShowToggle] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
   const [load, setLoad] = useState({
     uiload: false,
     boxLoad: false,
@@ -44,7 +46,6 @@ const LearnPage = () => {
   const findTopicLength = useCallback(async () => {
     try {
       setLoad(prev => ({...prev, uiload: true}));
-      console.log('trigge fm find');
       const userCourse = user?.Courses?.find(course =>
         course?.Technologies?.some(
           tech => tech?.TechName === selectedTechnology?.name,
@@ -59,17 +60,14 @@ const LearnPage = () => {
         if (userTech) {
           const levelIndex = userTech.TechCurrentLevel || 0;
           const currentTopicLen = userTech.currentTopicLength || 0;
-
           setTopicLength(currentTopicLen);
           setTopicLevel(levelIndex);
-
           // Check if course is finished
           if (userTech.TechStatus === 'completed') {
             setLoad(prev => ({...prev, completedUi: true, uiload: false}));
+            setIsCompleted(true);
             return {TopicLevel: levelIndex};
           }
-          console.log(levelIndex, currentTopicLen);
-
           return {TopicLevel: levelIndex};
         }
       }
@@ -176,7 +174,6 @@ const LearnPage = () => {
     const loadData = async () => {
       const data = await findTopicLength();
       await getTechCourse(data.TopicLevel);
-      console.log('trigge fm load');
     };
     loadData();
   }, []);
@@ -234,7 +231,10 @@ const LearnPage = () => {
             You finished {selectedTechnology?.name} course
           </Text>
           <TouchableOpacity
-            onPress={() => setLoad(prev => ({...prev, completedUi: false}))}
+            onPress={() => {
+              setLoad(prev => ({...prev, completedUi: false})),
+                setTopicLength(0);
+            }}
             style={{
               backgroundColor: Colors.violet,
               height: height * 0.056,
@@ -337,97 +337,129 @@ const LearnPage = () => {
               handleSetTopicsLength={handleTopicLength}
             />
           )}
-          <TouchableOpacity
-            onPress={saveTopicsLength}
-            style={{
-              backgroundColor: Colors.violet,
-              height: height * 0.065,
-              width: '100%',
-              borderRadius: 5,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            {load.save ? (
-              <ActivityIndicator color={Colors.white} />
-            ) : (
-              <Text
-                style={{
-                  textAlign: 'center',
-                  color: Colors.white,
-                  fontFamily: Font.Medium,
-                }}>
-                {isSaved ? 'Saved' : 'Save your progress'}
-              </Text>
-            )}
-          </TouchableOpacity>
+          {/* show save button, */}
+          {!isCompleted && (
+            <TouchableOpacity
+              onPress={saveTopicsLength}
+              style={{
+                backgroundColor: Colors.violet,
+                height: height * 0.065,
+                width: '100%',
+                borderRadius: 5,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              {load.save ? (
+                <ActivityIndicator color={Colors.white} />
+              ) : (
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    color: Colors.white,
+                    fontFamily: Font.Medium,
+                  }}>
+                  {isSaved ? 'Saved' : 'Save your progress'}
+                </Text>
+              )}
+            </TouchableOpacity>
+          )}
         </View>
       </ScrollView>
-      {/* model for show toggles */}
-      <Modal
-        transparent
-        visible={showToggle}
-        animationType="slide"
-        onRequestClose={() => setShowToggle(false)}>
+      <Modal visible={showToggle} onDismiss={() => setShowToggle(false)}>
         <View
           style={{
-            flex: 1,
-            backgroundColor: 'rgba(0, 0, 0, 0.66)',
-            justifyContent: 'center',
-            alignItems: 'center',
+            backgroundColor: 'white',
+            // padding: 15,
+            borderRadius: 10,
+            width: '80%',
+            margin: 'auto',
+            paddingVertical: 15,
           }}>
-          <View
-            style={{
-              backgroundColor: 'white',
-              padding: 15,
-              borderRadius: 10,
-              width: '60%',
-              justifyContent: 'center',
-            }}>
-            {toggle === 'level'
-              ? levels.map((level, index) => (
-                  <TouchableOpacity
+          {toggle == 'level' ? (
+            levels.map((level, index) => {
+              const enabledLevel = index <= topicLevel;
+              return (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => {
+                    setShowToggle(false);
+                  }}
+                  style={{
+                    borderColor: Colors.veryLightGrey,
+                    paddingVertical: 12,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    borderBottomWidth: index == levels.length - 1 ? 0 : 0.8,
+                  }}>
+                  <Text
                     style={{
-                      borderWidth: index == 1 ? 0.5 : 0,
-                      borderRightWidth: 0,
-                      borderLeftWidth: 0,
-                      borderColor: Colors.lightGrey,
-                      padding: 10,
+                      textTransform: 'capitalize',
+                      fontSize: width * 0.04,
+                      fontFamily: Font.Medium,
+                    }}>
+                    {level}
+                  </Text>
+                  {!enabledLevel && (
+                    <FastImage
+                      style={{width: width * 0.06, aspectRatio: 1}}
+                      source={{
+                        uri: 'https://i.ibb.co/Rp6m2rcP/padlock.png',
+                        priority: FastImage.priority.high,
+                      }}
+                      resizeMode="contain"
+                    />
+                  )}
+                </TouchableOpacity>
+              );
+            })
+          ) : (
+            <FlatList
+              data={courseData}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({item, index}) => {
+                const enabledLevel = index <= topicLength;
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setShowToggle(false);
+                    }}
+                    style={{
+                      borderBottomWidth:
+                        index == courseData.length - 1 ? 0 : 0.8,
+                      borderColor: Colors.veryLightGrey,
+                      paddingVertical: 12,
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      backgroundColor:
+                        index == topicLength ? 'rgb(26, 219, 123)' : 'white',
                     }}>
                     <Text
                       style={{
                         textTransform: 'capitalize',
-                        fontSize: width * 0.04,
+                        fontSize: width * 0.035,
                         fontFamily: Font.Regular,
-                        padding: 10,
-                        textAlign: 'center',
+                        width: '80%',
                       }}>
-                      {level}
+                      {item?.title}
                     </Text>
+                    {!enabledLevel && !isCompleted && (
+                      <FastImage
+                        style={{width: width * 0.06, aspectRatio: 1}}
+                        source={{
+                          uri: 'https://i.ibb.co/Rp6m2rcP/padlock.png',
+                          priority: FastImage.priority.high,
+                        }}
+                        resizeMode="contain"
+                      />
+                    )}
                   </TouchableOpacity>
-                ))
-              : courseData?.map((course, index) => (
-                  <TouchableOpacity
-                    style={{
-                      borderWidth:
-                        index == 0 || index == courseData?.length - 1 ? 0.5 : 0,
-                      borderRightWidth: 0,
-                      borderLeftWidth: 0,
-                      borderColor: Colors.lightGrey,
-                      padding: 10,
-                    }}>
-                    <Text
-                      style={{
-                        textTransform: 'capitalize',
-                        fontSize: width * 0.04,
-                        fontFamily: Font.Regular,
-                        padding: 10,
-                        textAlign: 'center',
-                      }}>
-                      {course?.title}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-          </View>
+                );
+              }}
+            />
+          )}
         </View>
       </Modal>
     </View>
@@ -450,7 +482,6 @@ const styles = StyleSheet.create({
   },
   contentWrapper: {
     flex: 1,
-    height: height,
     justifyContent: 'flex-start',
     alignItems: 'center',
     padding: 20,

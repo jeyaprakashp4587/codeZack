@@ -110,7 +110,6 @@ const StudyBoxUi = ({courseData, topicLength, handleSetTopicsLength}) => {
 
 const styles = StyleSheet.create({
   outer: {
-    overflow: 'hidden',
     width: '100%',
   },
   topicContainer: {
