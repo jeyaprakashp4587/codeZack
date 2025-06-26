@@ -45,7 +45,6 @@ const LearnPage = () => {
   // Fetch user topic progress
   const findTopicLength = useCallback(async () => {
     try {
-      setLoad(prev => ({...prev, uiload: true}));
       const userCourse = user?.Courses?.find(course =>
         course?.Technologies?.some(
           tech => tech?.TechName === selectedTechnology?.name,
@@ -66,7 +65,7 @@ const LearnPage = () => {
           if (userTech.TechStatus === 'completed') {
             setLoad(prev => ({...prev, completedUi: true, uiload: false}));
             setIsCompleted(true);
-            return {TopicLevel: levelIndex};
+            return {TopicLevel: levelIndex, TopicLength: currentTopicLen};
           }
           return {TopicLevel: levelIndex};
         }
@@ -81,6 +80,7 @@ const LearnPage = () => {
   // Fetch course data
   const getTechCourse = useCallback(async levelIndex => {
     try {
+      setLoad(prev => ({...prev, uiload: true}));
       const res = await axios.get(`${challengesApi}/Courses/getTechCourse`, {
         params: {
           TechName: selectedTechnology?.name?.toLowerCase(),
@@ -279,7 +279,7 @@ const LearnPage = () => {
           <View style={{flex: 1, rowGap: 10, borderWidth: 0}}>
             <Text
               style={{
-                // fontFamily: Font.SemiBold,
+                fontFamily: Font.SemiBold,
                 fontSize: width * 0.05,
                 textTransform: 'capitalize',
               }}>
@@ -369,7 +369,6 @@ const LearnPage = () => {
         <View
           style={{
             backgroundColor: 'white',
-            // padding: 15,
             borderRadius: 10,
             width: '80%',
             margin: 'auto',
@@ -388,9 +387,11 @@ const LearnPage = () => {
                     borderColor: Colors.veryLightGrey,
                     paddingVertical: 12,
                     flexDirection: 'row',
-                    justifyContent: 'space-between',
+                    justifyContent: 'center',
                     alignItems: 'center',
                     borderBottomWidth: index == levels.length - 1 ? 0 : 0.8,
+                    backgroundColor:
+                      index == topicLevel ? 'rgb(26, 219, 123)' : 'white',
                   }}>
                   <Text
                     style={{
@@ -418,11 +419,22 @@ const LearnPage = () => {
               data={courseData}
               showsVerticalScrollIndicator={false}
               keyExtractor={(item, index) => index.toString()}
+              scrollsToTop={true}
+              // indicatorStyle="white"
               renderItem={({item, index}) => {
-                const enabledLevel = index <= topicLength;
+                const enabledLevel =
+                  index <=
+                  findTopicLength().then(data =>
+                    data?.TopicLength > topicLength
+                      ? data?.TopicLength
+                      : topicLength,
+                  );
                 return (
                   <TouchableOpacity
                     onPress={() => {
+                      if (enabledLevel) {
+                        setTopicLength(index);
+                      }
                       setShowToggle(false);
                     }}
                     style={{
@@ -431,7 +443,7 @@ const LearnPage = () => {
                       borderColor: Colors.veryLightGrey,
                       paddingVertical: 12,
                       flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      justifyContent: 'center',
                       alignItems: 'center',
                       backgroundColor:
                         index == topicLength ? 'rgb(26, 219, 123)' : 'white',
@@ -440,7 +452,7 @@ const LearnPage = () => {
                       style={{
                         textTransform: 'capitalize',
                         fontSize: width * 0.035,
-                        fontFamily: Font.Regular,
+                        fontFamily: Font.Medium,
                         width: '80%',
                       }}>
                       {item?.title}
