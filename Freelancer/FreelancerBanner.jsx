@@ -64,8 +64,7 @@ const FreelancerBanner = () => {
           rowGap: 10,
           // borderWidth: 1,
         }}>
-        <View style={{borderWidth: 0, width: '100%'}}>
-          {/* times icons */}
+        {/* <View style={{borderWidth: 0, width: '100%'}}>
           <Ripple
             onPress={() => setShowBanner(false)}
             style={{
@@ -79,7 +78,7 @@ const FreelancerBanner = () => {
             }}>
             <FontAwesome5 name="times" size={13} color="rgb(0, 0, 0)" />
           </Ripple>
-        </View>
+        </View> */}
         {/* content wrapper */}
         <FastImage
           source={{
@@ -103,14 +102,14 @@ const FreelancerBanner = () => {
             justifyContent: 'flex-end',
             alignSelf: 'flex-end',
             width: '50%',
-            rowGap: 15,
+            rowGap: 10,
           }}>
           <Text
             style={{
               fontFamily: Font.SemiBold,
               fontSize: width * 0.05,
               letterSpacing: 0.2,
-              lineHeight: 30,
+              lineHeight: 25,
             }}>
             Get paid for your coding skills.
           </Text>

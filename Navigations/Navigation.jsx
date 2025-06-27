@@ -87,7 +87,7 @@ const TabNavigation = () => {
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: Colors.violet,
-        tabBarInactiveTintColor: Colors.mildGrey,
+        tabBarInactiveTintColor: Colors.veryDarkGrey,
         tabBarStyle: {
           borderTopWidth: 0,
           elevation: 0,
