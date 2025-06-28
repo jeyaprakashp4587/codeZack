@@ -50,10 +50,7 @@ import IntroScreen from '../Pages/IntroScreen';
 import ProjectPost from '../Freelancer/ProjectPost';
 import UploadProject from '../Freelancer/UploadProject';
 import ProjectDetails from '../Freelancer/ProjectDetails';
-// import GetStart from '../ZackyArena/GetStart';
-// import ArenaGround from '../ZackyArena/ArenaGround';
-// import MatchFixing from '../ZackyArena/MatchFixing';
-
+// closed imports
 // Tab navigations functions
 const {width, height} = Dimensions.get('window');
 const Tab = createBottomTabNavigator();
@@ -175,7 +172,7 @@ const TabNavigation = () => {
           },
         }}
       />
-
+      <View></View>
       <Tab.Screen
         name="Code"
         component={Challenge}
