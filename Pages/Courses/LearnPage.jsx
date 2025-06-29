@@ -194,9 +194,11 @@ const LearnPage = () => {
         <TouchableOpacity
           key={index}
           onPress={async () => {
-            setTopicLevel(index);
-            await getTechCourse(index);
-            setShowToggle(false);
+            if (enabled) {
+              setTopicLevel(index);
+              await getTechCourse(index);
+              setShowToggle(false);
+            }
           }}
           style={[styles.modalItem, index === topicLevel && styles.activeItem]}>
           <Text style={styles.modalText}>{item}</Text>
@@ -230,7 +232,10 @@ const LearnPage = () => {
           {!enabled && !isCompleted && (
             <FastImage
               style={styles.lockIcon}
-              source={{uri: 'https://i.ibb.co/Rp6m2rc/padlock.png'}}
+              source={{
+                uri: 'https://i.ibb.co/Rp6m2rc/padlock.png',
+                priority: FastImage.priority.high,
+              }}
               resizeMode="contain"
             />
           )}
@@ -494,7 +499,7 @@ const styles = StyleSheet.create({
     fontFamily: Font.Medium,
   },
   lockIcon: {
-    width: width * 0.06,
+    width: 20,
     aspectRatio: 1,
   },
 });

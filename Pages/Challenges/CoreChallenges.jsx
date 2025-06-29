@@ -61,7 +61,7 @@ const CoreChallenges = () => {
       style={{
         marginVertical: 10,
         backgroundColor: 'white',
-        elevation: 2,
+        elevation: 1.5,
         marginHorizontal: 5,
         padding: 15,
         borderRadius: 5,
@@ -71,7 +71,7 @@ const CoreChallenges = () => {
       <Text
         style={{
           color: Colors.veryDarkGrey,
-          letterSpacing: 1,
+          letterSpacing: 0.4,
           fontSize: width * 0.045,
           // fontWeight: '700',
           fontFamily: Font.SemiBold,
@@ -81,7 +81,7 @@ const CoreChallenges = () => {
       </Text>
       <Text
         style={{
-          letterSpacing: 1,
+          letterSpacing: 0.4,
           color: Colors.mildGrey,
           lineHeight: 20,
           fontSize: width * 0.03,
@@ -93,32 +93,37 @@ const CoreChallenges = () => {
         style={{
           color: '#1d3557',
           fontWeight: '600',
-          letterSpacing: 1,
+          letterSpacing: 0.4,
           fontSize: width * 0.03,
-          fontFamily: Font.Regular,
+          fontFamily: Font.Medium,
         }}>
         <Text style={{fontFamily: Font.Regular}}>Inputs: </Text>
         {item?.input_example}
       </Text>
       <Text
-        style={{color: '#ee6c4d', letterSpacing: 1, fontSize: width * 0.03}}>
+        style={{
+          color: '#ee6c4d',
+          letterSpacing: 0.4,
+          fontSize: width * 0.03,
+          fontFamily: Font.Medium,
+        }}>
         <Text style={{fontFamily: Font.Regular}}>Output: </Text>{' '}
         {item?.output_example}
       </Text>
       <TouchableOpacity
         onPress={() => handleSelectChallenge(item)}
         style={{
-          padding: 7,
+          padding: 10,
           borderColor: Colors.violet,
           borderWidth: 0.5,
-          borderRadius: 10,
+          borderRadius: 50,
           backgroundColor: Colors.violet,
         }}>
         <Text
           style={{
             color: Colors.white,
             textAlign: 'center',
-            letterSpacing: 1,
+            // letterSpacing: 1,
             fontSize: width * 0.033,
             // fontWeight: '700',
             fontFamily: Font.SemiBold,
@@ -146,9 +151,10 @@ const CoreChallenges = () => {
       {/* header */}
       <View style={{paddingHorizontal: 15}}>
         <HeadingText text="Challenges" />
-        <PragraphText text={selectedChallengeTopic?.ChallengeName} fsize={24} />
+        <Text style={{fontSize: width * 0.05, fontFamily: Font.Medium}}>
+          Language: {selectedChallengeTopic?.ChallengeName}
+        </Text>
       </View>
-
       {/* challenge list */}
       <View style={{paddingHorizontal: 10, borderWidth: 0, flex: 1}}>
         <FlatList

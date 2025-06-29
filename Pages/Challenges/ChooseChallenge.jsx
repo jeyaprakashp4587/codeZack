@@ -190,7 +190,7 @@ const ChooseChallenge = ({navigation}) => {
         <Text
           style={{
             fontSize: width * 0.043,
-            letterSpacing: 1,
+            letterSpacing: 0.4,
             fontFamily: Font.Regular,
           }}>
           Choose Difficulty Level
@@ -246,10 +246,11 @@ const ChooseChallenge = ({navigation}) => {
                   fontSize: width * 0.05,
                   padding: 5,
                   fontFamily: Font.Medium,
-                  letterSpacing: 1,
+                  letterSpacing: 0.4,
                 }}>
                 {item.title}
               </Text>
+              <Text></Text>
               <ParagraphText
                 text={item.level ? item.level : difficultyInfo}
                 fsize={15}
@@ -287,7 +288,7 @@ const ChooseChallenge = ({navigation}) => {
                 ) && (
                   <Text
                     style={{
-                      letterSpacing: 2,
+                      letterSpacing: 0.4,
                       color: Colors.mildGrey,
                       fontSize: width * 0.02,
                       // fontWeight: '600',
@@ -316,9 +317,6 @@ const ChooseChallenge = ({navigation}) => {
                 handleChooseChallenge(item);
               }}
               style={{
-                // borderWidth: 0.5,
-                // borderColor: Colors.violet,
-                // borderRadius: 50,
                 backgroundColor: Colors.violet,
                 borderRadius: 5,
               }}>
@@ -381,12 +379,11 @@ const styles = StyleSheet.create({
   linearGradient: {borderRadius: 10, padding: 2, justifyContent: 'center'},
   viewChallengeButtonText: {
     color: Colors.white,
-    letterSpacing: 1,
+    letterSpacing: 0.4,
     textAlign: 'center',
     borderRadius: 10,
     padding: 10,
-    // fontWeight: '700',
-    fontFamily: Font.Regular,
+    fontFamily: Font.SemiBold,
   },
   modalOverlay: {
     flex: 1,

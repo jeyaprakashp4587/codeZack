@@ -211,16 +211,14 @@ const YourCourses = () => {
                     borderRadius: 50,
                     borderWidth: 0,
                     borderColor: Colors.mildGrey,
-                    // borderWidth: 1,
-                    backgroundColor: 'rgba(245, 245, 245, 0.51)',
+                    backgroundColor: Colors.violet,
                   }}>
                   <Text
                     style={{
-                      // fontWeight: '600',
-                      letterSpacing: 1,
-                      color: Colors.veryDarkGrey,
+                      letterSpacing: 0.3,
+                      color: Colors.white,
                       fontSize: width * 0.035,
-                      fontFamily: Font.Medium,
+                      fontFamily: Font.Regular,
                     }}>
                     Continue
                   </Text>
@@ -280,17 +278,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
     flexDirection: 'column',
-    // borderWidth: 1,
     padding: 10,
     marginBottom: 10,
     borderRadius: 5,
     rowGap: 10,
   },
   courseName: {
-    fontSize: width * 0.035,
-    fontWeight: '700',
+    fontSize: width * 0.045,
     color: Colors.veryDarkGrey,
-    letterSpacing: 1,
+    letterSpacing: 0.4,
+    fontFamily: Font.SemiBold,
   },
   techWrapper: {
     flexDirection: 'row',

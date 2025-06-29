@@ -172,7 +172,7 @@ const TabNavigation = () => {
           },
         }}
       />
-      <View></View>
+
       <Tab.Screen
         name="Code"
         component={Challenge}
