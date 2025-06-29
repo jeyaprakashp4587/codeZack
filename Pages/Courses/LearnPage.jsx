@@ -205,7 +205,7 @@ const LearnPage = () => {
           {!enabled && (
             <FastImage
               style={styles.lockIcon}
-              source={{uri: 'https://i.ibb.co/Rp6m2rc/padlock.png'}}
+              source={{uri: 'https://i.ibb.co/1GpWpcPS/padlock.png'}}
               resizeMode="contain"
             />
           )}
@@ -233,7 +233,7 @@ const LearnPage = () => {
             <FastImage
               style={styles.lockIcon}
               source={{
-                uri: 'https://i.ibb.co/Rp6m2rc/padlock.png',
+                uri: 'https://i.ibb.co/1GpWpcPS/padlock.png',
                 priority: FastImage.priority.high,
               }}
               resizeMode="contain"
@@ -499,7 +499,7 @@ const styles = StyleSheet.create({
     fontFamily: Font.Medium,
   },
   lockIcon: {
-    width: 20,
+    width: width * 0.08,
     aspectRatio: 1,
   },
 });
