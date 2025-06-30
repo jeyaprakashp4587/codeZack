@@ -9,6 +9,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import MobileAds from 'react-native-google-mobile-ads';
 import {PaperProvider} from 'react-native-paper';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {withStallion} from 'react-native-stallion';
 const {width} = Dimensions.get('window');
 
 const App = () => {
@@ -41,7 +42,7 @@ const App = () => {
   );
 };
 
-export default App;
+export default withStallion[App];
 
 const styles = StyleSheet.create({
   cn: {

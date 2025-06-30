@@ -34,15 +34,20 @@ import useFCMToken from '../hooks/useFCMToken';
 import IdeasWrapper from '../components/IdeasWrapper';
 import RecentCourses from '../components/RecentCourses';
 import FastImage from 'react-native-fast-image';
-const ChallengesBanner = React.lazy(() =>
-  import('../components/ChallengesBanner'),
-);
 import {Font} from '../constants/Font';
 import {checkAppVersion} from '../hooks/checkAppVersion';
 import FreelancerBanner from '../Freelancer/FreelancerBanner';
+import {useStallionUpdate, restart} from 'react-native-stallion';
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
 const Home = () => {
+  // ota update setUp
+  const {newReleaseBundle, isRestartRequired, currentlyRunningBundle} =
+    useStallionUpdate();
+  useEffect(() => {
+    if (isRestartRequired) {
+    }
+  }, [isRestartRequired]);
   const {user, setUser} = useData();
   const [UiLoading, setUiLoading] = useState(false);
   const [suggestRefresh, setSuggestRefresh] = useState(false);

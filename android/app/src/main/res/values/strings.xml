@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">codezack</string>
+    <string name="StallionProjectId">68598f6e056bab5d83ffc8f8</string>
+    <string name="StallionAppToken">spb_av57WcCVkw5erKv6PFnuIHtD1Th8A_qCJlvFGbM4TD</string>
 </resources>
