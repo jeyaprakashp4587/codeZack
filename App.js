@@ -42,7 +42,7 @@ const App = () => {
   );
 };
 
-export default withStallion[App];
+export default withStallion(App);
 
 const styles = StyleSheet.create({
   cn: {
