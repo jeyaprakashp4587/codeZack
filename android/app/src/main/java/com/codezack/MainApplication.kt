@@ -47,3 +47,4 @@ class MainApplication : Application(), ReactApplication {
     }
   }
 }
+

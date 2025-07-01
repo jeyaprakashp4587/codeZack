@@ -11,6 +11,7 @@ import {
   RefreshControl,
   Vibration,
   ToastAndroid,
+  Button,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
 import HomeSkeleton from '../Skeletons/HomeSkeleton';
@@ -38,16 +39,20 @@ import {Font} from '../constants/Font';
 import {checkAppVersion} from '../hooks/checkAppVersion';
 import FreelancerBanner from '../Freelancer/FreelancerBanner';
 import {useStallionUpdate, restart} from 'react-native-stallion';
+import {Modal} from 'react-native-paper';
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
 const Home = () => {
   // ota update setUp
+  const [showUpdate, setShowUpdate] = useState(false);
   const {newReleaseBundle, isRestartRequired, currentlyRunningBundle} =
     useStallionUpdate();
   useEffect(() => {
     if (isRestartRequired) {
+      setShowUpdate(true);
     }
   }, [isRestartRequired]);
+
   const {user, setUser} = useData();
   const [UiLoading, setUiLoading] = useState(false);
   const [suggestRefresh, setSuggestRefresh] = useState(false);
@@ -303,6 +308,15 @@ const Home = () => {
           </View>
         </Suspense>
       </View>
+      {/* model for show update */}
+      <Modal visible={!showUpdate}>
+        <View>
+          <Text>
+            {newReleaseBundle?.releaseNote ?? 'A new update is ready!'}
+          </Text>
+          <Button title="Restart now" onPress={restart} />
+        </View>
+      </Modal>
     </ScrollView>
   );
 };
