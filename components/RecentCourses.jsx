@@ -62,7 +62,7 @@ const RecentCourses = () => {
     return null;
   }
   return (
-    <View style={{paddingHorizontal: 15}}>
+    <View>
       <View
         style={{
           flexDirection: 'row',
@@ -70,6 +70,7 @@ const RecentCourses = () => {
           alignItems: 'center',
           // borderWidth: 1,
           marginBottom: 10,
+          paddingHorizontal: 15,
         }}>
         <Text
           style={{
@@ -93,135 +94,112 @@ const RecentCourses = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      <LinearGradient
-        colors={['rgba(127, 208, 233, 0.65)', 'rgba(159,126,205,0.65)']}
-        style={{
-          padding: 20,
-          borderRadius: 10,
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          rowGap: 10,
-        }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 1}}>
-        {/* <Text
-          style={{
-            fontSize: width * 0.04,
-            fontFamily: Font.Medium,
-            textAlign: 'left',
-            width: '100%',
-            color: Colors.violet,
-          }}>
-          {user.Courses[newCourseIndex]?.Course_Name}
-        </Text> */}
-        <FlatList
-          initialNumToRender={2}
-          nestedScrollEnabled={true}
-          showsHorizontalScrollIndicator={false}
-          data={user.Courses[newCourseIndex]?.Technologies}
-          horizontal
-          renderItem={({item, index}) => (
-            <TouchableOpacity
-              onPress={() => {
-                if (isLoaded) {
-                  show();
+      <FlatList
+        initialNumToRender={2}
+        nestedScrollEnabled={true}
+        showsHorizontalScrollIndicator={false}
+        data={user.Courses[newCourseIndex]?.Technologies}
+        horizontal
+        renderItem={({item, index}) => (
+          <TouchableOpacity
+            onPress={() => {
+              if (isLoaded) {
+                show();
+              }
+              navigation.navigate('learn');
+              setselectedTechnology({
+                name: item.TechName,
+                icon: item.TechIcon,
+              });
+            }}
+            key={index}
+            style={{
+              flexDirection: 'column',
+              alignItems: 'center',
+              columnGap: 5,
+              marginLeft: 20,
+              backgroundColor: 'rgba(214, 212, 212, 0.16)',
+              borderRadius: 10,
+              padding: 10,
+              justifyContent: 'center',
+            }}>
+            <FastImage
+              priority={FastImage.priority.high}
+              source={{uri: item?.TechIcon}}
+              style={{width: width * 0.12, aspectRatio: 1}}
+              resizeMode="contain"
+            />
+            <View>
+              {levels.map((level, levelIndex) => {
+                const isCurrentLevel = item.TechCurrentLevel === levelIndex;
+                let currentLength;
+                let BarColor;
+                let txtColor;
+                if (levelIndex < item.TechCurrentLevel) {
+                  currentLength = 100;
+                  txtColor = 'rgb(18, 18, 19)';
+                  BarColor = '#34D399';
+                } else if (isCurrentLevel) {
+                  currentLength = item.currentTopicLength;
+                  txtColor = '#111827';
+                  BarColor = '#34D399';
+                } else {
+                  currentLength = 0;
+                  txtColor = 'rgb(111, 111, 114)';
                 }
-                navigation.navigate('learn');
-                setselectedTechnology({
-                  name: item.TechName,
-                  icon: item.TechIcon,
-                });
-              }}
-              key={index}
-              style={{
-                flexDirection: 'column',
-                alignItems: 'center',
-                columnGap: 5,
-                marginRight: 20,
-                backgroundColor: 'rgba(255, 255, 255, 0.07)',
-                borderRadius: 10,
-                padding: 10,
-                justifyContent: 'center',
-              }}>
-              <FastImage
-                priority={FastImage.priority.high}
-                source={{uri: item?.TechIcon}}
-                style={{width: width * 0.12, aspectRatio: 1}}
-                resizeMode="contain"
-              />
-              <View>
-                {levels.map((level, levelIndex) => {
-                  const isCurrentLevel = item.TechCurrentLevel === levelIndex;
-                  let currentLength;
-                  let BarColor;
-                  let txtColor;
-                  if (levelIndex < item.TechCurrentLevel) {
-                    currentLength = 100;
-                    txtColor = 'rgb(18, 18, 19)';
-                    BarColor = '#34D399';
-                  } else if (isCurrentLevel) {
-                    currentLength = item.currentTopicLength;
-                    txtColor = '#111827';
-                    BarColor = '#34D399';
-                  } else {
-                    currentLength = 0;
-                    txtColor = 'rgb(111, 111, 114)';
-                  }
-                  const progress = getProgressPercentage(currentLength);
+                const progress = getProgressPercentage(currentLength);
 
-                  return (
-                    <View
-                      key={levelIndex}
+                return (
+                  <View
+                    key={levelIndex}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      columnGap: 5,
+                      marginVertical: 2,
+                      justifyContent: 'space-between',
+                    }}>
+                    <Text
                       style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        columnGap: 5,
-                        marginVertical: 2,
-                        justifyContent: 'space-between',
+                        textTransform: 'capitalize',
+                        fontFamily: Font.Medium,
+                        fontSize: width * 0.034,
+                        color: txtColor,
                       }}>
-                      <Text
-                        style={{
-                          textTransform: 'capitalize',
-                          fontFamily: Font.Medium,
-                          fontSize: width * 0.034,
-                          color: txtColor,
-                        }}>
-                        {level}
-                      </Text>
+                      {level}
+                    </Text>
+                    <View
+                      style={{
+                        width: width * 0.3,
+                        height: 8,
+                        borderRadius: 100,
+                        backgroundColor: 'rgba(48, 46, 46, 0.05)',
+                        overflow: 'hidden',
+                      }}>
                       <View
                         style={{
-                          width: width * 0.3,
-                          height: 8,
+                          backgroundColor: BarColor,
+                          width: `${progress}%`,
+                          height: '100%',
                           borderRadius: 100,
-                          backgroundColor: 'rgba(48, 46, 46, 0.05)',
-                          overflow: 'hidden',
-                        }}>
-                        <View
-                          style={{
-                            backgroundColor: BarColor,
-                            width: `${progress}%`,
-                            height: '100%',
-                            borderRadius: 100,
-                          }}
-                        />
-                      </View>
-                      <Text
-                        style={{
-                          fontFamily: Font.Medium,
-                          fontSize: width * 0.03,
-                          color: txtColor,
-                        }}>
-                        {isCurrentLevel ? `${progress}%` : `${currentLength}%`}
-                      </Text>
+                        }}
+                      />
                     </View>
-                  );
-                })}
-              </View>
-            </TouchableOpacity>
-          )}
-        />
-      </LinearGradient>
+                    <Text
+                      style={{
+                        fontFamily: Font.Medium,
+                        fontSize: width * 0.03,
+                        color: txtColor,
+                      }}>
+                      {isCurrentLevel ? `${progress}%` : `${currentLength}%`}
+                    </Text>
+                  </View>
+                );
+              })}
+            </View>
+          </TouchableOpacity>
+        )}
+      />
     </View>
   );
 };

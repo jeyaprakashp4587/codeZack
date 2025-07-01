@@ -12,6 +12,7 @@ import {
   Vibration,
   ToastAndroid,
   Button,
+  Modal,
 } from 'react-native';
 import {Colors, pageView} from '../constants/Colors';
 import HomeSkeleton from '../Skeletons/HomeSkeleton';
@@ -39,7 +40,7 @@ import {Font} from '../constants/Font';
 import {checkAppVersion} from '../hooks/checkAppVersion';
 import FreelancerBanner from '../Freelancer/FreelancerBanner';
 import {useStallionUpdate, restart} from 'react-native-stallion';
-import {Modal} from 'react-native-paper';
+
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
 const Home = () => {
@@ -309,12 +310,47 @@ const Home = () => {
         </Suspense>
       </View>
       {/* model for show update */}
-      <Modal visible={!showUpdate}>
-        <View>
-          <Text>
-            {newReleaseBundle?.releaseNote ?? 'A new update is ready!'}
-          </Text>
-          <Button title="Restart now" onPress={restart} />
+      <Modal visible={showUpdate} transparent>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.24)',
+            flexDirection: 'row',
+            alignItems: 'flex-end',
+            justifyContent: 'center',
+          }}>
+          <View
+            style={{
+              backgroundColor: 'white',
+              height: '20%',
+              width: '100%',
+              borderTopRightRadius: 20,
+              borderTopLeftRadius: 20,
+              justifyContent: 'center',
+              alignItems: 'center',
+              rowGap: 10,
+            }}>
+            <Text
+              style={{
+                fontSize: width * 0.05,
+                fontFamily: Font.SemiBold,
+                textAlign: 'center',
+              }}>
+              A new update is ready!
+            </Text>
+            <TouchableOpacity
+              onPress={() => restart()}
+              style={{
+                backgroundColor: Colors.violet,
+                paddingHorizontal: 15,
+                paddingVertical: 10,
+                borderRadius: 100,
+              }}>
+              <Text style={{color: Colors.white, fontFamily: Font.Regular}}>
+                Restart now
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </Modal>
     </ScrollView>
