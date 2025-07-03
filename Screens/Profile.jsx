@@ -798,6 +798,7 @@ const Profile = ({navigation}) => {
               Upload your achivements
             </Text>
             <TouchableOpacity
+              onPress={() => navigation.navigate('Post')}
               style={{
                 backgroundColor: Colors.violet,
                 padding: 10,

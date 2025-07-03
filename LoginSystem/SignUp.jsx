@@ -29,11 +29,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {loginApi} from '../Api';
 import {useData} from '../Context/Contexter';
+import FastImage from 'react-native-fast-image';
 
 const {width, height} = Dimensions.get('window');
 
 const SignUp = () => {
-  const offset = useSharedValue(0);
+  const offset = useSharedValue(2);
   const [step, setStep] = useState(0);
   const navigation = useNavigation();
   const [formData, setFormData] = useState({
@@ -46,15 +47,76 @@ const SignUp = () => {
     state: '',
     city: '',
     institution: '',
+    image: '',
   });
   const [showGenderModal, setShowGenderModal] = useState(false);
   const {setUser} = useData();
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{translateX: offset.value}],
   }));
+  const [uploadImgIndi, setUploadImgIndi] = useState(false);
+  const selectImage = async () => {
+    try {
+      setUploadImgIndi(true);
+      const options = {
+        mediaType: 'photo',
+        selectionLimit: 1,
+      };
+      const result = await launchImageLibrary(options);
+      // Check if user canceled the image selection
+      if (result.didCancel) {
+        setUploadImgIndi(false);
+        return;
+      }
+      if (result.errorMessage) {
+        throw new Error(result.errorMessage);
+      }
+      if (result?.assets) {
+        const uploadedImages = await Promise.all(
+          result.assets.map(async asset => {
+            try {
+              return await hostImage(asset.uri);
+            } catch (error) {
+              return null;
+            }
+          }),
+        );
+      }
+    } catch (error) {
+    } finally {
+      setUploadImgIndi(false);
+    }
+  };
+  const hostImage = useCallback(async imageUri => {
+    try {
+      const data = new FormData();
+      data.append('file', {
+        uri: imageUri,
+        type: 'image/jpeg',
+        name: 'Post.jpg',
+      });
+      data.append('upload_preset', 'ml_default');
+      data.append('api_key', '1z2Ft0vr7dBtH4BW1fuDhZXHox8');
+      let res = await fetch(
+        'https://api.cloudinary.com/v1_1/dogo7hkhy/image/upload',
+        {
+          method: 'POST',
+          body: data,
+        },
+      );
+      let result = await res.json();
+      if (result) {
+        formData.image = result.secure_url;
+        handleNext();
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      throw error;
+    }
+  }, []);
 
-  const handleNext = () => {
-    const validation = validateStep(step);
+  const handleNext = async () => {
+    const validation = await validateStep(step);
     if (validation) {
       const next = step + 1;
       setStep(next);
@@ -63,7 +125,7 @@ const SignUp = () => {
   };
 
   const validateStep = useCallback(
-    current => {
+    async current => {
       let newErrors = {};
       switch (current) {
         case 0:
@@ -74,14 +136,28 @@ const SignUp = () => {
           if (!formData.gender) newErrors.gender = 'Select gender';
           break;
         case 1:
-          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
             newErrors.email = 'Valid email required';
+            break;
+          }
+          try {
+            const {data, status} = await axios.post(
+              `${loginApi}/LogIn/verifyEmail`,
+              {
+                Email: formData.email,
+              },
+            );
+            if (data.exists && status === 200) {
+              newErrors.email = 'Email has Already Been Taken';
+              break;
+            }
+          } catch (error) {}
           if (formData.password.length < 6)
-            newErrors.password = 'Min 6 characters';
+            newErrors.password = 'password must be min 6 characters';
           if (formData.password !== formData.confirmPassword)
             newErrors.confirmPassword = 'Passwords do not match';
           break;
-        case 2:
+        case 3:
           if (!formData.state) newErrors.state = 'District required';
           if (!formData.city) newErrors.city = 'City required';
           if (!formData.institution)
@@ -104,6 +180,7 @@ const SignUp = () => {
   const [actiLoading, setActiloading] = useState(false);
   const handleSubmit = useCallback(async () => {
     try {
+      return;
       setActiloading(true);
       if (!validateStep(step)) return;
       const response = await axios.post(`${loginApi}/LogIn/signUp`, formData);
@@ -127,7 +204,7 @@ const SignUp = () => {
       case 0:
         return (
           <View style={styles.stepBox}>
-            <Text style={styles.label}>Tell me {'\n'} about you</Text>
+            <Text style={styles.label}>Tell me{'\n'}about you</Text>
             <TextInput
               style={styles.input}
               value={formData.firstName}
@@ -205,6 +282,54 @@ const SignUp = () => {
       case 2:
         return (
           <View style={styles.stepBox}>
+            <Text style={styles.label}>Upload Your{'\n'}Profile picture </Text>
+            <FastImage
+              source={{
+                uri: 'https://i.ibb.co/Y4NtjRR0/user.png',
+                priority: FastImage.priority.high,
+              }}
+              resizeMode="cover"
+              style={{
+                width: width * 0.4,
+                aspectRatio: 1,
+                borderColor: 'white',
+                alignSelf: 'center',
+                marginVertical: 30,
+              }}
+            />
+            <TouchableOpacity
+              onPress={() => selectImage()}
+              style={{
+                alignItems: 'center',
+                height: height * 0.064,
+                justifyContent: 'center',
+                borderWidth: 1,
+                borderColor: Colors.violet,
+                borderRadius: 10,
+              }}>
+              {uploadImgIndi ? (
+                <ActivityIndicator
+                  size={width * 0.05}
+                  color={Colors.veryDarkGrey}
+                />
+              ) : (
+                <Text
+                  style={{
+                    fontFamily: Font.Medium,
+                    color: Colors.veryDarkGrey,
+                    fontSize: width * 0.04,
+                    width: '100%',
+                    textAlign: 'center',
+                  }}>
+                  upload
+                </Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        );
+      case 3:
+        return (
+          <View style={styles.stepBox}>
             <Text style={styles.label}>Where are you {'\n'}coming from? </Text>
             <TextInput
               style={styles.input}
@@ -233,7 +358,7 @@ const SignUp = () => {
   };
   // pagination dots
   const PaginationDots = ({stepOffset}) => {
-    const dotCount = 3;
+    const dotCount = 4;
 
     return (
       <View style={styles.dotsContainer}>
@@ -291,12 +416,12 @@ const SignUp = () => {
           </Animated.View>
           <TouchableOpacity
             style={styles.nextBtn}
-            onPress={step === 2 ? handleSubmit : handleNext}>
+            onPress={step === 3 ? handleSubmit : handleNext}>
             {actiLoading ? (
               <ActivityIndicator color={Colors.white} />
             ) : (
               <Text style={styles.nextText}>
-                {step === 2 ? 'Submit' : 'Next'}
+                {step === 3 ? 'Submit' : step === 2 ? 'Skip' : 'Next'}
               </Text>
             )}
           </TouchableOpacity>
