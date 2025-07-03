@@ -30,6 +30,7 @@ import {useNavigation} from '@react-navigation/native';
 import {loginApi} from '../Api';
 import {useData} from '../Context/Contexter';
 import FastImage from 'react-native-fast-image';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 const {width, height} = Dimensions.get('window');
 
@@ -37,6 +38,8 @@ const SignUp = () => {
   const offset = useSharedValue(2);
   const [step, setStep] = useState(0);
   const navigation = useNavigation();
+  const {setUser} = useData();
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -49,12 +52,19 @@ const SignUp = () => {
     institution: '',
     image: '',
   });
+
   const [showGenderModal, setShowGenderModal] = useState(false);
-  const {setUser} = useData();
+  const [uploadImgIndi, setUploadImgIndi] = useState(false);
+  const [actiLoading, setActiloading] = useState(false);
+
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{translateX: offset.value}],
   }));
-  const [uploadImgIndi, setUploadImgIndi] = useState(false);
+
+  const handleChange = (field, value) => {
+    setFormData(prev => ({...prev, [field]: value}));
+  };
+
   const selectImage = async () => {
     try {
       setUploadImgIndi(true);
@@ -63,15 +73,13 @@ const SignUp = () => {
         selectionLimit: 1,
       };
       const result = await launchImageLibrary(options);
-      // Check if user canceled the image selection
-      if (result.didCancel) {
+
+      if (result.didCancel || result.errorMessage) {
         setUploadImgIndi(false);
         return;
       }
-      if (result.errorMessage) {
-        throw new Error(result.errorMessage);
-      }
-      if (result?.assets) {
+
+      if (result?.assets?.length) {
         const uploadedImages = await Promise.all(
           result.assets.map(async asset => {
             try {
@@ -83,10 +91,12 @@ const SignUp = () => {
         );
       }
     } catch (error) {
+      console.error(error);
     } finally {
       setUploadImgIndi(false);
     }
   };
+
   const hostImage = useCallback(async imageUri => {
     try {
       const data = new FormData();
@@ -97,27 +107,30 @@ const SignUp = () => {
       });
       data.append('upload_preset', 'ml_default');
       data.append('api_key', '1z2Ft0vr7dBtH4BW1fuDhZXHox8');
-      let res = await fetch(
+
+      const res = await fetch(
         'https://api.cloudinary.com/v1_1/dogo7hkhy/image/upload',
         {
           method: 'POST',
           body: data,
         },
       );
-      let result = await res.json();
-      if (result) {
-        formData.image = result.secure_url;
+
+      const result = await res.json();
+
+      if (result?.secure_url) {
+        setFormData(prev => ({...prev, image: result.secure_url}));
         handleNext();
       }
     } catch (error) {
-      console.error('Error uploading file:', error);
+      console.error('Error uploading image:', error);
       throw error;
     }
   }, []);
 
   const handleNext = async () => {
-    const validation = await validateStep(step);
-    if (validation) {
+    const isValid = await validateStep(step);
+    if (isValid) {
       const next = step + 1;
       setStep(next);
       offset.value = withTiming(-width * next, {duration: 300});
@@ -127,6 +140,7 @@ const SignUp = () => {
   const validateStep = useCallback(
     async current => {
       let newErrors = {};
+
       switch (current) {
         case 0:
           if (!formData.firstName.trim())
@@ -135,11 +149,10 @@ const SignUp = () => {
             newErrors.lastName = 'Last name is required';
           if (!formData.gender) newErrors.gender = 'Select gender';
           break;
+
         case 1:
-          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
             newErrors.email = 'Valid email required';
-            break;
-          }
           try {
             const {data, status} = await axios.post(
               `${loginApi}/LogIn/verifyEmail`,
@@ -149,58 +162,61 @@ const SignUp = () => {
             );
             if (data.exists && status === 200) {
               newErrors.email = 'Email has Already Been Taken';
-              break;
             }
-          } catch (error) {}
+          } catch (error) {
+            console.warn('Email check error:', error);
+          }
+
           if (formData.password.length < 6)
-            newErrors.password = 'password must be min 6 characters';
+            newErrors.password = 'Password must be min 6 characters';
+
           if (formData.password !== formData.confirmPassword)
             newErrors.confirmPassword = 'Passwords do not match';
           break;
+
         case 3:
-          if (!formData.state) newErrors.state = 'District required';
-          if (!formData.city) newErrors.city = 'City required';
+          if (!formData.state) newErrors.state = 'State is required';
+          if (!formData.city) newErrors.city = 'City is required';
           if (!formData.institution)
-            newErrors.institution = 'Institution name required';
+            newErrors.institution = 'Institution name is required';
           break;
       }
+
       if (Object.keys(newErrors).length > 0) {
         ToastAndroid.show(Object.values(newErrors)[0], ToastAndroid.SHORT);
         return false;
       }
+
       return true;
     },
     [formData],
   );
 
-  const handleChange = (field, value) => {
-    setFormData({...formData, [field]: value});
-  };
-  // handle submit
-  const [actiLoading, setActiloading] = useState(false);
   const handleSubmit = useCallback(async () => {
     try {
-      return;
       setActiloading(true);
-      if (!validateStep(step)) return;
+      const isValid = await validateStep(step);
+      if (!isValid) return;
+
       const response = await axios.post(`${loginApi}/LogIn/signUp`, formData);
-      if (response.data.message == 'SignUp Sucessfully') {
+
+      if (response.data.message === 'SignUp Sucessfully') {
         ToastAndroid.show('Signup Successfully', ToastAndroid.BOTTOM);
         navigation.replace('Tab');
         setUser(response.data.user);
         await AsyncStorage.setItem('Email', response.data.user.Email);
-      } else if (response.data === 'Email has Already Been Taken') {
-        ToastAndroid.show('Email has already been taken', ToastAndroid.BOTTOM);
+      } else {
+        ToastAndroid.show(response.data, ToastAndroid.BOTTOM);
       }
     } catch (error) {
       Alert.alert('Signup failed. Try again.');
     } finally {
       setActiloading(false);
     }
-  }, [formData]);
+  }, [formData, step]);
 
-  const renderStep = currentStep => {
-    switch (currentStep) {
+  const renderStep = step => {
+    switch (step) {
       case 0:
         return (
           <View style={styles.stepBox}>
@@ -222,12 +238,7 @@ const SignUp = () => {
             <TouchableOpacity
               style={styles.modalButton}
               onPress={() => setShowGenderModal(true)}>
-              <Text
-                style={{
-                  color: Colors.mildGrey,
-                  fontFamily: Font.Medium,
-                  letterSpacing: 0.25,
-                }}>
+              <Text style={{color: Colors.mildGrey, fontFamily: Font.Medium}}>
                 {formData.gender || 'Select your gender'}
               </Text>
             </TouchableOpacity>
@@ -250,10 +261,11 @@ const SignUp = () => {
             </Modal>
           </View>
         );
+
       case 1:
         return (
           <View style={styles.stepBox}>
-            <Text style={styles.label}>Setup {'\n'}Your information</Text>
+            <Text style={styles.label}>Setup{'\n'}Your information</Text>
             <TextInput
               style={styles.input}
               value={formData.email}
@@ -279,26 +291,27 @@ const SignUp = () => {
             />
           </View>
         );
+
       case 2:
         return (
           <View style={styles.stepBox}>
-            <Text style={styles.label}>Upload Your{'\n'}Profile picture </Text>
+            <Text style={styles.label}>Upload Your{'\n'}Profile picture</Text>
             <FastImage
               source={{
-                uri: 'https://i.ibb.co/Y4NtjRR0/user.png',
+                uri: formData.image || 'https://i.ibb.co/Y4NtjRR0/user.png',
                 priority: FastImage.priority.high,
               }}
-              resizeMode="cover"
               style={{
                 width: width * 0.4,
                 aspectRatio: 1,
-                borderColor: 'white',
+                borderRadius: 100,
                 alignSelf: 'center',
                 marginVertical: 30,
               }}
+              resizeMode="cover"
             />
             <TouchableOpacity
-              onPress={() => selectImage()}
+              onPress={selectImage}
               style={{
                 alignItems: 'center',
                 height: height * 0.064,
@@ -308,29 +321,21 @@ const SignUp = () => {
                 borderRadius: 10,
               }}>
               {uploadImgIndi ? (
-                <ActivityIndicator
-                  size={width * 0.05}
-                  color={Colors.veryDarkGrey}
-                />
+                <ActivityIndicator color={Colors.veryDarkGrey} />
               ) : (
                 <Text
-                  style={{
-                    fontFamily: Font.Medium,
-                    color: Colors.veryDarkGrey,
-                    fontSize: width * 0.04,
-                    width: '100%',
-                    textAlign: 'center',
-                  }}>
-                  upload
+                  style={{fontFamily: Font.Medium, color: Colors.veryDarkGrey}}>
+                  Upload
                 </Text>
               )}
             </TouchableOpacity>
           </View>
         );
+
       case 3:
         return (
           <View style={styles.stepBox}>
-            <Text style={styles.label}>Where are you {'\n'}coming from? </Text>
+            <Text style={styles.label}>Where are you{'\n'}coming from?</Text>
             <TextInput
               style={styles.input}
               value={formData.state}
@@ -356,13 +361,11 @@ const SignUp = () => {
         );
     }
   };
-  // pagination dots
-  const PaginationDots = ({stepOffset}) => {
-    const dotCount = 4;
 
+  const PaginationDots = ({stepOffset}) => {
     return (
       <View style={styles.dotsContainer}>
-        {Array.from({length: dotCount}).map((_, i) => {
+        {[0, 1, 2, 3].map(i => {
           const dotStyle = useAnimatedStyle(() => {
             const inputRange = [-width * (i + 1), -width * i, -width * (i - 1)];
             const scale = interpolate(
@@ -377,10 +380,7 @@ const SignUp = () => {
               [0.3, 1, 0.3],
               Extrapolate.CLAMP,
             );
-            return {
-              transform: [{scale}],
-              opacity,
-            };
+            return {transform: [{scale}], opacity};
           });
 
           return <Animated.View key={i} style={[styles.dot, dotStyle]} />;
@@ -391,24 +391,17 @@ const SignUp = () => {
 
   return (
     <LinearGradient
-      style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}
+      style={{flex: 1}}
       colors={['#fff9f3', '#eef7fe']}
       start={{x: 0, y: 1}}
       end={{x: 1, y: 1}}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View
-          style={{
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            // borderWidth: 1,
-            flex: 1,
-            height: height * 1,
-          }}>
+        <View style={{flex: 1, height: height}}>
           <View style={{paddingHorizontal: 15}}>
             <HeadingText text="Sign up" />
           </View>
           <Animated.View style={[styles.slider, animatedStyle]}>
-            {[0, 1, 2].map(i => (
+            {[0, 1, 2, 3].map(i => (
               <View key={i} style={styles.step}>
                 {renderStep(i)}
               </View>
@@ -421,7 +414,11 @@ const SignUp = () => {
               <ActivityIndicator color={Colors.white} />
             ) : (
               <Text style={styles.nextText}>
-                {step === 3 ? 'Submit' : step === 2 ? 'Skip' : 'Next'}
+                {step === 3
+                  ? 'Submit'
+                  : step === 2 && !formData.image
+                  ? 'Skip'
+                  : 'Next'}
               </Text>
             )}
           </TouchableOpacity>
@@ -435,12 +432,17 @@ const SignUp = () => {
 const styles = StyleSheet.create({
   slider: {
     flexDirection: 'row',
-    width: width * 5,
+    width: width * 4,
     flex: 1,
-    // borderWidth: 1,
   },
-  step: {width: width, justifyContent: 'center', padding: 20},
-  stepBox: {rowGap: 10},
+  step: {
+    width: width,
+    justifyContent: 'center',
+    padding: 20,
+  },
+  stepBox: {
+    rowGap: 10,
+  },
   label: {
     fontSize: width * 0.1,
     fontFamily: Font.SemiBold,
@@ -456,7 +458,6 @@ const styles = StyleSheet.create({
   },
   nextBtn: {
     backgroundColor: Colors.violet,
-    // padding: 15,
     margin: 20,
     borderRadius: 100,
     alignItems: 'center',
