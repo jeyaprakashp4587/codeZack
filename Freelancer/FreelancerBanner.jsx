@@ -82,7 +82,7 @@ const FreelancerBanner = () => {
         {/* content wrapper */}
         <FastImage
           source={{
-            uri: 'https://i.ibb.co/9mHPQysq/happy-freelancer-with-computer-home-young-man-sitting-armchair-using-laptop-chatting-online-smiling.png',
+            uri: 'https://i.ibb.co/fV6cWsnx/young-beautiful-woman-casual-clothes-holding-laptop-happy-positive-looking-smiling-confident-showing.png',
             priority: FastImage.priority.high,
           }}
           resizeMode="cover"
