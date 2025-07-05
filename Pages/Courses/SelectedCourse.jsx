@@ -146,7 +146,7 @@ const SelectedCourse = ({navigation}) => {
                 fontFamily: Font.SemiBold,
                 flexWrap: 'wrap',
               }}>
-              Context:
+              Content:
             </Text>
             <Text
               style={{

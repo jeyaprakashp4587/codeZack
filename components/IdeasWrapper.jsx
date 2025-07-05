@@ -40,7 +40,7 @@ const IdeasWrapper = () => {
   const IdeaData = useMemo(
     () => [
       {
-        name: 'Choose your Carrer',
+        name: 'Choose your Course',
         function: carrerNav,
         color: 'hsla(31, 100.00%, 93.90%, 0.30)',
         icon: 'https://i.ibb.co/gddf19J/programming.png',
@@ -102,7 +102,7 @@ const IdeasWrapper = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 overflow: 'hidden',
-                backgroundColor: item.color,
+                // backgroundColor: item.color,
                 rowGap: 10,
                 paddingVertical: 10,
               }}

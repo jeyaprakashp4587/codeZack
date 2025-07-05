@@ -122,6 +122,9 @@ const RecentCourses = () => {
               borderRadius: 10,
               padding: 10,
               justifyContent: 'center',
+              width:
+                user.Courses[newCourseIndex]?.Technologies?.length == 1 &&
+                width * 0.9,
             }}>
             <FastImage
               priority={FastImage.priority.high}

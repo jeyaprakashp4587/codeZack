@@ -38,8 +38,11 @@ import RecentCourses from '../components/RecentCourses';
 import FastImage from 'react-native-fast-image';
 import {Font} from '../constants/Font';
 import {checkAppVersion} from '../hooks/checkAppVersion';
-import FreelancerBanner from '../Freelancer/FreelancerBanner';
+const FreelancerBanner = React.lazy(() =>
+  import('../Freelancer/FreelancerBanner'),
+);
 import {useStallionUpdate, restart} from 'react-native-stallion';
+import ChallengesBanner from '../components/ChallengesBanner';
 
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
@@ -240,21 +243,30 @@ const Home = () => {
         <IdeasWrapper />
         {/* Recent courses */}
         <RecentCourses />
-        {/* Freelancer project */}
-        <FreelancerBanner />
+        {/* challenges Banner */}
+        <ChallengesBanner />
         {/* premium projects */}
         <Suspense
           fallback={
-            <View style={{margin: 15}}>
+            <View style={{margin: 15, marginBottom: 0}}>
               <Skeleton width="100%" height={height * 0.2} radius={10} />
             </View>
           }>
           <PremiumProjects />
         </Suspense>
+        {/* Freelancer project */}
+        <Suspense
+          fallback={
+            <View style={{margin: 15, marginBottom: 0}}>
+              <Skeleton width="100%" height={height * 0.2} radius={10} />
+            </View>
+          }>
+          <FreelancerBanner />
+        </Suspense>
         {/* companies */}
         <Suspense
           fallback={
-            <View style={{margin: 15}}>
+            <View style={{margin: 15, marginBottom: 0}}>
               <Skeleton width="100%" height={height * 0.2} radius={10} />
             </View>
           }>
@@ -297,7 +309,7 @@ const Home = () => {
         {/* friends suggestions */}
         <Suspense
           fallback={
-            <View style={{margin: 15}}>
+            <View style={{margin: 15, marginBottom: 0}}>
               <Skeleton width="100%" height={height * 0.2} radius={10} />
             </View>
           }>

@@ -1,15 +1,23 @@
-import {Dimensions, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Dimensions,
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import FastImage from 'react-native-fast-image';
 import {Font} from '../constants/Font';
 import {Colors} from '../constants/Colors';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import LinearGradient from 'react-native-linear-gradient';
 
 const ChallengesBanner = () => {
   const {width} = Dimensions.get('window');
   const navigation = useNavigation();
   const [showBanner, setShowBanner] = useState(false);
+  const {height} = Dimensions.get('window');
 
   useEffect(() => {
     const fetchClickedCount = async () => {
@@ -24,6 +32,7 @@ const ChallengesBanner = () => {
     };
     fetchClickedCount();
   }, []);
+  // <a href="https://ibb.co/4wM7HBgJ"><img src=alt="2150040428" border="0"></a>
 
   const handleExplorePress = async () => {
     try {
@@ -40,71 +49,31 @@ const ChallengesBanner = () => {
   }
 
   return (
-    <View
-      style={{
-        marginHorizontal: 15,
-        padding: 10,
-        borderRadius: 10,
-        flexDirection: 'row',
-        alignItems: 'center',
-        elevation: 1,
-        paddingHorizontal: 20,
-        marginVertical: 15,
-        backgroundColor: 'white',
-      }}>
-      <View
+    <View style={{paddingHorizontal: 15}}>
+      <Text
         style={{
-          flex: 1,
-          borderWidth: 0,
-          flexDirection: 'column',
-          rowGap: 10,
+          fontFamily: Font.Medium,
+          fontSize: width * 0.041,
+          letterSpacing: 0.25,
+          marginBottom: 10,
         }}>
-        <Text
-          style={{
-            // width: '45%',
-            fontSize: width * 0.043,
-            fontFamily: Font.SemiBold,
-            lineHeight: 25,
-            letterSpacing: 0.3,
-          }}>
-          Get More Web & App Challenges
-        </Text>
-        <TouchableOpacity
-          onPress={async () => {
-            naviagte.navigate('Code');
-            await AsyncStorage.setItem('clickedcount', 'counted');
-          }}
-          style={{
-            // borderWidth: 0.8,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: 8,
-            width: '70%',
-            borderColor: Colors.violet,
-            backgroundColor: Colors.violet,
-          }}>
-          <Text
-            style={{
-              fontFamily: Font.Medium,
-              letterSpacing: 0.6,
-              fontSize: width * 0.033,
-              padding: 7,
-              textAlign: 'center',
-              color: Colors.white,
-            }}>
-            Explore
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <FastImage
+        Explore real world projects
+      </Text>
+      <ImageBackground
         source={{
-          uri: 'https://i.ibb.co/Z6gZmMZ2/12083375-Wavy-Bus-20-Single-04.jpg',
-          priority: FastImage.priority.high,
+          uri: 'https://i.ibb.co/0pZcxPVQ/2150040428.jpg',
         }}
-        style={{width: width * 0.35, aspectRatio: 1}}
-        resizeMode="contain"
-      />
+        style={{borderRadius: 5, overflow: 'hidden', elevation: 2}}
+        resizeMode="cover">
+        <LinearGradient
+          colors={[
+            'rgba(0, 0, 0, 0)',
+            'rgba(255, 255, 255, 0.88)',
+            'rgba(255, 255, 255, 0.75)',
+            'rgba(255, 255, 255, 2)',
+          ]}
+          style={{height: height * 0.2}}></LinearGradient>
+      </ImageBackground>
     </View>
   );
 };

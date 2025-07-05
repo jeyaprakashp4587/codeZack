@@ -101,7 +101,15 @@ const StudyBoxUi = ({courseData, topicLength, handleSetTopicsLength}) => {
               borderColor: quizValid ? Colors.violet : 'rgba(54, 56, 53, 0)',
             },
           ]}>
-          <Text style={{color: Colors.white}}>Next</Text>
+          <Text
+            style={{
+              color: Colors.white,
+              // borderWidth: 1,
+              width: '100%',
+              textAlign: 'center',
+            }}>
+            Next
+          </Text>
         </TouchableOpacity>
       </Animated.View>
     </View>

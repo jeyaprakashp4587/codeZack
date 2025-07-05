@@ -244,18 +244,15 @@ const ChooseChallenge = ({navigation}) => {
                 style={{
                   color: Colors.veryDarkGrey,
                   fontSize: width * 0.05,
-                  padding: 5,
+                  // padding: 5,
                   fontFamily: Font.Medium,
                   letterSpacing: 0.4,
                 }}>
                 {item.title}
               </Text>
-              <Text></Text>
-              <ParagraphText
-                text={item.level ? item.level : difficultyInfo}
-                fsize={15}
-                color="orange"
-              />
+              <Text style={{fontFamily: Font.Medium, fontSize: width * 0.04}}>
+                {item.level ? item.level : difficultyInfo}
+              </Text>
             </View>
             {item?.level !== 'newbie' && (
               <FastImage
@@ -350,12 +347,12 @@ const styles = StyleSheet.create({
   challengeContainer: {
     padding: 20,
     backgroundColor: 'white',
-    // elevation: 2,
     marginTop: 15,
     borderWidth: 0,
     borderTopWidth: 0.5,
     borderBottomWidth: 0.5,
     borderColor: Colors.veryLightGrey,
+    rowGap: 10,
   },
   challengeImage: {
     width: '100%',
@@ -366,11 +363,9 @@ const styles = StyleSheet.create({
     color: Colors.veryDarkGrey,
     lineHeight: 24,
     letterSpacing: 1,
-    paddingVertical: 10,
     fontFamily: Font.Regular,
   },
   technologiesContainer: {
-    marginVertical: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
