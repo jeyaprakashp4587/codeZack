@@ -32,13 +32,12 @@ const ChallengesBanner = () => {
     };
     fetchClickedCount();
   }, []);
-  // <a href="https://ibb.co/4wM7HBgJ"><img src=alt="2150040428" border="0"></a>
 
   const handleExplorePress = async () => {
     try {
       navigation.navigate('Code');
       await AsyncStorage.setItem('clickedcount', 'counted');
-      setShowBanner(false); // Hide the banner after clicking
+      setShowBanner(false);
     } catch (error) {
       console.error('Error setting clicked count:', error);
     }
