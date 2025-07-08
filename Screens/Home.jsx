@@ -244,7 +244,7 @@ const Home = () => {
         {/* Recent courses */}
         <RecentCourses />
         {/* challenges Banner */}
-        <ChallengesBanner />
+        {/* <ChallengesBanner /> */}
         {/* premium projects */}
         <Suspense
           fallback={

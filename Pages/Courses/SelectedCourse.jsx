@@ -132,7 +132,7 @@ const SelectedCourse = ({navigation}) => {
             </Text>
             <Text
               style={{
-                fontSize: width * 0.05,
+                fontSize: width * 0.06,
                 fontFamily: Font.SemiBold,
                 flexWrap: 'wrap',
               }}>

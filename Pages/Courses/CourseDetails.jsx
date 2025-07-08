@@ -194,8 +194,9 @@ const styles = StyleSheet.create({
     fontSize: width * 0.038,
     lineHeight: 27,
     letterSpacing: 0.9,
-    paddingVertical: 10,
+    paddingVertical: 3,
     fontFamily: Font.Regular,
+    // borderWidth: 1,
   },
   asterisk: {
     color: 'orange',

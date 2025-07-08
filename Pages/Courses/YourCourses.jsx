@@ -182,14 +182,14 @@ const YourCourses = () => {
                     backgroundColor: color[index % color.length].color1, // Apply dynamic background
                   },
                 ]}>
-                <View style={{flexDirection: 'column', rowGap: 5}}>
+                <View style={{flexDirection: 'column', rowGap: 10}}>
                   <Text style={styles.courseName}>{item?.Course_Name}</Text>
                   {item?.Technologies.map((tech, index) => (
                     <View key={index} style={styles.techWrapper}>
                       <FastImage
                         priority={FastImage.priority.high}
                         source={{uri: tech?.TechIcon}}
-                        style={{width: width * 0.1, aspectRatio: 1}}
+                        style={{width: width * 0.07, aspectRatio: 1}}
                         resizeMode="contain"
                       />
                       <Text style={styles.techName}>{tech?.TechName}</Text>
@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
   techWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    columnGap: 5,
+    columnGap: 10,
     flexWrap: 'wrap',
   },
   techName: {

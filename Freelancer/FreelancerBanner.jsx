@@ -62,23 +62,8 @@ const FreelancerBanner = () => {
           borderRadius: 10,
           overflow: 'hidden',
           rowGap: 10,
-          // borderWidth: 1,
+          height: height * 0.2,
         }}>
-        {/* <View style={{borderWidth: 0, width: '100%'}}>
-          <Ripple
-            onPress={() => setShowBanner(false)}
-            style={{
-              backgroundColor: Colors.veryLightGrey,
-              borderRadius: 90,
-              width: 25,
-              aspectRatio: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              alignSelf: 'flex-end',
-            }}>
-            <FontAwesome5 name="times" size={13} color="rgb(0, 0, 0)" />
-          </Ripple>
-        </View> */}
         {/* content wrapper */}
         <FastImage
           source={{
