@@ -695,10 +695,16 @@ const Posts = ({post, index, admin, senderDetails}) => {
                 </View>
               }
             />
-          ) : (
+          ) : likeCount < 0 ? (
             <Text style={{fontFamily: Font.Medium, paddingHorizontal: 15}}>
               No Likes
             </Text>
+          ) : (
+            Array.from({length: 5}).map((_, index) => (
+              <View style={{marginBottom: 10, marginHorizontal: 15}}>
+                <MiniUserSkeleton />
+              </View>
+            ))
           )
         ) : comments?.length > 0 ? (
           <FlatList
@@ -796,10 +802,16 @@ const Posts = ({post, index, admin, senderDetails}) => {
               </View>
             }
           />
-        ) : (
+        ) : commentsLength <= 0 ? (
           <Text style={{fontFamily: Font.Regular, paddingHorizontal: 15}}>
             No Comments
           </Text>
+        ) : (
+          Array.from({length: 5}).map((_, index) => (
+            <View style={{marginBottom: 10, marginHorizontal: 15}}>
+              <MiniUserSkeleton />
+            </View>
+          ))
         )}
       </RBSheet>
       {/* model for show images */}
@@ -941,7 +953,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
           container: {
             borderTopLeftRadius: 20, // Optional for rounded corners
             borderTopRightRadius: 20,
-            height: height * 0.45, // Alternatively, you can set the height here
+            height: height * 0.5, // Alternatively, you can set the height here
           },
           wrapper: {
             backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
@@ -1010,7 +1022,7 @@ const Posts = ({post, index, admin, senderDetails}) => {
               flexDirection: 'row',
               columnGap: 10,
             }}>
-            {netWorksList.length <= 0 ? (
+            {user?.Connections?.length <= 0 ? (
               <Text
                 style={{
                   fontSize: width * 0.035,

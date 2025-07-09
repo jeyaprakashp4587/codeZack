@@ -59,12 +59,11 @@ const LearnPage = () => {
         if (userTech) {
           const levelIndex = userTech.TechCurrentLevel || 0;
           const currentTopicLen = userTech.currentTopicLength || 0;
-          setTopicLength(currentTopicLen);
+          setTopicLength(19);
           setTopicLevel(levelIndex);
           if (userTech.TechStatus === 'completed') {
             setLoad(prev => ({...prev, completedUi: true, uiload: false}));
             setIsCompleted(true);
-            return {TopicLevel: levelIndex, TopicLength: currentTopicLen};
           }
           return {TopicLevel: levelIndex, TopicLength: currentTopicLen};
         }
@@ -108,7 +107,11 @@ const LearnPage = () => {
     setLoad(prev => ({...prev, boxLoad: true}));
     setIsSaved(false);
     const timer = setTimeout(() => {
-      setTopicLength(prev => prev + 1);
+      setTopicLength(prev => {
+        const newIndex = prev + 1;
+        setMaxUnlockedTopicIndex(newIndex); // 🔥 unlock next topic
+        return newIndex;
+      });
       setLoad(prev => ({...prev, boxLoad: false}));
     }, 500);
     return () => clearTimeout(timer);
@@ -124,6 +127,7 @@ const LearnPage = () => {
       });
       if (res.status === 200) {
         if (topicLength >= courseData.length - 1) {
+          setMaxUnlockedTopicIndex(courseData.length - 1);
           await handleSetTopicLevel();
         }
         setIsSaved(true);
@@ -151,13 +155,15 @@ const LearnPage = () => {
         TechStatus: isLastLevel,
       });
       if (res.status === 200) {
-        setUser(prev => ({...prev, Courses: res.data.newTech}));
         if (isLastLevel) {
           setLoad(prev => ({...prev, completedUi: true, uiload: false}));
         } else {
-          setTopicLevel(prev => prev + 1);
+          const nextLevel = topicLevel + 1;
+          setTopicLevel(nextLevel);
+          setMaxUnlockedLevelIndex(nextLevel); // 🔓 unlock next level
+          setMaxUnlockedTopicIndex(0);
           setTopicLength(0);
-          await getTechCourse(topicLevel + 1);
+          await getTechCourse(nextLevel);
         }
       }
     } catch (error) {
@@ -196,6 +202,8 @@ const LearnPage = () => {
           onPress={async () => {
             if (enabled) {
               setTopicLevel(index);
+              setMaxUnlockedLevelIndex(Math.max(maxUnlockedLevelIndex, index));
+              setMaxUnlockedTopicIndex(0);
               await getTechCourse(index);
               setShowToggle(false);
             }
@@ -221,8 +229,11 @@ const LearnPage = () => {
       return (
         <TouchableOpacity
           onPress={() => {
-            if (enabled) setTopicLength(index);
-            setShowToggle(false);
+            if (enabled) {
+              setTopicLength(index);
+              setIsSaved(false);
+              setShowToggle(false);
+            }
           }}
           style={[
             styles.modalItem,
@@ -322,6 +333,22 @@ const LearnPage = () => {
                 <FontAwesome name="caret-down" size={width * 0.04} />
               </TouchableOpacity>
             </View>
+            <TouchableOpacity
+              style={{
+                padding: 5,
+                backgroundColor: 'rgba(10, 13, 180, 0.14)',
+                width: '70%',
+                borderRadius: 100,
+              }}>
+              <Text
+                style={{
+                  fontFamily: Font.Medium,
+                  fontSize: width * 0.033,
+                  textAlign: 'center',
+                }}>
+                Try real challenges!
+              </Text>
+            </TouchableOpacity>
           </View>
           <FastImage
             source={{uri: selectedTechnology?.icon}}
@@ -371,7 +398,6 @@ const LearnPage = () => {
 };
 
 export default React.memo(LearnPage);
-
 // 🎨 Styles (unchanged but clean)
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: Colors.white},

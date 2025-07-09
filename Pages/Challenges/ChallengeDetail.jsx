@@ -218,17 +218,9 @@ const ChallengeDetail = () => {
       console.error('Error selecting image:', error);
     }
   };
-
-  const isValidGitHubRepo = url => {
-    const gitHubRegex =
-      /^(https?:\/\/)?([\w\-]+(\.[\w\-]+)+)(\/[\w\-./?%&=]*)?$/;
-    return gitHubRegex.test(url);
-  };
-
-  const isValidURL = url => {
-    const urlRegex =
-      /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
-    return urlRegex.test(url);
+  const isHttpsURL = url => {
+    const httpsRegex = /^https:\/\//;
+    return httpsRegex.test(url);
   };
 
   const HandleUpload = useCallback(async () => {
@@ -239,11 +231,11 @@ const ChallengeDetail = () => {
       );
       return;
     }
-    if (!isValidGitHubRepo(uploadForm.GitRepo)) {
+    if (!isHttpsURL(uploadForm.GitRepo)) {
       ToastAndroid.show('Invalid GitHub repository link', ToastAndroid.SHORT);
       return;
     }
-    if (uploadForm.LiveLink && !isValidURL(uploadForm.LiveLink)) {
+    if (uploadForm.LiveLink && !isHttpsURL(uploadForm.LiveLink)) {
       ToastAndroid.show('Invalid live link', ToastAndroid.SHORT);
       return;
     }
