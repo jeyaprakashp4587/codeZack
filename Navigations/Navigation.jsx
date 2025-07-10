@@ -344,6 +344,11 @@ const StackNavigations = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
+          name="Code"
+          component={Challenge}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name="learn"
           component={LearnPage}
           options={{headerShown: false}}

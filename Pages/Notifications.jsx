@@ -155,7 +155,7 @@ const Notifications = () => {
             style={{
               fontSize: width * 0.035,
               color: Colors.veryDarkGrey,
-              letterSpacing: 1,
+              // letterSpacing: 1,
               // fontWeight: '600',
               fontFamily: Font.SemiBold,
             }}>

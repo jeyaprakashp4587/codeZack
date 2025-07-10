@@ -22,11 +22,13 @@ import FastImage from 'react-native-fast-image';
 import Skeleton from '../../Skeletons/Skeleton';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Modal} from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('window');
 
 const LearnPage = () => {
   const {selectedTechnology, user, setUser} = useData();
+  const navigation = useNavigation();
   const levels = useMemo(() => ['beginner', 'intermediate', 'advanced'], []);
   const [toggle, setToggle] = useState('level');
   const [courseData, setCourseData] = useState([]);
@@ -59,7 +61,7 @@ const LearnPage = () => {
         if (userTech) {
           const levelIndex = userTech.TechCurrentLevel || 0;
           const currentTopicLen = userTech.currentTopicLength || 0;
-          setTopicLength(19);
+          setTopicLength(currentTopicLen);
           setTopicLevel(levelIndex);
           if (userTech.TechStatus === 'completed') {
             setLoad(prev => ({...prev, completedUi: true, uiload: false}));
@@ -208,7 +210,11 @@ const LearnPage = () => {
               setShowToggle(false);
             }
           }}
-          style={[styles.modalItem, index === topicLevel && styles.activeItem]}>
+          style={[
+            styles.modalItem,
+            index === topicLevel && styles.activeItem,
+            {borderBottomWidth: index == levels.length - 1 ? 0 : 1},
+          ]}>
           <Text style={styles.modalText}>{item}</Text>
           {!enabled && (
             <FastImage
@@ -334,6 +340,9 @@ const LearnPage = () => {
               </TouchableOpacity>
             </View>
             <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Code');
+              }}
               style={{
                 padding: 5,
                 backgroundColor: 'rgba(10, 13, 180, 0.14)',
