@@ -111,7 +111,7 @@ const LearnPage = () => {
     const timer = setTimeout(() => {
       setTopicLength(prev => {
         const newIndex = prev + 1;
-        setMaxUnlockedTopicIndex(newIndex); // 🔥 unlock next topic
+        setMaxUnlockedTopicIndex(newIndex);
         return newIndex;
       });
       setLoad(prev => ({...prev, boxLoad: false}));
@@ -123,11 +123,29 @@ const LearnPage = () => {
     try {
       setLoad(prev => ({...prev, save: true}));
       const res = await axios.post(`${challengesApi}/Courses/setTopicLength`, {
-        Topiclength: topicLength + 1,
+        Topiclength: topicLength,
         userId: user?._id,
         TechName: selectedTechnology?.name,
       });
       if (res.status === 200) {
+        const updatedTech = res.data.updatedTech;
+
+        setUser(prev => {
+          const updatedCourses = prev.Courses.map(course => {
+            if (
+              course.Technologies.some(
+                tech => tech.TechName === updatedTech.TechName,
+              )
+            ) {
+              const newTechs = course.Technologies.map(tech =>
+                tech.TechName === updatedTech.TechName ? updatedTech : tech,
+              );
+              return {...course, Technologies: newTechs};
+            }
+            return course;
+          });
+          return {...prev, Courses: updatedCourses};
+        });
         if (topicLength >= courseData.length - 1) {
           setMaxUnlockedTopicIndex(courseData.length - 1);
           await handleSetTopicLevel();
@@ -160,9 +178,27 @@ const LearnPage = () => {
         if (isLastLevel) {
           setLoad(prev => ({...prev, completedUi: true, uiload: false}));
         } else {
+          const updatedTech = res.data.updatedTech;
+
+          setUser(prev => {
+            const updatedCourses = prev.Courses.map(course => {
+              if (
+                course.Technologies.some(
+                  tech => tech.TechName === updatedTech.TechName,
+                )
+              ) {
+                const newTechs = course.Technologies.map(tech =>
+                  tech.TechName === updatedTech.TechName ? updatedTech : tech,
+                );
+                return {...course, Technologies: newTechs};
+              }
+              return course;
+            });
+            return {...prev, Courses: updatedCourses};
+          });
           const nextLevel = topicLevel + 1;
           setTopicLevel(nextLevel);
-          setMaxUnlockedLevelIndex(nextLevel); // 🔓 unlock next level
+          setMaxUnlockedLevelIndex(nextLevel);
           setMaxUnlockedTopicIndex(0);
           setTopicLength(0);
           await getTechCourse(nextLevel);
