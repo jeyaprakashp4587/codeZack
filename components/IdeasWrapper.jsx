@@ -102,7 +102,7 @@ const IdeasWrapper = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 overflow: 'hidden',
-                // backgroundColor: item.color,
+                backgroundColor: item.color,
                 rowGap: 10,
                 paddingVertical: 10,
               }}

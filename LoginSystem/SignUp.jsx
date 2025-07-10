@@ -35,7 +35,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 const {width, height} = Dimensions.get('window');
 
 const SignUp = () => {
-  const offset = useSharedValue(2);
+  const offset = useSharedValue(0);
   const [step, setStep] = useState(0);
   const navigation = useNavigation();
   const {setUser} = useData();
@@ -120,7 +120,6 @@ const SignUp = () => {
 
       if (result?.secure_url) {
         setFormData(prev => ({...prev, image: result.secure_url}));
-        handleNext();
       }
     } catch (error) {
       console.error('Error uploading image:', error);
