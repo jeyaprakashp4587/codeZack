@@ -199,7 +199,10 @@ const SignUp = () => {
 
       const response = await axios.post(`${loginApi}/LogIn/signUp`, formData);
 
-      if (response.data.message === 'SignUp Sucessfully') {
+      if (
+        response.status === 200 &&
+        response.data.message === 'SignUp Sucessfully'
+      ) {
         ToastAndroid.show('Signup Successfully', ToastAndroid.BOTTOM);
         navigation.replace('Tab');
         setUser(response.data.user);

@@ -118,7 +118,7 @@ const Login = () => {
         <View style={styles.imageContainer}>
           <FastImage
             style={styles.image}
-            source={require('../assets/loginHero.png')}
+            source={require('../assets/CZ.png')}
             priority={FastImage.priority.high}
             resizeMode="contain"
           />
@@ -237,20 +237,19 @@ const Login = () => {
 const styles = StyleSheet.create({
   headerText: {
     textAlign: 'center',
-    fontSize: width * 0.09, // Dynamic font size
+    fontSize: width * 0.09,
     color: 'hsl(0, 0%, 50%)',
-    paddingBottom: height * 0.015, // Dynamic padding
+    paddingBottom: height * 0.015,
     fontFamily: Font.Regular,
   },
   imageContainer: {
     alignItems: 'center',
   },
   image: {
-    width: width * 0.9,
+    width: width * 0.4,
     alignSelf: 'center',
     aspectRatio: 1,
     borderRadius: 20,
-    // elevation: 10,
   },
   welcomeText: {
     textAlign: 'center',
