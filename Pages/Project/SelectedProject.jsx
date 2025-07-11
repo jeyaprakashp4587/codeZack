@@ -127,9 +127,7 @@ const SelectedProject = () => {
           Note! "If you get this project, our skilled software engineers will
           provide full support from scratch to completion. This project assets,
           including UI design, color schemes, and images, will be prepared and
-          provided by our expert technicians once your payment is successfully
-          processed. We're here to ensure a seamless and professional experience
-          throughout your project journey!"
+          provided.
         </Text>
         <View style={{borderWidth: 0}}>
           {selectedProject?.Technologies?.map((tech, index) => (
@@ -146,7 +144,7 @@ const SelectedProject = () => {
               <Text
                 style={{
                   fontSize: width * 0.04,
-                  letterSpacing: 0.5,
+                  // letterSpacing: 0.5,
                   color: Colors.veryDarkGrey,
                   marginBottom: 10,
                   fontFamily: Font.SemiBold,

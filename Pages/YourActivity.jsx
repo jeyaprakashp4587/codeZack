@@ -125,9 +125,10 @@ const YourActivity = () => {
         <HrLine width="100%" />
         <Text
           style={{
-            letterSpacing: 1,
             fontWeight: 'bold',
             fontFamily: Font.Medium,
+            fontSize: width * 0.05,
+            marginBottom: 5,
           }}>
           Date: {selectedDate ?? ''}
         </Text>
@@ -161,7 +162,7 @@ const YourActivity = () => {
                     fontSize: width * 0.035,
                     color: Colors.white,
                     fontFamily: Font.Regular,
-                    letterSpacing: 0.5,
+                    // letterSpacing: 0.5,
                     textAlign: 'center',
                   }}>
                   {index + 1}. {item.activityName}
@@ -172,9 +173,9 @@ const YourActivity = () => {
         ) : (
           <Text
             style={{
-              letterSpacing: 1,
+              // letterSpacing: 1,
               color: Colors.mildGrey,
-              fontSize: width * 0.03,
+              fontSize: width * 0.035,
               fontFamily: Font.Regular,
             }}>
             No Activities there in this date

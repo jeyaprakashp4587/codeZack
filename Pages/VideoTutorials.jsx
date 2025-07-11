@@ -29,6 +29,7 @@ const VideoTutorials = () => {
   const [showModel, setShowModel] = useState(false);
   const [tools, setTools] = useState([]);
   const [selectedTool, setSelectedTool] = useState([]);
+  const [showVideoModel, setVideoModel] = useState(false);
   //
   const getAllTutorials = useCallback(async () => {
     try {
@@ -108,7 +109,6 @@ const VideoTutorials = () => {
                     <Text
                       key={index}
                       style={{
-                        letterSpacing: 1,
                         fontSize: width * 0.035,
                         marginBottom: 5,
                         fontFamily: Font.Regular,
@@ -190,12 +190,13 @@ const VideoTutorials = () => {
                 onPress={() => {
                   setSelectedTool(i);
                   setShowModel(false);
+                  setVideoModel(true);
                 }}
                 style={{borderWidth: 0, paddingVertical: 5}}
                 key={index}>
                 <Text
                   style={{
-                    letterSpacing: 2,
+                    // letterSpacing: 2,
                     color: Colors.mildGrey,
                     fontFamily: Font.Medium,
                   }}>
@@ -206,15 +207,34 @@ const VideoTutorials = () => {
           </View>
         </View>
       </Modal>
-      {/* play youtube video */}
-      {selectedTool?.Video && (
-        <YoutubePlayer
-          width="100%"
-          play={true}
-          height={300}
-          videoId={selectedTool?.Video[0]?.Tamil}
-        />
-      )}
+      {/* Model for show video player */}
+      <Modal
+        style={{
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        transparent={true}
+        visible={showVideoModel}
+        onRequestClose={() => setVideoModel(false)}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.32)',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          {selectedTool?.Video && (
+            <YoutubePlayer
+              width="100%"
+              play={true}
+              height={300}
+              videoId={selectedTool?.Video[0]?.Tamil}
+            />
+          )}
+        </View>
+      </Modal>
     </ScrollView>
   );
 };

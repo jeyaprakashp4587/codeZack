@@ -77,7 +77,7 @@ const Projects = () => {
           letterSpacing: 0.25,
           paddingHorizontal: 15,
         }}>
-        Pro-level projects
+        Web-dev projects
       </Text>
       <FlatList
         nestedScrollEnabled={true}
