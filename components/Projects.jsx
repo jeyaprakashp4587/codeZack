@@ -28,12 +28,21 @@ const Projects = () => {
     try {
       const {status, data} = await axios.get(
         `${challengesApi}/Challenges/getAllProjects`,
+        {
+          params: {
+            limit: 3,
+            page: 0,
+          },
+        },
       );
-      if (status == 200 && data) {
-        setProjects(data.projects[0]?.Projects);
+      if (status === 200 && data) {
+        setProjects(data.projects);
       }
-    } catch (error) {}
-  }, [projects]);
+    } catch (error) {
+      console.error('Error fetching projects', error);
+    }
+  }, []);
+
   // call the function using useeffect
   useEffect(() => {
     setLoading(true);
@@ -53,7 +62,7 @@ const Projects = () => {
     [navigation],
   );
 
-  if (projects.length <= 0) {
+  if (projects?.length <= 0) {
     return (
       <View
         style={{
