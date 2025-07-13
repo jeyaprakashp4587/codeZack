@@ -304,7 +304,7 @@ const Profile = ({navigation}) => {
       const {status} = await axios.post(
         `${loginApi}/LogIn/signOut/${user?._id}`,
       );
-      if (status == 200) {
+      if (status === 200) {
         AsyncStorage.removeItem('Email');
         navigation.replace('login');
       }
@@ -1052,8 +1052,8 @@ const Profile = ({navigation}) => {
               }}>
               <TouchableRipple
                 style={{
-                  paddingHorizontal: 10,
-                  paddingVertical: 5,
+                  paddingHorizontal: 15,
+                  paddingVertical: 10,
                   borderRadius: 10,
                   borderWidth: 0.7,
                   borderColor: Colors.violet,
@@ -1066,7 +1066,7 @@ const Profile = ({navigation}) => {
               <TouchableRipple
                 style={{
                   backgroundColor: Colors.violet,
-                  paddingVertical: 5,
+                  paddingVertical: 10,
                   paddingHorizontal: 20,
                   borderRadius: 10,
                 }}

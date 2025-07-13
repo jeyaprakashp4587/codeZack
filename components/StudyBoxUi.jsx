@@ -22,7 +22,7 @@ const {width, height} = Dimensions.get('window');
 const StudyBoxUi = ({courseData, topicLength, handleSetTopicsLength}) => {
   const [quizValid, setQuizValid] = useState(false);
   const translateX = useSharedValue(0);
-
+  const [selectedOption, setSelectedOption] = useState();
   const currentTopic = useMemo(
     () => courseData[topicLength],
     [courseData, topicLength],
@@ -48,7 +48,8 @@ const StudyBoxUi = ({courseData, topicLength, handleSetTopicsLength}) => {
   }, [quizValid, handleSetTopicsLength]);
 
   const handleSelectOption = useCallback(
-    option => {
+    (option, index) => {
+      setSelectedOption(index);
       if (option === currentTopic?.quiz?.answer) {
         setQuizValid(true);
       } else {
@@ -70,21 +71,31 @@ const StudyBoxUi = ({courseData, topicLength, handleSetTopicsLength}) => {
           Content: {currentTopic?.content}
         </Text>
         <Text style={styles.topicOutput}>Output: {currentTopic?.output}</Text>
-
         {/* Quiz Section */}
         <View style={{rowGap: 10}}>
           <Text style={styles.quizTitle}>Quiz:</Text>
           <Text style={styles.quizQuestion}>
             {currentTopic?.quiz?.question}
           </Text>
-
           <View style={{rowGap: 5}}>
             {currentTopic?.quiz?.options?.map((option, index) => (
               <TouchableOpacity
                 key={index}
-                onPress={() => handleSelectOption(option)}
-                style={styles.quizOption}>
-                <Text style={styles.optionText}>{option}</Text>
+                onPress={() => handleSelectOption(option, index)}
+                style={
+                  selectedOption === index
+                    ? styles.selectedQuiz
+                    : styles.quizOption
+                }>
+                <Text
+                  style={[
+                    styles.optionText,
+                    {
+                      color: selectedOption === index && Colors.white,
+                    },
+                  ]}>
+                  {option}
+                </Text>
               </TouchableOpacity>
             ))}
           </View>
@@ -165,6 +176,13 @@ const styles = StyleSheet.create({
   quizOption: {
     padding: 10,
     backgroundColor: 'rgba(59, 59, 59, 0.1)',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 5,
+  },
+  selectedQuiz: {
+    backgroundColor: Colors.violet,
+    padding: 10,
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 5,

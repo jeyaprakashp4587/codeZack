@@ -1,4 +1,11 @@
-import {View, Text, Dimensions, ImageBackground, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  ImageBackground,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useData} from '../../Context/Contexter';
 import axios from 'axios';
@@ -6,10 +13,13 @@ import {useNavigation} from '@react-navigation/native';
 import Skeleton from '../../Skeletons/Skeleton';
 import LinearGradient from 'react-native-linear-gradient';
 import {Font} from '../../constants/Font';
-import {challengesApi} from '../Api';
+import {challengesApi} from '../../Api';
+import {Colors} from '../../constants/Colors';
+import HeadingText from '../../utils/HeadingText';
 
 const AllProjects = () => {
   const {setSelectedProject} = useData();
+  const navigation = useNavigation();
   // fetch all projects from server
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -20,8 +30,8 @@ const AllProjects = () => {
         `${challengesApi}/Challenges/getAllProjects`,
         {
           params: {
-            limit: 3,
-            page: 1,
+            limit: 10,
+            page: 0,
           },
         },
       );
@@ -35,13 +45,9 @@ const AllProjects = () => {
 
   // call the function using useeffect
   useEffect(() => {
-    setLoading(true);
-    getAllProjects().finally(() => {
-      setLoading(false);
-    });
+    getAllProjects();
   }, []);
-  //handle select project and navigate
-  const navigation = useNavigation();
+
   const handleSelectProject = useCallback(
     async project => {
       try {
@@ -51,42 +57,64 @@ const AllProjects = () => {
     },
     [navigation],
   );
-
-  if (projects?.length <= 0) {
+  if (projects.length <= 0) {
     return (
       <View
         style={{
-          marginBottom: 5,
-          flexDirection: 'row',
-          columnGap: 10,
+          backgroundColor: Colors.white,
+          flex: 1,
           paddingHorizontal: 15,
         }}>
-        <Skeleton width={width * 0.6} height={height * 0.2} radius={20} />
-        <Skeleton width={width * 0.6} height={height * 0.2} radius={20} />
+        <View>
+          <HeadingText text="All Projects" />
+        </View>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          {Array.from({length: 3}).map((_, index) => (
+            <View key={index} style={{marginBottom: 10}}>
+              <Skeleton width={width * 0.9} height={200} radius={10} />
+            </View>
+          ))}
+        </View>
       </View>
     );
   }
   return (
-    <View>
+    <View
+      style={{
+        backgroundColor: Colors.white,
+        flex: 1,
+        paddingHorizontal: 15,
+      }}>
+      <View>
+        <HeadingText text="All Projects" />
+      </View>
       <FlatList
         nestedScrollEnabled={true}
         data={projects}
-        horizontal
+        // horizontal
         estimatedItemSize={250}
-        initialNumToRender={2}
+        initialNumToRender={3}
+        numColumns={2}
+        keyExtractor={item => item?._id}
+        showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
+        // contentContainerStyle={{borderWidth: 1}}
+        columnWrapperStyle={{
+          justifyContent: 'space-between',
+          //   borderWidth: 1,
+        }}
         renderItem={({item, index}) => (
           <View
+            key={index}
             style={{
               borderRadius: 5,
               overflow: 'hidden',
-              width: width * 0.7,
-              marginRight: 10,
               opacity: 0.9,
-              marginLeft: index == 0 && 15,
-              height: height * 0.22,
+              height: height * 0.27,
               elevation: 2,
               margin: 3,
+              width: '46%',
+              marginBottom: 10,
             }}>
             <ImageBackground
               source={{uri: item?.img}}
@@ -112,7 +140,7 @@ const AllProjects = () => {
                       // letterSpacing: 0.4,
                       color: 'black',
                       fontFamily: Font.SemiBold,
-                      fontSize: width * 0.04,
+                      fontSize: width * 0.037,
                     }}>
                     {item?.name}
                   </Text>
@@ -120,14 +148,14 @@ const AllProjects = () => {
                     style={{
                       color: 'black',
                       fontFamily: Font.SemiBold,
-                      fontSize: width * 0.03,
+                      fontSize: width * 0.025,
                     }}>
                     Full assets
                   </Text>
                   <TouchableOpacity
                     onPress={() => handleSelectProject(item)}
                     style={{
-                      padding: 9,
+                      padding: 7,
                       borderRadius: 15,
                       marginTop: 10,
                       backgroundColor: Colors.violet,
@@ -137,7 +165,7 @@ const AllProjects = () => {
                         color: 'white',
                         fontSize: width * 0.033,
                         textAlign: 'center',
-                        letterSpacing: 0.4,
+                        // letterSpacing: 0.4,
                         fontFamily: Font.Medium,
                       }}>
                       View
