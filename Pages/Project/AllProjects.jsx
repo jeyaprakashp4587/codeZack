@@ -1,24 +1,14 @@
-import {
-  Dimensions,
-  FlatList,
-  Image,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {View, Text, Dimensions, ImageBackground, FlatList} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
-import {challengesApi} from '../Api';
-import {useData} from '../Context/Contexter';
+import {useData} from '../../Context/Contexter';
 import axios from 'axios';
-import {Colors, font} from '../constants/Colors';
 import {useNavigation} from '@react-navigation/native';
+import Skeleton from '../../Skeletons/Skeleton';
 import LinearGradient from 'react-native-linear-gradient';
-import Skeleton from '../Skeletons/Skeleton';
-import {Font} from '../constants/Font';
+import {Font} from '../../constants/Font';
+import {challengesApi} from '../Api';
 
-const Projects = () => {
+const AllProjects = () => {
   const {setSelectedProject} = useData();
   // fetch all projects from server
   const [projects, setProjects] = useState([]);
@@ -31,7 +21,7 @@ const Projects = () => {
         {
           params: {
             limit: 3,
-            page: 0,
+            page: 1,
           },
         },
       );
@@ -78,39 +68,6 @@ const Projects = () => {
   }
   return (
     <View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingHorizontal: 15,
-          // borderWidth: 1,
-          marginBottom: 10,
-        }}>
-        <Text
-          style={{
-            fontFamily: Font.Medium,
-            fontSize: width * 0.041,
-            letterSpacing: 0.25,
-          }}>
-          Web-dev projects
-        </Text>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('allProjects');
-          }}>
-          <Text
-            style={{
-              letterSpacing: 0.3,
-              fontSize: width * 0.03,
-              color: Colors.veryDarkGrey,
-              fontFamily: Font.Medium,
-              textDecorationLine: 'underline',
-            }}>
-            Show more
-          </Text>
-        </TouchableOpacity>
-      </View>
       <FlatList
         nestedScrollEnabled={true}
         data={projects}
@@ -196,6 +153,4 @@ const Projects = () => {
   );
 };
 
-export default Projects;
-
-const styles = StyleSheet.create({});
+export default AllProjects;

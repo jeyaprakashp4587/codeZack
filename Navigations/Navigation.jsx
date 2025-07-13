@@ -50,6 +50,7 @@ import IntroScreen from '../Pages/IntroScreen';
 import ProjectPost from '../Freelancer/ProjectPost';
 import UploadProject from '../Freelancer/UploadProject';
 import ProjectDetails from '../Freelancer/ProjectDetails';
+import AllProjects from '../Pages/Project/AllProjects';
 // closed imports
 // Tab navigations functions
 const {width, height} = Dimensions.get('window');
@@ -535,6 +536,13 @@ const StackNavigations = () => {
         <Stack.Screen
           name="projectDetails"
           component={ProjectDetails}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="allProjects"
+          component={AllProjects}
           options={{
             headerShown: false,
           }}

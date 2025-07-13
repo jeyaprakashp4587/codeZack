@@ -55,30 +55,32 @@ const SelectedProject = () => {
       if (isLoaded) {
         await show();
       }
-      const localPath = `${RNFS.DownloadDirectoryPath}/${selectedProject?.name}.zip`;
-      setDownloadIndi(true);
-      const downloadResult = await RNFS.downloadFile({
-        fromUrl: `https://drive.google.com/uc?export=download&id=${selectedProject?.driveId}`,
-        toFile: localPath,
-        background: true,
-        discretionary: true,
-        progress: true,
-        progressDivider: 100,
-      }).promise;
+      if (isEarnedReward) {
+        const localPath = `${RNFS.DownloadDirectoryPath}/${selectedProject?.name}.zip`;
+        setDownloadIndi(true);
+        const downloadResult = await RNFS.downloadFile({
+          fromUrl: `https://drive.google.com/uc?export=download&id=${selectedProject?.driveId}`,
+          toFile: localPath,
+          background: true,
+          discretionary: true,
+          progress: true,
+          progressDivider: 100,
+        }).promise;
 
-      setDownloadIndi(false);
-      ToastAndroid.show('Downloaded successfully', ToastAndroid.SHORT);
-      setTimeout(() => {
-        FileViewer.open(localPath)
-          .then(() => {})
-          .catch(error => {
-            Alert.alert(
-              'Can’t Open File 😕',
-              'Looks like your device doesn’t have a compatible app to open this file.\n\n👉 Please go to your Download folder and open it manually.',
-              [{text: 'OK'}],
-            );
-          });
-      }, 1000);
+        setDownloadIndi(false);
+        ToastAndroid.show('Downloaded successfully', ToastAndroid.SHORT);
+        setTimeout(() => {
+          FileViewer.open(localPath)
+            .then(() => {})
+            .catch(error => {
+              Alert.alert(
+                'Can’t Open File 😕',
+                'Looks like your device doesn’t have a compatible app to open this file.\n\n👉 Please go to your Download folder and open it manually.',
+                [{text: 'OK'}],
+              );
+            });
+        }, 1000);
+      }
     } catch (error) {
       setDownloadIndi(false);
       ToastAndroid.show(`Download Failed ${error}`, ToastAndroid.LONG);
