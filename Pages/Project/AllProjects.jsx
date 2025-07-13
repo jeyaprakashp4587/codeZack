@@ -110,7 +110,7 @@ const AllProjects = () => {
               borderRadius: 5,
               overflow: 'hidden',
               opacity: 0.9,
-              height: height * 0.27,
+              height: height * 0.2,
               elevation: 2,
               margin: 3,
               width: '46%',
