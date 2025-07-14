@@ -14,6 +14,7 @@ import {
   FlatList,
   ToastAndroid,
   Linking,
+  InteractionManager,
 } from 'react-native';
 import Skeleton from '../../Skeletons/Skeleton';
 import {Colors, pageView} from '../../constants/Colors';
@@ -49,6 +50,7 @@ const ChallengeDetail = () => {
   const [imgLoad, setImageLoad] = useState(false);
   const [images, setImages] = useState([]);
   const socket = SocketData();
+  // console.log(selectedChallenge);
 
   // load and destructure Reward add
   const {load, isLoaded, show, isClosed} = useRewardedAd(
@@ -119,28 +121,12 @@ const ChallengeDetail = () => {
     ],
     [uploadForm.GitRepo],
   );
-  const checkChallengeStatus = useCallback(async () => {
+  const getChallengeAndStatus = useCallback(async () => {
     try {
-      const res = await axios.post(
-        `${challengesApi}/Challenges/checkChallengeStatus/${user?._id}`,
-        {
-          ChallengeName:
-            selectedChallenge?.ChallengeName || selectedChallenge?.title,
-        },
-      );
-      if (res.data == 'pending' || res.data == 'completed') {
-        setStatusButtonToggle(true);
-        setChallengeStatus(res.data);
-      }
-    } catch (error) {
-      console.error('Error fetching challenge status:', error);
-    }
-  }, [selectedChallenge, user?._id]);
+      console.log('Fetching challenge + status');
 
-  const getParticularChallenge = useCallback(async () => {
-    try {
       const res = await axios.post(
-        `${challengesApi}/Challenges/getParticularChallenge/${user?._id}`,
+        `${challengesApi}/Challenges/getChallengeAndStatus/${user?._id}`,
         {
           ChallengeName:
             selectedChallenge?.ChallengeName || selectedChallenge?.title,
@@ -151,14 +137,24 @@ const ChallengeDetail = () => {
             selectedChallenge?.ChallengeLevel || selectedChallenge?.level,
         },
       );
-      if (res.data && res.status == 200) {
-        setSelectedChallenge(res.data.challenge);
-        checkChallengeStatus();
+
+      if (res.data && res.status === 200) {
+        const {challenge, status} = res.data;
+
+        if (status === 'pending' || status === 'completed') {
+          setStatusButtonToggle(true);
+          setChallengeStatus(status);
+          console.log('Challenge Status:', status);
+        }
+        if (challenge) {
+          setSelectedChallenge(challenge);
+          console.log('Fetched Challenge:', challenge);
+        }
       }
     } catch (error) {
-      console.error('Error fetching particular challenge:', error);
+      console.error('Error fetching challenge and status:', error);
     }
-  }, [selectedChallenge, user?._id, checkChallengeStatus]);
+  }, [selectedChallenge, user?._id]);
 
   const uploadSnap = async imgUri => {
     setImageLoad(true);
@@ -336,19 +332,26 @@ const ChallengeDetail = () => {
     [user, selectedChallenge, isLoaded],
   );
 
-  useFocusEffect(
-    useCallback(() => {
-      getParticularChallenge();
-      checkChallengeStatus();
-    }, [getParticularChallenge, checkChallengeStatus]),
-  );
+  useEffect(() => {
+    let isActive = true;
+    const interaction = InteractionManager.runAfterInteractions(async () => {
+      if (isActive) {
+        await getChallengeAndStatus();
+      }
+    });
+
+    return () => {
+      isActive = false;
+      interaction.cancel?.();
+    };
+  }, []);
 
   const HandleText = (name, text) => {
     setUploadForm(prev => ({...prev, [name]: text}));
   };
   // ask help
   const sendWhatsAppMessage = () => {
-    const phoneNumber = '9025167302'; // Replace with your WhatsApp number
+    const phoneNumber = '9025167302';
     const message = `Hello! My name is ${
       user?.firstName + user?.LastName
     } I need help with the "${
@@ -385,10 +388,10 @@ const ChallengeDetail = () => {
   const [refreshing, setRefreshing] = useState(false);
   const HandleRefresh = useCallback(() => {
     setRefreshing(true);
-    getParticularChallenge().finally(() => setRefreshing(false));
-  }, [getParticularChallenge]);
+    // getParticularChallenge().finally(() => setRefreshing(false));
+  }, []);
 
-  // ------
+  // ------ //
   return (
     <View
       style={{

@@ -29,6 +29,8 @@ const CoreChallenges = () => {
   // console.log(selectedChallengeTopic?.challengeName);
   const getChallenges = useCallback(async () => {
     try {
+      console.log('log from core');
+
       const res = await axios.post(
         `${challengesApi}/Challenges/getChallenges`,
         {
