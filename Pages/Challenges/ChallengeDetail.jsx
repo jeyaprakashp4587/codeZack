@@ -49,7 +49,6 @@ const ChallengeDetail = () => {
   const [imgLoad, setImageLoad] = useState(false);
   const [images, setImages] = useState([]);
   const socket = SocketData();
-  console.log(selectedChallenge);
 
   // load and destructure Reward add
   const {load, isLoaded, show, isClosed} = useRewardedAd(
@@ -248,10 +247,11 @@ const ChallengeDetail = () => {
           SnapImage: images,
           ChallengeName:
             selectedChallenge?.title || selectedChallenge?.ChallengeName,
+          level: selectedChallenge?.level,
         },
       );
 
-      if (res.data === 'completed') {
+      if (res.status === 200 && res.data === 'completed') {
         setChallengeStatus('completed');
         ToastAndroid.show('Wow! you made it', ToastAndroid.SHORT);
         await handleUploadPost();
@@ -300,38 +300,47 @@ const ChallengeDetail = () => {
       Alert.alert('Upload failed. Please check your connection.');
     }
   }, [uploadForm.GitRepo, images, user, selectedChallenge]);
-
   const HandleStart = useCallback(
     async chName => {
       setStatusButtonToggle(true);
       setChallengeStatus('pending');
+
       try {
         if (isLoaded) {
           show();
         }
+
+        const challengeType =
+          selectedChallenge?.technologies?.[0]?.name ?? 'Unknown';
+        const challengeImage = selectedChallenge?.sample_image ?? '';
+        const challengeLevel = selectedChallenge?.level ?? '';
+
         const res = await axios.post(
           `${challengesApi}/Challenges/addChallenge`,
           {
             userId: user._id,
             ChallengeName: chName,
-            ChallengeType: selectedChallenge.technologies[0].name,
-            ChallengeImage: selectedChallenge.sample_image,
-            ChallengeLevel: selectedChallenge.level,
+            ChallengeType: challengeType,
+            ChallengeImage: challengeImage,
+            ChallengeLevel: challengeLevel,
           },
         );
-        if (res.data) setUploadTut(true);
+
+        if (res.status === 200 && res.data) {
+          setUploadTut(true);
+        }
       } catch (error) {
         console.error('Error starting challenge:', error);
       }
     },
-    [user, ChallengeDetail],
+    [user, selectedChallenge, isLoaded],
   );
 
   useFocusEffect(
     useCallback(() => {
-      getParticularChallenge().then(() => extract());
+      getParticularChallenge();
       checkChallengeStatus();
-    }, []),
+    }, [getParticularChallenge, checkChallengeStatus]),
   );
 
   const HandleText = (name, text) => {
@@ -374,10 +383,11 @@ const ChallengeDetail = () => {
   }, []);
   // ask help
   const [refreshing, setRefreshing] = useState(false);
-  const HandleRefresh = () => {
+  const HandleRefresh = useCallback(() => {
     setRefreshing(true);
-    getParticularChallenge().then(() => setRefreshing(false));
-  };
+    getParticularChallenge().finally(() => setRefreshing(false));
+  }, [getParticularChallenge]);
+
   // ------
   return (
     <View
@@ -403,7 +413,7 @@ const ChallengeDetail = () => {
                 style={{
                   fontFamily: Font.Regular,
                   fontSize: width * 0.035,
-                  letterSpacing: 0.3,
+                  // letterSpacing: 0.3,
                 }}>
                 We Don't have ui design for{' '}
                 <Text
@@ -460,7 +470,15 @@ const ChallengeDetail = () => {
                   fontFamily: Font.Regular,
                   textTransform: 'uppercase',
                 }}>
-                {selectedChallenge?.level}
+                {selectedChallenge?.level} Xp{'('}
+                {selectedChallenge?.level === 'newbie'
+                  ? 10
+                  : selectedChallenge?.level === 'junior'
+                  ? 20
+                  : selectedChallenge?.level === 'expert'
+                  ? 30
+                  : 40}
+                {')'}
               </Text>
             </View>
             {/* tools and assets */}
@@ -484,7 +502,7 @@ const ChallengeDetail = () => {
                   style={{
                     fontSize: width * 0.035,
                     color: Colors.veryDarkGrey,
-                    letterSpacing: 0.25,
+                    // letterSpacing: 0.25,
                     marginBottom: 10,
                     lineHeight: 20,
                   }}>
@@ -509,7 +527,7 @@ const ChallengeDetail = () => {
                 style={{
                   fontSize: width * 0.035,
                   color: Colors.veryDarkGrey,
-                  letterSpacing: 0.3,
+                  // letterSpacing: 0.3,
                   fontFamily: Font.SemiBold,
                 }}>
                 Get ui design
@@ -529,7 +547,7 @@ const ChallengeDetail = () => {
                 style={{
                   color: 'black',
                   fontSize: width * 0.034,
-                  letterSpacing: 0.3,
+                  // letterSpacing: 0.3,
                   lineHeight: 27,
                   fontFamily: Font.Regular,
                 }}>
@@ -552,7 +570,7 @@ const ChallengeDetail = () => {
                   style={{
                     textAlign: 'center',
                     color: 'white',
-                    letterSpacing: 0.3,
+                    // letterSpacing: 0.3,
                     fontFamily: Font.Regular,
                   }}>
                   Feel Free to ask
@@ -572,7 +590,7 @@ const ChallengeDetail = () => {
                 <Text
                   style={{
                     fontSize: width * 0.04,
-                    letterSpacing: 1,
+                    // letterSpacing: 1,
                     color: 'white',
                     fontFamily: 'Poppins-Medium',
                   }}>
@@ -592,7 +610,7 @@ const ChallengeDetail = () => {
                 <Text
                   style={{
                     fontSize: width * 0.04,
-                    letterSpacing: 1,
+                    // letterSpacing: 1,
                     color: 'white',
                     fontFamily: 'Poppins-Medium',
                   }}>
@@ -615,7 +633,7 @@ const ChallengeDetail = () => {
                   style={{
                     color: Colors.veryDarkGrey,
                     fontSize: width * 0.04,
-                    letterSpacing: 0.3,
+                    // letterSpacing: 0.3,
                     fontFamily: Font.Medium,
                   }}>
                   How to upload the project?
@@ -657,7 +675,7 @@ const ChallengeDetail = () => {
                 <Text
                   style={{
                     textDecorationLine: 'underline',
-                    letterSpacing: 1,
+                    // letterSpacing: 1,
                     fontFamily: Font.Medium,
                   }}>
                   Close
@@ -811,7 +829,7 @@ const ChallengeDetail = () => {
                 style={{
                   fontSize: width * 0.04,
                   color: 'white',
-                  letterSpacing: 1,
+                  // letterSpacing: 1,
                   textAlign: 'center',
                   fontFamily: Font.Medium,
                 }}>

@@ -8,10 +8,17 @@ import {Dimensions} from 'react-native';
 import {Colors} from '../constants/Colors';
 import FastImage from 'react-native-fast-image';
 import {Font} from '../constants/Font';
-
+import axios from 'axios';
+import {Api} from '../Api';
 const Challenge = ({navigation}) => {
   const {setselectedChallengeTopic} = useData();
   const {width, height} = Dimensions.get('window');
+  const get = useCallback(async () => {
+    await axios.get(`${Api}/LeaderBoard/getLeaderBoard`);
+  }, []);
+  useEffect(() => {
+    get();
+  }, []);
   const rightWrapper = useMemo(() => [
     {
       ChallengeName: 'Your Challenges',
@@ -126,7 +133,7 @@ const Challenge = ({navigation}) => {
               <Text
                 style={{
                   // fontWeight: '600',
-                  letterSpacing: 1,
+                  // letterSpacing: 1,
                   paddingBottom: 10,
                   fontFamily: Font.SemiBold,
                 }}>
@@ -134,10 +141,10 @@ const Challenge = ({navigation}) => {
               </Text>
               <Text
                 style={{
-                  letterSpacing: 1,
+                  // letterSpacing: 1,
                   bgColor: Colors.mildGrey,
                   lineHeight: 20,
-                  fontSize: width * 0.026,
+                  fontSize: width * 0.029,
                   fontFamily: Font.Medium,
                 }}>
                 {ch.content}
@@ -174,7 +181,7 @@ const Challenge = ({navigation}) => {
               <Text
                 style={{
                   fontWeight: '600',
-                  letterSpacing: 1,
+                  // letterSpacing: 1,
                   paddingBottom: 10,
                   fontFamily: Font.SemiBold,
                 }}>
@@ -182,10 +189,10 @@ const Challenge = ({navigation}) => {
               </Text>
               <Text
                 style={{
-                  letterSpacing: 1,
+                  // letterSpacing: ,
                   bgColor: Colors.mildGrey,
                   lineHeight: 20,
-                  fontSize: width * 0.026,
+                  fontSize: width * 0.029,
                   fontFamily: Font.Medium,
                 }}>
                 {ch.content}

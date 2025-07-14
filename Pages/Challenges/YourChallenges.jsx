@@ -142,7 +142,7 @@ const YourChallenges = props => {
           <TouchableOpacity onPress={() => HandleOption(item.route)}>
             <Text
               style={{
-                letterSpacing: 1,
+                // letterSpacing: 1,
                 fontSize: width * 0.03,
                 paddingVertical: 5,
                 paddingHorizontal: 15,
@@ -178,9 +178,9 @@ const YourChallenges = props => {
             }}>
             <Text
               style={{
-                letterSpacing: 1,
+                // letterSpacing: 1,
                 paddingHorizontal: 15,
-                fontSize: width * 0.035,
+                fontSize: width * 0.045,
                 color: 'black',
                 fontWeight: '600',
                 fontFamily: Font.SemiBold,
@@ -195,14 +195,15 @@ const YourChallenges = props => {
                 marginHorizontal: 15,
                 marginTop: 20,
                 borderRadius: 50,
+                width: '60%',
                 // borderColor: Colors.lightGrey,
                 backgroundColor: Colors.violet,
               }}>
               <Text
                 style={{
                   textAlign: 'center',
-                  letterSpacing: 1,
-                  fontSize: width * 0.025,
+                  // letterSpacing: 1,
+                  fontSize: width * 0.03,
                   color: Colors.white,
                   fontFamily: Font.Medium,
                 }}>

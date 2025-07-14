@@ -239,19 +239,27 @@ const ChooseChallenge = ({navigation}) => {
         renderItem={({item, index}) => (
           <View style={styles.challengeContainer} key={index}>
             {/* Challenge Item Layout */}
-            <View>
+            <View style={{rowGap: 5}}>
               <Text
                 style={{
                   color: Colors.veryDarkGrey,
                   fontSize: width * 0.05,
                   // padding: 5,
                   fontFamily: Font.Medium,
-                  letterSpacing: 0.4,
+                  // letterSpacing: 0.4,
                 }}>
                 {item.title}
               </Text>
-              <Text style={{fontFamily: Font.Medium, fontSize: width * 0.04}}>
-                {item.level ? item.level : difficultyInfo}
+              <Text style={{fontFamily: Font.Medium, fontSize: width * 0.035}}>
+                {item.level ? item.level : difficultyInfo} Xp{'('}
+                {item?.level === 'newbie'
+                  ? 10
+                  : item?.level === 'junior'
+                  ? 20
+                  : item?.level === 'expert'
+                  ? 30
+                  : 40}
+                {')'}
               </Text>
             </View>
             {item?.level !== 'newbie' && (
@@ -362,7 +370,7 @@ const styles = StyleSheet.create({
   challengeDescription: {
     color: Colors.veryDarkGrey,
     lineHeight: 24,
-    letterSpacing: 1,
+    // letterSpacing: 1,
     fontFamily: Font.Regular,
   },
   technologiesContainer: {
