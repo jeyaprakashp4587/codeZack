@@ -13,12 +13,7 @@ import {Api} from '../Api';
 const Challenge = ({navigation}) => {
   const {setselectedChallengeTopic} = useData();
   const {width, height} = Dimensions.get('window');
-  const get = useCallback(async () => {
-    await axios.get(`${Api}/LeaderBoard/getLeaderBoard`);
-  }, []);
-  useEffect(() => {
-    get();
-  }, []);
+
   const rightWrapper = useMemo(() => [
     {
       ChallengeName: 'Your Challenges',

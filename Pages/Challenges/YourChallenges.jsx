@@ -143,7 +143,7 @@ const YourChallenges = props => {
             <Text
               style={{
                 // letterSpacing: 1,
-                fontSize: width * 0.03,
+                fontSize: width * 0.035,
                 paddingVertical: 5,
                 paddingHorizontal: 15,
                 // borderWidth: 1,
@@ -178,7 +178,7 @@ const YourChallenges = props => {
             }}>
             <Text
               style={{
-                // letterSpacing: 1,
+                letterSpacing: 1,
                 paddingHorizontal: 15,
                 fontSize: width * 0.045,
                 color: 'black',
@@ -202,7 +202,7 @@ const YourChallenges = props => {
               <Text
                 style={{
                   textAlign: 'center',
-                  // letterSpacing: 1,
+                  letterSpacing: 1,
                   fontSize: width * 0.03,
                   color: Colors.white,
                   fontFamily: Font.Medium,
@@ -270,7 +270,7 @@ const YourChallenges = props => {
                 <Text
                   style={{
                     fontSize: height * 0.018,
-                    letterSpacing: 1,
+                    // letterSpacing: 1,
                     color: Colors.mildGrey,
                     fontFamily: 'Poppins-Light',
                   }}>
@@ -279,7 +279,7 @@ const YourChallenges = props => {
                 <Text
                   style={{
                     fontSize: height * 0.018,
-                    letterSpacing: 1,
+                    // letterSpacing: 1,
                     color: Colors.violet,
                     fontFamily: 'Poppins-Light',
                   }}>

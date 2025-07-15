@@ -43,6 +43,7 @@ const FreelancerBanner = React.lazy(() =>
 );
 import {useStallionUpdate, restart} from 'react-native-stallion';
 import ChallengesBanner from '../components/ChallengesBanner';
+import LeaderBoardBanner from '../Pages/LeaderBoard/LeaderBoardBanner';
 
 // Dimensions for layout
 const {width, height} = Dimensions.get('window');
@@ -152,42 +153,55 @@ const Home = () => {
               ]}
             />
           </TouchableOpacity>
-          <Pressable
-            style={{
-              position: 'relative',
-              borderWidth: 1,
-              padding: 10,
-              borderRadius: 50,
-              borderColor: Colors.veryLightGrey,
-            }}
-            onPress={() => navigation.navigate('notifications')}>
-            {/* notificatio badge */}
-            <Text
+          <View
+            style={{flexDirection: 'row', alignItems: 'center', columnGap: 10}}>
+            <TouchableOpacity>
+              <FastImage
+                source={{
+                  uri: 'https://img.icons8.com/external-anggara-flat-anggara-putra/100/external-trophy-sports-anggara-flat-anggara-putra.png',
+                  priority: FastImage.priority.high,
+                }}
+                style={{width: width * 0.08, aspectRatio: 1}}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+            <Pressable
               style={{
-                display: unseenCount > 0 ? 'flex' : 'none',
-                position: 'absolute',
-                top: height * 0.01,
-                right: -width * 0.0,
-                aspectRatio: 1,
-                width: width * 0.03,
-                fontSize: width * 0.018,
-                textAlign: 'center',
-                color: 'white',
-                backgroundColor: 'red',
-                borderRadius: 50,
-                zIndex: 100,
-                borderColor: 'white',
+                position: 'relative',
                 borderWidth: 1,
-                left: width * 0.05,
-              }}>
-              {unseenCount}
-            </Text>
-            <FontAwesomeIcon
-              color={Colors.lightGrey}
-              icon={faBell}
-              size={width * 0.05}
-            />
-          </Pressable>
+                padding: 10,
+                borderRadius: 50,
+                borderColor: Colors.veryLightGrey,
+              }}
+              onPress={() => navigation.navigate('notifications')}>
+              {/* notificatio badge */}
+              <Text
+                style={{
+                  display: unseenCount > 0 ? 'flex' : 'none',
+                  position: 'absolute',
+                  top: height * 0.01,
+                  right: -width * 0.0,
+                  aspectRatio: 1,
+                  width: width * 0.03,
+                  fontSize: width * 0.018,
+                  textAlign: 'center',
+                  color: 'white',
+                  backgroundColor: 'red',
+                  borderRadius: 50,
+                  zIndex: 100,
+                  borderColor: 'white',
+                  borderWidth: 1,
+                  left: width * 0.05,
+                }}>
+                {unseenCount}
+              </Text>
+              <FontAwesomeIcon
+                color={Colors.lightGrey}
+                icon={faBell}
+                size={width * 0.05}
+              />
+            </Pressable>
+          </View>
         </View>
         {/* greeding and notification */}
         <View
@@ -243,6 +257,7 @@ const Home = () => {
         <IdeasWrapper />
         {/* Recent courses */}
         <RecentCourses />
+        <LeaderBoardBanner />
         {/* challenges Banner */}
         {/* <ChallengesBanner /> */}
         {/* premium projects */}

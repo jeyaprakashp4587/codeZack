@@ -388,7 +388,7 @@ const ChallengeDetail = () => {
   const [refreshing, setRefreshing] = useState(false);
   const HandleRefresh = useCallback(() => {
     setRefreshing(true);
-    // getParticularChallenge().finally(() => setRefreshing(false));
+    getChallengeAndStatus().finally(() => setRefreshing(false));
   }, []);
 
   // ------ //
@@ -460,7 +460,7 @@ const ChallengeDetail = () => {
               fontWeight={600}
               color="black"
               ln={40}
-              lp={1}
+              lp={0}
             />
             <View
               style={{
@@ -749,7 +749,7 @@ const ChallengeDetail = () => {
               style={{
                 borderWidth: 1,
                 padding: 15,
-                fontSize: width * 0.033,
+                fontSize: width * 0.037,
                 borderColor: Colors.veryLightGrey,
                 borderRadius: 5,
                 fontFamily: Font.Regular,
@@ -763,7 +763,7 @@ const ChallengeDetail = () => {
               style={{
                 borderWidth: 1,
                 padding: 15,
-                fontSize: width * 0.033,
+                fontSize: width * 0.037,
                 borderColor: Colors.veryLightGrey,
                 borderRadius: 5,
                 fontFamily: Font.Regular,
@@ -790,15 +790,18 @@ const ChallengeDetail = () => {
               ) : (
                 <FontAwesomeIcon
                   icon={faImage}
-                  size={width * 0.035}
+                  size={width * 0.04}
                   color={Colors.mildGrey}
                 />
               )}
-              <PragraphText
-                text="Upload images"
-                padding={1}
-                fsize={width * 0.03}
-              />
+              <Text
+                style={{
+                  padding: 8,
+                  fontFamily: Font.Medium,
+                  color: Colors.mildGrey,
+                }}>
+                Upload images
+              </Text>
             </TouchableOpacity>
             {/* show oupload image */}
             {images.length > 0 ? (
@@ -827,6 +830,9 @@ const ChallengeDetail = () => {
                 backgroundColor: Colors.violet,
                 padding: 10,
                 borderRadius: 5,
+                height: height * 0.065,
+                justifyContent: 'center',
+                alignItems: 'center',
               }}>
               <Text
                 style={{
