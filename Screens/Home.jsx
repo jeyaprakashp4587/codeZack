@@ -155,7 +155,8 @@ const Home = () => {
           </TouchableOpacity>
           <View
             style={{flexDirection: 'row', alignItems: 'center', columnGap: 10}}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('leaderBoard')}>
               <FastImage
                 source={{
                   uri: 'https://img.icons8.com/external-anggara-flat-anggara-putra/100/external-trophy-sports-anggara-flat-anggara-putra.png',
