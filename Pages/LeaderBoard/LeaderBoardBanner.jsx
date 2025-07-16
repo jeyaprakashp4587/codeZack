@@ -10,15 +10,18 @@ import FastImage from 'react-native-fast-image';
 import {Font} from '../../constants/Font';
 import {Colors} from '../../constants/Colors';
 import {useNavigation} from '@react-navigation/native';
+import useMonthlyCountdown from '../../hooks/useMonthlyCountdown';
 
 const LeaderBoardBanner = () => {
   const {width, height} = Dimensions.get('window');
   const navigation = useNavigation();
+  const {days, mins, secs, hours} = useMonthlyCountdown();
   return (
     <View
       style={{
         paddingHorizontal: 15,
         overflow: 'hidden',
+        position: 'relative',
       }}>
       <Text
         style={{
@@ -32,7 +35,6 @@ const LeaderBoardBanner = () => {
       <View
         style={{
           backgroundColor: '#DFEBE9',
-          // borderWidth: 1,
           flexDirection: 'row',
           alignItems: 'center',
           flex: 1,
@@ -45,14 +47,13 @@ const LeaderBoardBanner = () => {
             rowGap: 5,
             width: '55%',
             overflow: 'hidden',
-            // borderWidth: 1,
           }}>
           <Text
             style={{
               fontFamily: Font.SemiBold,
-              fontSize: width * 0.04,
+              fontSize: width * 0.05,
               color: 'rgba(0, 0, 0, 0.94)',
-              lineHeight: 18,
+              lineHeight: 24,
             }}>
             Top the board. Build your legacy
           </Text>
@@ -63,14 +64,12 @@ const LeaderBoardBanner = () => {
               color: 'rgba(39, 39, 41, 0.87)',
               lineHeight: 17,
             }}>
-            Rank up on the leaderboard, and unlock your personalized portfolio
-            as a reward! 🚀
+            Rank up on the leaderboard, and unlock your personalized rewards! 🚀
           </Text>
           <TouchableOpacity
             onPress={() => navigation.navigate('leaderBoard')}
             style={{
               backgroundColor: Colors.violet,
-              // height: height * 0.03,
               alignItems: 'center',
               justifyContent: 'center',
               borderRadius: 100,
@@ -80,13 +79,29 @@ const LeaderBoardBanner = () => {
               style={{
                 padding: 5,
                 color: Colors.white,
-                fontFamily: Font.Regular,
+                fontFamily: Font.SemiBold,
                 fontSize: width * 0.035,
               }}>
               Climb now
             </Text>
           </TouchableOpacity>
         </View>
+        <Text
+          style={{
+            position: 'absolute',
+            backgroundColor: 'rgba(230, 94, 94, 0.78)',
+            color: Colors.white,
+            fontFamily: Font.Medium,
+            fontSize: width * 0.027,
+            padding: 5,
+            borderRadius: 100,
+            paddingHorizontal: 10,
+            minWidth: 2,
+            top: 15,
+            right: 15,
+          }}>
+          Days left: {days}:{hours}:{mins}:{secs}
+        </Text>
         <FastImage
           resizeMode="cover"
           style={{
@@ -95,7 +110,6 @@ const LeaderBoardBanner = () => {
             position: 'absolute',
             bottom: -35,
             right: 0,
-            // borderWidth: 1,
           }}
           source={{
             uri: 'https://i.ibb.co/xSfLyCDD/Adobe-Express-file.png',
