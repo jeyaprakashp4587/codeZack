@@ -32,6 +32,7 @@ const LeaderBoard = () => {
 
   const get = useCallback(async () => {
     try {
+      setLoading(true);
       const response = await axios.get(`${Api}/LeaderBoard/getLeaderBoard`);
 
       if (response.status === 200 && response.data?.users) {
@@ -40,6 +41,7 @@ const LeaderBoard = () => {
         const bal = users.slice(3, 10);
         setTop3(top3slice);
         setBalTop10(bal);
+        setLoading(false);
         // find user position
         if (response?.data?.users) {
           await response?.data?.users?.map((list, index) => {
@@ -50,6 +52,7 @@ const LeaderBoard = () => {
         }
       }
     } catch (error) {
+      setLoading(false);
       console.error('Error fetching leaderboard:', error);
     }
   }, []);
@@ -140,7 +143,7 @@ const LeaderBoard = () => {
     );
   };
   // return loading and error screen
-  if (!loading) {
+  if (loading) {
     return (
       <View style={{backgroundColor: Colors.white, flex: 1}}>
         <View style={styles.container}>
