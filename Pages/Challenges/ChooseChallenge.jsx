@@ -250,8 +250,18 @@ const ChooseChallenge = ({navigation}) => {
                 }}>
                 {item.title}
               </Text>
-              <Text style={{fontFamily: Font.Medium, fontSize: width * 0.035}}>
-                {item.level ? item.level : difficultyInfo} Xp{'('}
+              <Text
+                style={{
+                  fontFamily: Font.Medium,
+                  fontSize: width * 0.03,
+                  backgroundColor: 'rgb(100, 148, 238)',
+                  alignSelf: 'flex-start',
+                  color: Colors.white,
+                  padding: 4,
+                  paddingHorizontal: 10,
+                  borderRadius: 100,
+                }}>
+                {item.level ? item.level : difficultyInfo} Xp {'('}
                 {item?.level === 'newbie'
                   ? 10
                   : item?.level === 'junior'

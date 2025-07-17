@@ -16,14 +16,19 @@ import FastImage from 'react-native-fast-image';
 import {Font} from '../../constants/Font';
 import useMonthlyCountdown from '../../hooks/useMonthlyCountdown';
 import {useData} from '../../Context/Contexter';
+import truncateText from '../../hooks/truncateText';
+import {useNavigation} from '@react-navigation/native';
+import Skeleton from '../../Skeletons/Skeleton';
 
 const LeaderBoard = () => {
-  const {width} = Dimensions.get('window');
+  const {width, height} = Dimensions.get('window');
   const [top3, setTop3] = useState([]);
   const [balTop10, setBalTop10] = useState([]);
   const {days, mins, secs, hours} = useMonthlyCountdown();
   const {user} = useData();
   const [userPosition, setUserPosition] = useState();
+  const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
 
   const get = useCallback(async () => {
     try {
@@ -79,9 +84,9 @@ const LeaderBoard = () => {
           )}
         </View>
         <Text style={styles.nameText}>
-          {item?.firstName + ' ' + item?.LastName}
+          {truncateText(item?.firstName + ' ' + item?.LastName, 10)}
         </Text>
-        <Text style={styles.scoreText}>Score: {item?.ChallengesPoint}</Text>
+        <Text style={styles.scoreText}>Xp: {item?.ChallengesPoint}</Text>
       </TouchableOpacity>
     );
   };
@@ -117,7 +122,7 @@ const LeaderBoard = () => {
             fontSize: width * 0.034,
             fontFamily: Font.Medium,
           }}>
-          {item?.firstName + ' ' + item?.LastName}
+          {truncateText(item?.firstName + ' ' + item?.LastName, 15)}
         </Text>
         <View style={{flex: 1, borderWidth: 0}}>
           <Text
@@ -128,15 +133,32 @@ const LeaderBoard = () => {
               textAlign: 'right',
               // fontWeight:
             }}>
-            Score: {item?.ChallengesPoint}
+            Xp: {item?.ChallengesPoint}
           </Text>
         </View>
       </View>
     );
   };
+  // return loading and error screen
+  if (!loading) {
+    return (
+      <View style={{backgroundColor: Colors.white, flex: 1}}>
+        <View style={styles.container}>
+          <HeadingText text="Leaderboard" />
+        </View>
+        <View style={{rowGap: 10}}>
+          <Skeleton width={width} height={80} />
+          <Skeleton width={width} height={240} />
+          <Skeleton width={width} height={360} />
+        </View>
+      </View>
+    );
+  }
 
   return (
-    <ScrollView style={{flex: 1, backgroundColor: Colors.white}}>
+    <ScrollView
+      style={{flex: 1, backgroundColor: Colors.white}}
+      showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
         <HeadingText text="Leaderboard" />
       </View>
@@ -173,23 +195,26 @@ const LeaderBoard = () => {
               ? 'You are in top 3👑'
               : userPosition > 3 && userPosition <= 10
               ? 'You are in top 10 ️‍🔥'
-              : user?.ChallengesPoint}
+              : `Xp ${user?.ChallengesPoint}`}
           </Text>
         </View>
-        <Text
-          style={{
-            backgroundColor: 'rgb(0, 0, 0)',
-            color: 'rgb(255, 255, 255)',
-            fontFamily: Font.Medium,
-            fontSize: width * 0.034,
-            padding: 5,
-            borderRadius: 100,
-            paddingHorizontal: 20,
-            textAlign: 'center',
-            lineHeight: 20,
-          }}>
-          Leaderboards ends in {'\n'} {days}:{hours}:{mins}:{secs}
-        </Text>
+        <View style={{rowGap: 5}}>
+          <Text style={{fontFamily: Font.Medium}}>Leaderboard ends in</Text>
+          <Text
+            style={{
+              backgroundColor: 'rgba(41, 40, 40, 0.06)',
+              color: 'rgb(0, 0, 0)',
+              fontFamily: Font.SemiBold,
+              fontSize: width * 0.032,
+              padding: 5,
+              borderRadius: 100,
+              paddingHorizontal: 20,
+              textAlign: 'center',
+              lineHeight: 20,
+            }}>
+            {days}:{hours}:{mins}:{secs}
+          </Text>
+        </View>
       </View>
       {/* Top 3 */}
       <View style={styles.top3Container}>
@@ -207,6 +232,28 @@ const LeaderBoard = () => {
           renderItem={({item, index}) => renderTop10(item, index)}
         />
       </View>
+      {/*Button*/}
+      {!user?.Challenges?.length <= 0 && (
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Code')}
+          style={{
+            height: height * 0.06,
+            backgroundColor: Colors.violet,
+            justifyContent: 'center',
+            alignItems: 'center',
+            margin: 15,
+            borderRadius: 100,
+          }}>
+          <Text
+            style={{
+              color: Colors.white,
+              fontFamily: Font.Medium,
+              // fontSize: width * 0.45,
+            }}>
+            Take challenges
+          </Text>
+        </TouchableOpacity>
+      )}
     </ScrollView>
   );
 };
@@ -216,7 +263,7 @@ export default LeaderBoard;
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 15,
-    marginTop: 10,
+    // marginTop: 10,
   },
   top3Container: {
     flexDirection: 'row',
@@ -257,11 +304,12 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   scoreText: {
-    backgroundColor: Colors.violet,
-    color: Colors.white,
+    backgroundColor: Colors.white,
+    color: 'black',
     fontSize: Dimensions.get('window').width * 0.03,
     paddingVertical: 3,
     paddingHorizontal: 10,
     borderRadius: 100,
+    fontFamily: Font.SemiBold,
   },
 });
