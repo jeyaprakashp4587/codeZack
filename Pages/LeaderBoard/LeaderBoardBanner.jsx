@@ -79,8 +79,8 @@ const LeaderBoardBanner = () => {
               style={{
                 padding: 5,
                 color: Colors.white,
-                fontFamily: Font.SemiBold,
-                fontSize: width * 0.035,
+                fontFamily: Font.Regular,
+                fontSize: width * 0.032,
               }}>
               Climb now
             </Text>
@@ -89,8 +89,8 @@ const LeaderBoardBanner = () => {
         <Text
           style={{
             position: 'absolute',
-            backgroundColor: 'rgba(230, 94, 94, 0.78)',
-            color: Colors.white,
+            backgroundColor: 'rgba(255, 255, 255, 0.78)',
+            color: 'rgb(0,0,0)',
             fontFamily: Font.Medium,
             fontSize: width * 0.027,
             padding: 5,
@@ -99,6 +99,7 @@ const LeaderBoardBanner = () => {
             minWidth: 2,
             top: 15,
             right: 15,
+            zIndex: 100,
           }}>
           Days left: {days}:{hours}:{mins}:{secs}
         </Text>

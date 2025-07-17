@@ -14,11 +14,16 @@ import axios from 'axios';
 import {Api} from '../../Api';
 import FastImage from 'react-native-fast-image';
 import {Font} from '../../constants/Font';
+import useMonthlyCountdown from '../../hooks/useMonthlyCountdown';
+import {useData} from '../../Context/Contexter';
 
 const LeaderBoard = () => {
   const {width} = Dimensions.get('window');
   const [top3, setTop3] = useState([]);
   const [balTop10, setBalTop10] = useState([]);
+  const {days, mins, secs, hours} = useMonthlyCountdown();
+  const {user} = useData();
+  const [userPosition, setUserPosition] = useState();
 
   const get = useCallback(async () => {
     try {
@@ -26,10 +31,18 @@ const LeaderBoard = () => {
 
       if (response.status === 200 && response.data?.users) {
         const users = response.data.users;
-        const top3slice = users.slice(0, 3);
+        const top3slice = users.slice(0, 3).reverse();
         const bal = users.slice(3, 10);
         setTop3(top3slice);
         setBalTop10(bal);
+        // find user position
+        if (response?.data?.users) {
+          await response?.data?.users?.map((list, index) => {
+            if (list?._id === user?._id) {
+              setUserPosition(index + 1);
+            }
+          });
+        }
       }
     } catch (error) {
       console.error('Error fetching leaderboard:', error);
@@ -76,16 +89,17 @@ const LeaderBoard = () => {
     return (
       <View
         style={{
-          // borderWidth: 1,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
           marginBottom: 5,
           columnGap: 10,
         }}>
-        <Text style={{borderWidth: 0, textAlign: 'right'}}>
-          {top3.length + 1 + index}
-        </Text>
+        <View style={{borderWidth: 0, width: '10%'}}>
+          <Text style={{borderWidth: 0, textAlign: 'center'}}>
+            {top3.length + 1 + index}
+          </Text>
+        </View>
         <FastImage
           source={{
             uri: item?.profile,
@@ -99,18 +113,24 @@ const LeaderBoard = () => {
           }}
         />
         <Text
-          style={{fontSize: width * 0.04, fontFamily: Font.Regular, flex: 1}}>
+          style={{
+            fontSize: width * 0.034,
+            fontFamily: Font.Medium,
+          }}>
           {item?.firstName + ' ' + item?.LastName}
         </Text>
-        <Text
-          style={{
-            fontSize: width * 0.03,
-            fontFamily: Font.SemiBold,
-            color: Colors.violet,
-            // fontWeight:
-          }}>
-          Score: {item?.ChallengesPoint}
-        </Text>
+        <View style={{flex: 1, borderWidth: 0}}>
+          <Text
+            style={{
+              fontSize: width * 0.03,
+              fontFamily: Font.SemiBold,
+              color: Colors.violet,
+              textAlign: 'right',
+              // fontWeight:
+            }}>
+            Score: {item?.ChallengesPoint}
+          </Text>
+        </View>
       </View>
     );
   };
@@ -120,7 +140,57 @@ const LeaderBoard = () => {
       <View style={styles.container}>
         <HeadingText text="Leaderboard" />
       </View>
-
+      {/* show timer  and user point*/}
+      <View
+        style={{
+          paddingHorizontal: 15,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
+        <View>
+          <FastImage
+            source={{
+              uri: user?.Images?.profile,
+              priority: FastImage.priority.high,
+            }}
+            style={{
+              width: width * 0.15,
+              borderRadius: 100,
+              aspectRatio: 1,
+            }}
+          />
+          <Text
+            style={{
+              fontFamily: Font.SemiBold,
+              fontSize: width * 0.043,
+              color: Colors.veryDarkGrey,
+            }}>
+            {user?.firstName}
+          </Text>
+          <Text style={{fontFamily: Font.Medium, fontSize: width * 0.038}}>
+            {userPosition > 0 && userPosition < 4
+              ? 'You are in top 3👑'
+              : userPosition > 3 && userPosition <= 10
+              ? 'You are in top 10 ️‍🔥'
+              : user?.ChallengesPoint}
+          </Text>
+        </View>
+        <Text
+          style={{
+            backgroundColor: 'rgb(0, 0, 0)',
+            color: 'rgb(255, 255, 255)',
+            fontFamily: Font.Medium,
+            fontSize: width * 0.034,
+            padding: 5,
+            borderRadius: 100,
+            paddingHorizontal: 20,
+            textAlign: 'center',
+            lineHeight: 20,
+          }}>
+          Leaderboards ends in {'\n'} {days}:{hours}:{mins}:{secs}
+        </Text>
+      </View>
       {/* Top 3 */}
       <View style={styles.top3Container}>
         {top3.map((item, index) => renderUserCard(item, index, true))}
@@ -132,7 +202,7 @@ const LeaderBoard = () => {
           data={balTop10}
           keyExtractor={item => item._id}
           contentContainerStyle={{
-            marginHorizontal: 25,
+            marginHorizontal: 15,
           }}
           renderItem={({item, index}) => renderTop10(item, index)}
         />
@@ -179,7 +249,7 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     position: 'absolute',
     right: 0,
-    bottom: 0,
+    bottom: -5,
   },
   nameText: {
     fontFamily: Font.SemiBold,
