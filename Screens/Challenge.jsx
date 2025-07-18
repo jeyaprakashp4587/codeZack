@@ -8,10 +8,10 @@ import {Dimensions} from 'react-native';
 import {Colors} from '../constants/Colors';
 import FastImage from 'react-native-fast-image';
 import {Font} from '../constants/Font';
-import axios from 'axios';
-import {Api} from '../Api';
+import {useRoute} from '@react-navigation/native';
 const Challenge = ({navigation}) => {
   const {setselectedChallengeTopic} = useData();
+  const showXp = useRoute()?.params;
   const {width, height} = Dimensions.get('window');
 
   const rightWrapper = useMemo(() => [
@@ -173,6 +173,24 @@ const Challenge = ({navigation}) => {
                 // height: '30%',
                 marginBottom: 10,
               }}>
+              {showXp && index > 0 && (
+                <Text
+                  style={{
+                    // borderWidth: 1,
+                    textAlign: 'right',
+                    backgroundColor: 'rgba(209, 40, 34, 0.75)',
+                    color: Colors.white,
+                    fontFamily: Font.Medium,
+                    fontSize: width * 0.026,
+                    alignSelf: 'flex-end',
+                    padding: 3,
+                    paddingHorizontal: 15,
+                    borderRadius: 100,
+                    marginBottom: 10,
+                  }}>
+                  {index > 1 ? 'Xp: 400+' : 'Xp: 500+'}
+                </Text>
+              )}
               <Text
                 style={{
                   fontWeight: '600',

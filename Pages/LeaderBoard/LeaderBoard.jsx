@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  ImageBackground,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {Colors} from '../../constants/Colors';
@@ -32,6 +33,7 @@ const LeaderBoard = () => {
 
   const get = useCallback(async () => {
     try {
+      // return;
       setLoading(true);
       const response = await axios.get(`${Api}/LeaderBoard/getLeaderBoard`);
 
@@ -100,8 +102,8 @@ const LeaderBoard = () => {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
-          marginBottom: 5,
           columnGap: 10,
+          marginVertical: 8,
         }}>
         <View style={{borderWidth: 0, width: '10%'}}>
           <Text style={{borderWidth: 0, textAlign: 'center'}}>
@@ -114,7 +116,7 @@ const LeaderBoard = () => {
             priority: FastImage.priority.high,
           }}
           style={{
-            width: width * 0.15,
+            width: width * 0.14,
             borderRadius: 100,
             aspectRatio: 1,
             // flex: 1,
@@ -162,101 +164,112 @@ const LeaderBoard = () => {
     <ScrollView
       style={{flex: 1, backgroundColor: Colors.white}}
       showsVerticalScrollIndicator={false}>
-      <View style={styles.container}>
-        <HeadingText text="Leaderboard" />
-      </View>
-      {/* show timer  and user point*/}
-      <View
+      <ImageBackground
+        source={{uri: 'https://i.ibb.co/PGMhBBCv/v904-nunny-012-f.jpg'}}
         style={{
-          paddingHorizontal: 15,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
-        <View>
-          <FastImage
-            source={{
-              uri: user?.Images?.profile,
-              priority: FastImage.priority.high,
-            }}
-            style={{
-              width: width * 0.15,
-              borderRadius: 100,
-              aspectRatio: 1,
-            }}
-          />
-          <Text
-            style={{
-              fontFamily: Font.SemiBold,
-              fontSize: width * 0.043,
-              color: Colors.veryDarkGrey,
-            }}>
-            {user?.firstName}
-          </Text>
-          <Text style={{fontFamily: Font.Medium, fontSize: width * 0.038}}>
-            {userPosition > 0 && userPosition < 4
-              ? 'You are in top 3👑'
-              : userPosition > 3 && userPosition <= 10
-              ? 'You are in top 10 ️‍🔥'
-              : `Xp ${user?.ChallengesPoint}`}
-          </Text>
+          width: '100%',
+          flex: 1,
+        }}
+        resizeMode="stretch">
+        <View style={styles.container}>
+          <HeadingText text="Leaderboard" />
         </View>
-        <View style={{rowGap: 5}}>
-          <Text style={{fontFamily: Font.Medium}}>Leaderboard ends in</Text>
-          <Text
-            style={{
-              backgroundColor: 'rgba(41, 40, 40, 0.06)',
-              color: 'rgb(0, 0, 0)',
-              fontFamily: Font.SemiBold,
-              fontSize: width * 0.032,
-              padding: 5,
-              borderRadius: 100,
-              paddingHorizontal: 20,
-              textAlign: 'center',
-              lineHeight: 20,
-            }}>
-            {days}:{hours}:{mins}:{secs}
-          </Text>
-        </View>
-      </View>
-      {/* Top 3 */}
-      <View style={styles.top3Container}>
-        {top3.map((item, index) => renderUserCard(item, index, true))}
-      </View>
-
-      {/* Top 4 to 10 */}
-      <View style={styles.top10Container}>
-        <FlatList
-          data={balTop10}
-          keyExtractor={item => item._id}
-          contentContainerStyle={{
-            marginHorizontal: 15,
-          }}
-          renderItem={({item, index}) => renderTop10(item, index)}
-        />
-      </View>
-      {/*Button*/}
-      {!user?.Challenges?.length <= 0 && (
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Code')}
+        {/* show timer  and user point*/}
+        <View
           style={{
-            height: height * 0.06,
-            backgroundColor: Colors.violet,
-            justifyContent: 'center',
+            paddingHorizontal: 15,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
             alignItems: 'center',
-            margin: 15,
-            borderRadius: 100,
+            backgroundColor: 'rgba(21, 36, 65, 0.03)',
+            padding: 10,
+            margin: 10,
           }}>
-          <Text
+          <View>
+            <FastImage
+              source={{
+                uri: user?.Images?.profile,
+                priority: FastImage.priority.high,
+              }}
+              style={{
+                width: width * 0.15,
+                borderRadius: 100,
+                aspectRatio: 1,
+              }}
+            />
+            <Text
+              style={{
+                fontFamily: Font.SemiBold,
+                fontSize: width * 0.043,
+                color: Colors.veryDarkGrey,
+              }}>
+              {user?.firstName}
+            </Text>
+            <Text style={{fontFamily: Font.Medium, fontSize: width * 0.038}}>
+              {userPosition > 0 && userPosition < 4
+                ? 'You are in top 3👑'
+                : userPosition > 3 && userPosition <= 10
+                ? 'You are in top 10 ️‍🔥'
+                : `Xp: ${user?.ChallengesPoint}`}
+            </Text>
+          </View>
+          <View style={{rowGap: 5}}>
+            <Text style={{fontFamily: Font.Medium}}>Leaderboard ends in</Text>
+            <Text
+              style={{
+                backgroundColor: 'rgba(41, 40, 40, 0.06)',
+                color: 'rgb(0, 0, 0)',
+                fontFamily: Font.SemiBold,
+                fontSize: width * 0.032,
+                padding: 5,
+                borderRadius: 100,
+                paddingHorizontal: 20,
+                textAlign: 'center',
+                lineHeight: 20,
+              }}>
+              {days}:{hours}:{mins}:{secs}
+            </Text>
+          </View>
+        </View>
+        {/* Top 3 */}
+        <View style={styles.top3Container}>
+          {top3.map((item, index) => renderUserCard(item, index, true))}
+        </View>
+
+        {/* Top 4 to 10 */}
+        <View style={styles.top10Container}>
+          <FlatList
+            data={balTop10}
+            keyExtractor={item => item._id}
+            contentContainerStyle={{
+              marginHorizontal: 15,
+            }}
+            renderItem={({item, index}) => renderTop10(item, index)}
+          />
+        </View>
+        {/*Button*/}
+        {!user?.Challenges?.length <= 0 && (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Code', {showXp: true})}
             style={{
-              color: Colors.white,
-              fontFamily: Font.Medium,
-              // fontSize: width * 0.45,
+              height: height * 0.06,
+              backgroundColor: Colors.violet,
+              justifyContent: 'center',
+              alignItems: 'center',
+              margin: 15,
+              borderRadius: 100,
             }}>
-            Take challenges
-          </Text>
-        </TouchableOpacity>
-      )}
+            <Text
+              style={{
+                color: Colors.white,
+                fontFamily: Font.Medium,
+                // fontSize: width * 0.45,
+              }}>
+              Take challenges
+            </Text>
+          </TouchableOpacity>
+        )}
+      </ImageBackground>
     </ScrollView>
   );
 };
@@ -272,12 +285,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 10,
-    backgroundColor: 'rgba(21, 36, 65, 0.03)',
+    backgroundColor: 'rgba(0, 0, 0, 0.03)',
     margin: 10,
     borderRadius: 10,
   },
   top10Container: {
-    marginVertical: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.03)',
+    margin: 10,
+    borderRadius: 10,
   },
   balListContainer: {
     paddingHorizontal: 10,
@@ -307,7 +322,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   scoreText: {
-    backgroundColor: Colors.white,
+    backgroundColor: 'rgba(255, 255, 255, 0.39)',
     color: 'black',
     fontSize: Dimensions.get('window').width * 0.03,
     paddingVertical: 3,

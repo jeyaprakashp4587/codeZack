@@ -30,7 +30,7 @@ const LeaderBoardBanner = () => {
           marginBottom: 10,
           letterSpacing: 0.25,
         }}>
-        Leaderboard
+        Get free portfolio
       </Text>
       <View
         style={{
