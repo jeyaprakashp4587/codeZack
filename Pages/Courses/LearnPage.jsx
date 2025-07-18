@@ -451,7 +451,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 15,
-    marginTop: 10,
+    // marginTop: 10,s
   },
   contentWrapper: {
     flex: 1,
