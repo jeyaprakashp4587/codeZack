@@ -20,6 +20,7 @@ import {useData} from '../../Context/Contexter';
 import truncateText from '../../hooks/truncateText';
 import {useNavigation} from '@react-navigation/native';
 import Skeleton from '../../Skeletons/Skeleton';
+import LinearGradient from 'react-native-linear-gradient';
 
 const LeaderBoard = () => {
   const {width, height} = Dimensions.get('window');
@@ -174,7 +175,7 @@ const LeaderBoard = () => {
         <View style={styles.container}>
           <HeadingText text="Leaderboard" />
         </View>
-        {/* show timer  and user point*/}
+        {/* show timer and user point*/}
         <View
           style={{
             paddingHorizontal: 15,
@@ -231,6 +232,67 @@ const LeaderBoard = () => {
             </Text>
           </View>
         </View>
+        {/* show price */}
+        <ImageBackground
+          source={{
+            uri: 'https://i.ibb.co/RpRW8j2p/Screenshot-from-2025-07-19-20-35-23.png',
+          }}
+          style={{marginHorizontal: 10, borderRadius: 10, overflow: 'hidden'}}>
+          <LinearGradient colors={['red', 'red']} style={{padding: 20}}>
+            <View style={{width: '60%', alignSelf: 'flex-end', rowGap: 10}}>
+              <Text
+                style={{
+                  fontFamily: Font.SemiBold,
+                  fontSize: width * 0.045,
+                  color: Colors.white,
+                }}>
+                Top 3 winners{'\n'}get this portfolio with source code
+              </Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                  columnGap: 10,
+                }}>
+                <TouchableOpacity
+                  style={{
+                    borderWidth: 0.8,
+                    padding: 3,
+                    paddingHorizontal: 10,
+                    borderRadius: 100,
+                    borderColor: Colors.white,
+                  }}>
+                  <Text
+                    style={{
+                      fontFamily: Font.Medium,
+                      fontSize: width * 0.035,
+                      color: Colors.white,
+                    }}>
+                    Download
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    borderWidth: 0.8,
+                    padding: 3,
+                    paddingHorizontal: 10,
+                    borderRadius: 100,
+                    borderColor: Colors.white,
+                  }}>
+                  <Text
+                    style={{
+                      fontFamily: Font.Medium,
+                      fontSize: width * 0.035,
+                      color: Colors.white,
+                    }}>
+                    View
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </LinearGradient>
+        </ImageBackground>
         {/* Top 3 */}
         <View style={styles.top3Container}>
           {top3.map((item, index) => renderUserCard(item, index, true))}

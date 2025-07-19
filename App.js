@@ -14,11 +14,7 @@ const {width} = Dimensions.get('window');
 
 const App = () => {
   useEffect(() => {
-    MobileAds()
-      .initialize()
-      .then(adapter => {
-        console.log('Google Mobile Ads initialized');
-      });
+    MobileAds().initialize();
   }, []);
   return (
     <SafeAreaProvider>

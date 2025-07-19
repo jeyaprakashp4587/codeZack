@@ -42,7 +42,6 @@ const FreelancerBanner = React.lazy(() =>
   import('../Freelancer/FreelancerBanner'),
 );
 import {useStallionUpdate, restart} from 'react-native-stallion';
-import ChallengesBanner from '../components/ChallengesBanner';
 import LeaderBoardBanner from '../Pages/LeaderBoard/LeaderBoardBanner';
 
 // Dimensions for layout
@@ -50,8 +49,7 @@ const {width, height} = Dimensions.get('window');
 const Home = () => {
   // ota update setUp
   const [showUpdate, setShowUpdate] = useState(false);
-  const {newReleaseBundle, isRestartRequired, currentlyRunningBundle} =
-    useStallionUpdate();
+  const {isRestartRequired} = useStallionUpdate();
   useEffect(() => {
     if (isRestartRequired) {
       setShowUpdate(true);
@@ -59,6 +57,7 @@ const Home = () => {
   }, [isRestartRequired]);
 
   const {user, setUser} = useData();
+  console.log(user);
   const [UiLoading, setUiLoading] = useState(false);
   const [suggestRefresh, setSuggestRefresh] = useState(false);
   const [unseenCount, setUnseenCount] = useState(0);
@@ -162,7 +161,7 @@ const Home = () => {
                   uri: 'https://img.icons8.com/external-anggara-flat-anggara-putra/100/external-trophy-sports-anggara-flat-anggara-putra.png',
                   priority: FastImage.priority.high,
                 }}
-                style={{width: width * 0.08, aspectRatio: 1}}
+                style={{width: width * 0.067, aspectRatio: 1}}
                 resizeMode="contain"
               />
             </TouchableOpacity>
